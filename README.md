@@ -29,18 +29,17 @@ personal GitHub (`alexlee69`) on 2026-10-21.
 
 **Left out on purpose**, because each one regenerates from the job: render frames (`out/`), the test jobs' clips and layers, and audio stems.
 
-**Heavy files (GitHub Releases, about 1.3 GB):** not uploaded to this repo yet. Until they are, the `gh release
-download` steps below won't work; re-render from the jobs instead (`--film`, `--clips`, `--layers`).
+**Heavy files** are in two GitHub Releases (about 1.15 GB), rebuilt from the local job folders on 2026-10-21.
 
-**GitHub Release `renders-2026-10-20`** (when uploaded) holds the heavy files:
+**GitHub Release `renders-2026-10-20`** holds:
 - `cue-clips-layers.zip`: Cue ProRes 4444 clips, WebM files, SFX WAVs and per-element layers.
 - `cue-overlays-clips-layers.zip`: the same for the overlays job.
 - `cue_saturday.mp4` and `cue_saturday_sound.mp4`: full-size masters of the painted short.
 - `SHA256SUMS`: checksums for the four files.
 
-**GitHub Release `layers-2026-10-20`** (when uploaded) holds the Cue s5, s6 and s7 layers (16:9) re-exported with the final layer engine. Each passed layer QA.
+**GitHub Release `layers-2026-10-20`** holds the Cue s5, s6 and s7 layers (16:9) re-exported with the final layer engine. Each passed layer QA.
 - `cue-s5-16x9.zip`, `cue-s6-16x9.zip`, `cue-s7-16x9.zip`: one folder per shot. Each has the background and one ProRes 4444 `.mov` per element, the SFX WAV, an After Effects `.jsx`, a preview MP4, a contact sheet and `manifest.json`.
-- They replace the older s5–s7 16:9 layers in `cue-clips-layers.zip`. The file names are the same.
+- They are identical to the s5–s7 16:9 folders inside `cue-clips-layers.zip` (checked file by file); this release is just a smaller download of the three most-used shots.
 - `SHA256SUMS`: checksums for the three zips.
 
 ## Restore on a new Mac
