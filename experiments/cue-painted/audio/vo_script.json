@@ -1,0 +1,64 @@
+{
+  "voice": "coral",
+  "instructions": "Warm, gentle storyteller narrating a cozy hand-painted animated short. Smiling and a little playful, at a natural, slightly brisk pace with no long pauses. Never salesy.",
+  "lines": [
+    {
+      "id": "01",
+      "start": 0.4,
+      "max": 3.8,
+      "text": "The week was already full, and Saturday was Maya’s birthday.",
+      "regen": true
+    },
+    {
+      "id": "03",
+      "start": 5.95,
+      "max": 2.4,
+      "text": "Each one with its own email, phone, and wallet.",
+      "regen": true
+    },
+    {
+      "id": "04",
+      "start": 9.2,
+      "max": 1.8,
+      "text": "They send the emails,"
+    },
+    {
+      "id": "05",
+      "start": 11.55,
+      "max": 2.1,
+      "text": "take the calls, and leave a summary,"
+    },
+    {
+      "id": "06",
+      "start": 14.5,
+      "max": 1.9,
+      "text": "and pay, only up to the budget.",
+      "regen": true
+    },
+    {
+      "id": "07",
+      "start": 17.3,
+      "max": 1.9,
+      "text": "They work it out together,"
+    },
+    {
+      "id": "08",
+      "start": 22,
+      "max": 1.5,
+      "text": "And Jun just says go.",
+      "regen": true
+    },
+    {
+      "id": "09",
+      "start": 29.3,
+      "max": 1.3,
+      "text": "Saturday, handled."
+    },
+    {
+      "id": "10",
+      "start": 32.35,
+      "max": 1.6,
+      "text": "Give it a cue."
+    }
+  ]
+}

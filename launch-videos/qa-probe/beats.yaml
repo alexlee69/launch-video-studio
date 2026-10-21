@@ -1,0 +1,12 @@
+# QA failure probe — never ship this. s1 is normal (must pass); s2 never moves (freeze must FAIL); s3 and s4 are empty for
+# their first 20 frames on a light and on a dark grid background (content must FAIL on both, the dark one included).
+title: QA probe
+slug: probe
+aspects: [16x9]
+brand: {name: Probe, bg: grid}
+music: {style: none, bpm: 120}
+shots:
+  - {id: s1, block: headline, beats: 4, text: "A normal *shot.*", out: cut}
+  - {id: s2, block: still, beats: 4, push: 0, out: cut}
+  - {id: s3, block: blank, beats: 4, out: cut}
+  - {id: s4, block: blank, beats: 4, theme: dark}

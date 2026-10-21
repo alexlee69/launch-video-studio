@@ -1,0 +1,25 @@
+---
+name: launch-video-mode-b
+description: "From-scratch launch videos + transparent UI clips = mode B of the product-launch-sting skill (video/ subfolder); built 2026-10-20 for Alex's Manus 2.0 / Cue work"
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: 27298075-5641-4a31-9fd2-82e27fc1cc9c
+  modified: 2026-10-20T10:38:43.200Z
+---
+
+`~/.claude/skills/product-launch-sting/video/` (entry `lv.mjs`, manual `GUIDE.md`) makes launch/feature/teaser videos designed with the user — brief → beats.yaml → beat grid → storyboard stills (PNG+PDF) → animatic → 60 fps film in 16:9/9:16/1:1 + cutdowns + QA — and per-shot UI clips (`--clips --alpha`: ProRes 4444 + WebM + preview + matching SFX WAV) for the user's own edit. SKILL.md has a mode router (A = the fixed 12 s sting, B = this). Job folders: `~/Downloads/launch-videos/<slug>/`; test jobs steady-sample (16:9+9:16), edge-test (1:1, track, footage, custom block, hold, cutdown), dark-ui-check, and deliberately broken probes that must FAIL: qa-probe (freeze + blank-after-cut), qa-probe2 (`--cut seam --workers 2` freeze across a worker seam; `--cut whip` blank frames during a whip).
+
+**Why:** Alex joins Manus (offboards TikTok 2026-10-30) and wants Cue / Manus 2.0 launch videos or "simply UI mockup effects" to drop into videos he edits himself. Built-in characters are original generic shapes; Cue/Manus logos, mascots, fonts and screens must come from Manus's official brand kit — never recreate them from public videos.
+
+**How to apply:** Use mode B for any non-template launch video or UI overlay clip; follow GUIDE.md gates (stills before film). Non-obvious design facts worth keeping:
+- QA provenance lives in `out/<cut>/<aspect>/mux.json` (frame prints + master print + mp4 size/sha) — not mtimes; animatic/clips build audio in their own folders so they can never clobber the film's.
+- Freeze = bit-identical within one Chrome page; ±2 tolerance only at page seams (`pages.json`). Content = each frame vs a per-frame bg-only render at dpr 0.25.
+- `hold:` makes blocks plan for Db = D − hold length; cues/hero map through the hold; holds can't overlap a moving exit.
+- HDR (HLG/PQ) footage → SDR via a generated 3D LUT (local ffmpeg has no zscale; macOS avconvert darkens generic HLG to 154/255).
+- Clip SFX = one static gain capped at −3 dBTP (−18 LUFS target is unreachable for sparse clicks without gain riding).
+Status 2026-10-20: Sonnet → Codex → Opus review chain done (27 + 18 + 17 findings fixed, Opus re-verified all 17 + 4 follow-ups fixed); final 3 QA runs GREEN (sample 4 films + 9 clips, edge main+cutdown + clips, dark-UI, all probes fail as planted); films sent to Alex's phone — awaiting his live test. The short-track check caught a real silent tail in edge-test (track start moved 3.0 → 1.0645 s, exactly 4 beats). Nothing committed (skill lives outside the repo). Audio is checked by meters only. Related: [[product-sting-recreation]], [[feedback-one-skill-per-domain]], [[reference-ffmpeg8-mux-traps]].
+
+RETIRED 2026-10-21: Alex moved to GitHub `alexlee69` ([[user-github-account]]); the next backup goes there once this Mac is signed in as alexlee69, and nothing more is pushed to the old one. Old backup, left as is: the PRIVATE repo `alexxxlitiktok/launch-video-studio` (skill, all launch-videos jobs minus out/clips/layers, experiments cue-painted/cue-launch/product-sting, 5 memory notes, HANDOVER) + release `renders-2026-10-20` (Cue + overlays clips/layers zips, painted-short masters, SHA256SUMS); second commit `8c463c9` (final layer code) + release `layers-2026-10-20` (Cue s5/s6/s7 16:9 layer zips, published 2026-10-20 23:30 PDT). New home: `alexlee69/launch-video-studio`, local clone `~/Downloads/launch-video-studio` (fresh history, authored Alex Lee); the old clone is `~/Downloads/launch-video-studio-old-alexxxlitiktok`. Not in any backup yet: the speed-up session's in-progress layer-export edits (lv.mjs, layers.mjs, common.mjs, deliver.mjs, new layers-qa-worker.mjs). Restore steps in its README; fresh-clone restore + storyboard render verified. Design-AutoPilot/TikTok work deliberately NOT included.
+
+Layers (built 2026-10-20 in a side session): `lv.mjs --layers <ids|all> [--alpha] [--webm]` → `DIR/layers/<slug>[-<cut>]-<id>-<aspect>/` (NN-<layer>.mov ProRes 4444 back to front, -sfx.wav, manifest.json, After Effects .jsx with live text, -preview.mp4, -layers.png). Layer QA restacks the delivered movs vs a flattened `--clips --alpha` render (bit-identical to real clips output): still frames ≤ 64 px off by > 16, motion-blurred frames (camera blur ≥ 1 px) ≤ 64 px off by > 64 — both measured. Probe job `launch-videos/layers-probe/` (p1–p13 + probe.mjs tampering + ae-mock.mjs) must keep failing/passing as labelled. AE never available: .jsx only proven by ES3 parse + AE-API mock. CapCut alpha support still unknown (asked Alex). Phone upload limit is 30 MiB: full packs (with 34 MiB background movs) only reach the desktop; send `--alpha` packs to the phone. The GitHub backup above was refreshed with the final layers code on 2026-10-20 (its second commit). Chrome traps: [[reference-chrome-layer-separation-traps]].

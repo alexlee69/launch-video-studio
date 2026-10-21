@@ -1,0 +1,33 @@
+1
+00:00:00,000 --> 00:00:02,417
+Meet
+Fernly Assistant for Busy Teams
+by Fernly Labs
+
+2
+00:00:02,417 --> 00:00:05,317
+Your day, handled.
+
+3
+00:00:05,317 --> 00:00:09,683
+One window. Every errand.
+app.fernly.test
+
+4
+00:00:09,683 --> 00:00:12,100
+Its own email and number.
+
+5
+00:00:12,100 --> 00:00:14,033
+A whole team of helpers.
+
+6
+00:00:14,033 --> 00:00:15,967
+Books. Buys. Follows up.
+
+7
+00:00:15,967 --> 00:00:18,867
+Fernly
+Busy teams, handled.
+Join the waitlist
+fernly.test

@@ -1,0 +1,56 @@
+# Layer-QA failure probe — never ship this. Export with:  lv.mjs --job DIR --layers all
+#   p1 multi   three words from one untagged custom block → everything in one `content` layer   → "layers" must FAIL
+#   p2 ghost   a tagged layer whose element never becomes visible                               → "nonempty" must FAIL
+#   p3 leak    an untagged child forces visibility:visible, so it shows in every layer pass     → "stack" must FAIL
+#   p4 single  one untagged element (a single-element custom block)                              → must PASS
+#   p5 phone   a normal phone shot: the base for probe.mjs (drop / misorder / no-alpha / empty)  → must PASS;
+#              whips in and out, so a --with-transitions export also probes the motion-blurred frames
+#   p6 wcclip  a will-change item inside a clipped card: Chrome composites the card only while
+#              the item is visible, so the card alone rasterises differently                    → "stack" must FAIL
+#   p7 glass   a panel with style: glass (backdrop-filter): glass can't be split exactly           → "stack" FAILs (a known limit)
+#   p8 bare    a bare panel of two notifications, no tap (no panel, no cursor)                    → must PASS
+#   p9 crowd   cast without a headline: one layer per character                                  → must PASS
+#   p10 dark   a dark-theme headline with kicker + muted sub (live-text colour alpha)             → must PASS
+#   p11 wrapped three painted cards in one unpainted, untagged wrapper                           → "layers" must FAIL
+#   p12 lonely  an orbit with no satellites (items: []) — no empty `lines` layer                  → must PASS
+#   p13 solo    cast of one character, no headline (one tagged element of two painted parts)    → must PASS
+title: Layers probe
+slug: lprobe
+aspects: [16x9]
+brand: {name: Probe, bg: grid}
+music: {style: none, bpm: 120}
+shots:
+  - {id: p1, block: multi, beats: 3, words: [One., Two., Three.]}
+  - {id: p2, block: ghost, beats: 3}
+  - {id: p3, block: leak, beats: 3}
+  - {id: p4, block: single, beats: 3, out: whip-up}
+  - id: p5
+    block: phone
+    beats: 6
+    text: A normal *phone.*
+    items:
+      - msg: Hello there.
+      - card: {title: Approve?, sub: Probe card, actions: [No, Yes]}
+      - tap: Yes
+      - toast: Done.
+    out: whip-left           # with --with-transitions p5 enters on p4's whip and leaves on its own (motion-blur probe)
+  - {id: p6, block: wcclip, beats: 3}
+  - id: p7
+    block: panel
+    beats: 4
+    style: glass
+    items:
+      - notif: {app: Probe, title: Glass panel, body: backdrop-filter is composited by Chrome}
+      - notif: {app: Probe, title: Second item, body: over the same glass}
+  - id: p8
+    block: panel
+    beats: 4
+    style: bare
+    items:
+      - notif: {app: Probe, title: Bare panel, body: no panel and no cursor}
+      - notif: {app: Probe, title: Second item, body: still two layers}
+  - {id: p9, block: cast, beats: 4, count: 5}
+  - {id: p10, block: headline, beats: 4, theme: dark, kicker: Dark theme, text: "Muted *sub* below.", sub: The sub line is 62 % white}
+  - {id: p11, block: wrapped, beats: 3}
+  - {id: p12, block: orbit, beats: 3, text: "No *satellites.*", items: []}
+  - {id: p13, block: cast, beats: 3, count: 1}

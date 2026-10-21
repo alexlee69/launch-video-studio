@@ -1,0 +1,7 @@
+- [Product sting → launch-sting skill](project_product_sting_recreation.md) — ~/.claude/skills/product-launch-sting (brand.json → stills → MP4 + QA); product-sting/ untouched; audio meters-only.
+- [ffmpeg 8 mux traps](reference_ffmpeg8_mux_traps.md) — CLI colour tags dropped after -vf (use setparams); AAC adds ~0.3 dB true peak; x264 un-freezes held frames.
+- [Launch videos mode B — from scratch + transparent UI clips (product-launch-sting/video)](project_launch_video_mode_b.md) — lv.mjs: beats.yaml → storyboard → film 16:9/9:16/1:1 + --clips --alpha + --layers (per-element ProRes + AE .jsx); Manus brand assets only from the official kit.
+- [Chrome layer-separation traps](reference_chrome_layer_separation_traps.md) — why an element renders differently alone than in the full frame: compositing triggers + fixes, LayerTree diagnosis.
+- [Extend the existing skill, don't create a parallel one](feedback_one_skill_per_domain.md) — Alex 10-20: no multiple skills for the same thing; add a mode + router instead.
+- [Cue painted short "Saturday"](project_cue_painted_short.md) — ClaudeAnimationBase + src/cue.js agent family; 34 s draft v0.2 with music+SFX+TTS VO (audio/mix.mjs); agents are reinterpretations, swap official art before public.
+- [GitHub account = alexlee69 from 2026-10-21](user_github_account.md) — personal; never push to alexxxlitiktok again; gh CLI here may still be signed in as the old one.

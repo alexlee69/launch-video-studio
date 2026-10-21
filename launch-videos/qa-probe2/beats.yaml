@@ -1,0 +1,18 @@
+# QA failure probe 2 — never ship this. Render the two cutdowns, never main:
+#   --cut seam --workers 2   p1 is 240 frames, so worker 0 draws 0–119 and worker 1 draws 120–239; p1 freezes for
+#                            exactly 4 frames (118–121) across that hand-off → "freeze" must FAIL at 118–121 and nowhere else
+#   --cut whip               p2 / p3 go blank for their last 12 frames while the camera whips / zooms out (the background
+#                            moves and blurs) → "content" must FAIL on exactly those frames, light and dark
+title: QA probe 2
+slug: probe2
+aspects: [16x9]
+brand: {name: Probe, bg: grid}
+music: {style: none, bpm: 120}
+shots:
+  - {id: p1, block: seamfreeze, beats: 8, push: 0, out: cut}
+  - {id: p2, block: blankexit, beats: 4, out: whip-left}
+  - {id: p3, block: blankexit, beats: 4, theme: dark, out: zoom-in}
+  - {id: p4, block: headline, beats: 4, text: "A normal *ending.*"}
+cutdowns:
+  seam: [p1]
+  whip: [p2, p3, p4]

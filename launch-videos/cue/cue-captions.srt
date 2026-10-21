@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:02,900
+Meet
+Cue
+Hi!
+by Manus
+
+2
+00:00:02,900 --> 00:00:05,800
+Your own team of AI agents.
+
+3
+00:00:05,800 --> 00:00:09,683
+8 AM. Inbox, cleared.
+
+4
+00:00:09,683 --> 00:00:13,550
+11 AM. A call, handled.
+
+5
+00:00:13,550 --> 00:00:17,417
+1 PM. Dinner, booked.
+
+6
+00:00:17,417 --> 00:00:21,283
+4 PM. A trip, planned.
+Plan a Lisbon weekend for 4
+
+7
+00:00:21,283 --> 00:00:24,200
+7 PM. Pickup, ordered.
+
+8
+00:00:24,200 --> 00:00:26,133
+8 PM
+Your day. Handled.
+
+9
+00:00:26,133 --> 00:00:30,000
+Cue
+Your own team of AI agents.
+Get it on iOS
+Get it on Android

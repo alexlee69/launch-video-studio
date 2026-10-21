@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cue Launch Proof</title>
+<style>
+@font-face{font-family:Inter;font-weight:400;src:url(../product-sting/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2) format('woff2');}
+@font-face{font-family:Inter;font-weight:500;src:url(../product-sting/node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format('woff2');}
+@font-face{font-family:Inter;font-weight:600;src:url(../product-sting/node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2) format('woff2');}
+@font-face{font-family:Inter;font-weight:700;src:url(../product-sting/node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2) format('woff2');}
+html,body{margin:0;background:#000;}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;
+  background:#F6F6F7;color:#111114;text-rendering:geometricPrecision;}
+.shot{position:absolute;inset:0;display:none;overflow:hidden;}
+.cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px;}
+.bg{position:absolute;left:-600px;top:-600px;width:3120px;height:2280px;background-color:#F6F6F7;
+  background-image:radial-gradient(ellipse 900px 620px at 1560px 1140px,rgba(255,255,255,.95),rgba(255,255,255,0) 70%),
+  linear-gradient(rgba(17,17,20,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(17,17,20,.045) 1px,transparent 1px);
+  background-size:auto,60px 60px,60px 60px;background-position:0 0,-1px -1px,-1px -1px;}
+.abs{position:absolute;}
+.h{font-weight:700;letter-spacing:-.035em;line-height:1.02;white-space:nowrap;}
+.acc{color:#4C8DF6;}
+#dbg{position:absolute;left:14px;top:10px;font:600 24px Inter;color:#f00;z-index:99;display:none;}
+</style>
+</head>
+<body>
+<svg id="fx" width="0" height="0" style="position:absolute"><defs></defs></svg>
+<div id="stage"><div id="dbg"></div></div>
+<script>
+'use strict';
+// frames are 30-fps units; the master renders half frames (60 fps). Everything is a pure function of f.
+// ── math ──
+const clamp = (x, a = 0, b = 1) => x < a ? a : x > b ? b : x;
+const lerp = (a, b, t) => a + (b - a) * t;
+const u01 = (f, a, b) => clamp((f - a) / (b - a));
+const outExpo = t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+const outBack = t => { const c = 1.6; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const inQuad = t => t * t, inCubic = t => t * t * t;
+function spring(t, z = .5, w = .34) { if (t <= 0) return 0; const wd = w * Math.sqrt(1 - z * z); return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + (z * w / wd) * Math.sin(wd * t)); }
+const vel = (fn, f) => (fn(f + .25) - fn(f - .25)) * 2;
+const $ = id => document.getElementById(id);
+const FX = {};
+function dblur(id, sx, sy) {
+  if (sx < .05 && sy < .05) return '';
+  if (!FX[id]) {
+    const ns = 'http://www.w3.org/2000/svg', fl = document.createElementNS(ns, 'filter');
+    for (const [k, v] of [['id', id], ['filterUnits', 'userSpaceOnUse'], ['x', -900], ['y', -900], ['width', 3800], ['height', 3000], ['color-interpolation-filters', 'sRGB']]) fl.setAttribute(k, v);
+    const g = document.createElementNS(ns, 'feGaussianBlur'); fl.appendChild(g); document.querySelector('#fx defs').appendChild(fl); FX[id] = g;
+  }
+  FX[id].setAttribute('stdDeviation', `${sx.toFixed(3)} ${sy.toFixed(3)}`);
+  return `url(#${id})`;
+}
+const blur = px => px > .05 ? `blur(${px.toFixed(3)}px)` : '';
+const filt = (...p) => p.filter(Boolean).join(' ') || 'none';
+
+// ── original agent characters (not Cue's mascots) ──
+const SHAPES = {
+  capsule: '<rect x="20" y="8" width="60" height="86" rx="30"/>',
+  hex: '<path d="M50 6l38 22v44L50 94 12 72V28z" stroke-linejoin="round"/>',
+  cloud: '<path d="M28 88a20 20 0 0 1-6-39 24 24 0 0 1 44-18 20 20 0 0 1 24 22 17 17 0 0 1-6 35z"/>',
+  dome: '<path d="M8 88V60a42 42 0 0 1 84 0v28a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6z"/>',
+  gem: '<rect x="20" y="20" width="60" height="60" rx="14" transform="rotate(45 50 50)"/>',
+  clover: '<circle cx="50" cy="30" r="24"/><circle cx="30" cy="54" r="24"/><circle cx="70" cy="54" r="24"/><circle cx="50" cy="72" r="22"/>',
+  bean: '<path d="M26 14c18-10 46-4 56 18 10 22 2 54-22 60-26 6-50-8-52-34-2-20 4-36 18-44z"/>',
+};
+const CAST = [
+  {shape: 'capsule', col: '#3E7BFA'}, {shape: 'hex', col: '#2FC2A3'}, {shape: 'cloud', col: '#FF8DB0'}, {shape: 'dome', col: '#FFC53D'},
+  {shape: 'gem', col: '#F2594B'}, {shape: 'clover', col: '#9C6BFF'}, {shape: 'bean', col: '#62CF6B'}];
+function shade(hex, k) { const n = parseInt(hex.slice(1), 16); const c = [n >> 16, n >> 8 & 255, n & 255].map(v => Math.round(k < 0 ? v * (1 + k) : v + (255 - v) * k)); return `rgb(${c.join(',')})`; }
+let _gid = 0;
+function bud(c, size, mood = 'smile') {
+  const id = 'g' + (_gid++), eyeY = c.shape === 'dome' ? 58 : 48;
+  const mouth = mood === 'open' ? `<path d="M43 ${eyeY + 13}q7 9 14 0z" fill="#2A1A1A"/>`
+    : `<path d="M44 ${eyeY + 12}q6 6 12 0" fill="none" stroke="#1B1B1F" stroke-width="3.2" stroke-linecap="round"/>`;
+  const eye = x => `<ellipse cx="${x}" cy="${eyeY}" rx="4.6" ry="6.4" fill="#1B1B1F"/><circle cx="${x + 1.6}" cy="${eyeY - 2.4}" r="1.6" fill="#fff"/>`;
+  const left = mood === 'wink' ? `<path d="M35 ${eyeY}q5 -5 10 0" fill="none" stroke="#1B1B1F" stroke-width="3.4" stroke-linecap="round"/>` : eye(40);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block;overflow:visible">
+   <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${shade(c.col, .18)}"/><stop offset="1" stop-color="${shade(c.col, -.12)}"/></linearGradient></defs>
+   <g fill="url(#${id})">${SHAPES[c.shape]}</g>
+   <ellipse cx="34" cy="26" rx="10" ry="6" fill="rgba(255,255,255,.28)" transform="rotate(-25 34 26)"/>
+   <ellipse cx="31" cy="${eyeY + 10}" rx="5" ry="3" fill="rgba(255,120,140,.35)"/><ellipse cx="69" cy="${eyeY + 10}" rx="5" ry="3" fill="rgba(255,120,140,.35)"/>
+   ${left}${eye(60)}${mouth}</svg>`;
+}
+// character with its own ground shadow (shadow stays on the floor while the body hops)
+function budEl(c, size, mood) {
+  return `<div class="bshadow" style="position:absolute;left:${size * .2}px;top:${size * .93}px;width:${size * .6}px;height:${size * .09}px;border-radius:50%;background:rgba(20,20,30,.10)"></div>
+    <div class="bbody" style="position:absolute;left:0;top:0;transform-origin:50% 100%">${bud(c, size, mood)}</div>`;
+}
+function hop(el, size, t, phase, amp = 10) {           // idle: a soft bob + squash, never still
+  const s = Math.sin(t * .21 + phase), y = -amp * (.5 + .5 * s);
+  const sq = 1 + .035 * Math.cos(t * .21 + phase);
+  el.querySelector('.bbody').style.transform = `translateY(${y.toFixed(2)}px) scale(${(2 - sq).toFixed(4)},${sq.toFixed(4)})`;
+  el.querySelector('.bshadow').style.transform = `scale(${(1 + y / (size * .9)).toFixed(4)})`;
+}
+// stand-in product mark (swap for the official Cue logo from the brand kit)
+function mark(size, col = '#1B1B1F') {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block"><path d="M50 8c25 0 42 16 42 38S75 84 50 84c-5 0-10-1-14-2L18 92l4-17C13 68 8 58 8 46 8 24 25 8 50 8z" fill="${col}"/>
+   <circle cx="38" cy="46" r="6.5" fill="#fff"/><path d="M56 46q6-6 12 0" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg>`;
+}
+const ICON = {
+  mail: '<rect x="12" y="22" width="76" height="56" rx="10"/><path d="M16 28l34 26 34-26" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>',
+  phone: '<rect x="28" y="8" width="44" height="84" rx="10"/><rect x="34" y="18" width="32" height="56" rx="3" fill="#fff" opacity=".9"/><circle cx="50" cy="83" r="3.5" fill="#fff"/>',
+  computer: '<rect x="10" y="16" width="80" height="54" rx="7"/><rect x="16" y="22" width="68" height="42" rx="3" fill="#fff" opacity=".9"/><path d="M38 70h24l4 14H34z"/>',
+};
+const icon = (k, col, s) => `<svg width="${s}" height="${s}" viewBox="0 0 100 100" style="display:block"><g fill="${col}">${ICON[k]}</g></svg>`;
+const APPS = [['#EA4335', 'M30 34h40v32H30z M30 34l20 16 20-16'], ['#0F9D58', 'M28 30h44v40H28z M28 42h44 M40 30v40'], ['#4285F4', 'M32 26h26l12 12v36H32z M58 26v12h12'],
+  ['#611F69', 'M30 50a20 20 0 1 1 40 0a20 20 0 1 1 -40 0 M44 50h12'], ['#24292F', 'M38 36l-12 14 12 14 M62 36l12 14-12 14'], ['#FF9900', 'M28 40h44v26H28z M28 48h44'],
+  ['#1DA1F2', 'M50 26a16 16 0 0 1 16 16c0 12-16 30-16 30S34 54 34 42a16 16 0 0 1 16-16z'], ['#7B61FF', 'M30 66V44l20-14 20 14v22z'], ['#00B386', 'M30 50l12 12 28-28'],
+  ['#E8590C', 'M34 30h32v40H34z M40 40h20 M40 50h20 M40 60h12'], ['#0A66C2', 'M30 30h40v40H30z M40 44v16 M40 38v1 M50 60V48a6 6 0 0 1 12 0v12'], ['#F4B400', 'M50 28l7 14 15 2-11 11 3 15-14-7-14 7 3-15-11-11 15-2z']];
+const appTile = (i, s) => { const [bg, d] = APPS[i % APPS.length]; return `<svg width="${s}" height="${s}" viewBox="0 0 100 100" style="display:block;overflow:visible"><rect x="4" y="4" width="92" height="92" rx="24" fill="#fff" stroke="rgba(17,17,20,.08)"/><path d="${d}" fill="none" stroke="${bg}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`; };
+
+// ── DOM ──
+const stage = $('stage');
+function shot(id, html) { const d = document.createElement('div'); d.className = 'shot'; d.id = id; d.innerHTML = `<div class="cam" id="${id}cam"><div class="bg"></div>${html}</div>`; stage.appendChild(d); }
+function phone(inner, w = 470) {
+  return `<div style="width:${w}px;height:${w * 2.08}px;border-radius:${w * .15}px;background:#0E0E11;padding:${w * .03}px;box-sizing:border-box;box-shadow:0 40px 90px rgba(20,24,40,.18)">
+   <div style="position:relative;width:100%;height:100%;border-radius:${w * .125}px;background:#fff;overflow:hidden">
+    <div style="position:absolute;left:50%;top:${w * .03}px;width:${w * .3}px;height:${w * .075}px;margin-left:-${w * .15}px;border-radius:99px;background:#0E0E11"></div>
+    <div style="position:absolute;left:${w * .08}px;top:${w * .035}px;font:600 ${w * .04}px Inter">9:41</div>${inner}</div></div>`;
+}
+function build() {
+  shot('a', `<div class="abs h" id="aMeet" style="font-size:150px;top:450px">Meet</div>
+    <div class="abs" id="aMark" style="width:170px;height:170px;left:0;top:445px;transform-origin:50% 60%">${mark(170)}</div>
+    <div class="abs h" id="aCue" style="font-size:150px;top:450px">cue</div>
+    <div class="abs" id="aBubble" style="padding:10px 22px;border-radius:22px 22px 22px 6px;background:#fff;box-shadow:0 8px 24px rgba(20,20,30,.12);font:700 34px Inter;transform-origin:0 100%">Hi!</div>
+    <div class="abs" id="aBy" style="font:500 30px Inter;color:#8A8A92;top:640px;width:1920px;text-align:center">by manus</div>`);
+  let row = '';
+  CAST.forEach((c, i) => row += `<div class="abs bud" id="bB${i}" style="width:180px;height:180px">${budEl(c, 180, ['smile', 'open', 'wink'][i % 3])}</div>`);
+  shot('b', `<div class="abs h" id="bHead" style="font-size:76px;top:300px;width:1920px;text-align:center">Agents that work <span class="acc">for you.</span></div>${row}`);
+  shot('c', `<svg class="abs" id="cLines" width="1920" height="1080" style="left:0;top:0;overflow:visible" fill="none" stroke="#C3C8D4" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round">
+      <path id="cL0"/><path id="cL1"/><path id="cL2"/></svg>
+    <div class="abs h" id="cHead" style="font-size:76px;top:170px;width:1920px;text-align:center">Its own email, number <span class="acc">and computer.</span></div>
+    <div class="abs bud" id="cHero" style="width:240px;height:240px">${budEl(CAST[0], 240, 'open')}</div>
+    <div class="abs" id="cI0" style="width:150px;text-align:center"><div style="display:inline-block">${icon('mail', '#4C8DF6', 120)}</div><div style="font:600 28px Inter;color:#55555E;margin-top:6px">Email</div></div>
+    <div class="abs" id="cI1" style="width:150px;text-align:center"><div style="display:inline-block">${icon('phone', '#2FC2A3', 120)}</div><div style="font:600 28px Inter;color:#55555E;margin-top:6px">Phone</div></div>
+    <div class="abs" id="cI2" style="width:150px;text-align:center"><div style="display:inline-block">${icon('computer', '#9C6BFF', 120)}</div><div style="font:600 28px Inter;color:#55555E;margin-top:6px">Computer</div></div>`);
+  const approval = `<div style="position:absolute;left:28px;top:96px;width:56px;height:56px">${bud(CAST[3], 56, 'smile')}</div>
+    <div style="position:absolute;left:96px;top:100px;font:700 28px Inter">Bea</div>
+    <div style="position:absolute;left:96px;top:134px;font:500 19px Inter;color:#8A8A92">Your dinner agent</div>
+    <div style="position:absolute;left:28px;right:70px;top:196px;padding:18px 20px;border-radius:22px 22px 22px 6px;background:#F1F2F5;font:500 22px/1.35 Inter">Found a table for 2 at Casa Verde, Fri 7:30 PM. They need a $40 deposit.</div>
+    <div id="dCard" style="position:absolute;left:28px;right:28px;top:362px;border-radius:26px;background:#fff;box-shadow:0 14px 40px rgba(20,24,40,.14),0 0 0 1px rgba(17,17,20,.06);padding:24px">
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:52px;height:52px;border-radius:14px;background:#EAF2FF;display:flex;align-items:center;justify-content:center;font:700 26px Inter;color:#4C8DF6">$</div>
+        <div><div style="font:700 24px Inter">Approve payment?</div><div style="font:500 19px Inter;color:#8A8A92">Card ending 4021</div></div><div style="margin-left:auto;font:700 30px Inter">$40.00</div></div>
+      <div style="display:flex;gap:12px;margin-top:22px"><div style="flex:1;height:58px;border-radius:16px;background:#F1F2F5;display:flex;align-items:center;justify-content:center;font:600 22px Inter">Decline</div>
+        <div id="dApprove" style="position:relative;flex:1;height:58px;border-radius:16px;background:#111114;color:#fff;display:flex;align-items:center;justify-content:center;font:600 22px Inter;overflow:visible">Approve
+          <div id="dRipple" style="position:absolute;left:50%;top:50%;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;background:rgba(76,141,246,.35)"></div></div></div></div>
+    <div id="dDone" style="position:absolute;left:28px;right:28px;top:620px;padding:16px 20px;border-radius:18px;background:#E9FBF3;color:#0E8A5F;font:600 22px Inter;display:flex;gap:10px;align-items:center">
+      <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="#18B87A"/><path d="M7.5 13.5l4 4 7-8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Booked. Deposit paid.</div>
+    <div style="position:absolute;left:24px;right:24px;bottom:30px;height:60px;border-radius:30px;background:#F1F2F5;display:flex;align-items:center;padding:0 22px;font:500 20px Inter;color:#A0A0A8">Message Bea…</div>`;
+  shot('d', `<div class="abs h" id="dHead" style="font-size:84px;left:220px;top:420px">Pays for things.<br><span class="acc">Only with your OK.</span></div>
+    <div class="abs" id="dPhone" style="left:1180px;top:60px">${phone(approval)}</div>`);
+  let tiles = '';
+  for (let i = 0; i < 26; i++) tiles += `<div class="abs" id="eT${i}" style="width:96px;height:96px">${appTile(i, 96)}</div>`;
+  shot('e', `<div class="abs h" id="eHead" style="font-size:84px;left:180px;top:420px">Works across<br><span class="acc">all your apps.</span></div>
+    ${tiles}<div class="abs bud" id="eHero" style="width:200px;height:200px">${budEl(CAST[1], 200, 'smile')}</div>`);
+  let cast = '';
+  CAST.forEach((c, i) => cast += `<div class="abs bud" id="fB${i}" style="width:96px;height:96px">${budEl(c, 96, i % 2 ? 'smile' : 'open')}</div>`);
+  shot('f', `<div class="abs" id="fLock" style="left:0;top:380px;width:1920px;display:flex;justify-content:center;align-items:center;gap:26px">
+     <div id="fMark">${mark(180)}</div><div class="h" style="font-size:190px">cue</div></div>
+    <div class="abs" id="fBy" style="top:640px;width:1920px;text-align:center;font:500 32px Inter;color:#8A8A92">by manus</div>
+    <div class="abs" id="fCta" style="top:730px;width:1920px;display:flex;justify-content:center;gap:18px">
+      <div style="padding:16px 34px;border-radius:99px;background:#111114;color:#fff;font:600 26px Inter">Get it on iOS</div>
+      <div style="padding:16px 34px;border-radius:99px;background:#111114;color:#fff;font:600 26px Inter">Get it on Android</div></div>${cast}`);
+}
+
+// ── camera: every shot enters already moving and leaves on an accelerating move ──
+// enter: {dx,dy,s} offset at the cut that decays exponentially; exit: {dx,dy,s} reached at the shot's last frame
+function camera(id, t, dur, enter, exit, push = .035) {
+  const ek = Math.pow(.8, Math.max(0, t));                        // 20 % of the remaining distance per frame
+  const xk = inCubic(clamp((t - (dur - 7)) / 7, 0, 1.08));         // exit over the last 7 frames
+  const p = push * t / dur;
+  enter = {dx: 0, dy: 0, s: 0, ...enter}; exit = {dx: 0, dy: 0, s: 0, ...exit};   // a missing axis would make the transform NaN (silently dropped)
+  const x = enter.dx * ek + exit.dx * xk, y = enter.dy * ek + exit.dy * xk;
+  const s = (1 + p) * (1 + (enter.s || 0) * ek) * (1 + (exit.s || 0) * xk);
+  return {x, y, s};
+}
+function applyCam(id, t, dur, enter, exit, push) {
+  const c = camera(id, t, dur, enter, exit, push);
+  const v = (g, k) => (camera(id, g + .25, dur, enter, exit, push)[k] - camera(id, g - .25, dur, enter, exit, push)[k]) * 2;
+  const vx = Math.abs(v(t, 'x')), vy = Math.abs(v(t, 'y')), vs = Math.abs(v(t, 's')) * 960;
+  const el = $(id + 'cam');
+  el.style.transform = `translate(${c.x.toFixed(2)}px,${c.y.toFixed(2)}px) scale(${c.s.toFixed(5)})`;
+  const mb = v => .28 * v * Math.min(1, v / 20);
+  el.style.filter = filt(dblur(id + 'B', Math.min(22, mb(vx)), Math.min(22, mb(vy))), blur(Math.min(12, mb(vs) * .5)));
+}
+
+// ── shot renders (t = local frame) ──
+function rA(f) {
+  const t = f;
+  applyCam('a', t, 90, {dx: 0, dy: 0, s: .12}, {s: .35});
+  const word = outExpo(u01(t, -4, 20)), markIn = outBack(u01(t, -1, 17));
+  const meetW = 380, cueW = 250, gap = 34, total = meetW + gap + 170 + gap + cueW, x0 = (1920 - total) / 2;
+  $('aMeet').style.left = (x0 - 80 * (1 - word)) + 'px'; $('aMeet').style.opacity = word;
+  $('aCue').style.left = (x0 + meetW + gap * 2 + 170 + 80 * (1 - word)) + 'px'; $('aCue').style.opacity = word;
+  const m = $('aMark');
+  m.style.left = (x0 + meetW + gap) + 'px';
+  m.style.transform = `scale(${markIn.toFixed(4)}) rotate(${((1 - markIn) * -40 + 5 * Math.sin(t * .17) * u01(t, 22, 34)).toFixed(2)}deg)`;
+  const bub = outBack(u01(t, 22, 34)), b = $('aBubble');
+  b.style.left = (x0 + meetW + gap + 132) + 'px'; b.style.top = (392 - 6 * Math.sin(t * .2) * u01(t, 30, 40)) + 'px';
+  b.style.transform = `scale(${bub.toFixed(4)})`;
+  $('aBy').style.opacity = outExpo(u01(t, 30, 46));
+}
+function rB(f) {
+  const t = f - 90;
+  applyCam('b', t, 90, {dx: 0, dy: 0, s: -.18}, {dx: -950});
+  const hd = outExpo(u01(t, -4, 14));
+  $('bHead').style.opacity = hd; $('bHead').style.transform = `translateY(${(1 - hd) * 40}px)`;
+  CAST.forEach((c, i) => {
+    const el = $('bB' + i), s = spring(t + 3 - i * 3, .5, .34);
+    el.style.left = (960 - CAST.length * 100 + i * 200 + 10) + 'px';
+    el.style.top = (560 + 160 * (1 - s)) + 'px';
+    el.style.opacity = clamp((t + 3 - i * 3) / 3);
+    el.style.transform = `scale(${lerp(.55, 1, clamp(s, 0, 1.2)).toFixed(4)})`;
+    hop(el, 180, t, i * .9, 12 * u01(t, 20 + i * 3, 34 + i * 3));
+  });
+}
+const C_POS = [[560, 600], [1360, 600], [960, 900]];
+function rC(f) {
+  const t = f - 180;
+  applyCam('c', t, 90, {dx: 700}, {dy: -480});
+  const hd = outExpo(u01(t, -5, 12));
+  $('cHead').style.opacity = hd;
+  const H = $('cHero'), hero = outBack(u01(t, -4, 14)), hx = 960, hy = 560;
+  H.style.left = (hx - 120) + 'px'; H.style.top = (hy - 120) + 'px'; H.style.transform = `scale(${hero.toFixed(4)})`;
+  hop(H, 240, t, 0, 10);
+  C_POS.forEach(([x, y], i) => {
+    const el = $('cI' + i), s = outBack(u01(t, 10 + i * 5, 26 + i * 5));
+    const fy = 6 * Math.sin(t * .15 + i * 2);
+    el.style.left = (lerp(hx, x, s) - 75) + 'px'; el.style.top = (lerp(hy, y, s) - 64 + fy) + 'px';
+    el.style.opacity = clamp(s * 2); el.style.transform = `scale(${lerp(.4, 1, clamp(s, 0, 1.1)).toFixed(4)})`;
+    const L = $('cL' + i), k = clamp(s, 0, 1);
+    L.setAttribute('d', `M${hx} ${hy}L${lerp(hx, x, k * .78)} ${lerp(hy, y + fy, k * .78)}`);
+    L.style.strokeDashoffset = (-t * 1.6).toFixed(2); L.style.opacity = clamp(s);
+  });
+}
+function rD(f) {
+  const t = f - 270;
+  applyCam('d', t, 120, {dy: 700}, {s: .5, dx: -260});
+  const ph = outExpo(u01(t, -6, 22));
+  $('dPhone').style.transform = `translateY(${((1 - ph) * 520 + 8 * Math.sin(t * .1)).toFixed(2)}px)`;
+  const hd = outExpo(u01(t, 2, 18));
+  $('dHead').style.opacity = hd; $('dHead').style.transform = `translateY(${(1 - hd) * 30}px)`;
+  const card = outBack(u01(t, 30, 44));
+  $('dCard').style.transform = `translateY(${(1 - card) * 60}px) scale(${lerp(.92, 1, card).toFixed(4)})`; $('dCard').style.opacity = clamp(card * 2);
+  const press = 1 - .06 * Math.sin(Math.PI * u01(t, 66, 72));
+  $('dApprove').style.transform = `scale(${press.toFixed(4)})`;
+  const rp = u01(t, 67, 82);
+  $('dRipple').style.opacity = rp > 0 && rp < 1 ? (1 - rp) : 0; $('dRipple').style.transform = `scale(${lerp(.3, 2.4, outExpo(rp)).toFixed(4)})`;
+  const done = outBack(u01(t, 76, 88));
+  $('dDone').style.opacity = clamp(done * 2); $('dDone').style.transform = `translateY(${(1 - done) * 30}px)`;
+}
+function rE(f) {
+  const t = f - 390;
+  applyCam('e', t, 120, {s: -.3}, {s: -.3});
+  $('eHead').style.opacity = outExpo(u01(t, 0, 16));
+  const hx = 1250, hy = 540, hero = outBack(u01(t, -5, 12)), H = $('eHero');
+  H.style.left = (hx - 100) + 'px'; H.style.top = (hy - 100) + 'px'; H.style.transform = `scale(${hero.toFixed(4)})`;
+  hop(H, 200, t, 1, 10);
+  const out = inQuad(clamp((t - 110) / 10, 0, 1.1));               // tiles fling outward on the exit
+  for (let i = 0; i < 26; i++) {
+    const ring = i < 8 ? 0 : i < 18 ? 1 : 2, k = ring === 0 ? i : ring === 1 ? i - 8 : i - 18, n = [8, 10, 8][ring];
+    const R = [210, 330, 450][ring] * (1 + 1.4 * out), a = (k / n) * Math.PI * 2 + ring * .35 + t * .012 * (ring % 2 ? -1 : 1);
+    const s = outBack(u01(t, ring * 5 + k - 4, 14 + ring * 5 + k)), el = $('eT' + i);
+    el.style.left = (hx - 48 + Math.cos(a) * R * s) + 'px'; el.style.top = (hy - 48 + Math.sin(a) * R * .82 * s) + 'px';
+    el.style.opacity = clamp(s * 2) * (ring === 2 ? .55 : 1); el.style.transform = `scale(${([1, .8, .62][ring] * clamp(s, 0, 1.1)).toFixed(4)})`;
+  }
+}
+function rF(f) {
+  const t = f - 510;
+  applyCam('f', t, 90, {s: .3}, {}, .05);
+  const l = outExpo(u01(t, -4, 16));
+  $('fLock').style.opacity = l; $('fLock').style.transform = `scale(${lerp(.88, 1, l).toFixed(4)})`;
+  $('fMark').style.transform = `rotate(${(4 * Math.sin(t * .14)).toFixed(2)}deg)`;
+  $('fBy').style.opacity = outExpo(u01(t, 10, 24)); $('fCta').style.opacity = outExpo(u01(t, 16, 30));
+  CAST.forEach((c, i) => {
+    const el = $('fB' + i), s = outBack(u01(t, 20 + i * 2, 32 + i * 2));
+    el.style.left = (960 - CAST.length * 59 + i * 118 + 11) + 'px'; el.style.top = (880 + (1 - s) * 80) + 'px';
+    el.style.opacity = clamp(s * 2);
+    hop(el, 96, t, i * .9, 8 * u01(t, 32 + i * 2, 44 + i * 2));
+  });
+}
+const SHOTS = [{id: 'a', f0: 0, f1: 89, r: rA}, {id: 'b', f0: 90, f1: 179, r: rB}, {id: 'c', f0: 180, f1: 269, r: rC},
+  {id: 'd', f0: 270, f1: 389, r: rD}, {id: 'e', f0: 390, f1: 509, r: rE}, {id: 'f', f0: 510, f1: 599, r: rF}];
+window.CUTS = SHOTS.slice(1).map(s => s.f0);
+let cur = null;
+window.seek = f => {
+  const s = SHOTS.find(s => f >= s.f0 && f < s.f1 + 1) || SHOTS[SHOTS.length - 1];
+  if (cur !== s) { if (cur) $(cur.id).style.display = 'none'; $(s.id).style.display = 'block'; cur = s; }
+  s.r(f);
+  if (window.DEBUG) { $('dbg').style.display = 'block'; $('dbg').textContent = 'f' + f; }
+  return s.id;
+};
+window.stageReady = (async () => {
+  build();
+  await Promise.all([400, 500, 600, 700].map(w => document.fonts.load(`${w} 40px Inter`)));
+  await document.fonts.ready;
+  window.DEBUG = new URLSearchParams(location.search).has('debug');
+  window.seek(0);
+  return true;
+})();
+</script>
+</body>
+</html>

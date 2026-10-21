@@ -1,0 +1,41 @@
+# Cue UI overlays: UI-only versions of shots s5, s6 and s7 from ../cue/beats.yaml (same items and timing) for your own
+# edit. No headlines; each block centres its UI. s6 uses theme: dark so its step labels are white over footage (the
+# prompt box stays light). bg = the preview backdrop only; the --alpha clips are transparent.
+# Same stand-in brand as the film until the Manus brand kit arrives.
+title: Cue UI overlays
+slug: cue-ui
+aspects: [16x9]
+
+brand:
+  name: Cue
+  mono: C
+  colors:
+    accent: "#3E7BFA"
+    bg: "#2A2A31"          # preview backdrop (dark, like most footage)
+  bg: plain
+
+music: {style: none, bpm: 124}
+
+shots:
+  - id: s5
+    block: phone
+    beats: 8
+    items:
+      - msg: Found a table for 2 at 7:30.
+      - card: {title: Approve deposit?, sub: Card ending 4021, value: $20.00, icon: $, actions: [Decline, Approve]}
+      - tap: Approve
+      - toast: Booked. Deposit paid.
+
+  - id: s6
+    block: prompt
+    beats: 8
+    theme: dark
+    prompt: Plan a Lisbon weekend for 4
+    steps: [Flights compared, Hotel shortlisted, Shared in the group chat]
+
+  - id: s7
+    block: panel
+    beats: 6
+    items:
+      - notif: {app: Cue, title: Pickup ordered, body: You approved $14.50 · ready 7:10}
+      - notif: {app: Cue, title: Groceries on the way, body: Arriving 8–9 PM}

@@ -1,0 +1,26 @@
+1
+00:00:00,000 --> 00:00:02,900
+Meet
+Cue
+Hi!
+by Manus
+
+2
+00:00:02,900 --> 00:00:06,767
+8 AM. Inbox, cleared.
+
+3
+00:00:06,767 --> 00:00:10,650
+1 PM. Dinner, booked.
+
+4
+00:00:10,650 --> 00:00:12,583
+8 PM
+Your day. Handled.
+
+5
+00:00:12,583 --> 00:00:16,450
+Cue
+Your own team of AI agents.
+Get it on iOS
+Get it on Android

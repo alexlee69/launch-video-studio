@@ -1,0 +1,963 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Frame by Frame Sting</title>
+<style>
+@font-face{font-family:Inter;font-weight:400;font-style:normal;src:url(node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2) format('woff2');}
+@font-face{font-family:Inter;font-weight:500;font-style:normal;src:url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format('woff2');}
+@font-face{font-family:Inter;font-weight:600;font-style:normal;src:url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2) format('woff2');}
+@font-face{font-family:Inter;font-weight:700;font-style:normal;src:url(node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2) format('woff2');}
+html,body{margin:0;padding:0;background:#000;}
+#stage{position:relative;width:1080px;height:1080px;overflow:hidden;background:#FDFDFB;font-family:Inter,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+.shot{position:absolute;left:0;top:0;width:1080px;height:1080px;display:none;overflow:hidden;}
+.cam{position:absolute;left:0;top:0;width:1080px;height:1080px;transform-origin:540px 540px;}
+.abs{position:absolute;}
+.bleed{position:absolute;left:-400px;top:-400px;width:1880px;height:1880px;}
+.cur{position:absolute;width:32px;height:39px;transform-origin:3.5px 2.5px;will-change:auto;}
+#dbg{position:absolute;left:12px;top:10px;font:600 22px Inter;color:#f00;z-index:99;display:none;}
+</style>
+</head>
+<body>
+<svg id="fx" width="0" height="0" style="position:absolute"><defs></defs></svg>
+<div id="stage"><div id="dbg"></div></div>
+<script>
+'use strict';
+// ───────────────────────────── inputs ─────────────────────────────
+// The job's brand.json arrives as window.BRAND (render.mjs injects it before this script runs):
+//   {copy: {...P}, palette: {...C}, tints?: {...K}, logo?: {data, tint, scale}}
+// Anything missing falls back to the reference brand below (Frame by Frame).
+const BRAND = window.BRAND || {};
+const DEF_P = {
+  name: 'Frame by Frame', pill: 'on Whop', mono: 'FF',
+  prompt: 'Make a launch video for my app',
+  crumbs: ['Frame by Frame', 'Module 2', 'Lesson 2.1'],
+  pageTitle: '2.1 Choose a reference',
+  body: ['Pick a launch video you love and rebuild it ', {k: 'frame for frame'},
+         '. Match every cut, every ease and every beat, then swap in your own brand.'],
+  body2: 'Start with ten seconds. Name each shot, note its first and last frame, and copy the camera before you copy the colours.',
+  card5: ['Reference breakdown', 'Lesson 2.1 · 6 min'],
+  cards: [['Module 3', 'Launch'], ['Module 5', 'Sound']],
+  hubNav: ['Courses', 'Chat'], hubSub: 'Course · 8 lessons', clock: 'Mon Jun 22  9:41 AM',
+};
+const DEF_C = {page:'#FDFDFB', haze:'#B7CFEB', ice:'#E6F0FA', deep:'#294376', sky:'#769CC2', navy:'#1E2F52',
+  blue:'#2F6BFF', teal:'#3CC8F0', mint:'#4ED6A0', white:'#FFFFFF'};
+// Hand-picked secondary tints of the reference palette. A brand that sets its own palette gets
+// tints derived from it (deriveTints) unless brand.json overrides them one by one under "tints".
+const DEF_K = {winHead:'#F1F6FF', glowA:'#CDE5FC', glowB:'#DBEEFD', ring1:'#D5F3FF', ring2:'#E6F9FF', ring3:'#F7FEFF',
+  blueHi:'#4A80FF', tealHi:'#5AD4F4', mintHi:'#68DFB1', wall2:'#3E5F92', wall4:'#8AAED0', glass:'#D6E8FF',
+  glassShadow:'#0C1A38', bar:'#182544', tintS3:'#E6F4FE', tintS4:'#E2F4FE', halo8:'#D6E2F0',
+  launchTop:'#15244A', launchBot:'#6F98C6', planetTop:'#1F3767', planetBot:'#0E1A36', rim:'#ECF6FF',
+  soundA:'#182A52', soundB:'#22578A', barMid:'#B9F3E0', miniBar:'#1B2846', refA:'#EEF5FC', refB:'#B9D1EB'};
+const P = Object.assign({}, DEF_P, BRAND.copy);
+const C = Object.assign({}, DEF_C, BRAND.palette);
+
+// ───────────────────────────── math ─────────────────────────────
+const clamp = (x, a = 0, b = 1) => x < a ? a : x > b ? b : x;
+const lerp = (a, b, t) => a + (b - a) * t;
+const u01 = (f, a, b) => clamp((f - a) / (b - a));
+const E = {
+  lin: t => t, in2: t => t * t, in3: t => t * t * t,
+  out2: t => 1 - (1 - t) * (1 - t), out3: t => 1 - Math.pow(1 - t, 3),
+  io2: t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2,
+  io3: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+};
+// keyframes, per-segment ease (ease on the key that ends the segment, else default)
+function kf(f, keys, ease = E.lin) {
+  if (f <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) {
+    if (f <= keys[i][0]) {
+      const [f0, v0] = keys[i - 1], [f1, v1, e] = keys[i];
+      return v0 + (v1 - v0) * (e || ease)((f - f0) / (f1 - f0));
+    }
+  }
+  return keys[keys.length - 1][1];
+}
+// lookup table, monotone cubic (Fritsch–Carlson) — smooth and never overshoots a key
+const _mc = new WeakMap();
+function tbl(f, keys) {
+  const n = keys.length;
+  let m = _mc.get(keys);
+  if (!m) {
+    const d = [];
+    m = [];
+    for (let i = 0; i < n - 1; i++) d.push((keys[i + 1][1] - keys[i][1]) / (keys[i + 1][0] - keys[i][0]));
+    m[0] = d[0]; m[n - 1] = d[n - 2];
+    for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+    for (let i = 0; i < n - 1; i++) {
+      if (d[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+      const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b;
+      if (h > 9) { const t = 3 / Math.sqrt(h); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; }
+    }
+    _mc.set(keys, m);
+  }
+  if (f <= keys[0][0]) return keys[0][1];
+  if (f >= keys[n - 1][0]) return keys[n - 1][1];
+  let i = 0;
+  while (f > keys[i + 1][0]) i++;
+  const [x0, y0] = keys[i], [x1, y1] = keys[i + 1], h = x1 - x0, t = (f - x0) / h, t2 = t * t, t3 = t2 * t;
+  return (2 * t3 - 3 * t2 + 1) * y0 + (t3 - 2 * t2 + t) * h * m[i] + (-2 * t3 + 3 * t2) * y1 + (t3 - t2) * h * m[i + 1];
+}
+const vel = (fn, f) => (fn(f + 0.25) - fn(f - 0.25)) * 2;               // px per 29.97-frame
+const expo = (f, f0, from, to, p) => to + (from - to) * Math.pow(1 - p, Math.max(0, f - f0));
+function spring(t, z, w) {
+  if (t <= 0) return 0;
+  const wd = w * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + (z * w / wd) * Math.sin(wd * t));
+}
+// ∫ smoothstep(a,b) — a velocity that eases from 0 to 1 px/frame without a kink
+function ramp(f, a, b) {
+  if (f <= a) return 0;
+  const L = b - a;
+  if (f <= b) { const u = (f - a) / L; return L * (u * u * u - u * u * u * u / 2); }
+  return L / 2 + (f - b);
+}
+function rng(seed) {
+  return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+const hash = n => rng(n * 9973 + 17)();
+function hex(c) { const n = parseInt(c.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function mix(a, b, t) { const A = hex(a), B = hex(b); return `rgb(${A.map((v, i) => (v + (B[i] - v) * t).toFixed(1)).join(',')})`; }
+function rgba(c, a) { const [r, g, b] = hex(c); return `rgba(${r},${g},${b},${a})`; }
+const h = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');   // copy → HTML text
+function mixHex(a, b, t) { const A = hex(a), B = hex(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join('').toUpperCase(); }
+function deriveTints(c) {
+  const W = '#FFFFFF', BK = '#000000';
+  return {winHead: mixHex(W, c.ice, .6), glowA: mixHex(W, c.haze, .62), glowB: mixHex(W, c.haze, .5),
+    ring1: mixHex(W, c.teal, .2), ring2: mixHex(W, c.teal, .1), ring3: mixHex(W, c.teal, .03),
+    blueHi: mixHex(c.blue, W, .14), tealHi: mixHex(c.teal, W, .18), mintHi: mixHex(c.mint, W, .14),
+    wall2: mixHex(c.deep, c.sky, .3), wall4: mixHex(c.sky, W, .18), glass: mixHex(W, c.blue, .17),
+    glassShadow: mixHex(c.navy, BK, .55), bar: mixHex(c.navy, BK, .2), tintS3: mixHex(W, c.teal, .12), tintS4: mixHex(W, c.teal, .14),
+    halo8: mixHex(W, c.haze, .45), launchTop: mixHex(c.navy, BK, .25), launchBot: mixHex(c.sky, c.deep, .1),
+    planetTop: mixHex(c.navy, c.deep, .5), planetBot: mixHex(c.navy, BK, .5), rim: mixHex(W, c.ice, .5),
+    soundA: mixHex(c.navy, BK, .15), soundB: mixHex(c.deep, c.teal, .2), barMid: mixHex(c.mint, W, .6),
+    miniBar: mixHex(c.navy, BK, .1), refA: mixHex(W, c.ice, .7), refB: c.haze};
+}
+const K = BRAND.palette ? Object.assign(deriveTints(C), BRAND.tints) : Object.assign({}, DEF_K, BRAND.tints);
+
+// ───────────────────────────── filters ─────────────────────────────
+const FX = {};
+function dblur(id, sx, sy) {
+  if (sx < 0.04 && sy < 0.04) return '';
+  if (!FX[id]) {
+    const ns = 'http://www.w3.org/2000/svg', fl = document.createElementNS(ns, 'filter');
+    fl.setAttribute('id', id); fl.setAttribute('filterUnits', 'userSpaceOnUse');
+    fl.setAttribute('x', '-700'); fl.setAttribute('y', '-700'); fl.setAttribute('width', '2600'); fl.setAttribute('height', '2600');
+    fl.setAttribute('color-interpolation-filters', 'sRGB');
+    const g = document.createElementNS(ns, 'feGaussianBlur'); fl.appendChild(g);
+    document.querySelector('#fx defs').appendChild(fl); FX[id] = g;
+  }
+  FX[id].setAttribute('stdDeviation', `${sx.toFixed(3)} ${sy.toFixed(3)}`);
+  return `url(#${id})`;
+}
+const blur = px => px > 0.04 ? `blur(${px.toFixed(3)}px)` : '';
+const filt = (...p) => p.filter(Boolean).join(' ') || 'none';
+
+// ───────────────────────────── drawing bits ─────────────────────────────
+// The brand mark. Without a logo it is drawn: four corner brackets around the monogram (P.mono).
+// With brand.json "logoSvgPath" the logo replaces it everywhere — S1 disc, S2 app icon, S3 menu bar, S7 disc and
+// the canvas art (S1 course cover, S5 mini storyboard). logo.tint paints the logo's silhouette in each spot's
+// colour (dark on the light discs, white on the navy icon and the menu bar); tint:false keeps its own colours.
+const LOGO = BRAND.logo && (BRAND.logo.svg || BRAND.logo.data)
+  ? {svg: BRAND.logo.svg, url: BRAND.logo.data, tint: BRAND.logo.tint !== false, scale: BRAND.logo.scale || .8, img: null} : null;
+const monoSize = () => { const n = [...P.mono].length; return n <= 2 ? 40 : 88 / n; };
+function markSVG(color, size) {
+  if (LOGO) {
+    const s = (size * LOGO.scale).toFixed(2), u = `url('${LOGO.url}') center/contain no-repeat`;   // single quotes: this lands inside style="…"
+    return `<div style="width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center">
+    <div style="width:${s}px;height:${s}px;${LOGO.tint ? `background:${color};-webkit-mask:${u};mask:${u}` : `background:${u}`}"></div></div>`;
+  }
+  const fs = monoSize();
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block;overflow:visible">
+  <g fill="none" stroke="${color}" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M11 33V20a9 9 0 0 1 9-9h13"/><path d="M67 11h13a9 9 0 0 1 9 9v13"/>
+  <path d="M89 67v13a9 9 0 0 1-9 9H67"/><path d="M33 89H20a9 9 0 0 1-9-9V67"/></g>
+  <text x="50.6" y="${+(64.6 - (40 - fs) * .36).toFixed(2)}" text-anchor="middle" font-family="Inter" font-weight="700" font-size="${+fs.toFixed(2)}" letter-spacing="${+(-fs * .04).toFixed(2)}" fill="${color}">${h(P.mono)}</text></svg>`;
+}
+// Rasterise the logo once (SVG or bitmap), crop it to its opaque pixels so every logo sits at the same visual
+// size, and keep a PNG data URL for the CSS spots plus the decoded image for the canvas art.
+async function prepLogo() {
+  let url = LOGO.url;
+  if (LOGO.svg) {
+    const doc = new DOMParser().parseFromString(LOGO.svg, 'image/svg+xml'), r = doc.documentElement;
+    if (doc.querySelector('parsererror') || r.nodeName.toLowerCase() !== 'svg') throw new Error('logo: file is not a parseable SVG');
+    let vb = (r.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
+    if (vb.length !== 4 || vb.some(isNaN)) {
+      const w = parseFloat(r.getAttribute('width')), h = parseFloat(r.getAttribute('height'));
+      if (!(w > 0 && h > 0)) throw new Error('logo: SVG needs a viewBox or a numeric width/height');
+      vb = [0, 0, w, h]; r.setAttribute('viewBox', vb.join(' '));
+    }
+    const k = 1024 / Math.max(vb[2], vb[3]);
+    r.setAttribute('width', vb[2] * k); r.setAttribute('height', vb[3] * k);
+    url = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(r))));
+  }
+  const src = new Image(); src.src = url; await src.decode();
+  const k = 1024 / Math.max(src.naturalWidth, src.naturalHeight), W = Math.round(src.naturalWidth * k), H = Math.round(src.naturalHeight * k);
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d', {willReadFrequently: true}); x.drawImage(src, 0, 0, W, H);
+  const a = x.getImageData(0, 0, W, H).data;
+  let x0 = W, y0 = H, x1 = -1, y1 = -1;
+  for (let y = 0; y < H; y++) for (let i = 0; i < W; i++) if (a[(y * W + i) * 4 + 3] > 8) { if (i < x0) x0 = i; if (i > x1) x1 = i; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  if (x1 < 0) throw new Error('logo: image is fully transparent');
+  const o = document.createElement('canvas'); o.width = x1 - x0 + 1; o.height = y1 - y0 + 1;
+  o.getContext('2d').drawImage(c, -x0, -y0);
+  LOGO.url = o.toDataURL('image/png');
+  LOGO.img = new Image(); LOGO.img.src = LOGO.url; await LOGO.img.decode();
+  LOGO.aspect = o.width / o.height;
+}
+// canvas: the logo fitted (contain) in a square of side box·scale centred on cx,cy
+function drawLogo(x, cx, cy, box, color, alpha = 1) {
+  const s = box * LOGO.scale, w = LOGO.aspect >= 1 ? s : s * LOGO.aspect, h = LOGO.aspect >= 1 ? s / LOGO.aspect : s;
+  let im = LOGO.img;
+  if (LOGO.tint) {
+    const [c, y] = cv(w, h, 4);
+    y.drawImage(LOGO.img, 0, 0, w, h); y.globalCompositeOperation = 'source-in'; y.fillStyle = color; y.fillRect(0, 0, w, h);
+    im = c;
+  }
+  x.save(); x.globalAlpha = alpha; x.drawImage(im, cx - w / 2, cy - h / 2, w, h); x.restore();
+}
+const CURSOR = `<svg width="32" height="39" viewBox="0 0 32 39" style="display:block;overflow:visible">
+  <path d="M3.5 2.5V30.6L9.9 24.6L14.6 35.4L19.6 33.3L14.9 22.7H23.8Z" fill="#050505" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke"/></svg>`;
+function setCursor(el, fid, x, y, rot, sc, vx, vy, op = 1) {
+  el.style.opacity = op;
+  el.style.transform = `translate(${(x - 3.5).toFixed(2)}px,${(y - 2.5).toFixed(2)}px) rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+  const k = 0.11 / Math.max(sc, 0.5);
+  el.style.filter = filt(dblur(fid, Math.min(9, Math.abs(vx) * k), Math.min(9, Math.abs(vy) * k)), 'drop-shadow(0 1.6px 2.4px rgba(0,0,0,.32))');
+}
+
+// canvas art — seeded, no Math.random
+function cv(w, h, s = 2) { const c = document.createElement('canvas'); c.width = w * s; c.height = h * s; const x = c.getContext('2d'); x.scale(s, s); return [c, x]; }
+function glow(x, cx, cy, r, col, a) {
+  const g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
+  g.addColorStop(0, rgba(col, a)); g.addColorStop(0.45, rgba(col, a * 0.45)); g.addColorStop(1, rgba(col, 0));
+  x.fillStyle = g; x.fillRect(cx - r, cy - r, 2 * r, 2 * r);
+}
+function rrect(x, X, Y, w, h, r) { x.beginPath(); x.roundRect(X, Y, w, h, r); }
+function brackets(x, cx, cy, s, lw, col) {
+  const a = s / 2, L = s * 0.28, r = s * 0.1;
+  x.save(); x.strokeStyle = col; x.lineWidth = lw; x.lineCap = 'round'; x.lineJoin = 'round';
+  for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
+    x.beginPath(); x.moveTo(cx + sx * a, cy + sy * (a - L)); x.lineTo(cx + sx * a, cy + sy * (a - r));
+    x.quadraticCurveTo(cx + sx * a, cy + sy * a, cx + sx * (a - r), cy + sy * a); x.lineTo(cx + sx * (a - L), cy + sy * a); x.stroke();
+  }
+  x.restore();
+}
+function sparkle(x, cx, cy, r, col) {
+  x.save(); x.fillStyle = col; x.beginPath(); x.moveTo(cx, cy - r);
+  x.quadraticCurveTo(cx + r * .12, cy - r * .12, cx + r, cy); x.quadraticCurveTo(cx + r * .12, cy + r * .12, cx, cy + r);
+  x.quadraticCurveTo(cx - r * .12, cy + r * .12, cx - r, cy); x.quadraticCurveTo(cx - r * .12, cy - r * .12, cx, cy - r); x.fill(); x.restore();
+}
+function artCourse(w, h) {
+  const [c, x] = cv(w, h);
+  const g = x.createLinearGradient(0, 0, w * .35, h); g.addColorStop(0, C.deep); g.addColorStop(1, C.sky);
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  glow(x, w * .88, h * .05, h * 1.0, C.teal, .5); glow(x, w * .25, h * 1.05, h * .9, C.ice, .4);
+  x.strokeStyle = 'rgba(255,255,255,.32)'; x.lineWidth = 1.4;
+  x.beginPath(); x.arc(w * .66, h * 1.02, h * .66, 0, 7); x.stroke();
+  x.beginPath(); x.moveTo(0, h * .34); x.lineTo(w, h * .34); x.stroke();
+  sparkle(x, w * .2, h * .34, 9, 'rgba(255,255,255,.85)');
+  if (LOGO) drawLogo(x, w * .5, h * .52, h * .42 / .78, '#FFFFFF', .95); else brackets(x, w * .5, h * .52, h * .42, 5, 'rgba(255,255,255,.95)');
+  glow(x, w * .5, h * .52, h * .16, '#FFFFFF', .55);
+  return c;
+}
+function artLaunch(w, h) {
+  const [c, x] = cv(w, h), R = rng(31);
+  let g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, K.launchTop); g.addColorStop(.55, C.deep); g.addColorStop(1, K.launchBot);
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  glow(x, w * .5, h * 1.02, w * .78, C.ice, .85); glow(x, w * .9, h * .05, h * .8, C.teal, .35);
+  for (let i = 0; i < 70; i++) { const sx = R() * w, sy = R() * h * .7, r = .5 + R() * 1.3;
+    x.fillStyle = `rgba(255,255,255,${(.25 + R() * .7).toFixed(2)})`; x.beginPath(); x.arc(sx, sy, r, 0, 7); x.fill(); }
+  // horizon planet
+  x.save(); x.shadowColor = C.teal; x.shadowBlur = 40;
+  g = x.createLinearGradient(0, h * .72, 0, h); g.addColorStop(0, K.planetTop); g.addColorStop(1, K.planetBot);
+  x.fillStyle = g; x.beginPath(); x.arc(w * .5, h + w * 1.36, w * 1.6, 0, 7); x.fill(); x.restore();
+  x.strokeStyle = rgba(K.rim, .95); x.lineWidth = 2.4; x.beginPath(); x.arc(w * .5, h + w * 1.36, w * 1.6, Math.PI * 1.2, Math.PI * 1.8); x.stroke();
+  // rising orb + trail
+  const ox = w * .66, oy = h * .26;
+  x.save(); x.lineCap = 'round';
+  g = x.createLinearGradient(w * .3, h * .86, ox, oy); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(255,255,255,.9)');
+  for (const [lw, a] of [[18, .12], [7, .3], [2.6, 1]]) {
+    x.globalAlpha = a; x.strokeStyle = g; x.lineWidth = lw; x.beginPath(); x.moveTo(w * .3, h * .86); x.quadraticCurveTo(w * .4, h * .34, ox, oy); x.stroke();
+  }
+  x.restore();
+  glow(x, ox, oy, 95, C.teal, .6); glow(x, ox, oy, 30, '#FFFFFF', .95);
+  x.fillStyle = '#fff'; x.beginPath(); x.arc(ox, oy, 8.5, 0, 7); x.fill();
+  sparkle(x, w * .17, h * .2, 13, 'rgba(255,255,255,.92)'); sparkle(x, w * .86, h * .5, 7, 'rgba(255,255,255,.7)');
+  return c;
+}
+function artSound(w, h) {
+  const [c, x] = cv(w, h), R = rng(77);
+  let g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, K.soundA); g.addColorStop(1, K.soundB);
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  glow(x, w * .84, h * .18, h * 1.0, C.teal, .55); glow(x, w * .08, h * .98, h * .85, C.mint, .5);
+  const rx = w * .84, ry = h * .18;
+  for (let r = 22; r < 720; r += 29) { x.strokeStyle = `rgba(255,255,255,${(.5 * (1 - r / 720)).toFixed(3)})`; x.lineWidth = 1.3; x.beginPath(); x.arc(rx, ry, r, 0, 7); x.stroke(); }
+  const n = 36, x0 = 34, x1 = w - 34, cy = h * .4;
+  const ph = [R() * 6, R() * 6, R() * 6];
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1), bx = lerp(x0, x1, t);
+    const env = Math.sin(Math.PI * t) ** .7;
+    const a = Math.abs(Math.sin(t * 7.1 + ph[0]) * .55 + Math.sin(t * 17.3 + ph[1]) * .3 + Math.sin(t * 31 + ph[2]) * .15);
+    const bh = 10 + 128 * env * a;
+    g = x.createLinearGradient(0, cy - bh / 2, 0, cy + bh / 2); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.5, K.barMid); g.addColorStop(1, C.mint);
+    x.fillStyle = g; rrect(x, bx - 3.5, cy - bh / 2, 7, bh, 3.5); x.fill();
+  }
+  sparkle(x, w * .12, h * .16, 10, 'rgba(255,255,255,.85)');
+  return c;
+}
+function miniScene(x, kind, w, h) {
+  if (kind === 0) {           // disc + mark on white
+    x.fillStyle = C.page; x.fillRect(0, 0, w, h);
+    glow(x, w / 2, h * .9, w * .5, K.glowB, .9);
+    x.fillStyle = '#F6F6F6'; x.strokeStyle = '#E4E4E6'; x.lineWidth = 1.2; x.beginPath(); x.arc(w / 2, h / 2, h * .27, 0, 7); x.fill(); x.stroke();
+    if (LOGO) drawLogo(x, w / 2, h / 2, h * .26 / .78, '#16181D');
+    else {
+      brackets(x, w / 2, h / 2, h * .26, 3.2, '#16181D');
+      x.fillStyle = '#16181D'; x.font = `700 ${h * .11 * monoSize() / 40}px Inter`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(P.mono, w / 2, h / 2 + 1);
+    }
+  } else if (kind === 1) {    // navy icon + cross
+    x.fillStyle = C.page; x.fillRect(0, 0, w, h);
+    const s = h * .3, cx = w / 2, cy = h / 2;
+    x.fillStyle = '#E9E9E7'; x.beginPath(); x.arc(cx, cy, s * .9, 0, 7); x.fill();
+    const g = x.createLinearGradient(0, cy - s / 2, 0, cy + s / 2); g.addColorStop(0, C.deep); g.addColorStop(1, C.navy);
+    x.fillStyle = g; rrect(x, cx - s / 2, cy - s / 2, s, s, s * .28); x.fill();
+    if (LOGO) drawLogo(x, cx, cy, s * .55 / .78, '#FFFFFF'); else brackets(x, cx, cy, s * .55, 2.4, '#fff');
+    const q = s * .48, o = s * 1.18;
+    for (const [dx, dy, col] of [[-o, 0, '#FFFFFF'], [0, -o, C.blue], [o, 0, C.teal], [0, o, C.mint]]) {
+      x.fillStyle = col; rrect(x, cx + dx - q / 2, cy + dy - q / 2, q, q, q * .28); x.fill();
+      if (col === '#FFFFFF') { x.strokeStyle = '#E3E8EF'; x.lineWidth = 1; x.stroke(); }
+    }
+  } else {                    // glass prompt over sky
+    const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, C.deep); g.addColorStop(1, C.sky);
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    x.fillStyle = K.miniBar; x.fillRect(0, 0, w, h * .14);
+    glow(x, w * .9, h * .3, h * .7, C.teal, .45);
+    x.fillStyle = 'rgba(255,255,255,.26)'; x.strokeStyle = 'rgba(255,255,255,.7)'; x.lineWidth = 1.2;
+    rrect(x, w * .14, h * .34, w * .72, h * .4, h * .1); x.fill(); x.stroke();
+    x.fillStyle = 'rgba(255,255,255,.9)'; rrect(x, w * .2, h * .44, w * .38, h * .05, 3); x.fill();
+    x.fillStyle = C.blue; x.beginPath(); x.arc(w * .8, h * .64, h * .045, 0, 7); x.fill();
+  }
+}
+function artRef(w, h) {
+  const [c, x] = cv(w, h);
+  let g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, K.refA); g.addColorStop(1, K.refB);
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  glow(x, w * .15, h * .1, w * .6, '#FFFFFF', .9); glow(x, w * .95, h * .95, w * .6, C.teal, .28);
+  const fw = 316, fh = 200;
+  for (const [cx, cy, rot, kind] of [[w * .33, h * .32, -7, 0], [w * .67, h * .44, 5, 1], [w * .45, h * .7, -2, 2]]) {
+    x.save(); x.translate(cx, cy); x.rotate(rot * Math.PI / 180);
+    x.shadowColor = rgba(C.navy, .28); x.shadowBlur = 30; x.shadowOffsetY = 12;
+    x.fillStyle = '#fff'; rrect(x, -fw / 2 - 7, -fh / 2 - 7, fw + 14, fh + 14, 24); x.fill();
+    x.shadowColor = 'transparent';
+    rrect(x, -fw / 2, -fh / 2, fw, fh, 18); x.clip();
+    x.translate(-fw / 2, -fh / 2); miniScene(x, kind, fw, fh);
+    x.restore();
+  }
+  // frosted play button
+  const px = w * .5, py = h * .5;
+  x.save(); x.shadowColor = rgba(C.navy, .25); x.shadowBlur = 24; x.fillStyle = 'rgba(255,255,255,.78)';
+  x.beginPath(); x.arc(px, py, 46, 0, 7); x.fill(); x.restore();
+  x.strokeStyle = 'rgba(255,255,255,.95)'; x.lineWidth = 1.5; x.beginPath(); x.arc(px, py, 46, 0, 7); x.stroke();
+  x.fillStyle = C.navy; x.beginPath(); x.moveTo(px - 12, py - 18); x.lineTo(px + 20, py); x.lineTo(px - 12, py + 18); x.closePath(); x.fill();
+  return c;
+}
+function frosted(src, w, h, b = 16, lift = .42) {
+  const [c, x] = cv(w, h);
+  x.filter = `blur(${b}px) saturate(1.25)`; x.drawImage(src, -b * 2, -b * 2, w + b * 4, h + b * 4); x.filter = 'none';
+  x.fillStyle = `rgba(255,255,255,${lift})`; x.fillRect(0, 0, w, h);
+  const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, 'rgba(255,255,255,.18)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  return c;
+}
+
+// ───────────────────────────── DOM ─────────────────────────────
+const stage = document.getElementById('stage');
+function shot(id, html) { const d = document.createElement('div'); d.className = 'shot'; d.id = id; d.innerHTML = html; stage.appendChild(d); return d; }
+const $ = id => document.getElementById(id);
+const IMG = {};
+
+function buildDOM() {
+  // ── S1 header + hub window ──
+  shot('s1', `
+  <div class="cam" id="s1cam">
+    <div class="bleed" id="s1bg"></div>
+    <div class="abs" id="s1win" style="left:408px;top:405px;width:880px;height:900px;border-radius:93px;background:#FCFDFF;overflow:hidden;
+         box-shadow:0 0 0 1px ${rgba(C.navy, .06)},0 40px 90px ${rgba(C.deep, .10)}">
+      <div class="abs" style="left:0;top:0;width:100%;height:236px;background:${K.winHead}"></div>
+      <div class="abs" style="left:0;top:236px;width:100%;height:1px;background:${rgba(C.navy, .06)}"></div>
+      <div class="abs" style="left:0;bottom:0;width:100%;height:560px;background:radial-gradient(ellipse 560px 330px at 40% 100%,${rgba(K.glowA, .95)},${rgba(K.glowB, 0)})"></div>
+      <div class="abs" style="left:212px;top:13px;width:400px;height:40px;border-radius:20px;background:#fff;box-shadow:0 0 0 1px #E2E9F4;
+           display:flex;align-items:center;gap:12px;padding-left:18px;box-sizing:border-box;font:400 20px Inter;color:#97A0AE">
+        <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="7.6" cy="7.6" r="5.6" fill="none" stroke="#97A0AE" stroke-width="2"/><path d="M12 12l4.2 4.2" stroke="#97A0AE" stroke-width="2" stroke-linecap="round"/></svg>Search</div>
+      <div class="abs" style="left:96px;top:301px;width:66px;height:66px;border-radius:20px;background:linear-gradient(160deg,${C.blue},${C.teal});
+           box-shadow:0 8px 18px ${rgba(C.blue, .25)};display:flex;align-items:center;justify-content:center">
+        <svg width="34" height="34" viewBox="0 0 34 34"><rect x="5" y="6" width="24" height="22" rx="4.5" fill="none" stroke="#fff" stroke-width="2.6"/><path d="M14 12.5v9l7.5-4.5z" fill="#fff"/></svg></div>
+      <div class="abs" id="s1nav0" style="left:64px;top:378px;width:130px;text-align:center;font:500 19px Inter;color:#5F6876">${h(P.hubNav[0])}</div>
+      <div class="abs" style="left:96px;top:462px;width:66px;height:66px;border-radius:20px;background:#E9EEF6;opacity:.55;display:flex;align-items:center;justify-content:center">
+        <svg width="34" height="34" viewBox="0 0 34 34"><path d="M6 9a4 4 0 0 1 4-4h14a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H14l-6 5v-5a4 4 0 0 1-2-3.5z" fill="none" stroke="#7D8796" stroke-width="2.4" stroke-linejoin="round"/></svg></div>
+      <div class="abs" id="s1nav1" style="left:64px;top:539px;width:130px;text-align:center;font:500 19px Inter;color:#5F6876;opacity:.45">${h(P.hubNav[1])}</div>
+      <div class="abs" style="left:356px;top:295px;width:460px;height:560px;border-radius:34px;background:#fff;overflow:hidden;
+           box-shadow:0 0 0 1px #E6ECF5,0 14px 34px ${rgba(C.deep, .08)}">
+        <div id="s1cover" class="abs" style="left:10px;top:10px;width:440px;height:228px;border-radius:26px;background-size:cover"></div>
+        <div class="abs" style="left:28px;top:262px;font:600 28px Inter;color:#141416;letter-spacing:-.01em" id="s1cardname">${h(P.name)}</div>
+        <div class="abs" style="left:28px;top:304px;font:400 21px Inter;color:#8A919C" id="s1cardsub">${h(P.hubSub)}</div>
+      </div>
+    </div>
+    <div class="abs" id="s1ring" style="left:0;top:0;width:174px;height:174px;border-radius:50%;
+         background:radial-gradient(circle,${rgba(K.ring1, 0)} 0 62px,${K.ring1} 66px,${K.ring2} 76px,${K.ring3} 84px,${rgba(K.ring3, 0)} 87px);
+         box-shadow:0 0 30px ${rgba(C.teal, .22)}"></div>
+    <div class="abs" id="s1lock" style="left:474px;top:0;height:132px;transform-origin:0 66px">
+      <div class="abs" id="s1disc" style="left:0;top:0;width:132px;height:132px;border-radius:50%;background:#FBFCFE;
+           box-shadow:0 0 0 1px #E8E8EA,0 6px 18px ${rgba(C.navy, .07)};display:flex;align-items:center;justify-content:center">${markSVG('#16181D', 76)}</div>
+      <div class="abs" id="s1name" style="top:66px;white-space:nowrap;font-weight:500;color:#141416;letter-spacing:-.015em;line-height:1">${h(P.name)}</div>
+      <div class="abs" id="s1pill" style="top:66px;white-space:nowrap;background:#2F2E2F;color:#fff;font-weight:500;border-radius:999px;
+           display:flex;align-items:center;box-sizing:border-box;line-height:1">${h(P.pill)}</div>
+    </div>
+    <div class="bleed" id="s1veil" style="pointer-events:none"></div>
+  </div>
+  <div class="cur" id="s1cur">${CURSOR}</div>`);
+
+  // ── S2 icon + orbit ──
+  const sq = (id, bg, extra = '') => `<div class="abs" id="${id}" style="left:0;top:0;background:${bg};${extra}"></div>`;
+  shot('s2', `
+  <div class="cam" id="s2cam">
+    <div class="bleed" style="background:radial-gradient(circle at 940px 940px,#FFFFFF 0,${C.page} 420px,#F5F6F7 1000px)"></div>
+    <div class="abs" id="s2halo" style="left:0;top:0;border-radius:50%;background:#E9E9E7"></div>
+    ${sq('s2w', 'linear-gradient(180deg,#FFFFFF,#F7F9FC)', `box-shadow:0 0 0 1px #E3E8EF,0 6px 16px ${rgba(C.navy, .09)}`)}
+    <div class="abs" id="s2icon" style="left:0;top:0;background:linear-gradient(165deg,${C.deep} 0%,${C.navy} 100%);
+         box-shadow:0 22px 44px ${rgba(C.navy, .30)},inset 0 1.5px 0 rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center">
+      <div id="s2mark" style="width:100px;height:100px">${markSVG('#FFFFFF', 100)}</div></div>
+    ${sq('s2b', `linear-gradient(180deg,${K.blueHi},${C.blue})`, `box-shadow:0 10px 22px ${rgba(C.blue, .28)}`)}
+    ${sq('s2t', `linear-gradient(180deg,${K.tealHi},${C.teal})`, `box-shadow:0 10px 22px ${rgba(C.teal, .26)}`)}
+    ${sq('s2m', `linear-gradient(180deg,${K.mintHi},${C.mint})`, `box-shadow:0 10px 22px ${rgba(C.mint, .26)}`)}
+  </div>`);
+
+  // ── S3 menu bar + prompt ──
+  const W3 = 'rgba(255,255,255,.4)';
+  shot('s3', `
+  <div class="cam" id="s3cam">
+    <div class="bleed" style="background:${C.page}"></div>
+    <div class="abs" id="s3pan" style="left:0;top:0;width:1080px;height:1080px">
+      <div class="abs" style="left:-600px;top:-700px;width:2300px;height:1125px;background:linear-gradient(180deg,${C.page} 0%,#F7F8F8 100%)"></div>
+      <div class="abs" style="left:-600px;top:425px;width:2300px;height:52px;background:linear-gradient(180deg,#686866 0,#686866 1.5px,#2A2A2B 2.5px,#111112 14px,#0B0B0C 100%)"></div>
+      <div class="abs" style="left:-600px;top:477px;width:2300px;height:1500px;overflow:hidden;
+           background:linear-gradient(180deg,${C.deep} 0px,${K.wall2} 300px,${C.sky} 640px,${K.wall4} 1500px)">
+        <div class="abs" style="left:1340px;top:-250px;width:760px;height:760px;border-radius:50%;background:radial-gradient(circle,${rgba(C.teal, .42)},${rgba(C.teal, 0)} 68%)"></div>
+        <svg class="abs" style="left:0;top:0" width="2300" height="1500" viewBox="0 0 2300 1500" fill="none" stroke="${W3}" stroke-width="1.6">
+          <circle cx="1360" cy="470" r="330"/><path d="M0 222H2300M0 428H2300M930 0V1500"/>
+          <path d="M930 206Q931.6 220.4 946 222Q931.6 223.6 930 238Q928.4 223.6 914 222Q928.4 220.4 930 206Z" fill="rgba(255,255,255,.9)" stroke="none"/>
+        </svg>
+      </div>
+      <div class="abs" id="s3glass" style="left:0;top:0;overflow:hidden;
+           background:linear-gradient(180deg,rgba(255,255,255,.34) 0%,${rgba(K.glass, .20)} 60%,${rgba(K.glass, .16)} 100%);
+           -webkit-backdrop-filter:blur(26px) saturate(1.35) brightness(1.08);backdrop-filter:blur(26px) saturate(1.35) brightness(1.08);
+           box-shadow:inset 0 1.6px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(255,255,255,.30),inset 0 -1px 0 rgba(255,255,255,.12),0 24px 60px ${rgba(K.glassShadow, .28)}">
+        <div id="s3txtwrap" class="abs" style="left:46px;top:42px;white-space:pre;font:500 38px Inter;color:#fff;letter-spacing:-.01em;line-height:46px"><span id="s3txt"></span><span id="s3caret" style="display:inline-block;width:3px;height:42px;background:#fff;border-radius:2px;vertical-align:-8px;margin-left:2px"></span></div>
+        <div id="s3icons" class="abs" style="left:40px;bottom:30px;display:flex;gap:22px">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="20" cy="20" r="16"/><path d="M20 12v16M12 20h16"/></svg>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="8" width="30" height="24" rx="5"/><circle cx="14" cy="16" r="3"/><path d="M6 29l9-8 6 5 5-4 9 7"/></svg>
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><rect x="14" y="5" width="12" height="20" rx="6"/><path d="M8 19a12 12 0 0 0 24 0M20 31v5"/></svg>
+        </div>
+        <div id="s3send" class="abs" style="width:51px;height:51px;border-radius:50%;background:${C.blue};box-shadow:0 6px 16px ${rgba(C.blue, .45)},inset 0 1px 0 rgba(255,255,255,.3);
+             display:flex;align-items:center;justify-content:center">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 21V5M6 12l7-7 7 7"/></svg></div>
+      </div>
+      <div class="abs" style="left:-600px;top:477px;width:2300px;height:61px;background:${rgba(K.bar, .94)};box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"></div>
+      <div class="abs" style="left:0;top:477px;width:1200px;height:61px">
+        <svg class="abs" style="left:282px;top:14px" width="40" height="32" viewBox="0 0 40 32" fill="#fff">
+          <path d="M20 27.5l4.8-5.2a7 7 0 0 0-9.6 0z"/><path d="M8.4 15.6a16.5 16.5 0 0 1 23.2 0l-3 3.2a12 12 0 0 0-17.2 0z"/><path d="M2.6 9.4a24.5 24.5 0 0 1 34.8 0l-3 3.2a20 20 0 0 0-28.8 0z"/></svg>
+        <svg class="abs" style="left:350px;top:17px" width="62" height="28" viewBox="0 0 62 28"><rect x="1.5" y="1.5" width="52" height="25" rx="7" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/>
+          <rect x="5" y="5" width="38" height="18" rx="4" fill="#fff"/><path d="M57 10v8a4 4 0 0 0 0-8z" fill="rgba(255,255,255,.6)"/></svg>
+        <svg class="abs" style="left:440px;top:15px" width="44" height="32" viewBox="0 0 44 32"><rect x="2" y="2" width="40" height="12" rx="6" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="36" cy="8" r="3.6" fill="#fff"/>
+          <rect x="2" y="18" width="40" height="12" rx="6" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="8" cy="24" r="3.6" fill="#fff"/></svg>
+        <div class="abs" style="left:531px;top:4px;width:53px;height:53px">${markSVG('#FFFFFF', 53)}</div>
+        <div class="abs" style="left:594px;top:12.5px;width:36px;height:36px;border-radius:50%;background:${C.blue}"></div>
+        <div class="abs" style="left:643px;top:12.5px;width:36px;height:36px;border-radius:50%;background:${C.teal}"></div>
+        <div class="abs" style="left:691px;top:12.5px;width:36px;height:36px;border-radius:50%;background:${C.mint}"></div>
+        <div class="abs" style="left:752px;top:12px;white-space:pre;font:500 34px Inter;color:#fff;line-height:37px;letter-spacing:-.005em">${h(P.clock)}</div>
+      </div>
+      <div class="cur" id="s3cur">${CURSOR}</div>
+    </div>
+    <div class="bleed" id="s3tint" style="background:${K.tintS3};opacity:0"></div>
+  </div>`);
+
+  // ── S4 answer page + S5 card ──
+  const bodyHTML = P.body.map(b => typeof b === 'string' ? h(b) : `<span id="s4key" style="color:#0E0E10;font-weight:600">${h(b.k).replace(/ /g, ' ')}</span>`).join('');
+  shot('s4', `
+  <div class="cam" id="s4cam">
+    <div class="bleed" id="s4bg"></div>
+    <div class="abs" id="s4page" style="left:0;top:0;width:1080px;height:1600px">
+      <div class="abs" id="s4crumb" style="left:120px;font:500 25px Inter;color:#A3A3A1;white-space:nowrap">${P.crumbs.map(h).join('<span style="margin:0 14px;color:#C9C9C7">›</span>')}</div>
+      <div class="abs" id="s4title" style="left:120px;font:700 66px Inter;color:#121214;letter-spacing:-.025em;white-space:nowrap;line-height:1.1">${h(P.pageTitle)}</div>
+      <div class="abs" id="s4body" style="left:120px;width:840px;font:400 47px Inter;color:#BCBCBA;line-height:58px;letter-spacing:-.012em">${bodyHTML}</div>
+      <div class="abs" id="s4body2" style="left:120px;width:840px;font:400 47px Inter;color:#BCBCBA;line-height:58px;letter-spacing:-.012em">${h(P.body2)}</div>
+    </div>
+    <div class="cur" id="s4cur">${CURSOR}</div>
+    <div class="abs" id="s5card" style="left:203px;top:0;width:675px;height:980px;border-radius:64px;background:#fff;transform-origin:337.5px 300px;
+         box-shadow:0 0 0 1px ${rgba(C.navy, .05)},0 -8px 50px ${rgba(C.navy, .13)}">
+      <div id="s5cover" class="abs" style="left:24px;top:24px;width:627px;height:536px;border-radius:44px;background-size:cover"></div>
+      <div class="abs" style="left:301.5px;top:8px;width:72px;height:7px;border-radius:4px;background:#E3E7EE"></div>
+      <div class="abs" style="left:48px;top:592px;font:600 38px Inter;color:#0E0E10;letter-spacing:-.015em" id="s5title">${h(P.card5[0])}</div>
+      <div class="abs" style="left:48px;top:646px;font:400 23px Inter;color:#9A9A98" id="s5sub">${h(P.card5[1])}</div>
+    </div>
+  </div>`);
+
+  // ── S6 two stacked cards ──
+  const card6 = (i, mod, word) => `
+    <div class="abs c6" id="s6c${i}" style="left:271px;top:0;width:538px;height:348px;border-radius:57px;overflow:hidden;transform-origin:269px 174px;
+         box-shadow:0 26px 60px ${rgba(C.navy, .20)},0 0 0 1px ${rgba(C.navy, .05)}">
+      <div class="abs" id="s6cov${i}" style="left:0;top:0;width:538px;height:348px;background-size:538px 348px"></div>
+      <div class="abs" style="left:22px;top:22px;height:44px;padding:0 20px;border-radius:22px;display:flex;align-items:center;
+           background:rgba(255,255,255,.20);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
+           box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,255,255,.22);font:600 21px Inter;color:#fff">${h(mod)}</div>
+      <div class="abs" style="right:22px;top:22px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;gap:4px;
+           background:rgba(255,255,255,.20);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
+           box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,255,255,.22)">
+        <i style="width:5px;height:5px;border-radius:50%;background:#fff"></i><i style="width:5px;height:5px;border-radius:50%;background:#fff"></i><i style="width:5px;height:5px;border-radius:50%;background:#fff"></i></div>
+      <div class="abs t6" id="s6g${i}" style="left:26px;bottom:-40px;font:700 178px Inter;letter-spacing:-.055em;line-height:1;white-space:nowrap;
+           color:transparent;-webkit-background-clip:text;background-clip:text;background-repeat:no-repeat">${h(word)}</div>
+      <div class="abs t6" style="left:26px;bottom:-40px;font:700 178px Inter;letter-spacing:-.055em;line-height:1;white-space:nowrap;
+           color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.55)">${h(word)}</div>
+    </div>`;
+  shot('s6', `
+  <div class="cam" id="s6cam">
+    <div class="bleed" style="background:${C.page}"></div>
+    ${card6(1, P.cards[1][0], P.cards[1][1])}
+    ${card6(0, P.cards[0][0], P.cards[0][1])}
+  </div>`);
+
+  // ── S7 logo disc ──
+  shot('s7', `
+  <div class="cam" id="s7cam">
+    <div class="bleed" style="background:radial-gradient(ellipse 900px 700px at 940px 980px,#FFFFFF 0,${C.page} 60%,#F8F9F9 100%)"></div>
+    <div class="abs" id="s7disc" style="left:0;top:0;width:168px;height:168px;border-radius:50%;background:#F6F6F6;transform-origin:84px 84px;
+         box-shadow:0 0 0 1px #E8E8EA,0 12px 30px ${rgba(C.navy, .08)};display:flex;align-items:center;justify-content:center">${markSVG('#16181D', 96)}</div>
+  </div>`);
+
+  // ── S8 end card ──
+  let copies = '';
+  for (let i = 0; i < 26; i++) copies += `<div class="abs w8c" style="left:0;top:0;white-space:nowrap;font:600 100px Inter;color:#F3F3F5;letter-spacing:-.02em;line-height:1;transform-origin:0 0">${h(P.name)}</div>`;
+  shot('s8', `
+  <div class="cam" id="s8cam">
+    <div class="bleed" style="background:radial-gradient(ellipse 820px 560px at 940px 940px,#272729 0%,#18181A 38%,#09090B 72%,#020204 100%)"></div>
+    <div class="abs" id="s8halo" style="left:0;top:0;width:900px;height:360px;border-radius:50%;background:radial-gradient(ellipse at center,${rgba(K.halo8, .20)},${rgba(K.halo8, 0)} 70%);transform-origin:450px 180px"></div>
+    <div class="abs" id="s8streaks">${copies}</div>
+    <div class="abs" id="s8wordglow" style="left:0;top:0;white-space:nowrap;font:600 100px Inter;color:#F3F3F5;letter-spacing:-.02em;line-height:1;transform-origin:0 0;opacity:.55">${h(P.name)}</div>
+    <div class="abs" id="s8word" style="left:0;top:0;white-space:nowrap;font:600 100px Inter;color:#F3F3F5;letter-spacing:-.02em;line-height:1;transform-origin:0 0;
+         text-shadow:0 0 3px rgba(243,243,245,.55),0 0 12px rgba(243,243,245,.28)">${h(P.name)}</div>
+  </div>`);
+}
+
+// ───────────────────────────── layout (after fonts) ─────────────────────────────
+const L = {}, WARN = [];
+// shrink an element's font until its text fits maxW; copy that already fits is left untouched
+function fitText(el, maxW, minPx, label) {
+  const ws = el.style.whiteSpace; el.style.whiteSpace = 'nowrap';
+  const r = document.createRange(); r.selectNodeContents(el);
+  const w = r.getBoundingClientRect().width;
+  if (w <= maxW) { el.style.whiteSpace = ws; return; }
+  const fs0 = parseFloat(getComputedStyle(el).fontSize), want = fs0 * maxW / w, fs = Math.max(minPx, want);
+  el.style.fontSize = fs.toFixed(2) + 'px';
+  WARN.push(want < minPx ? `${label}: too long — still ${Math.round(w * minPx / fs0 - maxW)}px over at the ${minPx}px floor; shorten it`
+    : `${label}: shrunk ${fs0}px → ${fs.toFixed(1)}px to fit`);
+}
+function layout() {
+  // S1 lockup — solve the name size so disc+gap+name+gap+pill spans x474–1063
+  const span = 1063 - 474, disc = 132;
+  const nm = $('s1name'), pl = $('s1pill');
+  const meas = (el, s) => { el.style.fontSize = s + 'px'; return el.getBoundingClientRect().width; };
+  $('s1').style.display = 'block';
+  const wN = meas(nm, 100) / 100;
+  pl.style.padding = '0'; const wP = meas(pl, 100) / 100;
+  // per unit name-size: gap1 .42, name wN, gap2 .34, pill = .56*wP + 2*.56 padding
+  const unit = .42 + wN + .34 + .56 * wP + 1.12;
+  let s = (span - disc) / unit, k = 1;
+  if (s < 34) { s = 34; k = span / (disc + unit * s); }
+  if (s > 58) s = 58;
+  nm.style.fontSize = s + 'px';
+  const nameX = disc + .42 * s;
+  nm.style.left = nameX + 'px'; nm.style.transform = 'translateY(-50%)';
+  const nW = nm.getBoundingClientRect().width;
+  pl.style.fontSize = (.56 * s) + 'px'; pl.style.height = (1.3 * s) + 'px'; pl.style.padding = `0 ${.56 * s}px`;
+  pl.style.left = (nameX + nW + .34 * s) + 'px';
+  L.lockK = k; L.pillBase = nameX + nW + .34 * s;
+  if (k < 1) WARN.push(`S1 lockup: name + pill too long — whole lockup scaled to ${(k * 100).toFixed(0)}% to fit x474–1063`);
+  // the hub card runs off the right edge of the frame, so fit to what's on screen at f40 (x792–1064), not the card
+  fitText($('s1cardname'), 272, 18, 'S1 hub card name');
+  fitText($('s1cardsub'), 272, 14, 'S1 hub card subtitle (hubSub)');
+  fitText($('s1nav0'), 140, 14, 'S1 hub nav label 1'); fitText($('s1nav1'), 140, 14, 'S1 hub nav label 2');
+  $('s1').style.display = 'none';
+
+  // S3 prompt — one line at 38px when it fits the glass, else wrap onto two lines (shrinking only if two won't do)
+  $('s3').style.display = 'block';
+  const tw = $('s3txtwrap'), tx = $('s3txt'), PW = 634;
+  tx.textContent = P.prompt;
+  L.promptLines = 1;
+  if (tw.getBoundingClientRect().width > PW) {
+    tw.style.whiteSpace = 'pre-wrap'; tw.style.width = PW + 'px';
+    let f3 = 38;
+    const lines = () => Math.round(tw.getBoundingClientRect().height / (46 * f3 / 38));
+    while (lines() > 2 && f3 > 30) {
+      f3 -= .5;
+      tw.style.fontSize = f3 + 'px'; tw.style.lineHeight = (46 * f3 / 38) + 'px';
+      $('s3caret').style.height = (42 * f3 / 38) + 'px'; $('s3caret').style.verticalAlign = (-8 * f3 / 38) + 'px';
+    }
+    L.promptLines = lines();
+    WARN.push(L.promptLines > 2 ? `S3 prompt: too long — ${L.promptLines} lines even at 30px (max 2); shorten it`
+      : `S3 prompt: wraps onto ${L.promptLines} lines${f3 < 38 ? ` at ${f3}px` : ''}`);
+  }
+  tx.textContent = '';
+  $('s3').style.display = 'none';
+
+  // S4 page — place the body so the key phrase's line bottom sits at y≈578
+  $('s4').style.display = 'block';
+  const body = $('s4body'); body.style.top = '0px';
+  const pg = $('s4page').getBoundingClientRect();
+  const kr = $('s4key').getClientRects()[0];
+  const kTop = kr.top - pg.top, kBot = kr.bottom - pg.top;
+  const B = 578 - kBot;
+  body.style.top = B + 'px';
+  $('s4title').style.top = (B - 116) + 'px';
+  $('s4crumb').style.top = (B - 174) + 'px';
+  $('s4body2').style.top = (B + body.getBoundingClientRect().height + 58) + 'px';
+  L.keyX = kr.left - pg.left; L.keyW = kr.width; L.keyBot = 578; L.keyTop = kTop + B;
+  fitText($('s4crumb'), 840, 18, 'S4 breadcrumbs');
+  fitText($('s4title'), 840, 40, 'S4 page title');
+  if (B - 174 < 40) WARN.push(`S4 body: key phrase sits on line ${Math.round(kBot / 58)} — title and crumbs pushed to y=${Math.round(B - 174)}; put the key phrase earlier`);
+  if (L.keyX + L.keyW > 880) WARN.push('S4 body: key phrase ends near the right edge — the cursor that lands under it may leave frame');
+  fitText($('s5title'), 579, 26, 'S5 card title');
+  fitText($('s5sub'), 579, 18, 'S5 card subtitle');
+  $('s4').style.display = 'none';
+
+  // S6 glass titles — align the frosted background with the card
+  $('s6').style.display = 'block';
+  // one size for both titles, so the wider word fits inside the card's side edges (only the bottom edge cuts)
+  const t6 = [...document.querySelectorAll('.t6')];
+  const widest = Math.max(...t6.map(el => el.getBoundingClientRect().width));
+  const fs = Math.min(178, 178 * (538 - 2 * 26) / widest);
+  t6.forEach(el => { el.style.fontSize = fs + 'px'; el.style.bottom = (-0.225 * fs) + 'px'; });
+  for (const i of [0, 1]) {
+    const g = $('s6g' + i), c = $('s6c' + i);
+    c.style.transform = 'none';
+    const cr = c.getBoundingClientRect(), gr = g.getBoundingClientRect();
+    g.style.backgroundImage = `url(${IMG['glass' + i]})`;
+    g.style.backgroundSize = '538px 348px';
+    g.style.backgroundPosition = `${cr.left - gr.left}px ${cr.top - gr.top}px`;
+  }
+  $('s6').style.display = 'none';
+
+  // S8 word metrics
+  $('s8').style.display = 'block';
+  const w8 = $('s8word').getBoundingClientRect();
+  L.w8 = w8.width; L.h8 = w8.height;
+  $('s8').style.display = 'none';
+}
+
+// ───────────────────────────── typing schedule ─────────────────────────────
+// first word legible at f121, last char at f150, ~1 char/frame, a hold every 2–3 chars
+function typingTimes() {
+  const s = P.prompt, first = s.indexOf(' ') + 1, n = s.length - first, T = [];
+  for (let i = 0; i < first; i++) T.push(121 - (first - 1 - i) * 1.0 - 0.0);
+  const gaps = [];
+  let since = 0, nextHold = 2 + (hash(1) > .5 ? 1 : 0);
+  for (let j = 0; j < n; j++) {
+    gaps.push(1); since++;
+    if (since >= nextHold && j < n - 1) { gaps[j] = 2; since = 0; nextHold = 2 + (hash(j + 7) > .5 ? 1 : 0); }
+  }
+  let total = gaps.reduce((a, b) => a + b, 0), target = 150 - 121, j = 3, guard = 0;
+  while (total > target && guard++ < 20000) {      // double up a few keystrokes (fast pairs)
+    const i = 1 + Math.floor(hash(j++ * 31) * (n - 2));
+    if (gaps[i] === 1 && gaps[i - 1] !== 0 && gaps[i + 1] !== 0) { gaps[i] = 0; total--; }
+  }
+  if (total > target) {                            // too many characters for whole-frame keys: spread them on half frames
+    const wt = Array.from({length: n}, (_, k) => .6 + .8 * hash(k * 13 + 5)), sum = wt.reduce((a, b) => a + b, 0);
+    let acc = 0;
+    for (let k = 0; k < n; k++) { acc += wt[k]; T.push(121 + Math.round(2 * target * acc / sum) / 2); }
+    return T;
+  }
+  guard = 0;
+  while (total < target && guard++ < 20000) {      // a short prompt simply finishes before f150
+    const i = Math.floor(hash(j++ * 53) * (n - 1));
+    if (gaps[i] === 1) { gaps[i] = 2; total++; }
+  }
+  let t = 121;
+  for (let k = 0; k < n; k++) { t += gaps[k]; T.push(t); }
+  return T;
+}
+let TYPE = [];
+const typedCount = f => { let c = 0; for (const t of TYPE) if (t <= f + 1e-6) c++; return c; };
+
+// ───────────────────────────── S1 ─────────────────────────────
+const HDR = [[0, 932], [2, 776], [5, 683], [10, 608], [24, 546], [37, 536]];
+const winOff = f => -ramp(f, 33, 41);
+const headerY = f => f <= 37 ? tbl(f, HDR) : 536 + winOff(f) - winOff(37);
+const WIN_OP = [[14, 0], [15, .53], [19, .7], [24, 1]];
+const C1X = [[27, 891], [30, 846], [34, 806], [39, 782], [44, 770], [47, 762], [50, 734], [53, 686], [56, 629], [59, 587], [63, 567], [67, 559], [71, 555], [72, 554.2]];
+const C1Y = [[27, 393], [30, 389.6], [34, 386.6], [39, 384.4], [44, 383], [47, 390], [50, 424], [53, 492], [56, 564], [59, 546], [63, 537], [67, 533], [71, 531], [72, 530.6]];
+const C1R = [[46, 0], [47, -3], [49, -52], [51, -100], [53, -104], [56, -80], [59, -42], [63, -16], [67, -7], [72, -4]];
+function s1Zoom(f) {
+  if (f <= 46) return 1;
+  if (f <= 60) return lerp(1, 1.2, E.io3((f - 46) / 14));
+  if (f <= 61) return 1.2;
+  return lerp(1.2, 1.04, E.in2((f - 61) / 10));
+}
+function r1(f) {
+  const bgc = mix(C.haze, C.page, E.out2(u01(f, 0, 28)));
+  $('s1bg').style.background = `radial-gradient(ellipse 1150px 470px at 940px 1590px,${rgba(K.glowB, 1)} 0%,${rgba(K.glowB, 0)} 72%),${bgc}`;
+  const veil = 1 - E.out2(u01(f, 0, 11));
+  $('s1veil').style.background = `radial-gradient(ellipse 900px 520px at 940px 1420px,${rgba(C.haze, .95)} 0%,${rgba(C.haze, 0)} 75%)`;
+  $('s1veil').style.opacity = veil;
+  const wo = winOff(f);
+  const win = $('s1win');
+  win.style.opacity = tbl(f, WIN_OP);
+  win.style.transform = `translateY(${wo.toFixed(2)}px)`;
+  // header
+  const hy = headerY(f), vy = vel(headerY, f);
+  const lock = $('s1lock');
+  lock.style.transform = `translateY(${(hy - 66).toFixed(2)}px) scale(${L.lockK})`;
+  lock.style.filter = filt(dblur('s1lockB', 0, Math.min(15, Math.abs(vy) * .13)));
+  const nm = $('s1name'), pl = $('s1pill');
+  nm.style.opacity = E.out2(u01(f, 1.6, 3.6));
+  nm.style.filter = filt(blur(10 * (1 - E.out2(u01(f, 2, 10)))));
+  pl.style.opacity = E.out2(u01(f, 3.8, 5.2));
+  pl.style.filter = filt(blur(18 * (1 - E.out3(u01(f, 4, 13)))));
+  pl.style.transform = `translate(${(15 * (1 - E.out3(u01(f, 4, 13)))).toFixed(2)}px,-50%)`;
+  $('s1disc').style.opacity = lerp(.7, 1, E.out2(u01(f, 0, 4)));
+  // ice ring
+  const ring = $('s1ring'), ro = E.out2(u01(f, 53, 59));
+  ring.style.opacity = ro;
+  ring.style.transform = `translate(${540 - 87}px,${(hy - 87).toFixed(2)}px) scale(${lerp(.9, 1, ro).toFixed(4)})`;
+  // camera
+  const z = s1Zoom(f), zv = Math.abs(vel(s1Zoom, f)) * 540;
+  const cam = $('s1cam');
+  cam.style.transform = `scale(${z.toFixed(5)})`;
+  cam.style.filter = filt(blur(Math.min(2.5, zv * .055)));
+  // cursor (screen space)
+  const cur = $('s1cur');
+  if (f < 27) { cur.style.opacity = 0; return; }
+  const cx = tbl(f, C1X), cy = tbl(f, C1Y);
+  const hover = lerp(1, 1.55, E.out3(u01(f, 56, 62)));
+  const press = 1 - .15 * E.out2(u01(f, 69, 70.6));
+  setCursor(cur, 's1curB', cx, cy, tbl(f, C1R), hover * press, vel(x => tbl(x, C1X), f), vel(x => tbl(x, C1Y), f), E.out2(u01(f, 27, 28.5)));
+}
+
+// ───────────────────────────── S2 ─────────────────────────────
+const HALO = [[72, 196], [75, 240], [78, 279], [81, 304], [84, 319], [86, 326], [88, 329]];
+const lockU = f => f >= 86 ? 0 : (Math.pow(.79, f - 72) - Math.pow(.79, 14)) / (1 - Math.pow(.79, 14));
+const S2_COL = [['s2b', 90], ['s2t', 0], ['s2m', 270], ['s2w', 180]];
+const S2_ROW = {s2w: [557.5, 507.5], s2b: [612, 507.5], s2t: [661, 507.5], s2m: [709, 507.5]};
+function r2(f) {
+  const base = g => 175 + 101 * Math.pow(.81, g - 72);
+  const s88 = base(88);
+  const ue = clamp((f - 88) / 12, 0, 1.1), ua = E.in2(ue);
+  const size = f <= 88 ? base(f) : s88 * Math.pow(40 / s88, ua);
+  const icx = f <= 88 ? 540 : lerp(540, 557.5, ua), icy = f <= 88 ? 540 : lerp(540, 507.5, ua);
+  const icon = $('s2icon');
+  icon.style.width = icon.style.height = size + 'px';
+  icon.style.borderRadius = (size * .28) + 'px';
+  icon.style.transform = `translate(${(icx - size / 2).toFixed(2)}px,${(icy - size / 2).toFixed(2)}px)`;
+  $('s2mark').style.transform = `scale(${(size * .58 / 100).toFixed(4)})`;
+  const hd = f <= 88 ? tbl(f, HALO) : 329 * size / s88;
+  const halo = $('s2halo');
+  halo.style.width = halo.style.height = hd + 'px';
+  halo.style.transform = `translate(${(icx - hd / 2).toFixed(2)}px,${(icy - hd / 2).toFixed(2)}px)`;
+  halo.style.opacity = 1 - u01(f, 91, 97);
+  // orbit
+  const Lk = lockU(f), r = 216 + 150 * Lk, th = -165 * Lk;
+  const thv = Math.abs(vel(g => -165 * lockU(g), f)) * Math.PI / 180 * r;
+  for (const [id, a0] of S2_COL) {
+    const el = $(id);
+    const a = (a0 + th) * Math.PI / 180;
+    let x = 540 + r * Math.cos(a), y = 540 - r * Math.sin(a), s = 92 * lerp(1, .82, Lk), rad = 26 / 92, rot = -th, b = Math.min(10, thv * .045);
+    if (f > 88) {
+      const stg = {s2w: 0, s2b: .02, s2t: .05, s2m: .08}[id];
+      const uu = E.in2(clamp((f - 88) / 12 - stg, 0, 1.1));
+      const [tx, ty] = S2_ROW[id];
+      const ax = 540 + 216 * Math.cos(a0 * Math.PI / 180), ay = 540 - 216 * Math.sin(a0 * Math.PI / 180);
+      x = lerp(ax, tx, uu); y = lerp(ay, ty, uu);
+      s = 92 * Math.pow((id === 's2w' ? 30 : 38) / 92, uu); rad = lerp(26 / 92, .5, uu); rot = 0;
+      const sp = Math.hypot(tx - ax, ty - ay) * 2 * Math.max(0, (f - 88) / 12 - stg) / 12;
+      b = Math.min(8, sp * .05);
+    }
+    el.style.width = el.style.height = s + 'px';
+    el.style.borderRadius = (s * rad) + 'px';
+    el.style.transform = `translate(${(x - s / 2).toFixed(2)}px,${(y - s / 2).toFixed(2)}px) rotate(${rot.toFixed(2)}deg)`;
+    el.style.filter = filt(blur(b));
+    el.style.opacity = E.out2(u01(f, 71.5, 73.5));
+  }
+  const cam = $('s2cam');
+  const cb = f < 88 ? 2.2 * Math.pow(.5, f - 72) : lerp(.3, 6, E.in2(ue));
+  cam.style.filter = filt(blur(cb));
+}
+
+// ───────────────────────────── S3 ─────────────────────────────
+const PAN = [[115, 0], [116, 3], [117, 11], [118, 28], [119, 50], [120, 72], [121, 89], [122, 101], [124, 114], [127, 121.6], [130, 125]];
+const C3X = [[102, 604], [104, 590], [106, 578], [108, 571], [110, 567.5], [113, 566], [117, 566], [125, 569], [135, 572], [158, 578]];
+const C3Y = [[102, 868], [104, 706], [106, 604], [108, 552], [110, 528], [113, 518], [117, 518], [125, 514], [135, 511], [158, 506]];
+const s3Drift = f => { const u = Math.max(0, f - 136) / 22; return 25 * 22 / 4.5 * Math.pow(u, 4.5); };
+const mblur = v => { v = Math.abs(v); return .3 * v * Math.min(1, v / 18); };   // speed → smear, gentle when slow
+function r3(f) {
+  const k = f - 101;
+  const camS = 1 + .05 * Math.pow(.81, k);
+  const camB = 3 * Math.pow(.74, k);
+  const dY = s3Drift(f), vY = vel(s3Drift, f);
+  const tilt = 6.5 * Math.pow(clamp((f - 136) / 22, 0, 1.1), 3);
+  const pan = tbl(f, PAN), vP = vel(g => tbl(g, PAN), f);
+  const cam = $('s3cam');
+  cam.style.transform = `translateY(${(-dY).toFixed(2)}px) perspective(1500px) rotateX(${tilt.toFixed(3)}deg) scale(${camS.toFixed(5)})`;
+  cam.style.filter = filt(dblur('s3camB', Math.min(5, vP * .12), Math.min(8, mblur(vY))), blur(camB));
+  $('s3pan').style.transform = `translateX(${pan.toFixed(2)}px)`;
+  // glass prompt — springs out from under the mark
+  const tg = f - 116;
+  const sw = spring(tg, .75, .475), sh = spring(tg - .4, .7, .56);
+  const w = lerp(50, 726, sw), h = lerp(36, 228, sh);
+  const gcx = lerp(557.5, 434, clamp(sw, 0, 1.03)), gtop = lerp(524, 568, clamp(sh, 0, 1.03));
+  const gl = $('s3glass');
+  gl.style.opacity = tg <= 0 ? 0 : E.out2(u01(f, 116, 117.6));
+  gl.style.width = w + 'px'; gl.style.height = h + 'px';
+  gl.style.borderRadius = Math.min(60, h / 2) + 'px';
+  gl.style.transform = `translate(${(gcx - w / 2).toFixed(2)}px,${gtop.toFixed(2)}px)`;
+  const gv = Math.abs(vel(g => spring(g - 116, .75, .475), f)) * 676;
+  gl.style.filter = filt(blur(Math.min(4, gv * .06)));
+  $('s3txt').textContent = P.prompt.slice(0, typedCount(f));
+  const inner = E.out2(u01(f, 117.5, 121));
+  $('s3txtwrap').style.opacity = inner; $('s3icons').style.opacity = inner;
+  const send = $('s3send');
+  send.style.opacity = inner;
+  send.style.transform = `translate(${(w - 51 - 30).toFixed(2)}px,${(h - 51 - 24).toFixed(2)}px)`;
+  // cursor
+  const cur = $('s3cur');
+  const press = 1 - .15 * Math.sin(Math.PI * u01(f, 113, 117));
+  setCursor(cur, 's3curB', tbl(f, C3X), tbl(f, C3Y), 0, 1.22 * press,
+    vel(g => tbl(g, C3X), f), vel(g => tbl(g, C3Y), f), E.out2(u01(f, 101.5, 103)));
+  $('s3tint').style.opacity = .78 * E.in2(u01(f, 154, 158.6));
+}
+
+// ───────────────────────────── S4 + S5 ─────────────────────────────
+const SCR = [[159, 420], [160, 315], [161, 210], [162, 170], [163, 140], [164, 116], [165, 96], [166, 81], [167, 67], [168, 55.5], [169, 45.5],
+  [170, 37], [171, 30], [172, 24.4], [173, 19.8], [174, 16.6], [175, 14], [176, 10.6], [177, 7.6], [178, 4.9], [179, 2.3], [180, 0], [183, -3], [186, -6]];
+const scrollY = f => f <= 186 ? tbl(f, SCR) : -6 - (f - 186);
+const SMEAR = [[159, 24], [160, 15], [161, 9], [162, 5.5], [163, 3.4], [164, 2.2], [165, 1.5], [166, .9], [167, .45], [168, .15], [169, 0]];
+const COV = [[187, 642], [189, 530], [191, 456], [193, 421], [196, 395], [198, 380.5], [200, 369], [202, 359.5], [205, 348]];
+const coverTop = f => f <= 205 ? tbl(f, COV) : 348 - 4 * (f - 205) - (f > 207 ? 1.1 * Math.pow(f - 207, 2) : 0);
+const CARDB = [[187, 3.2], [189, 3.8], [191, 3.0], [194, 1.8], [197, .9], [201, 0]];
+function r4(f) {
+  $('s4bg').style.background = mix(K.tintS4, C.page, E.out2(u01(f, 159, 165)));
+  const sy = scrollY(f), vs = vel(scrollY, f);
+  const page = $('s4page');
+  page.style.transform = `translateY(${sy.toFixed(2)}px)`;
+  const sm = tbl(f, SMEAR);
+  const pageB = f >= 187 ? 2.5 * E.out2(u01(f, 187, 196)) : 0;
+  page.style.filter = filt(dblur('s4pageB', sm * .12, sm), blur(pageB));
+  // cursor rides the scroll, stops under the key phrase, then drifts right
+  const tx = L.keyX + L.keyW * .28, ty = L.keyBot + 13;
+  const drift = f > 180 ? 1.4 * Math.pow(f - 180, 1.35) : 0;
+  const cx = tx + drift, cy = ty + sy;
+  setCursor($('s4cur'), 's4curB', cx, cy, 17, 1.18, f > 180 ? 1.89 * Math.pow(f - 180, .35) : 0, vs, E.out2(u01(f, 159, 160.5)));
+  // S5 card
+  const card = $('s5card');
+  if (f < 187) { card.style.display = 'none'; $('s4cam').style.filter = 'none'; return; }
+  card.style.display = 'block';
+  const ct = coverTop(f), vc = vel(coverTop, f);
+  const ex = E.in2(u01(f, 207, 214.6));
+  card.style.transform = `translateY(${(ct - 24).toFixed(2)}px) scale(${(1 - .05 * ex).toFixed(4)})`;
+  card.style.filter = filt(dblur('s5cardB', 0, Math.min(6, Math.abs(vc) * .04)), blur(tbl(f, CARDB)));
+  $('s4cam').style.filter = filt(blur(f >= 207 ? lerp(1, 7, E.in2(u01(f, 207, 214))) : 0));
+}
+
+// ───────────────────────────── S6 ─────────────────────────────
+const S6B = [[215, 12], [217, 7], [219, 3.8], [221, 1.8], [224, 0]];
+const s6Off = f => -3 * ramp(f, 226, 232) - .9 * Math.pow(Math.max(0, f - 237), 2.4);
+function r6(f) {
+  const k = f - 215, off = s6Off(f), voff = vel(s6Off, f);
+  const ya = 168 + 96 * Math.pow(.8, k) + off, sa = 1 + .08 * Math.pow(.8, k);
+  const yb = 552 + 375 * Math.pow(.76, k) + off;
+  const via = vel(g => 168 + 96 * Math.pow(.8, g - 215) + s6Off(g), f), vib = vel(g => 552 + 375 * Math.pow(.76, g - 215) + s6Off(g), f);
+  const inB = tbl(f, S6B), outB = 9 * E.in2(u01(f, 238, 244.6));
+  const a = $('s6c0'), b = $('s6c1');
+  a.style.transform = `translateY(${ya.toFixed(2)}px) scale(${sa.toFixed(4)})`;
+  b.style.transform = `translateY(${yb.toFixed(2)}px)`;
+  a.style.filter = filt(dblur('s6aB', 0, Math.min(10, Math.abs(via) * .06)), blur(inB + outB));
+  b.style.filter = filt(dblur('s6bB', 0, Math.min(10, Math.abs(vib) * .06)), blur(inB * 1.1 + outB));
+}
+
+// ───────────────────────────── S7 ─────────────────────────────
+const D7 = [[245, 569], [247, 523], [250, 491], [252, 478], [255, 468], [258, 462], [262, 458.6], [266, 456.6], [269, 456]];
+const discTop = f => f <= 269 ? tbl(f, D7) : 456;
+const discD = f => { if (f <= 287) return 168; const u = (f - 287) / 13; return lerp(168, 123, .1 * u + .9 * u * u * u); };
+function r7(f) {
+  const d = discD(f), top = discTop(f), cy = top + 84;
+  const disc = $('s7disc');
+  disc.style.transform = `translate(${540 - 84}px,${(cy - 84).toFixed(2)}px) scale(${(d / 168).toFixed(5)})`;
+  const vy = vel(discTop, f), vd = Math.abs(vel(discD, f));
+  disc.style.filter = filt(dblur('s7B', 0, Math.min(12, Math.abs(vy) * .42 + (f < 246 ? 3 : 0))), blur(Math.min(2, vd * .07)));
+}
+
+// ───────────────────────────── S8 ─────────────────────────────
+const WW = [[301, 1650], [302, 1350], [303, 1110], [304, 1049], [306, 925], [309, 734], [311, 678], [315, 612], [320, 563], [326, 540], [334, 525], [342, 516], [350, 492]];
+const wordW = f => f <= 350 ? tbl(f, WW) : 492 - 3 * (f - 350) - .116 * Math.pow(f - 350, 3.39);
+function r8(f) {
+  const w = wordW(f), v = vel(wordW, f), s = w / L.w8;
+  const place = (el, sc) => { el.style.transform = `translate(${(540 - L.w8 * sc / 2).toFixed(2)}px,${(540 - L.h8 * sc / 2).toFixed(2)}px) scale(${sc.toFixed(5)})`; };
+  const word = $('s8word'), wg = $('s8wordglow');
+  place(word, s); place(wg, s);
+  const endB = 3.5 * E.in2(u01(f, 350, 359));
+  word.style.filter = filt(dblur('s8wB', Math.min(22, Math.abs(v) * .055), 0), blur(endB));
+  wg.style.filter = filt(blur(10 + 30 * clamp(Math.abs(v) / 300)));
+  const halo = $('s8halo'), hs = w / 560;
+  halo.style.transform = `translate(90px,360px) scale(${hs.toFixed(4)},${(.85 + .15 * hs).toFixed(4)})`;
+  // zoom streaks: scaled, faded copies while the word is still flying in
+  const zs = clamp(Math.abs(v) / w, 0, .7), streakOn = 1 - E.out2(u01(f, 301, 310));
+  const copies = document.querySelectorAll('.w8c');
+  copies.forEach((el, i) => {
+    const t = (i + 1) / copies.length;
+    if (streakOn <= 0.002) { el.style.opacity = 0; return; }
+    place(el, s * (1 + zs * 1.4 * t));
+    el.style.opacity = (.16 * (1 - t) * streakOn).toFixed(4);
+    el.style.filter = filt(dblur('s8c' + i, 4 + 10 * t, 0));
+  });
+}
+
+// ───────────────────────────── shots + seek ─────────────────────────────
+const SHOTS = [
+  {id: 's1', f0: 0, f1: 71, render: r1}, {id: 's2', f0: 72, f1: 100, render: r2}, {id: 's3', f0: 101, f1: 158, render: r3},
+  {id: 's4', f0: 159, f1: 214, render: r4}, {id: 's6', f0: 215, f1: 244, render: r6}, {id: 's7', f0: 245, f1: 300, render: r7},
+  {id: 's8', f0: 301, f1: 359, render: r8}];
+let current = null;
+window.seek = function (f) {
+  const s = SHOTS.find(s => f >= s.f0 && f < s.f1 + 1) || SHOTS[SHOTS.length - 1];
+  if (current !== s) { if (current) $(current.id).style.display = 'none'; $(s.id).style.display = 'block'; current = s; }
+  s.render(f);
+  if (window.DEBUG) { const d = $('dbg'); d.style.display = 'block'; d.textContent = `f${f}`; }
+  return s.id;
+};
+
+window.stageReady = (async () => {
+  if (!P.body.some(b => b && typeof b === 'object' && typeof b.k === 'string')) throw new Error('copy.body needs one {"k": "key phrase"} entry');
+  if (LOGO) await prepLogo();
+  stage.style.background = C.page;
+  buildDOM();
+  await Promise.all([400, 500, 600, 700].map(w => document.fonts.load(`${w} 40px Inter`)));
+  await document.fonts.ready;
+  const art = {course: artCourse(440, 228), ref: artRef(627, 536), launch: artLaunch(538, 348), sound: artSound(538, 348)};
+  IMG.course = art.course.toDataURL(); IMG.ref = art.ref.toDataURL(); IMG.launch = art.launch.toDataURL(); IMG.sound = art.sound.toDataURL();
+  IMG.glass0 = frosted(art.launch, 538, 348).toDataURL(); IMG.glass1 = frosted(art.sound, 538, 348).toDataURL();
+  await Promise.all(Object.values(IMG).map(u => { const i = new Image(); i.src = u; return i.decode(); }));
+  $('s1cover').style.backgroundImage = `url(${IMG.course})`;
+  $('s5cover').style.backgroundImage = `url(${IMG.ref})`;
+  $('s6cov0').style.backgroundImage = `url(${IMG.launch})`;
+  $('s6cov1').style.backgroundImage = `url(${IMG.sound})`;
+  layout();
+  TYPE = typingTimes();
+  window.TYPING = TYPE.slice();
+  window.LAYOUT = {warnings: WARN, lockK: L.lockK, promptLines: L.promptLines, logo: LOGO ? {aspect: +LOGO.aspect.toFixed(3), tint: LOGO.tint} : null};
+  const q = new URLSearchParams(location.search);
+  window.DEBUG = q.has('debug');
+  window.seek(q.has('f') ? parseFloat(q.get('f')) : 0);
+  return true;
+})();
+</script>
+</body>
+</html>

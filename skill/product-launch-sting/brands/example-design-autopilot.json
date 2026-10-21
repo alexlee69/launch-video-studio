@@ -1,0 +1,23 @@
+{
+  "copy": {
+    "name": "Design AutoPilot",
+    "pill": "on Discord",
+    "mono": "DA",
+    "prompt": "Turn this campaign brief into a launch page",
+    "crumbs": ["Design AutoPilot", "Playbooks", "Campaign pages"],
+    "pageTitle": "Brief to page in one go",
+    "body": ["Drop a campaign brief in the channel and AutoPilot drafts the ", {"k": "whole campaign page"}, ", from hero visual to rules and rewards."],
+    "body2": "Review the draft in Discord, ask for changes in plain words, and send it to Figma when it looks right.",
+    "card5": ["Campaign page draft", "Ready in about 4 min"],
+    "cards": [["Skill 1", "Visuals"], ["Skill 4", "Comms"]],
+    "hubNav": ["Projects", "Chat"],
+    "hubSub": "Discord bot · 6 skills"
+  },
+  "palette": {
+    "page": "#FBFDFD", "haze": "#B3DADF", "ice": "#E2F3F4", "deep": "#134E5C", "sky": "#5EA7B6",
+    "navy": "#0D2930", "blue": "#1A73E8", "teal": "#1FC2B4", "mint": "#3DDC97", "white": "#FFFFFF"
+  },
+  "logoSvgPath": null,
+  "logoTint": true,
+  "music": {"mode": "synth", "transpose": -2}
+}
