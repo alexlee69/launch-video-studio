@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9ECF5"/></linearGradient>
+<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="36"/></filter></defs>
+<rect width="1000" height="600" fill="url(#g)"/><g filter="url(#b)"><circle cx="200" cy="160" r="140" fill="#7C5CFF" opacity="0.25"/><circle cx="820" cy="460" r="180" fill="#C6FF3D" opacity="0.35"/></g>
+<rect x="60" y="36" width="880" height="528" rx="24" fill="none" stroke="#111114" stroke-opacity=".35" stroke-width="4" stroke-dasharray="18 12"/>
+<text x="500.0" y="300.0" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="800" font-size="60" fill="#111114">YOUR SCREEN</text>
+<text x="500.0" y="360" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="27" fill="#111114" fill-opacity=".8">a screenshot or screen recording</text></svg>

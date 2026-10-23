@@ -1,0 +1,47 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "input": {
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young Black man in a backwards cap and white earbuds, bright orange running top, at an outdoor running track at golden hour, slightly out of breath, grinning at the camera. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+    "aspect_ratio": "9:16",
+    "raw": true,
+    "num_images": 2,
+    "seed": 7512,
+    "output_format": "jpeg"
+  },
+  "submitted": "2026-10-22T07:37:03.216Z",
+  "status": [
+    {
+      "t": 6,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 18,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a1628a-c85e-7b00-ac3e-5e9e47043d73",
+  "result": {
+    "images": [
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/7GWXqIGBtwXutjV0VXQzZ_247dc5d4f0a2452f8518ef4e6810bf82.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      },
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/50E256VsT8j6Ouxr2Ihi1_5784d30deb4f4bb08d26aa0f55fe17c3.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 7512,
+    "has_nsfw_concepts": [
+      false,
+      false
+    ],
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young Black man in a backwards cap and white earbuds, bright orange running top, at an outdoor running track at golden hour, slightly out of breath, grinning at the camera. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark."
+  },
+  "finished": "2026-10-22T07:37:24.058Z"
+}

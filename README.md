@@ -1,14 +1,31 @@
 # launch-video-studio
 
 My launch-video toolkit and the Cue launch video work, saved from the old laptop on 2026-10-20 and moved to my
-personal GitHub (`alexlee69`) on 2026-10-21.
+personal GitHub (`alexlee69`) on 2026-10-21. Updated on 2026-10-23 with the skill as it is installed today and the
+Higgsfield-recreation jobs.
 
-**Not included yet:** a speed-up for layer export (`--layers` QA in parallel workers) that was still being built on
-2026-10-21. This repo has the last version of the skill that passed its reviews and QA.
+**Skill state (2026-10-23):** `skill/` is the live copy of the skill, which includes:
+- **The 2026-10-21 work:** the reel and film kits, the review sheet (`--sheet`), the hf02 motion upgrade of the film
+  blocks, and the `--layers` export speed-up.
+  - It was reviewed on 2026-10-22, with 57 confirmed findings, 3 of them high.
+  - Their fix round is staged on the Mac (`Design-AutoPilot-stable/qa/launch-video-skill-review/fix`). It is **not
+    merged** and not in this repo.
+- **The 2026-10-22 port:**
+  - photoreal AI footage through my own fal.ai key (`video/FOOTAGE.md`);
+  - a reference film recreated frame for frame, with proofs (`video/RECREATE.md`);
+  - the `music: film` score style.
+
+  It passed five review-and-fix rounds, 3 QA runs and an 87-check acceptance harness. Its record, including
+  `PATCHES.md` for re-applying it, is on the Mac in `Design-AutoPilot-stable/qa/hf02full-skill-port/`, not in this repo.
 
 - **The tool:** `skill/product-launch-sting/` is a Claude Code skill.
   - Mode A: a fixed 12 s square launch sting.
-  - Mode B (`video/`): launch videos designed from scratch (brief → beats.yaml → storyboard → film in 16:9 / 9:16 / 1:1 with QA), plus transparent UI clips and per-element layers for my own edits.
+  - Mode B (`video/`) covers:
+    - launch videos designed from scratch (brief → beats.yaml → storyboard → film in 16:9 / 9:16 / 1:1 with QA);
+    - reels and Higgsfield-style launch films on AI footage;
+    - AI footage made through fal;
+    - frame-for-frame recreations;
+    - transparent UI clips and per-element layers for my own edits.
   - Start with `video/GUIDE.md`.
 - **The Cue job:** `launch-videos/cue/` (30 s film + 16.45 s cutdown, all QA PASSED) and `launch-videos/cue-overlays/` (UI-only s5–s7).
   - **Status and rules:** `HANDOVER-cue-video.md`. Paste it into a new Claude session to pick up where I left off.
@@ -21,13 +38,34 @@ personal GitHub (`alexlee69`) on 2026-10-21.
 | `launch-videos/cue/`, `cue-overlays/` | Cue jobs: brief, beats.yaml, films, storyboards, captions, master WAVs, thumbnails |
 | `launch-videos/steady-sample/`, `edge-test/`, `dark-ui-check/`, `layers-probe/` | Test jobs for the 3 QA runs after any change to the tool |
 | `launch-videos/qa-probe/`, `qa-probe2/` | Deliberately broken jobs that **must FAIL** QA |
+| `launch-videos/film-sample/`, `reel-sample/` | Sample jobs for the film kit (Orbit launch film) and the reel kit (Popframe reel): beats.yaml, assets, films, storyboards, captions, master WAVs |
+| `launch-videos/hf02-full/` | The 63.6 s Cue film: Higgsfield film 02's motion, frame for frame, with our own story, copy, cast and score. Hand-built (`story.js`, `scenes/`, `motion/`, `lib/`, `audio.mjs`, `render.mjs`, `tools/`; start with `BRIEF.md`). `film.mp4` is the shareable master with our score. `out/fal/v2` and `v3` hold the paid fal footage: the 8 `*-fit.mp4` clips the film plays, plus the raw generations, key stills and request logs. `ref/` keeps only the measurements (cut list, breakdown JSON) |
+| `launch-videos/hf02-recreate/` | The approved 7 s motion test (`MOTION-SPEC.md`) |
+| `launch-videos/hf02-skill/` | Proof job for the hf02 motion upgrade of the film blocks: proof films, storyboards, the measured curves and `ANSWERS-measurements.md` |
+| `HANDOVER-hf02-motion.md` | Handover for the hf02 motion work |
 | `launch-stings/design-autopilot-test/` | Mode A test job |
 | `experiments/cue-painted/` | "Saturday", a 34 s hand-painted Cue short on JohnHeibel/ClaudeAnimationBase (MIT, licence kept). Share-size MP4s are in `out/` |
 | `experiments/cue-launch/` | Early Cue proof cut |
 | `experiments/product-sting/` | The original "Frame by Frame" sting rebuild that became mode A |
 | `memory/` | My Claude memory notes for this work (rules and traps) |
 
-**Left out on purpose**, because each one regenerates from the job: render frames (`out/`), the test jobs' clips and layers, and audio stems.
+**Left out on purpose:**
+- **Anything that regenerates from the job:**
+  - the jobs' render frames and output (`out/`). The experiments keep their share-size MP4s in `out/`.
+    hf02-full keeps `out/fal/v2` and `v3`, while its first, draft-guided generation (`plate1-h3max*`) stays on the Mac.
+  - the test jobs' clips, layers and review sheets;
+  - audio stems and run logs (`*.log`). The measurement logs under `hf02-full/tools/*/logs` and the fal request
+    records (`.fal.json`, `.input.json`) are kept.
+- **Anything that carries another film's frames or audio.** It stays on the Mac:
+  - the Higgsfield reference videos;
+  - `ref/` frames, sheets and audio;
+  - comparison sheets and side-by-sides;
+  - the PRIVATE temp-track copies.
+- **Scratch jobs:** `breakdown-qa`, plus `film-kit-dev` and `reel-dev`, which the two sample jobs superseded.
+- **`hf01-study`:** the Higgsfield film 01 study started on 2026-10-23. It is still in progress, and its `ref/` is reference
+  media.
+- **`hf02-skill/baseline`:** a tarball of the old skill.
+- **Secrets:** the fal key lives in `~/Downloads/launch-videos/.env`, never here.
 
 **Heavy files** are in two GitHub Releases (about 1.15 GB), rebuilt from the local job folders on 2026-10-21.
 
@@ -44,7 +82,13 @@ personal GitHub (`alexlee69`) on 2026-10-21.
 
 ## Restore on a new Mac
 
-You need Node ≥ 18, ffmpeg 8 + ffprobe (`brew install ffmpeg`), Google Chrome and the GitHub CLI.
+You need:
+- Node ≥ 18;
+- ffmpeg 8 + ffprobe (`brew install ffmpeg`);
+- Google Chrome;
+- the GitHub CLI;
+- for the footage and recreate tools and the hf02 job tools: python3 with numpy and Pillow (`pip3 install numpy pillow`),
+  and curl.
 
 ```bash
 git clone https://github.com/alexlee69/launch-video-studio.git ~/launch-video-studio
@@ -74,12 +118,24 @@ mkdir -p ~/Downloads/launch-videos/cue/layers && cd ~/Downloads/launch-videos/cu
 
 To run the experiments, run `npm ci` in `experiments/cue-painted/` (and in `experiments/product-sting/`).
 
+The two hand-built hf02 jobs use the skill's `node_modules` through a link:
+
+```bash
+for j in hf02-full hf02-recreate; do ln -s ~/.claude/skills/product-launch-sting/node_modules ~/Downloads/launch-videos/$j/node_modules; done
+```
+
+To make AI footage with `video/footage/gen.mjs`, put the fal key in `~/Downloads/launch-videos/.env` as one line,
+`FAL_KEY=<key>`, then run `chmod 600` on it. Keys are at fal.ai/dashboard/keys.
+
 **Claude memory:** copy `memory/*.md` into the new project's memory folder (`~/.claude/projects/<project-path>/memory/`) and add the lines from `memory/MEMORY.md` to its index. Alternatively, ask Claude to read `memory/` at the start of a session.
 
 **Check after restoring:**
 1. Run `node ~/.claude/skills/product-launch-sting/video/lv.mjs --job ~/Downloads/launch-videos/steady-sample --storyboard`. It should write the storyboard PNG + PDF in a few seconds.
 2. A full `--film` re-renders frames, because `out/` wasn't saved.
 3. `launch-videos/layers-probe/probe.mjs` imports the skill from the absolute path `/Users/bytedance/.claude/...`. Edit that line if your home folder has a different name.
+4. hf02-full's film build (`render.mjs`, `audio.mjs`) uses relative paths. A few of its measurement tools don't:
+   `tools/cutcheck.py`, `tools/progress_sheet.py`, `tools/fal/look_stats.py` and `tools/hf02_skill_answers.py` hard-code
+   `/Users/bytedance/...`. Some also read `ref/frames`, which isn't saved here.
 
 ## Still open (from the handover)
 
@@ -96,5 +152,12 @@ To run the experiments, run `npm ci` in `experiments/cue-painted/` (and in `expe
    - a team of agents splits one job
    - the app-store buttons and URL
 3. **Optional polish:** the phone screens in s3–s5 only fill their top ~40 %.
+4. **The 2026-10-21 review's fix round** (57 findings) is staged on the Mac and not yet merged into the skill. When it
+   merges, re-apply the hf02 port's edits as the port's `PATCHES.md` says.
+5. **hf02-full stand-ins:** the mascots (our own crew) and the app screens stay until Manus's official kit arrives. The
+   Cue claims in `story.js` need Manus to confirm them.
 
-The Cue logos, characters, fonts and screens in these files are stand-ins or painted reinterpretations. Swap in the official brand-kit assets before anything goes public.
+The Cue logos, characters, fonts and screens in these files are stand-ins or painted reinterpretations, with one
+exception: hf02-full uses two official files as supplied, the Cue app icon and the Manus hand mark
+(`brand/cue/official/`). Swap in the official brand-kit assets before anything goes public, and keep this repo private:
+it holds Manus brand files.

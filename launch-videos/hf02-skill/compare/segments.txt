@@ -1,0 +1,9 @@
+| Track (key) | frames | tx max / mean | ty max / mean | worst frame | not compared |
+|---|---|---|---|---|---|
+| A (n300) n300–311 | 12 | 2.67 / 0.47 | 0.94 / 0.18 | n311 (-2.7, -0.9) | — |
+| B1 (n325) n312–333: entrance + pan | 23 | 4.79 / 1.39 | 1.28 / 0.31 | n333 (+4.8, -0.3) | — |
+| B2 (n345) n334–356: pan tail + tilt | 24 | 3.75 / 0.69 | 1.47 / 0.66 | n335 (-3.8, +1.3) | — |
+| C0r (n372) n357–371: entrance | 13 | 6.60 / 2.96 | 17.16 / 7.96 | n362 (+4.8, +17.2) | n357: reference dissolve frame (ref s .55, ncc .42); n358: reference tracker reads s .48 (dissolve/zoom, not a camera); n359: reference tracker reads s .85 |
+| C0f (n372) n372–388 | 17 | 4.17 / 1.97 | 6.83 / 3.66 | n384 (-3.3, +6.8) | — |
+| D1 (n470) n465–483: entrance | 20 | 1.32 / 0.37 | 2.97 / 1.22 | n477 (-0.5, -3.0) | — |
+| D2 (n500) n484–509: scroll + exit | 25 | 1.50 / 0.54 | 5.21 / 2.31 | n488 (+1.1, -5.2) | n484: tracker lost lock on both films at the 44 px/f scroll (ref ncc .61, s 1.07; ours ncc .68); n485: same (ref ncc .68, ours ncc .13–.68) |

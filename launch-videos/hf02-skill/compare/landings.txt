@@ -1,0 +1,4 @@
+row 0 drop, lowest frame (blue)          ref n369  ours n369  Δ +0
+row 1 lands (orange)                     ref n397  ours n397  Δ +0
+row 4 lands (ref blue / ours green)      ref n434  ours n434  Δ +0
+row 5 lands (purple)                     ref n438  ours n438  Δ +0

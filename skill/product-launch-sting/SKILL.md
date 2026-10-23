@@ -1,6 +1,6 @@
 ---
 name: product-launch-sting
-description: "Make product launch videos and UI motion clips, rendered in code with automated QA. Mode A: a fixed 12-second square (1080×1080) Apple-keynote-style launch sting from 7 brand inputs (4 review stills, then a 59.94 fps MP4 with synthesized music, −14 LUFS). Mode B (video/GUIDE.md): a launch, feature or teaser video designed from scratch with the user — brief → script → beat grid → storyboard stills → animatic → film in 16:9 / 9:16 / 1:1 with cutdowns, original music, optional footage and voiceover — or UI mockup clips (phone/browser flows, prompt typing, agent steps, approval cards, notifications) exported as transparent ProRes 4444 to drop into the user's own edit, or any shot split into per-element transparent layers (plus an After Effects import script) to polish by hand in After Effects or CapCut. Use when the user asks for a launch sting, product launch video, launch animation, promo or teaser video, motion promo, a script or storyboard for a launch video, UI mockup animations or overlay clips, editable layers of a shot for After Effects or CapCut, or says \"make a launch video/sting for <product>\"."
+description: "Make product launch videos, reels and UI motion clips in code, with automated QA. Mode A: a fixed 12 s square sting from 7 brand inputs. Mode B (video/GUIDE.md): videos designed with the user (brief, script, beat grid, storyboard, 16:9 / 9:16 / 1:1 film, music, voiceover); reels on AI footage (stickers, floating UI cards, splits, captions, comment CTA); Higgsfield-style launch films with product UI over footage; photoreal AI footage made here via the user's fal.ai key (FLUX → MiniMax H3), graded to a reference, app screens pinned onto phones; a reference film recreated frame for frame with our own content, an original on-beat score and side-by-side proof; overlay clips and per-element layers for CapCut / After Effects; reference breakdowns, a track's BPM, review sheets. Use for a launch sting, video or film, promo, teaser, reel / TikTok / Shorts, AI footage, motion graphics over AI video, recreating a reference video, a storyboard, UI or overlay clips, layers, or \"make a launch video/reel for <product>\"."
 ---
 
 # Product launch videos
@@ -10,14 +10,28 @@ description: "Make product launch videos and UI motion clips, rendered in code w
 - **A — the 12 s sting** (this file, below): the user wants the quick, fixed, square keynote-style sting and can give
   7 inputs (name, logo, colours, prompt line, answer page, two feature names, music). Timing and animation are fixed.
 - **B — from scratch** (`video/GUIDE.md` — read it before doing anything else in this mode): any other launch, feature
-  or teaser video (their own story, length, 16:9 / 9:16 / 1:1, cutdowns, footage, voiceover), **or UI mockup clips for
-  their own edit** (transparent ProRes 4444 per shot at their edit's frame rate, with matching UI sound effects), **or
-  a shot split into per-element transparent layers** to polish by hand in After Effects or CapCut (`--layers`: one
-  movie per element, an After Effects import script with live text, a manifest).
-  Staged with approval gates: brief → script → beat grid → storyboard stills → animatic → film + QA → deliverables.
+  or teaser video (their own story, length, 16:9 / 9:16 / 1:1, cutdowns, footage, voiceover), **or a reel or launch
+  film on their AI footage** (GUIDE → "Reels and launch films": the reel blocks sticker / float / split / cta + captions,
+  the film blocks lockup / type / scene / agent / roster / stack / wall, momentum `drift-*` cuts and camera fields measured
+  on a Higgsfield film; `--init --kit reel|film` starts one), **or UI
+  mockup clips for their own edit** (transparent ProRes 4444 per shot at their edit's frame rate, with matching UI sound
+  effects — also the way to lay motion design over AI footage in CapCut), **or a shot split into per-element
+  transparent layers** to polish by hand in After Effects or CapCut (`--layers`: one movie per element, an After Effects
+  import script with live text, a manifest), **or a reference breakdown** of a reel they saved (`--breakdown FILE`:
+  shots, transitions, pacing, tempo, contact sheets, a draft timing; GUIDE → "Reference breakdown") **or a track's
+  tempo** (`--tempo FILE`).
+  **AI footage made here** (`video/FOOTAGE.md`): photoreal key frames → MiniMax H3 video through the user's own fal.ai
+  key (a dry run with the cost until they approve), conformed to the film's frame grid, graded to a reference's measured
+  look, the app's screen pinned onto phones held in the shot. **A reference film recreated frame for frame**
+  (`video/RECREATE.md`): its cuts, camera moves and beat grid with our own story, copy and official brand art, an
+  original score in the launch-film style on its grid (`music: film`), and side-by-side proof (`compare.py`).
+  Staged with approval gates: brief → script → beat grid → storyboard stills → animatic → film + QA → review sheet
+  (`--sheet`: per-shot notes the user types, you apply) → deliverables.
 
 If it isn't clear which they want, ask one question: "the 12-second template sting, or a video we script and
-storyboard together — or UI clips to drop into your own edit?"
+storyboard together (a launch film, or a reel on your AI footage) — or UI clips to drop into your own edit?" Reels,
+launch films, AI footage, frame-for-frame recreations, reference breakdowns and tempo checks are all mode B of this
+one skill.
 
 # Mode A — product launch sting
 

@@ -1,0 +1,21 @@
+---
+name: manus-reel-style-gap
+description: Alex runs Manus content from Nov 2026 with no known editor; wants Higgsfield-IG-style reels — what mode B lacks for that
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: 8e1137f0-9b19-4ad0-89b9-c5eeba56cfdd
+  modified: 2026-10-22T00:11:01.207Z
+---
+
+2026-10-21: Alex (CapCut-only, not a motion designer) asked how to cover launch videos + heavy-motion reels "like @higgsfield.ai on Instagram" at Manus. Breakdown of 4 Higgsfield reels (Genjutsu tutorial 9:16 35 s, Academy monkey 16:9 80 s, Wan 3.0 41 s, AI Influencer 49 s): ~80 % AI-generated footage cut fast; the motion layer is a small repeatable kit — sticker title cards (bold italic, outlined, slanted, logo co-brand), smear/whip streak transitions, floating phone/UI card showing input→output, before/after split screens, "INPUT" focus brackets, kinetic captions, a "Comment WORD to get the link" end card.
+
+**Why:** [[launch-video-mode-b]] already covers UI-heavy launches (prompt/agent-step blocks fit Manus), but its Limits say live action can't be generated and it has no reel-style graphics.
+
+**How to apply:** extend product-launch-sting (never a parallel skill, [[feedback-one-skill-per-domain]]): a reel style pack of blocks + cutting to a supplied track's beats + a reference-breakdown step ([[instagram-reel-frame-capture]]) + an AI-footage leg. Footage options checked 2026-10-21: official Higgsfield MCP `https://mcp.higgsfield.ai` (Veo 3.1 / Sora 2 / Kling 3.0 / Seedance 2.0, paid credits, user adds it in Claude settings); Figma MCP's Weave tools exist but say "Figma account not linked to Weave". CapCut alpha import still untested.
+
+2026-10-21 later: Alex said "start with the graphics blocks and the reference breakdown" and gave three Higgsfield official films (`~/Downloads/higgsfield01-03.mp4`, 16:9, 64–78 s). They're a SECOND style, and the more Manus-relevant one: AI cinematic footage + light agent/product UI composited into it (prompt bar over footage, message bubble by a phone, floating words around a mascot, status pills with blob mascots, streamed agent replies, agent roster, 3D card stacks, floating video walls, co-brand lockups, kinetic type zooming through camera, glitch/tunnel transitions, letterboxing). Build split: IG-reel kit (sticker/split/float/cta/captions) in `launch-videos/reel-dev/`, launch-film kit (scene/agent/roster/type/lockup/stack/wall) in `launch-videos/film-kit-dev/`, both as job-local custom blocks until the layers-speedup session finished its engine verification (engineHash covers every engine/ + engine/blocks/ file, so adding a block file stales other sessions' frames), then port to engine/blocks. `lib/breakdown.mjs` = the reference breakdown.
+
+Status ~05:00 2026-10-21: W2 breakdown DONE (exact-frame cuts on fixtures; Higgsfield films = 87 BPM but cut to story, 1–2 cuts on the beat; edge-test job's track is really 120 BPM, not the declared 124). W4 engine features (universal bg/letterbox, glitch/smear/tunnel/flash, media plate keys) MERGED into live after a pixel-identical regression; rollback snapshot at the session scratchpad `live-pre-merge/`. W1 reel kit + W3 film kit done as dev jobs (films QA PASSED, all layers pass). Port worker now moving them into engine/blocks, with samples planned at `launch-videos/film-sample/` + `reel-sample/`. After the merge every older job's frames read as stale (engine hash changed); re-render before re-QA. Still owed: Sonnet→Codex→Opus review, 3 QA, Alex's live test, no commit/push without his OK (the backup repo alexlee69/launch-video-studio isn't synced).
+
+Status 17:05 2026-10-21: PORT DONE in live (23 built-in blocks; report at the session scratchpad `PORT-REPORT.md`). Two decisions: QA's content reference hides bg footage (footage counts as content; no threshold moved), and copy rewritten off Higgsfield's lines (hf01 "Need a … ASAP", hf02 names Research/Script, "Find the signal" …). Broken/undecodable images are now refused at --grid and at build. Samples `film-sample/` + `reel-sample/` QA PASSED in all 3 aspects; reel-dev/film-kit-dev are SUPERSEDED (film-kit-dev no longer renders: reserved `footage` layer). Next: the hf02 motion upgrade ([[hf02-motion-recreation]] handover), built in a scratchpad staging copy and merged only after pixel regression.

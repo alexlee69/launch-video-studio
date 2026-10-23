@@ -1,0 +1,9 @@
+{
+  "prompt": "Handheld camera, slightly unsteady and organic, like a documentary operator. Over the shot the camera pushes in from this wide view across the kitchen table toward her, ending on a close-up of her hands typing on the laptop keyboard beside the red mug. She types quickly, pauses for a beat, presses one key firmly with her right index finger, then reaches for the mug with her left hand and lifts it toward her lips. Real-time, natural, candid motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+  "image_url": "@plate1-key_1-clean.jpg",
+  "duration": 6,
+  "resolution": "1080P",
+  "prompt_expansion_mode": "disabled",
+  "seed": 5309,
+  "enable_safety_checker": true
+}

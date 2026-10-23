@@ -19,7 +19,8 @@ export default {
       const L = split(ctx, { side: s.side, stackSquare: true });
       head = ctx.text(s.text, { size: headSize(ctx, L.mode), maxW: L.text.w, lines: headLines(ctx, L.mode), align: L.text.align, layer: 'headline' });
       placeText(ctx, head, L.text);
-      cx = L.vis.cx; area = { w: L.vis.w, h: L.mode === 'stack' ? H - (head.offsetTop + head.offsetHeight) - H * .06 : L.vis.h };
+      const y1 = ctx.picture ? ctx.picture.y1 : H;                 // the picture's bottom (above a letterbox bar)
+      cx = L.vis.cx; area = { w: L.vis.w, h: L.mode === 'stack' ? y1 - (head.offsetTop + head.offsetHeight) - H * .06 : L.vis.h };
       cy = L.mode === 'stack' ? head.offsetTop + head.offsetHeight + 40 * u + area.h / 2 : H / 2;
     }
     const pw = Math.min((s.width || 640) * u, area.w), ph = Math.min(area.h, pw * 1.25);

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9AA0A8"/><stop offset="1" stop-color="#5C6168"/></linearGradient>
+<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="43"/></filter></defs>
+<rect width="1280" height="720" fill="url(#g)"/><g filter="url(#b)"><circle cx="300" cy="220" r="180" fill="#C8CCD2" opacity="0.8"/><circle cx="980" cy="520" r="240" fill="#3E4248" opacity="0.7"/></g>
+<rect x="77" y="43" width="1126" height="634" rx="29" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="4" stroke-dasharray="22 14"/>
+<text x="640.0" y="360.0" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="800" font-size="72" fill="#FFFFFF">BEFORE</text>
+<text x="640.0" y="432" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="32" fill="#FFFFFF" fill-opacity=".8">replace with your input image or clip</text></svg>

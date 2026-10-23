@@ -1,7 +1,7 @@
 // Mastering, muxing and clip encoding.
 import { join } from 'node:path';
 import { writeFileSync, readFileSync, rmSync } from 'node:fs';
-import { SR, ff, measureLoudness } from './common.mjs';
+import { SR, ff, ffAsync, measureLoudness } from './common.mjs';
 
 // raw.wav → master.wav at −14 LUFS with true peak ≤ −1 dBTP *after* the AAC encode the mux uses, exactly `dur` seconds,
 // no fade except the last 60 ms. AAC drops the air band, so the encoded audio can read a few tenths of a LU quieter
@@ -65,14 +65,17 @@ export function mux({ framesDir, fps, audio, out, crf = 16, scale = null, start 
 }
 
 // transparent clip: ProRes 4444 with alpha (Premiere, Final Cut, Resolve, After Effects) and/or WebM VP9 alpha (web, CapCut)
-export function encodeAlpha({ framesDir, fps, out, webm = false, start = 0 }) {
+function alphaEncodes({ framesDir, fps, out, webm = false, start = 0 }) {
   // both: RGB → BT.709 limited (swscale defaults to 601), tags stamped with setparams (ffmpeg 8 drops the CLI ones)
   const tag = fmt => `scale=out_color_matrix=bt709:out_range=tv,format=${fmt},setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv`;
-  ff(['-framerate', String(fps), '-start_number', String(start), '-i', join(framesDir, '%05d.png'), '-vf', tag('yuva444p10le'), '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le',
-    '-alpha_bits', '16', '-vendor', 'apl0', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv', out], `prores ${out}`);
-  if (webm) ff(['-framerate', String(fps), '-start_number', String(start), '-i', join(framesDir, '%05d.png'), '-vf', tag('yuva420p'), '-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p', '-b:v', '0', '-crf', '22',
-    '-row-mt', '1', '-auto-alt-ref', '0', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv', out.replace(/\.mov$/, '.webm')], `webm ${out}`);
+  return [[['-framerate', String(fps), '-start_number', String(start), '-i', join(framesDir, '%05d.png'), '-vf', tag('yuva444p10le'), '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le',
+    '-alpha_bits', '16', '-vendor', 'apl0', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv', out], `prores ${out}`],
+  ...(webm ? [[['-framerate', String(fps), '-start_number', String(start), '-i', join(framesDir, '%05d.png'), '-vf', tag('yuva420p'), '-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p', '-b:v', '0', '-crf', '22',
+    '-row-mt', '1', '-auto-alt-ref', '0', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv', out.replace(/\.mov$/, '.webm')], `webm ${out}`]] : [])];
 }
+export function encodeAlpha(o) { for (const [args, what] of alphaEncodes(o)) ff(args, what); }
+// the same encodes without blocking (--layers encodes each pass while the next ones render)
+export async function encodeAlphaAsync(o) { for (const [args, what] of alphaEncodes(o)) await ffAsync(args, what); }
 // preview of a transparent clip over a flat colour, so it can be watched anywhere
 export function previewOver({ mov, bg, out, W, H, fps = 30 }) {
   ff(['-i', mov, '-filter_complex', `color=c=${bg.replace('#', '0x')}:s=${W}x${H}:r=${fps}[b];[b][0:v]overlay=shortest=1,format=yuv420p`, '-c:v', 'libx264', '-crf', '18', '-movflags', '+faststart', out], `preview ${out}`);

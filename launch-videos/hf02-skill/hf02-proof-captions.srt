@@ -1,0 +1,30 @@
+1
+00:00:00,000 --> 00:00:01,383
+Build me a hit app. No half measures
+Scouting: On it. Ranking the year's breakout apps and what made them spread...
+
+2
+00:00:01,383 --> 00:00:02,883
+Build me a hit app. No half measures
+Scouting: On it. Ranking the year's breakout apps and what made them spread...
+
+3
+00:00:02,883 --> 00:00:06,483
+Your crew
+Scout
+Critic
+Analyst
+Director
+Builder
+Writer
+View all 15 agents
+
+4
+00:00:06,483 --> 00:00:07,983
+Build me a hit app. No half measures
+Got it. Pulling every breakout app launch from the last 90 days...
+Reading reviews: Sorting 2,400 reviews into what people love, skip, and still ask for.
+
+5
+00:00:07,983 --> 00:00:08,983
+Your crew, on it.

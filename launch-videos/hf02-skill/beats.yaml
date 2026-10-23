@@ -1,0 +1,101 @@
+# hf02 motion proof — rebuilds 7 s of a measured launch film (film 02, 00:10–00:17) from built-in blocks only, to prove
+# the skill's measured motion: drift (momentum) cuts, camera fields, the agent window, the roster list.
+# Film frame i (30 fps) = reference frame n(i + 270); shots a–d cover n300–509 after a 30-frame lead-in. Lengths are
+# sec: = frames / 30 so every cut lands where the reference's does (n311.5, n356.5, n464.5, n509.5).
+# The cast and copy are original (the recreation's Scout, Critic, Analyst, Director, Builder, Writer); nothing from the
+# reference film is used. Comparison: hf02-skill/compare/ (`bash compare/run.sh`: the job's tracker vs ref/curves).
+# Fitted to the measured curves (the handover's suggestions in brackets): drift a out 1.07 [1], b in 1.68 [1] out .53
+# [.65], c in 6.5 [2.6] out 1.63 [1], d in 1.08 out 1.26 + move [0, −.04] (the measured 0.8 px/frame base drift);
+# b pan at 22.2 len 24 [21.5 / 20]; c first 38.3 [start 37.5 — `start` is a reserved timeline field]; d row 2 at 20.8 [~20].
+title: hf02 motion proof
+slug: hf02-proof
+aspects: [16x9, 9x16, 1x1]
+
+brand:
+  name: Crew
+  colors: {bg: "#F6F4F9", ink: "#0E0D11", muted: "#87858C", accent: "#2E6BFF", accent2: "#19B47E", accent3: "#FF7A1F", line: "#ECEAEF"}
+  bg: plain
+  cast:
+    - {shape: capsule, col: "#2E6BFF"}   # Scout
+    - {shape: cloud, col: "#FF7A1F"}     # Critic
+    - {shape: hex, col: "#3A3B44"}       # Analyst
+    - {shape: dome, col: "#D9DBE3"}      # Director
+    - {shape: bean, col: "#19B47E"}      # Builder
+    - {shape: clover, col: "#8B5CF6"}    # Writer
+
+music: {style: keynote, bpm: 120}
+
+shots:
+  # a · chat close-up (lead-in n270–299, measured n300–311): already answered; accelerates right into the cut
+  - id: a
+    block: agent
+    sec: 1.383333
+    user: Build me a hit app. No half measures
+    rows:
+      - {avatar: 0, name: Scout, status: Scouting, done: Scouting, at: -60, reply: "Scouting: On it. Ranking the year's breakout apps and what made them spread..."}
+    dolly: false
+    push: 0
+    out: drift-right
+    drift: {out: 1.07}
+
+  # b · the app window: enters still moving right, pans to reveal the sidebar, the first agent drops into its slot,
+  #     tilts down into the cut
+  - id: b
+    block: agent
+    sec: 1.5
+    frame: window
+    user: Build me a hit app. No half measures
+    rows:
+      - {avatar: 0, name: Scout, status: Scouting, done: Scouting, at: -60, reply: "Scouting: On it. Ranking the year's breakout apps and what made them spread..."}
+    header: {sub: Spot the trend.}
+    sidebar: {title: Your crew, at: 25, drop: 41}
+    input: Message Scout
+    offset: [-0.143, 0]
+    pan: [{at: 22.2, by: [0.143, 0], len: 24}]
+    push: 0
+    drift: {in: 1.68, out: 0.53}
+    out: drift-down
+
+  # c · the agent list behind a fixed slot: Scout drops in, three steps a beat apart, then a fast three-row run
+  - id: c
+    block: roster
+    sec: 3.6
+    title: Your crew
+    agents:
+      - {name: Scout, sub: Spot the trend, mascot: 0}
+      - {name: Critic, sub: Read the room, mascot: 1}
+      - {name: Analyst, sub: Explain the numbers, mascot: 2}
+      - {name: Director, sub: Frame every shot, mascot: 3}
+      - {name: Builder, sub: Automate the routine, mascot: 4}
+      - {name: Writer, sub: Shape the words, mascot: 5}
+    more: View all 15 agents
+    beat: 15
+    first: 38.3
+    run: 3
+    push: 0
+    drift: {in: 6.5, out: 1.63}
+    out: drift-up
+
+  # d · chat close-up 2: the first answer's status re-wipes, a second agent slides in and the chat scrolls up to it
+  - id: d
+    block: agent
+    sec: 1.5
+    user: Build me a hit app. No half measures
+    rows:
+      - {avatar: 0, name: Scout, status: Scouting, done: Scouting, at: -60, statusAt: 0, statusLen: 22, reply: "Got it. Pulling every breakout app launch from the last 90 days..."}
+      - {avatar: 1, name: Critic, status: Reading, done: Reading, at: 20.8, think: 2, reply: "Reading reviews: Sorting 2,400 reviews into what people love, skip, and still ask for."}
+    rate: 24
+    scroll: always
+    zoom: {16x9: 1.183, 9x16: 1, 1x1: 1}
+    focus: {16x9: [0.43, 0.42]}
+    move: [0, -0.04]
+    dolly: false
+    push: 0
+    drift: {in: 1.08, out: 1.26}
+    out: drift-up
+
+  # e · a short tail so d keeps its exit move
+  - id: e
+    block: headline
+    sec: 1
+    text: Your crew, *on it.*

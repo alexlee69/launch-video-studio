@@ -1,0 +1,37 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "input": {
+    "prompt": "Handheld camera slowly pushes in toward her as she reads her phone and breaks into a wide smile; the bus sways gently and sunlight flickers through the windows as the city slides past outside. Real-time, natural, candid motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file plate2-key_1.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "seed": 6584,
+    "enable_safety_checker": true
+  },
+  "submitted": "2026-10-22T07:56:17.398Z",
+  "status": [
+    {
+      "t": 6,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 12,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a1629c-725b-7fa0-b813-2c161712204f",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf602a/-P5-uwDI1HLRbJZiMjvE1_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "-P5-uwDI1HLRbJZiMjvE1_minimax-h3.mp4",
+      "file_size": 10065937
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.3693031199945835
+    }
+  },
+  "finished": "2026-10-22T07:56:35.642Z"
+}

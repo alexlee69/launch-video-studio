@@ -1,0 +1,47 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "input": {
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young woman with red hair in a loose braid, purple knit sweater, in a small home kitchen with morning window light, talking to the camera mid-sentence. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+    "aspect_ratio": "9:16",
+    "raw": true,
+    "num_images": 2,
+    "seed": 7511,
+    "output_format": "jpeg"
+  },
+  "submitted": "2026-10-22T07:37:03.222Z",
+  "status": [
+    {
+      "t": 6,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 18,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a1628a-c85d-7e63-a58c-f749ca6d6452",
+  "result": {
+    "images": [
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/X6IAo24rIhuAVfXqjP6qw_96e8ff558ab0483d94d81f6f8d74d5cb.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      },
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/3IJXLET3xorpowhtn3S8q_5c63b405373d4442bfe81ad2f028f316.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 7511,
+    "has_nsfw_concepts": [
+      false,
+      false
+    ],
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young woman with red hair in a loose braid, purple knit sweater, in a small home kitchen with morning window light, talking to the camera mid-sentence. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark."
+  },
+  "finished": "2026-10-22T07:37:24.235Z"
+}

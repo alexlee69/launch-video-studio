@@ -11,7 +11,7 @@ export default {
   hero: (s, D) => Math.min(D - 4, 46),
   build(ctx, s) {
     const { W, H, u, safe, C, portrait } = ctx;
-    const dark = s.theme === 'dark';
+    const dark = ctx.dark ?? s.theme === 'dark';      // ctx.dark: theme: dark, or over bg footage
     const L = 180 * u;
     const lock = ctx.el('', `left:0;top:0;width:${W}px;display:flex;justify-content:center;align-items:center;gap:${26 * u}px`);
     const mk = document.createElement('div'); mk.innerHTML = ctx.logo(L, dark); mk.style.flex = 'none'; lock.appendChild(ctx.layer(mk, 'logo'));

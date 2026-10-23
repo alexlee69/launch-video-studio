@@ -1,0 +1,37 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "input": {
+    "prompt": "Natural handheld selfie video. They talk to the camera with natural expressions and blinks, holding the phone up steadily toward the lens with the screen facing the camera; the screen stays completely black the whole time. Slight handheld sway, real-time, candid. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file car2-key_0.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "seed": 6360,
+    "enable_safety_checker": true
+  },
+  "submitted": "2026-10-22T07:56:17.412Z",
+  "status": [
+    {
+      "t": 7,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 13,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a1629c-6daa-7ab2-a955-239ea069b889",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf602a/gcmQaO5_KR0RPrdxY1re5_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "gcmQaO5_KR0RPrdxY1re5_minimax-h3.mp4",
+      "file_size": 10612418
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.360765335004544
+    }
+  },
+  "finished": "2026-10-22T07:56:34.838Z"
+}

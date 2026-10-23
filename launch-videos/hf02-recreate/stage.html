@@ -1,0 +1,401 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>hf02 recreate — stage</title>
+<style>
+@font-face { font-family: Inter; font-weight: 400; src: url(node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: Inter; font-weight: 500; src: url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: Inter; font-weight: 600; src: url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2) format('woff2'); }
+html, body { margin: 0; padding: 0; width: 1080px; height: 608px; overflow: hidden; background: #F6F4F9; }
+body { font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; font-kerning: normal; }
+/* each scene is padded 200px past the frame so a blurred scene never pulls in empty space at the edges */
+.scene { position: absolute; left: -200px; top: -200px; width: 1480px; height: 1008px; overflow: hidden; }
+.scene > .cam { position: absolute; left: 200px; top: 200px; width: 0; height: 0; }
+.abs { position: absolute; }
+.t { position: absolute; white-space: nowrap; line-height: 1; }
+.ml { position: absolute; white-space: nowrap; }
+.crew { position: absolute; overflow: visible; }
+.crew svg { display: block; width: 100%; height: 100%; overflow: visible; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs id="fx"></defs></svg>
+<div id="A" class="scene"><div class="cam" id="Acam"></div></div>
+<div id="B" class="scene"><div class="cam" id="Bcam"></div></div>
+<div id="C" class="scene"><div class="cam" id="Ccam"></div></div>
+<div id="D" class="scene"><div class="cam" id="Dcam"></div></div>
+<script src="motion.js"></script>
+<script>
+'use strict';
+// ───────────────────────────── copy (ours) ─────────────────────────────
+const PROMPT = 'Build me a hit app. No half measures';
+const CREW = [   // id, name, role, body colour (also the tint a row's title is revealed with)
+  { id: 'scout', name: 'Scout', role: 'Spot the trend', tint: '#2E6BFF' },
+  { id: 'critic', name: 'Critic', role: 'Read the room', tint: '#FF7A1F' },
+  { id: 'analyst', name: 'Analyst', role: 'Explain the numbers', tint: '#8C7BD8' },
+  { id: 'director', name: 'Director', role: 'Frame every shot', tint: '#E0A15A' },
+  { id: 'builder', name: 'Builder', role: 'Automate the routine', tint: '#19B47E' },
+  { id: 'writer', name: 'Writer', role: 'Shape the words', tint: '#8B5CF6' },
+];
+
+// ───────────────────────────── helpers ─────────────────────────────
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = t => 1 - Math.pow(1 - clamp(t), 3);
+const easeOut5 = t => 1 - Math.pow(1 - clamp(t), 5);
+// piecewise-linear lookup in a {frame: value} table; held flat outside its range
+function trk(tab, n) {
+  const ks = Object.keys(tab).map(Number).sort((a, b) => a - b);
+  if (n <= ks[0]) return tab[ks[0]];
+  if (n >= ks[ks.length - 1]) return tab[ks[ks.length - 1]];
+  for (let i = 1; i < ks.length; i++) if (n <= ks[i]) {
+    const a = ks[i - 1], b = ks[i]; return lerp(tab[a], tab[b], (n - a) / (b - a));
+  }
+}
+const vel = (tab, n) => (trk(tab, n + 0.5) - trk(tab, n - 0.5));   // px per frame
+function hexToRgb(h) { const v = parseInt(h.slice(1), 16); return [v >> 16 & 255, v >> 8 & 255, v & 255]; }
+function mix(h1, h2, t) { const a = hexToRgb(h1), b = hexToRgb(h2); return `rgb(${a.map((x, i) => Math.round(lerp(x, b[i], clamp(t)))).join(',')})`; }
+function el(parent, cls, css = {}, html = '') {
+  const e = document.createElement('div'); if (cls) e.className = cls; Object.assign(e.style, css); e.innerHTML = html; parent.appendChild(e); return e;
+}
+// single-line text whose baseline sits at `base` (Inter: baseline 0.86em into a line-height:1 box)
+function text(parent, s, { x, base, size, weight = 400, color = '#000', ls = -0.01 }) {
+  return el(parent, 't', { left: x + 'px', top: (base - 0.86 * size) + 'px', font: `${weight} ${size}px/1 Inter`, color, letterSpacing: ls + 'em' }, s);
+}
+// SVG blur filters, one per element so every element can carry its own (x, y) sigma
+let fxN = 0;
+function blurrable(node, margin = '-60%', size = '220%') {
+  const id = 'fb' + (fxN++);
+  document.getElementById('fx').insertAdjacentHTML('beforeend',
+    `<filter id="${id}" x="${margin}" y="${margin}" width="${size}" height="${size}" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="0 0"/></filter>`);
+  const g = document.getElementById(id).firstChild;
+  node._blur = (sx, sy) => {
+    sx = Math.max(0, sx || 0); sy = Math.max(0, sy || 0);
+    if (sx < 0.08 && sy < 0.08) { node.style.filter = 'none'; return; }
+    g.setAttribute('stdDeviation', `${sx.toFixed(2)} ${sy.toFixed(2)}`); node.style.filter = `url(#${id})`;
+  };
+  return node;
+}
+
+// ───────────────────────────── the crew (original characters) ─────────────────────────────
+// viewBox -5 -8 110 110; every body is ~80 units wide, centred near (50, 54).
+let gN = 0;
+const EYES = {
+  open: (c, hi) => `<ellipse cx="40" cy="55" rx="5.4" ry="7.6" fill="${c}"/><ellipse cx="60" cy="55" rx="5.4" ry="7.6" fill="${c}"/>` +
+    (hi ? `<circle cx="41.9" cy="52" r="1.8" fill="${hi}"/><circle cx="61.9" cy="52" r="1.8" fill="${hi}"/>` : ''),
+  blink: c => `<rect x="34" y="54" width="12" height="3.8" rx="1.9" fill="${c}"/><rect x="54" y="54" width="12" height="3.8" rx="1.9" fill="${c}"/>`,
+  happy: c => `<path d="M33.5 59 Q40 49 46.5 59 M53.5 59 Q60 49 66.5 59" fill="none" stroke="${c}" stroke-width="4.2" stroke-linecap="round"/>`,
+  dots: c => `<circle cx="41" cy="56" r="3.5" fill="${c}"/><circle cx="59" cy="56" r="3.5" fill="${c}"/>`,
+};
+const BODY = {
+  scout: { c: '#2E6BFF', lo: '#1B4FD6', hi: '#6F9CFF',
+    under: g => `<path d="M60 17 Q64 6 70 2" fill="none" stroke="#1B4FD6" stroke-width="3.2" stroke-linecap="round"/><circle cx="71" cy="1.5" r="5" fill="url(#${g})"/>`,
+    body: 'M50 14 C74 14 90 32 90 56 C90 78 72 93 50 93 C28 93 10 78 10 56 C10 32 26 14 50 14Z' },
+  critic: { c: '#FF7A1F', lo: '#E35F08', hi: '#FFAA6B',
+    under: g => `<circle cx="25" cy="25" r="10" fill="url(#${g})"/><circle cx="75" cy="25" r="10" fill="url(#${g})"/>`,
+    body: 'M50 19 C76 19 90 35 90 57 C90 79 73 93 50 93 C27 93 10 79 10 57 C10 35 24 19 50 19Z' },
+  analyst: { c: '#2A2B31', lo: '#15161A', hi: '#4A4C55', eye: '#FFFFFF', eyeHi: null,
+    under: () => '', body: 'M36 17 H64 C80 17 90 27 90 43 V67 C90 83 80 93 64 93 H36 C20 93 10 83 10 67 V43 C10 27 20 17 36 17Z',
+    over: `<g fill="none" stroke="#A9ABB8" stroke-width="2.6"><circle cx="40" cy="55" r="11.5"/><circle cx="60" cy="55" r="11.5"/></g>` },
+  director: { c: '#F6F5F9', lo: '#DDDBE3', hi: '#FFFFFF', stroke: '#D3D1DA',
+    under: () => '', body: 'M50 17 C72 17 89 34 89 56 C89 77 72 93 50 93 C28 93 11 77 11 56 C11 34 28 17 50 17Z',
+    over: `<g transform="rotate(-14 50 18)"><ellipse cx="50" cy="16" rx="25" ry="8.5" fill="#3B3A46"/><rect x="47.5" y="3" width="5" height="7" rx="2.5" fill="#3B3A46"/></g>` },
+  builder: { c: '#19B47E', lo: '#0E9566', hi: '#5FD9AE',
+    under: () => `<path d="M50 18 Q50 10 50 7" stroke="#0E8A5E" stroke-width="3" stroke-linecap="round"/><path d="M50 9 C42 1 33 4 32 9 C38 13 45 12 50 9Z" fill="#2FCB92"/><path d="M50 8 C58 -1 68 2 69 7 C63 12 55 12 50 8Z" fill="#0E9566"/>`,
+    body: 'M50 16 C80 16 90 27 90 55 C90 83 80 93 50 93 C20 93 10 83 10 55 C10 27 20 16 50 16Z' },
+  writer: { c: '#8B5CF6', lo: '#6B3EDF', hi: '#B597FF',
+    under: () => `<path d="M46 17 C44 7 54 3 58 9 C61 14 54 17 52 13" fill="none" stroke="#6B3EDF" stroke-width="3.2" stroke-linecap="round"/>`,
+    body: 'M48 15 C76 13 92 33 90 58 C88 80 70 94 48 92 C26 90 10 76 11 53 C12 31 26 16 48 15Z' },
+};
+function crewSVG(id, expr) {
+  const b = BODY[id], g = 'g' + (gN++), h = 'h' + gN;
+  const eye = b.eye || '#15151A', eyeHi = b.eyeHi === undefined ? '#FFFFFF' : b.eyeHi;
+  return `<svg viewBox="-5 -8 110 110" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${b.hi}"/><stop offset="0.42" stop-color="${b.c}"/><stop offset="1" stop-color="${b.lo}"/></linearGradient>
+  <radialGradient id="${h}" cx="0.34" cy="0.26" r="0.5"><stop offset="0" stop-color="#fff" stop-opacity="${id === 'analyst' ? 0.16 : 0.32}"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+  ${b.under(g)}<path d="${b.body}" fill="url(#${g})" ${b.stroke ? `stroke="${b.stroke}" stroke-width="1.6"` : ''}/><path d="${b.body}" fill="url(#${h})"/>
+  ${(EYES[expr] || EYES.open)(eye, eyeHi)}${b.over || ''}</svg>`;
+}
+// a character node: centre (cx, cy) in its parent, body `w` px wide (svg box is 110/80 of that)
+function crew(parent, id, expr, w) {
+  const box = w * 110 / 80;
+  const n = el(parent, 'crew', { width: box + 'px', height: box + 'px' });
+  n._id = id; n._box = box; n._expr = null;
+  n.set = (cx, cy, ex) => {
+    n.style.left = (cx - box / 2 + 0.0 * box) + 'px'; n.style.top = (cy - box * (54 + 8) / 110) + 'px';
+    if (ex && ex !== n._expr) { n.innerHTML = crewSVG(id, ex); n._expr = ex; }
+  };
+  n.set(0, 0, expr);
+  return n;
+}
+// left offset: viewBox x=-5 → body centre (50) sits at (55/110) of the box; we position by that centre
+function placeCrew(n, cx, cy, ex) { n.style.left = (cx - n._box * 55 / 110) + 'px'; n.style.top = (cy - n._box * 62 / 110) + 'px'; if (ex && ex !== n._expr) { n.innerHTML = crewSVG(n._id, ex); n._expr = ex; } }
+
+function check(parent, x, y, w, color) {
+  return el(parent, 'abs', { left: x + 'px', top: y + 'px', width: w + 'px', height: w * 0.8 + 'px' },
+    `<svg viewBox="0 0 13 11" width="100%" height="100%"><path d="M1.2 6.2 L4.8 9.6 L11.8 1.4" fill="none" stroke="${color}" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
+}
+function search(parent, x, y, s, color, sw) {
+  return el(parent, 'abs', { left: x + 'px', top: y + 'px', width: s + 'px', height: s + 'px' },
+    `<svg viewBox="0 0 24 24" width="100%" height="100%"><circle cx="10.2" cy="10.2" r="7" fill="none" stroke="${color}" stroke-width="${sw}"/><path d="M15.4 15.4 L21.2 21.2" stroke="${color}" stroke-width="${sw}" stroke-linecap="round"/></svg>`);
+}
+// name ✓ status on one baseline; returns {name, chk, status} (status is wipe-maskable)
+function agentLine(parent, { x, base, nameSize, statusSize, statusBase, gap1, chkW, gap2, name, status, nameColor = '#0E0D11', green = '#5B9488' }) {
+  const nm = text(parent, name, { x, base, size: nameSize, weight: 600, color: nameColor });
+  const w = nm.getBoundingClientRect().width;
+  const chk = check(parent, x + w + gap1, base - chkW * 0.8 - nameSize * 0.02, chkW, green);
+  const st = text(parent, status, { x: x + w + gap1 + chkW + gap2, base: statusBase ?? base, size: statusSize, color: green });
+  return { nm, chk, st };
+}
+// soft left→right wipe: p in 0..1, edge = soft width as a fraction of the element
+function wipe(node, p, edge = 0.35) {
+  if (p >= 1) { node.style.webkitMaskImage = 'none'; node.style.maskImage = 'none'; return; }
+  const a = (p * (1 + edge) - edge) * 100, b = p * (1 + edge) * 100;
+  const m = `linear-gradient(90deg, #000 ${a.toFixed(2)}%, transparent ${b.toFixed(2)}%)`;
+  node.style.webkitMaskImage = m; node.style.maskImage = m;
+}
+
+// ───────────────────────────── scene A: chat close-up ─────────────────────────────
+const A = {};
+function buildA() {
+  const c = document.getElementById('Acam');
+  el(c, 'abs', { left: '509px', top: '160px', width: '478px', height: '85px', borderRadius: '28px', background: '#ECEEF2' });
+  text(c, PROMPT, { x: 534, base: 209.5, size: 20.5, color: '#181A1E' });
+  A.m = crew(c, 'scout', 'dots', 56); placeCrew(A.m, 164.5, 341.5, 'dots');
+  agentLine(c, { x: 215, base: 352.6, nameSize: 20.5, statusSize: 17.8, statusBase: 351.2, gap1: 25, chkW: 13.5, gap2: 19, name: 'Scout', status: 'Scouting' });
+  const r = el(c, 'ml', { left: '214px', top: (395.6 - 24.4 / 2 - 0.36 * 20.6) + 'px', font: '400 20.6px/24.4px Inter', color: '#46444A', letterSpacing: '-0.01em' },
+    'Scouting: On it. Ranking the year’s breakout apps and what made<br>them spread...');
+  blurrable(document.getElementById('A'), '-2%', '104%');
+}
+
+// ───────────────────────────── scene B: app window ─────────────────────────────
+const B = {};
+function buildB() {
+  const c = document.getElementById('Bcam');
+  B.side = el(c, 'abs', { left: '0', top: '0' });
+  text(B.side, 'Your crew', { x: 84, base: 75, size: 13, color: '#87858C' });
+  search(B.side, 336, 60.5, 18.5, '#85838A', 2.1);
+  blurrable(B.side, '-30%', '160%');
+  B.slot = el(c, 'abs', { left: '84px', top: '106px', width: '268px', height: '60px', borderRadius: '11px', background: '#E7E5E9', overflow: 'hidden' });
+  blurrable(B.slot, '-30%', '160%');
+  B.peek = crew(B.slot, 'scout', 'happy', 44.5);
+  B.chrome = el(c, 'abs', { left: '0', top: '0' });
+  el(B.chrome, 'abs', { left: '375px', top: '48px', width: '1px', height: '499px', background: '#EBE9EE' });
+  B.head = crew(B.chrome, 'scout', 'happy', 37); placeCrew(B.head, 433, 65.5, 'happy');
+  text(B.chrome, 'Scout', { x: 471, base: 64.2, size: 18.3, weight: 600, color: '#050306' });
+  text(B.chrome, 'Spot the trend.', { x: 471, base: 82.6, size: 13.3, color: '#858488' });
+  el(B.chrome, 'abs', { left: '375px', top: '100px', width: '607px', height: '1px', background: '#ECEAEF' });
+  el(c, 'abs', { left: '653px', top: '127px', width: '326px', height: '60px', borderRadius: '19px', background: '#ECEEF2' });
+  text(c, PROMPT, { x: 672, base: 161.8, size: 14, color: '#181A1E' });
+  B.agent = crew(c, 'scout', 'dots', 34); placeCrew(B.agent, 420.5, 241.8, 'dots');
+  agentLine(c, { x: 446, base: 246.9, nameSize: 13.8, statusSize: 11.1, statusBase: 246.0, gap1: 13, chkW: 9, gap2: 12, name: 'Scout', status: 'Scouting' });
+  el(c, 'ml', { left: '447px', top: (277.4 - 17.6 / 2 - 0.36 * 13.4) + 'px', font: '400 13.4px/17.6px Inter', color: '#46444A', letterSpacing: '-0.01em' },
+    'Scouting: On it. Ranking the year’s breakout apps and what made<br>them spread...');
+  // input bar
+  B.bar = el(c, 'abs', { left: '406px', top: '506px', width: '584px', height: '47px', borderRadius: '23.5px', background: '#F6F4F9', boxShadow: 'inset 0 0 0 1.4px #E2E0E5' });
+  B.plus = el(B.bar, 'abs', { left: '12px', top: '12.5px', width: '22px', height: '22px', borderRadius: '11px', background: '#F0EEF3' });
+  B.plusG = el(B.plus, 'abs', { left: '0', top: '0', width: '22px', height: '22px' },
+    `<svg viewBox="0 0 22 22" width="22" height="22"><path d="M11 6.5 V15.5 M6.5 11 H15.5" stroke="#8D8B92" stroke-width="1.4" stroke-linecap="round"/></svg>`);
+  B.place = text(B.bar, 'Message Scout', { x: 49, base: 28.3, size: 13.3, color: '#99979B' });
+  B.send = el(B.bar, 'abs', { left: '544.5px', top: '7.5px', width: '32px', height: '32px', borderRadius: '16px', background: '#0B090D' });
+  B.sendG = el(B.send, 'abs', { left: '0', top: '0', width: '32px', height: '32px' },
+    `<svg viewBox="0 0 32 32" width="32" height="32"><rect x="13.2" y="8.5" width="5.6" height="10" rx="2.8" fill="#fff"/><path d="M10.5 15.5 C10.5 19 13 21 16 21 C19 21 21.5 19 21.5 15.5 M16 21 V23.8" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>`);
+  blurrable(document.getElementById('B'), '-2%', '104%');
+}
+
+// ───────────────────────────── scene C: agent list ─────────────────────────────
+const C = { rows: [], m: [] };
+const PITCH = 174, TITLE_X = 364, SUB_DY = 43, M_DY = 47, M_REST_X = 266;
+const REVEAL = [378, 398, 412, 428, 433, 441];           // title reveal start per row
+const LAND = [null, 397, 411, 427, 434, 438];            // fly-in landing frame per row (row 0 drops in)
+function buildC() {
+  const c = document.getElementById('Ccam');
+  C.slot = el(c, 'abs', { left: '181px', top: '0', width: '712px', height: '159px', borderRadius: '29px', background: '#E7E5E9' });
+  C.list = el(c, 'abs', { left: '0', top: '0' });
+  blurrable(C.list, '-10%', '120%');
+  text(C.list, 'Your crew', { x: 183, base: -119.5, size: 34, color: '#87858C' });
+  search(C.list, 849, -155, 47, '#6C6C72', 2.05);
+  CREW.forEach((r, k) => {
+    const g = el(C.list, 'abs', { left: '0', top: (k * PITCH) + 'px' });
+    const ti = text(g, r.name, { x: TITLE_X, base: 35.5, size: 47.9, weight: 500, color: '#4A4A4D' });
+    const su = text(g, r.role, { x: TITLE_X, base: 35.5 + SUB_DY, size: 30.7, color: '#8E8D93' });
+    blurrable(ti, '-20%', '140%'); blurrable(su, '-20%', '140%');
+    C.rows.push({ g, ti, su });
+  });
+  // row 6: view all — grid icon squares pop in one by one, text wipes in
+  C.view = el(C.list, 'abs', { left: '0', top: (6 * PITCH) + 'px' });
+  C.viewT = text(C.view, 'View all 15 agents', { x: 288, base: 45.4, size: 46, color: '#87858A' });
+  blurrable(C.viewT, '-20%', '140%');
+  C.sq = [[0, 1], [1, 1], [1, 0], [0, 0]].map(([i, j]) =>
+    el(C.view, 'abs', { left: (212 + i * 25) + 'px', top: (6.5 + j * 25) + 'px', width: '19px', height: '19px', borderRadius: '5.5px',
+      boxShadow: 'inset 0 0 0 3px #75767C', transformOrigin: '50% 50%' }));
+  // the crew, in frame space (so each can fly on its own path)
+  C.mlayer = el(c, 'abs', { left: '0', top: '0' });
+  CREW.forEach((r, k) => { const m = crew(C.mlayer, r.id, 'happy', 118); blurrable(m, '-80%', '260%'); C.m.push(m); });
+  blurrable(document.getElementById('C'), '-2%', '104%');
+}
+
+// ───────────────────────────── scene D: chat close-up 2 ─────────────────────────────
+const D = {};
+function buildD() {
+  const c = document.getElementById('Dcam');
+  el(c, 'abs', { left: '591px', top: '130px', width: '640px', height: '103px', borderRadius: '33px', background: '#ECEEF2' });
+  text(c, PROMPT, { x: 635, base: 189.3, size: 29, color: '#141519' });
+  D.m1 = crew(c, 'scout', 'dots', 74);
+  D.a1 = agentLine(c, { x: 184, base: 370, nameSize: 29.2, statusSize: 23.2, statusBase: 368.5, gap1: 22, chkW: 19, gap2: 24, name: 'Scout', status: 'Scouting', nameColor: '#0A080B' });
+  el(c, 'ml', { left: '184px', top: (438.2 - 34.8 / 2 - 0.36 * 29) + 'px', font: '400 29px/34.8px Inter', color: '#67656A', letterSpacing: '-0.01em' },
+    'Got it. Pulling every breakout app launch from the last<br>90 days...');
+  D.row2 = el(c, 'abs', { left: '0', top: '0' });
+  D.a2 = agentLine(D.row2, { x: 183, base: 580, nameSize: 29.2, statusSize: 23.2, statusBase: 578.5, gap1: 25, chkW: 19, gap2: 24, name: 'Critic', status: 'Reading', nameColor: '#0A080B' });
+  D.m2 = crew(c, 'critic', 'dots', 70); blurrable(D.m2, '-80%', '260%');
+  // streamed reply: one span per character
+  const lines = ['Reading reviews: Sorting 2,400 reviews into what people love,', 'skip, and still ask for.'];
+  D.chars = [];
+  [[645.2, lines[0]], [685, lines[1]]].forEach(([base, s]) => {
+    const t = text(c, '', { x: 185, base, size: 29, color: '#636064' });
+    for (const ch of s) { const sp = document.createElement('span'); sp.textContent = ch; sp.style.opacity = 0; t.appendChild(sp); D.chars.push(sp); }
+  });
+  blurrable(document.getElementById('D'), '-2%', '104%');
+}
+
+// ───────────────────────────── per-frame state ─────────────────────────────
+const sceneOf = n => n < 311.5 ? 'A' : n < 356.5 ? 'B' : n < 357.5 ? 'BC' : n < 464.5 ? 'C' : 'D';
+function show(id, on, op = 1) { const s = document.getElementById(id); s.style.display = on ? 'block' : 'none'; s.style.opacity = op; }
+const cam = (id, tx, ty) => { document.getElementById(id).style.transform = `translate(${tx.toFixed(3)}px, ${ty.toFixed(3)}px)`; };
+const sceneBlur = (id, sx, sy) => document.getElementById(id)._blur(sx, sy);
+
+function exprC(k, n) {
+  if (k === 0) return n < 379 ? 'happy' : n < 388 ? 'blink' : n < 398 ? 'open' : 'happy';
+  if (k === 1) return n < 408 ? 'happy' : n < 424 ? 'open' : 'dots';
+  if (k === 2) return n < 425 ? 'open' : 'happy';
+  if (k === 3) return n < 437 ? 'happy' : 'dots';
+  if (k === 4) return n < 446 ? 'happy' : 'dots';
+  return n < 445 ? 'dots' : n < 454 ? 'blink' : n < 464 ? 'open' : 'happy';
+}
+
+function seek(n) {
+  const sc = sceneOf(n);
+  show('A', sc === 'A'); show('B', sc === 'B' || sc === 'BC'); show('C', sc === 'C' || sc === 'BC', trk(M.cOp, n)); show('D', sc === 'D');
+
+  if (sc === 'A') {
+    cam('Acam', trk(M.A.tx, n), 0);
+    sceneBlur('A', trk(M.A.bx, n), trk(M.A.by, n));
+  }
+
+  if (sc === 'B' || sc === 'BC') {
+    const b = M.B;
+    cam('Bcam', trk(b.tx, n), trk(b.ty, n));
+    sceneBlur('B', trk(b.bx, n), trk(b.by, n));
+    B.side.style.opacity = trk(b.sideOp, n); B.side._blur(trk(b.sideBlur, n), trk(b.sideBlur, n));
+    B.slot.style.opacity = trk(b.slotOp, n); B.slot._blur(trk(b.slotBlur, n), trk(b.slotBlur, n));
+    B.bar.style.opacity = trk(b.barOp, n);
+    B.chrome.style.opacity = trk(b.chromeOp, n);
+    const s = trk(b.sendScale, n); B.send.style.transform = `scale(${s})`; B.send.style.opacity = s > 0.01 ? 1 : 0;
+    wipe(B.place, trk(b.placeWipe, n), 0.4); B.place.style.opacity = trk(b.placeOp, n);
+    B.plus.style.opacity = trk(b.plusOp, n);
+    B.plusG.style.opacity = trk(b.glyphOp, n); B.sendG.style.opacity = trk(b.glyphOp, n);
+    placeCrew(B.peek, 50.5, trk(b.peekY, n), 'happy');
+  }
+
+  if (sc === 'C' || sc === 'BC') {
+    const c = M.C;
+    const P = trk(c.P, n);
+    const L = n < 385.5 ? P + trk(c.LminusP, n) : trk(c.L, n);
+    const vL = n < 385.5 ? vel(c.P, n) + vel(c.LminusP, n) : vel(c.L, n);
+    sceneBlur('C', trk(c.bx, n), trk(c.by, n));
+    C.slot.style.top = P + 'px';
+    C.list.style.transform = `translateY(${L.toFixed(3)}px)`;
+    // motion blur of the scrolling list: ~0.22 × speed beyond the slot's own blur
+    const lb = Math.max(0, Math.abs(vL) * 0.22 - 0.4);
+    C.list._blur(lb * 0.08, lb);
+    const slotRest = P + 39.9;                                // where an in-slot row's title top sits
+    CREW.forEach((r, k) => {
+      const row = C.rows[k], top = L + k * PITCH;
+      // reveal: soft wipe (3 f) + unblur (6 f) + tint → neutral (9 f) + glide in from the left (20 f)
+      const t0 = REVEAL[k], u = n - t0;
+      const vis = n >= t0 - 0.5;
+      row.g.style.display = vis ? 'block' : 'none';
+      if (!vis) return;
+      const dim = clamp((slotRest - top) / PITCH);            // rows above the slot settle a step dimmer
+      const tint = 1 - (t => t * t * (3 - 2 * t))(clamp((u - 0.8) / 5.2));
+      const pale = mix(r.tint, '#F6F4F9', 0.38).replace(/rgb\((\d+),(\d+),(\d+)\)/, (m, a, b, c) => '#' + [a, b, c].map(v => (+v).toString(16).padStart(2, '0')).join(''));
+      const titleC = mix('#4A4A4D', '#6E6C73', dim);
+      row.ti.style.color = tint > 0.01 ? mix(pale, '#4A4A4D', 1 - tint) : titleC;
+      row.su.style.color = tint > 0.01 ? mix(pale, '#8E8D93', 1 - tint * 0.75) : '#8E8D93';
+      wipe(row.ti, easeOut((u + 0.5) / 3.2), 0.45); wipe(row.su, easeOut((u - 0.5) / 3.6), 0.45);
+      const bl = 2.6 * (1 - easeOut(u / 4.5));
+      row.ti._blur(bl, bl * 0.6); row.su._blur(bl, bl * 0.6);
+      const gx = -14 * (1 - easeOut(u / 22));
+      row.g.style.transform = `translateX(${gx.toFixed(3)}px)`;
+      row.ti.style.opacity = 0.35 + 0.65 * easeOut((u + 0.5) / 6); row.su.style.opacity = 0.25 + 0.75 * easeOut((u - 0.5) / 6.5);
+    });
+    // view all
+    {
+      const u = n - 447, vis = u > -0.5;
+      C.view.style.display = vis ? 'block' : 'none';
+      if (vis) {
+        wipe(C.viewT, clamp((u - 0.5) / 3.5), 0.5); C.viewT._blur(2.6 * (1 - easeOut(u / 5)), 1.6 * (1 - easeOut(u / 5)));
+        C.viewT.style.opacity = 0.3 + 0.7 * easeOut(u / 7);
+        const pops = [449, 451, 453, 455];
+        C.sq.forEach((q, i) => {
+          const p = clamp((n - pops[i] + 0.5) / 2);
+          const s = p <= 0 ? 0 : 0.3 + 0.7 * easeOut(p) + 0.08 * Math.sin(Math.PI * p);
+          q.style.transform = `scale(${s.toFixed(3)})`; q.style.opacity = p > 0 ? 1 : 0;
+        });
+      }
+    }
+    // the crew
+    CREW.forEach((r, k) => {
+      const m = C.m[k];
+      let x, y, vx = 0, vy, ex = exprC(k, n);
+      if (k === 0 && n < 378.5) {
+        x = trk(c.dropX, n); y = trk(c.dropY, n); vx = vel(c.dropX, n); vy = vel(c.dropY, n);
+        // clipped by the slot until it is fully inside
+        const top = P - (y - m._box * 62 / 110), left = 181 - (x - m._box * 55 / 110);
+        m.style.clipPath = n < 362 ? `inset(${Math.max(0, top).toFixed(2)}px 0 0 ${Math.max(-50, left).toFixed(2)}px round 29px 29px 0 0)` : 'none';
+      } else {
+        const rowY = L + k * PITCH + M_DY;
+        y = rowY; vy = vL;
+        if (k === 0) {
+          // hand-off from the drop path (pinned to the slot) onto row 0 over a few frames
+          const hand = clamp((n - 378.5) / 6), yDrop = trk(c.dropY, 378) + (P - trk(c.P, 378));
+          y = lerp(yDrop, rowY, easeOut(hand)); x = lerp(266.5, M_REST_X + 2, easeOut(hand));
+        } else {
+          const land = LAND[k], rel = n - land;
+          if (rel < -4.5) { m.style.display = 'none'; return; }
+          x = M_REST_X + trk(c.flyIn, rel); vx = trk(c.flyIn, rel + 0.5) - trk(c.flyIn, rel - 0.5);
+        }
+        m.style.clipPath = 'none';
+      }
+      m.style.display = 'block';
+      placeCrew(m, x, y, ex);
+      m._blur(Math.abs(vx) * 0.22, Math.max(0, Math.abs(vy) * 0.22 - 0.4));
+    });
+  }
+
+  if (sc === 'D') {
+    const d = M.D;
+    cam('Dcam', 0, trk(d.ty, n));
+    sceneBlur('D', trk(d.bx, n), trk(d.by, n));
+    placeCrew(D.m1, 114.5, 354, n < 490 ? 'dots' : n < 506 ? 'happy' : 'open');
+    wipe(D.a1.st, trk(d.statusWipe, n), 0.4);
+    const ro = trk(d.rowOp, n);
+    D.row2.style.opacity = ro; wipe(D.a2.st, trk(d.status2Wipe, n), 0.4);
+    const ax = trk(d.agent2X, n), avx = trk(d.agent2X, n + 0.5) - trk(d.agent2X, n - 0.5);
+    D.m2.style.display = n < 484.5 ? 'none' : 'block';
+    placeCrew(D.m2, ax, 563, 'dots'); D.m2._blur(Math.abs(avx) * 0.22, 0);
+    // streaming reply: characters arrive left→right with a ~9-character soft tail
+    const p = trk(d.stream, n), N = D.chars.length, head = p * (N + 9);
+    D.chars.forEach((sp, i) => { sp.style.opacity = clamp((head - i) / 9).toFixed(3); });
+  }
+}
+window.seek = seek;
+window.ready = (async () => {
+  await Promise.all([400, 500, 600].map(w => document.fonts.load(`${w} 20px Inter`)));
+  buildA(); buildB(); buildC(); buildD();
+  seek(300); return true;
+})();
+</script>
+</body>
+</html>

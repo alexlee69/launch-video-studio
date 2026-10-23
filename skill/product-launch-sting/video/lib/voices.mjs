@@ -131,6 +131,36 @@ export function makeEngine(DUR) {
         put(i0 + j, (bl.p(xl) * 1.5 + low) * env * pl * 1.3, (br.p(xr) * 1.5 + low) * env * pr * 1.3, .22);
       }
     },
+    // a whoosh with its own band sweep (f0 → fp at the peak tp → f2), Q and low-end share: the cross-cut transitions'
+    // flavours (whoosh above stays exactly as it was for the camera moves). Peaks on tp like whoosh.
+    sweep(tp, g, { pre = .42, post = .16, f0 = 300, fp = 3400, f2 = 800, q = .95, low = 1.6, p0 = -.5, p1 = .5, tail = .065 } = {}) {
+      const ts = tp - pre, i0 = at(ts), n = Math.round((pre + post + .1) * SR), rl = rng(i0 + 23), rr = rng(i0 + 24), bl = new Biquad(), br = new Biquad(), ll = new Biquad().set('lp', 220, .7);
+      for (let j = 0; j < n; j++) {
+        const t = ts + j / SR, u = Math.min(1, (t - ts) / pre);
+        const fc = t < tp ? f0 * Math.pow(fp / f0, Math.pow(u, 1.5)) : fp * Math.pow(f2 / fp, Math.min(1, (t - tp) / post));
+        if (j % 16 === 0) { bl.set('bp', fc, q); br.set('bp', fc * 1.06, q); }
+        const env = (t < tp ? Math.pow(u, 2.6) : Math.exp(-(t - tp) / tail)) * g, [pl, pr] = pan(p0 + (p1 - p0) * Math.min(1, (t - ts) / (pre + post * .5)));
+        const xl = rl() * 2 - 1, xr = rr() * 2 - 1, lo = ll.p((xl + xr) * .5) * low;
+        put(i0 + j, (bl.p(xl) * 1.5 + lo) * env * pl * 1.3, (br.p(xr) * 1.5 + lo) * env * pr * 1.3, .22);
+      }
+    },
+    // glitch: a digital stutter into the cut — gated, bit-crushed and sample-held noise over a square buzz, the gate
+    // fully open around tp so the burst peaks on it, then a quick decay
+    glitch(tp, g, seed = 1) {
+      const ts = tp - .2, i0 = at(ts), n = Math.round(.34 * SR), r = rng(i0 + 91 + seed), gr = rng(seed * 31 + 7), bp = new Biquad().set('bp', 2400, .8);
+      const gates = []; for (let t = 0; t < .34; t += .012 + .02 * gr()) gates.push([t, gr() < .62]);
+      let hold = 0, hv = 0, ph = 0;
+      for (let j = 0; j < n; j++) {
+        const t = j / SR, tt = ts + t, near = Math.abs(tt - tp) < .011;
+        let on = near; for (let k = gates.length - 1; k >= 0; k--) if (gates[k][0] <= t) { on = on || gates[k][1]; break; }
+        if (!on) continue;
+        if (--hold <= 0) { hold = 6 + Math.floor(10 * r()); hv = Math.round((r() * 2 - 1) * 4) / 4; }   // sample-hold + 3-bit crush
+        ph += 2 * Math.PI * (180 + 420 * ((tt * 37) % 1)) / SR;
+        const env = (tt < tp ? Math.pow(Math.min(1, t / .2), 2.2) : Math.exp(-(tt - tp) / .045)) * g;
+        const v = (bp.p(hv) * 1.6 + Math.sign(Math.sin(ph)) * .22) * env;
+        put(i0 + j, v * (j % 2 ? .9 : 1), v * (j % 2 ? 1 : .9), .1);
+      }
+    },
     riser(t0, t1, g, f0 = 400, f1 = 7000) {
       if (t1 - t0 < .2) return;
       const i0 = at(t0), n = Math.round((t1 - t0) * SR), rl = rng(i0 + 81), rr = rng(i0 + 82), bl = new Biquad(), br = new Biquad();

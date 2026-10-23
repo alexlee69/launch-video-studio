@@ -21,7 +21,7 @@ brand:
   # cast: [{src: assets/char-a.svg}, {shape: hex, col: "#2FC2A3"}]   # your characters, or the built-in shape cast
 
 music:
-  style: playful                 # playful (mallets, 120) | keynote (house, 124) | calm (pads, 96) | track | none
+  style: playful                 # playful (mallets, 120) | keynote (house, 124) | calm (pads, 96) | film (groove, 87) | track | none
   bpm: 120                       # shot lengths in beats follow this grid
   key: F
   drop: s2                       # the groove drops in at this shot (default: the 2nd)
@@ -39,7 +39,7 @@ shots:
     name: Steady
     badge: Day 1
     sub: a habit tracker
-    out: zoom-in                 # cut | whip-left | whip-right | whip-up | whip-down | zoom-in | zoom-out | blur
+    out: zoom-in                 # cut | whip-left | whip-right | whip-up | whip-down | zoom-in | zoom-out | blur | glitch | smear-left | smear-right | tunnel | flash
     note: Logo is a monogram stand-in until the real mark is in assets/.
 
   - id: s2

@@ -16,7 +16,8 @@ export default {
     const head = s.text ? ctx.text(s.text, { size: portrait ? 84 : 68, align: 'center', maxW: safe.w, lines: portrait ? 3 : 1, layer: 'headline' }) : null;
     if (head) { head.style.left = safe.x0 + 'px'; head.style.top = safe.y0 + 'px'; }
     const top0 = head ? head.offsetTop + head.offsetHeight + 46 * u : safe.y0;
-    const bw = Math.min(safe.w, (H - top0 - H * .03) * 16 / 10.5), bh = Math.min(H - top0 - H * .03, bw * 10.5 / 16);
+    const y1 = ctx.picture ? ctx.picture.y1 : H;                   // the picture's bottom (above a letterbox bar)
+    const bw = Math.min(safe.w, (y1 - top0 - H * .03) * 16 / 10.5), bh = Math.min(y1 - top0 - H * .03, bw * 10.5 / 16);
     const top = head ? top0 : (H - bh) / 2;                    // no headline: centre the window (overlay clips)
     const wrap = ctx.el(A.browserFrame('', bw, bh, s.url || '', ctx.font), `left:${W / 2 - bw / 2}px;top:${top}px`, 'window');
     const screen = wrap.querySelector('.lv-screen');

@@ -1,0 +1,47 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "input": {
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A woman in her thirties with a dark brown bob and a pale blue shirt sits on an unmade bed in a sunlit bedroom, talking to the camera mid-sentence. With her free hand she holds up one phone toward the camera, screen facing the camera, the screen completely black and switched off; only this one phone is visible in the frame. Natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+    "aspect_ratio": "9:16",
+    "raw": true,
+    "num_images": 2,
+    "seed": 7391,
+    "output_format": "jpeg"
+  },
+  "submitted": "2026-10-22T07:49:19.688Z",
+  "status": [
+    {
+      "t": 6,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 12,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16296-0606-77c2-ac9a-63f81f026edc",
+  "result": {
+    "images": [
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf6000/AQavBUPf86FyGbdmParDG_ed3d435ac9824c348aa05427fff1e132.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      },
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf6000/8V-xgmBedTeciSwopGITQ_56e277a18cc142cbaf3c52fde85ebe96.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 7391,
+    "has_nsfw_concepts": [
+      false,
+      false
+    ],
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A woman in her thirties with a dark brown bob and a pale blue shirt sits on an unmade bed in a sunlit bedroom, talking to the camera mid-sentence. With her free hand she holds up one phone toward the camera, screen facing the camera, the screen completely black and switched off; only this one phone is visible in the frame. Natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark."
+  },
+  "finished": "2026-10-22T07:49:34.620Z"
+}

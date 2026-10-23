@@ -1,0 +1,15 @@
+97 sx ref 9.00 ours 9.49 | sy ref 5.21 ours 5.40
+98 sx ref 6.42 ours 6.54 | sy ref 3.96 ours 4.25
+99 sx ref 5.17 ours 5.00 | sy ref 3.06 ours 3.24
+100 sx ref 4.14 ours 4.20 | sy ref 2.52 ours 2.66
+101 sx ref 3.44 ours 3.24 | sy ref 2.13 ours 2.09
+102 sx ref 2.82 ours 2.69 | sy ref 1.77 ours 1.92
+103 sx ref 2.48 ours 2.51 | sy ref 1.58 ours 1.54
+104 sx ref 1.97 ours 1.89 | sy ref 1.35 ours 1.32
+105 sx ref 1.56 ours 1.53 | sy ref 1.17 ours 0.97
+106 sx ref 1.48 ours 1.54 | sy ref 0.95 ours 0.85
+107 sx ref 1.13 ours 0.97 | sy ref 0.86 ours 0.83
+108 sx ref 0.85 ours 0.85 | sy ref 0.82 ours 0.85
+109 sx ref 0.71 ours 0.67 | sy ref 0.77 ours 0.50
+110 sx ref 0.63 ours 0.50 | sy ref 0.81 ours 0.45
+plate1 blur ratio ours/ref: x 0.79–1.05, y 0.56–1.08

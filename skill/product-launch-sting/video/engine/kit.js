@@ -46,3 +46,46 @@ export function revealPlan(nWords, D, start = 0, per = 2.2) {
 // a moving exit (whip / zoom / blur) takes a shot's last EXIT_LEN local frames; no hero/storyboard frame is picked inside it
 export const EXIT_LEN = 7;
 export const stagger = (n, a, b) => Array.from({ length: n }, (_, i) => n === 1 ? a : a + (b - a) * i / (n - 1));
+
+// Drift cuts (momentum cuts, measured on a launch film): the camera speeds up into the cut (expo-in over the shot's last
+// 12 frames) and the next shot enters still moving the same way, decaying ×0.7 per frame. `drift-left` etc. name the way
+// the content moves, as whips do. Every other moving exit (whips, zooms, blur, the cross-cuts) takes the last 7 frames.
+export const DRIFTS = ['drift-left', 'drift-right', 'drift-up', 'drift-down'];
+export const isDrift = o => DRIFTS.includes(o);
+export const exitLen = type => isDrift(type) ? 12 : EXIT_LEN;
+export const expoIn = (u, k = 3.2) => (Math.exp(k * u) - 1) / (Math.exp(k) - 1);
+export const smoothstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+// a momentum move of total `S` whose velocity rises ×e^(1/tin) per frame into its peak at `c` and decays ×e^(-1/tout)
+// after it (a double exponential: a chat scrolling to a new message, a list stepping); returns the displacement at t
+export function pulse(t, c, S, tin, tout) {
+  if (t < c) return S * tin / (tin + tout) * Math.exp((t - c) / tin);
+  return S * (1 - tout / (tin + tout) * Math.exp(-(t - c) / tout));
+}
+// `at:`-style values: a local 30-fps frame (45) or seconds ("1.5s"); null when it isn't one
+export function frameAt(v) {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
+  const m = String(v ?? '').trim().match(/^(-?\d+(?:\.\d+)?)\s*(s|sec)?$/);
+  return m ? (m[2] ? Number(m[1]) * 30 : Number(m[1])) : null;
+}
+
+// Cross-cut transitions drawn by the stage (not just a camera move): how far each reaches into the outgoing shot (pre,
+// its last frames) and the incoming one (post, its first frames), in 30-fps frames. `overlay` = it draws a stage-level
+// overlay above both shots (the `transition` layer in --layers); glitch only filters the camera.
+export const XFX = {
+  glitch: { pre: 4, post: 3, overlay: false },
+  'smear-left': { pre: 6, post: 5, overlay: true },
+  'smear-right': { pre: 6, post: 5, overlay: true },
+  tunnel: { pre: 7, post: 10, overlay: true },
+  flash: { pre: 5, post: 6, overlay: true },
+};
+// cinema bars (shot field `letterbox: true | 2.39 | 2.0`), px per bar, fixed to the frame. Landscape: the real bars for
+// that picture ratio. Portrait / square (where 2.39:1 would leave a sliver): 8 % of the height each at 2.39, scaled with
+// the ratio's bar share (2.0 → 3.5 %). Whole pixels, so the bar edge is crisp.
+export function letterboxBar(v, W, H) {
+  if (v == null || v === false || v === 'none') return 0;
+  const R = v === true ? 2.39 : Number(v);
+  if (!(R > 1)) return 0;
+  if (W > H) return Math.max(0, Math.round((H - W / R) / 2));
+  const share = r => Math.max(0, 1 - (16 / 9) / r);
+  return Math.round(.08 * H * share(R) / share(2.39));
+}

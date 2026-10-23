@@ -3,7 +3,7 @@
 //   video     W×H, 60 fps, frame count, h264 yuv420p, bt709 primaries/transfer/matrix, tv range
 //   shots     the renderer's log: the shot behind every frame changes exactly at the timeline's cut indices
 //   cut       hard cuts ("out: cut") are one-frame spikes in luma difference (≥ 1.25× every neighbour within 3 frames);
-//             moving transitions (whip/zoom/blur) are INFO — their boundary is proven by the shot log
+//             moving transitions (whip/zoom/blur/drift and the cross-cuts) are INFO — their boundary is proven by the shot log
 //   fresh     mux.json (written at mux time) says the mp4 holds the current frames (render.json prints) and master;
 //   audio     the soundtrack muxed into the mp4 was built from this timeline + audio code (its fingerprint)
 //   freeze    no run of ≥ 4 identical PNG frames outside declared holds. One Chrome page draws a contiguous run of
@@ -12,6 +12,7 @@
 //             reported as verified still
 //   content   every frame differs from a background-only render of its own shot in ≥ CONTENT_PX thumbnail pixels
 //             (1/10 scale, by more than CONTENT_DELTA luma) — a blank frame can't pass on a busy (grid/dark) background
+//             (the reference hides block content AND bg footage: footage is picture content; bars and transitions stay)
 //   text      at every shot's hero frame: no text clipped by the frame, none under 18 px (UI mocks exempt);
 //             WARN outside the safe area (9:16: platform-UI-safe) or under 26 px
 //   loudness  the mp4's audio: −14 ± 0.2 LUFS, true peak ≤ −1 dBTP (INFO when the soundtrack is deliberately silent)
@@ -24,6 +25,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ASPECTS, SR, sh, measureLoudness } from './common.mjs';
 import { fileSha } from './fingerprint.mjs';
+import { letterboxBar } from '../engine/kit.js';
 
 export const FREEZE_RUN = 3;          // ≥ 3 identical pairs in a row = 4 identical frames (~1/15 s at 60 fps)
 export const CONTENT_DELTA = 12;      // thumbnail luma difference from the bg-only render that counts as "something there"
@@ -109,18 +111,24 @@ function onsetFinder(x) {
 }
 const TOL = { tick: .0015, click: .0015, pop: .003, chime: .003, hit: .003 };
 
-// shared by film QA and the storyboard: frame-clipped / tiny text are errors, unsafe / small are warnings
-export function textIssues(audits, W, H) {
-  const portrait = H > W, safe = portrait ? { x0: .1 * W, y0: .1 * H, x1: .9 * W, y1: .8 * H } : { x0: .05 * W, y0: .05 * H, x1: .95 * W, y1: .95 * H };
-  const clipped = [], tiny = [], unsafe = [], small = [];
+// shared by film QA and the storyboard: frame-clipped / tiny text are errors, unsafe / small are warnings. bars: shot id
+// → letterbox bar height in px (kit.letterboxBar): text under a bar is clipped by it (UI mocks too), and the safe area
+// starts 2 % of the height inside the picture
+export function textIssues(audits, W, H, bars = {}) {
+  const portrait = H > W, safe0 = portrait ? { x0: .1 * W, y0: .1 * H, x1: .9 * W, y1: .8 * H } : { x0: .05 * W, y0: .05 * H, x1: .95 * W, y1: .95 * H };
+  const clipped = [], tiny = [], unsafe = [], small = [], barred = [];
   for (const a of audits) for (const b of a.boxes) {
-    const tag = `${a.shot} "${b.text.slice(0, 24)}"`;
+    const tag = `${a.shot} "${b.text.slice(0, 24)}"`, bar = bars[a.shot] || 0;
+    const safe = bar ? { ...safe0, y0: Math.max(safe0.y0, bar + .02 * H), y1: Math.min(safe0.y1, H - bar - .02 * H) } : safe0;
     if (b.x0 < -1 || b.y0 < -1 || b.x1 > W + 1 || b.y1 > H + 1) clipped.push(tag);
+    else if (bar && (b.y0 < bar - 1 || b.y1 > H - bar + 1)) { clipped.push(`${tag} (under the letterbox bar)`); barred.push(tag); }
     else if (!b.ui && (b.x0 < safe.x0 - 2 || b.y0 < safe.y0 - 2 || b.x1 > safe.x1 + 2 || b.y1 > safe.y1 + 2)) unsafe.push(tag);
     if (!b.ui && b.px < 18) tiny.push(`${tag} ${b.px.toFixed(0)}px`); else if (!b.ui && b.px < 26) small.push(`${tag} ${b.px.toFixed(0)}px`);
   }
-  return { clipped, tiny, unsafe, small, portrait, boxes: audits.reduce((a, x) => a + x.boxes.length, 0) };
+  return { clipped, tiny, unsafe, small, barred, portrait, boxes: audits.reduce((a, x) => a + x.boxes.length, 0) };
 }
+// shot id → letterbox bar px, for the shots that have bars
+export const barsOf = (tl, W, H) => Object.fromEntries(tl.shots.map(s => [s.id, letterboxBar(s.letterbox, W, H)]).filter(([, b]) => b));
 
 export function qaFilm({ tl, aspect, dir, audioDir, mp4, shotLog, audits, pages = null, audioPrint = null, log = console.log }) {
   const { W, H } = ASPECTS[aspect], results = [];
@@ -171,9 +179,9 @@ export function qaFilm({ tl, aspect, dir, audioDir, mp4, shotLog, audits, pages 
     check('content', !c.empty.length, c.empty.length ? `near-empty frames (look like the bare background): ${c.empty.slice(0, 12).join(', ')}${c.empty.length > 12 ? ` … (${c.empty.length})` : ''}`
       : `every frame has content beyond its background (min ${c.minCount} differing thumbnail px)`);
   }
-  const T = textIssues(audits, W, H);
+  const bars = barsOf(tl, W, H), T = textIssues(audits, W, H, bars);
   check('text', !T.clipped.length && !T.tiny.length, T.clipped.length || T.tiny.length ? [T.clipped.length && `clipped by the frame: ${T.clipped.join('; ')}`, T.tiny.length && `too small: ${T.tiny.join('; ')}`].filter(Boolean).join(' | ')
-    : `${T.boxes} text boxes across ${audits.length} hero frames, none clipped or tiny`);
+    : `${T.boxes} text boxes across ${audits.length} hero frames, none clipped or tiny${Object.keys(bars).length ? `, none under a letterbox bar (${Object.entries(bars).map(([id, b]) => `${id} ${b}px`).join(', ')})` : ''}`);
   if (T.unsafe.length) check('text', true, `outside the ${T.portrait ? 'platform-UI' : 'title'}-safe area: ${T.unsafe.slice(0, 6).join('; ')}`, 'WARN');
   if (T.small.length) check('text', true, `small (< 26 px): ${T.small.slice(0, 6).join('; ')}`, 'WARN');
   // audio
@@ -219,7 +227,7 @@ export function qaFilm({ tl, aspect, dir, audioDir, mp4, shotLog, audits, pages 
 // very start (≤ 1 s, the UI animating in) or end (≤ 0.5 s) are reported, not failed; longer empty edges, an empty gap
 // in between, or a clip that is never filled, fail. Frozen runs inside allowed empty edges are the same empty frame
 // repeated and don't count.
-export function qaClip({ mov, framesDir, n, fps, alpha, W, H, held = [], refsDir = null, pages = null, log = console.log }) {
+export function qaClip({ mov, framesDir, n, fps, alpha, W, H, held = [], refsDir = null, pages = null, bar = 0, log = console.log }) {
   const out = [];
   const check = (name, pass, detail) => { out.push({ name, pass, detail }); log(`${pass ? 'PASS' : 'FAIL'}  ${name.padEnd(8)} ${detail}`); };
   const v = (JSON.parse(sh('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=codec_name,width,height,pix_fmt,nb_frames,r_frame_rate', '-of', 'json', mov]).stdout || '{}').streams || [])[0] || {};
@@ -228,7 +236,9 @@ export function qaClip({ mov, framesDir, n, fps, alpha, W, H, held = [], refsDir
   check('clip', v.width === W && v.height === H && Number(v.nb_frames) === n && pfOk, `${v.codec_name} ${v.width}×${v.height} ${v.pix_fmt} ${v.nb_frames}/${n} frames @ ${v.r_frame_rate}`);
   const input = ['-framerate', String(fps), '-i', join(framesDir, '%05d.png')];
   let empty = null;
-  if (alpha) empty = frameStats(input, `alphaextract,scale=${Math.round(W / 10)}:${Math.round(H / 10)}:flags=area,signalstats`, ['YMAX']).filter(r => r.YMAX < 40).map(r => r.n);
+  // transparent clips: alpha coverage, measured inside the picture (letterbox bars are opaque in every frame); format=rgba
+  // first: a clip that is opaque in every pixel (full-bleed media) is saved as RGB PNGs, which alphaextract can't read
+  if (alpha) empty = frameStats(input, `format=rgba,alphaextract,${bar ? `crop=${W}:${H - 2 * bar}:0:${bar},` : ''}scale=${Math.round(W / 10)}:${Math.round((H - 2 * bar) / 10)}:flags=area,signalstats`, ['YMAX']).filter(r => r.YMAX < 40).map(r => r.n);
   else if (refsDir) {
     const c = contentCheck({ framesInput: input, refsInput: ['-framerate', String(fps), '-i', join(refsDir, '%05d.png')], W, H });
     if (c.n !== n) empty = Array.from({ length: n }, (_, i) => i); else empty = c.empty;

@@ -1,0 +1,47 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "input": {
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young man with dark curly hair and over-ear headphones around his neck, mustard-yellow sweatshirt, in a city park on a bright morning, trees and a path behind him, talking to the camera mid-sentence. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+    "aspect_ratio": "9:16",
+    "raw": true,
+    "num_images": 2,
+    "seed": 7510,
+    "output_format": "jpeg"
+  },
+  "submitted": "2026-10-22T07:37:03.233Z",
+  "status": [
+    {
+      "t": 6,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 18,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a1628a-c7ec-7080-a2fc-53b0596982df",
+  "result": {
+    "images": [
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/ZeIFKcvf3J5wXGJI5RXtM_b453f30da203429caf5d7dc03582a5b8.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      },
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb8/SXq2JGmgZhYhXoweKFiW9_860ee5fd53a747d1a856404f539bbd56.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 7510,
+    "has_nsfw_concepts": [
+      false,
+      false
+    ],
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young man with dark curly hair and over-ear headphones around his neck, mustard-yellow sweatshirt, in a city park on a bright morning, trees and a path behind him, talking to the camera mid-sentence. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark."
+  },
+  "finished": "2026-10-22T07:37:24.059Z"
+}

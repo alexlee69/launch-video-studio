@@ -21,9 +21,9 @@
 // shifted layer misses by thousands of pixels (launch-videos/layers-probe/probe.mjs proves it).
 import { spawn } from 'node:child_process';
 import { writeFileSync, readFileSync, mkdtempSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { tmpdir, availableParallelism } from 'node:os';
+import { Worker } from 'node:worker_threads';
 import { join } from 'node:path';
-import { sh } from './common.mjs';
 
 export const STACK_DELTA = 16;     // still frames: per frame ≤ STACK_PX pixels off by more than STACK_DELTA
 export const STACK_PX = 64;
@@ -33,41 +33,40 @@ export const BLUR_PX = 64;
 export const STACK_LEVELS = [4, 8, 16, 32, 64];   // per-frame counts kept in the stats (noise measurements)
 export const VISIBLE_A = .1;       // a layer pixel counts as visible above 10 % alpha
 export const VISIBLE_PX = 4;       // … and a frame as non-empty with at least this many of them
+const QA_WORKERS = Math.max(1, Math.min(8, availableParallelism() - 2));   // stack-compositing threads (bands of rows)
+const QA_READERS = 4;              // threads pulling decoded frames out of the decoders' pipes
+const FORMAT_JOBS = 4;             // layer files probed at once (a WebM twin is decoded in full)
 
-// one ProRes layer → 16-bit RGBA frames (BT.709 limited → full-range RGB, straight alpha), streamed
-async function* rawFrames(file, W, H) {
-  const size = W * H * 8;
-  const p = spawn('ffmpeg', ['-hide_banner', '-v', 'error', '-i', file, '-vf', 'scale=in_color_matrix=bt709:in_range=tv,format=rgba64le', '-f', 'rawvideo', 'pipe:1'], { stdio: ['ignore', 'pipe', 'pipe'] });
-  let err = ''; p.stderr.on('data', d => { err += d; });
-  const closed = new Promise(r => p.on('close', code => r(code)));
-  let frame = Buffer.allocUnsafe(size), off = 0;
-  try {
-    for await (const chunk of p.stdout) {
-      for (let c = 0; c < chunk.length;) {
-        const k = Math.min(size - off, chunk.length - c);
-        chunk.copy(frame, off, c, c + k); off += k; c += k;
-        if (off === size) { yield new Uint16Array(frame.buffer, frame.byteOffset, size / 2); frame = Buffer.allocUnsafe(size); off = 0; }
-      }
-    }
-    const code = await closed;
-    if (code !== 0) throw new Error(`decoding ${file} failed: ${err.trim()}`);
-    if (off) throw new Error(`decoding ${file}: ${off} stray bytes after the last whole frame`);
-  } finally { p.kill(); }
+// a command's exit status and output, without blocking (QA probes every layer file at once)
+function run(cmd, args) {
+  return new Promise(res => {
+    const p = spawn(cmd, args, { stdio: ['ignore', 'pipe', 'pipe'] });
+    let stdout = '', stderr = '';
+    p.stdout.setEncoding('utf8').on('data', d => { stdout += d; }); p.stderr.setEncoding('utf8').on('data', d => { stderr += d; });
+    p.on('error', e => res({ status: -1, stdout, stderr: String(e.message || e) }));
+    p.on('close', status => res({ status, stdout, stderr }));
+  });
 }
-
+// fn over items, at most n at a time; results in item order
+async function mapLimit(items, n, fn) {
+  const out = new Array(items.length);
+  let k = 0;
+  await Promise.all(Array.from({ length: Math.min(n, items.length) }, async () => { while (k < items.length) { const i = k++; out[i] = await fn(items[i], i); } }));
+  return out;
+}
 // a WebM twin decoded with libvpx (the native VP9 decoder drops the alpha side channel): frames read, and how many of
 // them have visible alpha (> 10 %)
-function webmAlpha(file) {
+async function webmAlpha(file) {
   const tmp = mkdtempSync(join(tmpdir(), 'lv-webm-')), f = join(tmp, 'a.txt');
   try {
-    const r = sh('ffmpeg', ['-hide_banner', '-v', 'error', '-c:v', 'libvpx-vp9', '-i', file, '-vf', `alphaextract,signalstats,metadata=mode=print:key=lavfi.signalstats.YMAX:file=${f}`, '-f', 'null', '-']);
+    const r = await run('ffmpeg', ['-hide_banner', '-v', 'error', '-c:v', 'libvpx-vp9', '-i', file, '-vf', `alphaextract,signalstats,metadata=mode=print:key=lavfi.signalstats.YMAX:file=${f}`, '-f', 'null', '-']);
     if (r.status) return { frames: 0, visible: 0, err: r.stderr.trim().split('\n')[0] };
     const v = [...readFileSync(f, 'utf8').matchAll(/YMAX=(\d+)/g)].map(m => Number(m[1]));
     return { frames: v.length, visible: v.filter(x => x > 25).length };
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 }
-function probe(file) {
-  return (JSON.parse(sh('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=codec_name,profile,width,height,pix_fmt,nb_frames,r_frame_rate', '-of', 'json', file]).stdout || '{}').streams || [])[0] || {};
+async function probe(file, entries = 'stream=codec_name,profile,width,height,pix_fmt,nb_frames,r_frame_rate') {
+  return (JSON.parse((await run('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', entries, '-of', 'json', file])).stdout || '{}').streams || [])[0] || {};
 }
 
 // manifest: the delivered manifest.json (its `layers` order is what QA restacks — the same order an editor follows)
@@ -77,23 +76,26 @@ export async function qaLayers({ dir, manifest, refAlpha, refOpaque = null, fram
   const results = [], stats = { layers: {}, checks: {} };   // per layer / per stack check (layer names can't collide with checks)
   const check = (name, pass, detail) => { results.push({ name, pass, detail }); log(`${pass ? 'PASS' : 'FAIL'}  ${name.padEnd(8)} ${detail}`); };
   const finish = () => ({ passed: results.every(r => r.pass), results, stats });
-  const bgL = manifest.layers.filter(l => l.name === 'background'), content = manifest.layers.filter(l => l.name !== 'background');
+  // the background group: the brand background and, for a shot with bg footage, the footage layer over it — both are
+  // left out of transparent renders, so the content stack is compared without them and stack+bg with them
+  const bgL = manifest.layers.filter(l => l.name === 'background'), footL = manifest.layers.filter(l => l.name === 'footage');
+  const content = manifest.layers.filter(l => l.name !== 'background' && l.name !== 'footage');
   // order: file names carry the stack position (NN-…; editors that stack by name follow it) — must match the manifest
   const misnamed = manifest.layers.map((l, i) => [l, String(manifest.alpha ? i + 1 : i).padStart(2, '0') + '-']).filter(([l, want]) => !String(l.file).startsWith(want));
   check('order', !misnamed.length, misnamed.length ? `file names don't match the stack order: ${misnamed.map(([l, want]) => `${l.file} should start with ${want}`).join('; ')}` : `file names number the layers back to front (${manifest.layers[0].file} … ${manifest.layers.at(-1).file})`);
   // format (and the WebM twins when there are any: VP9 with its alpha side channel, same size and rate)
-  const bad = [], rate = r => { const [a, b] = String(r).split('/').map(Number); return a / (b || 1); };
-  for (const l of manifest.layers) {
-    const v = probe(join(dir, l.file));
+  const rate = r => { const [a, b] = String(r).split('/').map(Number); return a / (b || 1); };
+  const bad = (await mapLimit(manifest.layers, FORMAT_JOBS, async l => {
+    const out = [], v = await probe(join(dir, l.file));
     if (!(v.codec_name === 'prores' && v.width === W && v.height === H && Number(v.nb_frames) === n && /^yuva444p1[02]le$/.test(v.pix_fmt) && Math.abs(rate(v.r_frame_rate) - manifest.fps) < 1e-6))
-      bad.push(`${l.file}: ${v.codec_name} ${v.width}×${v.height} ${v.pix_fmt} ${v.nb_frames}/${n} frames @ ${v.r_frame_rate} (want ${manifest.fps})`);
+      out.push(`${l.file}: ${v.codec_name} ${v.width}×${v.height} ${v.pix_fmt} ${v.nb_frames}/${n} frames @ ${v.r_frame_rate} (want ${manifest.fps})`);
     if (l.webm) {
-      const w = (JSON.parse(sh('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=codec_name,width,height,r_frame_rate:stream_tags=alpha_mode', '-of', 'json', join(dir, l.webm)]).stdout || '{}').streams || [])[0] || {};
-      const wa = webmAlpha(join(dir, l.webm));
+      const [w, wa] = await Promise.all([probe(join(dir, l.webm), 'stream=codec_name,width,height,r_frame_rate:stream_tags=alpha_mode'), webmAlpha(join(dir, l.webm))]);
       if (!(w.codec_name === 'vp9' && w.width === W && w.height === H && (w.tags || {}).alpha_mode === '1' && Math.abs(rate(w.r_frame_rate) - manifest.fps) < 1e-6 && wa.frames === n && wa.visible > 0))
-        bad.push(`${l.webm}: ${w.codec_name} ${w.width}×${w.height} alpha_mode=${(w.tags || {}).alpha_mode} @ ${w.r_frame_rate}, ${wa.frames}/${n} frames decoded, ${wa.visible} with visible alpha${wa.err ? ` (${wa.err})` : ''}`);
+        out.push(`${l.webm}: ${w.codec_name} ${w.width}×${w.height} alpha_mode=${(w.tags || {}).alpha_mode} @ ${w.r_frame_rate}, ${wa.frames}/${n} frames decoded, ${wa.visible} with visible alpha${wa.err ? ` (${wa.err})` : ''}`);
     }
-  }
+    return out;
+  })).flat();
   check('format', !bad.length, bad.length ? bad.join('; ') : `${manifest.layers.length} layers, ProRes 4444 with alpha, ${W}×${H}, ${n} frames each at ${manifest.fps} fps${manifest.layers.some(l => l.webm) ? ' (+ VP9 alpha WebM)' : ''}`);
   if (bad.length) return finish();
   // layers
@@ -103,60 +105,77 @@ export async function qaLayers({ dir, manifest, refAlpha, refOpaque = null, fram
       : `everything landed in one layer (${content.map(l => l.name).join('') || 'none'}) although the shot has ${manifest.elements} elements — tag them (ctx.layer / ctx.el(html, css, layer) / ctx.text(copy, {layer}))`);
   if ((manifest.alpha && bgL.length) || (!manifest.alpha && bgL.length !== 1)) check('bg', false, manifest.alpha ? 'a transparent (--alpha) export has a background layer' : `want exactly one background layer, found ${bgL.length}`);
   else if (bgL.length && manifest.layers[0].name !== 'background') check('bg', false, `the background layer must be the bottom of the stack (layers[0]); it is at position ${manifest.layers.findIndex(l => l.name === 'background')}`);
-  // one lockstep pass over every layer and the references
-  const files = [...content.map(l => join(dir, l.file)), ...bgL.map(l => join(dir, l.file)), refAlpha, ...(refOpaque && bgL.length ? [refOpaque] : [])];
-  const its = files.map(f => rawFrames(f, W, H)[Symbol.asyncIterator]());
-  const C = content.length, hasBg = bgL.length === 1 && !!refOpaque;
-  const vis = content.map(() => ({ frames: 0, first: -1, last: -1, x0: W, y0: H, x1: -1, y1: -1 }));
+  else if (footL.length && (manifest.alpha || footL.length > 1 || manifest.layers[1].name !== 'footage')) check('bg', false, manifest.alpha ? 'a transparent (--alpha) export has a footage layer (bg footage is left out of --alpha)' : 'the footage layer must sit right above the background (layers[1]), once');
+  // one lockstep pass over every layer and the references (layers-qa-worker.mjs): each input's decoder streams into
+  // two shared buffers, read by QA_READERS workers; while they read frame f + 1, QA_WORKERS workers composite frame f,
+  // one band of rows each
+  const grp = bgL.length === 1 ? [...bgL, ...footL] : [];        // composited back to front under the content for stack+bg
+  const files = [...content.map(l => join(dir, l.file)), ...grp.map(l => join(dir, l.file)), refAlpha, ...(refOpaque && grp.length ? [refOpaque] : [])];
+  const slots = [0, 1].map(() => files.map(() => new SharedArrayBuffer(N * 8)));
+  const C = content.length, nF = grp.length > 1 ? grp.length - 1 : 0, hasBg = grp.length >= 1 && !!refOpaque;
+  const vis = [...content, ...grp.slice(1)].map(() => ({ frames: 0, first: -1, last: -1, x0: W, y0: H, x1: -1, y1: -1 }));
   const histA = [], histO = [];
   let bgMinA = 65535;
-  const acc = new Float32Array(N * 4), VA = VISIBLE_A * 65535;
+  const nR = Math.min(QA_READERS, files.length), nW = Math.max(1, Math.min(QA_WORKERS, H)), workers = [];
+  const spawnWorker = data => {
+    const t = new Worker(new URL('./layers-qa-worker.mjs', import.meta.url), { workerData: { ...data, W, H, slots } });
+    let wait = null, dead = null;
+    const fail = e => { dead ||= e; if (wait) { wait.rej(dead); wait = null; } };
+    t.on('message', m => { const x = wait; wait = null; if (x) x.res(m); });
+    t.on('error', fail);
+    t.on('exit', code => fail(new Error(`a layer-QA worker stopped (exit code ${code})`)));
+    const w = { t, run: msg => new Promise((res, rej) => { if (dead) return rej(dead); wait = { res, rej }; t.postMessage(msg); }) };
+    workers.push(w);
+    return w;
+  };
+  const readers = Array.from({ length: nR }, (_, r) => ({ ins: files.map((file, i) => ({ i, file })).filter(x => x.i % nR === r) })).map(r => ({ ...r, w: spawnWorker({ role: 'read', inputs: r.ins }) }));
+  const stackers = Array.from({ length: nW }, (_, w) => spawnWorker({ role: 'stack', C, nBg: grp.length, hasBg, row0: Math.floor(H * w / nW), row1: Math.floor(H * (w + 1) / nW), VA: VISIBLE_A * 65535 }));
+  // every input's next frame into buffer `slot` → per input: ended (no frame left)?
+  const read = async slot => {
+    const done = new Array(files.length);
+    for (const [r, m] of (await Promise.all(readers.map(r => r.w.run(slot)))).entries()) {
+      if (m.err) throw new Error(m.err);
+      readers[r].ins.forEach(({ i }, k) => { done[i] = m.done[k]; });
+    }
+    return done;
+  };
+  const next = slot => { const p = read(slot); p.catch(() => {}); return p; };   // awaited one frame later
   try {
+    let pending = next(0);
     for (let f = 0; ; f++) {
-      const rs = await Promise.all(its.map(i => i.next()));
-      if (rs.every(r => r.done)) { if (f !== n) throw new Error(`decoded ${f} frames, want ${n}`); break; }
-      if (rs.some(r => r.done)) throw new Error(`frame ${f}: some inputs ended early (${files.filter((_, i) => rs[i].done).join(', ')})`);
-      const L = rs.map(r => r.value);
-      acc.fill(0);
-      for (let l = 0; l < C; l++) {
-        const d = L[l], V = vis[l];
+      const done = await pending;
+      if (done.every(Boolean)) { if (f !== n) throw new Error(`decoded ${f} frames, want ${n}`); break; }
+      if (done.some(Boolean)) throw new Error(`frame ${f}: some inputs ended early (${files.filter((_, i) => done[i]).join(', ')})`);
+      const parts = Promise.all(stackers.map(w => w.run(f % 2)));
+      pending = next((f + 1) % 2);
+      const P = await parts;
+      for (let l = 0; l < C + nF; l++) {           // content layers, then the footage layer (visibility stats only)
+        const V = vis[l];
         let cnt = 0;
-        for (let p = 0, x = 0, y = 0; p < N * 4; p += 4) {
-          const a = d[p + 3];
-          if (a !== 0) {
-            const k = a / 65535, inv = 1 - k;
-            acc[p] = d[p] * k + acc[p] * inv; acc[p + 1] = d[p + 1] * k + acc[p + 1] * inv; acc[p + 2] = d[p + 2] * k + acc[p + 2] * inv; acc[p + 3] = a + acc[p + 3] * inv;
-            if (a > VA) { cnt++; if (x < V.x0) V.x0 = x; if (x > V.x1) V.x1 = x; if (y < V.y0) V.y0 = y; if (y > V.y1) V.y1 = y; }
-          }
-          if (++x === W) { x = 0; y++; }
+        for (const { cnt: c, box: b } of P) {
+          cnt += c[l];
+          if (b[l * 4] < V.x0) V.x0 = b[l * 4]; if (b[l * 4 + 1] < V.y0) V.y0 = b[l * 4 + 1]; if (b[l * 4 + 2] > V.x1) V.x1 = b[l * 4 + 2]; if (b[l * 4 + 3] > V.y1) V.y1 = b[l * 4 + 3];
         }
         if (cnt >= VISIBLE_PX) { V.frames++; if (V.first < 0) V.first = f; V.last = f; }
       }
-      // content stack vs the flattened transparent render
-      const ref = L[C + bgL.length], hA = new Uint32Array(256);
-      for (let p = 0; p < N * 4; p += 4) {
-        const k = ref[p + 3] / 65535;
-        let e = Math.abs(acc[p + 3] - ref[p + 3]);
-        e = Math.max(e, Math.abs(acc[p] - ref[p] * k), Math.abs(acc[p + 1] - ref[p + 1] * k), Math.abs(acc[p + 2] - ref[p + 2] * k));
-        hA[Math.min(255, Math.floor(e / 257))]++;
+      const hA = new Uint32Array(256), hO = hasBg ? new Uint32Array(256) : null;
+      for (const r of P) {
+        for (let e = 0; e < 256; e++) hA[e] += r.hA[e];
+        if (hO) { for (let e = 0; e < 256; e++) hO[e] += r.hO[e]; if (r.bgMin < bgMinA) bgMinA = r.bgMin; }
       }
       histA.push(hA);
-      if (hasBg) {        // background under the stack vs the flattened render on its background
-        const bg = L[C], refO = L[C + 2], hO = new Uint32Array(256);
-        for (let p = 0; p < N * 4; p += 4) {
-          if (bg[p + 3] < bgMinA) bgMinA = bg[p + 3];
-          const inv = 1 - acc[p + 3] / 65535;
-          const e = Math.max(Math.abs(acc[p] + bg[p] * inv - refO[p]), Math.abs(acc[p + 1] + bg[p + 1] * inv - refO[p + 1]), Math.abs(acc[p + 2] + bg[p + 2] * inv - refO[p + 2]));
-          hO[Math.min(255, Math.floor(e / 257))]++;
-        }
-        histO.push(hO);
-      }
+      if (hO) histO.push(hO);
     }
-  } catch (e) { check('stack', false, String(e.message || e)); await Promise.allSettled(its.map(i => i.return())); return finish(); }
+  } catch (e) { check('stack', false, String(e.message || e)); return finish(); }
+  finally {      // readers stop their decoders first (a terminated worker would leave ffmpeg blocked on its pipe)
+    await Promise.allSettled(readers.map(r => r.w.run('close')));
+    await Promise.allSettled(workers.map(w => { w.t.removeAllListeners('exit'); return w.t.terminate(); }));
+  }
   // nonempty
-  const empty = content.filter((_, i) => !vis[i].frames).map(l => l.name);
-  check('nonempty', !empty.length, empty.length ? `never visible in any frame: ${empty.join(', ')}` : `every layer is visible somewhere (${content.map((l, i) => `${l.name} ${vis[i].first}–${vis[i].last}`).join(', ')})`);
-  content.forEach((l, i) => { stats.layers[l.name] = { visibleFrames: vis[i].frames, first: vis[i].first, last: vis[i].last, bbox: vis[i].x1 < 0 ? null : [vis[i].x0, vis[i].y0, vis[i].x1 + 1, vis[i].y1 + 1] }; });
+  const seen = [...content, ...grp.slice(1)];
+  const empty = seen.filter((_, i) => !vis[i].frames).map(l => l.name);
+  check('nonempty', !empty.length, empty.length ? `never visible in any frame: ${empty.join(', ')}` : `every layer is visible somewhere (${seen.map((l, i) => `${l.name} ${vis[i].first}–${vis[i].last}`).join(', ')})`);
+  seen.forEach((l, i) => { stats.layers[l.name] = { visibleFrames: vis[i].frames, first: vis[i].first, last: vis[i].last, bbox: vis[i].x1 < 0 ? null : [vis[i].x0, vis[i].y0, vis[i].x1 + 1, vis[i].y1 + 1] }; });
   if (hasBg && results.every(r => r.name !== 'bg')) check('bg', bgMinA >= 65535 * .995, `background layer ${bgMinA >= 65535 * .995 ? 'is opaque in every pixel' : `has transparent pixels (min alpha ${(bgMinA / 655.35).toFixed(1)} %)`}`);
   const blurOf = f => (frameInfo && frameInfo[f] && frameInfo[f].cam && frameInfo[f].cam.blur) || 0;
   const compOf = f => (frameInfo && frameInfo[f] && frameInfo[f].composited) || 0;
@@ -324,13 +343,13 @@ export function writeJsx({ path, manifest, bg, text, blurred = false }) {
 }
 
 // the layers restacked over the brand background (or over their own background layer) as an H.264 preview
-export function stackPreview({ dir, manifest, bg, out }) {
-  const ins = manifest.layers.flatMap(l => ['-i', join(dir, l.file)]);
+export async function stackPreview({ dir, manifest, bg, out }) {
+  const ins = manifest.layers.flatMap(l => ['-threads', '1', '-i', join(dir, l.file)]);   // one thread per layer decoder: 1.7 GB instead of 3.8 for 7 layers, same bytes
   const { width: W, height: H, fps } = manifest, hasBg = manifest.layers[0] && manifest.layers[0].name === 'background';
   const parts = [`color=c=${bg.replace('#', '0x')}:s=${W}x${H}:r=${fps}[b0]`];
   manifest.layers.forEach((_, i) => parts.push(`[b${i}][${i}:v]overlay=shortest=1:format=auto[b${i + 1}]`));
   parts.push(`[b${manifest.layers.length}]scale=out_color_matrix=bt709:out_range=tv,format=yuv420p,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv[v]`);
-  const r = sh('ffmpeg', ['-hide_banner', '-v', 'error', '-y', ...ins, '-filter_complex', parts.join(';'), '-map', '[v]', '-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out]);
+  const r = await run('ffmpeg', ['-hide_banner', '-v', 'error', '-y', ...ins, '-filter_complex', parts.join(';'), '-map', '[v]', '-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out]);
   if (r.status !== 0) throw new Error(`stack preview failed:\n${r.stderr}`);
   return hasBg;
 }

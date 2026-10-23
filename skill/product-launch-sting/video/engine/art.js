@@ -24,13 +24,28 @@ export function hexA(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgb
 export const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 let gid = 0;
-// a character: c = {shape, col} or {src} (a user SVG/PNG drawn as-is)
+// a character: c = {shape, col} or {src} (a user SVG/PNG drawn as-is). Moods: smile (default) · open (mouth open) ·
+// wink · happy (^^ squint, a wider smile) · blink (both eyes shut). Swap moods instantly (re-render the SVG), never tween
+export const MOODS = ['smile', 'open', 'wink', 'happy', 'blink'];
 export function bud(c, size, mood = 'smile') {
   if (c.src) return `<img src="${esc(c.src)}" style="display:block;width:${size}px;height:${size}px;object-fit:contain">`;
   const id = 'lvg' + (gid++), eyeY = c.shape === 'dome' ? 58 : 48;
   const mouth = mood === 'open' ? `<path d="M43 ${eyeY + 13}q7 9 14 0z" fill="#2A1A1A"/>`
+    : mood === 'happy' ? `<path d="M42.5 ${eyeY + 11}q7.5 8 15 0" fill="none" stroke="#1B1B1F" stroke-width="3.4" stroke-linecap="round"/>`
     : `<path d="M44 ${eyeY + 12}q6 6 12 0" fill="none" stroke="#1B1B1F" stroke-width="3.2" stroke-linecap="round"/>`;
   const eye = x => `<ellipse cx="${x}" cy="${eyeY}" rx="4.6" ry="6.4" fill="#1B1B1F"/><circle cx="${x + 1.6}" cy="${eyeY - 2.4}" r="1.6" fill="#fff"/>`;
+  // happy: an upturned arc per eye (^ ^); blink: a short closed lid per eye
+  const arc = x => `<path d="M${x - 5.4} ${eyeY + 2}q5.4 -8 10.8 0" fill="none" stroke="#1B1B1F" stroke-width="3.4" stroke-linecap="round"/>`;
+  const lid = x => `<path d="M${x - 5} ${eyeY + .6}h10" fill="none" stroke="#1B1B1F" stroke-width="3.4" stroke-linecap="round"/>`;
+  if (mood === 'happy' || mood === 'blink') {
+    const e = mood === 'happy' ? arc : lid;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block;overflow:visible">
+   <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${shade(c.col, .18)}"/><stop offset="1" stop-color="${shade(c.col, -.12)}"/></linearGradient></defs>
+   <g fill="url(#${id})">${SHAPES[c.shape] || SHAPES.capsule}</g>
+   <ellipse cx="34" cy="26" rx="10" ry="6" fill="rgba(255,255,255,.28)" transform="rotate(-25 34 26)"/>
+   <ellipse cx="31" cy="${eyeY + 10}" rx="5" ry="3" fill="rgba(255,120,140,${mood === 'happy' ? '.5' : '.35'})"/><ellipse cx="69" cy="${eyeY + 10}" rx="5" ry="3" fill="rgba(255,120,140,${mood === 'happy' ? '.5' : '.35'})"/>
+   ${e(40)}${e(60)}${mouth}</svg>`;
+  }
   const left = mood === 'wink' ? `<path d="M35 ${eyeY}q5 -5 10 0" fill="none" stroke="#1B1B1F" stroke-width="3.4" stroke-linecap="round"/>` : eye(40);
   return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block;overflow:visible">
    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${shade(c.col, .18)}"/><stop offset="1" stop-color="${shade(c.col, -.12)}"/></linearGradient></defs>

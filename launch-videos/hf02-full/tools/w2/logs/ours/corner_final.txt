@@ -1,0 +1,15 @@
+97 diag ref 5.40 ours 6.90 (Δ +1.50) | sigL ref 8.51 ours 8.42
+98 diag ref 5.50 ours 5.95 (Δ +0.45) | sigL ref 5.90 ours 6.07
+99 diag ref 5.50 ours 5.60 (Δ +0.10) | sigL ref 4.65 ours 4.48
+100 diag ref 5.00 ours 5.05 (Δ +0.05) | sigL ref 3.73 ours 3.65
+101 diag ref 4.30 ours 4.45 (Δ +0.15) | sigL ref 2.99 ours 3.11
+102 diag ref 3.40 ours 3.55 (Δ +0.15) | sigL ref 2.55 ours 2.53
+103 diag ref 2.50 ours 2.70 (Δ +0.20) | sigL ref 2.22 ours 2.13
+104 diag ref 1.95 ours 2.10 (Δ +0.15) | sigL ref 1.77 ours 1.92
+105 diag ref 1.40 ours 1.45 (Δ +0.05) | sigL ref 1.41 ours 1.38
+106 diag ref 0.90 ours 1.20 (Δ +0.30) | sigL ref 1.41 ours 1.37
+107 diag ref 0.85 ours 0.90 (Δ +0.05) | sigL ref 0.93 ours 0.98
+108 diag ref 0.65 ours 0.75 (Δ +0.10) | sigL ref 0.69 ours 0.65
+109 diag ref 0.60 ours 0.70 (Δ +0.10) | sigL ref 0.56 ours 0.68
+110 diag ref 0.45 ours 0.50 (Δ +0.05) | sigL ref 0.58 ours 0.51
+max |Δdiag| 1.50 px

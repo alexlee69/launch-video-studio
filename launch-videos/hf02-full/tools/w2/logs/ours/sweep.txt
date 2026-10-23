@@ -1,0 +1,19 @@
+203 none  max 0.0
+204 cx 789.9  peakx 778  L25 769  R25 812  max 2.3  tot 64
+205 cx 800.1  peakx 804  L25 767  R25 837  max 12.4  tot 623
+206 cx 795.0  peakx 803  L25 751  R25 839  max 26.2  tot 1834
+207 cx 789.4  peakx 797  L25 737  R25 839  max 54.7  tot 4479
+208 cx 751.7  peakx 753  L25 678  R25 825  max 67.2  tot 7456
+209 cx 722.1  peakx 722  L25 668  R25 777  max 88.9  tot 7415
+210 cx 688.4  peakx 687  L25 638  R25 739  max 92.5  tot 7011
+211 cx 615.5  peakx 611  L25 561  R25 672  max 86.8  tot 6769
+212 cx 586.7  peakx 587  L25 515  R25 658  max 78.6  tot 8503
+213 cx 575.0  peakx 575  L25 506  R25 644  max 74.6  tot 7758
+214 cx 562.0  peakx 563  L25 494  R25 629  max 66.2  tot 6633
+215 cx 551.9  peakx 538  L25 488  R25 617  max 53.6  tot 5121
+216 cx 549.9  peakx 538  L25 486  R25 615  max 46.4  tot 4329
+217 cx 550.5  peakx 538  L25 481  R25 619  max 31.2  tot 3150
+218 cx 551.5  peakx 538  L25 474  R25 630  max 14.3  tot 1580
+219 cx 553.5  peakx 538  L25 491  R25 616  max 8.4  tot 769
+220 cx 553.6  peakx 538  L25 491  R25 616  max 4.2  tot 389
+221 none  max 0.0

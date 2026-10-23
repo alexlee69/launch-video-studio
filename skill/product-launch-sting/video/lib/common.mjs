@@ -1,5 +1,5 @@
 // Shared paths, CLI args and process helpers for the from-scratch launch-video mode.
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,6 +34,14 @@ export function ff(args, what = 'ffmpeg') {
   const r = sh('ffmpeg', ['-hide_banner', '-v', 'error', '-y', ...args]);
   if (r.status !== 0) throw new Error(`${what} failed:\n${r.stderr}`);
   return r;
+}
+export function ffAsync(args, what = 'ffmpeg') {
+  return new Promise((res, rej) => {
+    const p = spawn('ffmpeg', ['-hide_banner', '-v', 'error', '-y', ...args], { stdio: ['ignore', 'ignore', 'pipe'] });
+    let err = ''; p.stderr.on('data', d => { err += d; });
+    p.on('error', rej);
+    p.on('close', code => code === 0 ? res() : rej(new Error(`${what} failed:\n${err}`)));
+  });
 }
 export function measureLoudness(path) {
   const s = sh('ffmpeg', ['-hide_banner', '-nostats', '-i', path, '-af', 'ebur128=peak=true:framelog=quiet', '-f', 'null', '-']).stderr;

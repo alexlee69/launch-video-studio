@@ -1,0 +1,47 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "input": {
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young man in a knit beanie and a striped scarf, green parka, on a train platform on an overcast morning, a train blurred behind him, talking to the camera mid-sentence. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+    "aspect_ratio": "9:16",
+    "raw": true,
+    "num_images": 2,
+    "seed": 7514,
+    "output_format": "jpeg"
+  },
+  "submitted": "2026-10-22T07:37:03.223Z",
+  "status": [
+    {
+      "t": 6,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 17,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a1628a-c7e6-7bc0-8b73-49d7fdd285fc",
+  "result": {
+    "images": [
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/C1aNXF0ObKOAhMZgJBmgE_90276e7637bd4a12b65462d693fd0ed1.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      },
+      {
+        "url": "https://v3b.fal.media/files/b/0aaf5fb7/nzQBCB1GyI4tQqkis-RCU_93bfcac77eb3404a9bc3b648d037217d.jpg",
+        "width": 1536,
+        "height": 2752,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 7514,
+    "has_nsfw_concepts": [
+      false,
+      false
+    ],
+    "prompt": "Vertical selfie-style video still from a phone front camera held at arm's length, slight wide-angle distortion, handheld. A young man in a knit beanie and a striped scarf, green parka, on a train platform on an overcast morning, a train blurred behind him, talking to the camera mid-sentence. With the other hand they hold a second phone up toward the camera, screen facing the camera, the screen completely black and switched off. natural skin texture, visible film grain, slightly soft, unretouched, realistic, not a stock photo, no text, no logos, no watermark."
+  },
+  "finished": "2026-10-22T07:37:23.592Z"
+}
