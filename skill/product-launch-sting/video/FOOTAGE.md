@@ -121,6 +121,36 @@ depends on the frame width. Conform with the `--size` the film uses, then measur
   (`lib/hdr.mjs`, the same one `bg:` footage gets), a rotation tag is honoured (portrait stays portrait), and an odd
   width or height loses its last column / row (no resampling). `look.py` measures them the same way.
 
+## Multi-leg plates — `plates.py`
+
+A shot the reference holds on one long move (higgsfield01's 11.6 s opening fly-through) outlasts a generated clip, or
+changes subject mid-move: generate it in legs and join them where the reference hides its own joins — a panel passing
+the lens (`hblur`), a bloom of light (`fadewhite`), a crash-zoom (`zoomin`); `fade` is a plain dissolve.
+
+```bash
+python3 $V/footage/plates.py DIR/tools/plates.json --dry-run          # every window checked, the plan printed, nothing written
+python3 $V/footage/plates.py DIR/tools/plates.json [S01 …] --sheet     # DIR/assets/footage/<SHOT>.mp4 + review/plate-<SHOT>.jpg strips
+```
+
+- **The spec** (worked example: `recreate/examples/manus2-space-plates.json`, 12 shots from 16 legs): per shot its
+  `first` reference frame and length (`frames`, counted at `ref_fps`), then its legs in order — `clip`, `start` (seconds
+  into the clip), `frames` (the reference frames this leg fills; the legs add up to the shot) and an optional `join` into
+  the next leg (`kind`: any ffmpeg xfade transition, `frames`: its length in plate frames). `clips` and `out` are relative
+  to the spec file; `--clips` / `--out-dir` override them.
+- **Native rate.** Plates stay at the clips' own 24 fps (`fps: null`): lv.mjs starts a plate on its shot's first master
+  frame and shows its frame p from round(2.5·p) on, and `recreate/finish.py` (RECREATE.md §8) puts every plate frame on
+  the reference's own 30 fps slot, each once. For a 30 fps film, `"fps": 30` gives conform.py's one-in-five repeats.
+- **Windows.** A leg needs `frames / ref_fps` seconds from `start`, plus its join's overlap and, on the last leg, the
+  shot's `tail` (3 frames by default, so the engine never runs off the plate). A short clip is refused (exit 2) with the
+  missing time and the latest start that fits; pick each start from the clip's own action on its strip (`--sheet`).
+- **Grade.** plates.py doesn't grade. Grade a finished plate frame for frame: `conform.py plate.mp4 graded.mp4 --fps 24
+  --frames <its frames> --grade "…"` (`--fps 24` keeps every frame — 226 in, 226 out).
+- **Into the job**: `bg: assets/footage/S01.mp4`, `bgFrom: 0`, `bgMove: none`, `bgDim: 0` (t = 0 is the shot's first
+  frame). A custom block that shows a clip inside its own UI (a video editor's viewer) declares the field in `media:` and
+  plays it through `ctx.footage` (GUIDE → Custom blocks).
+- Output: H.264 yuv420p, BT.709, no audio, exactly the shot's plate frames + tail (checked by packet count), written
+  through a temp file and one rename. Exit 2: a bad spec, a missing clip, a window the clip can't cover; 1: ffmpeg.
+
 ## Pin the app onto a phone — `pin.py`
 
 Generate the phone **with a black screen** ("the screen completely black and switched off" in the still, "the screen
@@ -183,7 +213,9 @@ screenshot, or render the stand-in from a one-shot side job next to this one:
   paid, so never submit it again — fetch it.
 - **fal errors** (exit 4: a validation message, a content-checker refusal, a timeout) print fal's message and the
   request id; a request that is still running is picked up later with `fetch`, never re-submitted (that pays twice).
-- **The model's audio** is on every clip; `conform.py` / `pin.py` drop it.
+- **The model's audio** is on every clip; `conform.py` / `pin.py` / `plates.py` drop it. Don't mine it for sound
+  either: MiniMax H3's audio is a generated tonal bed, not the scene's sound — effects come from `recreate/sfx.py`
+  (RECREATE.md §8).
 - **Stretched timing**: never speed the clip up to fit; choose `--start` (and generate a second longer or shorter).
 - **Seeds**: pass `--seed` (it is logged in the `.fal.json`) so a run can be repeated exactly; FLUX also reports the
   seed it picked when none was given.

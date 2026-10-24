@@ -1,0 +1,13 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "leg": "26 (identity key)",
+ "use": "n1933-n2174",
+ "refs": [
+  "cast/locked/helmet-off.png",
+  "stills/locations/sea-v1.png"
+ ],
+ "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back with the helmet off and no backpack: the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. Image 2 is the location: keep its architecture, materials and design. Do not copy the grey background or the sheet layout: make one single cinematic film frame, 16:9. Cinematic 85mm film still, slightly low medium close-up at golden hour on the open sea: the same East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow and short wet straight black hair, helmet and comms cap off, wearing the fictional white spacesuit with no backpack, saturated signal-orange bands around both upper arms and both thighs, an orange neck ring, the slim dark wrist display on her left forearm and an embroidered round mission patch on the left shoulder (no lettering), her helmet resting on her lap, a small pale-blue plush whale toy tucked under one arm, sitting on top of a bobbing white space capsule with one orange band beside its open hatch; face turned up to the low sun, eyes closed, a wide relieved smile; behind her a soft-focus golden sea and a pale sky. Warm low sun from the side, cool shadows. 85mm, shallow depth of field. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark."
+}

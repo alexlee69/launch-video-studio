@@ -1,0 +1,28 @@
+{
+ "src": "eva-composite.png",
+ "panels": [
+  [
+   0,
+   0,
+   959,
+   1440,
+   "surface 131..138 -> 138, background 20% of panel"
+  ],
+  [
+   969,
+   0,
+   1707,
+   1440,
+   "surface 132..135 -> 138, background 48% of panel"
+  ],
+  [
+   1717,
+   0,
+   2560,
+   1440,
+   "surface 132..134 -> 138, background 53% of panel"
+  ]
+ ],
+ "bg_after_mean": 138.5,
+ "bg_after_std": 2.3
+}

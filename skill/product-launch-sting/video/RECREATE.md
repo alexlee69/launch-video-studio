@@ -3,8 +3,8 @@
 Use this when the user says "make ours move exactly like this film": a saved reference (a Higgsfield launch film, a
 competitor's reel) rebuilt so every cut, camera move, ease, blur and event lands on the reference's frame, with our own
 story on screen and our own score on the reference's beat grid. It ends with proof: a frame-locked side-by-side, a cut
-report, the camera curves and a beat check. The worked example is `~/Downloads/launch-videos/hf02-full/` (numbers at the
-end). `$V` = `~/.claude/skills/product-launch-sting/video`. Requirements: `/usr/bin/python3` with numpy and Pillow (missing:
+report, the camera curves and a beat check. The worked examples are `~/Downloads/launch-videos/hf02-full/` and, for section 8, `manus2-space/`
+(numbers at the end). `$V` = `~/.claude/skills/product-launch-sting/video`. Requirements: `/usr/bin/python3` with numpy and Pillow (missing:
 `pip3 install numpy pillow`), ffmpeg/ffprobe, node.
 
 ## What we borrow, what we never do
@@ -77,7 +77,9 @@ python3 $V/recreate/music.py profile ref.mp4                          # the scor
 
 Photoreal plates, the reference's grade measured and matched, the app's screen pinned onto phones held in the shot:
 `FOOTAGE.md` (`gen.mjs`, `look.py`, `conform.py`, `pin.py`). Generated clips come back at 24 fps; conform them to the
-film's frame grid before they go into a shot.
+film's frame grid before they go into a shot. A reference that is itself a 24 fps edit in a 30 fps file (`finish.py
+--measure` prints a cadence such as 15:5,10,14) keeps them at 24 instead, one plate per shot from its legs
+(`footage/plates.py`), and finishes the film in its cadence (section 8).
 
 ## 4 · Score: our own music on their beat
 
@@ -138,7 +140,9 @@ keeps; a 60 fps reference pairs 1:1); any other rate (a 24 or 25 fps reference) 
 run, `--fps` set to the reference's rate. Rates within 1 % (29.97 vs 30) are paired frame for frame, by index, with a
 note on how far their clocks drift. `track.py` numbers frames in its file's own rate, so track the conform at the
 reference's rate (no audio: compare it with `--audio ref` or `none`). HDR files (HLG / PQ, as phones record) are
-measured after the film engine's own conversion to SDR.
+measured after the film engine's own conversion to SDR. For a reference finished at 24 fps in 30 (section 8),
+prove the finished file, not the master: `compare.py --ref ref.mp4 --ours DIR/<slug>-final-16x9.mp4` pairs them 1:1
+and reads every cut where a viewer sees it (the master's frame 2i is not always the frame the finish shows).
 
 - `sbs.mp4`: frame i = reference i | ours i, decoded **by index** (never ffmpeg hstack: it re-times irregular
   timestamps and slipped 1,411 of 1,909 frames on hf02), then decoded back and checked: `verify: N/N frames exact` or
@@ -179,9 +183,77 @@ still passes, being compared with that copy — use the original MP4 when there 
 ## 7 · Deliver
 
 - The master is our film with our score (`<slug>-16x9.mp4`, QA PASSED). Never ship the temp track or a side-by-side.
+- A reference finished at 24 fps in 30 (section 8) ships `<slug>-final-16x9.mp4` (finish.py exit 0); the master stays
+  its source.
 - List what is still a stand-in (mascots, marks, screens awaiting the official kit) and every product claim the client
   must confirm.
 - **The user listens.** The score is checked by meters and the tracker only: say so, and ask them to listen.
+
+## 8 · Finish like the reference: plates, cadence, sound, corner bug
+
+Some references are finished brand films, and four things beyond the cuts make them read as theirs. higgsfield01
+(76.5 s, 30 fps) is a **24 fps edit inside a 30 fps file**; its footage shots are generated legs joined inside moves;
+its score carries the sound; a watermark hops between corners on its own clock. Measure each, rebuild them after
+sections 1–4, then prove the finished file (section 5).
+
+```bash
+python3 $V/recreate/finish.py --measure ref.mp4                   # "15:5,10,14 — 457 of 459 slots repeat …; edit rate 24 fps in 30 fps"
+python3 $V/footage/plates.py DIR/tools/plates.json --sheet        # one 24 fps plate per live-action shot, from its legs (FOOTAGE.md)
+python3 $V/recreate/sfx.py DIR/tools/sfx.json --out DIR/audio/sfx.wav   # the effects, each in the reference's own slot
+python3 $V/recreate/finish.py --master DIR/<slug>-16x9.mp4 --out DIR/<slug>-final-16x9.mp4 --ref ref.mp4 \
+  --keep music --add DIR/audio/sfx.wav                            # cadence + re-mix + master + mux + QA (exit 1 on any ✗)
+```
+
+- **Cadence.** Every 15 output frames, 3 repeat the frame before (n % 15 ∈ {5, 10, 14}): 12 new frames in 15, a 24 fps
+  edit. That stutter is the film's motion texture; every cut, whip and camera step sits on it. `lv.mjs --film` renders
+  60 fps and `finish.py` rebuilds the 30 fps file by index: output frame n shows edit frame m = (n div 15)·12 + r −
+  #{slots ≤ r} (r = n mod 15). **Never `fps=30`**: on 24p it repeats at {2, 7, 12} (its own rounding phase), and
+  `fps=24,fps=30` from 60 lands there too; `--pattern 15:2,7,12` reproduces it and QA fails it ("measured 5:2 — NOT the
+  reference's"). `--pattern P:S…` gives a cadence by hand; a reference with none gets `--cadence none` (a straight
+  60 → 30), which `--ref` picks by itself.
+- **Every shot on its own clock.** lv.mjs starts a shot's animation and its footage on the shot's first master frame
+  f_k: a 24 fps plate shows its frame p from f_k + round(2.5·p) on (measured on manus2-space's master). So finish.py
+  takes a shot's edit frame m from master frame f_k + ceil(2.5·(m − m_k)) — every plate frame once, nothing between —
+  and keeps it inside the shot. The shot starts come from the master's own `DIR/out/main/timeline.json` (lv.mjs writes
+  it; the default), or from `--cuts` for a master without one: the shot starts in output frames (a recreation's are the
+  reference's cut list, shots laid at n/30 s as section 2 says: compare.py's `cuts.json`, the breakdown's
+  `breakdown.json`, a `cuts.txt`). **One clock for the whole film is wrong twice** (`--cuts none` shows it): with shots
+  at n/30 s, every shot that starts on n % 15 = 4 or 9 has its plate out of phase — skip a frame, hold a frame, 12 fps
+  judder all shot long (manus2-space's S03 and S15) — and the frame before such a cut reaches into the next shot, so
+  the cut lands a frame early (5 of higgsfield01's 26). Each half alone fails: clamping the film's grid into the shots
+  puts the cuts back but keeps the judder; each shot's own clock unclamped ends a shot that outlasts its master frames on
+  the next shot's first frame. A shot with more edit frames than its master frames hold (one that starts on n % 15 = 0
+  and is 4 mod 5 frames long) keeps its last picture for one frame; finish.py lists those frames.
+- **Plates** (FOOTAGE.md → Multi-leg plates): a long reference move is several generated legs, joined where the
+  reference hides its own joins (a passing panel → `hblur`, a sunrise bloom → `fadewhite`, a crash-zoom → `zoomin`) and
+  kept at the clips' 24 fps — the cadence pass shows each plate frame on its own slot.
+- **Sound grammar.** Read the reference's inventory before mixing. higgsfield01's score does nearly everything: no
+  transition whooshes, a silent UI (no clicks, no pops), a few effects in fixed slots, beds that cut with the picture.
+  So `--keep music` (the engine's `whoosh` and `points` stems stay out) `--add sfx.wav`: `recreate/sfx.py` synthesizes
+  each effect in the reference's own slot, made true to our story (manus2-space: the vacuum rule — in-suit sound only
+  until the re-entry roar), from a seeded kit (`--list`); worked example `recreate/examples/manus2-space-sfx.json`,
+  44 events. The generated clips' own audio is a tonal bed, not sound effects: never use it (FOOTAGE.md → Traps).
+- **Loudness.** finish.py masters the re-mix like the engine (gain, then a look-ahead limiter, until −14 LUFS ±0.2 with
+  the true peak ≤ −1 dBTP measured after the AAC encode): manus2-space −14.0 LUFS / −1.1 dBTP. One pass with a fixed
+  limiter landed at −14.5 / −2.0: the end hit's peak holds the gain down.
+- **Corner bug (optional, off unless `--bug`).** Only when the storyboard has one, checked against every overlay —
+  manus2-space's film leaves it off (it collided with prompt bars and bubbles, and the approved storyboard had none). A
+  clock spec places it: boxes per corner on a 1920×1080 frame, the switch frames, fade-out / fade-in tables, the build,
+  the end; `recreate/corner-bug-hf01.json` is higgsfield01's (TR ↔ BL every 270 frames, a 9-frame fade out, 11 in). Our
+  own mark and wordmark (white, from the official kit; an SVG is rendered with headless Chrome), never the reference's
+  watermark: `--bug $V/recreate/corner-bug-hf01.json --bug-glyph mark-white.svg --bug-text wordmark-white.svg`. It runs
+  on the edit's clock, so a repeat frame repeats it too.
+- **QA** (exit 1 on any ✗): frame count and duration, BT.709 tags, the cadence measured on the output against the
+  reference's (on-slot repeats ≥ 98 %), every new frame matching the master frame it was taken from (normalized
+  correlation on a centre crop against ±1 frame, ≥ 99.5 %), the AAC's loudness and true peak. Then section 5's
+  `compare.py` on the finished file.
+- **Traps.**
+  - qlmanage renders an SVG at its intrinsic size and crops it: render marks with headless Chrome (finish.py does).
+  - Editing beats.yaml, blocks or assets while `--film` renders stales that render's own QA: wait, then `--film --range`.
+  - This Mac's ffmpeg has no `drawtext`: labels and marks go in as PNG overlays.
+  - ffmpeg 8 drops `-color_*` on untagged raw frames: finish.py stamps BT.709 with `setparams` (QA reads the tags back).
+  - x264 shifts a frame's brightness on flashes (S20's red alarm pulse): the pick check uses normalized correlation (a
+    lossless `--crf 0` run matched every pick exactly).
 
 ## Worked example: hf02-full (2026-10-22)
 
@@ -204,3 +276,19 @@ mascots, the official Cue icon, plate 1 real AI footage.
   (`hit: 0.372` in a beats.yaml rebuild).
 - Temp track: `out/film-tempmusic-PRIVATE.mp4`, decoded audio md5 486aab4c… = the reference's, video packets
   80d435ae… = film.mp4's, the same 2,112-sample priming.
+
+## Worked example: manus2-space (2026-10-23)
+
+`~/Downloads/launch-videos/manus2-space/` — higgsfield01 (76.53 s, 1080×608, 30 fps, 2,296 frames) rebuilt as the
+Manus 2.0 film "The Lull": one locked astronaut (gpt-image-2 sheets), 16 MiniMax H3 legs in 12 plates, our UI and
+copy. The skill's section 8 tools were checked against the job's own (Design-AutoPilot-stable `qa/hf01-skill-port/`).
+- Cadence: higgsfield01 measures `15:5,10,14` — 457 of 459 slots repeat, 105 other repeats (holds).
+- The 60 fps master (`compare.py`, frame 2i): cuts 25 of 26 exact, n1532 within 1 f; `music.py compare` ON THEIR BEAT
+  (Δ 0.00 BPM, beat phase 1.1 ms, onsets +2 ms, the biggest hit 10 ms apart).
+- Finished on one clock, the 30 fps file read 20 exact + 6 within 1 f — the 5 cuts on n % 15 = 4 (n364, n994, n1234,
+  n1294, n1399) a frame early — and S03 / S15's footage played every other plate frame twice. On the shots' own clocks
+  (`finish.py --master manus2-space-16x9.mp4 --ref higgsfield01.mp4 --keep music --add audio/sfx.wav`, 27 shots from
+  its timeline.json): cuts 25 exact + n1532 within 1 (as the master), 459/459 slots, picks 1,836/1,836, −14.0 LUFS /
+  −1.1 dBTP, BT.709, no frame clamped — and frame for frame the job's shipped first cut (mean |Δ| ≤ 1.0 at 480×270).
+- `plates.py` on the worked spec rebuilt the job's 12 plates byte for byte (281/16/17/226/68/108/21/32/9/99/87/197
+  frames); `sfx.py` rendered the job's 44-event `sfx.wav` sample for sample.

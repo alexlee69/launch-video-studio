@@ -59,6 +59,9 @@ node $V/lv.mjs --job DIR --breakdown ~/Downloads/reel.mp4  # a saved reference r
 node $V/lv.mjs --tempo assets/track.wav                 # the user's own track: bpm, first downbeat and a ready `music:` line
 node $V/footage/gen.mjs still|video … [--go]            # AI footage via the user's fal.ai key: a dry run with the cost until --go (FOOTAGE.md)
 python3 $V/recreate/compare.py --ref REF.mp4 --ours OURS.mp4 --out DIR/compare/NAME   # frame-exact side-by-side + cut report vs a reference (RECREATE.md)
+python3 $V/footage/plates.py DIR/tools/plates.json [SHOT …] --sheet   # one 24 fps plate per live-action shot from its generated legs (FOOTAGE.md)
+python3 $V/recreate/sfx.py DIR/tools/sfx.json --out DIR/audio/sfx.wav  # synthesized effects, each in the reference's own sound slot (RECREATE.md §8)
+python3 $V/recreate/finish.py --master DIR/<slug>-16x9.mp4 --out DIR/<slug>-final-16x9.mp4 --ref REF.mp4   # the reference's 24p-in-30p cadence, re-mix, master, QA (RECREATE.md §8)
 ```
 
 **Stale frames are refused.** Every render stores a fingerprint per shot (its beats.yaml fields, timing, brand, the

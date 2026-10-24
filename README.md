@@ -18,6 +18,11 @@ Higgsfield-recreation jobs.
   It passed five review-and-fix rounds, 3 QA runs and an 87-check acceptance harness. Its record, including
   `PATCHES.md` for re-applying it, is on the Mac in `Design-AutoPilot-stable/qa/hf02full-skill-port/`, not in this repo.
 
+- **The 2026-10-23 port (from the Manus 2.0 film):** the plate builder (`video/footage/plates.py`), the 24p-in-30p
+  finisher with shot-anchored frame picks, the corner bug and the music + SFX mix (`video/recreate/finish.py`), and the
+  synthesized SFX layer (`video/recreate/sfx.py`), with worked examples in `video/recreate/examples/`. It passed a
+  35-check test run (`RECREATE.md` §8).
+
 - **The tool:** `skill/product-launch-sting/` is a Claude Code skill.
   - Mode A: a fixed 12 s square launch sting.
   - Mode B (`video/`) covers:
@@ -41,6 +46,8 @@ Higgsfield-recreation jobs.
 | `launch-videos/film-sample/`, `reel-sample/` | Sample jobs for the film kit (Orbit launch film) and the reel kit (Popframe reel): beats.yaml, assets, films, storyboards, captions, master WAVs |
 | `launch-videos/hf02-full/` | The 63.6 s Cue film: Higgsfield film 02's motion, frame for frame, with our own story, copy, cast and score. Hand-built (`story.js`, `scenes/`, `motion/`, `lib/`, `audio.mjs`, `render.mjs`, `tools/`; start with `BRIEF.md`). `film.mp4` is the shareable master with our score. `out/fal/v2` and `v3` hold the paid fal footage: the 8 `*-fit.mp4` clips the film plays, plus the raw generations, key stills and request logs. `ref/` keeps only the measurements (cut list, breakdown JSON) |
 | `launch-videos/hf02-recreate/` | The approved 7 s motion test (`MOTION-SPEC.md`) |
+| `launch-videos/manus2-space/` | "The Lull", the 76.5 s Manus 2.0 launch film: Higgsfield film 01's cuts, cadence, beat and sound grammar, with our own astronaut story, cast and score. Start with `brief.md`. `cast/locked/` holds her one-face character sheets, `stills/` the gpt-image-2 key frames and her film's stills (`picks.json`, `ledger.jsonl`), `footage/fal/` the 20 paid H3 clips with their inputs and logs, `assets/footage-graded/` the plates the film plays, `tools/` the job's build tools (`finish.py` makes the final cut). `manus2-space-firstcut-16x9.mp4` is the current cut (first cut v2, lifted opening) and `-v2-phone.mp4` its phone copy. Not yet approved |
+| `launch-videos/hf01-study/` | The text and numbers from the hf01 study that the Manus 2.0 job reads: the story, shot list and copy (`storyboard-space/final/`), the cut list (`cuts/`), and the sound and overlay measurements. No frames or audio |
 | `launch-videos/hf02-skill/` | Proof job for the hf02 motion upgrade of the film blocks: proof films, storyboards, the measured curves and `ANSWERS-measurements.md` |
 | `HANDOVER-hf02-motion.md` | Handover for the hf02 motion work |
 | `launch-stings/design-autopilot-test/` | Mode A test job |
@@ -62,8 +69,11 @@ Higgsfield-recreation jobs.
   - comparison sheets and side-by-sides;
   - the PRIVATE temp-track copies.
 - **Scratch jobs:** `breakdown-qa`, plus `film-kit-dev` and `reel-dev`, which the two sample jobs superseded.
-- **`hf01-study`:** the Higgsfield film 01 study started on 2026-10-23. It is still in progress, and its `ref/` is reference
-  media.
+- **The rest of `hf01-study`:** its `ref/`, frames, sheets, audio and the side-by-sides (`build-compare/`) are reference
+  media. Only its text and numbers are here.
+- **manus2-space's heavy regenerables:** `out/` (renders, the PRIVATE temp track), `audio/`, the ungraded plates
+  (`tools/plates.py` rebuilds them from `footage/fal/`), the review sheets, the engine master, cut v0.1, the v1 phone copy
+  and the full-size storyboard PDF.
 - **`hf02-skill/baseline`:** a tarball of the old skill.
 - **Secrets:** the fal key lives in `~/Downloads/launch-videos/.env`, never here.
 

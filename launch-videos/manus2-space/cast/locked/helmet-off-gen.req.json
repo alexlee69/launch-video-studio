@@ -1,0 +1,10 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "cast/locked/eva.png"
+ ],
+ "prompt": "Image 1 is her locked character sheet. Make her second state as a new sheet with the same layout, the same flat solid neutral grey background (#8a8a8a) and the same woman: the helmet and comms cap are OFF and there is NO backpack. LEFT panel: a front-facing close-up of her head and shoulders, short straight black hair, cropped close at the sides and damp from the sea, a few drops on her skin, eyes to camera, tired and quietly pleased, the small pale scar through her own left eyebrow visible. MIDDLE panel: her full body from the front, holding the clear bubble helmet against her hip, the face area of this panel left as a soft plain shadow with no features. RIGHT panel: her full body from behind, no backpack, damp hair. The suit is the same suit, slightly wet. Her mission patch and wrist display are on her own LEFT side: in the front view they are on the right side of the picture; in the back view the patch is on the left side of the picture. Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

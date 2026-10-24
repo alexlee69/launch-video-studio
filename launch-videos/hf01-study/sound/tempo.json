@@ -1,0 +1,5183 @@
+{
+ "grid": {
+  "bpm": 87.01,
+  "firstBeat": 0.1107,
+  "beat": 0.6895759108148488
+ },
+ "windows": [
+  {
+   "t": 4.0,
+   "kick 30-120": {
+    "bestBpm": 161.31,
+    "peak": 0.08,
+    "acfBeat": 0.033,
+    "acf8th": -0.003,
+    "acf16th": 0.001,
+    "lockBeat": 0.004,
+    "phaseBeatMs": 89.8,
+    "lock8th": 0.053,
+    "lock16th": 0.061,
+    "phase16thMs": -7.4
+   },
+   "bass 120-300": {
+    "bestBpm": 175.04,
+    "peak": 0.103,
+    "acfBeat": -0.011,
+    "acf8th": 0.103,
+    "acf16th": 0.021,
+    "lockBeat": 0.005,
+    "phaseBeatMs": 4.8,
+    "lock8th": 0.032,
+    "lock16th": 0.06,
+    "phase16thMs": 68.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 169.22,
+    "peak": 0.123,
+    "acfBeat": -0.043,
+    "acf8th": 0.003,
+    "acf16th": -0.008,
+    "lockBeat": 0.04,
+    "phaseBeatMs": 140.9,
+    "lock8th": 0.053,
+    "lock16th": 0.033,
+    "phase16thMs": -26.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 47.85,
+    "peak": 0.144,
+    "acfBeat": 0.017,
+    "acf8th": -0.021,
+    "acf16th": -0.004,
+    "lockBeat": 0.109,
+    "phaseBeatMs": 158.9,
+    "lock8th": 0.03,
+    "lock16th": 0.057,
+    "phase16thMs": -44.1
+   },
+   "broad": {
+    "bestBpm": 47.91,
+    "peak": 0.169,
+    "acfBeat": 0.01,
+    "acf8th": -0.009,
+    "acf16th": -0.003,
+    "lockBeat": 0.121,
+    "phaseBeatMs": 163.0,
+    "lock8th": 0.046,
+    "lock16th": 0.092,
+    "phase16thMs": -33.1
+   }
+  },
+  {
+   "t": 5.0,
+   "kick 30-120": {
+    "bestBpm": 161.32,
+    "peak": 0.074,
+    "acfBeat": -0.002,
+    "acf8th": 0.009,
+    "acf16th": 0.012,
+    "lockBeat": 0.048,
+    "phaseBeatMs": -218.0,
+    "lock8th": 0.068,
+    "lock16th": 0.03,
+    "phase16thMs": -16.5
+   },
+   "bass 120-300": {
+    "bestBpm": 175.31,
+    "peak": 0.119,
+    "acfBeat": 0.02,
+    "acf8th": 0.119,
+    "acf16th": 0.037,
+    "lockBeat": 0.07,
+    "phaseBeatMs": -268.8,
+    "lock8th": 0.038,
+    "lock16th": 0.056,
+    "phase16thMs": 48.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 145.84,
+    "peak": 0.107,
+    "acfBeat": -0.028,
+    "acf8th": 0.005,
+    "acf16th": -0.009,
+    "lockBeat": 0.044,
+    "phaseBeatMs": -306.0,
+    "lock8th": 0.017,
+    "lock16th": 0.018,
+    "phase16thMs": 20.1
+   },
+   "hats 5-12k": {
+    "bestBpm": 98.49,
+    "peak": 0.113,
+    "acfBeat": 0.038,
+    "acf8th": -0.017,
+    "acf16th": 0.015,
+    "lockBeat": 0.083,
+    "phaseBeatMs": -83.0,
+    "lock8th": 0.122,
+    "lock16th": 0.129,
+    "phase16thMs": -83.4
+   },
+   "broad": {
+    "bestBpm": 85.52,
+    "peak": 0.12,
+    "acfBeat": 0.01,
+    "acf8th": -0.031,
+    "acf16th": 0.017,
+    "lockBeat": 0.081,
+    "phaseBeatMs": -96.4,
+    "lock8th": 0.111,
+    "lock16th": 0.112,
+    "phase16thMs": -77.5
+   }
+  },
+  {
+   "t": 6.0,
+   "kick 30-120": {
+    "bestBpm": 161.29,
+    "peak": 0.092,
+    "acfBeat": 0.025,
+    "acf8th": 0.004,
+    "acf16th": 0.012,
+    "lockBeat": 0.051,
+    "phaseBeatMs": -73.0,
+    "lock8th": 0.062,
+    "lock16th": 0.034,
+    "phase16thMs": -8.1
+   },
+   "bass 120-300": {
+    "bestBpm": 175.34,
+    "peak": 0.113,
+    "acfBeat": 0.014,
+    "acf8th": 0.113,
+    "acf16th": 0.027,
+    "lockBeat": 0.027,
+    "phaseBeatMs": -136.7,
+    "lock8th": 0.029,
+    "lock16th": 0.079,
+    "phase16thMs": 33.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 85.34,
+    "peak": 0.114,
+    "acfBeat": -0.022,
+    "acf8th": 0.032,
+    "acf16th": -0.013,
+    "lockBeat": 0.025,
+    "phaseBeatMs": -23.9,
+    "lock8th": 0.047,
+    "lock16th": 0.046,
+    "phase16thMs": 16.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 85.54,
+    "peak": 0.127,
+    "acfBeat": 0.003,
+    "acf8th": 0.0,
+    "acf16th": 0.007,
+    "lockBeat": 0.141,
+    "phaseBeatMs": -57.6,
+    "lock8th": 0.107,
+    "lock16th": 0.063,
+    "phase16thMs": -78.0
+   },
+   "broad": {
+    "bestBpm": 85.42,
+    "peak": 0.154,
+    "acfBeat": -0.009,
+    "acf8th": -0.017,
+    "acf16th": -0.002,
+    "lockBeat": 0.139,
+    "phaseBeatMs": -65.4,
+    "lock8th": 0.086,
+    "lock16th": 0.05,
+    "phase16thMs": -72.4
+   }
+  },
+  {
+   "t": 7.0,
+   "kick 30-120": {
+    "bestBpm": 44.76,
+    "peak": 0.07,
+    "acfBeat": 0.025,
+    "acf8th": 0.027,
+    "acf16th": 0.019,
+    "lockBeat": 0.023,
+    "phaseBeatMs": -175.1,
+    "lock8th": 0.073,
+    "lock16th": 0.024,
+    "phase16thMs": -31.8
+   },
+   "bass 120-300": {
+    "bestBpm": 59.84,
+    "peak": 0.068,
+    "acfBeat": 0.015,
+    "acf8th": 0.061,
+    "acf16th": 0.022,
+    "lockBeat": 0.051,
+    "phaseBeatMs": -301.4,
+    "lock8th": 0.042,
+    "lock16th": 0.094,
+    "phase16thMs": 37.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 77.14,
+    "peak": 0.083,
+    "acfBeat": -0.008,
+    "acf8th": 0.002,
+    "acf16th": -0.008,
+    "lockBeat": 0.054,
+    "phaseBeatMs": 342.2,
+    "lock8th": 0.051,
+    "lock16th": 0.022,
+    "phase16thMs": 23.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 129.16,
+    "peak": 0.117,
+    "acfBeat": -0.009,
+    "acf8th": 0.008,
+    "acf16th": 0.026,
+    "lockBeat": 0.069,
+    "phaseBeatMs": -82.5,
+    "lock8th": 0.118,
+    "lock16th": 0.023,
+    "phase16thMs": 15.9
+   },
+   "broad": {
+    "bestBpm": 128.84,
+    "peak": 0.135,
+    "acfBeat": -0.036,
+    "acf8th": 0.003,
+    "acf16th": -0.002,
+    "lockBeat": 0.035,
+    "phaseBeatMs": -139.0,
+    "lock8th": 0.106,
+    "lock16th": 0.025,
+    "phase16thMs": 4.5
+   }
+  },
+  {
+   "t": 8.0,
+   "kick 30-120": {
+    "bestBpm": 52.71,
+    "peak": 0.083,
+    "acfBeat": 0.037,
+    "acf8th": 0.065,
+    "acf16th": -0.014,
+    "lockBeat": 0.081,
+    "phaseBeatMs": -33.3,
+    "lock8th": 0.081,
+    "lock16th": 0.033,
+    "phase16thMs": -31.5
+   },
+   "bass 120-300": {
+    "bestBpm": 134.36,
+    "peak": 0.072,
+    "acfBeat": 0.055,
+    "acf8th": 0.065,
+    "acf16th": 0.003,
+    "lockBeat": 0.013,
+    "phaseBeatMs": -154.6,
+    "lock8th": 0.051,
+    "lock16th": 0.074,
+    "phase16thMs": 35.9
+   },
+   "body 300-2.5k": {
+    "bestBpm": 77.05,
+    "peak": 0.075,
+    "acfBeat": 0.011,
+    "acf8th": 0.007,
+    "acf16th": 0.005,
+    "lockBeat": 0.019,
+    "phaseBeatMs": -95.7,
+    "lock8th": 0.087,
+    "lock16th": 0.021,
+    "phase16thMs": 4.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 129.27,
+    "peak": 0.119,
+    "acfBeat": -0.012,
+    "acf8th": 0.016,
+    "acf16th": 0.026,
+    "lockBeat": 0.115,
+    "phaseBeatMs": -86.9,
+    "lock8th": 0.092,
+    "lock16th": 0.079,
+    "phase16thMs": 65.7
+   },
+   "broad": {
+    "bestBpm": 129.0,
+    "peak": 0.16,
+    "acfBeat": -0.05,
+    "acf8th": 0.021,
+    "acf16th": -0.004,
+    "lockBeat": 0.077,
+    "phaseBeatMs": -105.1,
+    "lock8th": 0.08,
+    "lock16th": 0.059,
+    "phase16thMs": 65.5
+   }
+  },
+  {
+   "t": 9.0,
+   "kick 30-120": {
+    "bestBpm": 52.71,
+    "peak": 0.085,
+    "acfBeat": 0.029,
+    "acf8th": 0.079,
+    "acf16th": 0.001,
+    "lockBeat": 0.041,
+    "phaseBeatMs": -38.8,
+    "lock8th": 0.043,
+    "lock16th": 0.036,
+    "phase16thMs": -38.2
+   },
+   "bass 120-300": {
+    "bestBpm": 134.25,
+    "peak": 0.066,
+    "acfBeat": 0.047,
+    "acf8th": 0.046,
+    "acf16th": 0.011,
+    "lockBeat": 0.037,
+    "phaseBeatMs": 266.7,
+    "lock8th": 0.062,
+    "lock16th": 0.068,
+    "phase16thMs": 35.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 42.93,
+    "peak": 0.084,
+    "acfBeat": 0.034,
+    "acf8th": 0.024,
+    "acf16th": -0.012,
+    "lockBeat": 0.021,
+    "phaseBeatMs": 276.1,
+    "lock8th": 0.1,
+    "lock16th": 0.053,
+    "phase16thMs": -2.3
+   },
+   "hats 5-12k": {
+    "bestBpm": 89.89,
+    "peak": 0.123,
+    "acfBeat": -0.012,
+    "acf8th": 0.016,
+    "acf16th": 0.017,
+    "lockBeat": 0.069,
+    "phaseBeatMs": -90.0,
+    "lock8th": 0.1,
+    "lock16th": 0.081,
+    "phase16thMs": 65.4
+   },
+   "broad": {
+    "bestBpm": 129.03,
+    "peak": 0.153,
+    "acfBeat": -0.047,
+    "acf8th": 0.022,
+    "acf16th": -0.016,
+    "lockBeat": 0.049,
+    "phaseBeatMs": -98.6,
+    "lock8th": 0.066,
+    "lock16th": 0.056,
+    "phase16thMs": 54.7
+   }
+  },
+  {
+   "t": 10.0,
+   "kick 30-120": {
+    "bestBpm": 60.09,
+    "peak": 0.082,
+    "acfBeat": 0.016,
+    "acf8th": 0.079,
+    "acf16th": 0.003,
+    "lockBeat": 0.087,
+    "phaseBeatMs": -30.1,
+    "lock8th": 0.047,
+    "lock16th": 0.046,
+    "phase16thMs": -50.0
+   },
+   "bass 120-300": {
+    "bestBpm": 120.16,
+    "peak": 0.068,
+    "acfBeat": 0.053,
+    "acf8th": 0.038,
+    "acf16th": -0.007,
+    "lockBeat": 0.003,
+    "phaseBeatMs": -106.5,
+    "lock8th": 0.079,
+    "lock16th": 0.047,
+    "phase16thMs": 33.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 165.52,
+    "peak": 0.096,
+    "acfBeat": 0.004,
+    "acf8th": 0.072,
+    "acf16th": -0.01,
+    "lockBeat": 0.004,
+    "phaseBeatMs": -225.1,
+    "lock8th": 0.078,
+    "lock16th": 0.08,
+    "phase16thMs": 27.4
+   },
+   "hats 5-12k": {
+    "bestBpm": 129.25,
+    "peak": 0.123,
+    "acfBeat": -0.002,
+    "acf8th": 0.002,
+    "acf16th": 0.01,
+    "lockBeat": 0.082,
+    "phaseBeatMs": -91.8,
+    "lock8th": 0.086,
+    "lock16th": 0.084,
+    "phase16thMs": 58.1
+   },
+   "broad": {
+    "bestBpm": 128.94,
+    "peak": 0.151,
+    "acfBeat": -0.049,
+    "acf8th": 0.017,
+    "acf16th": -0.023,
+    "lockBeat": 0.074,
+    "phaseBeatMs": -84.5,
+    "lock8th": 0.033,
+    "lock16th": 0.096,
+    "phase16thMs": 46.9
+   }
+  },
+  {
+   "t": 11.0,
+   "kick 30-120": {
+    "bestBpm": 60.08,
+    "peak": 0.076,
+    "acfBeat": 0.022,
+    "acf8th": 0.067,
+    "acf16th": 0.018,
+    "lockBeat": 0.067,
+    "phaseBeatMs": -2.5,
+    "lock8th": 0.031,
+    "lock16th": 0.026,
+    "phase16thMs": -41.4
+   },
+   "bass 120-300": {
+    "bestBpm": 143.74,
+    "peak": 0.06,
+    "acfBeat": 0.042,
+    "acf8th": 0.02,
+    "acf16th": -0.019,
+    "lockBeat": 0.043,
+    "phaseBeatMs": 211.1,
+    "lock8th": 0.072,
+    "lock16th": 0.012,
+    "phase16thMs": 19.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 120.08,
+    "peak": 0.091,
+    "acfBeat": -0.002,
+    "acf8th": 0.049,
+    "acf16th": 0.01,
+    "lockBeat": 0.023,
+    "phaseBeatMs": 193.6,
+    "lock8th": 0.038,
+    "lock16th": 0.081,
+    "phase16thMs": 38.6
+   },
+   "hats 5-12k": {
+    "bestBpm": 115.64,
+    "peak": 0.088,
+    "acfBeat": 0.015,
+    "acf8th": -0.016,
+    "acf16th": 0.016,
+    "lockBeat": 0.109,
+    "phaseBeatMs": -61.2,
+    "lock8th": 0.103,
+    "lock16th": 0.143,
+    "phase16thMs": 67.4
+   },
+   "broad": {
+    "bestBpm": 128.97,
+    "peak": 0.069,
+    "acfBeat": -0.018,
+    "acf8th": -0.013,
+    "acf16th": 0.014,
+    "lockBeat": 0.113,
+    "phaseBeatMs": -77.9,
+    "lock8th": 0.081,
+    "lock16th": 0.164,
+    "phase16thMs": 62.5
+   }
+  },
+  {
+   "t": 12.0,
+   "kick 30-120": {
+    "bestBpm": 175.45,
+    "peak": 0.075,
+    "acfBeat": 0.032,
+    "acf8th": 0.075,
+    "acf16th": 0.022,
+    "lockBeat": 0.071,
+    "phaseBeatMs": -102.8,
+    "lock8th": 0.027,
+    "lock16th": 0.048,
+    "phase16thMs": -43.5
+   },
+   "bass 120-300": {
+    "bestBpm": 62.85,
+    "peak": 0.076,
+    "acfBeat": 0.022,
+    "acf8th": -0.022,
+    "acf16th": 0.007,
+    "lockBeat": 0.002,
+    "phaseBeatMs": -294.2,
+    "lock8th": 0.059,
+    "lock16th": 0.006,
+    "phase16thMs": -19.5
+   },
+   "body 300-2.5k": {
+    "bestBpm": 116.73,
+    "peak": 0.106,
+    "acfBeat": 0.008,
+    "acf8th": 0.016,
+    "acf16th": 0.01,
+    "lockBeat": 0.009,
+    "phaseBeatMs": 189.3,
+    "lock8th": 0.027,
+    "lock16th": 0.078,
+    "phase16thMs": 38.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 64.38,
+    "peak": 0.113,
+    "acfBeat": -0.007,
+    "acf8th": -0.039,
+    "acf16th": 0.011,
+    "lockBeat": 0.091,
+    "phaseBeatMs": -85.9,
+    "lock8th": 0.069,
+    "lock16th": 0.091,
+    "phase16thMs": 68.2
+   },
+   "broad": {
+    "bestBpm": 64.58,
+    "peak": 0.2,
+    "acfBeat": -0.027,
+    "acf8th": -0.023,
+    "acf16th": 0.007,
+    "lockBeat": 0.091,
+    "phaseBeatMs": -80.4,
+    "lock8th": 0.025,
+    "lock16th": 0.108,
+    "phase16thMs": 62.7
+   }
+  },
+  {
+   "t": 13.0,
+   "kick 30-120": {
+    "bestBpm": 147.57,
+    "peak": 0.072,
+    "acfBeat": 0.024,
+    "acf8th": 0.044,
+    "acf16th": 0.018,
+    "lockBeat": 0.016,
+    "phaseBeatMs": 64.9,
+    "lock8th": 0.014,
+    "lock16th": 0.029,
+    "phase16thMs": -34.0
+   },
+   "bass 120-300": {
+    "bestBpm": 62.9,
+    "peak": 0.067,
+    "acfBeat": 0.029,
+    "acf8th": -0.024,
+    "acf16th": 0.023,
+    "lockBeat": 0.045,
+    "phaseBeatMs": 97.0,
+    "lock8th": 0.056,
+    "lock16th": 0.027,
+    "phase16thMs": -57.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 66.65,
+    "peak": 0.105,
+    "acfBeat": -0.006,
+    "acf8th": 0.047,
+    "acf16th": -0.011,
+    "lockBeat": 0.036,
+    "phaseBeatMs": 143.9,
+    "lock8th": 0.045,
+    "lock16th": 0.107,
+    "phase16thMs": 34.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 64.42,
+    "peak": 0.137,
+    "acfBeat": -0.008,
+    "acf8th": -0.04,
+    "acf16th": 0.022,
+    "lockBeat": 0.034,
+    "phaseBeatMs": -50.1,
+    "lock8th": 0.034,
+    "lock16th": 0.059,
+    "phase16thMs": 37.4
+   },
+   "broad": {
+    "bestBpm": 64.57,
+    "peak": 0.228,
+    "acfBeat": -0.031,
+    "acf8th": -0.02,
+    "acf16th": 0.044,
+    "lockBeat": 0.052,
+    "phaseBeatMs": -43.9,
+    "lock8th": 0.045,
+    "lock16th": 0.091,
+    "phase16thMs": 35.8
+   }
+  },
+  {
+   "t": 14.0,
+   "kick 30-120": {
+    "bestBpm": 83.44,
+    "peak": 0.079,
+    "acfBeat": 0.01,
+    "acf8th": 0.049,
+    "acf16th": 0.029,
+    "lockBeat": 0.057,
+    "phaseBeatMs": -215.6,
+    "lock8th": 0.039,
+    "lock16th": 0.033,
+    "phase16thMs": -61.4
+   },
+   "bass 120-300": {
+    "bestBpm": 50.67,
+    "peak": 0.083,
+    "acfBeat": 0.032,
+    "acf8th": -0.035,
+    "acf16th": 0.042,
+    "lockBeat": 0.006,
+    "phaseBeatMs": 204.5,
+    "lock8th": 0.046,
+    "lock16th": 0.037,
+    "phase16thMs": -46.9
+   },
+   "body 300-2.5k": {
+    "bestBpm": 64.21,
+    "peak": 0.103,
+    "acfBeat": 0.016,
+    "acf8th": 0.036,
+    "acf16th": -0.031,
+    "lockBeat": 0.037,
+    "phaseBeatMs": -307.7,
+    "lock8th": 0.07,
+    "lock16th": 0.079,
+    "phase16thMs": 22.1
+   },
+   "hats 5-12k": {
+    "bestBpm": 64.44,
+    "peak": 0.137,
+    "acfBeat": 0.002,
+    "acf8th": -0.042,
+    "acf16th": 0.028,
+    "lockBeat": 0.055,
+    "phaseBeatMs": -142.5,
+    "lock8th": 0.036,
+    "lock16th": 0.047,
+    "phase16thMs": 69.2
+   },
+   "broad": {
+    "bestBpm": 64.56,
+    "peak": 0.236,
+    "acfBeat": -0.012,
+    "acf8th": -0.028,
+    "acf16th": 0.06,
+    "lockBeat": 0.074,
+    "phaseBeatMs": -131.8,
+    "lock8th": 0.054,
+    "lock16th": 0.052,
+    "phase16thMs": 57.6
+   }
+  },
+  {
+   "t": 15.0,
+   "kick 30-120": {
+    "bestBpm": 83.46,
+    "peak": 0.087,
+    "acfBeat": -0.024,
+    "acf8th": 0.041,
+    "acf16th": 0.009,
+    "lockBeat": 0.02,
+    "phaseBeatMs": -72.3,
+    "lock8th": 0.074,
+    "lock16th": 0.015,
+    "phase16thMs": -39.7
+   },
+   "bass 120-300": {
+    "bestBpm": 42.01,
+    "peak": 0.077,
+    "acfBeat": 0.015,
+    "acf8th": -0.02,
+    "acf16th": 0.046,
+    "lockBeat": 0.051,
+    "phaseBeatMs": 72.5,
+    "lock8th": 0.014,
+    "lock16th": 0.026,
+    "phase16thMs": -30.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 71.88,
+    "peak": 0.101,
+    "acfBeat": -0.016,
+    "acf8th": 0.03,
+    "acf16th": 0.007,
+    "lockBeat": 0.037,
+    "phaseBeatMs": 178.2,
+    "lock8th": 0.087,
+    "lock16th": 0.078,
+    "phase16thMs": 23.3
+   },
+   "hats 5-12k": {
+    "bestBpm": 114.99,
+    "peak": 0.107,
+    "acfBeat": 0.082,
+    "acf8th": -0.054,
+    "acf16th": 0.027,
+    "lockBeat": 0.075,
+    "phaseBeatMs": -49.0,
+    "lock8th": 0.126,
+    "lock16th": 0.134,
+    "phase16thMs": 65.9
+   },
+   "broad": {
+    "bestBpm": 64.63,
+    "peak": 0.138,
+    "acfBeat": 0.062,
+    "acf8th": -0.042,
+    "acf16th": 0.057,
+    "lockBeat": 0.103,
+    "phaseBeatMs": -59.1,
+    "lock8th": 0.145,
+    "lock16th": 0.136,
+    "phase16thMs": 60.4
+   }
+  },
+  {
+   "t": 16.0,
+   "kick 30-120": {
+    "bestBpm": 166.78,
+    "peak": 0.101,
+    "acfBeat": -0.011,
+    "acf8th": 0.016,
+    "acf16th": -0.018,
+    "lockBeat": 0.059,
+    "phaseBeatMs": -279.6,
+    "lock8th": 0.081,
+    "lock16th": 0.022,
+    "phase16thMs": -38.7
+   },
+   "bass 120-300": {
+    "bestBpm": 52.45,
+    "peak": 0.066,
+    "acfBeat": -0.023,
+    "acf8th": -0.02,
+    "acf16th": 0.056,
+    "lockBeat": 0.015,
+    "phaseBeatMs": -233.2,
+    "lock8th": 0.031,
+    "lock16th": 0.019,
+    "phase16thMs": -21.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 71.86,
+    "peak": 0.091,
+    "acfBeat": -0.035,
+    "acf8th": 0.038,
+    "acf16th": 0.02,
+    "lockBeat": 0.061,
+    "phaseBeatMs": 231.0,
+    "lock8th": 0.089,
+    "lock16th": 0.107,
+    "phase16thMs": 36.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 63.4,
+    "peak": 0.102,
+    "acfBeat": 0.048,
+    "acf8th": -0.041,
+    "acf16th": 0.012,
+    "lockBeat": 0.043,
+    "phaseBeatMs": 56.6,
+    "lock8th": 0.133,
+    "lock16th": 0.086,
+    "phase16thMs": 61.7
+   },
+   "broad": {
+    "bestBpm": 64.65,
+    "peak": 0.132,
+    "acfBeat": 0.024,
+    "acf8th": -0.021,
+    "acf16th": 0.04,
+    "lockBeat": 0.052,
+    "phaseBeatMs": -6.9,
+    "lock8th": 0.147,
+    "lock16th": 0.128,
+    "phase16thMs": 53.3
+   }
+  },
+  {
+   "t": 17.0,
+   "kick 30-120": {
+    "bestBpm": 166.8,
+    "peak": 0.089,
+    "acfBeat": -0.01,
+    "acf8th": 0.002,
+    "acf16th": -0.026,
+    "lockBeat": 0.037,
+    "phaseBeatMs": -273.3,
+    "lock8th": 0.084,
+    "lock16th": 0.042,
+    "phase16thMs": -47.1
+   },
+   "bass 120-300": {
+    "bestBpm": 162.45,
+    "peak": 0.057,
+    "acfBeat": -0.026,
+    "acf8th": -0.038,
+    "acf16th": 0.064,
+    "lockBeat": 0.038,
+    "phaseBeatMs": -26.5,
+    "lock8th": 0.029,
+    "lock16th": 0.045,
+    "phase16thMs": -30.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 106.8,
+    "peak": 0.088,
+    "acfBeat": -0.052,
+    "acf8th": 0.034,
+    "acf16th": 0.011,
+    "lockBeat": 0.056,
+    "phaseBeatMs": 210.7,
+    "lock8th": 0.043,
+    "lock16th": 0.066,
+    "phase16thMs": 48.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 57.37,
+    "peak": 0.127,
+    "acfBeat": 0.019,
+    "acf8th": -0.049,
+    "acf16th": 0.014,
+    "lockBeat": 0.029,
+    "phaseBeatMs": -167.3,
+    "lock8th": 0.111,
+    "lock16th": 0.105,
+    "phase16thMs": 63.0
+   },
+   "broad": {
+    "bestBpm": 64.56,
+    "peak": 0.138,
+    "acfBeat": 0.003,
+    "acf8th": -0.034,
+    "acf16th": 0.031,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -157.9,
+    "lock8th": 0.111,
+    "lock16th": 0.134,
+    "phase16thMs": 61.1
+   }
+  },
+  {
+   "t": 18.0,
+   "kick 30-120": {
+    "bestBpm": 84.65,
+    "peak": 0.115,
+    "acfBeat": -0.017,
+    "acf8th": -0.022,
+    "acf16th": -0.03,
+    "lockBeat": 0.086,
+    "phaseBeatMs": -316.7,
+    "lock8th": 0.09,
+    "lock16th": 0.051,
+    "phase16thMs": -44.1
+   },
+   "bass 120-300": {
+    "bestBpm": 101.32,
+    "peak": 0.076,
+    "acfBeat": 0.006,
+    "acf8th": -0.044,
+    "acf16th": 0.044,
+    "lockBeat": 0.019,
+    "phaseBeatMs": -340.0,
+    "lock8th": 0.036,
+    "lock16th": 0.019,
+    "phase16thMs": -23.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 64.28,
+    "peak": 0.105,
+    "acfBeat": -0.041,
+    "acf8th": 0.019,
+    "acf16th": 0.003,
+    "lockBeat": 0.079,
+    "phaseBeatMs": 267.2,
+    "lock8th": 0.047,
+    "lock16th": 0.036,
+    "phase16thMs": 62.2
+   },
+   "hats 5-12k": {
+    "bestBpm": 78.34,
+    "peak": 0.125,
+    "acfBeat": 0.096,
+    "acf8th": 0.022,
+    "acf16th": 0.022,
+    "lockBeat": 0.057,
+    "phaseBeatMs": 340.7,
+    "lock8th": 0.063,
+    "lock16th": 0.115,
+    "phase16thMs": 63.5
+   },
+   "broad": {
+    "bestBpm": 64.6,
+    "peak": 0.102,
+    "acfBeat": 0.08,
+    "acf8th": 0.028,
+    "acf16th": 0.024,
+    "lockBeat": 0.068,
+    "phaseBeatMs": 340.8,
+    "lock8th": 0.035,
+    "lock16th": 0.133,
+    "phase16thMs": 65.0
+   }
+  },
+  {
+   "t": 19.0,
+   "kick 30-120": {
+    "bestBpm": 84.62,
+    "peak": 0.119,
+    "acfBeat": -0.039,
+    "acf8th": -0.01,
+    "acf16th": -0.026,
+    "lockBeat": 0.068,
+    "phaseBeatMs": -277.9,
+    "lock8th": 0.093,
+    "lock16th": 0.052,
+    "phase16thMs": -43.4
+   },
+   "bass 120-300": {
+    "bestBpm": 101.25,
+    "peak": 0.078,
+    "acfBeat": -0.0,
+    "acf8th": -0.027,
+    "acf16th": 0.024,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -169.1,
+    "lock8th": 0.014,
+    "lock16th": 0.02,
+    "phase16thMs": -28.5
+   },
+   "body 300-2.5k": {
+    "bestBpm": 67.32,
+    "peak": 0.064,
+    "acfBeat": -0.029,
+    "acf8th": 0.038,
+    "acf16th": 0.012,
+    "lockBeat": 0.069,
+    "phaseBeatMs": 294.8,
+    "lock8th": 0.077,
+    "lock16th": 0.02,
+    "phase16thMs": 81.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 87.22,
+    "peak": 0.195,
+    "acfBeat": 0.195,
+    "acf8th": 0.046,
+    "acf16th": 0.021,
+    "lockBeat": 0.05,
+    "phaseBeatMs": 339.6,
+    "lock8th": 0.092,
+    "lock16th": 0.045,
+    "phase16thMs": 39.5
+   },
+   "broad": {
+    "bestBpm": 87.29,
+    "peak": 0.179,
+    "acfBeat": 0.173,
+    "acf8th": 0.053,
+    "acf16th": 0.017,
+    "lockBeat": 0.063,
+    "phaseBeatMs": 331.0,
+    "lock8th": 0.079,
+    "lock16th": 0.047,
+    "phase16thMs": 44.1
+   }
+  },
+  {
+   "t": 20.0,
+   "kick 30-120": {
+    "bestBpm": 84.68,
+    "peak": 0.091,
+    "acfBeat": -0.028,
+    "acf8th": -0.007,
+    "acf16th": -0.023,
+    "lockBeat": 0.077,
+    "phaseBeatMs": -344.7,
+    "lock8th": 0.127,
+    "lock16th": 0.05,
+    "phase16thMs": -31.8
+   },
+   "bass 120-300": {
+    "bestBpm": 101.28,
+    "peak": 0.069,
+    "acfBeat": -0.004,
+    "acf8th": -0.007,
+    "acf16th": 0.018,
+    "lockBeat": 0.047,
+    "phaseBeatMs": -287.7,
+    "lock8th": 0.026,
+    "lock16th": 0.022,
+    "phase16thMs": -48.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 42.74,
+    "peak": 0.066,
+    "acfBeat": -0.007,
+    "acf8th": 0.052,
+    "acf16th": 0.029,
+    "lockBeat": 0.09,
+    "phaseBeatMs": 304.9,
+    "lock8th": 0.055,
+    "lock16th": 0.036,
+    "phase16thMs": 83.4
+   },
+   "hats 5-12k": {
+    "bestBpm": 87.21,
+    "peak": 0.206,
+    "acfBeat": 0.206,
+    "acf8th": 0.062,
+    "acf16th": 0.008,
+    "lockBeat": 0.041,
+    "phaseBeatMs": 332.6,
+    "lock8th": 0.079,
+    "lock16th": 0.039,
+    "phase16thMs": 42.6
+   },
+   "broad": {
+    "bestBpm": 87.28,
+    "peak": 0.197,
+    "acfBeat": 0.192,
+    "acf8th": 0.074,
+    "acf16th": 0.007,
+    "lockBeat": 0.051,
+    "phaseBeatMs": -344.2,
+    "lock8th": 0.08,
+    "lock16th": 0.05,
+    "phase16thMs": 47.2
+   }
+  },
+  {
+   "t": 21.0,
+   "kick 30-120": {
+    "bestBpm": 97.65,
+    "peak": 0.067,
+    "acfBeat": -0.01,
+    "acf8th": 0.019,
+    "acf16th": -0.014,
+    "lockBeat": 0.086,
+    "phaseBeatMs": -261.3,
+    "lock8th": 0.129,
+    "lock16th": 0.079,
+    "phase16thMs": -29.5
+   },
+   "bass 120-300": {
+    "bestBpm": 101.49,
+    "peak": 0.095,
+    "acfBeat": 0.005,
+    "acf8th": 0.0,
+    "acf16th": 0.024,
+    "lockBeat": 0.048,
+    "phaseBeatMs": -234.2,
+    "lock8th": 0.023,
+    "lock16th": 0.022,
+    "phase16thMs": -23.1
+   },
+   "body 300-2.5k": {
+    "bestBpm": 49.66,
+    "peak": 0.079,
+    "acfBeat": -0.028,
+    "acf8th": 0.04,
+    "acf16th": -0.0,
+    "lockBeat": 0.055,
+    "phaseBeatMs": 328.8,
+    "lock8th": 0.039,
+    "lock16th": 0.087,
+    "phase16thMs": -73.1
+   },
+   "hats 5-12k": {
+    "bestBpm": 87.23,
+    "peak": 0.17,
+    "acfBeat": 0.169,
+    "acf8th": 0.029,
+    "acf16th": -0.001,
+    "lockBeat": 0.042,
+    "phaseBeatMs": -188.4,
+    "lock8th": 0.09,
+    "lock16th": 0.082,
+    "phase16thMs": 62.1
+   },
+   "broad": {
+    "bestBpm": 87.3,
+    "peak": 0.163,
+    "acfBeat": 0.157,
+    "acf8th": 0.044,
+    "acf16th": -0.012,
+    "lockBeat": 0.038,
+    "phaseBeatMs": -178.8,
+    "lock8th": 0.098,
+    "lock16th": 0.082,
+    "phase16thMs": 63.0
+   }
+  },
+  {
+   "t": 22.0,
+   "kick 30-120": {
+    "bestBpm": 43.9,
+    "peak": 0.061,
+    "acfBeat": 0.013,
+    "acf8th": 0.026,
+    "acf16th": 0.013,
+    "lockBeat": 0.086,
+    "phaseBeatMs": 333.9,
+    "lock8th": 0.113,
+    "lock16th": 0.092,
+    "phase16thMs": -13.5
+   },
+   "bass 120-300": {
+    "bestBpm": 43.57,
+    "peak": 0.115,
+    "acfBeat": 0.043,
+    "acf8th": 0.018,
+    "acf16th": 0.047,
+    "lockBeat": 0.038,
+    "phaseBeatMs": -303.9,
+    "lock8th": 0.028,
+    "lock16th": 0.046,
+    "phase16thMs": -19.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 96.93,
+    "peak": 0.1,
+    "acfBeat": 0.032,
+    "acf8th": 0.099,
+    "acf16th": 0.016,
+    "lockBeat": 0.044,
+    "phaseBeatMs": 296.1,
+    "lock8th": 0.043,
+    "lock16th": 0.07,
+    "phase16thMs": -76.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 87.28,
+    "peak": 0.132,
+    "acfBeat": 0.128,
+    "acf8th": 0.022,
+    "acf16th": -0.004,
+    "lockBeat": 0.024,
+    "phaseBeatMs": -206.5,
+    "lock8th": 0.12,
+    "lock16th": 0.033,
+    "phase16thMs": 51.4
+   },
+   "broad": {
+    "bestBpm": 87.35,
+    "peak": 0.138,
+    "acfBeat": 0.129,
+    "acf8th": 0.056,
+    "acf16th": -0.008,
+    "lockBeat": 0.023,
+    "phaseBeatMs": -187.4,
+    "lock8th": 0.145,
+    "lock16th": 0.029,
+    "phase16thMs": 51.6
+   }
+  },
+  {
+   "t": 23.0,
+   "kick 30-120": {
+    "bestBpm": 43.76,
+    "peak": 0.087,
+    "acfBeat": 0.016,
+    "acf8th": 0.004,
+    "acf16th": 0.017,
+    "lockBeat": 0.116,
+    "phaseBeatMs": -297.7,
+    "lock8th": 0.1,
+    "lock16th": 0.081,
+    "phase16thMs": -13.5
+   },
+   "bass 120-300": {
+    "bestBpm": 43.59,
+    "peak": 0.138,
+    "acfBeat": 0.079,
+    "acf8th": 0.012,
+    "acf16th": 0.042,
+    "lockBeat": 0.091,
+    "phaseBeatMs": -230.2,
+    "lock8th": 0.043,
+    "lock16th": 0.042,
+    "phase16thMs": -31.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 53.68,
+    "peak": 0.127,
+    "acfBeat": 0.12,
+    "acf8th": 0.12,
+    "acf16th": 0.028,
+    "lockBeat": 0.066,
+    "phaseBeatMs": -210.3,
+    "lock8th": 0.079,
+    "lock16th": 0.076,
+    "phase16thMs": -77.2
+   },
+   "hats 5-12k": {
+    "bestBpm": 78.38,
+    "peak": 0.14,
+    "acfBeat": 0.128,
+    "acf8th": 0.078,
+    "acf16th": -0.019,
+    "lockBeat": 0.07,
+    "phaseBeatMs": -206.2,
+    "lock8th": 0.13,
+    "lock16th": 0.036,
+    "phase16thMs": -34.5
+   },
+   "broad": {
+    "bestBpm": 87.18,
+    "peak": 0.161,
+    "acfBeat": 0.161,
+    "acf8th": 0.133,
+    "acf16th": -0.014,
+    "lockBeat": 0.073,
+    "phaseBeatMs": -198.0,
+    "lock8th": 0.155,
+    "lock16th": 0.027,
+    "phase16thMs": -37.6
+   }
+  },
+  {
+   "t": 24.0,
+   "kick 30-120": {
+    "bestBpm": 43.65,
+    "peak": 0.094,
+    "acfBeat": 0.04,
+    "acf8th": 0.023,
+    "acf16th": -0.002,
+    "lockBeat": 0.067,
+    "phaseBeatMs": -317.3,
+    "lock8th": 0.115,
+    "lock16th": 0.117,
+    "phase16thMs": -5.3
+   },
+   "bass 120-300": {
+    "bestBpm": 43.57,
+    "peak": 0.162,
+    "acfBeat": 0.072,
+    "acf8th": 0.042,
+    "acf16th": 0.031,
+    "lockBeat": 0.031,
+    "phaseBeatMs": -249.8,
+    "lock8th": 0.024,
+    "lock16th": 0.064,
+    "phase16thMs": -26.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.89,
+    "peak": 0.149,
+    "acfBeat": 0.149,
+    "acf8th": 0.143,
+    "acf16th": 0.02,
+    "lockBeat": 0.043,
+    "phaseBeatMs": -202.2,
+    "lock8th": 0.072,
+    "lock16th": 0.105,
+    "phase16thMs": -57.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 87.16,
+    "peak": 0.179,
+    "acfBeat": 0.179,
+    "acf8th": 0.101,
+    "acf16th": -0.024,
+    "lockBeat": 0.062,
+    "phaseBeatMs": -165.6,
+    "lock8th": 0.17,
+    "lock16th": 0.062,
+    "phase16thMs": -36.1
+   },
+   "broad": {
+    "bestBpm": 87.17,
+    "peak": 0.222,
+    "acfBeat": 0.222,
+    "acf8th": 0.169,
+    "acf16th": -0.014,
+    "lockBeat": 0.061,
+    "phaseBeatMs": -158.0,
+    "lock8th": 0.197,
+    "lock16th": 0.084,
+    "phase16thMs": -33.8
+   }
+  },
+  {
+   "t": 25.0,
+   "kick 30-120": {
+    "bestBpm": 43.6,
+    "peak": 0.104,
+    "acfBeat": 0.04,
+    "acf8th": 0.026,
+    "acf16th": -0.002,
+    "lockBeat": 0.096,
+    "phaseBeatMs": -308.2,
+    "lock8th": 0.118,
+    "lock16th": 0.133,
+    "phase16thMs": -0.5
+   },
+   "bass 120-300": {
+    "bestBpm": 43.56,
+    "peak": 0.142,
+    "acfBeat": 0.072,
+    "acf8th": 0.049,
+    "acf16th": 0.028,
+    "lockBeat": 0.104,
+    "phaseBeatMs": -264.5,
+    "lock8th": 0.03,
+    "lock16th": 0.042,
+    "phase16thMs": -35.9
+   },
+   "body 300-2.5k": {
+    "bestBpm": 140.51,
+    "peak": 0.161,
+    "acfBeat": 0.158,
+    "acf8th": 0.142,
+    "acf16th": 0.015,
+    "lockBeat": 0.074,
+    "phaseBeatMs": -204.0,
+    "lock8th": 0.04,
+    "lock16th": 0.064,
+    "phase16thMs": -56.1
+   },
+   "hats 5-12k": {
+    "bestBpm": 87.27,
+    "peak": 0.155,
+    "acfBeat": 0.152,
+    "acf8th": 0.118,
+    "acf16th": -0.022,
+    "lockBeat": 0.061,
+    "phaseBeatMs": -100.8,
+    "lock8th": 0.166,
+    "lock16th": 0.083,
+    "phase16thMs": -29.8
+   },
+   "broad": {
+    "bestBpm": 173.81,
+    "peak": 0.194,
+    "acfBeat": 0.19,
+    "acf8th": 0.194,
+    "acf16th": -0.011,
+    "lockBeat": 0.063,
+    "phaseBeatMs": -108.3,
+    "lock8th": 0.182,
+    "lock16th": 0.117,
+    "phase16thMs": -24.8
+   }
+  },
+  {
+   "t": 26.0,
+   "kick 30-120": {
+    "bestBpm": 115.89,
+    "peak": 0.099,
+    "acfBeat": 0.06,
+    "acf8th": 0.033,
+    "acf16th": -0.014,
+    "lockBeat": 0.033,
+    "phaseBeatMs": 317.6,
+    "lock8th": 0.112,
+    "lock16th": 0.157,
+    "phase16thMs": -0.6
+   },
+   "bass 120-300": {
+    "bestBpm": 43.55,
+    "peak": 0.161,
+    "acfBeat": 0.075,
+    "acf8th": 0.047,
+    "acf16th": 0.019,
+    "lockBeat": 0.076,
+    "phaseBeatMs": -223.7,
+    "lock8th": 0.069,
+    "lock16th": 0.062,
+    "phase16thMs": -32.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.93,
+    "peak": 0.18,
+    "acfBeat": 0.18,
+    "acf8th": 0.171,
+    "acf16th": 0.023,
+    "lockBeat": 0.072,
+    "phaseBeatMs": -124.2,
+    "lock8th": 0.029,
+    "lock16th": 0.089,
+    "phase16thMs": -52.6
+   },
+   "hats 5-12k": {
+    "bestBpm": 115.54,
+    "peak": 0.151,
+    "acfBeat": 0.087,
+    "acf8th": 0.086,
+    "acf16th": -0.017,
+    "lockBeat": 0.122,
+    "phaseBeatMs": -69.7,
+    "lock8th": 0.097,
+    "lock16th": 0.136,
+    "phase16thMs": -24.7
+   },
+   "broad": {
+    "bestBpm": 173.2,
+    "peak": 0.2,
+    "acfBeat": 0.154,
+    "acf8th": 0.185,
+    "acf16th": -0.012,
+    "lockBeat": 0.141,
+    "phaseBeatMs": -75.0,
+    "lock8th": 0.133,
+    "lock16th": 0.19,
+    "phase16thMs": -21.0
+   }
+  },
+  {
+   "t": 27.0,
+   "kick 30-120": {
+    "bestBpm": 43.39,
+    "peak": 0.093,
+    "acfBeat": 0.082,
+    "acf8th": 0.043,
+    "acf16th": -0.016,
+    "lockBeat": 0.084,
+    "phaseBeatMs": -338.7,
+    "lock8th": 0.083,
+    "lock16th": 0.15,
+    "phase16thMs": -2.5
+   },
+   "bass 120-300": {
+    "bestBpm": 43.57,
+    "peak": 0.108,
+    "acfBeat": 0.073,
+    "acf8th": 0.044,
+    "acf16th": 0.005,
+    "lockBeat": 0.101,
+    "phaseBeatMs": -270.4,
+    "lock8th": 0.039,
+    "lock16th": 0.081,
+    "phase16thMs": -19.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.9,
+    "peak": 0.192,
+    "acfBeat": 0.192,
+    "acf8th": 0.189,
+    "acf16th": 0.031,
+    "lockBeat": 0.076,
+    "phaseBeatMs": -172.0,
+    "lock8th": 0.02,
+    "lock16th": 0.098,
+    "phase16thMs": -44.4
+   },
+   "hats 5-12k": {
+    "bestBpm": 115.74,
+    "peak": 0.12,
+    "acfBeat": 0.031,
+    "acf8th": 0.068,
+    "acf16th": -0.023,
+    "lockBeat": 0.053,
+    "phaseBeatMs": -162.7,
+    "lock8th": 0.078,
+    "lock16th": 0.087,
+    "phase16thMs": -34.0
+   },
+   "broad": {
+    "bestBpm": 173.26,
+    "peak": 0.195,
+    "acfBeat": 0.104,
+    "acf8th": 0.184,
+    "acf16th": -0.002,
+    "lockBeat": 0.082,
+    "phaseBeatMs": -125.7,
+    "lock8th": 0.114,
+    "lock16th": 0.141,
+    "phase16thMs": -22.9
+   }
+  },
+  {
+   "t": 28.0,
+   "kick 30-120": {
+    "bestBpm": 116.24,
+    "peak": 0.122,
+    "acfBeat": 0.072,
+    "acf8th": 0.046,
+    "acf16th": -0.025,
+    "lockBeat": 0.042,
+    "phaseBeatMs": -323.3,
+    "lock8th": 0.089,
+    "lock16th": 0.157,
+    "phase16thMs": -4.5
+   },
+   "bass 120-300": {
+    "bestBpm": 43.57,
+    "peak": 0.126,
+    "acfBeat": 0.111,
+    "acf8th": 0.037,
+    "acf16th": -0.009,
+    "lockBeat": 0.062,
+    "phaseBeatMs": -202.7,
+    "lock8th": 0.049,
+    "lock16th": 0.069,
+    "phase16thMs": -26.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.03,
+    "peak": 0.229,
+    "acfBeat": 0.229,
+    "acf8th": 0.177,
+    "acf16th": -0.013,
+    "lockBeat": 0.073,
+    "phaseBeatMs": -94.4,
+    "lock8th": 0.094,
+    "lock16th": 0.174,
+    "phase16thMs": -27.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.04,
+    "peak": 0.179,
+    "acfBeat": 0.09,
+    "acf8th": 0.169,
+    "acf16th": 0.035,
+    "lockBeat": 0.032,
+    "phaseBeatMs": -125.8,
+    "lock8th": 0.155,
+    "lock16th": 0.188,
+    "phase16thMs": -20.7
+   },
+   "broad": {
+    "bestBpm": 173.28,
+    "peak": 0.273,
+    "acfBeat": 0.126,
+    "acf8th": 0.26,
+    "acf16th": 0.015,
+    "lockBeat": 0.058,
+    "phaseBeatMs": -95.7,
+    "lock8th": 0.195,
+    "lock16th": 0.253,
+    "phase16thMs": -19.3
+   }
+  },
+  {
+   "t": 29.0,
+   "kick 30-120": {
+    "bestBpm": 116.17,
+    "peak": 0.141,
+    "acfBeat": 0.106,
+    "acf8th": 0.046,
+    "acf16th": -0.029,
+    "lockBeat": 0.08,
+    "phaseBeatMs": 316.3,
+    "lock8th": 0.077,
+    "lock16th": 0.19,
+    "phase16thMs": 0.6
+   },
+   "bass 120-300": {
+    "bestBpm": 87.07,
+    "peak": 0.139,
+    "acfBeat": 0.139,
+    "acf8th": 0.047,
+    "acf16th": 0.002,
+    "lockBeat": 0.064,
+    "phaseBeatMs": -327.9,
+    "lock8th": 0.059,
+    "lock16th": 0.086,
+    "phase16thMs": -19.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.98,
+    "peak": 0.251,
+    "acfBeat": 0.251,
+    "acf8th": 0.21,
+    "acf16th": 0.002,
+    "lockBeat": 0.014,
+    "phaseBeatMs": -153.8,
+    "lock8th": 0.093,
+    "lock16th": 0.181,
+    "phase16thMs": -20.2
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.09,
+    "peak": 0.239,
+    "acfBeat": 0.148,
+    "acf8th": 0.221,
+    "acf16th": 0.032,
+    "lockBeat": 0.041,
+    "phaseBeatMs": 315.1,
+    "lock8th": 0.128,
+    "lock16th": 0.205,
+    "phase16thMs": -21.4
+   },
+   "broad": {
+    "bestBpm": 173.39,
+    "peak": 0.32,
+    "acfBeat": 0.173,
+    "acf8th": 0.306,
+    "acf16th": 0.014,
+    "lockBeat": 0.036,
+    "phaseBeatMs": 315.8,
+    "lock8th": 0.173,
+    "lock16th": 0.255,
+    "phase16thMs": -19.6
+   }
+  },
+  {
+   "t": 30.0,
+   "kick 30-120": {
+    "bestBpm": 116.22,
+    "peak": 0.134,
+    "acfBeat": 0.093,
+    "acf8th": 0.062,
+    "acf16th": -0.023,
+    "lockBeat": 0.029,
+    "phaseBeatMs": -268.5,
+    "lock8th": 0.125,
+    "lock16th": 0.187,
+    "phase16thMs": -1.7
+   },
+   "bass 120-300": {
+    "bestBpm": 87.21,
+    "peak": 0.113,
+    "acfBeat": 0.113,
+    "acf8th": 0.056,
+    "acf16th": 0.012,
+    "lockBeat": 0.053,
+    "phaseBeatMs": -259.1,
+    "lock8th": 0.041,
+    "lock16th": 0.06,
+    "phase16thMs": -36.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.06,
+    "peak": 0.254,
+    "acfBeat": 0.254,
+    "acf8th": 0.212,
+    "acf16th": -0.005,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -117.9,
+    "lock8th": 0.073,
+    "lock16th": 0.158,
+    "phase16thMs": -22.6
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.65,
+    "peak": 0.221,
+    "acfBeat": 0.157,
+    "acf8th": 0.219,
+    "acf16th": 0.026,
+    "lockBeat": 0.012,
+    "phaseBeatMs": -257.4,
+    "lock8th": 0.104,
+    "lock16th": 0.183,
+    "phase16thMs": -21.4
+   },
+   "broad": {
+    "bestBpm": 173.73,
+    "peak": 0.298,
+    "acfBeat": 0.171,
+    "acf8th": 0.298,
+    "acf16th": 0.006,
+    "lockBeat": 0.007,
+    "phaseBeatMs": -210.6,
+    "lock8th": 0.147,
+    "lock16th": 0.234,
+    "phase16thMs": -18.2
+   }
+  },
+  {
+   "t": 31.0,
+   "kick 30-120": {
+    "bestBpm": 116.24,
+    "peak": 0.115,
+    "acfBeat": 0.084,
+    "acf8th": 0.046,
+    "acf16th": -0.009,
+    "lockBeat": 0.054,
+    "phaseBeatMs": 242.8,
+    "lock8th": 0.134,
+    "lock16th": 0.185,
+    "phase16thMs": -2.6
+   },
+   "bass 120-300": {
+    "bestBpm": 87.29,
+    "peak": 0.165,
+    "acfBeat": 0.157,
+    "acf8th": 0.053,
+    "acf16th": 0.01,
+    "lockBeat": 0.063,
+    "phaseBeatMs": -329.0,
+    "lock8th": 0.042,
+    "lock16th": 0.085,
+    "phase16thMs": -25.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.05,
+    "peak": 0.265,
+    "acfBeat": 0.265,
+    "acf8th": 0.202,
+    "acf16th": 0.007,
+    "lockBeat": 0.044,
+    "phaseBeatMs": 332.1,
+    "lock8th": 0.072,
+    "lock16th": 0.159,
+    "phase16thMs": -22.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.74,
+    "peak": 0.236,
+    "acfBeat": 0.177,
+    "acf8th": 0.236,
+    "acf16th": 0.023,
+    "lockBeat": 0.053,
+    "phaseBeatMs": 274.3,
+    "lock8th": 0.09,
+    "lock16th": 0.2,
+    "phase16thMs": -17.5
+   },
+   "broad": {
+    "bestBpm": 173.7,
+    "peak": 0.302,
+    "acfBeat": 0.179,
+    "acf8th": 0.301,
+    "acf16th": 0.001,
+    "lockBeat": 0.052,
+    "phaseBeatMs": 261.6,
+    "lock8th": 0.142,
+    "lock16th": 0.266,
+    "phase16thMs": -16.1
+   }
+  },
+  {
+   "t": 32.0,
+   "kick 30-120": {
+    "bestBpm": 86.63,
+    "peak": 0.103,
+    "acfBeat": 0.103,
+    "acf8th": 0.029,
+    "acf16th": -0.01,
+    "lockBeat": 0.057,
+    "phaseBeatMs": 325.3,
+    "lock8th": 0.162,
+    "lock16th": 0.123,
+    "phase16thMs": -6.6
+   },
+   "bass 120-300": {
+    "bestBpm": 87.32,
+    "peak": 0.18,
+    "acfBeat": 0.167,
+    "acf8th": 0.039,
+    "acf16th": 0.018,
+    "lockBeat": 0.093,
+    "phaseBeatMs": -240.4,
+    "lock8th": 0.008,
+    "lock16th": 0.065,
+    "phase16thMs": -45.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.07,
+    "peak": 0.216,
+    "acfBeat": 0.216,
+    "acf8th": 0.156,
+    "acf16th": 0.009,
+    "lockBeat": 0.118,
+    "phaseBeatMs": -172.7,
+    "lock8th": 0.066,
+    "lock16th": 0.106,
+    "phase16thMs": -23.2
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.02,
+    "peak": 0.21,
+    "acfBeat": 0.166,
+    "acf8th": 0.21,
+    "acf16th": 0.011,
+    "lockBeat": 0.068,
+    "phaseBeatMs": -212.4,
+    "lock8th": 0.03,
+    "lock16th": 0.227,
+    "phase16thMs": -15.0
+   },
+   "broad": {
+    "bestBpm": 173.73,
+    "peak": 0.27,
+    "acfBeat": 0.176,
+    "acf8th": 0.27,
+    "acf16th": -0.007,
+    "lockBeat": 0.068,
+    "phaseBeatMs": -202.4,
+    "lock8th": 0.068,
+    "lock16th": 0.259,
+    "phase16thMs": -14.0
+   }
+  },
+  {
+   "t": 33.0,
+   "kick 30-120": {
+    "bestBpm": 116.18,
+    "peak": 0.098,
+    "acfBeat": 0.075,
+    "acf8th": 0.041,
+    "acf16th": -0.014,
+    "lockBeat": 0.07,
+    "phaseBeatMs": 241.8,
+    "lock8th": 0.128,
+    "lock16th": 0.153,
+    "phase16thMs": -5.6
+   },
+   "bass 120-300": {
+    "bestBpm": 87.28,
+    "peak": 0.181,
+    "acfBeat": 0.175,
+    "acf8th": 0.071,
+    "acf16th": 0.021,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -308.2,
+    "lock8th": 0.046,
+    "lock16th": 0.1,
+    "phase16thMs": -18.9
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.78,
+    "peak": 0.23,
+    "acfBeat": 0.176,
+    "acf8th": 0.23,
+    "acf16th": 0.014,
+    "lockBeat": 0.032,
+    "phaseBeatMs": -257.7,
+    "lock8th": 0.016,
+    "lock16th": 0.185,
+    "phase16thMs": -15.7
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.39,
+    "peak": 0.322,
+    "acfBeat": 0.202,
+    "acf8th": 0.322,
+    "acf16th": 0.007,
+    "lockBeat": 0.064,
+    "phaseBeatMs": 279.5,
+    "lock8th": 0.029,
+    "lock16th": 0.244,
+    "phase16thMs": -15.0
+   },
+   "broad": {
+    "bestBpm": 174.2,
+    "peak": 0.37,
+    "acfBeat": 0.227,
+    "acf8th": 0.37,
+    "acf16th": 0.001,
+    "lockBeat": 0.065,
+    "phaseBeatMs": 278.0,
+    "lock8th": 0.05,
+    "lock16th": 0.285,
+    "phase16thMs": -12.7
+   }
+  },
+  {
+   "t": 34.0,
+   "kick 30-120": {
+    "bestBpm": 115.96,
+    "peak": 0.106,
+    "acfBeat": 0.068,
+    "acf8th": 0.025,
+    "acf16th": -0.004,
+    "lockBeat": 0.074,
+    "phaseBeatMs": -343.4,
+    "lock8th": 0.115,
+    "lock16th": 0.168,
+    "phase16thMs": -1.6
+   },
+   "bass 120-300": {
+    "bestBpm": 87.16,
+    "peak": 0.166,
+    "acfBeat": 0.166,
+    "acf8th": 0.066,
+    "acf16th": 0.013,
+    "lockBeat": 0.067,
+    "phaseBeatMs": -274.1,
+    "lock8th": 0.068,
+    "lock16th": 0.095,
+    "phase16thMs": -22.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.78,
+    "peak": 0.232,
+    "acfBeat": 0.173,
+    "acf8th": 0.232,
+    "acf16th": 0.035,
+    "lockBeat": 0.061,
+    "phaseBeatMs": -214.0,
+    "lock8th": 0.038,
+    "lock16th": 0.182,
+    "phase16thMs": -15.3
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.35,
+    "peak": 0.326,
+    "acfBeat": 0.215,
+    "acf8th": 0.326,
+    "acf16th": -0.002,
+    "lockBeat": 0.053,
+    "phaseBeatMs": 325.9,
+    "lock8th": 0.038,
+    "lock16th": 0.24,
+    "phase16thMs": -15.6
+   },
+   "broad": {
+    "bestBpm": 174.18,
+    "peak": 0.374,
+    "acfBeat": 0.234,
+    "acf8th": 0.374,
+    "acf16th": 0.0,
+    "lockBeat": 0.057,
+    "phaseBeatMs": 307.2,
+    "lock8th": 0.059,
+    "lock16th": 0.272,
+    "phase16thMs": -13.2
+   }
+  },
+  {
+   "t": 35.0,
+   "kick 30-120": {
+    "bestBpm": 115.82,
+    "peak": 0.107,
+    "acfBeat": 0.075,
+    "acf8th": 0.014,
+    "acf16th": 0.008,
+    "lockBeat": 0.047,
+    "phaseBeatMs": 222.1,
+    "lock8th": 0.125,
+    "lock16th": 0.187,
+    "phase16thMs": 3.2
+   },
+   "bass 120-300": {
+    "bestBpm": 87.15,
+    "peak": 0.176,
+    "acfBeat": 0.176,
+    "acf8th": 0.056,
+    "acf16th": 0.009,
+    "lockBeat": 0.011,
+    "phaseBeatMs": -253.4,
+    "lock8th": 0.067,
+    "lock16th": 0.081,
+    "phase16thMs": -17.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.87,
+    "peak": 0.237,
+    "acfBeat": 0.158,
+    "acf8th": 0.237,
+    "acf16th": 0.026,
+    "lockBeat": 0.017,
+    "phaseBeatMs": -119.5,
+    "lock8th": 0.044,
+    "lock16th": 0.169,
+    "phase16thMs": -16.1
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.36,
+    "peak": 0.332,
+    "acfBeat": 0.21,
+    "acf8th": 0.332,
+    "acf16th": -0.007,
+    "lockBeat": 0.055,
+    "phaseBeatMs": 224.1,
+    "lock8th": 0.049,
+    "lock16th": 0.233,
+    "phase16thMs": -13.9
+   },
+   "broad": {
+    "bestBpm": 174.2,
+    "peak": 0.374,
+    "acfBeat": 0.229,
+    "acf8th": 0.374,
+    "acf16th": 0.003,
+    "lockBeat": 0.074,
+    "phaseBeatMs": 224.0,
+    "lock8th": 0.043,
+    "lock16th": 0.259,
+    "phase16thMs": -11.9
+   }
+  },
+  {
+   "t": 36.0,
+   "kick 30-120": {
+    "bestBpm": 115.97,
+    "peak": 0.101,
+    "acfBeat": 0.051,
+    "acf8th": 0.021,
+    "acf16th": -0.001,
+    "lockBeat": 0.072,
+    "phaseBeatMs": -336.5,
+    "lock8th": 0.107,
+    "lock16th": 0.177,
+    "phase16thMs": 3.2
+   },
+   "bass 120-300": {
+    "bestBpm": 116.06,
+    "peak": 0.111,
+    "acfBeat": 0.103,
+    "acf8th": 0.072,
+    "acf16th": 0.009,
+    "lockBeat": 0.063,
+    "phaseBeatMs": -312.3,
+    "lock8th": 0.068,
+    "lock16th": 0.116,
+    "phase16thMs": -12.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.57,
+    "peak": 0.26,
+    "acfBeat": 0.095,
+    "acf8th": 0.26,
+    "acf16th": 0.053,
+    "lockBeat": 0.057,
+    "phaseBeatMs": -245.7,
+    "lock8th": 0.061,
+    "lock16th": 0.08,
+    "phase16thMs": -11.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.56,
+    "peak": 0.339,
+    "acfBeat": 0.185,
+    "acf8th": 0.339,
+    "acf16th": 0.006,
+    "lockBeat": 0.053,
+    "phaseBeatMs": 311.0,
+    "lock8th": 0.058,
+    "lock16th": 0.133,
+    "phase16thMs": -9.8
+   },
+   "broad": {
+    "bestBpm": 174.42,
+    "peak": 0.388,
+    "acfBeat": 0.228,
+    "acf8th": 0.388,
+    "acf16th": 0.027,
+    "lockBeat": 0.073,
+    "phaseBeatMs": 281.2,
+    "lock8th": 0.056,
+    "lock16th": 0.17,
+    "phase16thMs": -5.5
+   }
+  },
+  {
+   "t": 37.0,
+   "kick 30-120": {
+    "bestBpm": 54.94,
+    "peak": 0.073,
+    "acfBeat": 0.041,
+    "acf8th": -0.005,
+    "acf16th": -0.008,
+    "lockBeat": 0.006,
+    "phaseBeatMs": 242.7,
+    "lock8th": 0.086,
+    "lock16th": 0.153,
+    "phase16thMs": -1.8
+   },
+   "bass 120-300": {
+    "bestBpm": 43.55,
+    "peak": 0.114,
+    "acfBeat": 0.102,
+    "acf8th": 0.065,
+    "acf16th": 0.013,
+    "lockBeat": 0.042,
+    "phaseBeatMs": -160.0,
+    "lock8th": 0.049,
+    "lock16th": 0.081,
+    "phase16thMs": -15.8
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.56,
+    "peak": 0.225,
+    "acfBeat": 0.079,
+    "acf8th": 0.225,
+    "acf16th": 0.059,
+    "lockBeat": 0.062,
+    "phaseBeatMs": -159.8,
+    "lock8th": 0.078,
+    "lock16th": 0.089,
+    "phase16thMs": -18.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.85,
+    "peak": 0.344,
+    "acfBeat": 0.211,
+    "acf8th": 0.344,
+    "acf16th": 0.003,
+    "lockBeat": 0.047,
+    "phaseBeatMs": 210.3,
+    "lock8th": 0.1,
+    "lock16th": 0.19,
+    "phase16thMs": -8.7
+   },
+   "broad": {
+    "bestBpm": 174.64,
+    "peak": 0.387,
+    "acfBeat": 0.267,
+    "acf8th": 0.387,
+    "acf16th": 0.032,
+    "lockBeat": 0.05,
+    "phaseBeatMs": 213.8,
+    "lock8th": 0.1,
+    "lock16th": 0.236,
+    "phase16thMs": -6.0
+   }
+  },
+  {
+   "t": 38.0,
+   "kick 30-120": {
+    "bestBpm": 70.29,
+    "peak": 0.073,
+    "acfBeat": 0.04,
+    "acf8th": -0.015,
+    "acf16th": 0.009,
+    "lockBeat": 0.076,
+    "phaseBeatMs": 296.9,
+    "lock8th": 0.079,
+    "lock16th": 0.135,
+    "phase16thMs": -4.9
+   },
+   "bass 120-300": {
+    "bestBpm": 116.05,
+    "peak": 0.136,
+    "acfBeat": 0.08,
+    "acf8th": 0.049,
+    "acf16th": 0.013,
+    "lockBeat": 0.041,
+    "phaseBeatMs": -293.3,
+    "lock8th": 0.042,
+    "lock16th": 0.096,
+    "phase16thMs": -9.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.64,
+    "peak": 0.23,
+    "acfBeat": 0.077,
+    "acf8th": 0.23,
+    "acf16th": 0.049,
+    "lockBeat": 0.071,
+    "phaseBeatMs": -216.8,
+    "lock8th": 0.105,
+    "lock16th": 0.088,
+    "phase16thMs": -14.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.83,
+    "peak": 0.343,
+    "acfBeat": 0.193,
+    "acf8th": 0.343,
+    "acf16th": 0.02,
+    "lockBeat": 0.076,
+    "phaseBeatMs": 255.4,
+    "lock8th": 0.147,
+    "lock16th": 0.181,
+    "phase16thMs": -5.6
+   },
+   "broad": {
+    "bestBpm": 174.63,
+    "peak": 0.398,
+    "acfBeat": 0.248,
+    "acf8th": 0.398,
+    "acf16th": 0.046,
+    "lockBeat": 0.078,
+    "phaseBeatMs": 261.5,
+    "lock8th": 0.149,
+    "lock16th": 0.223,
+    "phase16thMs": -2.8
+   }
+  },
+  {
+   "t": 39.0,
+   "kick 30-120": {
+    "bestBpm": 115.35,
+    "peak": 0.079,
+    "acfBeat": 0.034,
+    "acf8th": 0.008,
+    "acf16th": 0.013,
+    "lockBeat": 0.049,
+    "phaseBeatMs": 343.5,
+    "lock8th": 0.1,
+    "lock16th": 0.158,
+    "phase16thMs": -5.1
+   },
+   "bass 120-300": {
+    "bestBpm": 116.19,
+    "peak": 0.153,
+    "acfBeat": 0.074,
+    "acf8th": 0.016,
+    "acf16th": 0.018,
+    "lockBeat": 0.036,
+    "phaseBeatMs": -148.9,
+    "lock8th": 0.039,
+    "lock16th": 0.063,
+    "phase16thMs": -16.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.39,
+    "peak": 0.247,
+    "acfBeat": 0.096,
+    "acf8th": 0.247,
+    "acf16th": 0.031,
+    "lockBeat": 0.062,
+    "phaseBeatMs": -103.2,
+    "lock8th": 0.031,
+    "lock16th": 0.161,
+    "phase16thMs": -15.4
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.23,
+    "peak": 0.346,
+    "acfBeat": 0.145,
+    "acf8th": 0.346,
+    "acf16th": 0.033,
+    "lockBeat": 0.065,
+    "phaseBeatMs": 193.3,
+    "lock8th": 0.098,
+    "lock16th": 0.249,
+    "phase16thMs": -10.0
+   },
+   "broad": {
+    "bestBpm": 174.25,
+    "peak": 0.43,
+    "acfBeat": 0.2,
+    "acf8th": 0.43,
+    "acf16th": 0.039,
+    "lockBeat": 0.061,
+    "phaseBeatMs": 172.6,
+    "lock8th": 0.082,
+    "lock16th": 0.304,
+    "phase16thMs": -8.6
+   }
+  },
+  {
+   "t": 40.0,
+   "kick 30-120": {
+    "bestBpm": 43.69,
+    "peak": 0.112,
+    "acfBeat": 0.06,
+    "acf8th": 0.01,
+    "acf16th": 0.023,
+    "lockBeat": 0.1,
+    "phaseBeatMs": 312.3,
+    "lock8th": 0.062,
+    "lock16th": 0.198,
+    "phase16thMs": -1.3
+   },
+   "bass 120-300": {
+    "bestBpm": 116.22,
+    "peak": 0.124,
+    "acfBeat": 0.075,
+    "acf8th": 0.006,
+    "acf16th": 0.004,
+    "lockBeat": 0.053,
+    "phaseBeatMs": 268.8,
+    "lock8th": 0.056,
+    "lock16th": 0.111,
+    "phase16thMs": -3.8
+   },
+   "body 300-2.5k": {
+    "bestBpm": 116.86,
+    "peak": 0.164,
+    "acfBeat": 0.121,
+    "acf8th": 0.164,
+    "acf16th": 0.016,
+    "lockBeat": 0.025,
+    "phaseBeatMs": 268.0,
+    "lock8th": 0.071,
+    "lock16th": 0.205,
+    "phase16thMs": -14.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.41,
+    "peak": 0.255,
+    "acfBeat": 0.165,
+    "acf8th": 0.242,
+    "acf16th": 0.019,
+    "lockBeat": 0.116,
+    "phaseBeatMs": 229.5,
+    "lock8th": 0.039,
+    "lock16th": 0.195,
+    "phase16thMs": -10.6
+   },
+   "broad": {
+    "bestBpm": 173.83,
+    "peak": 0.315,
+    "acfBeat": 0.218,
+    "acf8th": 0.315,
+    "acf16th": 0.021,
+    "lockBeat": 0.114,
+    "phaseBeatMs": 230.7,
+    "lock8th": 0.026,
+    "lock16th": 0.269,
+    "phase16thMs": -9.9
+   }
+  },
+  {
+   "t": 41.0,
+   "kick 30-120": {
+    "bestBpm": 43.75,
+    "peak": 0.101,
+    "acfBeat": 0.051,
+    "acf8th": -0.0,
+    "acf16th": 0.022,
+    "lockBeat": 0.059,
+    "phaseBeatMs": -317.3,
+    "lock8th": 0.066,
+    "lock16th": 0.184,
+    "phase16thMs": 2.3
+   },
+   "bass 120-300": {
+    "bestBpm": 116.29,
+    "peak": 0.123,
+    "acfBeat": 0.055,
+    "acf8th": -0.011,
+    "acf16th": 0.003,
+    "lockBeat": 0.009,
+    "phaseBeatMs": -124.8,
+    "lock8th": 0.012,
+    "lock16th": 0.047,
+    "phase16thMs": -9.1
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.49,
+    "peak": 0.363,
+    "acfBeat": 0.261,
+    "acf8th": 0.162,
+    "acf16th": 0.033,
+    "lockBeat": 0.126,
+    "phaseBeatMs": -112.5,
+    "lock8th": 0.075,
+    "lock16th": 0.162,
+    "phase16thMs": -20.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.39,
+    "peak": 0.31,
+    "acfBeat": 0.167,
+    "acf8th": 0.295,
+    "acf16th": 0.035,
+    "lockBeat": 0.017,
+    "phaseBeatMs": 22.1,
+    "lock8th": 0.061,
+    "lock16th": 0.189,
+    "phase16thMs": -11.2
+   },
+   "broad": {
+    "bestBpm": 173.64,
+    "peak": 0.389,
+    "acfBeat": 0.235,
+    "acf8th": 0.385,
+    "acf16th": 0.029,
+    "lockBeat": 0.042,
+    "phaseBeatMs": -57.9,
+    "lock8th": 0.063,
+    "lock16th": 0.238,
+    "phase16thMs": -12.0
+   }
+  },
+  {
+   "t": 42.0,
+   "kick 30-120": {
+    "bestBpm": 43.73,
+    "peak": 0.093,
+    "acfBeat": 0.04,
+    "acf8th": -0.023,
+    "acf16th": 0.033,
+    "lockBeat": 0.061,
+    "phaseBeatMs": 309.0,
+    "lock8th": 0.076,
+    "lock16th": 0.167,
+    "phase16thMs": 3.0
+   },
+   "bass 120-300": {
+    "bestBpm": 116.39,
+    "peak": 0.112,
+    "acfBeat": 0.066,
+    "acf8th": -0.003,
+    "acf16th": -0.007,
+    "lockBeat": 0.024,
+    "phaseBeatMs": 192.6,
+    "lock8th": 0.026,
+    "lock16th": 0.056,
+    "phase16thMs": -6.8
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.49,
+    "peak": 0.427,
+    "acfBeat": 0.29,
+    "acf8th": 0.224,
+    "acf16th": 0.049,
+    "lockBeat": 0.085,
+    "phaseBeatMs": -95.3,
+    "lock8th": 0.102,
+    "lock16th": 0.215,
+    "phase16thMs": -19.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.55,
+    "peak": 0.343,
+    "acfBeat": 0.215,
+    "acf8th": 0.334,
+    "acf16th": 0.047,
+    "lockBeat": 0.072,
+    "phaseBeatMs": 190.3,
+    "lock8th": 0.054,
+    "lock16th": 0.206,
+    "phase16thMs": -12.0
+   },
+   "broad": {
+    "bestBpm": 173.58,
+    "peak": 0.425,
+    "acfBeat": 0.271,
+    "acf8th": 0.415,
+    "acf16th": 0.039,
+    "lockBeat": 0.042,
+    "phaseBeatMs": 181.3,
+    "lock8th": 0.079,
+    "lock16th": 0.271,
+    "phase16thMs": -13.0
+   }
+  },
+  {
+   "t": 43.0,
+   "kick 30-120": {
+    "bestBpm": 43.75,
+    "peak": 0.1,
+    "acfBeat": 0.036,
+    "acf8th": -0.009,
+    "acf16th": 0.028,
+    "lockBeat": 0.048,
+    "phaseBeatMs": -268.0,
+    "lock8th": 0.089,
+    "lock16th": 0.157,
+    "phase16thMs": -2.6
+   },
+   "bass 120-300": {
+    "bestBpm": 116.43,
+    "peak": 0.109,
+    "acfBeat": 0.059,
+    "acf8th": 0.0,
+    "acf16th": 0.007,
+    "lockBeat": 0.024,
+    "phaseBeatMs": -216.6,
+    "lock8th": 0.025,
+    "lock16th": 0.027,
+    "phase16thMs": -29.5
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.49,
+    "peak": 0.505,
+    "acfBeat": 0.307,
+    "acf8th": 0.214,
+    "acf16th": 0.064,
+    "lockBeat": 0.143,
+    "phaseBeatMs": -124.5,
+    "lock8th": 0.118,
+    "lock16th": 0.223,
+    "phase16thMs": -15.4
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.77,
+    "peak": 0.392,
+    "acfBeat": 0.268,
+    "acf8th": 0.392,
+    "acf16th": 0.079,
+    "lockBeat": 0.023,
+    "phaseBeatMs": -72.6,
+    "lock8th": 0.034,
+    "lock16th": 0.223,
+    "phase16thMs": -13.6
+   },
+   "broad": {
+    "bestBpm": 173.72,
+    "peak": 0.439,
+    "acfBeat": 0.309,
+    "acf8th": 0.439,
+    "acf16th": 0.058,
+    "lockBeat": 0.055,
+    "phaseBeatMs": -115.5,
+    "lock8th": 0.089,
+    "lock16th": 0.288,
+    "phase16thMs": -14.0
+   }
+  },
+  {
+   "t": 44.0,
+   "kick 30-120": {
+    "bestBpm": 116.31,
+    "peak": 0.112,
+    "acfBeat": 0.035,
+    "acf8th": -0.004,
+    "acf16th": 0.006,
+    "lockBeat": 0.029,
+    "phaseBeatMs": 141.5,
+    "lock8th": 0.047,
+    "lock16th": 0.172,
+    "phase16thMs": -0.1
+   },
+   "bass 120-300": {
+    "bestBpm": 116.52,
+    "peak": 0.1,
+    "acfBeat": 0.054,
+    "acf8th": -0.003,
+    "acf16th": 0.001,
+    "lockBeat": 0.008,
+    "phaseBeatMs": 51.2,
+    "lock8th": 0.034,
+    "lock16th": 0.032,
+    "phase16thMs": -36.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.49,
+    "peak": 0.536,
+    "acfBeat": 0.315,
+    "acf8th": 0.202,
+    "acf16th": 0.056,
+    "lockBeat": 0.13,
+    "phaseBeatMs": -110.9,
+    "lock8th": 0.106,
+    "lock16th": 0.235,
+    "phase16thMs": -16.6
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.91,
+    "peak": 0.375,
+    "acfBeat": 0.299,
+    "acf8th": 0.375,
+    "acf16th": 0.108,
+    "lockBeat": 0.064,
+    "phaseBeatMs": 90.3,
+    "lock8th": 0.052,
+    "lock16th": 0.209,
+    "phase16thMs": -17.0
+   },
+   "broad": {
+    "bestBpm": 173.81,
+    "peak": 0.428,
+    "acfBeat": 0.316,
+    "acf8th": 0.428,
+    "acf16th": 0.072,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -12.2,
+    "lock8th": 0.049,
+    "lock16th": 0.272,
+    "phase16thMs": -16.3
+   }
+  },
+  {
+   "t": 45.0,
+   "kick 30-120": {
+    "bestBpm": 43.74,
+    "peak": 0.132,
+    "acfBeat": 0.013,
+    "acf8th": 0.014,
+    "acf16th": 0.017,
+    "lockBeat": 0.045,
+    "phaseBeatMs": -241.2,
+    "lock8th": 0.075,
+    "lock16th": 0.2,
+    "phase16thMs": -0.1
+   },
+   "bass 120-300": {
+    "bestBpm": 69.82,
+    "peak": 0.144,
+    "acfBeat": 0.025,
+    "acf8th": 0.01,
+    "acf16th": -0.005,
+    "lockBeat": 0.062,
+    "phaseBeatMs": -247.1,
+    "lock8th": 0.066,
+    "lock16th": 0.07,
+    "phase16thMs": -21.5
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.5,
+    "peak": 0.494,
+    "acfBeat": 0.261,
+    "acf8th": 0.192,
+    "acf16th": 0.065,
+    "lockBeat": 0.164,
+    "phaseBeatMs": -164.7,
+    "lock8th": 0.095,
+    "lock16th": 0.206,
+    "phase16thMs": -15.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 43.5,
+    "peak": 0.368,
+    "acfBeat": 0.279,
+    "acf8th": 0.355,
+    "acf16th": 0.084,
+    "lockBeat": 0.009,
+    "phaseBeatMs": -15.0,
+    "lock8th": 0.031,
+    "lock16th": 0.168,
+    "phase16thMs": -16.9
+   },
+   "broad": {
+    "bestBpm": 43.49,
+    "peak": 0.395,
+    "acfBeat": 0.278,
+    "acf8th": 0.393,
+    "acf16th": 0.067,
+    "lockBeat": 0.05,
+    "phaseBeatMs": -168.2,
+    "lock8th": 0.026,
+    "lock16th": 0.219,
+    "phase16thMs": -17.0
+   }
+  },
+  {
+   "t": 46.0,
+   "kick 30-120": {
+    "bestBpm": 43.77,
+    "peak": 0.119,
+    "acfBeat": 0.009,
+    "acf8th": 0.009,
+    "acf16th": 0.009,
+    "lockBeat": 0.027,
+    "phaseBeatMs": -83.0,
+    "lock8th": 0.076,
+    "lock16th": 0.197,
+    "phase16thMs": 4.7
+   },
+   "bass 120-300": {
+    "bestBpm": 43.61,
+    "peak": 0.131,
+    "acfBeat": 0.034,
+    "acf8th": 0.01,
+    "acf16th": -0.011,
+    "lockBeat": 0.038,
+    "phaseBeatMs": -122.8,
+    "lock8th": 0.062,
+    "lock16th": 0.08,
+    "phase16thMs": -15.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.49,
+    "peak": 0.467,
+    "acfBeat": 0.245,
+    "acf8th": 0.202,
+    "acf16th": 0.059,
+    "lockBeat": 0.148,
+    "phaseBeatMs": -121.8,
+    "lock8th": 0.124,
+    "lock16th": 0.216,
+    "phase16thMs": -13.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 43.5,
+    "peak": 0.402,
+    "acfBeat": 0.298,
+    "acf8th": 0.393,
+    "acf16th": 0.091,
+    "lockBeat": 0.06,
+    "phaseBeatMs": 98.6,
+    "lock8th": 0.024,
+    "lock16th": 0.182,
+    "phase16thMs": -15.5
+   },
+   "broad": {
+    "bestBpm": 173.94,
+    "peak": 0.423,
+    "acfBeat": 0.295,
+    "acf8th": 0.423,
+    "acf16th": 0.072,
+    "lockBeat": 0.031,
+    "phaseBeatMs": 11.5,
+    "lock8th": 0.045,
+    "lock16th": 0.242,
+    "phase16thMs": -15.9
+   }
+  },
+  {
+   "t": 47.0,
+   "kick 30-120": {
+    "bestBpm": 44.23,
+    "peak": 0.104,
+    "acfBeat": 0.014,
+    "acf8th": 0.001,
+    "acf16th": -0.03,
+    "lockBeat": 0.047,
+    "phaseBeatMs": -211.3,
+    "lock8th": 0.079,
+    "lock16th": 0.182,
+    "phase16thMs": 2.3
+   },
+   "bass 120-300": {
+    "bestBpm": 43.62,
+    "peak": 0.148,
+    "acfBeat": 0.01,
+    "acf8th": 0.029,
+    "acf16th": -0.025,
+    "lockBeat": 0.045,
+    "phaseBeatMs": -209.8,
+    "lock8th": 0.035,
+    "lock16th": 0.102,
+    "phase16thMs": -18.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.46,
+    "peak": 0.514,
+    "acfBeat": 0.215,
+    "acf8th": 0.184,
+    "acf16th": 0.057,
+    "lockBeat": 0.192,
+    "phaseBeatMs": -151.5,
+    "lock8th": 0.08,
+    "lock16th": 0.182,
+    "phase16thMs": -12.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 43.51,
+    "peak": 0.388,
+    "acfBeat": 0.271,
+    "acf8th": 0.362,
+    "acf16th": 0.07,
+    "lockBeat": 0.025,
+    "phaseBeatMs": -152.6,
+    "lock8th": 0.055,
+    "lock16th": 0.139,
+    "phase16thMs": -10.5
+   },
+   "broad": {
+    "bestBpm": 43.5,
+    "peak": 0.402,
+    "acfBeat": 0.256,
+    "acf8th": 0.371,
+    "acf16th": 0.057,
+    "lockBeat": 0.067,
+    "phaseBeatMs": -186.5,
+    "lock8th": 0.029,
+    "lock16th": 0.186,
+    "phase16thMs": -13.0
+   }
+  },
+  {
+   "t": 48.0,
+   "kick 30-120": {
+    "bestBpm": 44.22,
+    "peak": 0.123,
+    "acfBeat": -0.003,
+    "acf8th": 0.002,
+    "acf16th": -0.032,
+    "lockBeat": 0.06,
+    "phaseBeatMs": -89.0,
+    "lock8th": 0.094,
+    "lock16th": 0.168,
+    "phase16thMs": -0.2
+   },
+   "bass 120-300": {
+    "bestBpm": 43.6,
+    "peak": 0.172,
+    "acfBeat": 0.018,
+    "acf8th": 0.014,
+    "acf16th": -0.027,
+    "lockBeat": 0.088,
+    "phaseBeatMs": -106.8,
+    "lock8th": 0.035,
+    "lock16th": 0.108,
+    "phase16thMs": -27.4
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.48,
+    "peak": 0.474,
+    "acfBeat": 0.228,
+    "acf8th": 0.154,
+    "acf16th": 0.045,
+    "lockBeat": 0.213,
+    "phaseBeatMs": -130.8,
+    "lock8th": 0.111,
+    "lock16th": 0.184,
+    "phase16thMs": -13.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 43.53,
+    "peak": 0.41,
+    "acfBeat": 0.279,
+    "acf8th": 0.359,
+    "acf16th": 0.079,
+    "lockBeat": 0.048,
+    "phaseBeatMs": -0.8,
+    "lock8th": 0.082,
+    "lock16th": 0.141,
+    "phase16thMs": -10.0
+   },
+   "broad": {
+    "bestBpm": 43.52,
+    "peak": 0.404,
+    "acfBeat": 0.265,
+    "acf8th": 0.362,
+    "acf16th": 0.06,
+    "lockBeat": 0.061,
+    "phaseBeatMs": -85.8,
+    "lock8th": 0.049,
+    "lock16th": 0.192,
+    "phase16thMs": -12.8
+   }
+  },
+  {
+   "t": 49.0,
+   "kick 30-120": {
+    "bestBpm": 44.27,
+    "peak": 0.093,
+    "acfBeat": 0.008,
+    "acf8th": 0.034,
+    "acf16th": -0.035,
+    "lockBeat": 0.021,
+    "phaseBeatMs": -211.9,
+    "lock8th": 0.062,
+    "lock16th": 0.194,
+    "phase16thMs": -1.8
+   },
+   "bass 120-300": {
+    "bestBpm": 43.59,
+    "peak": 0.126,
+    "acfBeat": 0.016,
+    "acf8th": 0.082,
+    "acf16th": -0.044,
+    "lockBeat": 0.054,
+    "phaseBeatMs": -176.1,
+    "lock8th": 0.056,
+    "lock16th": 0.144,
+    "phase16thMs": -16.5
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.48,
+    "peak": 0.368,
+    "acfBeat": 0.143,
+    "acf8th": 0.149,
+    "acf16th": 0.046,
+    "lockBeat": 0.165,
+    "phaseBeatMs": -170.7,
+    "lock8th": 0.1,
+    "lock16th": 0.167,
+    "phase16thMs": -19.3
+   },
+   "hats 5-12k": {
+    "bestBpm": 43.53,
+    "peak": 0.283,
+    "acfBeat": 0.205,
+    "acf8th": 0.278,
+    "acf16th": 0.036,
+    "lockBeat": 0.008,
+    "phaseBeatMs": 325.3,
+    "lock8th": 0.093,
+    "lock16th": 0.12,
+    "phase16thMs": -20.2
+   },
+   "broad": {
+    "bestBpm": 174.08,
+    "peak": 0.296,
+    "acfBeat": 0.194,
+    "acf8th": 0.296,
+    "acf16th": 0.029,
+    "lockBeat": 0.037,
+    "phaseBeatMs": -224.3,
+    "lock8th": 0.073,
+    "lock16th": 0.176,
+    "phase16thMs": -20.2
+   }
+  },
+  {
+   "t": 50.0,
+   "kick 30-120": {
+    "bestBpm": 173.7,
+    "peak": 0.111,
+    "acfBeat": 0.055,
+    "acf8th": 0.111,
+    "acf16th": -0.032,
+    "lockBeat": 0.059,
+    "phaseBeatMs": -114.8,
+    "lock8th": 0.048,
+    "lock16th": 0.207,
+    "phase16thMs": 1.3
+   },
+   "bass 120-300": {
+    "bestBpm": 175.0,
+    "peak": 0.14,
+    "acfBeat": 0.07,
+    "acf8th": 0.14,
+    "acf16th": -0.037,
+    "lockBeat": 0.075,
+    "phaseBeatMs": -133.0,
+    "lock8th": 0.103,
+    "lock16th": 0.153,
+    "phase16thMs": -16.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.49,
+    "peak": 0.326,
+    "acfBeat": 0.117,
+    "acf8th": 0.127,
+    "acf16th": 0.048,
+    "lockBeat": 0.169,
+    "phaseBeatMs": -169.9,
+    "lock8th": 0.065,
+    "lock16th": 0.122,
+    "phase16thMs": -24.7
+   },
+   "hats 5-12k": {
+    "bestBpm": 46.5,
+    "peak": 0.231,
+    "acfBeat": 0.132,
+    "acf8th": 0.205,
+    "acf16th": -0.005,
+    "lockBeat": 0.011,
+    "phaseBeatMs": -148.9,
+    "lock8th": 0.13,
+    "lock16th": 0.047,
+    "phase16thMs": -21.2
+   },
+   "broad": {
+    "bestBpm": 138.76,
+    "peak": 0.238,
+    "acfBeat": 0.131,
+    "acf8th": 0.227,
+    "acf16th": 0.004,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -173.0,
+    "lock8th": 0.116,
+    "lock16th": 0.091,
+    "phase16thMs": -24.0
+   }
+  },
+  {
+   "t": 51.0,
+   "kick 30-120": {
+    "bestBpm": 173.97,
+    "peak": 0.131,
+    "acfBeat": 0.06,
+    "acf8th": 0.131,
+    "acf16th": -0.048,
+    "lockBeat": 0.029,
+    "phaseBeatMs": -304.4,
+    "lock8th": 0.043,
+    "lock16th": 0.207,
+    "phase16thMs": 2.9
+   },
+   "bass 120-300": {
+    "bestBpm": 174.5,
+    "peak": 0.14,
+    "acfBeat": 0.071,
+    "acf8th": 0.14,
+    "acf16th": -0.042,
+    "lockBeat": 0.039,
+    "phaseBeatMs": -224.0,
+    "lock8th": 0.1,
+    "lock16th": 0.191,
+    "phase16thMs": -13.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 43.48,
+    "peak": 0.274,
+    "acfBeat": 0.078,
+    "acf8th": 0.117,
+    "acf16th": 0.02,
+    "lockBeat": 0.136,
+    "phaseBeatMs": -209.8,
+    "lock8th": 0.026,
+    "lock16th": 0.131,
+    "phase16thMs": -26.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 138.7,
+    "peak": 0.205,
+    "acfBeat": 0.085,
+    "acf8th": 0.188,
+    "acf16th": -0.034,
+    "lockBeat": 0.064,
+    "phaseBeatMs": 286.5,
+    "lock8th": 0.087,
+    "lock16th": 0.047,
+    "phase16thMs": -45.1
+   },
+   "broad": {
+    "bestBpm": 174.21,
+    "peak": 0.227,
+    "acfBeat": 0.097,
+    "acf8th": 0.227,
+    "acf16th": -0.035,
+    "lockBeat": 0.066,
+    "phaseBeatMs": -340.1,
+    "lock8th": 0.102,
+    "lock16th": 0.088,
+    "phase16thMs": -36.2
+   }
+  },
+  {
+   "t": 52.0,
+   "kick 30-120": {
+    "bestBpm": 174.21,
+    "peak": 0.114,
+    "acfBeat": 0.066,
+    "acf8th": 0.114,
+    "acf16th": -0.039,
+    "lockBeat": 0.072,
+    "phaseBeatMs": -213.5,
+    "lock8th": 0.074,
+    "lock16th": 0.215,
+    "phase16thMs": 5.0
+   },
+   "bass 120-300": {
+    "bestBpm": 69.78,
+    "peak": 0.124,
+    "acfBeat": 0.073,
+    "acf8th": 0.119,
+    "acf16th": -0.024,
+    "lockBeat": 0.076,
+    "phaseBeatMs": -168.6,
+    "lock8th": 0.092,
+    "lock16th": 0.194,
+    "phase16thMs": -12.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 116.43,
+    "peak": 0.207,
+    "acfBeat": 0.13,
+    "acf8th": 0.104,
+    "acf16th": 0.018,
+    "lockBeat": 0.17,
+    "phaseBeatMs": -160.5,
+    "lock8th": 0.055,
+    "lock16th": 0.177,
+    "phase16thMs": -21.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.99,
+    "peak": 0.214,
+    "acfBeat": 0.057,
+    "acf8th": 0.214,
+    "acf16th": -0.034,
+    "lockBeat": 0.042,
+    "phaseBeatMs": -264.3,
+    "lock8th": 0.032,
+    "lock16th": 0.103,
+    "phase16thMs": -18.0
+   },
+   "broad": {
+    "bestBpm": 173.91,
+    "peak": 0.237,
+    "acfBeat": 0.089,
+    "acf8th": 0.237,
+    "acf16th": -0.027,
+    "lockBeat": 0.055,
+    "phaseBeatMs": -228.4,
+    "lock8th": 0.058,
+    "lock16th": 0.151,
+    "phase16thMs": -19.9
+   }
+  },
+  {
+   "t": 53.0,
+   "kick 30-120": {
+    "bestBpm": 174.32,
+    "peak": 0.136,
+    "acfBeat": 0.09,
+    "acf8th": 0.136,
+    "acf16th": -0.025,
+    "lockBeat": 0.038,
+    "phaseBeatMs": 339.4,
+    "lock8th": 0.067,
+    "lock16th": 0.182,
+    "phase16thMs": 11.3
+   },
+   "bass 120-300": {
+    "bestBpm": 174.63,
+    "peak": 0.211,
+    "acfBeat": 0.127,
+    "acf8th": 0.211,
+    "acf16th": -0.012,
+    "lockBeat": 0.011,
+    "phaseBeatMs": -199.8,
+    "lock8th": 0.116,
+    "lock16th": 0.189,
+    "phase16thMs": -15.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.91,
+    "peak": 0.262,
+    "acfBeat": 0.262,
+    "acf8th": 0.142,
+    "acf16th": 0.016,
+    "lockBeat": 0.131,
+    "phaseBeatMs": -113.5,
+    "lock8th": 0.127,
+    "lock16th": 0.195,
+    "phase16thMs": -23.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.08,
+    "peak": 0.253,
+    "acfBeat": 0.164,
+    "acf8th": 0.232,
+    "acf16th": 0.006,
+    "lockBeat": 0.014,
+    "phaseBeatMs": 81.9,
+    "lock8th": 0.024,
+    "lock16th": 0.175,
+    "phase16thMs": -18.2
+   },
+   "broad": {
+    "bestBpm": 116.11,
+    "peak": 0.266,
+    "acfBeat": 0.195,
+    "acf8th": 0.235,
+    "acf16th": 0.013,
+    "lockBeat": 0.02,
+    "phaseBeatMs": -19.2,
+    "lock8th": 0.03,
+    "lock16th": 0.231,
+    "phase16thMs": -17.9
+   }
+  },
+  {
+   "t": 54.0,
+   "kick 30-120": {
+    "bestBpm": 174.51,
+    "peak": 0.143,
+    "acfBeat": 0.06,
+    "acf8th": 0.143,
+    "acf16th": -0.034,
+    "lockBeat": 0.088,
+    "phaseBeatMs": -264.7,
+    "lock8th": 0.056,
+    "lock16th": 0.196,
+    "phase16thMs": 12.7
+   },
+   "bass 120-300": {
+    "bestBpm": 174.59,
+    "peak": 0.216,
+    "acfBeat": 0.151,
+    "acf8th": 0.216,
+    "acf16th": -0.004,
+    "lockBeat": 0.074,
+    "phaseBeatMs": -262.1,
+    "lock8th": 0.089,
+    "lock16th": 0.207,
+    "phase16thMs": -14.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.93,
+    "peak": 0.351,
+    "acfBeat": 0.351,
+    "acf8th": 0.177,
+    "acf16th": 0.055,
+    "lockBeat": 0.144,
+    "phaseBeatMs": -153.1,
+    "lock8th": 0.099,
+    "lock16th": 0.225,
+    "phase16thMs": -24.6
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.1,
+    "peak": 0.31,
+    "acfBeat": 0.252,
+    "acf8th": 0.268,
+    "acf16th": 0.019,
+    "lockBeat": 0.058,
+    "phaseBeatMs": -151.5,
+    "lock8th": 0.04,
+    "lock16th": 0.219,
+    "phase16thMs": -20.3
+   },
+   "broad": {
+    "bestBpm": 116.1,
+    "peak": 0.345,
+    "acfBeat": 0.311,
+    "acf8th": 0.282,
+    "acf16th": 0.017,
+    "lockBeat": 0.071,
+    "phaseBeatMs": -159.5,
+    "lock8th": 0.016,
+    "lock16th": 0.274,
+    "phase16thMs": -19.8
+   }
+  },
+  {
+   "t": 55.0,
+   "kick 30-120": {
+    "bestBpm": 175.08,
+    "peak": 0.146,
+    "acfBeat": 0.071,
+    "acf8th": 0.146,
+    "acf16th": -0.029,
+    "lockBeat": 0.075,
+    "phaseBeatMs": -205.2,
+    "lock8th": 0.086,
+    "lock16th": 0.237,
+    "phase16thMs": 17.9
+   },
+   "bass 120-300": {
+    "bestBpm": 174.59,
+    "peak": 0.242,
+    "acfBeat": 0.131,
+    "acf8th": 0.242,
+    "acf16th": 0.014,
+    "lockBeat": 0.028,
+    "phaseBeatMs": -274.9,
+    "lock8th": 0.065,
+    "lock16th": 0.244,
+    "phase16thMs": -10.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.95,
+    "peak": 0.391,
+    "acfBeat": 0.391,
+    "acf8th": 0.176,
+    "acf16th": 0.054,
+    "lockBeat": 0.103,
+    "phaseBeatMs": -90.6,
+    "lock8th": 0.126,
+    "lock16th": 0.255,
+    "phase16thMs": -21.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.18,
+    "peak": 0.399,
+    "acfBeat": 0.335,
+    "acf8th": 0.352,
+    "acf16th": 0.043,
+    "lockBeat": 0.069,
+    "phaseBeatMs": 86.1,
+    "lock8th": 0.057,
+    "lock16th": 0.3,
+    "phase16thMs": -18.2
+   },
+   "broad": {
+    "bestBpm": 116.17,
+    "peak": 0.427,
+    "acfBeat": 0.39,
+    "acf8th": 0.36,
+    "acf16th": 0.041,
+    "lockBeat": 0.061,
+    "phaseBeatMs": 59.4,
+    "lock8th": 0.066,
+    "lock16th": 0.349,
+    "phase16thMs": -17.3
+   }
+  },
+  {
+   "t": 56.0,
+   "kick 30-120": {
+    "bestBpm": 175.09,
+    "peak": 0.149,
+    "acfBeat": 0.068,
+    "acf8th": 0.149,
+    "acf16th": -0.03,
+    "lockBeat": 0.137,
+    "phaseBeatMs": -252.6,
+    "lock8th": 0.077,
+    "lock16th": 0.26,
+    "phase16thMs": 21.3
+   },
+   "bass 120-300": {
+    "bestBpm": 174.71,
+    "peak": 0.24,
+    "acfBeat": 0.135,
+    "acf8th": 0.24,
+    "acf16th": 0.02,
+    "lockBeat": 0.081,
+    "phaseBeatMs": -319.5,
+    "lock8th": 0.082,
+    "lock16th": 0.249,
+    "phase16thMs": -7.8
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.92,
+    "peak": 0.445,
+    "acfBeat": 0.445,
+    "acf8th": 0.27,
+    "acf16th": 0.055,
+    "lockBeat": 0.07,
+    "phaseBeatMs": -119.6,
+    "lock8th": 0.159,
+    "lock16th": 0.285,
+    "phase16thMs": -20.3
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.04,
+    "peak": 0.469,
+    "acfBeat": 0.432,
+    "acf8th": 0.388,
+    "acf16th": 0.017,
+    "lockBeat": 0.037,
+    "phaseBeatMs": 134.2,
+    "lock8th": 0.042,
+    "lock16th": 0.341,
+    "phase16thMs": -17.2
+   },
+   "broad": {
+    "bestBpm": 116.05,
+    "peak": 0.491,
+    "acfBeat": 0.488,
+    "acf8th": 0.398,
+    "acf16th": 0.016,
+    "lockBeat": 0.026,
+    "phaseBeatMs": 101.6,
+    "lock8th": 0.067,
+    "lock16th": 0.386,
+    "phase16thMs": -16.8
+   }
+  },
+  {
+   "t": 57.0,
+   "kick 30-120": {
+    "bestBpm": 113.67,
+    "peak": 0.129,
+    "acfBeat": -0.021,
+    "acf8th": 0.061,
+    "acf16th": -0.032,
+    "lockBeat": 0.108,
+    "phaseBeatMs": -213.2,
+    "lock8th": 0.046,
+    "lock16th": 0.219,
+    "phase16thMs": 29.8
+   },
+   "bass 120-300": {
+    "bestBpm": 43.46,
+    "peak": 0.241,
+    "acfBeat": 0.082,
+    "acf8th": 0.151,
+    "acf16th": 0.028,
+    "lockBeat": 0.05,
+    "phaseBeatMs": -310.5,
+    "lock8th": 0.048,
+    "lock16th": 0.212,
+    "phase16thMs": -8.9
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.92,
+    "peak": 0.489,
+    "acfBeat": 0.489,
+    "acf8th": 0.295,
+    "acf16th": 0.065,
+    "lockBeat": 0.096,
+    "phaseBeatMs": -56.1,
+    "lock8th": 0.149,
+    "lock16th": 0.286,
+    "phase16thMs": -16.6
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.05,
+    "peak": 0.52,
+    "acfBeat": 0.475,
+    "acf8th": 0.415,
+    "acf16th": 0.018,
+    "lockBeat": 0.083,
+    "phaseBeatMs": 86.6,
+    "lock8th": 0.06,
+    "lock16th": 0.371,
+    "phase16thMs": -15.4
+   },
+   "broad": {
+    "bestBpm": 87.05,
+    "peak": 0.545,
+    "acfBeat": 0.545,
+    "acf8th": 0.427,
+    "acf16th": 0.013,
+    "lockBeat": 0.083,
+    "phaseBeatMs": 56.5,
+    "lock8th": 0.072,
+    "lock16th": 0.409,
+    "phase16thMs": -14.9
+   }
+  },
+  {
+   "t": 58.0,
+   "kick 30-120": {
+    "bestBpm": 43.39,
+    "peak": 0.136,
+    "acfBeat": -0.019,
+    "acf8th": 0.004,
+    "acf16th": -0.023,
+    "lockBeat": 0.124,
+    "phaseBeatMs": -281.3,
+    "lock8th": 0.038,
+    "lock16th": 0.21,
+    "phase16thMs": 31.4
+   },
+   "bass 120-300": {
+    "bestBpm": 43.46,
+    "peak": 0.251,
+    "acfBeat": 0.076,
+    "acf8th": 0.135,
+    "acf16th": 0.036,
+    "lockBeat": 0.097,
+    "phaseBeatMs": 337.7,
+    "lock8th": 0.024,
+    "lock16th": 0.21,
+    "phase16thMs": -10.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.93,
+    "peak": 0.49,
+    "acfBeat": 0.49,
+    "acf8th": 0.301,
+    "acf16th": 0.061,
+    "lockBeat": 0.093,
+    "phaseBeatMs": -76.2,
+    "lock8th": 0.137,
+    "lock16th": 0.301,
+    "phase16thMs": -15.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.04,
+    "peak": 0.528,
+    "acfBeat": 0.496,
+    "acf8th": 0.423,
+    "acf16th": 0.017,
+    "lockBeat": 0.079,
+    "phaseBeatMs": 56.3,
+    "lock8th": 0.055,
+    "lock16th": 0.399,
+    "phase16thMs": -15.8
+   },
+   "broad": {
+    "bestBpm": 87.05,
+    "peak": 0.563,
+    "acfBeat": 0.563,
+    "acf8th": 0.431,
+    "acf16th": 0.009,
+    "lockBeat": 0.078,
+    "phaseBeatMs": 23.2,
+    "lock8th": 0.091,
+    "lock16th": 0.44,
+    "phase16thMs": -14.8
+   }
+  },
+  {
+   "t": 59.0,
+   "kick 30-120": {
+    "bestBpm": 113.85,
+    "peak": 0.147,
+    "acfBeat": -0.021,
+    "acf8th": 0.004,
+    "acf16th": -0.041,
+    "lockBeat": 0.115,
+    "phaseBeatMs": -226.7,
+    "lock8th": 0.028,
+    "lock16th": 0.214,
+    "phase16thMs": 32.9
+   },
+   "bass 120-300": {
+    "bestBpm": 43.44,
+    "peak": 0.235,
+    "acfBeat": 0.068,
+    "acf8th": 0.103,
+    "acf16th": 0.029,
+    "lockBeat": 0.048,
+    "phaseBeatMs": -245.5,
+    "lock8th": 0.021,
+    "lock16th": 0.184,
+    "phase16thMs": -8.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.94,
+    "peak": 0.484,
+    "acfBeat": 0.484,
+    "acf8th": 0.296,
+    "acf16th": 0.07,
+    "lockBeat": 0.132,
+    "phaseBeatMs": -52.5,
+    "lock8th": 0.158,
+    "lock16th": 0.291,
+    "phase16thMs": -16.4
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.06,
+    "peak": 0.515,
+    "acfBeat": 0.501,
+    "acf8th": 0.425,
+    "acf16th": 0.01,
+    "lockBeat": 0.094,
+    "phaseBeatMs": 18.7,
+    "lock8th": 0.058,
+    "lock16th": 0.414,
+    "phase16thMs": -14.6
+   },
+   "broad": {
+    "bestBpm": 87.05,
+    "peak": 0.568,
+    "acfBeat": 0.568,
+    "acf8th": 0.43,
+    "acf16th": 0.002,
+    "lockBeat": 0.108,
+    "phaseBeatMs": 7.1,
+    "lock8th": 0.076,
+    "lock16th": 0.453,
+    "phase16thMs": -13.9
+   }
+  },
+  {
+   "t": 60.0,
+   "kick 30-120": {
+    "bestBpm": 114.0,
+    "peak": 0.124,
+    "acfBeat": -0.008,
+    "acf8th": -0.008,
+    "acf16th": -0.021,
+    "lockBeat": 0.091,
+    "phaseBeatMs": -293.7,
+    "lock8th": 0.011,
+    "lock16th": 0.202,
+    "phase16thMs": 33.7
+   },
+   "bass 120-300": {
+    "bestBpm": 43.45,
+    "peak": 0.197,
+    "acfBeat": 0.045,
+    "acf8th": 0.092,
+    "acf16th": 0.027,
+    "lockBeat": 0.078,
+    "phaseBeatMs": 322.2,
+    "lock8th": 0.027,
+    "lock16th": 0.203,
+    "phase16thMs": -7.8
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.94,
+    "peak": 0.364,
+    "acfBeat": 0.364,
+    "acf8th": 0.303,
+    "acf16th": 0.048,
+    "lockBeat": 0.066,
+    "phaseBeatMs": -4.2,
+    "lock8th": 0.169,
+    "lock16th": 0.262,
+    "phase16thMs": -16.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.67,
+    "peak": 0.399,
+    "acfBeat": 0.344,
+    "acf8th": 0.396,
+    "acf16th": 0.007,
+    "lockBeat": 0.061,
+    "phaseBeatMs": 81.3,
+    "lock8th": 0.083,
+    "lock16th": 0.419,
+    "phase16thMs": -15.3
+   },
+   "broad": {
+    "bestBpm": 173.9,
+    "peak": 0.41,
+    "acfBeat": 0.389,
+    "acf8th": 0.41,
+    "acf16th": 0.01,
+    "lockBeat": 0.072,
+    "phaseBeatMs": 58.3,
+    "lock8th": 0.076,
+    "lock16th": 0.458,
+    "phase16thMs": -14.3
+   }
+  },
+  {
+   "t": 61.0,
+   "kick 30-120": {
+    "bestBpm": 114.39,
+    "peak": 0.126,
+    "acfBeat": 0.009,
+    "acf8th": 0.0,
+    "acf16th": -0.005,
+    "lockBeat": 0.113,
+    "phaseBeatMs": -214.6,
+    "lock8th": 0.042,
+    "lock16th": 0.212,
+    "phase16thMs": 32.0
+   },
+   "bass 120-300": {
+    "bestBpm": 69.79,
+    "peak": 0.184,
+    "acfBeat": 0.006,
+    "acf8th": 0.08,
+    "acf16th": 0.021,
+    "lockBeat": 0.059,
+    "phaseBeatMs": -276.5,
+    "lock8th": 0.022,
+    "lock16th": 0.217,
+    "phase16thMs": -6.1
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.96,
+    "peak": 0.444,
+    "acfBeat": 0.444,
+    "acf8th": 0.314,
+    "acf16th": 0.009,
+    "lockBeat": 0.11,
+    "phaseBeatMs": -8.5,
+    "lock8th": 0.179,
+    "lock16th": 0.35,
+    "phase16thMs": -13.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 115.88,
+    "peak": 0.465,
+    "acfBeat": 0.456,
+    "acf8th": 0.448,
+    "acf16th": -0.009,
+    "lockBeat": 0.064,
+    "phaseBeatMs": 35.5,
+    "lock8th": 0.065,
+    "lock16th": 0.499,
+    "phase16thMs": -13.4
+   },
+   "broad": {
+    "bestBpm": 86.91,
+    "peak": 0.5,
+    "acfBeat": 0.5,
+    "acf8th": 0.475,
+    "acf16th": -0.007,
+    "lockBeat": 0.084,
+    "phaseBeatMs": 24.0,
+    "lock8th": 0.066,
+    "lock16th": 0.542,
+    "phase16thMs": -12.5
+   }
+  },
+  {
+   "t": 62.0,
+   "kick 30-120": {
+    "bestBpm": 114.01,
+    "peak": 0.094,
+    "acfBeat": -0.0,
+    "acf8th": 0.015,
+    "acf16th": 0.002,
+    "lockBeat": 0.08,
+    "phaseBeatMs": -248.2,
+    "lock8th": 0.011,
+    "lock16th": 0.173,
+    "phase16thMs": 22.2
+   },
+   "bass 120-300": {
+    "bestBpm": 115.65,
+    "peak": 0.131,
+    "acfBeat": 0.053,
+    "acf8th": 0.128,
+    "acf16th": 0.002,
+    "lockBeat": 0.054,
+    "phaseBeatMs": 332.0,
+    "lock8th": 0.098,
+    "lock16th": 0.218,
+    "phase16thMs": -7.1
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.02,
+    "peak": 0.519,
+    "acfBeat": 0.519,
+    "acf8th": 0.409,
+    "acf16th": 0.04,
+    "lockBeat": 0.084,
+    "phaseBeatMs": 37.7,
+    "lock8th": 0.219,
+    "lock16th": 0.352,
+    "phase16thMs": -12.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 115.95,
+    "peak": 0.55,
+    "acfBeat": 0.538,
+    "acf8th": 0.533,
+    "acf16th": 0.018,
+    "lockBeat": 0.081,
+    "phaseBeatMs": 138.8,
+    "lock8th": 0.054,
+    "lock16th": 0.551,
+    "phase16thMs": -12.1
+   },
+   "broad": {
+    "bestBpm": 116.02,
+    "peak": 0.594,
+    "acfBeat": 0.589,
+    "acf8th": 0.575,
+    "acf16th": 0.017,
+    "lockBeat": 0.087,
+    "phaseBeatMs": 108.7,
+    "lock8th": 0.06,
+    "lock16th": 0.585,
+    "phase16thMs": -11.4
+   }
+  },
+  {
+   "t": 63.0,
+   "kick 30-120": {
+    "bestBpm": 59.09,
+    "peak": 0.067,
+    "acfBeat": -0.011,
+    "acf8th": 0.027,
+    "acf16th": 0.008,
+    "lockBeat": 0.085,
+    "phaseBeatMs": -257.6,
+    "lock8th": 0.043,
+    "lock16th": 0.146,
+    "phase16thMs": 21.6
+   },
+   "bass 120-300": {
+    "bestBpm": 173.33,
+    "peak": 0.179,
+    "acfBeat": 0.112,
+    "acf8th": 0.165,
+    "acf16th": 0.003,
+    "lockBeat": 0.06,
+    "phaseBeatMs": -319.9,
+    "lock8th": 0.117,
+    "lock16th": 0.215,
+    "phase16thMs": -6.1
+   },
+   "body 300-2.5k": {
+    "bestBpm": 86.99,
+    "peak": 0.554,
+    "acfBeat": 0.554,
+    "acf8th": 0.457,
+    "acf16th": 0.07,
+    "lockBeat": 0.075,
+    "phaseBeatMs": -29.5,
+    "lock8th": 0.217,
+    "lock16th": 0.328,
+    "phase16thMs": -12.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.56,
+    "peak": 0.567,
+    "acfBeat": 0.543,
+    "acf8th": 0.553,
+    "acf16th": 0.022,
+    "lockBeat": 0.045,
+    "phaseBeatMs": 11.8,
+    "lock8th": 0.064,
+    "lock16th": 0.557,
+    "phase16thMs": -12.0
+   },
+   "broad": {
+    "bestBpm": 116.0,
+    "peak": 0.625,
+    "acfBeat": 0.606,
+    "acf8th": 0.607,
+    "acf16th": 0.022,
+    "lockBeat": 0.061,
+    "phaseBeatMs": 9.3,
+    "lock8th": 0.049,
+    "lock16th": 0.589,
+    "phase16thMs": -11.3
+   }
+  },
+  {
+   "t": 64.0,
+   "kick 30-120": {
+    "bestBpm": 163.91,
+    "peak": 0.074,
+    "acfBeat": -0.021,
+    "acf8th": 0.037,
+    "acf16th": 0.009,
+    "lockBeat": 0.034,
+    "phaseBeatMs": -256.7,
+    "lock8th": 0.034,
+    "lock16th": 0.144,
+    "phase16thMs": 23.6
+   },
+   "bass 120-300": {
+    "bestBpm": 43.47,
+    "peak": 0.218,
+    "acfBeat": 0.138,
+    "acf8th": 0.193,
+    "acf16th": 0.012,
+    "lockBeat": 0.053,
+    "phaseBeatMs": 257.1,
+    "lock8th": 0.091,
+    "lock16th": 0.245,
+    "phase16thMs": -7.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.03,
+    "peak": 0.634,
+    "acfBeat": 0.634,
+    "acf8th": 0.492,
+    "acf16th": 0.076,
+    "lockBeat": 0.075,
+    "phaseBeatMs": 6.8,
+    "lock8th": 0.221,
+    "lock16th": 0.311,
+    "phase16thMs": -11.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 86.88,
+    "peak": 0.606,
+    "acfBeat": 0.606,
+    "acf8th": 0.582,
+    "acf16th": 0.017,
+    "lockBeat": 0.065,
+    "phaseBeatMs": 53.9,
+    "lock8th": 0.076,
+    "lock16th": 0.564,
+    "phase16thMs": -11.4
+   },
+   "broad": {
+    "bestBpm": 86.94,
+    "peak": 0.67,
+    "acfBeat": 0.67,
+    "acf8th": 0.644,
+    "acf16th": 0.016,
+    "lockBeat": 0.078,
+    "phaseBeatMs": 40.0,
+    "lock8th": 0.06,
+    "lock16th": 0.599,
+    "phase16thMs": -10.6
+   }
+  },
+  {
+   "t": 65.0,
+   "kick 30-120": {
+    "bestBpm": 113.75,
+    "peak": 0.098,
+    "acfBeat": -0.026,
+    "acf8th": 0.033,
+    "acf16th": 0.005,
+    "lockBeat": 0.108,
+    "phaseBeatMs": -253.8,
+    "lock8th": 0.007,
+    "lock16th": 0.186,
+    "phase16thMs": 20.0
+   },
+   "bass 120-300": {
+    "bestBpm": 43.47,
+    "peak": 0.243,
+    "acfBeat": 0.162,
+    "acf8th": 0.207,
+    "acf16th": 0.01,
+    "lockBeat": 0.066,
+    "phaseBeatMs": -336.9,
+    "lock8th": 0.082,
+    "lock16th": 0.257,
+    "phase16thMs": -7.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.03,
+    "peak": 0.654,
+    "acfBeat": 0.654,
+    "acf8th": 0.495,
+    "acf16th": 0.073,
+    "lockBeat": 0.067,
+    "phaseBeatMs": -62.3,
+    "lock8th": 0.232,
+    "lock16th": 0.314,
+    "phase16thMs": -11.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 86.88,
+    "peak": 0.636,
+    "acfBeat": 0.636,
+    "acf8th": 0.605,
+    "acf16th": 0.006,
+    "lockBeat": 0.037,
+    "phaseBeatMs": 7.8,
+    "lock8th": 0.102,
+    "lock16th": 0.554,
+    "phase16thMs": -10.0
+   },
+   "broad": {
+    "bestBpm": 86.94,
+    "peak": 0.702,
+    "acfBeat": 0.702,
+    "acf8th": 0.671,
+    "acf16th": 0.004,
+    "lockBeat": 0.05,
+    "phaseBeatMs": 10.0,
+    "lock8th": 0.087,
+    "lock16th": 0.602,
+    "phase16thMs": -9.5
+   }
+  },
+  {
+   "t": 66.0,
+   "kick 30-120": {
+    "bestBpm": 43.24,
+    "peak": 0.099,
+    "acfBeat": -0.026,
+    "acf8th": 0.028,
+    "acf16th": -0.001,
+    "lockBeat": 0.117,
+    "phaseBeatMs": -193.0,
+    "lock8th": 0.071,
+    "lock16th": 0.183,
+    "phase16thMs": 21.7
+   },
+   "bass 120-300": {
+    "bestBpm": 43.44,
+    "peak": 0.281,
+    "acfBeat": 0.177,
+    "acf8th": 0.233,
+    "acf16th": 0.009,
+    "lockBeat": 0.028,
+    "phaseBeatMs": -311.3,
+    "lock8th": 0.06,
+    "lock16th": 0.273,
+    "phase16thMs": -6.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.03,
+    "peak": 0.663,
+    "acfBeat": 0.663,
+    "acf8th": 0.505,
+    "acf16th": 0.071,
+    "lockBeat": 0.082,
+    "phaseBeatMs": -22.0,
+    "lock8th": 0.219,
+    "lock16th": 0.319,
+    "phase16thMs": -11.0
+   },
+   "hats 5-12k": {
+    "bestBpm": 86.87,
+    "peak": 0.652,
+    "acfBeat": 0.652,
+    "acf8th": 0.624,
+    "acf16th": 0.008,
+    "lockBeat": 0.037,
+    "phaseBeatMs": 31.1,
+    "lock8th": 0.109,
+    "lock16th": 0.586,
+    "phase16thMs": -10.6
+   },
+   "broad": {
+    "bestBpm": 86.94,
+    "peak": 0.714,
+    "acfBeat": 0.714,
+    "acf8th": 0.686,
+    "acf16th": 0.003,
+    "lockBeat": 0.056,
+    "phaseBeatMs": 21.9,
+    "lock8th": 0.084,
+    "lock16th": 0.638,
+    "phase16thMs": -10.1
+   }
+  },
+  {
+   "t": 67.0,
+   "kick 30-120": {
+    "bestBpm": 43.59,
+    "peak": 0.129,
+    "acfBeat": -0.028,
+    "acf8th": 0.021,
+    "acf16th": -0.021,
+    "lockBeat": 0.173,
+    "phaseBeatMs": -235.6,
+    "lock8th": 0.073,
+    "lock16th": 0.204,
+    "phase16thMs": 24.3
+   },
+   "bass 120-300": {
+    "bestBpm": 43.44,
+    "peak": 0.267,
+    "acfBeat": 0.188,
+    "acf8th": 0.254,
+    "acf16th": 0.001,
+    "lockBeat": 0.095,
+    "phaseBeatMs": 323.7,
+    "lock8th": 0.082,
+    "lock16th": 0.309,
+    "phase16thMs": -8.0
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.03,
+    "peak": 0.617,
+    "acfBeat": 0.617,
+    "acf8th": 0.481,
+    "acf16th": 0.072,
+    "lockBeat": 0.024,
+    "phaseBeatMs": -123.9,
+    "lock8th": 0.245,
+    "lock16th": 0.349,
+    "phase16thMs": -10.8
+   },
+   "hats 5-12k": {
+    "bestBpm": 115.93,
+    "peak": 0.679,
+    "acfBeat": 0.669,
+    "acf8th": 0.656,
+    "acf16th": 0.007,
+    "lockBeat": 0.045,
+    "phaseBeatMs": 44.3,
+    "lock8th": 0.09,
+    "lock16th": 0.64,
+    "phase16thMs": -10.4
+   },
+   "broad": {
+    "bestBpm": 115.98,
+    "peak": 0.744,
+    "acfBeat": 0.735,
+    "acf8th": 0.71,
+    "acf16th": 0.007,
+    "lockBeat": 0.054,
+    "phaseBeatMs": 31.5,
+    "lock8th": 0.078,
+    "lock16th": 0.686,
+    "phase16thMs": -10.0
+   }
+  },
+  {
+   "t": 68.0,
+   "kick 30-120": {
+    "bestBpm": 43.59,
+    "peak": 0.12,
+    "acfBeat": -0.041,
+    "acf8th": 0.03,
+    "acf16th": -0.022,
+    "lockBeat": 0.164,
+    "phaseBeatMs": -207.2,
+    "lock8th": 0.05,
+    "lock16th": 0.177,
+    "phase16thMs": 25.9
+   },
+   "bass 120-300": {
+    "bestBpm": 174.19,
+    "peak": 0.236,
+    "acfBeat": 0.185,
+    "acf8th": 0.236,
+    "acf16th": 0.019,
+    "lockBeat": 0.023,
+    "phaseBeatMs": -289.8,
+    "lock8th": 0.063,
+    "lock16th": 0.239,
+    "phase16thMs": -10.1
+   },
+   "body 300-2.5k": {
+    "bestBpm": 87.04,
+    "peak": 0.537,
+    "acfBeat": 0.537,
+    "acf8th": 0.432,
+    "acf16th": 0.038,
+    "lockBeat": 0.088,
+    "phaseBeatMs": -57.3,
+    "lock8th": 0.21,
+    "lock16th": 0.28,
+    "phase16thMs": -12.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 116.0,
+    "peak": 0.74,
+    "acfBeat": 0.724,
+    "acf8th": 0.703,
+    "acf16th": 0.001,
+    "lockBeat": 0.09,
+    "phaseBeatMs": 5.0,
+    "lock8th": 0.068,
+    "lock16th": 0.634,
+    "phase16thMs": -9.1
+   },
+   "broad": {
+    "bestBpm": 116.02,
+    "peak": 0.789,
+    "acfBeat": 0.763,
+    "acf8th": 0.744,
+    "acf16th": 0.002,
+    "lockBeat": 0.092,
+    "phaseBeatMs": -8.2,
+    "lock8th": 0.075,
+    "lock16th": 0.66,
+    "phase16thMs": -9.6
+   }
+  },
+  {
+   "t": 69.0,
+   "kick 30-120": {
+    "bestBpm": 43.57,
+    "peak": 0.078,
+    "acfBeat": -0.021,
+    "acf8th": 0.004,
+    "acf16th": 0.09,
+    "lockBeat": 0.244,
+    "phaseBeatMs": -291.4,
+    "lock8th": 0.159,
+    "lock16th": 0.214,
+    "phase16thMs": 16.1
+   },
+   "bass 120-300": {
+    "bestBpm": 53.47,
+    "peak": 0.12,
+    "acfBeat": 0.07,
+    "acf8th": 0.092,
+    "acf16th": 0.002,
+    "lockBeat": 0.159,
+    "phaseBeatMs": -340.8,
+    "lock8th": 0.157,
+    "lock16th": 0.288,
+    "phase16thMs": -7.7
+   },
+   "body 300-2.5k": {
+    "bestBpm": 174.39,
+    "peak": 0.197,
+    "acfBeat": 0.195,
+    "acf8th": 0.197,
+    "acf16th": 0.001,
+    "lockBeat": 0.111,
+    "phaseBeatMs": -305.4,
+    "lock8th": 0.231,
+    "lock16th": 0.281,
+    "phase16thMs": -10.3
+   },
+   "hats 5-12k": {
+    "bestBpm": 86.93,
+    "peak": 0.624,
+    "acfBeat": 0.624,
+    "acf8th": 0.605,
+    "acf16th": 0.002,
+    "lockBeat": 0.031,
+    "phaseBeatMs": 139.4,
+    "lock8th": 0.048,
+    "lock16th": 0.572,
+    "phase16thMs": -8.3
+   },
+   "broad": {
+    "bestBpm": 116.0,
+    "peak": 0.608,
+    "acfBeat": 0.592,
+    "acf8th": 0.597,
+    "acf16th": -0.0,
+    "lockBeat": 0.028,
+    "phaseBeatMs": 276.8,
+    "lock8th": 0.073,
+    "lock16th": 0.605,
+    "phase16thMs": -9.1
+   }
+  },
+  {
+   "t": 70.0,
+   "kick 30-120": {
+    "bestBpm": 58.76,
+    "peak": 0.093,
+    "acfBeat": 0.014,
+    "acf8th": -0.01,
+    "acf16th": 0.082,
+    "lockBeat": 0.219,
+    "phaseBeatMs": -279.6,
+    "lock8th": 0.116,
+    "lock16th": 0.186,
+    "phase16thMs": 22.9
+   },
+   "bass 120-300": {
+    "bestBpm": 53.48,
+    "peak": 0.11,
+    "acfBeat": 0.048,
+    "acf8th": 0.063,
+    "acf16th": -0.015,
+    "lockBeat": 0.106,
+    "phaseBeatMs": -317.7,
+    "lock8th": 0.132,
+    "lock16th": 0.248,
+    "phase16thMs": -7.6
+   },
+   "body 300-2.5k": {
+    "bestBpm": 116.19,
+    "peak": 0.189,
+    "acfBeat": 0.126,
+    "acf8th": 0.145,
+    "acf16th": -0.015,
+    "lockBeat": 0.061,
+    "phaseBeatMs": -275.3,
+    "lock8th": 0.217,
+    "lock16th": 0.217,
+    "phase16thMs": -10.5
+   },
+   "hats 5-12k": {
+    "bestBpm": 173.23,
+    "peak": 0.504,
+    "acfBeat": 0.46,
+    "acf8th": 0.471,
+    "acf16th": 0.008,
+    "lockBeat": 0.079,
+    "phaseBeatMs": -33.3,
+    "lock8th": 0.06,
+    "lock16th": 0.433,
+    "phase16thMs": -6.8
+   },
+   "broad": {
+    "bestBpm": 173.6,
+    "peak": 0.46,
+    "acfBeat": 0.422,
+    "acf8th": 0.452,
+    "acf16th": -0.003,
+    "lockBeat": 0.063,
+    "phaseBeatMs": -82.8,
+    "lock8th": 0.114,
+    "lock16th": 0.467,
+    "phase16thMs": -8.5
+   }
+  },
+  {
+   "t": 71.0,
+   "kick 30-120": {
+    "bestBpm": 58.76,
+    "peak": 0.094,
+    "acfBeat": 0.024,
+    "acf8th": -0.01,
+    "acf16th": 0.086,
+    "lockBeat": 0.238,
+    "phaseBeatMs": -307.8,
+    "lock8th": 0.128,
+    "lock16th": 0.181,
+    "phase16thMs": 22.2
+   },
+   "bass 120-300": {
+    "bestBpm": 53.44,
+    "peak": 0.103,
+    "acfBeat": 0.032,
+    "acf8th": 0.063,
+    "acf16th": -0.015,
+    "lockBeat": 0.149,
+    "phaseBeatMs": -342.3,
+    "lock8th": 0.146,
+    "lock16th": 0.226,
+    "phase16thMs": -8.3
+   },
+   "body 300-2.5k": {
+    "bestBpm": 66.26,
+    "peak": 0.176,
+    "acfBeat": 0.022,
+    "acf8th": 0.089,
+    "acf16th": -0.019,
+    "lockBeat": 0.111,
+    "phaseBeatMs": 344.8,
+    "lock8th": 0.229,
+    "lock16th": 0.207,
+    "phase16thMs": -10.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 174.97,
+    "peak": 0.317,
+    "acfBeat": 0.032,
+    "acf8th": 0.317,
+    "acf16th": 0.026,
+    "lockBeat": 0.069,
+    "phaseBeatMs": 239.1,
+    "lock8th": 0.102,
+    "lock16th": 0.256,
+    "phase16thMs": -1.0
+   },
+   "broad": {
+    "bestBpm": 174.81,
+    "peak": 0.264,
+    "acfBeat": 0.046,
+    "acf8th": 0.264,
+    "acf16th": -0.005,
+    "lockBeat": 0.076,
+    "phaseBeatMs": 303.3,
+    "lock8th": 0.19,
+    "lock16th": 0.322,
+    "phase16thMs": -7.1
+   }
+  },
+  {
+   "t": 72.0,
+   "kick 30-120": {
+    "bestBpm": 79.44,
+    "peak": 0.088,
+    "acfBeat": 0.032,
+    "acf8th": 0.004,
+    "acf16th": 0.088,
+    "lockBeat": 0.253,
+    "phaseBeatMs": -298.1,
+    "lock8th": 0.145,
+    "lock16th": 0.18,
+    "phase16thMs": 18.8
+   },
+   "bass 120-300": {
+    "bestBpm": 65.89,
+    "peak": 0.123,
+    "acfBeat": 0.031,
+    "acf8th": 0.053,
+    "acf16th": -0.016,
+    "lockBeat": 0.175,
+    "phaseBeatMs": -301.2,
+    "lock8th": 0.165,
+    "lock16th": 0.202,
+    "phase16thMs": -9.2
+   },
+   "body 300-2.5k": {
+    "bestBpm": 66.25,
+    "peak": 0.216,
+    "acfBeat": 0.001,
+    "acf8th": 0.045,
+    "acf16th": -0.02,
+    "lockBeat": 0.125,
+    "phaseBeatMs": -328.8,
+    "lock8th": 0.197,
+    "lock16th": 0.175,
+    "phase16thMs": -10.9
+   },
+   "hats 5-12k": {
+    "bestBpm": 176.19,
+    "peak": 0.168,
+    "acfBeat": 0.031,
+    "acf8th": 0.168,
+    "acf16th": -0.016,
+    "lockBeat": 0.046,
+    "phaseBeatMs": 318.3,
+    "lock8th": 0.136,
+    "lock16th": 0.1,
+    "phase16thMs": 13.4
+   },
+   "broad": {
+    "bestBpm": 116.93,
+    "peak": 0.136,
+    "acfBeat": 0.013,
+    "acf8th": 0.131,
+    "acf16th": -0.025,
+    "lockBeat": 0.093,
+    "phaseBeatMs": -325.0,
+    "lock8th": 0.232,
+    "lock16th": 0.152,
+    "phase16thMs": -6.0
+   }
+  }
+ ],
+ "note": "acf = normalised autocorrelation of the band onset envelope; lock = vector strength of onsets on the 87.01 grid (1 = every onset on a beat), phase = ms the onsets sit after the grid beat",
+ "sections": [
+  {
+   "from": 0,
+   "to": 9.5,
+   "kick 30-120": {
+    "lockBeat": 0.01,
+    "phaseMs": -107.3,
+    "lock8th": 0.045,
+    "lock16th": 0.049,
+    "phase16thMs": -12.3,
+    "noPulse95": 0.057
+   },
+   "bass 120-300": {
+    "lockBeat": 0.011,
+    "phaseMs": -321.3,
+    "lock8th": 0.035,
+    "lock16th": 0.054,
+    "phase16thMs": 51.6,
+    "noPulse95": 0.066
+   },
+   "body 300-2.5k": {
+    "lockBeat": 0.036,
+    "phaseMs": 203.3,
+    "lock8th": 0.057,
+    "lock16th": 0.018,
+    "phase16thMs": -22.8,
+    "noPulse95": 0.071
+   },
+   "hats 5-12k": {
+    "lockBeat": 0.066,
+    "phaseMs": 117.0,
+    "lock8th": 0.02,
+    "lock16th": 0.064,
+    "phase16thMs": -61.1,
+    "noPulse95": 0.163
+   },
+   "broad": {
+    "lockBeat": 0.071,
+    "phaseMs": 151.6,
+    "lock8th": 0.025,
+    "lock16th": 0.074,
+    "phase16thMs": -47.6,
+    "noPulse95": 0.169
+   }
+  },
+  {
+   "from": 9.5,
+   "to": 22.03,
+   "kick 30-120": {
+    "lockBeat": 0.036,
+    "phaseMs": -206.9,
+    "lock8th": 0.049,
+    "lock16th": 0.051,
+    "phase16thMs": -40.8,
+    "noPulse95": 0.059
+   },
+   "bass 120-300": {
+    "lockBeat": 0.003,
+    "phaseMs": -318.5,
+    "lock8th": 0.019,
+    "lock16th": 0.015,
+    "phase16thMs": -44.0,
+    "noPulse95": 0.055
+   },
+   "body 300-2.5k": {
+    "lockBeat": 0.046,
+    "phaseMs": 250.1,
+    "lock8th": 0.031,
+    "lock16th": 0.046,
+    "phase16thMs": 37.2,
+    "noPulse95": 0.135
+   },
+   "hats 5-12k": {
+    "lockBeat": 0.042,
+    "phaseMs": -330.4,
+    "lock8th": 0.051,
+    "lock16th": 0.112,
+    "phase16thMs": 57.1,
+    "noPulse95": 0.126
+   },
+   "broad": {
+    "lockBeat": 0.044,
+    "phaseMs": -340.7,
+    "lock8th": 0.024,
+    "lock16th": 0.124,
+    "phase16thMs": 56.0,
+    "noPulse95": 0.135
+   }
+  },
+  {
+   "from": 22.03,
+   "to": 36.77,
+   "kick 30-120": {
+    "lockBeat": 0.047,
+    "phaseMs": 318.5,
+    "lock8th": 0.117,
+    "lock16th": 0.159,
+    "phase16thMs": -1.1,
+    "noPulse95": 0.054
+   },
+   "bass 120-300": {
+    "lockBeat": 0.068,
+    "phaseMs": -237.9,
+    "lock8th": 0.012,
+    "lock16th": 0.075,
+    "phase16thMs": -26.7,
+    "noPulse95": 0.072
+   },
+   "body 300-2.5k": {
+    "lockBeat": 0.056,
+    "phaseMs": -167.7,
+    "lock8th": 0.018,
+    "lock16th": 0.121,
+    "phase16thMs": -23.6,
+    "noPulse95": 0.084
+   },
+   "hats 5-12k": {
+    "lockBeat": 0.037,
+    "phaseMs": -105.6,
+    "lock8th": 0.064,
+    "lock16th": 0.196,
+    "phase16thMs": -19.5,
+    "noPulse95": 0.07
+   },
+   "broad": {
+    "lockBeat": 0.043,
+    "phaseMs": -104.9,
+    "lock8th": 0.094,
+    "lock16th": 0.237,
+    "phase16thMs": -16.5,
+    "noPulse95": 0.074
+   }
+  },
+  {
+   "from": 36.77,
+   "to": 51.07,
+   "kick 30-120": {
+    "lockBeat": 0.041,
+    "phaseMs": -279.3,
+    "lock8th": 0.037,
+    "lock16th": 0.167,
+    "phase16thMs": -0.5,
+    "noPulse95": 0.06
+   },
+   "bass 120-300": {
+    "lockBeat": 0.028,
+    "phaseMs": -204.5,
+    "lock8th": 0.028,
+    "lock16th": 0.082,
+    "phase16thMs": -15.6,
+    "noPulse95": 0.048
+   },
+   "body 300-2.5k": {
+    "lockBeat": 0.134,
+    "phaseMs": -144.3,
+    "lock8th": 0.069,
+    "lock16th": 0.158,
+    "phase16thMs": -16.2,
+    "noPulse95": 0.115
+   },
+   "hats 5-12k": {
+    "lockBeat": 0.019,
+    "phaseMs": 184.9,
+    "lock8th": 0.069,
+    "lock16th": 0.161,
+    "phase16thMs": -9.9,
+    "noPulse95": 0.103
+   },
+   "broad": {
+    "lockBeat": 0.009,
+    "phaseMs": -188.9,
+    "lock8th": 0.04,
+    "lock16th": 0.212,
+    "phase16thMs": -11.7,
+    "noPulse95": 0.081
+   }
+  },
+  {
+   "from": 51.07,
+   "to": 72.3,
+   "kick 30-120": {
+    "lockBeat": 0.099,
+    "phaseMs": -252.2,
+    "lock8th": 0.034,
+    "lock16th": 0.188,
+    "phase16thMs": 22.8,
+    "noPulse95": 0.07
+   },
+   "bass 120-300": {
+    "lockBeat": 0.046,
+    "phaseMs": -325.3,
+    "lock8th": 0.063,
+    "lock16th": 0.211,
+    "phase16thMs": -9.8,
+    "noPulse95": 0.036
+   },
+   "body 300-2.5k": {
+    "lockBeat": 0.07,
+    "phaseMs": -77.7,
+    "lock8th": 0.161,
+    "lock16th": 0.255,
+    "phase16thMs": -16.9,
+    "noPulse95": 0.064
+   },
+   "hats 5-12k": {
+    "lockBeat": 0.051,
+    "phaseMs": 62.7,
+    "lock8th": 0.051,
+    "lock16th": 0.415,
+    "phase16thMs": -13.3,
+    "noPulse95": 0.061
+   },
+   "broad": {
+    "lockBeat": 0.056,
+    "phaseMs": 32.5,
+    "lock8th": 0.053,
+    "lock16th": 0.459,
+    "phase16thMs": -13.1,
+    "noPulse95": 0.058
+   }
+  },
+  {
+   "from": 0,
+   "to": 51.07,
+   "kick 30-120": {
+    "lockBeat": 0.027,
+    "phaseMs": -288.5,
+    "lock8th": 0.04,
+    "lock16th": 0.103,
+    "phase16thMs": -5.1,
+    "noPulse95": 0.033
+   },
+   "bass 120-300": {
+    "lockBeat": 0.031,
+    "phaseMs": -234.9,
+    "lock8th": 0.006,
+    "lock16th": 0.04,
+    "phase16thMs": -20.0,
+    "noPulse95": 0.027
+   },
+   "body 300-2.5k": {
+    "lockBeat": 0.047,
+    "phaseMs": -164.6,
+    "lock8th": 0.021,
+    "lock16th": 0.086,
+    "phase16thMs": -16.5,
+    "noPulse95": 0.04
+   },
+   "hats 5-12k": {
+    "lockBeat": 0.003,
+    "phaseMs": 129.8,
+    "lock8th": 0.015,
+    "lock16th": 0.093,
+    "phase16thMs": -14.0,
+    "noPulse95": 0.053
+   },
+   "broad": {
+    "lockBeat": 0.006,
+    "phaseMs": -168.2,
+    "lock8th": 0.025,
+    "lock16th": 0.132,
+    "phase16thMs": -13.0,
+    "noPulse95": 0.069
+   }
+  }
+ ],
+ "scan": [
+  {
+   "from": 0,
+   "to": 9.5,
+   "band": "kick 30-120",
+   "top": [
+    [
+     80.0,
+     0.063
+    ],
+    [
+     79.75,
+     0.063
+    ],
+    [
+     80.25,
+     0.063
+    ],
+    [
+     79.5,
+     0.062
+    ],
+    [
+     80.5,
+     0.062
+    ],
+    [
+     79.25,
+     0.061
+    ]
+   ]
+  },
+  {
+   "from": 0,
+   "to": 9.5,
+   "band": "broad",
+   "top": [
+    [
+     98.75,
+     0.198
+    ],
+    [
+     99.0,
+     0.198
+    ],
+    [
+     98.5,
+     0.197
+    ],
+    [
+     99.25,
+     0.197
+    ],
+    [
+     98.25,
+     0.194
+    ],
+    [
+     99.5,
+     0.194
+    ]
+   ]
+  },
+  {
+   "from": 0,
+   "to": 9.5,
+   "band": "hats 5-12k",
+   "top": [
+    [
+     98.5,
+     0.171
+    ],
+    [
+     98.75,
+     0.171
+    ],
+    [
+     98.25,
+     0.17
+    ],
+    [
+     99.0,
+     0.169
+    ],
+    [
+     98.0,
+     0.168
+    ],
+    [
+     99.25,
+     0.166
+    ]
+   ]
+  },
+  {
+   "from": 9.5,
+   "to": 22.03,
+   "band": "kick 30-120",
+   "top": [
+    [
+     163.5,
+     0.078
+    ],
+    [
+     163.25,
+     0.078
+    ],
+    [
+     163.75,
+     0.078
+    ],
+    [
+     163.0,
+     0.078
+    ],
+    [
+     164.0,
+     0.077
+    ],
+    [
+     162.75,
+     0.077
+    ]
+   ]
+  },
+  {
+   "from": 9.5,
+   "to": 22.03,
+   "band": "broad",
+   "top": [
+    [
+     60.0,
+     0.191
+    ],
+    [
+     60.25,
+     0.189
+    ],
+    [
+     60.5,
+     0.186
+    ],
+    [
+     60.75,
+     0.181
+    ],
+    [
+     61.0,
+     0.175
+    ],
+    [
+     61.25,
+     0.168
+    ]
+   ]
+  },
+  {
+   "from": 9.5,
+   "to": 22.03,
+   "band": "hats 5-12k",
+   "top": [
+    [
+     60.0,
+     0.209
+    ],
+    [
+     60.25,
+     0.206
+    ],
+    [
+     60.5,
+     0.201
+    ],
+    [
+     60.75,
+     0.195
+    ],
+    [
+     61.0,
+     0.188
+    ],
+    [
+     61.25,
+     0.179
+    ]
+   ]
+  },
+  {
+   "from": 22.03,
+   "to": 36.77,
+   "band": "kick 30-120",
+   "top": [
+    [
+     173.5,
+     0.119
+    ],
+    [
+     173.75,
+     0.119
+    ],
+    [
+     173.25,
+     0.118
+    ],
+    [
+     174.0,
+     0.117
+    ],
+    [
+     173.0,
+     0.115
+    ],
+    [
+     174.25,
+     0.114
+    ]
+   ]
+  },
+  {
+   "from": 22.03,
+   "to": 36.77,
+   "band": "broad",
+   "top": [
+    [
+     163.75,
+     0.137
+    ],
+    [
+     163.5,
+     0.136
+    ],
+    [
+     164.0,
+     0.136
+    ],
+    [
+     163.25,
+     0.134
+    ],
+    [
+     164.25,
+     0.133
+    ],
+    [
+     163.0,
+     0.13
+    ]
+   ]
+  },
+  {
+   "from": 22.03,
+   "to": 36.77,
+   "band": "hats 5-12k",
+   "top": [
+    [
+     139.75,
+     0.119
+    ],
+    [
+     163.75,
+     0.119
+    ],
+    [
+     163.5,
+     0.118
+    ],
+    [
+     139.5,
+     0.118
+    ],
+    [
+     164.0,
+     0.117
+    ],
+    [
+     140.0,
+     0.117
+    ]
+   ]
+  },
+  {
+   "from": 36.77,
+   "to": 51.07,
+   "band": "kick 30-120",
+   "top": [
+    [
+     131.5,
+     0.094
+    ],
+    [
+     177.0,
+     0.094
+    ],
+    [
+     131.25,
+     0.093
+    ],
+    [
+     131.75,
+     0.093
+    ],
+    [
+     176.75,
+     0.093
+    ],
+    [
+     177.25,
+     0.093
+    ]
+   ]
+  },
+  {
+   "from": 36.77,
+   "to": 51.07,
+   "band": "broad",
+   "top": [
+    [
+     120.0,
+     0.114
+    ],
+    [
+     119.75,
+     0.113
+    ],
+    [
+     120.25,
+     0.113
+    ],
+    [
+     119.5,
+     0.111
+    ],
+    [
+     120.5,
+     0.111
+    ],
+    [
+     119.25,
+     0.108
+    ]
+   ]
+  },
+  {
+   "from": 36.77,
+   "to": 51.07,
+   "band": "hats 5-12k",
+   "top": [
+    [
+     119.75,
+     0.113
+    ],
+    [
+     120.0,
+     0.112
+    ],
+    [
+     119.5,
+     0.112
+    ],
+    [
+     120.25,
+     0.111
+    ],
+    [
+     119.25,
+     0.109
+    ],
+    [
+     120.5,
+     0.107
+    ]
+   ]
+  },
+  {
+   "from": 51.07,
+   "to": 72.3,
+   "band": "kick 30-120",
+   "top": [
+    [
+     130.5,
+     0.145
+    ],
+    [
+     130.25,
+     0.144
+    ],
+    [
+     130.75,
+     0.143
+    ],
+    [
+     130.0,
+     0.14
+    ],
+    [
+     131.0,
+     0.139
+    ],
+    [
+     129.75,
+     0.132
+    ]
+   ]
+  },
+  {
+   "from": 51.07,
+   "to": 72.3,
+   "band": "broad",
+   "top": [
+    [
+     133.75,
+     0.082
+    ],
+    [
+     134.0,
+     0.082
+    ],
+    [
+     133.5,
+     0.08
+    ],
+    [
+     134.25,
+     0.08
+    ],
+    [
+     133.25,
+     0.078
+    ],
+    [
+     134.5,
+     0.077
+    ]
+   ]
+  },
+  {
+   "from": 51.07,
+   "to": 72.3,
+   "band": "hats 5-12k",
+   "top": [
+    [
+     133.75,
+     0.086
+    ],
+    [
+     134.0,
+     0.085
+    ],
+    [
+     133.5,
+     0.085
+    ],
+    [
+     134.25,
+     0.083
+    ],
+    [
+     133.25,
+     0.082
+    ],
+    [
+     134.5,
+     0.079
+    ]
+   ]
+  },
+  {
+   "from": 0,
+   "to": 51.07,
+   "band": "kick 30-120",
+   "top": [
+    [
+     130.5,
+     0.065
+    ],
+    [
+     130.25,
+     0.064
+    ],
+    [
+     130.75,
+     0.057
+    ],
+    [
+     172.75,
+     0.054
+    ],
+    [
+     130.0,
+     0.053
+    ],
+    [
+     173.0,
+     0.053
+    ]
+   ]
+  },
+  {
+   "from": 0,
+   "to": 51.07,
+   "band": "broad",
+   "top": [
+    [
+     118.75,
+     0.081
+    ],
+    [
+     118.5,
+     0.08
+    ],
+    [
+     98.75,
+     0.07
+    ],
+    [
+     119.0,
+     0.07
+    ],
+    [
+     170.25,
+     0.069
+    ],
+    [
+     80.75,
+     0.068
+    ]
+   ]
+  },
+  {
+   "from": 0,
+   "to": 51.07,
+   "band": "hats 5-12k",
+   "top": [
+    [
+     118.75,
+     0.079
+    ],
+    [
+     118.5,
+     0.077
+    ],
+    [
+     80.75,
+     0.076
+    ],
+    [
+     80.5,
+     0.074
+    ],
+    [
+     119.0,
+     0.069
+    ],
+    [
+     98.75,
+     0.064
+    ]
+   ]
+  }
+ ]
+}

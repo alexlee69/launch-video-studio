@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "Nearly still camera. The gold flare fades over one second to hard white daylight; she turns back, takes a big slow breath that lifts her shoulders, hesitates, lets half of it out, then raises her left forearm and taps the wrist display with one gloved finger in three short bursts. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S04-4B.jpg>",
+    "duration": 6,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "6 s × $0.16/s at 1080P = $0.96",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:42:49.574Z",
+  "status": [
+    {
+      "t": 1,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 7,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a169a4-d601-7531-bbfb-e8b85c2e7ac4",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d601-7531-bbfb-e8b85c2e7ac4/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d601-7531-bbfb-e8b85c2e7ac4",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/KZ_z_OaRsDJ717Yl3D0UF_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "KZ_z_OaRsDJ717Yl3D0UF_minimax-h3.mp4",
+      "file_size": 16607496
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 4.884579002000464
+    }
+  },
+  "finished": "2026-10-23T16:43:02.273Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/KZ_z_OaRsDJ717Yl3D0UF_minimax-h3.mp4",
+      "file": "S04-4B.mp4",
+      "bytes": 16607496,
+      "done": true
+    }
+  ]
+}

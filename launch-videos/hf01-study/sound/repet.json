@@ -1,0 +1,5353 @@
+{
+"note": "REPET-SIM estimate (K=12 nearest frames, +-1.5 s excluded); levels in dB re the same arbitrary FFT unit; music = repeating part, resid = non-repeating (voice + SFX + one-off hits)",
+"rows": [
+{
+"t": 0.0,
+"mix": 36.7,
+"music": 28.4,
+"resid": 35.2,
+"residVoiceBand": 34.9
+},
+{
+"t": 0.1,
+"mix": 38.5,
+"music": 35.1,
+"resid": 33.7,
+"residVoiceBand": 33.1
+},
+{
+"t": 0.2,
+"mix": 38.3,
+"music": 33.6,
+"resid": 34.9,
+"residVoiceBand": 32.9
+},
+{
+"t": 0.3,
+"mix": 37.8,
+"music": 29.9,
+"resid": 36.3,
+"residVoiceBand": 35.4
+},
+{
+"t": 0.4,
+"mix": 35.9,
+"music": 30.3,
+"resid": 32.8,
+"residVoiceBand": 30.2
+},
+{
+"t": 0.5,
+"mix": 38.4,
+"music": 32.4,
+"resid": 35.7,
+"residVoiceBand": 30.1
+},
+{
+"t": 0.6,
+"mix": 35.3,
+"music": 31.5,
+"resid": 30.7,
+"residVoiceBand": 29.2
+},
+{
+"t": 0.7,
+"mix": 35.3,
+"music": 29.9,
+"resid": 31.8,
+"residVoiceBand": 30.8
+},
+{
+"t": 0.8,
+"mix": 35.1,
+"music": 29.8,
+"resid": 32.0,
+"residVoiceBand": 31.1
+},
+{
+"t": 0.9,
+"mix": 37.7,
+"music": 33.9,
+"resid": 33.4,
+"residVoiceBand": 30.2
+},
+{
+"t": 1.0,
+"mix": 40.1,
+"music": 34.8,
+"resid": 37.1,
+"residVoiceBand": 32.2
+},
+{
+"t": 1.1,
+"mix": 43.1,
+"music": 37.3,
+"resid": 40.4,
+"residVoiceBand": 29.3
+},
+{
+"t": 1.2,
+"mix": 39.3,
+"music": 28.6,
+"resid": 38.2,
+"residVoiceBand": 31.1
+},
+{
+"t": 1.3,
+"mix": 35.3,
+"music": 32.3,
+"resid": 30.3,
+"residVoiceBand": 28.8
+},
+{
+"t": 1.4,
+"mix": 39.1,
+"music": 33.9,
+"resid": 35.4,
+"residVoiceBand": 29.4
+},
+{
+"t": 1.5,
+"mix": 39.2,
+"music": 34.8,
+"resid": 35.1,
+"residVoiceBand": 29.4
+},
+{
+"t": 1.6,
+"mix": 40.7,
+"music": 34.6,
+"resid": 38.0,
+"residVoiceBand": 29.8
+},
+{
+"t": 1.7,
+"mix": 41.7,
+"music": 38.5,
+"resid": 35.9,
+"residVoiceBand": 28.7
+},
+{
+"t": 1.8,
+"mix": 42.1,
+"music": 38.8,
+"resid": 37.6,
+"residVoiceBand": 29.9
+},
+{
+"t": 1.9,
+"mix": 44.5,
+"music": 38.9,
+"resid": 40.5,
+"residVoiceBand": 26.8
+},
+{
+"t": 2.0,
+"mix": 43.6,
+"music": 38.2,
+"resid": 39.7,
+"residVoiceBand": 29.2
+},
+{
+"t": 2.1,
+"mix": 42.3,
+"music": 38.5,
+"resid": 37.1,
+"residVoiceBand": 29.7
+},
+{
+"t": 2.2,
+"mix": 41.0,
+"music": 34.7,
+"resid": 38.6,
+"residVoiceBand": 31.9
+},
+{
+"t": 2.3,
+"mix": 42.2,
+"music": 31.0,
+"resid": 41.0,
+"residVoiceBand": 32.1
+},
+{
+"t": 2.4,
+"mix": 41.1,
+"music": 35.0,
+"resid": 38.4,
+"residVoiceBand": 31.7
+},
+{
+"t": 2.5,
+"mix": 40.0,
+"music": 38.4,
+"resid": 32.2,
+"residVoiceBand": 27.2
+},
+{
+"t": 2.6,
+"mix": 38.4,
+"music": 36.1,
+"resid": 31.8,
+"residVoiceBand": 30.0
+},
+{
+"t": 2.7,
+"mix": 39.7,
+"music": 38.4,
+"resid": 31.1,
+"residVoiceBand": 28.2
+},
+{
+"t": 2.8,
+"mix": 37.6,
+"music": 32.4,
+"resid": 34.7,
+"residVoiceBand": 30.9
+},
+{
+"t": 2.9,
+"mix": 39.8,
+"music": 37.4,
+"resid": 34.6,
+"residVoiceBand": 31.4
+},
+{
+"t": 3.0,
+"mix": 44.1,
+"music": 42.4,
+"resid": 37.0,
+"residVoiceBand": 33.9
+},
+{
+"t": 3.1,
+"mix": 41.9,
+"music": 39.1,
+"resid": 36.4,
+"residVoiceBand": 33.1
+},
+{
+"t": 3.2,
+"mix": 42.8,
+"music": 41.3,
+"resid": 34.6,
+"residVoiceBand": 32.4
+},
+{
+"t": 3.3,
+"mix": 43.2,
+"music": 41.2,
+"resid": 36.0,
+"residVoiceBand": 32.3
+},
+{
+"t": 3.4,
+"mix": 43.5,
+"music": 41.1,
+"resid": 37.6,
+"residVoiceBand": 32.7
+},
+{
+"t": 3.5,
+"mix": 42.9,
+"music": 41.1,
+"resid": 35.1,
+"residVoiceBand": 32.8
+},
+{
+"t": 3.6,
+"mix": 42.3,
+"music": 40.9,
+"resid": 35.2,
+"residVoiceBand": 31.7
+},
+{
+"t": 3.7,
+"mix": 40.8,
+"music": 38.6,
+"resid": 34.5,
+"residVoiceBand": 31.8
+},
+{
+"t": 3.8,
+"mix": 41.1,
+"music": 39.4,
+"resid": 33.1,
+"residVoiceBand": 31.0
+},
+{
+"t": 3.9,
+"mix": 41.4,
+"music": 39.9,
+"resid": 33.2,
+"residVoiceBand": 31.2
+},
+{
+"t": 4.0,
+"mix": 41.6,
+"music": 39.8,
+"resid": 34.1,
+"residVoiceBand": 32.0
+},
+{
+"t": 4.1,
+"mix": 43.3,
+"music": 42.3,
+"resid": 32.6,
+"residVoiceBand": 30.8
+},
+{
+"t": 4.2,
+"mix": 43.7,
+"music": 42.2,
+"resid": 36.8,
+"residVoiceBand": 32.2
+},
+{
+"t": 4.3,
+"mix": 42.5,
+"music": 41.5,
+"resid": 32.8,
+"residVoiceBand": 30.5
+},
+{
+"t": 4.4,
+"mix": 43.5,
+"music": 42.9,
+"resid": 32.5,
+"residVoiceBand": 31.2
+},
+{
+"t": 4.5,
+"mix": 40.9,
+"music": 39.6,
+"resid": 32.5,
+"residVoiceBand": 31.2
+},
+{
+"t": 4.6,
+"mix": 40.0,
+"music": 37.7,
+"resid": 33.3,
+"residVoiceBand": 30.8
+},
+{
+"t": 4.7,
+"mix": 40.1,
+"music": 38.6,
+"resid": 32.2,
+"residVoiceBand": 30.6
+},
+{
+"t": 4.8,
+"mix": 40.0,
+"music": 38.2,
+"resid": 33.0,
+"residVoiceBand": 30.3
+},
+{
+"t": 4.9,
+"mix": 39.5,
+"music": 37.9,
+"resid": 31.7,
+"residVoiceBand": 29.6
+},
+{
+"t": 5.0,
+"mix": 39.9,
+"music": 38.6,
+"resid": 31.7,
+"residVoiceBand": 30.5
+},
+{
+"t": 5.1,
+"mix": 39.1,
+"music": 37.0,
+"resid": 33.1,
+"residVoiceBand": 31.9
+},
+{
+"t": 5.2,
+"mix": 39.7,
+"music": 37.2,
+"resid": 33.3,
+"residVoiceBand": 30.9
+},
+{
+"t": 5.3,
+"mix": 37.2,
+"music": 34.5,
+"resid": 31.3,
+"residVoiceBand": 29.7
+},
+{
+"t": 5.4,
+"mix": 38.6,
+"music": 35.9,
+"resid": 32.7,
+"residVoiceBand": 30.8
+},
+{
+"t": 5.5,
+"mix": 38.2,
+"music": 35.8,
+"resid": 31.8,
+"residVoiceBand": 30.1
+},
+{
+"t": 5.6,
+"mix": 38.7,
+"music": 36.7,
+"resid": 32.1,
+"residVoiceBand": 30.8
+},
+{
+"t": 5.7,
+"mix": 39.0,
+"music": 36.3,
+"resid": 32.6,
+"residVoiceBand": 29.5
+},
+{
+"t": 5.8,
+"mix": 38.6,
+"music": 36.4,
+"resid": 32.1,
+"residVoiceBand": 30.6
+},
+{
+"t": 5.9,
+"mix": 37.6,
+"music": 35.7,
+"resid": 30.3,
+"residVoiceBand": 28.5
+},
+{
+"t": 6.0,
+"mix": 43.3,
+"music": 38.9,
+"resid": 38.4,
+"residVoiceBand": 28.7
+},
+{
+"t": 6.1,
+"mix": 42.8,
+"music": 36.9,
+"resid": 39.0,
+"residVoiceBand": 28.8
+},
+{
+"t": 6.2,
+"mix": 43.0,
+"music": 36.6,
+"resid": 39.7,
+"residVoiceBand": 28.8
+},
+{
+"t": 6.3,
+"mix": 41.7,
+"music": 36.5,
+"resid": 37.5,
+"residVoiceBand": 27.6
+},
+{
+"t": 6.4,
+"mix": 43.4,
+"music": 37.3,
+"resid": 40.4,
+"residVoiceBand": 28.9
+},
+{
+"t": 6.5,
+"mix": 42.7,
+"music": 36.9,
+"resid": 39.4,
+"residVoiceBand": 27.7
+},
+{
+"t": 6.6,
+"mix": 44.2,
+"music": 37.2,
+"resid": 41.5,
+"residVoiceBand": 27.4
+},
+{
+"t": 6.7,
+"mix": 43.0,
+"music": 37.6,
+"resid": 39.3,
+"residVoiceBand": 27.4
+},
+{
+"t": 6.8,
+"mix": 43.3,
+"music": 37.9,
+"resid": 40.1,
+"residVoiceBand": 26.1
+},
+{
+"t": 6.9,
+"mix": 42.8,
+"music": 39.0,
+"resid": 38.3,
+"residVoiceBand": 27.2
+},
+{
+"t": 7.0,
+"mix": 39.7,
+"music": 37.4,
+"resid": 33.5,
+"residVoiceBand": 26.3
+},
+{
+"t": 7.1,
+"mix": 38.1,
+"music": 35.7,
+"resid": 32.0,
+"residVoiceBand": 25.3
+},
+{
+"t": 7.2,
+"mix": 37.2,
+"music": 34.8,
+"resid": 31.6,
+"residVoiceBand": 24.0
+},
+{
+"t": 7.3,
+"mix": 37.3,
+"music": 36.2,
+"resid": 28.1,
+"residVoiceBand": 24.4
+},
+{
+"t": 7.4,
+"mix": 36.2,
+"music": 34.8,
+"resid": 28.4,
+"residVoiceBand": 25.4
+},
+{
+"t": 7.5,
+"mix": 35.4,
+"music": 33.4,
+"resid": 28.8,
+"residVoiceBand": 24.4
+},
+{
+"t": 7.6,
+"mix": 34.8,
+"music": 32.5,
+"resid": 29.3,
+"residVoiceBand": 23.5
+},
+{
+"t": 7.7,
+"mix": 35.2,
+"music": 32.5,
+"resid": 29.3,
+"residVoiceBand": 23.9
+},
+{
+"t": 7.8,
+"mix": 34.3,
+"music": 29.9,
+"resid": 30.7,
+"residVoiceBand": 24.5
+},
+{
+"t": 7.9,
+"mix": 36.0,
+"music": 33.1,
+"resid": 30.7,
+"residVoiceBand": 25.7
+},
+{
+"t": 8.0,
+"mix": 35.9,
+"music": 34.2,
+"resid": 28.2,
+"residVoiceBand": 22.6
+},
+{
+"t": 8.1,
+"mix": 36.8,
+"music": 29.0,
+"resid": 34.1,
+"residVoiceBand": 26.3
+},
+{
+"t": 8.2,
+"mix": 36.5,
+"music": 30.5,
+"resid": 33.9,
+"residVoiceBand": 27.1
+},
+{
+"t": 8.3,
+"mix": 38.2,
+"music": 34.7,
+"resid": 33.8,
+"residVoiceBand": 25.4
+},
+{
+"t": 8.4,
+"mix": 38.5,
+"music": 37.5,
+"resid": 29.5,
+"residVoiceBand": 21.2
+},
+{
+"t": 8.5,
+"mix": 38.5,
+"music": 37.2,
+"resid": 28.9,
+"residVoiceBand": 24.3
+},
+{
+"t": 8.6,
+"mix": 41.5,
+"music": 40.6,
+"resid": 30.7,
+"residVoiceBand": 24.2
+},
+{
+"t": 8.7,
+"mix": 42.3,
+"music": 41.1,
+"resid": 34.6,
+"residVoiceBand": 26.2
+},
+{
+"t": 8.8,
+"mix": 42.8,
+"music": 40.5,
+"resid": 35.7,
+"residVoiceBand": 32.3
+},
+{
+"t": 8.9,
+"mix": 43.1,
+"music": 41.9,
+"resid": 31.9,
+"residVoiceBand": 27.1
+},
+{
+"t": 9.0,
+"mix": 41.4,
+"music": 40.9,
+"resid": 27.4,
+"residVoiceBand": 24.9
+},
+{
+"t": 9.1,
+"mix": 40.8,
+"music": 39.8,
+"resid": 30.2,
+"residVoiceBand": 26.2
+},
+{
+"t": 9.2,
+"mix": 43.4,
+"music": 42.6,
+"resid": 30.6,
+"residVoiceBand": 27.6
+},
+{
+"t": 9.3,
+"mix": 41.9,
+"music": 40.0,
+"resid": 35.0,
+"residVoiceBand": 28.7
+},
+{
+"t": 9.4,
+"mix": 43.6,
+"music": 42.9,
+"resid": 32.3,
+"residVoiceBand": 29.3
+},
+{
+"t": 9.5,
+"mix": 43.5,
+"music": 42.1,
+"resid": 33.8,
+"residVoiceBand": 29.0
+},
+{
+"t": 9.6,
+"mix": 44.3,
+"music": 41.7,
+"resid": 37.4,
+"residVoiceBand": 30.5
+},
+{
+"t": 9.7,
+"mix": 44.9,
+"music": 40.2,
+"resid": 41.5,
+"residVoiceBand": 34.6
+},
+{
+"t": 9.8,
+"mix": 44.6,
+"music": 34.2,
+"resid": 43.4,
+"residVoiceBand": 34.5
+},
+{
+"t": 9.9,
+"mix": 43.8,
+"music": 37.7,
+"resid": 41.0,
+"residVoiceBand": 36.4
+},
+{
+"t": 10.0,
+"mix": 44.3,
+"music": 37.2,
+"resid": 42.1,
+"residVoiceBand": 34.8
+},
+{
+"t": 10.1,
+"mix": 43.3,
+"music": 40.1,
+"resid": 38.5,
+"residVoiceBand": 35.2
+},
+{
+"t": 10.2,
+"mix": 44.5,
+"music": 38.0,
+"resid": 42.3,
+"residVoiceBand": 36.3
+},
+{
+"t": 10.3,
+"mix": 44.4,
+"music": 37.9,
+"resid": 42.2,
+"residVoiceBand": 35.1
+},
+{
+"t": 10.4,
+"mix": 45.0,
+"music": 39.6,
+"resid": 41.9,
+"residVoiceBand": 37.4
+},
+{
+"t": 10.5,
+"mix": 44.5,
+"music": 38.4,
+"resid": 41.9,
+"residVoiceBand": 40.5
+},
+{
+"t": 10.6,
+"mix": 44.0,
+"music": 39.9,
+"resid": 39.9,
+"residVoiceBand": 37.0
+},
+{
+"t": 10.7,
+"mix": 43.7,
+"music": 40.6,
+"resid": 38.1,
+"residVoiceBand": 34.6
+},
+{
+"t": 10.8,
+"mix": 42.8,
+"music": 40.8,
+"resid": 35.1,
+"residVoiceBand": 32.8
+},
+{
+"t": 10.9,
+"mix": 43.3,
+"music": 37.5,
+"resid": 40.9,
+"residVoiceBand": 39.3
+},
+{
+"t": 11.0,
+"mix": 42.1,
+"music": 28.0,
+"resid": 41.4,
+"residVoiceBand": 35.7
+},
+{
+"t": 11.1,
+"mix": 43.3,
+"music": 31.6,
+"resid": 42.1,
+"residVoiceBand": 40.0
+},
+{
+"t": 11.2,
+"mix": 42.6,
+"music": 37.8,
+"resid": 39.0,
+"residVoiceBand": 37.6
+},
+{
+"t": 11.3,
+"mix": 44.0,
+"music": 42.0,
+"resid": 36.7,
+"residVoiceBand": 31.0
+},
+{
+"t": 11.4,
+"mix": 41.9,
+"music": 38.2,
+"resid": 38.0,
+"residVoiceBand": 30.2
+},
+{
+"t": 11.5,
+"mix": 41.3,
+"music": 32.0,
+"resid": 40.1,
+"residVoiceBand": 31.2
+},
+{
+"t": 11.6,
+"mix": 40.7,
+"music": 36.2,
+"resid": 37.4,
+"residVoiceBand": 32.5
+},
+{
+"t": 11.7,
+"mix": 39.5,
+"music": 34.7,
+"resid": 36.1,
+"residVoiceBand": 29.0
+},
+{
+"t": 11.8,
+"mix": 42.9,
+"music": 37.2,
+"resid": 40.0,
+"residVoiceBand": 29.8
+},
+{
+"t": 11.9,
+"mix": 42.2,
+"music": 32.7,
+"resid": 41.0,
+"residVoiceBand": 29.4
+},
+{
+"t": 12.0,
+"mix": 43.0,
+"music": 41.5,
+"resid": 34.9,
+"residVoiceBand": 31.9
+},
+{
+"t": 12.1,
+"mix": 42.5,
+"music": 39.2,
+"resid": 38.0,
+"residVoiceBand": 36.0
+},
+{
+"t": 12.2,
+"mix": 41.2,
+"music": 38.8,
+"resid": 35.6,
+"residVoiceBand": 33.6
+},
+{
+"t": 12.3,
+"mix": 41.0,
+"music": 39.4,
+"resid": 33.8,
+"residVoiceBand": 32.7
+},
+{
+"t": 12.4,
+"mix": 39.7,
+"music": 35.0,
+"resid": 36.4,
+"residVoiceBand": 30.5
+},
+{
+"t": 12.5,
+"mix": 42.4,
+"music": 39.4,
+"resid": 36.7,
+"residVoiceBand": 34.6
+},
+{
+"t": 12.6,
+"mix": 42.9,
+"music": 41.2,
+"resid": 35.1,
+"residVoiceBand": 31.4
+},
+{
+"t": 12.7,
+"mix": 42.2,
+"music": 40.0,
+"resid": 35.0,
+"residVoiceBand": 29.7
+},
+{
+"t": 12.8,
+"mix": 43.7,
+"music": 38.0,
+"resid": 41.5,
+"residVoiceBand": 30.8
+},
+{
+"t": 12.9,
+"mix": 44.3,
+"music": 24.1,
+"resid": 43.9,
+"residVoiceBand": 30.2
+},
+{
+"t": 13.0,
+"mix": 43.5,
+"music": 37.3,
+"resid": 40.4,
+"residVoiceBand": 29.7
+},
+{
+"t": 13.1,
+"mix": 42.1,
+"music": 32.2,
+"resid": 40.4,
+"residVoiceBand": 30.7
+},
+{
+"t": 13.2,
+"mix": 42.2,
+"music": 33.0,
+"resid": 40.1,
+"residVoiceBand": 29.4
+},
+{
+"t": 13.3,
+"mix": 42.7,
+"music": 34.7,
+"resid": 40.6,
+"residVoiceBand": 33.3
+},
+{
+"t": 13.4,
+"mix": 44.1,
+"music": 37.1,
+"resid": 41.7,
+"residVoiceBand": 41.0
+},
+{
+"t": 13.5,
+"mix": 43.6,
+"music": 38.1,
+"resid": 40.8,
+"residVoiceBand": 40.2
+},
+{
+"t": 13.6,
+"mix": 42.1,
+"music": 31.3,
+"resid": 40.6,
+"residVoiceBand": 36.8
+},
+{
+"t": 13.7,
+"mix": 42.0,
+"music": 34.8,
+"resid": 39.7,
+"residVoiceBand": 35.3
+},
+{
+"t": 13.8,
+"mix": 41.8,
+"music": 36.7,
+"resid": 39.0,
+"residVoiceBand": 35.7
+},
+{
+"t": 13.9,
+"mix": 41.4,
+"music": 39.3,
+"resid": 34.0,
+"residVoiceBand": 32.0
+},
+{
+"t": 14.0,
+"mix": 42.2,
+"music": 36.3,
+"resid": 39.2,
+"residVoiceBand": 37.3
+},
+{
+"t": 14.1,
+"mix": 40.5,
+"music": 37.3,
+"resid": 35.6,
+"residVoiceBand": 32.3
+},
+{
+"t": 14.2,
+"mix": 43.3,
+"music": 38.3,
+"resid": 39.9,
+"residVoiceBand": 34.0
+},
+{
+"t": 14.3,
+"mix": 42.1,
+"music": 39.2,
+"resid": 37.9,
+"residVoiceBand": 31.2
+},
+{
+"t": 14.4,
+"mix": 42.0,
+"music": 33.3,
+"resid": 40.8,
+"residVoiceBand": 28.0
+},
+{
+"t": 14.5,
+"mix": 43.9,
+"music": 35.7,
+"resid": 42.7,
+"residVoiceBand": 34.6
+},
+{
+"t": 14.6,
+"mix": 43.4,
+"music": 38.8,
+"resid": 40.3,
+"residVoiceBand": 39.8
+},
+{
+"t": 14.7,
+"mix": 41.0,
+"music": 38.1,
+"resid": 36.7,
+"residVoiceBand": 29.4
+},
+{
+"t": 14.8,
+"mix": 43.7,
+"music": 33.1,
+"resid": 42.1,
+"residVoiceBand": 40.1
+},
+{
+"t": 14.9,
+"mix": 41.2,
+"music": 35.6,
+"resid": 38.0,
+"residVoiceBand": 32.6
+},
+{
+"t": 15.0,
+"mix": 41.7,
+"music": 38.3,
+"resid": 36.2,
+"residVoiceBand": 25.5
+},
+{
+"t": 15.1,
+"mix": 41.9,
+"music": 33.9,
+"resid": 39.8,
+"residVoiceBand": 26.4
+},
+{
+"t": 15.2,
+"mix": 41.2,
+"music": 33.9,
+"resid": 38.5,
+"residVoiceBand": 23.9
+},
+{
+"t": 15.3,
+"mix": 39.3,
+"music": 33.0,
+"resid": 36.7,
+"residVoiceBand": 22.4
+},
+{
+"t": 15.4,
+"mix": 41.4,
+"music": 36.0,
+"resid": 38.0,
+"residVoiceBand": 35.7
+},
+{
+"t": 15.5,
+"mix": 44.2,
+"music": 31.8,
+"resid": 42.8,
+"residVoiceBand": 40.2
+},
+{
+"t": 15.6,
+"mix": 42.6,
+"music": 37.6,
+"resid": 38.8,
+"residVoiceBand": 34.5
+},
+{
+"t": 15.7,
+"mix": 41.1,
+"music": 30.4,
+"resid": 39.9,
+"residVoiceBand": 27.3
+},
+{
+"t": 15.8,
+"mix": 40.8,
+"music": 21.2,
+"resid": 40.2,
+"residVoiceBand": 28.9
+},
+{
+"t": 15.9,
+"mix": 40.4,
+"music": 23.1,
+"resid": 39.5,
+"residVoiceBand": 27.7
+},
+{
+"t": 16.0,
+"mix": 41.9,
+"music": 33.2,
+"resid": 40.1,
+"residVoiceBand": 33.8
+},
+{
+"t": 16.1,
+"mix": 40.7,
+"music": 33.9,
+"resid": 37.9,
+"residVoiceBand": 29.4
+},
+{
+"t": 16.2,
+"mix": 39.9,
+"music": 29.2,
+"resid": 38.7,
+"residVoiceBand": 24.6
+},
+{
+"t": 16.3,
+"mix": 42.7,
+"music": 39.9,
+"resid": 37.1,
+"residVoiceBand": 33.9
+},
+{
+"t": 16.4,
+"mix": 43.9,
+"music": 36.3,
+"resid": 41.9,
+"residVoiceBand": 39.6
+},
+{
+"t": 16.5,
+"mix": 44.4,
+"music": 41.2,
+"resid": 39.6,
+"residVoiceBand": 36.3
+},
+{
+"t": 16.6,
+"mix": 45.5,
+"music": 43.7,
+"resid": 38.3,
+"residVoiceBand": 37.2
+},
+{
+"t": 16.7,
+"mix": 44.9,
+"music": 40.5,
+"resid": 41.2,
+"residVoiceBand": 32.5
+},
+{
+"t": 16.8,
+"mix": 44.5,
+"music": 33.7,
+"resid": 43.3,
+"residVoiceBand": 33.3
+},
+{
+"t": 16.9,
+"mix": 44.0,
+"music": 24.4,
+"resid": 43.4,
+"residVoiceBand": 31.3
+},
+{
+"t": 17.0,
+"mix": 43.0,
+"music": 23.4,
+"resid": 42.3,
+"residVoiceBand": 29.8
+},
+{
+"t": 17.1,
+"mix": 43.9,
+"music": 39.7,
+"resid": 40.5,
+"residVoiceBand": 35.4
+},
+{
+"t": 17.2,
+"mix": 43.2,
+"music": 39.0,
+"resid": 39.6,
+"residVoiceBand": 33.9
+},
+{
+"t": 17.3,
+"mix": 43.3,
+"music": 34.3,
+"resid": 41.7,
+"residVoiceBand": 35.2
+},
+{
+"t": 17.4,
+"mix": 41.9,
+"music": 37.8,
+"resid": 38.2,
+"residVoiceBand": 33.0
+},
+{
+"t": 17.5,
+"mix": 43.7,
+"music": 37.9,
+"resid": 40.4,
+"residVoiceBand": 39.9
+},
+{
+"t": 17.6,
+"mix": 42.3,
+"music": 38.2,
+"resid": 36.9,
+"residVoiceBand": 34.1
+},
+{
+"t": 17.7,
+"mix": 43.6,
+"music": 34.8,
+"resid": 41.6,
+"residVoiceBand": 38.8
+},
+{
+"t": 17.8,
+"mix": 43.3,
+"music": 35.1,
+"resid": 41.0,
+"residVoiceBand": 33.4
+},
+{
+"t": 17.9,
+"mix": 41.8,
+"music": 29.8,
+"resid": 41.0,
+"residVoiceBand": 32.2
+},
+{
+"t": 18.0,
+"mix": 40.8,
+"music": 32.1,
+"resid": 39.2,
+"residVoiceBand": 27.7
+},
+{
+"t": 18.1,
+"mix": 44.6,
+"music": 36.7,
+"resid": 42.7,
+"residVoiceBand": 41.4
+},
+{
+"t": 18.2,
+"mix": 40.2,
+"music": 29.6,
+"resid": 38.5,
+"residVoiceBand": 29.3
+},
+{
+"t": 18.3,
+"mix": 42.8,
+"music": 35.0,
+"resid": 41.1,
+"residVoiceBand": 38.0
+},
+{
+"t": 18.4,
+"mix": 41.9,
+"music": 38.8,
+"resid": 37.1,
+"residVoiceBand": 36.4
+},
+{
+"t": 18.5,
+"mix": 40.0,
+"music": 35.2,
+"resid": 37.1,
+"residVoiceBand": 34.1
+},
+{
+"t": 18.6,
+"mix": 42.0,
+"music": 37.3,
+"resid": 38.3,
+"residVoiceBand": 35.5
+},
+{
+"t": 18.7,
+"mix": 41.9,
+"music": 39.9,
+"resid": 35.1,
+"residVoiceBand": 32.2
+},
+{
+"t": 18.8,
+"mix": 40.5,
+"music": 36.1,
+"resid": 36.0,
+"residVoiceBand": 27.9
+},
+{
+"t": 18.9,
+"mix": 41.6,
+"music": 34.8,
+"resid": 39.3,
+"residVoiceBand": 37.4
+},
+{
+"t": 19.0,
+"mix": 43.2,
+"music": 40.8,
+"resid": 37.5,
+"residVoiceBand": 32.7
+},
+{
+"t": 19.1,
+"mix": 41.9,
+"music": 39.5,
+"resid": 35.7,
+"residVoiceBand": 34.5
+},
+{
+"t": 19.2,
+"mix": 41.8,
+"music": 37.2,
+"resid": 38.0,
+"residVoiceBand": 36.5
+},
+{
+"t": 19.3,
+"mix": 42.2,
+"music": 36.9,
+"resid": 39.5,
+"residVoiceBand": 37.5
+},
+{
+"t": 19.4,
+"mix": 43.6,
+"music": 38.0,
+"resid": 40.2,
+"residVoiceBand": 35.4
+},
+{
+"t": 19.5,
+"mix": 41.4,
+"music": 35.8,
+"resid": 38.4,
+"residVoiceBand": 34.7
+},
+{
+"t": 19.6,
+"mix": 41.1,
+"music": 37.2,
+"resid": 36.3,
+"residVoiceBand": 34.5
+},
+{
+"t": 19.7,
+"mix": 43.3,
+"music": 36.5,
+"resid": 41.0,
+"residVoiceBand": 38.1
+},
+{
+"t": 19.8,
+"mix": 42.5,
+"music": 37.0,
+"resid": 39.7,
+"residVoiceBand": 37.1
+},
+{
+"t": 19.9,
+"mix": 39.4,
+"music": 35.0,
+"resid": 35.9,
+"residVoiceBand": 32.6
+},
+{
+"t": 20.0,
+"mix": 38.4,
+"music": 37.7,
+"resid": 24.6,
+"residVoiceBand": 22.3
+},
+{
+"t": 20.1,
+"mix": 41.4,
+"music": 38.0,
+"resid": 34.4,
+"residVoiceBand": 25.9
+},
+{
+"t": 20.2,
+"mix": 41.2,
+"music": 38.1,
+"resid": 36.5,
+"residVoiceBand": 30.8
+},
+{
+"t": 20.3,
+"mix": 38.4,
+"music": 34.4,
+"resid": 34.7,
+"residVoiceBand": 28.4
+},
+{
+"t": 20.4,
+"mix": 43.4,
+"music": 32.7,
+"resid": 42.4,
+"residVoiceBand": 41.8
+},
+{
+"t": 20.5,
+"mix": 39.9,
+"music": 33.5,
+"resid": 36.8,
+"residVoiceBand": 36.4
+},
+{
+"t": 20.6,
+"mix": 40.4,
+"music": 36.0,
+"resid": 35.7,
+"residVoiceBand": 25.6
+},
+{
+"t": 20.7,
+"mix": 39.7,
+"music": 37.7,
+"resid": 32.0,
+"residVoiceBand": 21.8
+},
+{
+"t": 20.8,
+"mix": 39.7,
+"music": 35.9,
+"resid": 33.2,
+"residVoiceBand": 13.5
+},
+{
+"t": 20.9,
+"mix": 38.3,
+"music": 36.9,
+"resid": 29.1,
+"residVoiceBand": 11.2
+},
+{
+"t": 21.0,
+"mix": 43.0,
+"music": 33.7,
+"resid": 41.5,
+"residVoiceBand": 39.0
+},
+{
+"t": 21.1,
+"mix": 43.2,
+"music": 37.2,
+"resid": 40.6,
+"residVoiceBand": 34.9
+},
+{
+"t": 21.2,
+"mix": 40.2,
+"music": 36.7,
+"resid": 34.7,
+"residVoiceBand": 22.6
+},
+{
+"t": 21.3,
+"mix": 43.1,
+"music": 33.0,
+"resid": 41.6,
+"residVoiceBand": 40.2
+},
+{
+"t": 21.4,
+"mix": 42.8,
+"music": 38.4,
+"resid": 38.9,
+"residVoiceBand": 25.2
+},
+{
+"t": 21.5,
+"mix": 41.3,
+"music": 38.0,
+"resid": 35.5,
+"residVoiceBand": 25.6
+},
+{
+"t": 21.6,
+"mix": 41.0,
+"music": 21.5,
+"resid": 40.5,
+"residVoiceBand": 28.5
+},
+{
+"t": 21.7,
+"mix": 43.9,
+"music": 27.5,
+"resid": 43.1,
+"residVoiceBand": 31.8
+},
+{
+"t": 21.8,
+"mix": 45.4,
+"music": 40.5,
+"resid": 42.6,
+"residVoiceBand": 31.7
+},
+{
+"t": 21.9,
+"mix": 42.5,
+"music": 30.9,
+"resid": 41.3,
+"residVoiceBand": 33.6
+},
+{
+"t": 22.0,
+"mix": 41.6,
+"music": 30.9,
+"resid": 40.4,
+"residVoiceBand": 31.1
+},
+{
+"t": 22.1,
+"mix": 39.8,
+"music": 34.8,
+"resid": 36.6,
+"residVoiceBand": 31.1
+},
+{
+"t": 22.2,
+"mix": 42.1,
+"music": 41.2,
+"resid": 32.7,
+"residVoiceBand": 29.9
+},
+{
+"t": 22.3,
+"mix": 42.5,
+"music": 40.3,
+"resid": 36.5,
+"residVoiceBand": 30.2
+},
+{
+"t": 22.4,
+"mix": 44.2,
+"music": 42.6,
+"resid": 36.3,
+"residVoiceBand": 29.9
+},
+{
+"t": 22.5,
+"mix": 47.0,
+"music": 40.3,
+"resid": 45.6,
+"residVoiceBand": 28.3
+},
+{
+"t": 22.6,
+"mix": 41.7,
+"music": 40.7,
+"resid": 33.3,
+"residVoiceBand": 30.4
+},
+{
+"t": 22.7,
+"mix": 42.7,
+"music": 38.4,
+"resid": 38.4,
+"residVoiceBand": 30.2
+},
+{
+"t": 22.8,
+"mix": 44.4,
+"music": 40.2,
+"resid": 40.3,
+"residVoiceBand": 29.9
+},
+{
+"t": 22.9,
+"mix": 45.0,
+"music": 38.8,
+"resid": 42.6,
+"residVoiceBand": 30.6
+},
+{
+"t": 23.0,
+"mix": 44.4,
+"music": 39.6,
+"resid": 41.2,
+"residVoiceBand": 32.6
+},
+{
+"t": 23.1,
+"mix": 45.0,
+"music": 43.5,
+"resid": 37.5,
+"residVoiceBand": 36.2
+},
+{
+"t": 23.2,
+"mix": 45.0,
+"music": 41.3,
+"resid": 40.1,
+"residVoiceBand": 38.4
+},
+{
+"t": 23.3,
+"mix": 43.1,
+"music": 40.8,
+"resid": 37.1,
+"residVoiceBand": 34.2
+},
+{
+"t": 23.4,
+"mix": 44.0,
+"music": 42.5,
+"resid": 36.0,
+"residVoiceBand": 31.2
+},
+{
+"t": 23.5,
+"mix": 44.7,
+"music": 41.5,
+"resid": 39.9,
+"residVoiceBand": 39.3
+},
+{
+"t": 23.6,
+"mix": 43.7,
+"music": 40.2,
+"resid": 40.0,
+"residVoiceBand": 39.8
+},
+{
+"t": 23.7,
+"mix": 44.6,
+"music": 42.6,
+"resid": 38.4,
+"residVoiceBand": 36.1
+},
+{
+"t": 23.8,
+"mix": 45.2,
+"music": 44.4,
+"resid": 32.6,
+"residVoiceBand": 31.0
+},
+{
+"t": 23.9,
+"mix": 46.8,
+"music": 38.5,
+"resid": 45.7,
+"residVoiceBand": 24.6
+},
+{
+"t": 24.0,
+"mix": 41.7,
+"music": 40.8,
+"resid": 31.4,
+"residVoiceBand": 28.1
+},
+{
+"t": 24.1,
+"mix": 43.7,
+"music": 40.7,
+"resid": 36.7,
+"residVoiceBand": 27.5
+},
+{
+"t": 24.2,
+"mix": 44.9,
+"music": 44.0,
+"resid": 35.4,
+"residVoiceBand": 31.7
+},
+{
+"t": 24.3,
+"mix": 44.4,
+"music": 40.6,
+"resid": 40.7,
+"residVoiceBand": 36.8
+},
+{
+"t": 24.4,
+"mix": 43.1,
+"music": 39.2,
+"resid": 38.9,
+"residVoiceBand": 34.1
+},
+{
+"t": 24.5,
+"mix": 42.8,
+"music": 34.5,
+"resid": 40.6,
+"residVoiceBand": 39.8
+},
+{
+"t": 24.6,
+"mix": 45.0,
+"music": 37.8,
+"resid": 42.0,
+"residVoiceBand": 34.5
+},
+{
+"t": 24.7,
+"mix": 41.9,
+"music": 32.7,
+"resid": 40.3,
+"residVoiceBand": 36.9
+},
+{
+"t": 24.8,
+"mix": 41.7,
+"music": 37.8,
+"resid": 37.4,
+"residVoiceBand": 36.2
+},
+{
+"t": 24.9,
+"mix": 41.9,
+"music": 38.6,
+"resid": 37.3,
+"residVoiceBand": 34.8
+},
+{
+"t": 25.0,
+"mix": 43.7,
+"music": 36.8,
+"resid": 41.5,
+"residVoiceBand": 41.4
+},
+{
+"t": 25.1,
+"mix": 42.2,
+"music": 36.4,
+"resid": 39.4,
+"residVoiceBand": 37.2
+},
+{
+"t": 25.2,
+"mix": 43.2,
+"music": 38.0,
+"resid": 38.5,
+"residVoiceBand": 33.0
+},
+{
+"t": 25.3,
+"mix": 42.9,
+"music": 32.0,
+"resid": 41.5,
+"residVoiceBand": 37.1
+},
+{
+"t": 25.4,
+"mix": 45.2,
+"music": 38.7,
+"resid": 42.3,
+"residVoiceBand": 32.7
+},
+{
+"t": 25.5,
+"mix": 44.1,
+"music": 41.1,
+"resid": 36.5,
+"residVoiceBand": 32.4
+},
+{
+"t": 25.6,
+"mix": 42.0,
+"music": 38.8,
+"resid": 37.1,
+"residVoiceBand": 36.3
+},
+{
+"t": 25.7,
+"mix": 41.6,
+"music": 38.3,
+"resid": 36.9,
+"residVoiceBand": 33.0
+},
+{
+"t": 25.8,
+"mix": 42.1,
+"music": 39.4,
+"resid": 36.4,
+"residVoiceBand": 35.1
+},
+{
+"t": 25.9,
+"mix": 43.7,
+"music": 37.3,
+"resid": 42.1,
+"residVoiceBand": 30.1
+},
+{
+"t": 26.0,
+"mix": 44.9,
+"music": 41.0,
+"resid": 40.3,
+"residVoiceBand": 26.1
+},
+{
+"t": 26.1,
+"mix": 37.4,
+"music": 33.6,
+"resid": 34.0,
+"residVoiceBand": 24.6
+},
+{
+"t": 26.2,
+"mix": 39.5,
+"music": 35.9,
+"resid": 35.5,
+"residVoiceBand": 33.4
+},
+{
+"t": 26.3,
+"mix": 40.1,
+"music": 35.6,
+"resid": 35.6,
+"residVoiceBand": 34.1
+},
+{
+"t": 26.4,
+"mix": 41.5,
+"music": 32.3,
+"resid": 40.1,
+"residVoiceBand": 39.5
+},
+{
+"t": 26.5,
+"mix": 42.9,
+"music": 28.2,
+"resid": 42.1,
+"residVoiceBand": 40.8
+},
+{
+"t": 26.6,
+"mix": 42.9,
+"music": 34.3,
+"resid": 40.9,
+"residVoiceBand": 40.1
+},
+{
+"t": 26.7,
+"mix": 44.0,
+"music": 40.7,
+"resid": 38.7,
+"residVoiceBand": 37.0
+},
+{
+"t": 26.8,
+"mix": 45.0,
+"music": 41.7,
+"resid": 38.4,
+"residVoiceBand": 35.0
+},
+{
+"t": 26.9,
+"mix": 43.6,
+"music": 40.6,
+"resid": 37.0,
+"residVoiceBand": 32.8
+},
+{
+"t": 27.0,
+"mix": 41.1,
+"music": 37.1,
+"resid": 36.9,
+"residVoiceBand": 32.3
+},
+{
+"t": 27.1,
+"mix": 41.7,
+"music": 36.5,
+"resid": 39.0,
+"residVoiceBand": 30.6
+},
+{
+"t": 27.2,
+"mix": 45.8,
+"music": 41.2,
+"resid": 42.1,
+"residVoiceBand": 28.6
+},
+{
+"t": 27.3,
+"mix": 45.1,
+"music": 40.1,
+"resid": 42.4,
+"residVoiceBand": 32.9
+},
+{
+"t": 27.4,
+"mix": 42.6,
+"music": 39.9,
+"resid": 37.5,
+"residVoiceBand": 34.8
+},
+{
+"t": 27.5,
+"mix": 40.5,
+"music": 33.1,
+"resid": 37.8,
+"residVoiceBand": 30.8
+},
+{
+"t": 27.6,
+"mix": 38.9,
+"music": 33.5,
+"resid": 35.1,
+"residVoiceBand": 28.0
+},
+{
+"t": 27.7,
+"mix": 43.2,
+"music": 41.2,
+"resid": 37.0,
+"residVoiceBand": 32.8
+},
+{
+"t": 27.8,
+"mix": 43.4,
+"music": 40.8,
+"resid": 37.8,
+"residVoiceBand": 36.1
+},
+{
+"t": 27.9,
+"mix": 44.8,
+"music": 41.4,
+"resid": 39.7,
+"residVoiceBand": 37.0
+},
+{
+"t": 28.0,
+"mix": 45.5,
+"music": 42.1,
+"resid": 39.7,
+"residVoiceBand": 35.7
+},
+{
+"t": 28.1,
+"mix": 43.5,
+"music": 40.6,
+"resid": 38.5,
+"residVoiceBand": 37.1
+},
+{
+"t": 28.2,
+"mix": 43.1,
+"music": 40.8,
+"resid": 37.3,
+"residVoiceBand": 35.2
+},
+{
+"t": 28.3,
+"mix": 44.0,
+"music": 41.4,
+"resid": 38.5,
+"residVoiceBand": 36.8
+},
+{
+"t": 28.4,
+"mix": 43.7,
+"music": 33.1,
+"resid": 42.2,
+"residVoiceBand": 37.4
+},
+{
+"t": 28.5,
+"mix": 43.3,
+"music": 34.6,
+"resid": 41.2,
+"residVoiceBand": 37.3
+},
+{
+"t": 28.6,
+"mix": 43.6,
+"music": 36.9,
+"resid": 40.8,
+"residVoiceBand": 37.3
+},
+{
+"t": 28.7,
+"mix": 46.4,
+"music": 43.7,
+"resid": 40.4,
+"residVoiceBand": 35.7
+},
+{
+"t": 28.8,
+"mix": 43.6,
+"music": 42.8,
+"resid": 33.7,
+"residVoiceBand": 32.3
+},
+{
+"t": 28.9,
+"mix": 43.2,
+"music": 37.8,
+"resid": 39.6,
+"residVoiceBand": 37.0
+},
+{
+"t": 29.0,
+"mix": 43.4,
+"music": 36.9,
+"resid": 41.0,
+"residVoiceBand": 40.0
+},
+{
+"t": 29.1,
+"mix": 43.3,
+"music": 40.2,
+"resid": 38.7,
+"residVoiceBand": 37.3
+},
+{
+"t": 29.2,
+"mix": 43.3,
+"music": 35.5,
+"resid": 41.2,
+"residVoiceBand": 39.3
+},
+{
+"t": 29.3,
+"mix": 44.3,
+"music": 36.0,
+"resid": 42.7,
+"residVoiceBand": 39.9
+},
+{
+"t": 29.4,
+"mix": 44.7,
+"music": 37.8,
+"resid": 42.4,
+"residVoiceBand": 41.0
+},
+{
+"t": 29.5,
+"mix": 43.6,
+"music": 39.6,
+"resid": 40.1,
+"residVoiceBand": 37.6
+},
+{
+"t": 29.6,
+"mix": 44.1,
+"music": 40.4,
+"resid": 39.6,
+"residVoiceBand": 37.7
+},
+{
+"t": 29.7,
+"mix": 45.2,
+"music": 42.7,
+"resid": 39.7,
+"residVoiceBand": 39.2
+},
+{
+"t": 29.8,
+"mix": 44.4,
+"music": 39.6,
+"resid": 41.2,
+"residVoiceBand": 40.8
+},
+{
+"t": 29.9,
+"mix": 44.8,
+"music": 41.6,
+"resid": 40.4,
+"residVoiceBand": 39.4
+},
+{
+"t": 30.0,
+"mix": 43.9,
+"music": 39.5,
+"resid": 39.3,
+"residVoiceBand": 36.0
+},
+{
+"t": 30.1,
+"mix": 46.0,
+"music": 42.6,
+"resid": 40.0,
+"residVoiceBand": 34.4
+},
+{
+"t": 30.2,
+"mix": 41.2,
+"music": 38.0,
+"resid": 36.9,
+"residVoiceBand": 35.9
+},
+{
+"t": 30.3,
+"mix": 43.3,
+"music": 40.1,
+"resid": 38.7,
+"residVoiceBand": 37.6
+},
+{
+"t": 30.4,
+"mix": 42.4,
+"music": 37.6,
+"resid": 39.2,
+"residVoiceBand": 38.0
+},
+{
+"t": 30.5,
+"mix": 42.2,
+"music": 40.3,
+"resid": 35.1,
+"residVoiceBand": 30.5
+},
+{
+"t": 30.6,
+"mix": 43.7,
+"music": 40.3,
+"resid": 39.1,
+"residVoiceBand": 34.4
+},
+{
+"t": 30.7,
+"mix": 42.0,
+"music": 40.6,
+"resid": 33.8,
+"residVoiceBand": 31.3
+},
+{
+"t": 30.8,
+"mix": 42.0,
+"music": 36.9,
+"resid": 39.0,
+"residVoiceBand": 35.3
+},
+{
+"t": 30.9,
+"mix": 44.8,
+"music": 37.3,
+"resid": 43.2,
+"residVoiceBand": 30.8
+},
+{
+"t": 31.0,
+"mix": 46.1,
+"music": 41.5,
+"resid": 43.4,
+"residVoiceBand": 30.7
+},
+{
+"t": 31.1,
+"mix": 40.1,
+"music": 33.3,
+"resid": 37.7,
+"residVoiceBand": 34.5
+},
+{
+"t": 31.2,
+"mix": 38.9,
+"music": 34.0,
+"resid": 36.9,
+"residVoiceBand": 24.3
+},
+{
+"t": 31.3,
+"mix": 40.2,
+"music": 36.7,
+"resid": 35.9,
+"residVoiceBand": 31.9
+},
+{
+"t": 31.4,
+"mix": 42.2,
+"music": 36.5,
+"resid": 39.4,
+"residVoiceBand": 31.8
+},
+{
+"t": 31.5,
+"mix": 47.1,
+"music": 40.7,
+"resid": 44.4,
+"residVoiceBand": 24.5
+},
+{
+"t": 31.6,
+"mix": 39.5,
+"music": 36.3,
+"resid": 34.7,
+"residVoiceBand": 29.2
+},
+{
+"t": 31.7,
+"mix": 39.7,
+"music": 37.9,
+"resid": 32.0,
+"residVoiceBand": 31.0
+},
+{
+"t": 31.8,
+"mix": 40.6,
+"music": 38.5,
+"resid": 33.5,
+"residVoiceBand": 32.0
+},
+{
+"t": 31.9,
+"mix": 38.6,
+"music": 37.4,
+"resid": 28.7,
+"residVoiceBand": 23.2
+},
+{
+"t": 32.0,
+"mix": 41.0,
+"music": 37.4,
+"resid": 36.0,
+"residVoiceBand": 34.2
+},
+{
+"t": 32.1,
+"mix": 40.7,
+"music": 35.1,
+"resid": 37.9,
+"residVoiceBand": 31.6
+},
+{
+"t": 32.2,
+"mix": 46.5,
+"music": 40.3,
+"resid": 43.8,
+"residVoiceBand": 32.1
+},
+{
+"t": 32.3,
+"mix": 45.5,
+"music": 39.6,
+"resid": 43.3,
+"residVoiceBand": 31.7
+},
+{
+"t": 32.4,
+"mix": 44.3,
+"music": 40.8,
+"resid": 39.3,
+"residVoiceBand": 24.6
+},
+{
+"t": 32.5,
+"mix": 40.7,
+"music": 37.3,
+"resid": 36.1,
+"residVoiceBand": 32.5
+},
+{
+"t": 32.6,
+"mix": 39.1,
+"music": 37.0,
+"resid": 32.6,
+"residVoiceBand": 27.8
+},
+{
+"t": 32.7,
+"mix": 43.0,
+"music": 38.3,
+"resid": 40.0,
+"residVoiceBand": 31.6
+},
+{
+"t": 32.8,
+"mix": 45.6,
+"music": 42.4,
+"resid": 41.5,
+"residVoiceBand": 29.2
+},
+{
+"t": 32.9,
+"mix": 44.4,
+"music": 38.4,
+"resid": 41.8,
+"residVoiceBand": 29.5
+},
+{
+"t": 33.0,
+"mix": 41.5,
+"music": 39.4,
+"resid": 34.4,
+"residVoiceBand": 27.2
+},
+{
+"t": 33.1,
+"mix": 38.2,
+"music": 33.5,
+"resid": 34.0,
+"residVoiceBand": 24.7
+},
+{
+"t": 33.2,
+"mix": 42.5,
+"music": 40.0,
+"resid": 36.1,
+"residVoiceBand": 31.4
+},
+{
+"t": 33.3,
+"mix": 42.3,
+"music": 40.4,
+"resid": 37.1,
+"residVoiceBand": 30.3
+},
+{
+"t": 33.4,
+"mix": 43.9,
+"music": 42.6,
+"resid": 34.8,
+"residVoiceBand": 30.3
+},
+{
+"t": 33.5,
+"mix": 46.3,
+"music": 40.9,
+"resid": 44.4,
+"residVoiceBand": 31.5
+},
+{
+"t": 33.6,
+"mix": 44.0,
+"music": 40.3,
+"resid": 39.6,
+"residVoiceBand": 29.1
+},
+{
+"t": 33.7,
+"mix": 42.5,
+"music": 40.3,
+"resid": 36.7,
+"residVoiceBand": 31.6
+},
+{
+"t": 33.8,
+"mix": 43.6,
+"music": 41.9,
+"resid": 36.0,
+"residVoiceBand": 30.7
+},
+{
+"t": 33.9,
+"mix": 44.4,
+"music": 42.8,
+"resid": 36.0,
+"residVoiceBand": 31.0
+},
+{
+"t": 34.0,
+"mix": 44.3,
+"music": 43.6,
+"resid": 33.5,
+"residVoiceBand": 30.7
+},
+{
+"t": 34.1,
+"mix": 44.2,
+"music": 42.4,
+"resid": 36.7,
+"residVoiceBand": 30.9
+},
+{
+"t": 34.2,
+"mix": 46.9,
+"music": 40.4,
+"resid": 45.4,
+"residVoiceBand": 30.5
+},
+{
+"t": 34.3,
+"mix": 44.2,
+"music": 41.9,
+"resid": 39.2,
+"residVoiceBand": 28.4
+},
+{
+"t": 34.4,
+"mix": 44.0,
+"music": 41.7,
+"resid": 37.9,
+"residVoiceBand": 30.7
+},
+{
+"t": 34.5,
+"mix": 44.5,
+"music": 43.6,
+"resid": 35.1,
+"residVoiceBand": 31.6
+},
+{
+"t": 34.6,
+"mix": 43.3,
+"music": 41.5,
+"resid": 35.4,
+"residVoiceBand": 30.4
+},
+{
+"t": 34.7,
+"mix": 44.9,
+"music": 44.1,
+"resid": 32.9,
+"residVoiceBand": 29.2
+},
+{
+"t": 34.8,
+"mix": 44.8,
+"music": 43.2,
+"resid": 37.5,
+"residVoiceBand": 31.5
+},
+{
+"t": 34.9,
+"mix": 47.1,
+"music": 37.3,
+"resid": 46.3,
+"residVoiceBand": 29.0
+},
+{
+"t": 35.0,
+"mix": 42.2,
+"music": 40.1,
+"resid": 37.1,
+"residVoiceBand": 29.4
+},
+{
+"t": 35.1,
+"mix": 42.8,
+"music": 40.8,
+"resid": 35.5,
+"residVoiceBand": 30.6
+},
+{
+"t": 35.2,
+"mix": 44.5,
+"music": 43.1,
+"resid": 35.0,
+"residVoiceBand": 30.0
+},
+{
+"t": 35.3,
+"mix": 44.9,
+"music": 43.3,
+"resid": 36.8,
+"residVoiceBand": 30.8
+},
+{
+"t": 35.4,
+"mix": 44.3,
+"music": 41.8,
+"resid": 38.4,
+"residVoiceBand": 30.8
+},
+{
+"t": 35.5,
+"mix": 43.8,
+"music": 42.6,
+"resid": 34.4,
+"residVoiceBand": 30.9
+},
+{
+"t": 35.6,
+"mix": 46.7,
+"music": 39.7,
+"resid": 44.7,
+"residVoiceBand": 30.0
+},
+{
+"t": 35.7,
+"mix": 39.0,
+"music": 37.8,
+"resid": 31.2,
+"residVoiceBand": 16.0
+},
+{
+"t": 35.8,
+"mix": 39.8,
+"music": 37.7,
+"resid": 32.4,
+"residVoiceBand": 31.2
+},
+{
+"t": 35.9,
+"mix": 40.6,
+"music": 38.1,
+"resid": 34.2,
+"residVoiceBand": 30.4
+},
+{
+"t": 36.0,
+"mix": 38.5,
+"music": 33.9,
+"resid": 35.1,
+"residVoiceBand": 14.1
+},
+{
+"t": 36.1,
+"mix": 40.1,
+"music": 36.1,
+"resid": 35.8,
+"residVoiceBand": 32.7
+},
+{
+"t": 36.2,
+"mix": 40.1,
+"music": 35.9,
+"resid": 37.3,
+"residVoiceBand": 22.0
+},
+{
+"t": 36.3,
+"mix": 41.2,
+"music": 39.2,
+"resid": 33.9,
+"residVoiceBand": 31.6
+},
+{
+"t": 36.4,
+"mix": 42.4,
+"music": 39.8,
+"resid": 36.3,
+"residVoiceBand": 31.3
+},
+{
+"t": 36.5,
+"mix": 46.4,
+"music": 40.5,
+"resid": 43.8,
+"residVoiceBand": 35.7
+},
+{
+"t": 36.6,
+"mix": 41.1,
+"music": 38.4,
+"resid": 35.8,
+"residVoiceBand": 34.7
+},
+{
+"t": 36.7,
+"mix": 41.7,
+"music": 38.5,
+"resid": 36.7,
+"residVoiceBand": 36.5
+},
+{
+"t": 36.8,
+"mix": 41.7,
+"music": 38.0,
+"resid": 37.8,
+"residVoiceBand": 37.0
+},
+{
+"t": 36.9,
+"mix": 41.1,
+"music": 39.5,
+"resid": 34.5,
+"residVoiceBand": 33.6
+},
+{
+"t": 37.0,
+"mix": 45.1,
+"music": 41.5,
+"resid": 40.2,
+"residVoiceBand": 38.0
+},
+{
+"t": 37.1,
+"mix": 42.6,
+"music": 36.9,
+"resid": 40.2,
+"residVoiceBand": 39.6
+},
+{
+"t": 37.2,
+"mix": 39.8,
+"music": 36.8,
+"resid": 34.3,
+"residVoiceBand": 33.1
+},
+{
+"t": 37.3,
+"mix": 40.5,
+"music": 37.8,
+"resid": 34.6,
+"residVoiceBand": 33.8
+},
+{
+"t": 37.4,
+"mix": 39.9,
+"music": 36.1,
+"resid": 35.6,
+"residVoiceBand": 33.3
+},
+{
+"t": 37.5,
+"mix": 40.8,
+"music": 32.1,
+"resid": 39.0,
+"residVoiceBand": 37.4
+},
+{
+"t": 37.6,
+"mix": 40.5,
+"music": 36.7,
+"resid": 36.2,
+"residVoiceBand": 35.2
+},
+{
+"t": 37.7,
+"mix": 45.4,
+"music": 43.6,
+"resid": 38.3,
+"residVoiceBand": 37.1
+},
+{
+"t": 37.8,
+"mix": 45.1,
+"music": 41.7,
+"resid": 40.6,
+"residVoiceBand": 38.3
+},
+{
+"t": 37.9,
+"mix": 45.2,
+"music": 43.0,
+"resid": 38.1,
+"residVoiceBand": 36.3
+},
+{
+"t": 38.0,
+"mix": 43.1,
+"music": 35.8,
+"resid": 40.8,
+"residVoiceBand": 39.6
+},
+{
+"t": 38.1,
+"mix": 43.5,
+"music": 33.6,
+"resid": 42.2,
+"residVoiceBand": 41.4
+},
+{
+"t": 38.2,
+"mix": 46.3,
+"music": 43.4,
+"resid": 39.3,
+"residVoiceBand": 34.0
+},
+{
+"t": 38.3,
+"mix": 44.0,
+"music": 41.2,
+"resid": 39.1,
+"residVoiceBand": 34.7
+},
+{
+"t": 38.4,
+"mix": 45.1,
+"music": 41.8,
+"resid": 39.6,
+"residVoiceBand": 37.5
+},
+{
+"t": 38.5,
+"mix": 43.0,
+"music": 35.1,
+"resid": 40.9,
+"residVoiceBand": 39.5
+},
+{
+"t": 38.6,
+"mix": 41.3,
+"music": 30.2,
+"resid": 39.9,
+"residVoiceBand": 37.6
+},
+{
+"t": 38.7,
+"mix": 44.5,
+"music": 28.9,
+"resid": 43.7,
+"residVoiceBand": 43.0
+},
+{
+"t": 38.8,
+"mix": 44.2,
+"music": 38.5,
+"resid": 41.5,
+"residVoiceBand": 40.8
+},
+{
+"t": 38.9,
+"mix": 44.3,
+"music": 41.4,
+"resid": 39.6,
+"residVoiceBand": 34.8
+},
+{
+"t": 39.0,
+"mix": 45.4,
+"music": 43.7,
+"resid": 36.2,
+"residVoiceBand": 32.1
+},
+{
+"t": 39.1,
+"mix": 45.7,
+"music": 43.8,
+"resid": 36.6,
+"residVoiceBand": 32.5
+},
+{
+"t": 39.2,
+"mix": 42.9,
+"music": 41.3,
+"resid": 35.3,
+"residVoiceBand": 33.6
+},
+{
+"t": 39.3,
+"mix": 44.2,
+"music": 43.3,
+"resid": 33.4,
+"residVoiceBand": 31.6
+},
+{
+"t": 39.4,
+"mix": 45.2,
+"music": 43.9,
+"resid": 36.9,
+"residVoiceBand": 34.6
+},
+{
+"t": 39.5,
+"mix": 44.0,
+"music": 39.8,
+"resid": 39.9,
+"residVoiceBand": 37.6
+},
+{
+"t": 39.6,
+"mix": 43.6,
+"music": 37.2,
+"resid": 40.5,
+"residVoiceBand": 38.6
+},
+{
+"t": 39.7,
+"mix": 44.4,
+"music": 36.6,
+"resid": 42.3,
+"residVoiceBand": 36.7
+},
+{
+"t": 39.8,
+"mix": 44.5,
+"music": 39.2,
+"resid": 41.1,
+"residVoiceBand": 39.8
+},
+{
+"t": 39.9,
+"mix": 44.2,
+"music": 40.7,
+"resid": 40.2,
+"residVoiceBand": 39.9
+},
+{
+"t": 40.0,
+"mix": 44.3,
+"music": 38.1,
+"resid": 41.8,
+"residVoiceBand": 41.1
+},
+{
+"t": 40.1,
+"mix": 43.6,
+"music": 40.4,
+"resid": 39.4,
+"residVoiceBand": 38.6
+},
+{
+"t": 40.2,
+"mix": 44.8,
+"music": 42.9,
+"resid": 38.4,
+"residVoiceBand": 32.4
+},
+{
+"t": 40.3,
+"mix": 45.0,
+"music": 44.2,
+"resid": 34.6,
+"residVoiceBand": 32.8
+},
+{
+"t": 40.4,
+"mix": 46.1,
+"music": 44.3,
+"resid": 37.4,
+"residVoiceBand": 32.4
+},
+{
+"t": 40.5,
+"mix": 43.9,
+"music": 42.0,
+"resid": 35.5,
+"residVoiceBand": 32.3
+},
+{
+"t": 40.6,
+"mix": 44.3,
+"music": 40.4,
+"resid": 41.1,
+"residVoiceBand": 40.6
+},
+{
+"t": 40.7,
+"mix": 44.3,
+"music": 41.5,
+"resid": 40.1,
+"residVoiceBand": 39.8
+},
+{
+"t": 40.8,
+"mix": 44.9,
+"music": 43.1,
+"resid": 37.7,
+"residVoiceBand": 35.8
+},
+{
+"t": 40.9,
+"mix": 44.7,
+"music": 42.8,
+"resid": 36.9,
+"residVoiceBand": 32.8
+},
+{
+"t": 41.0,
+"mix": 44.0,
+"music": 41.9,
+"resid": 37.1,
+"residVoiceBand": 34.4
+},
+{
+"t": 41.1,
+"mix": 45.7,
+"music": 42.4,
+"resid": 40.3,
+"residVoiceBand": 34.6
+},
+{
+"t": 41.2,
+"mix": 44.0,
+"music": 41.5,
+"resid": 38.3,
+"residVoiceBand": 37.3
+},
+{
+"t": 41.3,
+"mix": 44.6,
+"music": 40.3,
+"resid": 40.7,
+"residVoiceBand": 39.0
+},
+{
+"t": 41.4,
+"mix": 41.6,
+"music": 38.9,
+"resid": 35.7,
+"residVoiceBand": 34.8
+},
+{
+"t": 41.5,
+"mix": 40.6,
+"music": 39.8,
+"resid": 31.0,
+"residVoiceBand": 29.4
+},
+{
+"t": 41.6,
+"mix": 42.9,
+"music": 39.2,
+"resid": 38.8,
+"residVoiceBand": 35.9
+},
+{
+"t": 41.7,
+"mix": 42.4,
+"music": 40.7,
+"resid": 35.7,
+"residVoiceBand": 32.3
+},
+{
+"t": 41.8,
+"mix": 43.6,
+"music": 41.5,
+"resid": 37.1,
+"residVoiceBand": 33.3
+},
+{
+"t": 41.9,
+"mix": 42.5,
+"music": 41.0,
+"resid": 34.2,
+"residVoiceBand": 32.8
+},
+{
+"t": 42.0,
+"mix": 47.3,
+"music": 40.8,
+"resid": 45.1,
+"residVoiceBand": 29.4
+},
+{
+"t": 42.1,
+"mix": 41.2,
+"music": 37.0,
+"resid": 36.5,
+"residVoiceBand": 34.3
+},
+{
+"t": 42.2,
+"mix": 39.0,
+"music": 26.2,
+"resid": 38.2,
+"residVoiceBand": 28.0
+},
+{
+"t": 42.3,
+"mix": 40.1,
+"music": 34.8,
+"resid": 36.4,
+"residVoiceBand": 31.5
+},
+{
+"t": 42.4,
+"mix": 39.8,
+"music": 38.6,
+"resid": 28.1,
+"residVoiceBand": 27.0
+},
+{
+"t": 42.5,
+"mix": 47.0,
+"music": 41.8,
+"resid": 43.5,
+"residVoiceBand": 28.0
+},
+{
+"t": 42.6,
+"mix": 40.6,
+"music": 38.2,
+"resid": 31.5,
+"residVoiceBand": 21.5
+},
+{
+"t": 42.7,
+"mix": 38.5,
+"music": 34.3,
+"resid": 34.6,
+"residVoiceBand": 29.3
+},
+{
+"t": 42.8,
+"mix": 41.0,
+"music": 37.9,
+"resid": 35.4,
+"residVoiceBand": 32.8
+},
+{
+"t": 42.9,
+"mix": 39.3,
+"music": 35.3,
+"resid": 35.3,
+"residVoiceBand": 29.9
+},
+{
+"t": 43.0,
+"mix": 41.1,
+"music": 36.5,
+"resid": 37.5,
+"residVoiceBand": 34.3
+},
+{
+"t": 43.1,
+"mix": 41.5,
+"music": 37.1,
+"resid": 38.0,
+"residVoiceBand": 35.3
+},
+{
+"t": 43.2,
+"mix": 46.3,
+"music": 38.9,
+"resid": 44.9,
+"residVoiceBand": 32.5
+},
+{
+"t": 43.3,
+"mix": 45.6,
+"music": 38.5,
+"resid": 43.6,
+"residVoiceBand": 30.8
+},
+{
+"t": 43.4,
+"mix": 47.2,
+"music": 33.1,
+"resid": 46.7,
+"residVoiceBand": 24.4
+},
+{
+"t": 43.5,
+"mix": 40.7,
+"music": 37.4,
+"resid": 36.4,
+"residVoiceBand": 34.0
+},
+{
+"t": 43.6,
+"mix": 39.1,
+"music": 36.5,
+"resid": 33.2,
+"residVoiceBand": 26.9
+},
+{
+"t": 43.7,
+"mix": 41.5,
+"music": 37.6,
+"resid": 37.9,
+"residVoiceBand": 31.1
+},
+{
+"t": 43.8,
+"mix": 44.3,
+"music": 42.3,
+"resid": 37.0,
+"residVoiceBand": 29.6
+},
+{
+"t": 43.9,
+"mix": 46.6,
+"music": 42.4,
+"resid": 43.2,
+"residVoiceBand": 27.6
+},
+{
+"t": 44.0,
+"mix": 37.4,
+"music": 36.1,
+"resid": 27.8,
+"residVoiceBand": 21.5
+},
+{
+"t": 44.1,
+"mix": 33.1,
+"music": 31.6,
+"resid": 22.6,
+"residVoiceBand": 16.2
+},
+{
+"t": 44.2,
+"mix": 40.7,
+"music": 37.6,
+"resid": 35.3,
+"residVoiceBand": 29.2
+},
+{
+"t": 44.3,
+"mix": 44.0,
+"music": 30.4,
+"resid": 43.3,
+"residVoiceBand": 26.2
+},
+{
+"t": 44.4,
+"mix": 42.7,
+"music": 32.1,
+"resid": 41.5,
+"residVoiceBand": 27.0
+},
+{
+"t": 44.5,
+"mix": 42.7,
+"music": 32.6,
+"resid": 41.4,
+"residVoiceBand": 26.3
+},
+{
+"t": 44.6,
+"mix": 42.5,
+"music": 38.9,
+"resid": 38.9,
+"residVoiceBand": 31.1
+},
+{
+"t": 44.7,
+"mix": 44.5,
+"music": 37.0,
+"resid": 42.5,
+"residVoiceBand": 28.2
+},
+{
+"t": 44.8,
+"mix": 45.0,
+"music": 35.1,
+"resid": 43.7,
+"residVoiceBand": 21.7
+},
+{
+"t": 44.9,
+"mix": 42.2,
+"music": 36.6,
+"resid": 39.9,
+"residVoiceBand": 32.1
+},
+{
+"t": 45.0,
+"mix": 42.1,
+"music": 30.9,
+"resid": 41.4,
+"residVoiceBand": 24.4
+},
+{
+"t": 45.1,
+"mix": 42.4,
+"music": 35.7,
+"resid": 40.0,
+"residVoiceBand": 24.8
+},
+{
+"t": 45.2,
+"mix": 43.5,
+"music": 37.5,
+"resid": 40.6,
+"residVoiceBand": 27.0
+},
+{
+"t": 45.3,
+"mix": 45.7,
+"music": 33.1,
+"resid": 44.8,
+"residVoiceBand": 26.4
+},
+{
+"t": 45.4,
+"mix": 44.4,
+"music": 38.0,
+"resid": 41.6,
+"residVoiceBand": 24.8
+},
+{
+"t": 45.5,
+"mix": 45.7,
+"music": 38.7,
+"resid": 42.6,
+"residVoiceBand": 22.5
+},
+{
+"t": 45.6,
+"mix": 44.8,
+"music": 40.5,
+"resid": 41.1,
+"residVoiceBand": 30.5
+},
+{
+"t": 45.7,
+"mix": 45.5,
+"music": 38.1,
+"resid": 43.3,
+"residVoiceBand": 23.3
+},
+{
+"t": 45.8,
+"mix": 45.6,
+"music": 40.7,
+"resid": 42.6,
+"residVoiceBand": 23.4
+},
+{
+"t": 45.9,
+"mix": 45.6,
+"music": 36.2,
+"resid": 43.9,
+"residVoiceBand": 23.9
+},
+{
+"t": 46.0,
+"mix": 45.6,
+"music": 40.5,
+"resid": 42.4,
+"residVoiceBand": 31.2
+},
+{
+"t": 46.1,
+"mix": 46.7,
+"music": 37.1,
+"resid": 45.6,
+"residVoiceBand": 27.0
+},
+{
+"t": 46.2,
+"mix": 40.3,
+"music": 38.7,
+"resid": 31.7,
+"residVoiceBand": 20.8
+},
+{
+"t": 46.3,
+"mix": 44.3,
+"music": 42.0,
+"resid": 39.3,
+"residVoiceBand": 32.6
+},
+{
+"t": 46.4,
+"mix": 45.4,
+"music": 37.8,
+"resid": 44.0,
+"residVoiceBand": 27.0
+},
+{
+"t": 46.5,
+"mix": 45.2,
+"music": 44.4,
+"resid": 32.7,
+"residVoiceBand": 29.1
+},
+{
+"t": 46.6,
+"mix": 45.6,
+"music": 43.2,
+"resid": 37.7,
+"residVoiceBand": 31.3
+},
+{
+"t": 46.7,
+"mix": 43.3,
+"music": 40.2,
+"resid": 36.5,
+"residVoiceBand": 30.3
+},
+{
+"t": 46.8,
+"mix": 33.7,
+"music": 29.3,
+"resid": 30.1,
+"residVoiceBand": 24.7
+},
+{
+"t": 46.9,
+"mix": 37.1,
+"music": 32.5,
+"resid": 32.8,
+"residVoiceBand": 29.6
+},
+{
+"t": 47.0,
+"mix": 36.5,
+"music": 34.7,
+"resid": 27.3,
+"residVoiceBand": 23.8
+},
+{
+"t": 47.1,
+"mix": 34.2,
+"music": 29.8,
+"resid": 30.5,
+"residVoiceBand": 23.3
+},
+{
+"t": 47.2,
+"mix": 37.2,
+"music": 32.7,
+"resid": 32.7,
+"residVoiceBand": 29.8
+},
+{
+"t": 47.3,
+"mix": 35.7,
+"music": 29.1,
+"resid": 33.2,
+"residVoiceBand": 29.4
+},
+{
+"t": 47.4,
+"mix": 37.9,
+"music": 33.1,
+"resid": 33.5,
+"residVoiceBand": 31.6
+},
+{
+"t": 47.5,
+"mix": 46.6,
+"music": 38.6,
+"resid": 44.2,
+"residVoiceBand": 32.0
+},
+{
+"t": 47.6,
+"mix": 41.1,
+"music": 38.7,
+"resid": 34.4,
+"residVoiceBand": 29.5
+},
+{
+"t": 47.7,
+"mix": 33.8,
+"music": 29.9,
+"resid": 27.9,
+"residVoiceBand": 25.7
+},
+{
+"t": 47.8,
+"mix": 32.6,
+"music": 30.4,
+"resid": 26.5,
+"residVoiceBand": 22.4
+},
+{
+"t": 47.9,
+"mix": 37.5,
+"music": 34.5,
+"resid": 31.7,
+"residVoiceBand": 30.6
+},
+{
+"t": 48.0,
+"mix": 45.6,
+"music": 38.5,
+"resid": 43.3,
+"residVoiceBand": 28.9
+},
+{
+"t": 48.1,
+"mix": 41.5,
+"music": 40.4,
+"resid": 31.0,
+"residVoiceBand": 26.4
+},
+{
+"t": 48.2,
+"mix": 34.3,
+"music": 30.9,
+"resid": 28.3,
+"residVoiceBand": 26.1
+},
+{
+"t": 48.3,
+"mix": 37.4,
+"music": 34.6,
+"resid": 31.2,
+"residVoiceBand": 30.4
+},
+{
+"t": 48.4,
+"mix": 32.3,
+"music": 30.2,
+"resid": 24.3,
+"residVoiceBand": 18.2
+},
+{
+"t": 48.5,
+"mix": 30.5,
+"music": 26.4,
+"resid": 26.4,
+"residVoiceBand": 22.2
+},
+{
+"t": 48.6,
+"mix": 33.4,
+"music": 30.6,
+"resid": 27.0,
+"residVoiceBand": 24.9
+},
+{
+"t": 48.7,
+"mix": 31.2,
+"music": 26.9,
+"resid": 26.5,
+"residVoiceBand": 25.6
+},
+{
+"t": 48.8,
+"mix": 37.1,
+"music": 33.3,
+"resid": 31.0,
+"residVoiceBand": 30.3
+},
+{
+"t": 48.9,
+"mix": 46.9,
+"music": 35.3,
+"resid": 46.2,
+"residVoiceBand": 28.0
+},
+{
+"t": 49.0,
+"mix": 38.6,
+"music": 36.1,
+"resid": 30.1,
+"residVoiceBand": 27.0
+},
+{
+"t": 49.1,
+"mix": 33.5,
+"music": 28.1,
+"resid": 30.4,
+"residVoiceBand": 27.5
+},
+{
+"t": 49.2,
+"mix": 38.4,
+"music": 31.1,
+"resid": 36.7,
+"residVoiceBand": 33.3
+},
+{
+"t": 49.3,
+"mix": 40.2,
+"music": 38.8,
+"resid": 33.1,
+"residVoiceBand": 31.9
+},
+{
+"t": 49.4,
+"mix": 44.7,
+"music": 40.5,
+"resid": 40.5,
+"residVoiceBand": 37.0
+},
+{
+"t": 49.5,
+"mix": 40.8,
+"music": 35.5,
+"resid": 37.6,
+"residVoiceBand": 36.5
+},
+{
+"t": 49.6,
+"mix": 37.0,
+"music": 32.4,
+"resid": 33.0,
+"residVoiceBand": 31.9
+},
+{
+"t": 49.7,
+"mix": 43.5,
+"music": 34.1,
+"resid": 41.5,
+"residVoiceBand": 40.7
+},
+{
+"t": 49.8,
+"mix": 42.8,
+"music": 37.9,
+"resid": 38.9,
+"residVoiceBand": 35.5
+},
+{
+"t": 49.9,
+"mix": 44.2,
+"music": 40.4,
+"resid": 39.4,
+"residVoiceBand": 35.7
+},
+{
+"t": 50.0,
+"mix": 45.2,
+"music": 43.8,
+"resid": 36.2,
+"residVoiceBand": 34.5
+},
+{
+"t": 50.1,
+"mix": 45.9,
+"music": 42.1,
+"resid": 42.0,
+"residVoiceBand": 30.3
+},
+{
+"t": 50.2,
+"mix": 45.2,
+"music": 41.8,
+"resid": 41.3,
+"residVoiceBand": 30.8
+},
+{
+"t": 50.3,
+"mix": 45.9,
+"music": 42.8,
+"resid": 39.5,
+"residVoiceBand": 32.9
+},
+{
+"t": 50.4,
+"mix": 45.1,
+"music": 38.3,
+"resid": 42.5,
+"residVoiceBand": 42.1
+},
+{
+"t": 50.5,
+"mix": 44.6,
+"music": 41.5,
+"resid": 40.7,
+"residVoiceBand": 38.1
+},
+{
+"t": 50.6,
+"mix": 43.8,
+"music": 39.9,
+"resid": 38.5,
+"residVoiceBand": 34.2
+},
+{
+"t": 50.7,
+"mix": 42.8,
+"music": 38.7,
+"resid": 37.9,
+"residVoiceBand": 32.7
+},
+{
+"t": 50.8,
+"mix": 43.6,
+"music": 37.7,
+"resid": 40.4,
+"residVoiceBand": 37.1
+},
+{
+"t": 50.9,
+"mix": 42.7,
+"music": 37.0,
+"resid": 40.4,
+"residVoiceBand": 37.5
+},
+{
+"t": 51.0,
+"mix": 45.4,
+"music": 39.1,
+"resid": 42.0,
+"residVoiceBand": 32.3
+},
+{
+"t": 51.1,
+"mix": 45.4,
+"music": 41.7,
+"resid": 39.2,
+"residVoiceBand": 34.2
+},
+{
+"t": 51.2,
+"mix": 45.8,
+"music": 44.0,
+"resid": 35.5,
+"residVoiceBand": 30.3
+},
+{
+"t": 51.3,
+"mix": 45.7,
+"music": 42.5,
+"resid": 39.5,
+"residVoiceBand": 27.2
+},
+{
+"t": 51.4,
+"mix": 46.0,
+"music": 41.7,
+"resid": 40.9,
+"residVoiceBand": 28.5
+},
+{
+"t": 51.5,
+"mix": 45.7,
+"music": 43.5,
+"resid": 38.5,
+"residVoiceBand": 31.2
+},
+{
+"t": 51.6,
+"mix": 46.5,
+"music": 44.4,
+"resid": 40.3,
+"residVoiceBand": 25.4
+},
+{
+"t": 51.7,
+"mix": 43.4,
+"music": 40.9,
+"resid": 39.4,
+"residVoiceBand": 22.2
+},
+{
+"t": 51.8,
+"mix": 44.4,
+"music": 41.6,
+"resid": 39.1,
+"residVoiceBand": 35.3
+},
+{
+"t": 51.9,
+"mix": 45.0,
+"music": 42.7,
+"resid": 38.1,
+"residVoiceBand": 35.9
+},
+{
+"t": 52.0,
+"mix": 45.5,
+"music": 45.2,
+"resid": 30.7,
+"residVoiceBand": 29.8
+},
+{
+"t": 52.1,
+"mix": 45.6,
+"music": 42.6,
+"resid": 40.9,
+"residVoiceBand": 34.4
+},
+{
+"t": 52.2,
+"mix": 45.5,
+"music": 43.6,
+"resid": 36.2,
+"residVoiceBand": 25.8
+},
+{
+"t": 52.3,
+"mix": 33.3,
+"music": 30.9,
+"resid": 27.0,
+"residVoiceBand": 24.0
+},
+{
+"t": 52.4,
+"mix": 32.8,
+"music": 26.8,
+"resid": 29.8,
+"residVoiceBand": 29.1
+},
+{
+"t": 52.5,
+"mix": 46.5,
+"music": 34.8,
+"resid": 45.4,
+"residVoiceBand": 28.9
+},
+{
+"t": 52.6,
+"mix": 41.6,
+"music": 38.7,
+"resid": 34.9,
+"residVoiceBand": 33.2
+},
+{
+"t": 52.7,
+"mix": 32.4,
+"music": 28.8,
+"resid": 28.1,
+"residVoiceBand": 27.4
+},
+{
+"t": 52.8,
+"mix": 42.6,
+"music": 40.3,
+"resid": 33.2,
+"residVoiceBand": 28.5
+},
+{
+"t": 52.9,
+"mix": 45.8,
+"music": 43.8,
+"resid": 37.3,
+"residVoiceBand": 31.3
+},
+{
+"t": 53.0,
+"mix": 35.4,
+"music": 31.2,
+"resid": 31.0,
+"residVoiceBand": 29.8
+},
+{
+"t": 53.1,
+"mix": 31.2,
+"music": 28.0,
+"resid": 26.3,
+"residVoiceBand": 26.0
+},
+{
+"t": 53.2,
+"mix": 47.2,
+"music": 42.8,
+"resid": 42.8,
+"residVoiceBand": 26.7
+},
+{
+"t": 53.3,
+"mix": 35.7,
+"music": 35.0,
+"resid": 26.5,
+"residVoiceBand": 26.5
+},
+{
+"t": 53.4,
+"mix": 40.9,
+"music": 31.7,
+"resid": 38.8,
+"residVoiceBand": 36.7
+},
+{
+"t": 53.5,
+"mix": 44.5,
+"music": 38.9,
+"resid": 41.8,
+"residVoiceBand": 41.0
+},
+{
+"t": 53.6,
+"mix": 45.0,
+"music": 38.1,
+"resid": 42.2,
+"residVoiceBand": 35.5
+},
+{
+"t": 53.7,
+"mix": 43.6,
+"music": 34.6,
+"resid": 41.5,
+"residVoiceBand": 35.2
+},
+{
+"t": 53.8,
+"mix": 43.6,
+"music": 34.9,
+"resid": 41.4,
+"residVoiceBand": 39.0
+},
+{
+"t": 53.9,
+"mix": 42.8,
+"music": 33.4,
+"resid": 41.0,
+"residVoiceBand": 40.2
+},
+{
+"t": 54.0,
+"mix": 43.1,
+"music": 34.2,
+"resid": 40.9,
+"residVoiceBand": 40.1
+},
+{
+"t": 54.1,
+"mix": 39.6,
+"music": 32.6,
+"resid": 37.0,
+"residVoiceBand": 36.2
+},
+{
+"t": 54.2,
+"mix": 41.1,
+"music": 33.9,
+"resid": 38.1,
+"residVoiceBand": 36.1
+},
+{
+"t": 54.3,
+"mix": 37.4,
+"music": 32.1,
+"resid": 33.9,
+"residVoiceBand": 33.2
+},
+{
+"t": 54.4,
+"mix": 43.5,
+"music": 31.2,
+"resid": 42.3,
+"residVoiceBand": 41.7
+},
+{
+"t": 54.5,
+"mix": 40.5,
+"music": 31.9,
+"resid": 38.3,
+"residVoiceBand": 37.0
+},
+{
+"t": 54.6,
+"mix": 40.5,
+"music": 33.8,
+"resid": 38.0,
+"residVoiceBand": 37.3
+},
+{
+"t": 54.7,
+"mix": 36.0,
+"music": 30.7,
+"resid": 32.9,
+"residVoiceBand": 30.3
+},
+{
+"t": 54.8,
+"mix": 37.8,
+"music": 33.8,
+"resid": 34.5,
+"residVoiceBand": 33.5
+},
+{
+"t": 54.9,
+"mix": 45.8,
+"music": 37.2,
+"resid": 43.9,
+"residVoiceBand": 32.5
+},
+{
+"t": 55.0,
+"mix": 46.8,
+"music": 43.4,
+"resid": 39.6,
+"residVoiceBand": 30.7
+},
+{
+"t": 55.1,
+"mix": 44.9,
+"music": 42.7,
+"resid": 37.4,
+"residVoiceBand": 27.6
+},
+{
+"t": 55.2,
+"mix": 43.3,
+"music": 41.8,
+"resid": 33.7,
+"residVoiceBand": 30.5
+},
+{
+"t": 55.3,
+"mix": 42.7,
+"music": 40.3,
+"resid": 34.5,
+"residVoiceBand": 25.9
+},
+{
+"t": 55.4,
+"mix": 43.0,
+"music": 41.1,
+"resid": 34.4,
+"residVoiceBand": 27.2
+},
+{
+"t": 55.5,
+"mix": 43.7,
+"music": 41.7,
+"resid": 36.8,
+"residVoiceBand": 32.3
+},
+{
+"t": 55.6,
+"mix": 44.0,
+"music": 40.9,
+"resid": 39.0,
+"residVoiceBand": 29.2
+},
+{
+"t": 55.7,
+"mix": 43.7,
+"music": 42.6,
+"resid": 34.9,
+"residVoiceBand": 30.7
+},
+{
+"t": 55.8,
+"mix": 47.9,
+"music": 42.6,
+"resid": 44.1,
+"residVoiceBand": 28.5
+},
+{
+"t": 55.9,
+"mix": 46.7,
+"music": 42.4,
+"resid": 41.5,
+"residVoiceBand": 33.2
+},
+{
+"t": 56.0,
+"mix": 42.6,
+"music": 41.1,
+"resid": 34.1,
+"residVoiceBand": 23.7
+},
+{
+"t": 56.1,
+"mix": 43.6,
+"music": 38.4,
+"resid": 41.4,
+"residVoiceBand": 28.6
+},
+{
+"t": 56.2,
+"mix": 43.6,
+"music": 40.6,
+"resid": 38.8,
+"residVoiceBand": 31.6
+},
+{
+"t": 56.3,
+"mix": 47.4,
+"music": 38.4,
+"resid": 45.8,
+"residVoiceBand": 31.2
+},
+{
+"t": 56.4,
+"mix": 44.5,
+"music": 41.3,
+"resid": 37.8,
+"residVoiceBand": 27.3
+},
+{
+"t": 56.5,
+"mix": 43.8,
+"music": 41.1,
+"resid": 35.7,
+"residVoiceBand": 29.9
+},
+{
+"t": 56.6,
+"mix": 43.3,
+"music": 41.3,
+"resid": 36.0,
+"residVoiceBand": 32.8
+},
+{
+"t": 56.7,
+"mix": 43.9,
+"music": 41.3,
+"resid": 36.1,
+"residVoiceBand": 30.8
+},
+{
+"t": 56.8,
+"mix": 46.7,
+"music": 42.6,
+"resid": 40.1,
+"residVoiceBand": 28.6
+},
+{
+"t": 56.9,
+"mix": 45.8,
+"music": 43.1,
+"resid": 37.3,
+"residVoiceBand": 29.2
+},
+{
+"t": 57.0,
+"mix": 44.2,
+"music": 39.7,
+"resid": 41.4,
+"residVoiceBand": 30.0
+},
+{
+"t": 57.1,
+"mix": 43.9,
+"music": 36.7,
+"resid": 41.6,
+"residVoiceBand": 32.5
+},
+{
+"t": 57.2,
+"mix": 48.0,
+"music": 43.1,
+"resid": 44.3,
+"residVoiceBand": 29.1
+},
+{
+"t": 57.3,
+"mix": 44.8,
+"music": 43.2,
+"resid": 35.6,
+"residVoiceBand": 32.8
+},
+{
+"t": 57.4,
+"mix": 43.0,
+"music": 42.5,
+"resid": 28.8,
+"residVoiceBand": 25.3
+},
+{
+"t": 57.5,
+"mix": 43.2,
+"music": 40.8,
+"resid": 37.6,
+"residVoiceBand": 31.3
+},
+{
+"t": 57.6,
+"mix": 44.2,
+"music": 42.1,
+"resid": 36.6,
+"residVoiceBand": 31.9
+},
+{
+"t": 57.7,
+"mix": 47.1,
+"music": 41.3,
+"resid": 43.9,
+"residVoiceBand": 31.2
+},
+{
+"t": 57.8,
+"mix": 46.1,
+"music": 38.6,
+"resid": 44.2,
+"residVoiceBand": 29.5
+},
+{
+"t": 57.9,
+"mix": 44.0,
+"music": 41.0,
+"resid": 39.0,
+"residVoiceBand": 33.8
+},
+{
+"t": 58.0,
+"mix": 43.7,
+"music": 42.0,
+"resid": 36.5,
+"residVoiceBand": 34.8
+},
+{
+"t": 58.1,
+"mix": 43.5,
+"music": 40.1,
+"resid": 37.4,
+"residVoiceBand": 25.8
+},
+{
+"t": 58.2,
+"mix": 44.1,
+"music": 41.3,
+"resid": 39.1,
+"residVoiceBand": 29.8
+},
+{
+"t": 58.3,
+"mix": 43.7,
+"music": 42.1,
+"resid": 35.3,
+"residVoiceBand": 27.7
+},
+{
+"t": 58.4,
+"mix": 43.2,
+"music": 39.2,
+"resid": 40.0,
+"residVoiceBand": 27.0
+},
+{
+"t": 58.5,
+"mix": 45.3,
+"music": 39.0,
+"resid": 43.3,
+"residVoiceBand": 32.1
+},
+{
+"t": 58.6,
+"mix": 49.2,
+"music": 35.8,
+"resid": 48.4,
+"residVoiceBand": 25.0
+},
+{
+"t": 58.7,
+"mix": 44.7,
+"music": 41.8,
+"resid": 38.2,
+"residVoiceBand": 33.7
+},
+{
+"t": 58.8,
+"mix": 42.7,
+"music": 41.3,
+"resid": 36.2,
+"residVoiceBand": 23.8
+},
+{
+"t": 58.9,
+"mix": 43.4,
+"music": 36.2,
+"resid": 41.6,
+"residVoiceBand": 29.7
+},
+{
+"t": 59.0,
+"mix": 44.2,
+"music": 38.4,
+"resid": 42.3,
+"residVoiceBand": 30.6
+},
+{
+"t": 59.1,
+"mix": 48.6,
+"music": 36.3,
+"resid": 47.9,
+"residVoiceBand": 25.4
+},
+{
+"t": 59.2,
+"mix": 44.1,
+"music": 36.6,
+"resid": 42.6,
+"residVoiceBand": 27.0
+},
+{
+"t": 59.3,
+"mix": 43.8,
+"music": 40.0,
+"resid": 39.7,
+"residVoiceBand": 23.9
+},
+{
+"t": 59.4,
+"mix": 43.4,
+"music": 41.5,
+"resid": 34.5,
+"residVoiceBand": 31.0
+},
+{
+"t": 59.5,
+"mix": 43.9,
+"music": 40.8,
+"resid": 39.8,
+"residVoiceBand": 27.6
+},
+{
+"t": 59.6,
+"mix": 44.8,
+"music": 42.7,
+"resid": 39.2,
+"residVoiceBand": 30.1
+},
+{
+"t": 59.7,
+"mix": 44.7,
+"music": 41.4,
+"resid": 40.6,
+"residVoiceBand": 31.2
+},
+{
+"t": 59.8,
+"mix": 45.3,
+"music": 44.3,
+"resid": 35.8,
+"residVoiceBand": 34.3
+},
+{
+"t": 59.9,
+"mix": 45.0,
+"music": 42.9,
+"resid": 37.9,
+"residVoiceBand": 33.4
+},
+{
+"t": 60.0,
+"mix": 45.2,
+"music": 43.6,
+"resid": 36.2,
+"residVoiceBand": 33.3
+},
+{
+"t": 60.1,
+"mix": 43.3,
+"music": 41.4,
+"resid": 37.2,
+"residVoiceBand": 36.0
+},
+{
+"t": 60.2,
+"mix": 43.3,
+"music": 40.7,
+"resid": 38.5,
+"residVoiceBand": 37.1
+},
+{
+"t": 60.3,
+"mix": 43.4,
+"music": 40.8,
+"resid": 37.5,
+"residVoiceBand": 36.3
+},
+{
+"t": 60.4,
+"mix": 45.6,
+"music": 44.2,
+"resid": 36.1,
+"residVoiceBand": 34.2
+},
+{
+"t": 60.5,
+"mix": 45.8,
+"music": 44.6,
+"resid": 36.3,
+"residVoiceBand": 33.0
+},
+{
+"t": 60.6,
+"mix": 44.4,
+"music": 43.4,
+"resid": 35.6,
+"residVoiceBand": 35.0
+},
+{
+"t": 60.7,
+"mix": 45.3,
+"music": 43.3,
+"resid": 37.7,
+"residVoiceBand": 34.9
+},
+{
+"t": 60.8,
+"mix": 45.2,
+"music": 44.0,
+"resid": 36.8,
+"residVoiceBand": 35.9
+},
+{
+"t": 60.9,
+"mix": 44.8,
+"music": 42.6,
+"resid": 39.1,
+"residVoiceBand": 33.0
+},
+{
+"t": 61.0,
+"mix": 44.1,
+"music": 43.0,
+"resid": 34.6,
+"residVoiceBand": 33.0
+},
+{
+"t": 61.1,
+"mix": 45.0,
+"music": 39.7,
+"resid": 41.6,
+"residVoiceBand": 40.6
+},
+{
+"t": 61.2,
+"mix": 44.7,
+"music": 41.7,
+"resid": 40.2,
+"residVoiceBand": 39.1
+},
+{
+"t": 61.3,
+"mix": 44.8,
+"music": 38.4,
+"resid": 42.1,
+"residVoiceBand": 41.2
+},
+{
+"t": 61.4,
+"mix": 44.1,
+"music": 39.2,
+"resid": 39.8,
+"residVoiceBand": 36.8
+},
+{
+"t": 61.5,
+"mix": 44.2,
+"music": 42.4,
+"resid": 36.6,
+"residVoiceBand": 34.2
+},
+{
+"t": 61.6,
+"mix": 45.1,
+"music": 36.0,
+"resid": 43.4,
+"residVoiceBand": 42.7
+},
+{
+"t": 61.7,
+"mix": 44.0,
+"music": 31.5,
+"resid": 43.2,
+"residVoiceBand": 41.3
+},
+{
+"t": 61.8,
+"mix": 44.9,
+"music": 37.2,
+"resid": 42.7,
+"residVoiceBand": 41.7
+},
+{
+"t": 61.9,
+"mix": 44.4,
+"music": 37.9,
+"resid": 41.5,
+"residVoiceBand": 39.4
+},
+{
+"t": 62.0,
+"mix": 43.9,
+"music": 39.7,
+"resid": 39.9,
+"residVoiceBand": 37.4
+},
+{
+"t": 62.1,
+"mix": 43.5,
+"music": 36.9,
+"resid": 40.8,
+"residVoiceBand": 38.0
+},
+{
+"t": 62.2,
+"mix": 44.1,
+"music": 33.6,
+"resid": 43.0,
+"residVoiceBand": 41.7
+},
+{
+"t": 62.3,
+"mix": 44.0,
+"music": 37.5,
+"resid": 41.1,
+"residVoiceBand": 39.9
+},
+{
+"t": 62.4,
+"mix": 44.9,
+"music": 39.6,
+"resid": 41.8,
+"residVoiceBand": 39.2
+},
+{
+"t": 62.5,
+"mix": 44.1,
+"music": 40.2,
+"resid": 40.2,
+"residVoiceBand": 38.5
+},
+{
+"t": 62.6,
+"mix": 44.0,
+"music": 41.4,
+"resid": 38.4,
+"residVoiceBand": 36.0
+},
+{
+"t": 62.7,
+"mix": 44.9,
+"music": 41.4,
+"resid": 40.7,
+"residVoiceBand": 38.5
+},
+{
+"t": 62.8,
+"mix": 43.5,
+"music": 35.2,
+"resid": 42.2,
+"residVoiceBand": 41.8
+},
+{
+"t": 62.9,
+"mix": 42.9,
+"music": 23.7,
+"resid": 42.4,
+"residVoiceBand": 40.8
+},
+{
+"t": 63.0,
+"mix": 44.2,
+"music": 37.3,
+"resid": 42.5,
+"residVoiceBand": 39.8
+},
+{
+"t": 63.1,
+"mix": 44.3,
+"music": 39.9,
+"resid": 39.9,
+"residVoiceBand": 35.1
+},
+{
+"t": 63.2,
+"mix": 46.9,
+"music": 43.7,
+"resid": 40.3,
+"residVoiceBand": 32.8
+},
+{
+"t": 63.3,
+"mix": 46.0,
+"music": 41.5,
+"resid": 40.3,
+"residVoiceBand": 29.5
+},
+{
+"t": 63.4,
+"mix": 44.8,
+"music": 42.3,
+"resid": 37.9,
+"residVoiceBand": 28.4
+},
+{
+"t": 63.5,
+"mix": 43.1,
+"music": 41.9,
+"resid": 33.7,
+"residVoiceBand": 31.3
+},
+{
+"t": 63.6,
+"mix": 43.1,
+"music": 42.0,
+"resid": 31.8,
+"residVoiceBand": 20.9
+},
+{
+"t": 63.7,
+"mix": 43.5,
+"music": 37.3,
+"resid": 41.4,
+"residVoiceBand": 29.1
+},
+{
+"t": 63.8,
+"mix": 43.9,
+"music": 42.9,
+"resid": 30.3,
+"residVoiceBand": 25.2
+},
+{
+"t": 63.9,
+"mix": 44.0,
+"music": 38.0,
+"resid": 41.4,
+"residVoiceBand": 26.0
+},
+{
+"t": 64.0,
+"mix": 44.3,
+"music": 34.5,
+"resid": 42.7,
+"residVoiceBand": 30.9
+},
+{
+"t": 64.1,
+"mix": 47.8,
+"music": 34.3,
+"resid": 47.0,
+"residVoiceBand": 28.2
+},
+{
+"t": 64.2,
+"mix": 45.5,
+"music": 40.0,
+"resid": 43.1,
+"residVoiceBand": 32.2
+},
+{
+"t": 64.3,
+"mix": 45.3,
+"music": 40.6,
+"resid": 41.2,
+"residVoiceBand": 24.5
+},
+{
+"t": 64.4,
+"mix": 44.9,
+"music": 19.0,
+"resid": 44.7,
+"residVoiceBand": 28.0
+},
+{
+"t": 64.5,
+"mix": 44.2,
+"music": 37.3,
+"resid": 41.9,
+"residVoiceBand": 30.8
+},
+{
+"t": 64.6,
+"mix": 44.7,
+"music": 36.8,
+"resid": 42.6,
+"residVoiceBand": 27.4
+},
+{
+"t": 64.7,
+"mix": 45.4,
+"music": 41.1,
+"resid": 41.7,
+"residVoiceBand": 25.2
+},
+{
+"t": 64.8,
+"mix": 44.9,
+"music": 41.8,
+"resid": 39.7,
+"residVoiceBand": 21.5
+},
+{
+"t": 64.9,
+"mix": 44.2,
+"music": 40.9,
+"resid": 39.6,
+"residVoiceBand": 34.0
+},
+{
+"t": 65.0,
+"mix": 44.3,
+"music": 39.9,
+"resid": 40.0,
+"residVoiceBand": 22.0
+},
+{
+"t": 65.1,
+"mix": 43.8,
+"music": 36.7,
+"resid": 41.7,
+"residVoiceBand": 25.8
+},
+{
+"t": 65.2,
+"mix": 43.9,
+"music": 40.4,
+"resid": 38.6,
+"residVoiceBand": 27.3
+},
+{
+"t": 65.3,
+"mix": 30.0,
+"music": 28.5,
+"resid": 21.0,
+"residVoiceBand": 15.3
+},
+{
+"t": 65.4,
+"mix": 28.4,
+"music": 24.8,
+"resid": 23.2,
+"residVoiceBand": 15.7
+},
+{
+"t": 65.5,
+"mix": 29.6,
+"music": 26.6,
+"resid": 23.7,
+"residVoiceBand": 22.1
+},
+{
+"t": 65.6,
+"mix": 39.2,
+"music": 30.3,
+"resid": 36.9,
+"residVoiceBand": 35.3
+},
+{
+"t": 65.7,
+"mix": 29.9,
+"music": 27.4,
+"resid": 23.5,
+"residVoiceBand": 18.1
+},
+{
+"t": 65.8,
+"mix": 33.4,
+"music": 28.5,
+"resid": 29.0,
+"residVoiceBand": 26.3
+},
+{
+"t": 65.9,
+"mix": 41.2,
+"music": 28.5,
+"resid": 40.5,
+"residVoiceBand": 29.8
+},
+{
+"t": 66.0,
+"mix": 48.2,
+"music": 43.3,
+"resid": 44.7,
+"residVoiceBand": 25.0
+},
+{
+"t": 66.1,
+"mix": 45.1,
+"music": 41.5,
+"resid": 39.0,
+"residVoiceBand": 25.0
+},
+{
+"t": 66.2,
+"mix": 43.4,
+"music": 40.6,
+"resid": 35.9,
+"residVoiceBand": 26.3
+},
+{
+"t": 66.3,
+"mix": 43.0,
+"music": 41.4,
+"resid": 35.3,
+"residVoiceBand": 32.9
+},
+{
+"t": 66.4,
+"mix": 42.9,
+"music": 41.9,
+"resid": 32.1,
+"residVoiceBand": 26.1
+},
+{
+"t": 66.5,
+"mix": 43.3,
+"music": 40.6,
+"resid": 36.4,
+"residVoiceBand": 28.3
+},
+{
+"t": 66.6,
+"mix": 43.9,
+"music": 40.5,
+"resid": 38.8,
+"residVoiceBand": 25.4
+},
+{
+"t": 66.7,
+"mix": 44.0,
+"music": 41.7,
+"resid": 34.8,
+"residVoiceBand": 27.7
+},
+{
+"t": 66.8,
+"mix": 46.6,
+"music": 41.2,
+"resid": 43.1,
+"residVoiceBand": 31.7
+},
+{
+"t": 66.9,
+"mix": 48.0,
+"music": 43.8,
+"resid": 41.8,
+"residVoiceBand": 25.9
+},
+{
+"t": 67.0,
+"mix": 43.3,
+"music": 39.3,
+"resid": 38.7,
+"residVoiceBand": 33.2
+},
+{
+"t": 67.1,
+"mix": 43.1,
+"music": 40.5,
+"resid": 38.1,
+"residVoiceBand": 26.8
+},
+{
+"t": 67.2,
+"mix": 43.3,
+"music": 39.2,
+"resid": 39.0,
+"residVoiceBand": 28.6
+},
+{
+"t": 67.3,
+"mix": 45.9,
+"music": 40.0,
+"resid": 43.5,
+"residVoiceBand": 31.2
+},
+{
+"t": 67.4,
+"mix": 46.8,
+"music": 41.0,
+"resid": 43.5,
+"residVoiceBand": 22.7
+},
+{
+"t": 67.5,
+"mix": 42.9,
+"music": 40.1,
+"resid": 36.4,
+"residVoiceBand": 23.8
+},
+{
+"t": 67.6,
+"mix": 43.4,
+"music": 41.1,
+"resid": 37.3,
+"residVoiceBand": 33.2
+},
+{
+"t": 67.7,
+"mix": 42.1,
+"music": 40.0,
+"resid": 36.1,
+"residVoiceBand": 28.8
+},
+{
+"t": 67.8,
+"mix": 42.8,
+"music": 38.2,
+"resid": 39.7,
+"residVoiceBand": 22.8
+},
+{
+"t": 67.9,
+"mix": 42.7,
+"music": 39.7,
+"resid": 37.1,
+"residVoiceBand": 25.5
+},
+{
+"t": 68.0,
+"mix": 42.3,
+"music": 41.6,
+"resid": 28.3,
+"residVoiceBand": 25.1
+},
+{
+"t": 68.1,
+"mix": 42.7,
+"music": 40.6,
+"resid": 34.3,
+"residVoiceBand": 23.5
+},
+{
+"t": 68.2,
+"mix": 47.0,
+"music": 38.5,
+"resid": 45.3,
+"residVoiceBand": 29.7
+},
+{
+"t": 68.3,
+"mix": 46.4,
+"music": 43.0,
+"resid": 40.0,
+"residVoiceBand": 35.6
+},
+{
+"t": 68.4,
+"mix": 42.1,
+"music": 39.6,
+"resid": 36.8,
+"residVoiceBand": 35.4
+},
+{
+"t": 68.5,
+"mix": 42.9,
+"music": 38.9,
+"resid": 38.4,
+"residVoiceBand": 37.7
+},
+{
+"t": 68.6,
+"mix": 43.1,
+"music": 39.3,
+"resid": 38.7,
+"residVoiceBand": 37.4
+},
+{
+"t": 68.7,
+"mix": 45.1,
+"music": 41.3,
+"resid": 39.7,
+"residVoiceBand": 35.7
+},
+{
+"t": 68.8,
+"mix": 45.9,
+"music": 44.0,
+"resid": 37.0,
+"residVoiceBand": 34.6
+},
+{
+"t": 68.9,
+"mix": 41.4,
+"music": 39.1,
+"resid": 36.6,
+"residVoiceBand": 35.1
+},
+{
+"t": 69.0,
+"mix": 38.7,
+"music": 37.9,
+"resid": 28.2,
+"residVoiceBand": 27.3
+},
+{
+"t": 69.1,
+"mix": 37.8,
+"music": 36.5,
+"resid": 30.9,
+"residVoiceBand": 29.3
+},
+{
+"t": 69.2,
+"mix": 37.5,
+"music": 36.3,
+"resid": 29.1,
+"residVoiceBand": 28.4
+},
+{
+"t": 69.3,
+"mix": 36.9,
+"music": 36.4,
+"resid": 21.3,
+"residVoiceBand": 12.4
+},
+{
+"t": 69.4,
+"mix": 35.9,
+"music": 35.6,
+"resid": 14.9,
+"residVoiceBand": 2.2
+},
+{
+"t": 69.5,
+"mix": 35.1,
+"music": 34.1,
+"resid": 22.1,
+"residVoiceBand": 11.5
+},
+{
+"t": 69.6,
+"mix": 41.1,
+"music": 36.3,
+"resid": 35.8,
+"residVoiceBand": 8.1
+},
+{
+"t": 69.7,
+"mix": 37.5,
+"music": 32.6,
+"resid": 33.5,
+"residVoiceBand": -1.5
+},
+{
+"t": 69.8,
+"mix": 31.9,
+"music": 25.5,
+"resid": 30.0,
+"residVoiceBand": 0.7
+},
+{
+"t": 69.9,
+"mix": 31.0,
+"music": 23.1,
+"resid": 29.3,
+"residVoiceBand": 6.1
+},
+{
+"t": 70.0,
+"mix": 29.9,
+"music": 17.5,
+"resid": 28.4,
+"residVoiceBand": -2.6
+},
+{
+"t": 70.1,
+"mix": 33.0,
+"music": 32.0,
+"resid": 22.9,
+"residVoiceBand": -5.8
+},
+{
+"t": 70.2,
+"mix": 32.6,
+"music": 32.4,
+"resid": 10.2,
+"residVoiceBand": -15.7
+},
+{
+"t": 70.3,
+"mix": 26.1,
+"music": 26.1,
+"resid": -4.3,
+"residVoiceBand": -50.6
+},
+{
+"t": 70.4,
+"mix": 23.3,
+"music": 23.2,
+"resid": -3.3,
+"residVoiceBand": -120.0
+},
+{
+"t": 70.5,
+"mix": 21.7,
+"music": 21.5,
+"resid": 2.2,
+"residVoiceBand": -45.3
+},
+{
+"t": 70.6,
+"mix": 21.9,
+"music": 21.7,
+"resid": 1.4,
+"residVoiceBand": -8.4
+},
+{
+"t": 70.7,
+"mix": 29.9,
+"music": 25.2,
+"resid": 25.4,
+"residVoiceBand": 25.3
+},
+{
+"t": 70.8,
+"mix": 37.0,
+"music": 31.8,
+"resid": 32.7,
+"residVoiceBand": 32.6
+},
+{
+"t": 70.9,
+"mix": 22.8,
+"music": 21.9,
+"resid": 9.6,
+"residVoiceBand": 6.2
+},
+{
+"t": 71.0,
+"mix": 32.1,
+"music": 28.0,
+"resid": 26.1,
+"residVoiceBand": 25.8
+},
+{
+"t": 71.1,
+"mix": 31.5,
+"music": 30.4,
+"resid": 19.4,
+"residVoiceBand": 18.2
+},
+{
+"t": 71.2,
+"mix": 27.9,
+"music": 25.7,
+"resid": 18.8,
+"residVoiceBand": 8.7
+},
+{
+"t": 71.3,
+"mix": 18.8,
+"music": 16.9,
+"resid": 10.6,
+"residVoiceBand": 6.5
+},
+{
+"t": 71.4,
+"mix": 17.2,
+"music": 15.9,
+"resid": 6.8,
+"residVoiceBand": 2.3
+},
+{
+"t": 71.5,
+"mix": 18.6,
+"music": 17.2,
+"resid": 8.6,
+"residVoiceBand": 2.5
+},
+{
+"t": 71.6,
+"mix": 18.5,
+"music": 16.5,
+"resid": 10.2,
+"residVoiceBand": 6.4
+},
+{
+"t": 71.7,
+"mix": 36.3,
+"music": 31.6,
+"resid": 31.5,
+"residVoiceBand": 31.4
+},
+{
+"t": 71.8,
+"mix": 23.0,
+"music": 22.8,
+"resid": 5.5,
+"residVoiceBand": 3.6
+},
+{
+"t": 71.9,
+"mix": 31.2,
+"music": 29.7,
+"resid": 20.7,
+"residVoiceBand": 20.6
+},
+{
+"t": 72.0,
+"mix": 28.1,
+"music": 27.6,
+"resid": 9.8,
+"residVoiceBand": 9.6
+},
+{
+"t": 72.1,
+"mix": 18.5,
+"music": 18.4,
+"resid": -0.6,
+"residVoiceBand": -1.4
+},
+{
+"t": 72.2,
+"mix": 12.9,
+"music": 12.7,
+"resid": -1.9,
+"residVoiceBand": -2.1
+},
+{
+"t": 72.3,
+"mix": 1.8,
+"music": 1.4,
+"resid": -11.3,
+"residVoiceBand": -11.5
+},
+{
+"t": 72.4,
+"mix": -98.2,
+"music": -98.2,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 72.5,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 72.6,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 72.7,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 72.8,
+"mix": 50.7,
+"music": 36.2,
+"resid": 49.8,
+"residVoiceBand": 33.7
+},
+{
+"t": 72.9,
+"mix": 55.5,
+"music": 43.7,
+"resid": 53.2,
+"residVoiceBand": 37.9
+},
+{
+"t": 73.0,
+"mix": 49.7,
+"music": 42.6,
+"resid": 46.0,
+"residVoiceBand": 27.8
+},
+{
+"t": 73.1,
+"mix": 48.5,
+"music": 42.8,
+"resid": 44.5,
+"residVoiceBand": 30.1
+},
+{
+"t": 73.2,
+"mix": 51.5,
+"music": 40.3,
+"resid": 50.1,
+"residVoiceBand": 36.4
+},
+{
+"t": 73.3,
+"mix": 50.9,
+"music": 39.0,
+"resid": 49.3,
+"residVoiceBand": 36.0
+},
+{
+"t": 73.4,
+"mix": 50.7,
+"music": 39.0,
+"resid": 49.0,
+"residVoiceBand": 32.5
+},
+{
+"t": 73.5,
+"mix": 48.6,
+"music": 36.6,
+"resid": 46.9,
+"residVoiceBand": 28.5
+},
+{
+"t": 73.6,
+"mix": 40.6,
+"music": 34.9,
+"resid": 36.6,
+"residVoiceBand": 17.3
+},
+{
+"t": 73.7,
+"mix": 30.8,
+"music": 30.2,
+"resid": 14.2,
+"residVoiceBand": -7.9
+},
+{
+"t": 73.8,
+"mix": 27.8,
+"music": 15.4,
+"resid": 26.1,
+"residVoiceBand": 3.9
+},
+{
+"t": 73.9,
+"mix": 23.9,
+"music": 18.7,
+"resid": 20.1,
+"residVoiceBand": -8.5
+},
+{
+"t": 74.0,
+"mix": 16.6,
+"music": 14.1,
+"resid": 9.2,
+"residVoiceBand": -6.8
+},
+{
+"t": 74.1,
+"mix": 7.7,
+"music": 7.7,
+"resid": -59.1,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.2,
+"mix": -0.6,
+"music": -0.6,
+"resid": -82.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.3,
+"mix": -11.3,
+"music": -11.3,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.4,
+"mix": -26.2,
+"music": -26.2,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.5,
+"mix": -37.3,
+"music": -37.4,
+"resid": -59.9,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.6,
+"mix": -54.9,
+"music": -54.9,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.7,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.8,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 74.9,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.0,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.1,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.2,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.3,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.4,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.5,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.6,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.7,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.8,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 75.9,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 76.0,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 76.1,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 76.2,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+},
+{
+"t": 76.3,
+"mix": -120.0,
+"music": -120.0,
+"resid": -120.0,
+"residVoiceBand": -120.0
+}
+]
+}

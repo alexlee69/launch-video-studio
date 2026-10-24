@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "cast/locked/eva.png",
+  "cast/refs/patch.png"
+ ],
+ "prompt": "Image 1 is her locked character sheet; image 2 is her mission patch. A faceless costume detail sheet: ONE image of six close-up product photographs in a 3 x 2 grid of equal tiles with thin gutters, on a flat solid neutral grey background (#8a8a8a), seamless, no gradient, no floor, no shadow on the background, even soft studio light, no person and no face anywhere: 1 the round embroidered mission patch exactly as image 2, on white suit fabric; 2 the slim wrist display under its padded white cover with a small window strip, strapped on the white sleeve; 3 the same wrist display with the cover open, the dark screen glowing softly and unreadable; 4 the empty clear bubble helmet with its black comms cap inside, two small lamps on its sides, a small camera on its right side and the gold visor raised; 5 a white glove with orange fingertip grips; 6 the tether reel at the waist with the orange-sleeved line and a steel hook. Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

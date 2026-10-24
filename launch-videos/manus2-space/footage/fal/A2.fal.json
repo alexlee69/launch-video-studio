@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "5 s, helmet-camera POV slowly turning and drifting backward: the station shrinks gently against the Earth, the tether pays out and curls in front of the lens. Weightless and slow. No text, no captions, no logos.",
+    "image_url": "<file A2.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:42:49.655Z",
+  "status": [
+    {
+      "t": 1,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 9,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a169a4-d9c6-7fa3-b9fd-ca298cbdfa0d",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d9c6-7fa3-b9fd-ca298cbdfa0d/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d9c6-7fa3-b9fd-ca298cbdfa0d",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/6j4XVpjD7LR2oQRSNjkxG_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "6j4XVpjD7LR2oQRSNjkxG_minimax-h3.mp4",
+      "file_size": 15478718
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.3130520649719983
+    }
+  },
+  "finished": "2026-10-23T16:43:04.674Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/6j4XVpjD7LR2oQRSNjkxG_minimax-h3.mp4",
+      "file": "A2.mp4",
+      "bytes": 15478718,
+      "done": true
+    }
+  ]
+}

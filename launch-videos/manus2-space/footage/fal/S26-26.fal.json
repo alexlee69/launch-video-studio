@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "The camera eases to a stop from a slow pan, then tilts down gently as she opens her eyes, lifts her left forearm and reads the wrist display, smiling; the smile fades into a slow, deadpan look down at the water below her. Then the camera dollies steadily back and back over the sea as she sits still on the bobbing capsule; a seagull glides in and lands on top of the capsule and stays there; she becomes a small figure on a small white capsule on an enormous golden sea, a tiny boat far away. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S26-26.jpg>",
+    "duration": 10,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "10 s × $0.16/s at 1080P = $1.60",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:28:07.789Z",
+  "status": [
+    {
+      "t": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 13,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16997-6108-76f0-98f9-193a8fd44394",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6108-76f0-98f9-193a8fd44394/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6108-76f0-98f9-193a8fd44394",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/gBF0kUJbS5IK_J00AyNVg_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "gBF0kUJbS5IK_J00AyNVg_minimax-h3.mp4",
+      "file_size": 32119434
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 9.25808177399449
+    }
+  },
+  "finished": "2026-10-23T16:28:25.064Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/gBF0kUJbS5IK_J00AyNVg_minimax-h3.mp4",
+      "file": "S26-26.mp4",
+      "bytes": 32119434,
+      "done": true
+    }
+  ]
+}

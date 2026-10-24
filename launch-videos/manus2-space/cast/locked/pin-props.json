@@ -1,0 +1,35 @@
+{
+ "src": "props-composite.png",
+ "panels": [
+  [
+   0,
+   0,
+   1276,
+   713,
+   "surface 128..135 -> 138, background 67% of panel"
+  ],
+  [
+   1286,
+   0,
+   2560,
+   713,
+   "surface 129..135 -> 138, background 81% of panel"
+  ],
+  [
+   0,
+   723,
+   1276,
+   1440,
+   "surface 133..137 -> 138, background 65% of panel"
+  ],
+  [
+   1286,
+   723,
+   2560,
+   1440,
+   "surface 132..140 -> 138, background 63% of panel"
+  ]
+ ],
+ "bg_after_mean": 138.1,
+ "bg_after_std": 1.6
+}

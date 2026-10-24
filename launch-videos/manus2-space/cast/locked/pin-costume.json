@@ -1,0 +1,49 @@
+{
+ "src": "costume-gen.png",
+ "panels": [
+  [
+   0,
+   0,
+   848,
+   717,
+   "flat 142..142 -> 138, background 5% of panel"
+  ],
+  [
+   858,
+   0,
+   1702,
+   717,
+   "surface 142..142 -> 138, background 45% of panel"
+  ],
+  [
+   1712,
+   0,
+   2560,
+   717,
+   "surface 141..143 -> 138, background 43% of panel"
+  ],
+  [
+   0,
+   727,
+   848,
+   1440,
+   "surface 142..143 -> 138, background 56% of panel"
+  ],
+  [
+   858,
+   727,
+   1702,
+   1440,
+   "surface 141..143 -> 138, background 67% of panel"
+  ],
+  [
+   1712,
+   727,
+   2560,
+   1440,
+   "surface 141..143 -> 138, background 33% of panel"
+  ]
+ ],
+ "bg_after_mean": 138.0,
+ "bg_after_std": 0.8
+}

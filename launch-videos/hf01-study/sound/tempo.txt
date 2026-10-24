@@ -1,0 +1,11 @@
+higgsfield01.mp4: 87.01 BPM (confidence 0.903; or 174 in double time) · beat 0.6896 s · first beat 0.1107 s · first downbeat 0.1107 s (bar confidence 0.027)
+  pulse by section: 0–25.503 s none · 25.503–51.006 s none · 51.006–76.508 s 86.99
+  alternates: 43.5 (half, acf 0.404) · 174 (double, acf 0.308) · 58 (2/3, acf 0.258) · 130.5 (3/2, acf -0.04)
+
+music: {style: track, file: assets/higgsfield01.mp4, bpm: 87, start: 0.1107, downbeat: 0}
+
+  · the film opens on the track's first beat (0.1107 s into the file); from there the track covers 76.398 s — a cut must not be longer
+  · the bar's downbeat isn't clear (accent confidence 0.027); if the bar feels shifted, add one beat (0.6896 s) to start — up to three times
+  · half/double tempo is ambiguous — listen and pick
+  · copy the track into the job's assets/ first
+exit 0

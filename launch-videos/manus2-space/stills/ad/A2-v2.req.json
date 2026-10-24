@@ -1,0 +1,12 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "asset": "A2",
+ "slot": "DRIFT (0:00-0:05)",
+ "refs": [
+  "stills/locations/exterior-v2.png"
+ ],
+ "prompt": "Image 1 is the station she is drifting away from: keep its design. Helmet-camera POV still, 16:9, ultra-wide about 16 mm: drifting away from a fictional white orbital station that floats in the middle distance, a long lattice truss and dark solar arrays, the bright blue-and-white Earth filling the lower half, an orange-sleeved safety tether running from the lens back toward the station in a long loose curve. Hard sunlight, black space. No people, no flags, no insignia, no text, no logos, no watermark."
+}

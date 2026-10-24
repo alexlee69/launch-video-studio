@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "The camera hangs in front of her, then drifts very slowly right and down. She raises her left forearm and reads the wrist display; her other glove opens and the small wrench floats away from it, turning slowly into the black; she keeps staring at the display with a long, flat, unimpressed look; one slow blink. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S01-1c.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:28:07.773Z",
+  "status": [
+    {
+      "t": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 10,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16997-6977-7a73-a0ba-47e1d502fdc0",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6977-7a73-a0ba-47e1d502fdc0/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6977-7a73-a0ba-47e1d502fdc0",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/NdUjRRecc4GEbm3shVyLp_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "NdUjRRecc4GEbm3shVyLp_minimax-h3.mp4",
+      "file_size": 14780604
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.337152865016833
+    }
+  },
+  "finished": "2026-10-23T16:28:23.996Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/NdUjRRecc4GEbm3shVyLp_minimax-h3.mp4",
+      "file": "S01-1c.mp4",
+      "bytes": 14780604,
+      "done": true
+    }
+  ]
+}

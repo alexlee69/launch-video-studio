@@ -1,0 +1,55 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "In the first second her right glove opens and lets go of the small silver wrench: it floats away from her, turning slowly end over end, and drifts out of the frame into the black, and she does not look at it. Meanwhile she raises her left forearm and reads the wrist display with a long, flat, unimpressed look; one slow blink. The camera hangs in front of her, then drifts very slowly right and down. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S01-1c.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:42:49.630Z",
+  "status": [
+    {
+      "t": 1,
+      "status": "IN_QUEUE",
+      "queue_position": 3
+    },
+    {
+      "t": 5,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 9,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a169a4-df1d-79c1-8d6a-e55086028242",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-df1d-79c1-8d6a-e55086028242/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-df1d-79c1-8d6a-e55086028242",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/WaQ3NaYnQglpiYpwO1kLq_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "WaQ3NaYnQglpiYpwO1kLq_minimax-h3.mp4",
+      "file_size": 14482231
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.3511460430454463
+    }
+  },
+  "finished": "2026-10-23T16:43:05.720Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/WaQ3NaYnQglpiYpwO1kLq_minimax-h3.mp4",
+      "file": "S01-1c-t2.mp4",
+      "bytes": 14482231,
+      "done": true
+    }
+  ]
+}

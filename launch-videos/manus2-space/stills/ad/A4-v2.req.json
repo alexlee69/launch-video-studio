@@ -1,0 +1,12 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "asset": "A4",
+ "slot": "THE LULL (0:20-0:26)",
+ "refs": [
+  "stills/locations/exterior-v2.png"
+ ],
+ "prompt": "Image 1 shows the station from outside; the soft rounded module with one large round window at the end of the truss is The Lull. This is its interior, facing that window. Interior architecture photograph, 16:9: inside a small luxury guest module in orbit, a curved soft white lounge and two floating cushions facing one large round window filled with the blue Earth; soft cool-white light from hidden strips; calm, spa-like, empty of people. 24 mm, deep focus, soft. No flags, no insignia, no screens with text, no text, no logos, no watermark."
+}

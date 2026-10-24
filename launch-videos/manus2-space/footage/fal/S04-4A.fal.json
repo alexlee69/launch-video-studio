@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "The camera wobbles, tilts up quickly to centre her face, then pushes in very slowly. She reads the wrist display and sighs, looks out at the Earth, then lifts her free glove toward her nose and it bumps against the helmet bubble; she lowers it. At the very end the sun begins to burst over the horizon behind her and a gold flare fills the frame. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S04-4A.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:28:07.773Z",
+  "status": [
+    {
+      "t": 1,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 8,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16997-6063-7592-96f4-a5483a91c0dd",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6063-7592-96f4-a5483a91c0dd/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6063-7592-96f4-a5483a91c0dd",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/E4v6zvBEl5nRq3mcYMMrM_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "E4v6zvBEl5nRq3mcYMMrM_minimax-h3.mp4",
+      "file_size": 11585767
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.4373914830011927
+    }
+  },
+  "finished": "2026-10-23T16:28:19.678Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/E4v6zvBEl5nRq3mcYMMrM_minimax-h3.mp4",
+      "file": "S04-4A.mp4",
+      "bytes": 11585767,
+      "done": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+ "integrated_lufs": -14.0,
+ "lra_lu": 3.5,
+ "true_peak_dbtp": 0.2,
+ "sample_peak_dbfs": 0.2,
+ "true_peak_at": "the sting, 72.95 s",
+ "body_ceiling": "per-second sample peaks -4.2 max, median -5.9 dBFS over 0-72 s: the body sits ~6 dB under the sting (limited around -5.5 dBFS)",
+ "short_term_lufs_body": [
+  -16.6,
+  -12.4
+ ],
+ "momentary_max_body_lufs": -11.3,
+ "momentary_sting_lufs": -6.2,
+ "quietest_body_momentary_lufs": -20.8,
+ "stereo": {
+  "lr_corr_all": 0.88,
+  "side_minus_mid_db_all": -11.8,
+  "below_150hz_side_db": "-18 (all), -26..-40 in the groove (mono lows)",
+  "above_2k_side_db": "-6.7 (all), -2.5..-7.8 in the groove (wide highs)",
+  "per_section_corr": {
+   "title": 0.62,
+   "waterfall": 0.69,
+   "clearing+dialogue": 0.78,
+   "groove A": 0.89,
+   "bridge": 0.91,
+   "break": 0.78,
+   "drops": 0.94,
+   "outro": 0.97,
+   "sting": 0.86
+  },
+  "lr_balance_db": 0.0
+ },
+ "band_balance_db_re_total": {
+  "sub/bass 20-120": -1.9,
+  "low-mid 120-500": -7.3,
+  "mid 500-2k": -9.5,
+  "upper-mid 2-6k": -13.7,
+  "air 6-11k": -20.2,
+  "centroid_median_hz": 2304,
+  "source": "music.py profile 4-69 s"
+ },
+ "music_vs_sfx_est": "music carries ~90% of the running time and nearly all the loudness; ambience leads only 2.3-13 s (waterfall level with the drone); action SFX sit +10..+16 dB over the bed in their own band (arrow, tumble, fire); the sting is the score",
+ "ducking": "no sidechain ducking found under the voice (-0.9 dB) or the action SFX (music M -12.2..-12.5 at the arrow); dynamics come from the arrangement: the break 46.75-49.76, the outro -8..-13 LU from 69.07, the 0.52 s silence before the sting"
+}

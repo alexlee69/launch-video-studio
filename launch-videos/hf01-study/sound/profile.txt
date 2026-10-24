@@ -1,0 +1,9 @@
+== higgsfield01.mp4: 87.01 BPM, first beat 0.1107 s, bars from 0.1107 s (the skill's tracker, confidence 0.903, bar confidence 0.027) · analysed 4.0–69.0 s
+groove (onset strength on each 16th of the bar, % of the band's busiest; | = a beat):
+  kick 30-120          | 86   76   79   91 | 68   67   98   68 | 67   71   78   85 | 68   80  100   69
+  snare/body 150-2.5k  | 96   98   97   91 | 98  100   95   92 | 97  100   95   95 |100   96   93   95
+  hats 5-11k           | 96  100   95   92 | 98   97   92   98 | 93   99   93   96 | 98   94   94   98
+band balance (share of energy, dB re total): sub/bass -1.9 | low-mid -7.3 | mid -9.5 | upper-mid -13.7 | air -20.2
+brightness (spectral centroid) median 2304 Hz
+key estimate: F major (r 0.87), runner-up D minor (r 0.58)
+chroma: C 9 C# 6 D 7 D# 3 E 7 F 21 F# 6 G 11 G# 4 A 10 A# 8 B 5

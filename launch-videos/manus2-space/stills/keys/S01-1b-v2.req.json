@@ -1,0 +1,12 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "leg": "1b",
+ "use": "n95-n246",
+ "refs": [
+  "stills/locations/exterior-v2.png"
+ ],
+ "prompt": "Image 1 is the location: keep its architecture, materials and design, seen from much higher and wider. Cinematic 16:9 still in orbit: high above a fictional orbital station of white modules wrapped in matte white and pale-gold insulation blankets, a long open lattice truss with white handrails and blue-black solar arrays, with a small white gumdrop-shaped capsule with one orange band docked at one of the station's ports; the bright blue-and-white Earth filling the lower half of the frame, black space above; far along the truss, at a soft rounded white module with one large round window, one tiny spacewalking astronaut in a white suit with signal-orange bands. Hard sunlight. 24 mm, deep focus. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark."
+}

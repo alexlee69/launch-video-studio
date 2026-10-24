@@ -1,0 +1,140 @@
+{
+ "note": "Round 2 key-frame picks (first frame of each H3 leg), 2026-10-23; Alex can override any of them",
+ "locations": {
+  "exterior": "exterior-v2.png",
+  "airlock": "airlock-v1.png",
+  "capsule-interior": "capsule-interior-v1.png",
+  "sea": "sea-v1.png"
+ },
+ "keys": [
+  {
+   "shot": "S01",
+   "leg": "1a",
+   "file": "keys/S01-1a-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S01",
+   "leg": "1b",
+   "file": "keys/S01-1b-v2.png",
+   "note": ""
+  },
+  {
+   "shot": "S01",
+   "leg": "1c",
+   "file": "keys/S01-1c-v2.png",
+   "note": ""
+  },
+  {
+   "shot": "S02",
+   "leg": "2",
+   "file": "keys/S02-2-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S03",
+   "leg": "3",
+   "file": "keys/S03-3-v2.png",
+   "note": ""
+  },
+  {
+   "shot": "S04",
+   "leg": "4A",
+   "file": "keys/S04-4A-v4f.png",
+   "note": "dawn re-roll; patch removed from her right shoulder"
+  },
+  {
+   "shot": "S04",
+   "leg": "4B",
+   "file": "keys/S04-4B-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S09",
+   "leg": "9",
+   "file": "keys/S09-9-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S14",
+   "leg": "14A",
+   "file": "keys/S14-14A-v1f.png",
+   "note": "patch removed from her right shoulder"
+  },
+  {
+   "shot": "S14",
+   "leg": "14B",
+   "file": "keys/S14-14B-v2.png",
+   "note": ""
+  },
+  {
+   "shot": "S15",
+   "leg": "15",
+   "file": "keys/S15-15-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S20",
+   "leg": "20",
+   "file": "keys/S20-20-v2.png",
+   "note": "faint faux lettering on the patch ring, unreadable at 1080p"
+  },
+  {
+   "shot": "S21",
+   "leg": "21",
+   "file": "keys/S21-21-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S22",
+   "leg": "22",
+   "file": "keys/S22-22-v1f.png",
+   "note": "patch removed from her right shoulder"
+  },
+  {
+   "shot": "S24",
+   "leg": "24",
+   "file": "keys/S24-24-v1.png",
+   "note": ""
+  },
+  {
+   "shot": "S26",
+   "leg": "26",
+   "file": "keys/S26-26-v2.png",
+   "note": ""
+  }
+ ],
+ "ad": [
+  {
+   "asset": "A2",
+   "slot": "0:00-0:05 DRIFT",
+   "super": "Breathe easy.",
+   "file": "ad/A2-v1.png"
+  },
+  {
+   "asset": "A1",
+   "slot": "0:05-0:10 SUNRISE",
+   "super": "",
+   "file": "ad/A1-v1.png"
+  },
+  {
+   "asset": "A3",
+   "slot": "0:10-0:15 STARS",
+   "super": "Wish slowly.",
+   "file": "ad/A3-v1.png"
+  },
+  {
+   "asset": "A4",
+   "slot": "0:20-0:26 THE LULL",
+   "super": "The quietest room in orbit.",
+   "file": "ad/A4-v2.png"
+  },
+  {
+   "asset": "A5",
+   "slot": "0:26-0:30 GLOW",
+   "super": "THE LULL",
+   "file": "ad/A5-v1.png"
+  }
+ ],
+ "ad_note": "Her film (The Lull, 30 s, for Marketing): A6 (0:15-0:20 guest map) is designed in code; A4 red is a comp grade set by P4."
+}

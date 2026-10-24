@@ -1,0 +1,531 @@
+{
+ "_note": "manus2-space (The Lull, 2026-10-23): the SFX layer of a higgsfield01 rebuild. hf01's score does nearly all the work: no transition whooshes, a silent UI (no clicks, no pops), and a few dedicated sounds, each placed here in hf01's own slot (hf01-study/SOUND.md §3: U1-U8 title/UI, A1-A3 ambience, F1-F8 foley, V1 mascot, E1 sting = the score's hit), made true to a space story by the vacuum rule (in-suit sound only until the re-entry roar). Levels sit against the engine's music stem (style film, RMS about -10 dBFS); finish.py masters the sum.",
+ "fps": 30,
+ "sr": 48000,
+ "length": 76.533,
+ "seed": 23,
+ "events": [
+  {
+   "at": 6.7,
+   "name": "title burst 1 + thump",
+   "db": -9,
+   "pan": 0,
+   "slot": "U1 n6.7: title lockup lands",
+   "parts": [
+    {
+     "sound": "static_burst",
+     "params": {
+      "sec": 0.11
+     }
+    },
+    {
+     "sound": "sub_thump",
+     "gain": 0.8,
+     "offset": 0.02
+    }
+   ]
+  },
+  {
+   "at": 13.2,
+   "name": "title burst 2",
+   "db": -10,
+   "pan": 0.1,
+   "slot": "U2 n13.2: \"2.0\" flashes in",
+   "sound": "static_burst",
+   "params": {
+    "sec": 0.14,
+    "lo": 4000
+   }
+  },
+  {
+   "at": 30.1,
+   "name": "card swish + sub",
+   "db": -12,
+   "pan": -0.1,
+   "slot": "U3 n30.1: the icon card wipes",
+   "parts": [
+    {
+     "sound": "swish",
+     "params": {
+      "sec": 0.18,
+      "lo": 1000,
+      "hi": 10000
+     }
+    },
+    {
+     "sound": "sub_thump",
+     "params": {
+      "sec": 0.28,
+      "f0": 90,
+      "f1": 70
+     },
+     "offset": 0.17
+    }
+   ]
+  },
+  {
+   "at": 52.2,
+   "name": "zoom-through air",
+   "db": -16,
+   "pan": 0,
+   "slot": "U4 n52.2 (soft): the title zooms through",
+   "sound": "swish",
+   "params": {
+    "sec": 0.5,
+    "lo": 2000,
+    "hi": 12000,
+    "a_frac": 0.9
+   }
+  },
+  {
+   "bed": [
+    69,
+    348
+   ],
+   "name": "suit air + breath n69-348",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    348,
+    382
+   ],
+   "name": "suit air + breath n348-382",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    382,
+    661
+   ],
+   "name": "suit air + breath n382-661",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    847,
+    928
+   ],
+   "name": "suit air + breath n847-928",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    1103,
+    1234
+   ],
+   "name": "suit air + breath n1103-1234",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    1234,
+    1257
+   ],
+   "name": "suit air + breath n1234-1257",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    1487,
+    1523
+   ],
+   "name": "suit air + breath n1487-1523",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "bed": [
+    1531,
+    1651
+   ],
+   "name": "suit air + breath n1531-1651",
+   "sound": "suit_bed",
+   "db": -34,
+   "fade": [
+    0.03,
+    0.02
+   ],
+   "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts"
+  },
+  {
+   "at": 249.0,
+   "name": "comms tick + beep",
+   "db": -12,
+   "pan": 0.15,
+   "slot": "F1 n249: 3 f before the bubble",
+   "sound": "comms_tick"
+  },
+  {
+   "at": 344.7,
+   "name": "glove lets go (fabric swish; no thud)",
+   "db": -18,
+   "pan": 0.2,
+   "slot": "F2 n344.7: pre-lap",
+   "sound": "swish",
+   "params": {
+    "sec": 0.22,
+    "lo": 1500,
+    "hi": 8000,
+    "a_frac": 0.6
+   }
+  },
+  {
+   "at": 500.5,
+   "name": "sunrise whoomp",
+   "db": -9,
+   "pan": -0.15,
+   "slot": "F3 n511.8: on our bloom (n502)",
+   "sound": "flare_whoomp"
+  },
+  {
+   "at": 644.6,
+   "name": "P1 send crackle",
+   "db": -13,
+   "pan": 0,
+   "slot": "U5 n644.6: into the card cut n661",
+   "sound": "send_crackle",
+   "until": 661
+  },
+  {
+   "at": 912.0,
+   "name": "tether snaps taut",
+   "db": -8,
+   "pan": 0.3,
+   "slot": "ours: the jolt n914",
+   "parts": [
+    {
+     "sound": "sub_thump",
+     "params": {
+      "sec": 0.35,
+      "f0": 75,
+      "f1": 40
+     },
+     "gain": 1.2
+    },
+    {
+     "sound": "noise_env",
+     "params": {
+      "sec": 0.08,
+      "lo": 400,
+      "hi": 3000,
+      "a": 0.002,
+      "d": 0.02
+     }
+    }
+   ]
+  },
+  {
+   "at": 913.0,
+   "name": "P2 send crackle",
+   "db": -15,
+   "pan": 0,
+   "slot": "send slot",
+   "sound": "send_crackle",
+   "params": {
+    "sec": 0.45
+   }
+  },
+  {
+   "bed": [
+    1103,
+    1234
+   ],
+   "name": "comms static (night side)",
+   "sound": "static_wash",
+   "db": -38,
+   "fade": [
+    0.02,
+    0.03
+   ],
+   "slot": "A3 n1103: on the cut"
+  },
+  {
+   "at": 1181.0,
+   "name": "P3 send",
+   "db": -15,
+   "pan": 0,
+   "slot": "send slot",
+   "sound": "send_crackle",
+   "params": {
+    "sec": 0.3
+   }
+  },
+  {
+   "at": 1185.3,
+   "name": "P3 crackle on the crash-zoom",
+   "db": -14,
+   "pan": 0.1,
+   "slot": "U6 n1185.3",
+   "sound": "send_crackle",
+   "params": {
+    "sec": 0.25
+   }
+  },
+  {
+   "at": 1236,
+   "name": "glove grabs rail",
+   "db": -16,
+   "pan": -0.2,
+   "slot": "F4 n1234-1256",
+   "sound": "glove_thud"
+  },
+  {
+   "at": 1243,
+   "name": "glove grabs rail",
+   "db": -16,
+   "pan": -0.2,
+   "slot": "F4 n1234-1256",
+   "sound": "glove_thud"
+  },
+  {
+   "at": 1250,
+   "name": "glove grabs rail",
+   "db": -16,
+   "pan": -0.2,
+   "slot": "F4 n1234-1256",
+   "sound": "glove_thud"
+  },
+  {
+   "at": 1480.5,
+   "name": "tumble into the airlock",
+   "db": -9,
+   "pan": -0.2,
+   "slot": "F5 n1480.5: pre-lap, 6.5 f before the cut",
+   "sound": "tumble"
+  },
+  {
+   "at": 1508,
+   "name": "alarm beep (pulse n1511)",
+   "db": -17,
+   "pan": 0,
+   "slot": "ours: the red pulse peaks",
+   "sound": "alarm_beep"
+  },
+  {
+   "at": 1537,
+   "name": "alarm beep (pulse n1540)",
+   "db": -17,
+   "pan": 0,
+   "slot": "ours: the red pulse peaks",
+   "sound": "alarm_beep"
+  },
+  {
+   "at": 1566,
+   "name": "alarm beep (pulse n1569)",
+   "db": -17,
+   "pan": 0,
+   "slot": "ours: the red pulse peaks",
+   "sound": "alarm_beep"
+  },
+  {
+   "at": 1595,
+   "name": "alarm beep (pulse n1598)",
+   "db": -17,
+   "pan": 0,
+   "slot": "ours: the red pulse peaks",
+   "sound": "alarm_beep"
+  },
+  {
+   "at": 1624,
+   "name": "alarm beep (pulse n1627)",
+   "db": -17,
+   "pan": 0,
+   "slot": "ours: the red pulse peaks",
+   "sound": "alarm_beep"
+  },
+  {
+   "at": 1511.1,
+   "name": "wrench flight whoosh",
+   "db": -11,
+   "pan": 0.4,
+   "slot": "F6 n1511.1, peak n1527.7",
+   "sound": "rising_whoosh",
+   "until": 1528,
+   "pad": 0.05
+  },
+  {
+   "at": 1548.0,
+   "name": "wrench clangs off the rim + twang + sub",
+   "db": -6,
+   "pan": 0.35,
+   "slot": "F7+F8 n1530/1531.8: on our strike n1548",
+   "sound": "clang"
+  },
+  {
+   "at": 1602.8,
+   "name": "P4 bar enters (swell + blip)",
+   "db": -17,
+   "pan": 0,
+   "slot": "U8 n1602.8",
+   "parts": [
+    {
+     "sound": "swish",
+     "params": {
+      "sec": 0.15,
+      "lo": 4000,
+      "hi": 16000,
+      "a_frac": 0.8
+     }
+    },
+    {
+     "sound": "tone_env",
+     "params": {
+      "sec": 0.12,
+      "f0": 1500,
+      "f1": 600,
+      "a": 0.005,
+      "d": 0.05
+     },
+     "gain": 0.4,
+     "offset": 0.03
+    }
+   ]
+  },
+  {
+   "at": 1640.3,
+   "name": "P4 send crackle → cut",
+   "db": -13,
+   "pan": 0,
+   "slot": "U7 n1640.3: into the poster cut n1651",
+   "sound": "send_crackle",
+   "until": 1651
+  },
+  {
+   "bed": [
+    1800,
+    1905
+   ],
+   "name": "re-entry roar (the vacuum rule ends)",
+   "sound": "reentry",
+   "db": -20,
+   "fade": [
+    0.05,
+    0.004
+   ],
+   "slot": "ours: S24"
+  },
+  {
+   "at": 1895.0,
+   "name": "P5 send",
+   "db": -16,
+   "pan": 0,
+   "slot": "send slot",
+   "sound": "send_crackle",
+   "params": {
+    "sec": 0.3
+   }
+  },
+  {
+   "bed": [
+    1933,
+    2168
+   ],
+   "name": "sea wash",
+   "sound": "sea",
+   "db": -33,
+   "fade": [
+    0.04,
+    0.5
+   ],
+   "slot": "ours: S26 (ends before the 0.5 s of silence ahead of the sting)"
+  },
+  {
+   "at": 2001,
+   "name": "reply tick",
+   "db": -15,
+   "pan": 0.15,
+   "slot": "F1-style tick, 3 f before each bubble",
+   "sound": "comms_tick"
+  },
+  {
+   "at": 2013,
+   "name": "reply tick",
+   "db": -15,
+   "pan": 0.15,
+   "slot": "F1-style tick, 3 f before each bubble",
+   "sound": "comms_tick"
+  },
+  {
+   "at": 2060,
+   "name": "gull wings (lands n2072)",
+   "db": -20,
+   "pan": 0.25,
+   "slot": "ours: the gull lands on the groove stop",
+   "sound": "wings"
+  },
+  {
+   "at": 2118.4,
+   "name": "gull call",
+   "db": -19,
+   "pan": 0.3,
+   "slot": "V1 n2118-2153: the reference's chirps slot",
+   "sound": "gull_call"
+  },
+  {
+   "at": 2124.0,
+   "name": "gull call",
+   "db": -19,
+   "pan": 0.3,
+   "slot": "V1 n2118-2153: the reference's chirps slot",
+   "sound": "gull_call"
+  },
+  {
+   "at": 2141.0,
+   "name": "gull call",
+   "db": -19,
+   "pan": 0.3,
+   "slot": "V1 n2118-2153: the reference's chirps slot",
+   "sound": "gull_call"
+  },
+  {
+   "at": 2148.0,
+   "name": "gull call",
+   "db": -19,
+   "pan": 0.3,
+   "slot": "V1 n2118-2153: the reference's chirps slot",
+   "sound": "gull_call"
+  }
+ ]
+}

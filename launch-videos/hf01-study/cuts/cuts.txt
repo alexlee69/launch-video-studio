@@ -1,0 +1,56 @@
+# higgsfield01 — verified cut list (study agent A, 2026-10-23). One line per cut:
+#   <first frame of the new shot> <label from> > <label to> <transition>
+# Frames are 0-based (ref/frames/nNNNN.png, n = round(t*30)). '#' starts a comment (compare.py ignores it).
+# Every line was checked on contact sheets of the frames either side (cuts/sheets/). Format checked with
+#   compare.py --ref higgsfield01.mp4 --ours higgsfield01.mp4 --cuts-from cuts.txt --no-video  -> 26/26 exact
+#   (compare snaps n1531 to n1532, the whip's biggest change; the first frame of the new shot is n1531).
+# Transitions (recipes in CUTS-MOTION.md):
+#   cut            hard cut, no transition frames
+#   card-in        hard cut to a full-frame white status card; the copy block blurs in and slides up (expo ease-out)
+#   card-out-up    card copy accelerates up (expo ease-in, 17.5 px/master-frame on its last frame); the next shot
+#                  enters already moving up and eases out. Strong variant (n698, n973): the first frame of the new
+#                  shot is a vertical smear (snap-up), which the breakdown called "fx / glitch".
+#   card-out       hard cut out of a card, no momentum
+#   whip-left      horizontal whip: outgoing accelerates left with growing x-blur, smeared cut frame, incoming
+#                  decays from the same speed
+#   zoom-in        push-in momentum cut: outgoing scale speed builds expo, incoming continues pushing in and decays
+#   zoom-out       pull-out momentum cut: outgoing shrinks with an expo build (smeared last frame), incoming starts
+#                  at 116 % and keeps shrinking to 100 % with an expo ease-out
+#   zoom-in-diag   zoom-in with a diagonal drift (content moves right/up), the fastest move in the film
+#   whip           live-action whip on motion blur (arrow in flight -> arrow lands in the wall)
+#   endcard-dim    hard cut to the end card: the walk-out plate frozen and dimmed to ~24 %, the IG icon on top
+348 phone-closeup > backpack-drop cut
+364 backpack-drop > zipper-closeup cut
+382 zipper-closeup > sitting-wide cut
+661 sitting-prompt > card-brief-received card-in
+698 card-brief-received > ae-preview-badge card-out-up
+776 ae-preview-badge > ae-timeline whip-left
+807 ae-timeline > ae-comp-ara zoom-in
+847 ae-comp-ara > running-laptop cut
+928 running-laptop > card-creating-photos card-in
+973 card-creating-photos > ae-project-panel card-out-up
+994 ae-project-panel > ae-comp-board zoom-out
+1035 ae-comp-board > ae-timeline-mascot zoom-in-diag
+1103 ae-timeline-mascot > bridge-wide cut
+1234 bridge-face-closeup > bridge-feet cut
+1257 bridge-feet > card-mapped card-in
+1294 card-mapped > ae-island-map card-out-up
+1362 ae-island-map > card-generating-photos card-in
+1399 card-generating-photos > ae-trail-map card-out-up
+1487 ae-trail-map > wall-collapse cut
+1523 wall-collapse > arrow-flight cut
+1531 arrow-flight > arrow-in-wall whip
+1651 arrow-in-wall-prompt > ae-sungate-poster cut
+1800 ae-sungate-poster > cave-sphere cut
+1905 cave-sphere-prompt > card-download card-in
+1933 card-download > walk-out card-out
+2175 walk-out > endcard endcard-dim
+# ---- in-shot events: NOT cuts (the same shot continues); measured in CUTS-MOTION.md ----
+# 16    title flash-in over the FPV plate (luma 35 -> 68 -> 47 over n16-n19)
+# 60    title zoom-through n60-n68 (the title scales past camera, x1.33/master-frame expo-in; plate continues).
+#       The breakdown's n66 "zoom-in" cut is this overlay, not a picture cut.
+# 88    foreground-foliage wipe n88-n101 inside the FPV plate (natural wipe; plate continues)
+# 1009  in-viewer whip n1008-n1014 across the comp board (AE UI frame static)
+# 1043  screen whip-left n1043-n1062 (timeline + viewer pan ~590 px, peak 186 px/master-frame at n1053)
+# 1087  screen whip-right n1087-n1097 (~135 px)
+# 1437  map whip-left n1437-n1453 (~137 px, peak 48 px/master-frame at n1444)

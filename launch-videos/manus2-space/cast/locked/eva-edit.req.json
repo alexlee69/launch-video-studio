@@ -1,0 +1,10 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "cast/round1/candidates/cand-02.png"
+ ],
+ "prompt": "This is a character reference sheet in three panels. Make exactly these three changes and nothing else. 1) MIDDLE panel (full body, front): erase her face. Inside its clear helmet bubble show only the black comms cap and a soft plain shadow where the face was: no eyes, no nose, no mouth. 2) The small helmet camera belongs on her own RIGHT side of the helmet. In the LEFT and MIDDLE panels, where she faces us, it must sit on the LEFT side of the picture, next to that lamp; remove it from the right side of the picture. In the RIGHT panel, seen from behind, it sits on the right side of the picture. 3) RIGHT panel (seen from behind): the round mission patch belongs on her own LEFT shoulder, which from behind is on the LEFT side of the picture. Remove the patch from the shoulder on the right side of the picture and put the same patch on the shoulder on the left side of the picture. Keep everything else exactly as it is: the close-up face in the left panel unchanged, the same flat grey, the same suit, the same poses, the same framing and layout."
+}

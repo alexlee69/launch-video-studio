@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "The camera drifts sideways with her; the dark strut in the foreground slides off the left of frame in the first moments. She floats away from the station, turning a few degrees, the tether paying out behind her; she glances back at the station once, then calmly taps the wrist display, unbothered. Near the end the tether pulls straight and taut, her body jolts, and she swings out of frame on the right. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S09-9.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:28:07.778Z",
+  "status": [
+    {
+      "t": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 6,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16997-627d-7f10-b4a4-f1bf05c0b016",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-627d-7f10-b4a4-f1bf05c0b016/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-627d-7f10-b4a4-f1bf05c0b016",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/7NohXysCHVlUPnlrYXEhf_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "7NohXysCHVlUPnlrYXEhf_minimax-h3.mp4",
+      "file_size": 14092943
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.4258447069951217
+    }
+  },
+  "finished": "2026-10-23T16:28:18.692Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/7NohXysCHVlUPnlrYXEhf_minimax-h3.mp4",
+      "file": "S09-9.mp4",
+      "bytes": 14092943,
+      "done": true
+    }
+  ]
+}

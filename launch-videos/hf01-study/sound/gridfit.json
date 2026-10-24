@@ -1,0 +1,522 @@
+[
+ {
+  "from": 2.3,
+  "to": 9.5,
+  "broad": {
+   "bpm": 89.63,
+   "sub": "8th-triplet",
+   "strength": 0.204,
+   "subPhase": 0.0431,
+   "beatPhase": 0.1643,
+   "beatStrength": 0.122,
+   "on87grid16": 0.07,
+   "on87grid16ms": -73.3,
+   "on87gridTrip": 0.099,
+   "on87gridTripMs": -96.4
+  },
+  "hats": {
+   "bpm": 81.61,
+   "sub": "16th",
+   "strength": 0.227,
+   "subPhase": 0.0425,
+   "beatPhase": 0.3629,
+   "beatStrength": 0.057,
+   "on87grid16": 0.086,
+   "on87grid16ms": -80.3,
+   "on87gridTrip": 0.12,
+   "on87gridTripMs": -89.0
+  },
+  "kick": {
+   "bpm": 89.91,
+   "sub": "8th-triplet",
+   "strength": 0.09,
+   "subPhase": 0.1271,
+   "beatPhase": 0.6438,
+   "beatStrength": 0.027,
+   "on87grid16": 0.025,
+   "on87grid16ms": -5.3,
+   "on87gridTrip": 0.049,
+   "on87gridTripMs": -106.6
+  },
+  "body": {
+   "bpm": 80.86,
+   "sub": "16th",
+   "strength": 0.133,
+   "subPhase": 0.0447,
+   "beatPhase": 0.4012,
+   "beatStrength": 0.028,
+   "on87grid16": 0.038,
+   "on87grid16ms": 19.5,
+   "on87gridTrip": 0.107,
+   "on87gridTripMs": 49.0
+  }
+ },
+ {
+  "from": 9.5,
+  "to": 18.5,
+  "broad": {
+   "bpm": 82.49,
+   "sub": "8th-triplet",
+   "strength": 0.292,
+   "subPhase": 0.1599,
+   "beatPhase": 0.7248,
+   "beatStrength": 0.068,
+   "on87grid16": 0.113,
+   "on87grid16ms": 55.0,
+   "on87gridTrip": 0.131,
+   "on87gridTripMs": -93.8
+  },
+  "hats": {
+   "bpm": 82.27,
+   "sub": "8th-triplet",
+   "strength": 0.236,
+   "subPhase": 0.1153,
+   "beatPhase": 0.0047,
+   "beatStrength": 0.057,
+   "on87grid16": 0.093,
+   "on87grid16ms": 57.8,
+   "on87gridTrip": 0.146,
+   "on87gridTripMs": -97.2
+  },
+  "kick": {
+   "bpm": 80.0,
+   "sub": "16th",
+   "strength": 0.085,
+   "subPhase": 0.0091,
+   "beatPhase": 0.6133,
+   "beatStrength": 0.071,
+   "on87grid16": 0.032,
+   "on87grid16ms": -35.4,
+   "on87gridTrip": 0.041,
+   "on87gridTripMs": -34.7
+  },
+  "body": {
+   "bpm": 88.38,
+   "sub": "8th-triplet",
+   "strength": 0.154,
+   "subPhase": 0.0469,
+   "beatPhase": 0.6426,
+   "beatStrength": 0.026,
+   "on87grid16": 0.04,
+   "on87grid16ms": 28.2,
+   "on87gridTrip": 0.071,
+   "on87gridTripMs": -38.5
+  }
+ },
+ {
+  "from": 12,
+  "to": 22,
+  "broad": {
+   "bpm": 82.28,
+   "sub": "8th-triplet",
+   "strength": 0.232,
+   "subPhase": 0.1153,
+   "beatPhase": 0.6998,
+   "beatStrength": 0.131,
+   "on87grid16": 0.128,
+   "on87grid16ms": 60.1,
+   "on87gridTrip": 0.004,
+   "on87gridTripMs": -57.1
+  },
+  "hats": {
+   "bpm": 82.49,
+   "sub": "8th-triplet",
+   "strength": 0.188,
+   "subPhase": 0.1503,
+   "beatPhase": 0.0283,
+   "beatStrength": 0.104,
+   "on87grid16": 0.104,
+   "on87grid16ms": 62.2,
+   "on87gridTrip": 0.02,
+   "on87gridTripMs": 76.3
+  },
+  "kick": {
+   "bpm": 80.0,
+   "sub": "16th",
+   "strength": 0.065,
+   "subPhase": 0.0215,
+   "beatPhase": 0.7374,
+   "beatStrength": 0.01,
+   "on87grid16": 0.046,
+   "on87grid16ms": -50.7,
+   "on87gridTrip": 0.04,
+   "on87gridTripMs": 1.6
+  },
+  "body": {
+   "bpm": 82.08,
+   "sub": "8th-triplet",
+   "strength": 0.182,
+   "subPhase": 0.093,
+   "beatPhase": 0.6388,
+   "beatStrength": 0.067,
+   "on87grid16": 0.06,
+   "on87grid16ms": 46.0,
+   "on87gridTrip": 0.051,
+   "on87gridTripMs": -18.7
+  }
+ },
+ {
+  "from": 18.5,
+  "to": 25.0,
+  "broad": {
+   "bpm": 88.92,
+   "sub": "8th-triplet",
+   "strength": 0.252,
+   "subPhase": 0.1079,
+   "beatPhase": 0.5454,
+   "beatStrength": 0.018,
+   "on87grid16": 0.047,
+   "on87grid16ms": 53.1,
+   "on87gridTrip": 0.147,
+   "on87gridTripMs": -31.0
+  },
+  "hats": {
+   "bpm": 89.06,
+   "sub": "8th-triplet",
+   "strength": 0.267,
+   "subPhase": 0.1446,
+   "beatPhase": 0.509,
+   "beatStrength": 0.024,
+   "on87grid16": 0.05,
+   "on87grid16ms": 55.7,
+   "on87gridTrip": 0.11,
+   "on87gridTripMs": -33.3
+  },
+  "kick": {
+   "bpm": 84.88,
+   "sub": "8th-triplet",
+   "strength": 0.113,
+   "subPhase": 0.1094,
+   "beatPhase": 0.648,
+   "beatStrength": 0.065,
+   "on87grid16": 0.087,
+   "on87grid16ms": -31.9,
+   "on87gridTrip": 0.041,
+   "on87gridTripMs": 104.5
+  },
+  "body": {
+   "bpm": 94.56,
+   "sub": "16th",
+   "strength": 0.181,
+   "subPhase": 0.0897,
+   "beatPhase": 0.2575,
+   "beatStrength": 0.021,
+   "on87grid16": 0.09,
+   "on87grid16ms": 82.4,
+   "on87gridTrip": 0.163,
+   "on87gridTripMs": -7.0
+  }
+ },
+ {
+  "from": 22.0,
+  "to": 36.77,
+  "broad": {
+   "bpm": 86.89,
+   "sub": "16th",
+   "strength": 0.243,
+   "subPhase": 0.0516,
+   "beatPhase": 0.667,
+   "beatStrength": 0.04,
+   "on87grid16": 0.237,
+   "on87grid16ms": -16.5,
+   "on87gridTrip": 0.181,
+   "on87gridTripMs": -50.3
+  },
+  "hats": {
+   "bpm": 86.9,
+   "sub": "16th",
+   "strength": 0.201,
+   "subPhase": 0.0521,
+   "beatPhase": 0.6681,
+   "beatStrength": 0.036,
+   "on87grid16": 0.196,
+   "on87grid16ms": -19.5,
+   "on87gridTrip": 0.148,
+   "on87gridTripMs": -51.3
+  },
+  "kick": {
+   "bpm": 87.01,
+   "sub": "16th",
+   "strength": 0.161,
+   "subPhase": 0.1098,
+   "beatPhase": 0.4351,
+   "beatStrength": 0.046,
+   "on87grid16": 0.161,
+   "on87grid16ms": -0.9,
+   "on87gridTrip": 0.131,
+   "on87gridTripMs": -96.4
+  },
+  "body": {
+   "bpm": 87.18,
+   "sub": "8th-triplet",
+   "strength": 0.193,
+   "subPhase": 0.1143,
+   "beatPhase": 0.0001,
+   "beatStrength": 0.058,
+   "on87grid16": 0.121,
+   "on87grid16ms": -23.4,
+   "on87gridTrip": 0.187,
+   "on87gridTripMs": -57.0
+  }
+ },
+ {
+  "from": 25.0,
+  "to": 36.77,
+  "broad": {
+   "bpm": 86.85,
+   "sub": "16th",
+   "strength": 0.27,
+   "subPhase": 0.0365,
+   "beatPhase": 0.4427,
+   "beatStrength": 0.022,
+   "on87grid16": 0.262,
+   "on87grid16ms": -15.8,
+   "on87gridTrip": 0.159,
+   "on87gridTripMs": -50.2
+  },
+  "hats": {
+   "bpm": 86.86,
+   "sub": "16th",
+   "strength": 0.223,
+   "subPhase": 0.0372,
+   "beatPhase": 0.4342,
+   "beatStrength": 0.019,
+   "on87grid16": 0.217,
+   "on87grid16ms": -18.7,
+   "on87gridTrip": 0.118,
+   "on87gridTripMs": -49.4
+  },
+  "kick": {
+   "bpm": 87.07,
+   "sub": "16th",
+   "strength": 0.175,
+   "subPhase": 0.1322,
+   "beatPhase": 0.4209,
+   "beatStrength": 0.041,
+   "on87grid16": 0.175,
+   "on87grid16ms": 0.5,
+   "on87gridTrip": 0.128,
+   "on87gridTripMs": -90.7
+  },
+  "body": {
+   "bpm": 86.93,
+   "sub": "8th-triplet",
+   "strength": 0.204,
+   "subPhase": 0.0183,
+   "beatPhase": 0.6081,
+   "beatStrength": 0.049,
+   "on87grid16": 0.163,
+   "on87grid16ms": -17.3,
+   "on87gridTrip": 0.203,
+   "on87gridTripMs": -63.0
+  }
+ },
+ {
+  "from": 36.77,
+  "to": 51.07,
+  "broad": {
+   "bpm": 87.06,
+   "sub": "16th",
+   "strength": 0.212,
+   "subPhase": 0.1244,
+   "beatPhase": 0.6601,
+   "beatStrength": 0.009,
+   "on87grid16": 0.212,
+   "on87grid16ms": -11.7,
+   "on87gridTrip": 0.082,
+   "on87gridTripMs": -50.4
+  },
+  "hats": {
+   "bpm": 87.03,
+   "sub": "16th",
+   "strength": 0.161,
+   "subPhase": 0.111,
+   "beatPhase": 0.3023,
+   "beatStrength": 0.02,
+   "on87grid16": 0.161,
+   "on87grid16ms": -9.9,
+   "on87gridTrip": 0.084,
+   "on87gridTripMs": -73.1
+  },
+  "kick": {
+   "bpm": 87.02,
+   "sub": "16th",
+   "strength": 0.167,
+   "subPhase": 0.1152,
+   "beatPhase": 0.5258,
+   "beatStrength": 0.041,
+   "on87grid16": 0.167,
+   "on87grid16ms": -0.5,
+   "on87gridTrip": 0.035,
+   "on87gridTripMs": 78.4
+  },
+  "body": {
+   "bpm": 86.57,
+   "sub": "8th-triplet",
+   "strength": 0.19,
+   "subPhase": 0.0824,
+   "beatPhase": 0.4217,
+   "beatStrength": 0.132,
+   "on87grid16": 0.158,
+   "on87grid16ms": -16.2,
+   "on87gridTrip": 0.169,
+   "on87gridTripMs": -31.8
+  }
+ },
+ {
+  "from": 25.0,
+  "to": 51.07,
+  "broad": {
+   "bpm": 86.97,
+   "sub": "16th",
+   "strength": 0.235,
+   "subPhase": 0.0794,
+   "beatPhase": 0.5169,
+   "beatStrength": 0.014,
+   "on87grid16": 0.234,
+   "on87grid16ms": -13.8,
+   "on87gridTrip": 0.116,
+   "on87gridTripMs": -50.3
+  },
+  "hats": {
+   "bpm": 86.95,
+   "sub": "16th",
+   "strength": 0.187,
+   "subPhase": 0.0701,
+   "beatPhase": 0.3572,
+   "beatStrength": 0.012,
+   "on87grid16": 0.184,
+   "on87grid16ms": -14.5,
+   "on87gridTrip": 0.094,
+   "on87gridTripMs": -60.6
+  },
+  "kick": {
+   "bpm": 87.02,
+   "sub": "16th",
+   "strength": 0.17,
+   "subPhase": 0.115,
+   "beatPhase": 0.473,
+   "beatStrength": 0.035,
+   "on87grid16": 0.17,
+   "on87grid16ms": -0.1,
+   "on87gridTrip": 0.058,
+   "on87gridTripMs": -103.2
+  },
+  "body": {
+   "bpm": 86.79,
+   "sub": "8th-triplet",
+   "strength": 0.192,
+   "subPhase": 0.1965,
+   "beatPhase": 0.5437,
+   "beatStrength": 0.094,
+   "on87grid16": 0.16,
+   "on87grid16ms": -16.7,
+   "on87gridTrip": 0.168,
+   "on87gridTripMs": -47.7
+  }
+ },
+ {
+  "from": 51.07,
+  "to": 72.3,
+  "broad": {
+   "bpm": 86.91,
+   "sub": "16th",
+   "strength": 0.466,
+   "subPhase": 0.0263,
+   "beatPhase": 0.0713,
+   "beatStrength": 0.055,
+   "on87grid16": 0.459,
+   "on87grid16ms": -13.1,
+   "on87gridTrip": 0.099,
+   "on87gridTripMs": -9.4
+  },
+  "hats": {
+   "bpm": 86.89,
+   "sub": "16th",
+   "strength": 0.424,
+   "subPhase": 0.0116,
+   "beatPhase": 0.0884,
+   "beatStrength": 0.049,
+   "on87grid16": 0.415,
+   "on87grid16ms": -13.3,
+   "on87gridTrip": 0.091,
+   "on87gridTripMs": -4.6
+  },
+  "kick": {
+   "bpm": 86.91,
+   "sub": "16th",
+   "strength": 0.195,
+   "subPhase": 0.0644,
+   "beatPhase": 0.4746,
+   "beatStrength": 0.099,
+   "on87grid16": 0.188,
+   "on87grid16ms": 22.8,
+   "on87gridTrip": 0.076,
+   "on87gridTripMs": 114.4
+  },
+  "body": {
+   "bpm": 86.94,
+   "sub": "16th",
+   "strength": 0.258,
+   "subPhase": 0.0451,
+   "beatPhase": 0.6742,
+   "beatStrength": 0.071,
+   "on87grid16": 0.255,
+   "on87grid16ms": -16.9,
+   "on87gridTrip": 0.121,
+   "on87gridTripMs": -16.4
+  }
+ },
+ {
+  "from": 25.0,
+  "to": 72.3,
+  "broad": {
+   "bpm": 87.0,
+   "sub": "16th",
+   "strength": 0.346,
+   "subPhase": 0.0912,
+   "beatPhase": 0.12,
+   "beatStrength": 0.021,
+   "on87grid16": 0.345,
+   "on87grid16ms": -13.3,
+   "on87gridTrip": 0.091,
+   "on87gridTripMs": -32.0
+  },
+  "hats": {
+   "bpm": 86.99,
+   "sub": "16th",
+   "strength": 0.301,
+   "subPhase": 0.0844,
+   "beatPhase": 0.1865,
+   "beatStrength": 0.024,
+   "on87grid16": 0.3,
+   "on87grid16ms": -13.7,
+   "on87gridTrip": 0.067,
+   "on87gridTripMs": -33.1
+  },
+  "kick": {
+   "bpm": 86.94,
+   "sub": "16th",
+   "strength": 0.176,
+   "subPhase": 0.0824,
+   "beatPhase": 0.4776,
+   "beatStrength": 0.061,
+   "on87grid16": 0.163,
+   "on87grid16ms": 10.0,
+   "on87gridTrip": 0.064,
+   "on87gridTripMs": -109.1
+  },
+  "body": {
+   "bpm": 87.0,
+   "sub": "16th",
+   "strength": 0.204,
+   "subPhase": 0.088,
+   "beatPhase": 0.6725,
+   "beatStrength": 0.08,
+   "on87grid16": 0.204,
+   "on87grid16ms": -16.8,
+   "on87gridTrip": 0.134,
+   "on87gridTripMs": -36.2
+  }
+ }
+]

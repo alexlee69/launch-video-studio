@@ -1,0 +1,9 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "stills/keys/S04-4A-v4.png"
+ ],
+ "prompt": "Remove the round navy mission patch from the shoulder on the LEFT side of the picture: leave plain white suit fabric there with the same folds, texture and light. Do not add a patch anywhere else. Change nothing else: the same face, the same pose, the same light, the same framing."
+}

@@ -1,0 +1,638 @@
+# manus2-space — "The Lull": a Manus 2.0 launch film that recreates higgsfield01 (hf01) frame for frame in motion and
+# structure, with our own story (the astronaut), copy, actor, footage and music. STORYBOARD STAGE (DRAFT v0.1,
+# 2026-10-23): nothing is generated; every live-action shot shows a labelled PLACEHOLDER PLATE (assets/plates/, drawn by
+# tools/make_plates.py) and every screen is a job-local storyboard stand-in block (blocks/: plate, status, editor, endcard).
+# Source of truth: hf01-study/storyboard-space/final/shotlist.json (+ SHOTLIST.md, CAST.md, COPY.md, STORY.md).
+# Timing: 27 shots on hf01's 26 cut frames (hf01-study/cuts/cuts.json); every shot is sec: <hf01 frames>/30 (4 decimals),
+# so shot k starts on hf01 frame n (checked by --grid + tools/grid_check.py, see hf01-study/storyboard-space/grid-check.txt).
+# In the stand-in blocks every timing field is an hf01 frame number `n` (n0 = the shot's first frame), so each value can
+# be read against SHOTLIST.md; heroAt = the hf01 frame the storyboard still shows.
+# Fictional names (clear before release): The Lull, Arden Station (never on screen), Commander Wren Adair (never on screen).
+title: Manus 2.0 — The Lull
+slug: manus2-space
+aspects: [16x9]
+thumbnail: S14
+
+brand:
+  name: Manus
+  logo: assets/manus-mark-dark.svg        # official mark (manus.im); -white for dark grounds; never rotated or used as a character
+  # Manus brand look (PITCH §2): off-white ground, ink, ONE sky-blue accent on at most one word per card, #2CB4F3 line icons.
+  # Font: Inter (the skill's default face = the Inter-class sans the brand calls for); serif only inside the wordmark file.
+  colors: {bg: "#F7F7F7", ink: "#1F1F1F", muted: "#6B6B6B", accent: "#33ABFB", accent2: "#2CB4F3", accent3: "#BAE3FA", dark: "#050908", line: "#E3E3E3", card: "#FFFFFF", accentOnDark: "#BAE3FA"}
+  bg: plain                               # the 16 px dot grid is drawn by the status / editor / endcard blocks
+
+# Score option B (the shot list's drafted decision): our own film-style score on hf01's grid, bright F major, 87.01 BPM,
+# first beat 0.1107 s (SOUND.md §7): groove in after the S05 card cut (n665.3), one dip on the guest map (S19), silence,
+# then the sting 0.368 s into the end card. Vacuum rule: in-suit sound only until the re-entry roar (S24).
+# Not rendered at the storyboard stage. The user listens.
+music: {style: film, bpm: 87.01, downbeat: 0.1107, key: F, drop: S05, breaks: [S19], hit: 0.368}
+
+# her film's timeline, per loop (the planned slots are dashed with a '?': her day fills them)
+x-plans:
+  plan1: &plan1
+    - {in: 0, out: 5, kind: footage, img: assets/plates/A1-sunrise.png, state: made}
+    - {in: 0, out: 30, kind: mark, state: made}
+    - {in: 1, out: 4, kind: text, state: made}
+    - {in: 5, out: 10, state: planned}
+    - {in: 10, out: 15, state: planned}
+    - {in: 15, out: 20, state: planned}
+    - {in: 20, out: 26, state: planned}
+    - {in: 26, out: 30, state: planned}
+    - {in: 0, out: 30, kind: audio, muted: true, state: made}
+  plan2: &plan2
+    - {in: 0, out: 5, kind: footage, img: assets/plates/A2-drift.png, state: made}
+    - {in: 5, out: 10, kind: footage, img: assets/plates/A1-sunrise.png, state: made}
+    - {in: 0, out: 30, kind: mark, state: made}
+    - {in: 1, out: 4, kind: text, state: made}
+    - {in: 10, out: 15, state: planned}
+    - {in: 15, out: 20, state: planned}
+    - {in: 20, out: 26, state: planned}
+    - {in: 26, out: 30, state: planned}
+    - {in: 0, out: 30, kind: audio, muted: true, state: made}
+  plan3: &plan3
+    - {in: 0, out: 5, kind: footage, img: assets/plates/A2-drift.png, state: made}
+    - {in: 5, out: 10, kind: footage, img: assets/plates/A1-sunrise.png, state: made}
+    - {in: 10, out: 15, kind: footage, img: assets/plates/A3-stars.png, state: made}
+    - {in: 0, out: 30, kind: mark, state: made}
+    - {in: 1, out: 4, kind: text, state: made}
+    - {in: 15, out: 20, state: planned}
+    - {in: 20, out: 26, state: planned}
+    - {in: 26, out: 30, state: planned}
+    - {in: 0, out: 30, kind: audio, muted: true, state: made}
+  tree: &tree
+    - {kind: folder, name: Spacewalk}
+    - {kind: clip, img: assets/plates/A1-sunrise.png, depth: 1}
+    - {kind: clip, img: assets/plates/A2-drift.png, depth: 1, blue: true}
+    - {kind: clip, img: assets/plates/B1-bag.png, depth: 1}
+    - {kind: clip, img: assets/plates/B2-wrench.png, depth: 1}
+    - {kind: img, img: assets/plates/A4-lull.png}
+    - {kind: audio}
+    - {kind: seq}
+
+shots:
+  # ── ACT 0-1 · title + brief (hf01 S01: FPV plate, title, zoom-through, the brief arriving) ──
+  - id: S01
+    block: plate
+    sec: 11.6000                          # n0-347 (348 f)
+    n0: 0
+    heroAt: 45
+    bg: assets/plates/S01.png
+    push: 0                               # placeholder still: the AI clip carries the camera move
+    out: cut
+    note: "Still = the title at n45 in the round hatch (white lockup, '2.0', a wordless card of three feature icons, our mission patch). n52-68 it zooms through; one free-flying move out of the hatch, along the truss past the docked capsule (her ride home), down to her at the guest module. n252 the two-message bubble lands left: Automation · 09:12 / Launch moved up. / Film by tonight? / Marketing; the wrench drifts off her glove (END inset). Check with Manus: an Automation surfacing an email on her wrist display."
+    overlays:
+      - title:
+          mark: assets/manus-mark-white.svg
+          wordmark: assets/manus-wordmark-white.svg
+          big: "2.0"
+          through: [52, 69]
+          boxes: {lockupBig: [587, 1333, 478, 599], lockup: [729, 1191, 304, 380], big: [702, 1218, 437, 644], card: [747, 1173, 679, 786], chipA: [302, 533, 809, 910], chipB: [1392, 1653, 587, 702], patch: [1529, 1716, 89, 276], star: [213, 329, 916, 1031], glint: [1351, 1404, 560, 613]}
+        n: 0
+        end: 68
+        box: [0, 1920, 0, 1080]
+      - bubble: [Launch moved up., Film by tonight?]
+        time: Automation · 09:12
+        timeIcon: true
+        from: Marketing
+        n: 252
+        nB: 262
+        end: 347
+        rise: 100
+        box: [78, 448, 363, 427]
+        boxB: [78, 448, 441, 505]
+
+  - id: S02
+    block: scene
+    sec: 0.5333                           # n348-363 (16 f) the bag that won't drop
+    bg: assets/plates/S02.png
+    push: 0
+    bgMove: none
+    bgDim: 0
+    out: cut
+    note: "Zero-G sight gag: she lets go of the tool bag and it just stays there. The thud never comes (in-suit sound only)."
+
+  - id: S03
+    block: scene
+    sec: 0.6000                           # n364-381 (18 f) the wrist display
+    bg: assets/plates/S03.png
+    push: 0
+    bgMove: none
+    bgDim: 0
+    out: cut
+    note: "One broad pull rips the Velcro cover back; the full screen glows, never readable. S04's thoughts rise out of it."
+
+  # ── ACT 2 · the problem + P1 (hf01 S04: mascot morphs, voiced questions, the first prompt) ──
+  - id: S04
+    block: plate
+    sec: 9.3000                           # n382-660 (279 f)
+    n0: 382
+    heroAt: 650
+    bg: assets/plates/S04.png
+    push: 0
+    out: cut                              # hf01 card-in: hard cut out of the send sweep to the first status screen
+    note: "Still = P1 typed, the send disc flashing (n650), her sunrise clip chip, 3 bars; the film-frame glyph framing the sunrise. Before it, type only, floating in zero G (each phrase drifts and turns): Tonight? / From space? / Nose itches. (the helmet glyph gets bonked n476) / Sunrise. Again. (the flare disc n503) / T–09:48:00 + capsule glyph / Deep breath. / Not that deep. Glyph chain hard-swaps on hf01's frames n447 / 473 / 503 / 523 / 566. Check with Manus: starting a Video Editor job and attaching a clip from a wrist display; the Manus mark as the bar's icon."
+    overlays:
+      - glyph: frame
+        chain: [[384, frame, [600, 790, 390, 497]], [447, orbit, [520, 760, 300, 540]], [473, helmet, [540, 760, 320, 540]], [502, null], [503, flare, [450, 850, 250, 650]], [523, null], [566, frame, [470, 830, 348, 550]]]
+        jolts: [[476, -11, 11]]
+        n: 384
+        end: 660
+        box: [444, 871, 240, 631]
+      - {words: Tonight?, n: 410, end: 441, peak: 423, drift: [11.2, -3.8], turn: 3, box: [960, 1209, 53, 139]}
+      - {words: From space?, n: 442, end: 473, peak: 452, drift: [11.2, -3.8], turn: -3, box: [800, 1173, 171, 256]}
+      - {words: Nose itches., n: 470, end: 501, peak: 482, drift: [11.2, -3.8], turn: 4, box: [924, 1298, 213, 299]}
+      - {words: Sunrise. Again., n: 499, end: 530, peak: 510, drift: [11.2, -3.8], turn: -2, box: [711, 1227, 107, 192]}
+      - {count: [[523, "T–09:48:00"], [530, "T–09:47:59"], [560, "T–09:47:58"]], n: 523, end: 570, size: 70, drift: [.9, 0], turn: 1, box: [181, 924, 320, 409]}
+      - {words: Deep breath., n: 526, end: 557, peak: 537, drift: [11.2, -3.8], turn: 3, box: [747, 1138, 60, 146]}
+      - {words: Not that deep., n: 552, end: 590, peak: 568, drift: [-12.4, -2.5], turn: -4, box: [693, 1209, 210, 295]}
+      - bar: Lull launch film. 30s. Make it calm.
+        n: 581
+        type: [[588, 603, 17], [610, 617, 22], [632, 648, 36]]
+        chip: {thumb: assets/plates/A1-sunrise.png, n: 640}
+        signal: 3
+        send: 652
+        sweep: 653
+        end: 660
+        box: [889, 1733, 754, 978]
+
+  # ── LOOP 1 · the plan (hf01 S05-S08: brief received, comp builds, timeline, the first comp) ──
+  - id: S05
+    block: status
+    sec: 1.2333                           # n661-697 (37 f)
+    n0: 661
+    heroAt: 684
+    push: 0
+    mark: {hub: [641, 516], size: 100}
+    lines: [Keeping it *calm.*]
+    lineBox: [743, 1330, 482]
+    size: 68
+    wipe: [662, 666]
+    shimmer: [672, 681]
+    c: 3.3
+    out: drift-up                         # hf01 card-out-up: the copy accelerates up; the editor arrives already moving up
+    note: "Agent voice: the Manus mark (breathes, never rotates) + one line; 'calm.' is the rule every later loop tests (the one blue word). Groove enters on bar 8 (n665.3)."
+
+  - id: S06
+    block: editor
+    sec: 2.6000                           # n698-775 (78 f)
+    n0: 698
+    heroAt: 760
+    push: 0
+    framing: [600, 226, 1.45]
+    projectX: 286                         # verify fix: the kit's x 40 is outside this framing (visible x 227.6-972.4), so 'The Lull' was counted but never shown; S06 only (no other framing shows x 286 at the title row except S19, where the name stays off-frame at x 40)
+    comp:
+      type: clip
+      img: assets/plates/A1-sunrise.png
+      reveal: {n: 716, n1: 729, at: [274, 145], r0: 105, r1: 234}
+      mark: {from: [274, 145, 174], to: [142, 83, 106], move: [720, 733], parts: {rim: 726, cres: 727, win: 735, stars: 742, glow: 748, word: 753}, word: THE LULL}
+    layers: *plan1
+    playhead: 0
+    cursor: [[706, 600, 232], [713, 560, 198], [738, 585, 212], [752, 590, 218]]
+    onscreen: [The Lull, Cloud Computer, Alchemy, THE LULL]
+    out: whip-left
+    note: "Our editor snaps up. A blue ring (n716-729) reveals her helmet-cam sunrise (A1) as the film's first shot; The Lull mark builds part by part (rim n726, crescent n727, window n735, stars n742, glow n748, THE LULL n753). Ad 0:00 SUNRISE (moves to 0:05 after P2). Camera: snap-up smear, slow push 0.972→1.029, whip left. Check with Manus: the 'Cloud Computer' run chip."
+
+  - id: S07
+    block: editor
+    sec: 1.0333                           # n776-806 (31 f)
+    n0: 776
+    heroAt: 799
+    push: 0
+    framing: [392, 382, 1.45]
+    comp: {type: clip, img: assets/plates/A1-sunrise.png, bug: [30, 28, 40]}
+    layers:
+      - {in: 0, out: 5, kind: footage, img: assets/plates/A1-sunrise.png, state: made, n: 781}
+      - {in: 0, out: 30, kind: mark, state: made, n: 783}
+      - {in: 1, out: 4, kind: text, state: made, n: 787}
+      - {in: 5, out: 10, state: planned, n: 789}
+      - {in: 10, out: 15, state: planned, n: 792}
+      - {in: 15, out: 20, state: planned, n: 796}
+      - {in: 20, out: 26, state: planned, n: 799}
+      - {in: 26, out: 30, state: planned, n: 802}
+      - {in: 0, out: 30, kind: audio, muted: true, state: selected, name: "Alarms: muted"}
+    playhead: 0
+    onscreen: ["Alarms: muted"]
+    out: zoom-in
+    note: "The plan: the audio row is there from the cut, selected and named (a second-viewing gag: the alarms are muted before anything has gone wrong); eight picture rows stack in above it (n781-802), 3 made, 5 planned (dashed, '?'). The still is n799 (a moving exit's last 7 frames are never the still), so the last planned row (n802) is not in it."
+
+  - id: S08
+    block: editor
+    sec: 1.3333                           # n807-846 (40 f)
+    n0: 807
+    heroAt: 841
+    push: 0
+    framing: [540, 196, 2.0]
+    comp:
+      type: clip
+      img: assets/plates/A1-sunrise.png
+      bug: [30, 28, 40]
+      super: {text: Breathe easy., typed: [808, 815], deselect: 838, x: 14, y: 158, size: 14, w: 96}
+    layers: *plan1
+    playhead: 0
+    cursor: [[807, 470, 222], [836, 505, 240]]
+    onscreen: [Breathe easy.]
+    out: cut
+    note: "The film's first super types itself over her sunrise (n808-815, The Lull's face; Avenir Next stands in for Jost), then deselects (n838): the ad tells viewers to breathe easy 20 s after she rationed her own breath. The Lull mark is now a text-free corner bug. Hard cut to the drift."
+
+  # ── LOOP 2 · the drift, P2, the first payoff (hf01 S09-S13) ──
+  - id: S09
+    block: plate
+    sec: 2.7000                           # n847-927 (81 f)
+    n0: 847
+    heroAt: 905
+    bg: assets/plates/S09.png
+    push: 0
+    out: cut                              # hf01 card-in out of the jolt
+    note: "Escalation 2, comic peril: a truss strut wipes off left (n847-853); she drifts off the hull, slowly turning, tether paying out, and calmly taps P2 (sent n913, live helmet-cam chip, 3 bars). n917 the tether runs out and snaps taut: she is yanked out of frame right; the bar takes the 3-frame jolt. Check with Manus: a follow-up prompt re-ordering shots in a running Video Editor job; tone (tethered, unhurt)."
+    overlays:
+      - bar: Open on this drift.
+        n: 876
+        type: [[881, 893, 19]]
+        chip: {thumb: assets/plates/A2-drift.png, n: 896, live: true}
+        signal: 3
+        send: 913
+        sweep: 915
+        jolt: [917, 919, 12]
+        end: 927
+        box: [338, 1177, 732, 951]
+
+  - id: S10
+    block: status
+    sec: 1.5000                           # n928-972 (45 f)
+    n0: 928
+    heroAt: 960
+    push: 0
+    mark: {hub: [262, 493], size: 92}
+    lines: ["*Drift* first."]
+    lineBox: [354, 836, 469]
+    size: 66
+    wipe: [928, 934]
+    blueAt: [934, 940]
+    tool: {text: Half speed…, icon: film, tile: [345, 443, 581, 679], textX: 468, textX1: 889, capTop: 604, size: 62, n: 934, wipe: [938, 947], settle: [947, 956], hair: {box: [468, 889, 667, 672], n: 947, to: .6}}
+    c: 5.1
+    out: drift-up
+    note: "Two voices: the mark = Manus planning ('Drift' the one blue word); the tile = the Studio Video Editor doing it, its line arriving pale grey and settling to ink (no blue band), a wordless progress hairline growing to ~60 % (never completes on the card). Check with Manus: the Video Editor retiming her clip."
+
+  - id: S11
+    block: editor
+    sec: 0.7000                           # n973-993 (21 f)
+    n0: 973
+    heroAt: 986
+    push: 0
+    framing: [159, 192, 2.0]
+    comp: {type: clip, img: assets/plates/A2-drift.png, bug: [30, 28, 40]}
+    tree:
+      - {kind: folder, name: Spacewalk, n: 977}
+      - {kind: clip, img: assets/plates/A1-sunrise.png, depth: 1, n: 979}
+      - {kind: clip, img: assets/plates/A2-drift.png, depth: 1, blue: true, n: 982}
+      - {kind: clip, img: assets/plates/B1-bag.png, depth: 1, n: 983}
+      - {kind: clip, img: assets/plates/B2-wrench.png, depth: 1, n: 984}
+      - {kind: img, img: assets/plates/A4-lull.png, n: 987}
+      - {kind: audio, n: 990}
+      - {kind: seq, n: 991}
+    layers: *plan2
+    playhead: 0
+    onscreen: [Spacewalk]
+    out: zoom-out
+    note: "The bin fills with pictures, one word only: 'Spacewalk' holds her helmet-cam clips (sunrise, the drift outlined blue = in use, the bag, the wrench drifting away); Marketing's interior photo of The Lull (n987) is why P4 can re-light it later. The still is n986 (zoom-out exit), before the photo, audio and sequence rows. Check with Manus: her helmet-cam clips reaching the project."
+
+  - id: S12
+    block: editor
+    sec: 1.3667                           # n994-1034 (41 f)
+    n0: 994
+    heroAt: 1005
+    push: 0
+    framing: [540, 194, 2.1]
+    comp:
+      type: board
+      eyebrow: Alchemy
+      sound: No alarms.
+      sunrise: assets/plates/A1-sunrise.png
+      drift: assets/plates/A2-drift.png
+      end: assets/plates/A4-lull.png
+      whip: [1008, 1014]
+      whipBy: 122
+      redPop: 997
+      wave: [998, 1006]
+      handles: [1021, 1024]
+      dotted: 1027
+    tree: *tree
+    layers: *plan2
+    playhead: 0
+    cursor: [[1001, 516, 137], [1033, 530, 150]]
+    onscreen: [Alchemy, No alarms.]
+    out: zoom-in                          # hf01 zoom-in-diag (the fastest move in the film): a diagonal push, approximated
+    note: "Alchemy's direction board for her film, in the viewer (light, The Lull's palette; not Manus's dark Alchemy UI): a crossed-bell sound tile 'No alarms.' (callback to S07, set-up for S20-S22), the palette (lull red pops n997 under the cursor), her sunrise, a slow sine for pace; after the in-viewer whip (n1008-1014) row 2: the drift (dashed: pending), type, and Marketing's photo as the end frame in neutral light. Check with Manus: 'Alchemy' as a direction board; tone of the alarm chain."
+
+  - id: S13
+    block: editor
+    sec: 2.2667                           # n1035-1102 (68 f)
+    n0: 1035
+    heroAt: 1080
+    push: 0
+    framing: [600, 360, 1.3]
+    comp:
+      type: play
+      clips: [{img: assets/plates/A2-drift.png}]
+      bug: [30, 28, 40]
+      supers: [{text: Breathe easy., n: 1063, end: 1087}]
+    tree: *tree
+    layers:
+      - {in: 0, out: 5, kind: footage, img: assets/plates/A2-drift.png, state: selected, name: Drift}
+      - {in: 5, out: 10, kind: footage, img: assets/plates/A1-sunrise.png, state: made}
+      - {in: 0, out: 30, kind: mark, state: made}
+      - {in: 1, out: 4, kind: text, state: made}
+      - {in: 10, out: 15, state: planned}
+      - {in: 15, out: 20, state: planned}
+      - {in: 20, out: 26, state: planned}
+      - {in: 26, out: 30, state: planned}
+      - {in: 0, out: 30, kind: audio, muted: true, state: made}
+    props: {after: 0, rows: [{name: Speed, keys: [[.15, 1062], [.6, 1062], [1.05, 1064], [1.5, 1066], [1.95, 1066], [2.4, 1068], [2.85, 1068], [3.3, 1070], [3.75, 1072], [4.2, 1074], [4.65, 1078]]}]}
+    playhead: [1063, 0, 1086, .77]
+    onscreen: [Drift, Speed, Breathe easy.]
+    out: cut
+    note: "EARLY PAYOFF 1: speed keyframes pop on 'Drift' (n1062-1078) and her drift plays in the viewer at half speed under 'Breathe easy.' (n1063-1086, the first time anything plays): her scariest moment, now a spa ad. hf01's screen whips (n1043-1062 left, n1087-1097 right) are not drawn."
+
+  # ── LOOP 3 · the debris shower, P3, payoff 2, the guest map (hf01 S14-S19) ──
+  - id: S14
+    block: plate
+    sec: 4.3667                           # n1103-1233 (131 f)
+    n0: 1103
+    heroAt: 1176
+    bg: assets/plates/S14.png
+    push: 0
+    out: cut
+    note: "Escalation 3, the film's poster frame: night side, aurora, a solar storm arriving (comp: sensor sparkle rising 20→120 hits/f, the helmet caution lamp ~2 Hz), a debris shower streaking past as she hauls herself along the truss. P3 sent n1181 (live chip, 2 bars); the bar collapses with the crash zoom to her MCU profile (END inset); the shout 'Wish' / 'fast!' floats upper right (n1188-1229). Check with Manus: a follow-up prompt recasting a shot in a running job."
+    overlays:
+      - {grade: sparkle, n: 1103, end: 1233, from: 20, max: 120, full: 1180}
+      - {grade: lamp, n: 1120, end: 1233, box: [680, 770, 284, 374]}
+      - bar: Call it shooting stars.
+        n: 1140
+        type: [[1144, 1158, 23]]
+        chip: {thumb: assets/plates/A3-stars.png, n: 1160, live: true}
+        signal: 2
+        send: 1181
+        sweep: 1182
+        collapse: [1184, 1191]
+        end: 1191
+        box: [935, 1797, 647, 866]
+      - {words: Wish, weight: 600, n: 1188, end: 1209, peak: 1197, drift: [14.5, -5], turn: 3, box: [1422, 1796, 267, 340]}
+      - {words: fast!, weight: 600, n: 1201, end: 1229, peak: 1212, drift: [14.5, -5], turn: 3, box: [1458, 1796, 345, 418]}
+
+  - id: S15
+    block: scene
+    sec: 0.7667                           # n1234-1256 (23 f)
+    bg: assets/plates/S15.png
+    push: 0
+    bgMove: none
+    bgDim: 0
+    out: cut                              # hf01 card-in out of the fast blurred move
+    note: "Hand over hand along the rail at speed, debris glints streaking past; broad grabs only (no fine finger work)."
+
+  - id: S16
+    block: status
+    sec: 1.2333                           # n1257-1293 (37 f)
+    n0: 1257
+    heroAt: 1281
+    push: 0
+    mark: {hub: [685, 516], size: 77}
+    lines: ["Debris → *stars.*"]
+    lineBox: [773, 1236, 482]
+    size: 71
+    wipe: [1258, 1264]
+    shimmer: [1268, 1277]
+    c: -0.4
+    out: drift-up
+    note: "Honest and dry: Manus reports exactly what it did, like a changelog ('stars.' the one blue word). The result plays 1 s later (S17)."
+
+  - id: S17
+    block: editor
+    sec: 2.2667                           # n1294-1361 (68 f)
+    n0: 1294
+    heroAt: 1355
+    push: 0
+    framing: [548, 230, 1.55]
+    comp:
+      type: play
+      clips: [{img: assets/plates/A3-stars.png, warm: true}]
+      bug: [30, 28, 40]
+      supers: [{text: Wish slowly., n: 1318, fade: 6}]
+    tree: *tree
+    layers:
+      - {in: 0, out: 5, kind: footage, img: assets/plates/A2-drift.png, state: made}
+      - {in: 5, out: 10, kind: footage, img: assets/plates/A1-sunrise.png, state: made}
+      - {in: 10, out: 15, kind: footage, img: assets/plates/A3-stars.png, state: selected, name: Stars}
+      - {in: 0, out: 30, kind: mark, state: made}
+      - {in: 1, out: 4, kind: text, state: made}
+      - {in: 15, out: 20, state: planned}
+      - {in: 20, out: 26, state: planned}
+      - {in: 26, out: 30, state: planned}
+      - {in: 0, out: 30, kind: audio, muted: true, state: made}
+    rowScroll: 2
+    playhead: [1294, 10.0, 1361, 12.23]
+    cursor: [[1316, 560, 406], [1335, 560, 406], [1342, 495, 406]]
+    onscreen: [Alchemy, Stars, Wish slowly.]
+    out: cut                              # hf01 card-in: hard cut to the card (the viewer's rise into it is a camera move inside S17)
+    note: "EARLY PAYOFF 2: the debris she was ducking plays slowed to 1/4 and graded warm as soft shooting stars, and the super answers her shout: 'Wish slowly.' (n1318). The cursor clicks the 'Stars' bar (n1316) and drags its in-point (n1335-1342). The Alchemy panel header is in this framing (counted). hf01's bell re-frames are not drawn. Check with Manus: the Video Editor slowing and re-grading her clip."
+
+  - id: S18
+    block: status
+    sec: 1.2333                           # n1362-1398 (37 f)
+    n0: 1362
+    heroAt: 1386
+    push: 0
+    tool: {text: "Adding *whale* song…", icon: wave, tile: [324, 421, 489, 585], textX: 453, textX1: 1138, capTop: 514, size: 70, n: 1362, wipe: [1365, 1371], settle: [1374, 1384], hair: {box: [453, 1138, 585, 590], n: 1376, to: .7}}
+    c: -7.9
+    out: drift-up                         # hf01 card-out-up (soft)
+    note: "Tool voice only: Alchemy's sound pick for a space spa film, in progress ('whale' the one blue word; the line settles grey → ink; the hairline grows to ~70 %). Plants the ending: whales, the sea, 'Undersea next?'. Check with Manus: Alchemy picking a sound cue."
+
+  - id: S19
+    block: editor
+    sec: 2.9333                           # n1399-1486 (88 f)
+    n0: 1399
+    heroAt: 1480
+    push: 0
+    framing: [568, 198, 1.74]
+    comp:
+      type: map
+      title: ONE ORBIT
+      chip: 90 MIN
+      origin: [62, 226]
+      pins: [{at: [-14, 7], open: true, pulse: 1447}, {at: [110, 0], open: true, pulse: 1437}, {at: [170, 0]}, {at: [272, 24]}, {at: [300, -14]}]
+      cards:
+        - {img: assets/plates/A1-sunrise.png, pin: 3, box: [356, 40, 66, 37], at: [1407, 1418]}
+        - {img: assets/plates/A2-drift.png, pin: 4, box: [430, 40, 66, 37], at: [1414, 1428]}
+        - {img: assets/plates/A3-stars.png, pin: 2, box: [356, 92, 66, 37], at: [1421, 1435]}
+      suns: [24, 262]
+      rules: [356, 150, 140]
+      rule: Loose items leave.
+      rulesAt: [1448, 1451]
+      ruleType: [1449, 1452]
+    tree: *tree
+    layers: *plan3
+    playhead: 0
+    cursor: [[1405, 676, 112], [1412, 750, 112], [1419, 676, 164], [1449, 786, 232]]
+    onscreen: [Alchemy, ONE ORBIT, 90 MIN, Loose items leave.]
+    out: cut
+    note: "Her film's 0:15 guest map: an isometric line drawing of the station (The Lull filled gold), her route of the day, photo cards popping on three pins (sunrise, drift, stars: marquee → reveal), two dashed pins pulsing at the airlock (n1437) and the capsule (n1447): what P4 and P5 will fill; 16 tiny suns; one deadpan rule: 'Loose items leave.' (n1449-1452), 2.6 s before one comes back. Music dips (break). The Alchemy panel header is clipped at this framing's right edge ('Alche…', counted to be safe)."
+
+  # ── LOOP 4 · the airlock, P4, the hero frame (hf01 S20-S23) ──
+  - id: S20
+    block: plate
+    sec: 1.2000                           # n1487-1522 (36 f)
+    n0: 1487
+    heroAt: 1511
+    bg: assets/plates/S20.png
+    push: 0
+    out: cut
+    note: "Escalation 4: the storm drives her in; she tumbles through the round outer hatch, bumps the far wall, fetches up curled against the inner hatch; the outer hatch won't close on her own tether. The radiation alarm starts to pulse red (comp grade, ~1 Hz; the plate is the room only)."
+    overlays:
+      - {grade: red, n: 1487, end: 1522, peaks: [1511], base: 0, amp: .45}   # verify fix: amp .24 read as a pink room (suit R-B +52 at the peak); .45 gives +73, SHOTLIST's '~+60, her face lit red' alarm
+
+  - id: S21
+    block: scene
+    sec: 0.2667                           # n1523-1530 (8 f)
+    bg: assets/plates/S21.png
+    push: 0
+    bgMove: none
+    bgDim: 0
+    out: whip-left                        # hf01 whip (live action): the wrench's direction of travel is kept
+    note: "8 frames: the wrench that left her glove at 09:12 tumbles back in through the hatch gap (heavy blur; a 3D sprite fallback is in the shot list)."
+
+  - id: S22
+    block: plate
+    sec: 4.0000                           # n1531-1650 (120 f)
+    n0: 1531
+    heroAt: 1627                          # verify fix: the still was n1636, half-way down a pulse; n1627 is the last pulse peak with P4 fully typed (n1621)
+    bg: assets/plates/S22.png
+    push: 0
+    out: cut
+    note: "hf01's arrow beat: the wrench clangs off the hatch rim an inch above her helmet and spins away; she watches it go, one long blink, then calmly types P4 (sent n1641, 2 bars) while the alarm pulses red (peaks n1540 / 1569 / 1598 / 1627, over the frosted bar too). Check with Manus: a follow-up prompt setting a shot's grade; tone (a radiation alarm played as a joke)."
+    overlays:
+      - {grade: red, n: 1531, end: 1650, peaks: [1540, 1569, 1598, 1627], base: .05, amp: .42}   # verify fix: amp .26 (suit R-B +30 at the old still n1636) -> .42 (+61 at the n1627 peak), SHOTLIST's ~+60 on each pulse
+      - bar: Red alarm? Mood lighting.
+        n: 1605
+        type: [[1609, 1621, 25]]
+        signal: 2
+        send: 1641
+        sweep: 1643
+        end: 1650
+        box: [151, 987, 715, 937]
+
+  - id: S23
+    block: editor
+    sec: 4.9667                           # n1651-1799 (149 f)
+    n0: 1651
+    heroAt: 1787
+    push: 0
+    hold: [137, 148]                      # n1788-1799 dead still (verified hold), after the tag lands (n1779-1787)
+    framing: [559, 202, 1.91]
+    comp:
+      type: poster
+      photo: assets/plates/A4-lull-red.png
+      photoBox: [300, 965, 30, 410]
+      mark: [330, 65, 56]
+      headline: THE LULL
+      headBox: [38, 260, 70, 120]
+      headSize: 56
+      body: The quietest room in orbit.
+      bodyBox: [38, 270, 150, 190]
+      bodySize: 17
+      pill: Mood lighting included.
+      pillBox: [38, 260, 215, 240]
+      pillSize: 15
+      thumbs: [assets/plates/A1-sunrise.png, assets/plates/A2-drift.png, assets/plates/A3-stars.png]
+      thumbX: [35, 140, 245]
+      thumbY: 445
+      thumbD: 85
+      tagBox: [834, 946, 459, 543]
+      at: {photo: 1657, photoFull: 1674, mark: 1668, headline: [1690, 1698], body: [1704, 1716], pill: [1727, 1732], thumbs: [1751, 1764, 1772], tag: [1779, 1787]}
+    tree: *tree
+    layers:
+      - {in: 0, out: 5, kind: footage, img: assets/plates/A2-drift.png, state: made}
+      - {in: 5, out: 10, kind: footage, img: assets/plates/A1-sunrise.png, state: made}
+      - {in: 10, out: 15, kind: footage, img: assets/plates/A3-stars.png, state: made}
+      - {in: 15, out: 20, kind: text, state: made}
+      - {in: 20, out: 26, kind: footage, img: assets/plates/A4-lull-red.png, state: selected}
+      - {in: 0, out: 30, kind: mark, state: made}
+      - {in: 26, out: 30, state: planned}
+      - {in: 0, out: 30, kind: audio, muted: true, state: made}
+    playhead: 0
+    cursor: [[1654, 580, 160], [1741, 330, 300], [1779, 740, 300], [1787, 772, 328]]
+    onscreen: [THE LULL, The quietest room in orbit., Mood lighting included.]
+    out: cut
+    note: "Her film's hero frame builds in hf01's poster order: Marketing's own photo of The Lull grows in (n1657), re-lit soft red by P4 (a grade, no new footage; S12 showed it cool), the mark pops, THE LULL types (n1690-1698), the body types (n1704-1716), the red pill 'Mood lighting included.' pops (n1727-1732): the alarm is now a selling point. Round thumbs of the three shots that exist, a ticket tag drag-resized (n1779-1787), dead still (hold). The Alchemy panel sits just outside this framing (moved to x 846 so no clipped header shows here)."
+
+  # ── LOOP 5 · the peak, P5, delivery (hf01 S24-S25) ──
+  - id: S24
+    block: plate
+    sec: 3.5000                           # n1800-1904 (105 f)
+    n0: 1800
+    heroAt: 1888
+    bg: assets/plates/S24.png
+    push: 0
+    out: cut                              # hf01 card-in out of the send sweep
+    note: "THE PEAK, re-entry: plasma fire in the window behind her, the cabin shaking and dimming (n1840-1866), the plush whale swinging; signal 2 → 1 (n1850) → none (n1862) → 1 → none → 1 steady (n1886); P5 sent on the last bar (n1895, her glow clip chip), then loss of signal (crossed antenna n1897). First loud real sound: the roar through the hull. Check with Manus: the job finishing while she has no signal (Cloud Computer); sending the film to Marketing."
+    overlays:
+      - bar: End on this glow. Ship it.
+        n: 1834
+        type: [[1839, 1852, 26]]
+        chip: {thumb: assets/plates/A5-glow.png, n: 1853, live: true}
+        signal: [[1834, 2], [1850, 1], [1862, 0], [1874, 1], [1880, 0], [1886, 1], [1897, x]]
+        send: 1895
+        sweep: 1896
+        end: 1904
+        box: [75, 836, 750, 946]
+
+  - id: S25
+    block: status
+    sec: 0.9333                           # n1905-1932 (28 f)
+    n0: 1905
+    heroAt: 1922
+    push: 0
+    card: {box: [208, 1712, 439, 661], tile: [295, 491, 466, 654], thumb: assets/plates/A5-glow.png, title: The Lull, titleX: 548, size: 50, cloud: [809, 862], disc: [1540, 1646, 496, 603]}
+    out: cut                              # hf01 card-out: hard cut while still drifting
+    note: "The file card, delivered while she is in blackout: the cut from 'no signal' to the blue check is the joke. Thumbnail = her glow (A5, recorded before the send); the cloud icon = finished on her Cloud Computer, the check = sent; two words in 0.93 s. Check with Manus: same as S24."
+
+  # ── PAYOFF + END (hf01 S26-S27) ──
+  - id: S26
+    block: plate
+    sec: 8.0667                           # n1933-2174 (242 f)
+    n0: 1933
+    heroAt: 2030
+    bg: assets/plates/S26.png
+    push: 0
+    out: cut                              # hf01 endcard-dim → our end-card wash (S27)
+    note: "THE RELEASE, 19:47: splashdown at golden hour, she sits on the bobbing capsule, helmet off. The reply lands n2004 ('Booked solid.'), the follow-up 0.4 s later ('Undersea next?'): her smile fades into a slow look down at the water; both bubbles sink and fade n2067-2071; pull back to one small capsule on a vast sea; the groove stops and a gull lands (n2072, END inset). n2081-2174 the quiet product line, centred. The next brief is about the world she is in now."
+    overlays:
+      - bubble: [Booked solid., Undersea next?]
+        time: "19:47"
+        from: Marketing
+        fromAlign: left
+        n: 2004
+        nB: 2016
+        end: 2071
+        fadeOut: [2067, 2071]
+        rise: 36
+        box: [112, 414, 437, 501]
+        boxB: [112, 414, 516, 580]
+      - {line: Manus 2.0 · Automations · Studio Video Editor · Cloud Computer, size: 34, color: "#1D2126", n: 2081, end: 2174, box: [375, 1545, 524, 555]}
+
+  - id: S27
+    block: endcard                        # job-local override (blocks/endcard.mjs): wash + official lockup + end line
+    sec: 4.0333                           # n2175-2295 (121 f)
+    n0: 2175
+    heroAt: 2225
+    push: 0
+    theme: light
+    hold: [50, 120]                       # n2225-2295: still (verified hold)
+    bg: assets/plates/S27-wash.png
+    bgDim: 0
+    bgMove: none
+    lockY: 444
+    lineTop: 555
+    lines: [Out of office., Out of range., Still *shipping.*]
+    words: [2187, 2189, 2191, 2196, 2198, 2200, 2205, 2208]
+    underline: [2214, 2224]
+    mark: [2175, 2181]
+    note: "End card, the wash: S26's last picture (capsule, gull, sea) × 0.24 + #F7F7F7 × 0.76. The mark alone swells (n2175-2181), the wordmark cuts on, snap 1.10 → 0.90 → 1.00; the end line builds word by word: 'Out of office.' (the auto-reply, the spacewalk, the orbit she left) / 'Out of range.' (the blackout) / 'Still shipping.' ('shipping.' blue + hand-drawn underline n2214-2224). Sting 0.368 s after the cut. No URL (Manus to confirm the domain)."

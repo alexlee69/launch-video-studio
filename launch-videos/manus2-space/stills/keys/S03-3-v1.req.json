@@ -1,0 +1,13 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "leg": "3",
+ "use": "n364-n381",
+ "refs": [
+  "cast/locked/costume.png",
+  "stills/locations/exterior-v2.png"
+ ],
+ "prompt": "Image 1 shows the exact design of the gloves, wrist display and suit fabric. Image 2 is the location: keep its architecture, materials and design. Do not copy the grey background or the sheet layout: make one single cinematic film frame, 16:9. Cinematic 50mm film still, close-up in orbit: a white spacesuit glove with orange fingertip grips gripping the padded white Velcro cover of a slim wrist display strapped to the other forearm, just below a saturated signal-orange arm band; low side light, black space behind, the fabric texture crisp. Shallow depth of field. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark."
+}

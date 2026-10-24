@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "The camera slowly pulls back and rises from a medium close-up to a medium shot while the cabin shakes. The plasma in the window grows brighter and flickers, the cabin lights dim, the plush whale swings hard on its cord. She lifts her left forearm, taps the wrist display, then holds still and watches it, completely calm, and finally taps it firmly once. The wrist display glows softly but its screen is never readable. Keep the colours, depth of field and film grain of the first frame; the light dims once as the plasma builds. No text, no captions, no logos.",
+    "image_url": "<file S24-24.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:28:07.788Z",
+  "status": [
+    {
+      "t": 1,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 8,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16997-6051-7161-8043-683dd22f4cae",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6051-7161-8043-683dd22f4cae/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-6051-7161-8043-683dd22f4cae",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/y3aKyDDMaXV4BFbIiwjm5_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "y3aKyDDMaXV4BFbIiwjm5_minimax-h3.mp4",
+      "file_size": 10573005
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.4039759670049534
+    }
+  },
+  "finished": "2026-10-23T16:28:20.219Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/y3aKyDDMaXV4BFbIiwjm5_minimax-h3.mp4",
+      "file": "S24-24.mp4",
+      "bytes": 10573005,
+      "done": true
+    }
+  ]
+}

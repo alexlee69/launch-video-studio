@@ -1,0 +1,10 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "cast/locked/props.png"
+ ],
+ "prompt": "This is a props sheet in a 2 x 2 grid. Change ONLY the bottom-right tile: replace the round ball with a small fictional space capsule in a gumdrop shape: a wide, flat, slightly rounded heat-shield base, straight sides tapering upward to a narrower flat top with a small hatch, white with one orange band around it, plain and fictional, in three-quarter view, on the same flat grey background. Keep the other three tiles, the gutters and the grey exactly as they are."
+}

@@ -1,0 +1,6815 @@
+{
+"note": "automatic candidates from the REPET residual (non-repeating part); classified by hand in SOUND.md / sfx.json",
+"events": [
+{
+"t": 0.18,
+"frame": 5,
+"frameExact": 5.39,
+"peakT": 0.319,
+"dur": 0.17,
+"bands": [
+"mid"
+],
+"rise": 12.6,
+"residDb": 34.4,
+"residMinusMix": -1.4,
+"centroid": 1514,
+"flatness": 0.01,
+"sweepOctPerS": -7.0,
+"lowShare": 0.07,
+"beat": 0.1,
+"off16ms": 69,
+"nearestCut": {
+"shot": 1,
+"frame": 0,
+"dtMs": 180
+},
+"picChangeMax": 0.028,
+"picChangeFrame": 2
+},
+{
+"t": 0.229,
+"frame": 7,
+"frameExact": 6.88,
+"peakT": 0.319,
+"dur": 0.12,
+"bands": [
+"high"
+],
+"rise": 10.9,
+"residDb": 34.4,
+"residMinusMix": -1.4,
+"centroid": 1453,
+"flatness": 0.011,
+"sweepOctPerS": -27.17,
+"lowShare": 0.08,
+"beat": 0.17,
+"off16ms": -54,
+"nearestCut": {
+"shot": 1,
+"frame": 0,
+"dtMs": 229
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 4
+},
+{
+"t": 0.479,
+"frame": 14,
+"frameExact": 14.37,
+"peakT": 0.534,
+"dur": 0.14,
+"bands": [
+"high"
+],
+"rise": 29.0,
+"residDb": 33.0,
+"residMinusMix": -0.9,
+"centroid": 4707,
+"flatness": 0.02,
+"sweepOctPerS": -1.27,
+"lowShare": 0.02,
+"beat": 0.53,
+"off16ms": 23,
+"nearestCut": {
+"shot": 1,
+"frame": 0,
+"dtMs": 479
+},
+"picChangeMax": 0.135,
+"picChangeFrame": 16
+},
+{
+"t": 0.938,
+"frame": 28,
+"frameExact": 28.14,
+"peakT": 1.197,
+"dur": 0.304,
+"bands": [
+"high"
+],
+"rise": 17.4,
+"residDb": 39.0,
+"residMinusMix": -0.1,
+"centroid": 3654,
+"flatness": 0.037,
+"sweepOctPerS": -8.22,
+"lowShare": 0.5,
+"beat": 1.2,
+"off16ms": -35,
+"nearestCut": {
+"shot": 1,
+"frame": 0,
+"dtMs": 938
+},
+"picChangeMax": 0.031,
+"picChangeFrame": 27
+},
+{
+"t": 1.172,
+"frame": 35,
+"frameExact": 35.17,
+"peakT": 1.197,
+"dur": 0.07,
+"bands": [
+"low",
+"high"
+],
+"rise": 19.9,
+"residDb": 39.0,
+"residMinusMix": -0.1,
+"centroid": 989,
+"flatness": 0.11,
+"sweepOctPerS": 76.8,
+"lowShare": 0.75,
+"beat": 1.54,
+"off16ms": 27,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": -1028
+},
+"picChangeMax": 0.015,
+"picChangeFrame": 32
+},
+{
+"t": 1.447,
+"frame": 43,
+"frameExact": 43.4,
+"peakT": 1.851,
+"dur": 0.414,
+"bands": [
+"low",
+"mid"
+],
+"rise": 140.0,
+"residDb": 39.8,
+"residMinusMix": -1.5,
+"centroid": 610,
+"flatness": 0.02,
+"sweepOctPerS": -1.87,
+"lowShare": 0.79,
+"beat": 1.94,
+"off16ms": -43,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": -753
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 45
+},
+{
+"t": 1.611,
+"frame": 48,
+"frameExact": 48.34,
+"peakT": 1.851,
+"dur": 0.249,
+"bands": [
+"low"
+],
+"rise": 146.7,
+"residDb": 39.8,
+"residMinusMix": -1.5,
+"centroid": 504,
+"flatness": 0.013,
+"sweepOctPerS": -4.91,
+"lowShare": 0.84,
+"beat": 2.18,
+"off16ms": -51,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": -589
+},
+"picChangeMax": 0.011,
+"picChangeFrame": 48
+},
+{
+"t": 2.28,
+"frame": 68,
+"frameExact": 68.39,
+"peakT": 2.41,
+"dur": 0.145,
+"bands": [
+"mid"
+],
+"rise": 10.2,
+"residDb": 40.8,
+"residMinusMix": -0.3,
+"centroid": 402,
+"flatness": 0.002,
+"sweepOctPerS": -7.45,
+"lowShare": 0.75,
+"beat": 3.15,
+"off16ms": -72,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": 80
+},
+"picChangeMax": 0.23,
+"picChangeFrame": 67
+},
+{
+"t": 2.365,
+"frame": 71,
+"frameExact": 70.94,
+"peakT": 2.41,
+"dur": 0.06,
+"bands": [
+"low"
+],
+"rise": 153.9,
+"residDb": 40.8,
+"residMinusMix": -0.3,
+"centroid": 242,
+"flatness": 0.001,
+"sweepOctPerS": 3.66,
+"lowShare": 0.82,
+"beat": 3.27,
+"off16ms": 13,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": 165
+},
+"picChangeMax": 0.187,
+"picChangeFrame": 68
+},
+{
+"t": 2.988,
+"frame": 90,
+"frameExact": 89.65,
+"peakT": 3.088,
+"dur": 0.11,
+"bands": [
+"low"
+],
+"rise": 148.0,
+"residDb": 42.2,
+"residMinusMix": -2.3,
+"centroid": 1543,
+"flatness": 0.079,
+"sweepOctPerS": -32.52,
+"lowShare": 0.71,
+"beat": 4.17,
+"off16ms": -53,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": 788
+},
+"picChangeMax": 0.029,
+"picChangeFrame": 88
+},
+{
+"t": 3.577,
+"frame": 107,
+"frameExact": 107.31,
+"peakT": 3.657,
+"dur": 0.115,
+"bands": [
+"high"
+],
+"rise": 10.7,
+"residDb": 38.1,
+"residMinusMix": -0.6,
+"centroid": 587,
+"flatness": 0.04,
+"sweepOctPerS": -11.54,
+"lowShare": 0.7,
+"beat": 5.03,
+"off16ms": 18,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": 1377
+},
+"picChangeMax": 0.025,
+"picChangeFrame": 109
+},
+{
+"t": 3.657,
+"frame": 110,
+"frameExact": 109.7,
+"peakT": 3.657,
+"dur": 0.035,
+"bands": [
+"low"
+],
+"rise": 18.1,
+"residDb": 38.1,
+"residMinusMix": -0.6,
+"centroid": 365,
+"flatness": 0.042,
+"sweepOctPerS": 99.34,
+"lowShare": 0.78,
+"beat": 5.14,
+"off16ms": -74,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": 1457
+},
+"picChangeMax": 0.04,
+"picChangeFrame": 111
+},
+{
+"t": 6.785,
+"frame": 204,
+"frameExact": 203.54,
+"peakT": 6.884,
+"dur": 0.135,
+"bands": [
+"mid"
+],
+"rise": 12.5,
+"residDb": 37.5,
+"residMinusMix": -1.5,
+"centroid": 380,
+"flatness": 0.006,
+"sweepOctPerS": -6.16,
+"lowShare": 0.61,
+"beat": 9.68,
+"off16ms": -49,
+"nearestCut": {
+"shot": 2,
+"frame": 66,
+"dtMs": 4585
+},
+"picChangeMax": 0.016,
+"picChangeFrame": 204
+},
+{
+"t": 7.014,
+"frame": 210,
+"frameExact": 210.42,
+"peakT": 7.099,
+"dur": 0.11,
+"bands": [
+"high"
+],
+"rise": 12.9,
+"residDb": 30.8,
+"residMinusMix": -4.4,
+"centroid": 762,
+"flatness": 0.02,
+"sweepOctPerS": 7.07,
+"lowShare": 0.1,
+"beat": 10.01,
+"off16ms": 8,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -4586
+},
+"picChangeMax": 0.015,
+"picChangeFrame": 213
+},
+{
+"t": 7.184,
+"frame": 216,
+"frameExact": 215.51,
+"peakT": 7.398,
+"dur": 0.244,
+"bands": [
+"mid"
+],
+"rise": 10.2,
+"residDb": 30.9,
+"residMinusMix": -2.6,
+"centroid": 1037,
+"flatness": 0.048,
+"sweepOctPerS": 5.47,
+"lowShare": 0.43,
+"beat": 10.26,
+"off16ms": 5,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -4416
+},
+"picChangeMax": 0.016,
+"picChangeFrame": 214
+},
+{
+"t": 7.583,
+"frame": 227,
+"frameExact": 227.48,
+"peakT": 7.608,
+"dur": 0.06,
+"bands": [
+"low"
+],
+"rise": 19.8,
+"residDb": 29.9,
+"residMinusMix": -1.3,
+"centroid": 988,
+"flatness": 0.116,
+"sweepOctPerS": 23.96,
+"lowShare": 0.54,
+"beat": 10.84,
+"off16ms": 59,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -4017
+},
+"picChangeMax": 0.012,
+"picChangeFrame": 226
+},
+{
+"t": 8.122,
+"frame": 244,
+"frameExact": 243.65,
+"peakT": 8.376,
+"dur": 0.299,
+"bands": [
+"mid"
+],
+"rise": 10.4,
+"residDb": 34.4,
+"residMinusMix": -1.1,
+"centroid": 1039,
+"flatness": 0.039,
+"sweepOctPerS": 7.83,
+"lowShare": 0.54,
+"beat": 11.62,
+"off16ms": 81,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -3478
+},
+"picChangeMax": 0.017,
+"picChangeFrame": 243
+},
+{
+"t": 8.281,
+"frame": 248,
+"frameExact": 248.44,
+"peakT": 8.376,
+"dur": 0.14,
+"bands": [
+"high",
+"low"
+],
+"rise": 148.7,
+"residDb": 34.4,
+"residMinusMix": -1.1,
+"centroid": 3022,
+"flatness": 0.04,
+"sweepOctPerS": 2.8,
+"lowShare": 0.59,
+"beat": 11.85,
+"off16ms": 68,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -3319
+},
+"picChangeMax": 0.016,
+"picChangeFrame": 249
+},
+{
+"t": 9.808,
+"frame": 294,
+"frameExact": 294.23,
+"peakT": 9.878,
+"dur": 0.15,
+"bands": [
+"low"
+],
+"rise": 141.4,
+"residDb": 39.8,
+"residMinusMix": -0.8,
+"centroid": 306,
+"flatness": 0.004,
+"sweepOctPerS": 10.97,
+"lowShare": 0.27,
+"beat": 14.06,
+"off16ms": 43,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -1792
+},
+"picChangeMax": 0.015,
+"picChangeFrame": 291
+},
+{
+"t": 10.177,
+"frame": 305,
+"frameExact": 305.31,
+"peakT": 10.376,
+"dur": 0.279,
+"bands": [
+"mid"
+],
+"rise": 10.7,
+"residDb": 39.9,
+"residMinusMix": -0.9,
+"centroid": 401,
+"flatness": 0.005,
+"sweepOctPerS": 1.0,
+"lowShare": 0.19,
+"beat": 14.6,
+"off16ms": 67,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -1423
+},
+"picChangeMax": 0.019,
+"picChangeFrame": 307
+},
+{
+"t": 10.391,
+"frame": 312,
+"frameExact": 311.74,
+"peakT": 10.376,
+"dur": 0.065,
+"bands": [
+"low"
+],
+"rise": 150.7,
+"residDb": 39.9,
+"residMinusMix": -0.9,
+"centroid": 595,
+"flatness": 0.007,
+"sweepOctPerS": 29.02,
+"lowShare": 0.21,
+"beat": 14.91,
+"off16ms": -63,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -1209
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 309
+},
+{
+"t": 10.925,
+"frame": 328,
+"frameExact": 327.76,
+"peakT": 11.319,
+"dur": 0.419,
+"bands": [
+"mid",
+"low"
+],
+"rise": 150.8,
+"residDb": 38.8,
+"residMinusMix": -1.8,
+"centroid": 839,
+"flatness": 0.013,
+"sweepOctPerS": -1.44,
+"lowShare": 0.27,
+"beat": 15.68,
+"off16ms": -46,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -675
+},
+"picChangeMax": 0.011,
+"picChangeFrame": 328
+},
+{
+"t": 11.594,
+"frame": 348,
+"frameExact": 347.81,
+"peakT": 11.853,
+"dur": 0.359,
+"bands": [
+"high",
+"low"
+],
+"rise": 154.4,
+"residDb": 37.8,
+"residMinusMix": -1.8,
+"centroid": 391,
+"flatness": 0.02,
+"sweepOctPerS": -6.37,
+"lowShare": 0.59,
+"beat": 16.65,
+"off16ms": -67,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": -6
+},
+"picChangeMax": 0.191,
+"picChangeFrame": 348
+},
+{
+"t": 11.828,
+"frame": 355,
+"frameExact": 354.84,
+"peakT": 12.008,
+"dur": 0.19,
+"bands": [
+"low"
+],
+"rise": 14.1,
+"residDb": 39.4,
+"residMinusMix": -1.3,
+"centroid": 231,
+"flatness": 0.01,
+"sweepOctPerS": 2.78,
+"lowShare": 0.74,
+"beat": 16.99,
+"off16ms": -5,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": 228
+},
+"picChangeMax": 0.013,
+"picChangeFrame": 354
+},
+{
+"t": 11.998,
+"frame": 360,
+"frameExact": 359.93,
+"peakT": 12.008,
+"dur": 0.02,
+"bands": [
+"mid"
+],
+"rise": 12.2,
+"residDb": 39.4,
+"residMinusMix": -1.3,
+"centroid": 144,
+"flatness": 0.016,
+"sweepOctPerS": 145.44,
+"lowShare": 0.8,
+"beat": 17.24,
+"off16ms": -8,
+"nearestCut": {
+"shot": 3,
+"frame": 348,
+"dtMs": 398
+},
+"picChangeMax": 0.008,
+"picChangeFrame": 358
+},
+{
+"t": 12.472,
+"frame": 374,
+"frameExact": 374.15,
+"peakT": 12.606,
+"dur": 0.16,
+"bands": [
+"mid"
+],
+"rise": 10.3,
+"residDb": 38.0,
+"residMinusMix": -1.8,
+"centroid": 1292,
+"flatness": 0.036,
+"sweepOctPerS": 7.8,
+"lowShare": 0.47,
+"beat": 17.93,
+"off16ms": -51,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": -262
+},
+"picChangeMax": 0.044,
+"picChangeFrame": 376
+},
+{
+"t": 12.886,
+"frame": 387,
+"frameExact": 386.57,
+"peakT": 12.906,
+"dur": 0.09,
+"bands": [
+"low"
+],
+"rise": 18.5,
+"residDb": 42.3,
+"residMinusMix": -0.2,
+"centroid": 199,
+"flatness": 0.094,
+"sweepOctPerS": 12.3,
+"lowShare": 0.93,
+"beat": 18.53,
+"off16ms": 18,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 152
+},
+"picChangeMax": 0.029,
+"picChangeFrame": 384
+},
+{
+"t": 13.245,
+"frame": 397,
+"frameExact": 397.35,
+"peakT": 13.245,
+"dur": 0.065,
+"bands": [
+"low"
+],
+"rise": 11.4,
+"residDb": 38.7,
+"residMinusMix": -0.7,
+"centroid": 193,
+"flatness": 0.017,
+"sweepOctPerS": 8.86,
+"lowShare": 0.84,
+"beat": 19.05,
+"off16ms": 32,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 512
+},
+"picChangeMax": 0.064,
+"picChangeFrame": 394
+},
+{
+"t": 13.37,
+"frame": 401,
+"frameExact": 401.09,
+"peakT": 13.504,
+"dur": 0.19,
+"bands": [
+"low"
+],
+"rise": 17.7,
+"residDb": 38.2,
+"residMinusMix": -1.6,
+"centroid": 597,
+"flatness": 0.0,
+"sweepOctPerS": 3.75,
+"lowShare": 0.12,
+"beat": 19.23,
+"off16ms": -15,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 636
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 398
+},
+{
+"t": 13.524,
+"frame": 406,
+"frameExact": 405.73,
+"peakT": 13.504,
+"dur": 0.035,
+"bands": [
+"high",
+"mid"
+],
+"rise": 21.7,
+"residDb": 38.2,
+"residMinusMix": -1.6,
+"centroid": 592,
+"flatness": 0.0,
+"sweepOctPerS": 7.42,
+"lowShare": 0.08,
+"beat": 19.45,
+"off16ms": -33,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 791
+},
+"picChangeMax": 0.015,
+"picChangeFrame": 405
+},
+{
+"t": 13.649,
+"frame": 409,
+"frameExact": 409.47,
+"peakT": 13.649,
+"dur": 0.08,
+"bands": [
+"mid",
+"low"
+],
+"rise": 145.0,
+"residDb": 38.2,
+"residMinusMix": -0.9,
+"centroid": 256,
+"flatness": 0.005,
+"sweepOctPerS": -20.73,
+"lowShare": 0.63,
+"beat": 19.63,
+"off16ms": -81,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 916
+},
+"picChangeMax": 0.007,
+"picChangeFrame": 406
+},
+{
+"t": 13.804,
+"frame": 414,
+"frameExact": 414.11,
+"peakT": 13.799,
+"dur": 0.04,
+"bands": [
+"high",
+"mid"
+],
+"rise": 15.3,
+"residDb": 37.3,
+"residMinusMix": -1.0,
+"centroid": 725,
+"flatness": 0.001,
+"sweepOctPerS": 25.72,
+"lowShare": 0.41,
+"beat": 19.86,
+"off16ms": 74,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 1070
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 414
+},
+{
+"t": 13.943,
+"frame": 418,
+"frameExact": 418.3,
+"peakT": 14.312,
+"dur": 0.384,
+"bands": [
+"low",
+"mid"
+],
+"rise": 149.7,
+"residDb": 38.9,
+"residMinusMix": -0.5,
+"centroid": 1124,
+"flatness": 0.007,
+"sweepOctPerS": -3.63,
+"lowShare": 0.47,
+"beat": 20.06,
+"off16ms": 41,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 1210
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 416
+},
+{
+"t": 14.278,
+"frame": 428,
+"frameExact": 428.33,
+"peakT": 14.582,
+"dur": 0.434,
+"bands": [
+"low"
+],
+"rise": 147.4,
+"residDb": 40.3,
+"residMinusMix": -0.0,
+"centroid": 538,
+"flatness": 0.008,
+"sweepOctPerS": 5.02,
+"lowShare": 0.47,
+"beat": 20.54,
+"off16ms": 31,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 1544
+},
+"picChangeMax": 0.024,
+"picChangeFrame": 429
+},
+{
+"t": 14.427,
+"frame": 433,
+"frameExact": 432.82,
+"peakT": 14.582,
+"dur": 0.284,
+"bands": [
+"mid"
+],
+"rise": 15.2,
+"residDb": 40.3,
+"residMinusMix": -0.0,
+"centroid": 814,
+"flatness": 0.006,
+"sweepOctPerS": 10.95,
+"lowShare": 0.37,
+"beat": 20.76,
+"off16ms": 8,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 1694
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 435
+},
+{
+"t": 14.552,
+"frame": 437,
+"frameExact": 436.56,
+"peakT": 14.582,
+"dur": 0.16,
+"bands": [
+"high",
+"low",
+"mid"
+],
+"rise": 156.4,
+"residDb": 40.3,
+"residMinusMix": -0.0,
+"centroid": 1181,
+"flatness": 0.006,
+"sweepOctPerS": 19.12,
+"lowShare": 0.21,
+"beat": 20.94,
+"off16ms": -40,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 1819
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 435
+},
+{
+"t": 14.751,
+"frame": 443,
+"frameExact": 442.54,
+"peakT": 14.861,
+"dur": 0.18,
+"bands": [
+"low"
+],
+"rise": 147.2,
+"residDb": 38.3,
+"residMinusMix": -0.7,
+"centroid": 792,
+"flatness": 0.001,
+"sweepOctPerS": 8.7,
+"lowShare": 0.3,
+"beat": 21.23,
+"off16ms": -13,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 2018
+},
+"picChangeMax": 0.011,
+"picChangeFrame": 446
+},
+{
+"t": 14.831,
+"frame": 445,
+"frameExact": 444.94,
+"peakT": 14.861,
+"dur": 0.1,
+"bands": [
+"mid",
+"low"
+],
+"rise": 13.1,
+"residDb": 38.3,
+"residMinusMix": -0.7,
+"centroid": 876,
+"flatness": 0.0,
+"sweepOctPerS": 9.27,
+"lowShare": 0.24,
+"beat": 21.35,
+"off16ms": 67,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 2098
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 448
+},
+{
+"t": 15.096,
+"frame": 453,
+"frameExact": 452.87,
+"peakT": 15.215,
+"dur": 0.185,
+"bands": [
+"low",
+"mid"
+],
+"rise": 13.3,
+"residDb": 37.9,
+"residMinusMix": -0.5,
+"centroid": 152,
+"flatness": 0.018,
+"sweepOctPerS": -0.6,
+"lowShare": 0.93,
+"beat": 21.73,
+"off16ms": -13,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 2362
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 451
+},
+{
+"t": 15.385,
+"frame": 462,
+"frameExact": 461.55,
+"peakT": 15.744,
+"dur": 0.529,
+"bands": [
+"low",
+"mid"
+],
+"rise": 152.2,
+"residDb": 37.7,
+"residMinusMix": -0.5,
+"centroid": 830,
+"flatness": 0.009,
+"sweepOctPerS": -8.09,
+"lowShare": 0.53,
+"beat": 22.15,
+"off16ms": -69,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 2652
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 462
+},
+{
+"t": 15.435,
+"frame": 463,
+"frameExact": 463.05,
+"peakT": 15.789,
+"dur": 0.469,
+"bands": [
+"high"
+],
+"rise": 13.0,
+"residDb": 38.3,
+"residMinusMix": -0.2,
+"centroid": 754,
+"flatness": 0.009,
+"sweepOctPerS": -8.72,
+"lowShare": 0.53,
+"beat": 22.22,
+"off16ms": -19,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 2702
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 462
+},
+{
+"t": 15.689,
+"frame": 471,
+"frameExact": 470.68,
+"peakT": 15.789,
+"dur": 0.215,
+"bands": [
+"low"
+],
+"rise": 17.2,
+"residDb": 38.3,
+"residMinusMix": -0.2,
+"centroid": 257,
+"flatness": 0.026,
+"sweepOctPerS": -9.64,
+"lowShare": 0.82,
+"beat": 22.59,
+"off16ms": 63,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 2956
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 474
+},
+{
+"t": 15.744,
+"frame": 472,
+"frameExact": 472.33,
+"peakT": 15.789,
+"dur": 0.16,
+"bands": [
+"mid"
+],
+"rise": 10.1,
+"residDb": 38.3,
+"residMinusMix": -0.2,
+"centroid": 212,
+"flatness": 0.02,
+"sweepOctPerS": -3.29,
+"lowShare": 0.82,
+"beat": 22.67,
+"off16ms": -54,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 3011
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 474
+},
+{
+"t": 16.029,
+"frame": 481,
+"frameExact": 480.86,
+"peakT": 16.034,
+"dur": 0.055,
+"bands": [
+"mid",
+"low"
+],
+"rise": 13.2,
+"residDb": 38.2,
+"residMinusMix": -0.7,
+"centroid": 220,
+"flatness": 0.002,
+"sweepOctPerS": 3.96,
+"lowShare": 0.63,
+"beat": 23.08,
+"off16ms": 58,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 3295
+},
+"picChangeMax": 0.025,
+"picChangeFrame": 481
+},
+{
+"t": 16.278,
+"frame": 488,
+"frameExact": 488.34,
+"peakT": 16.552,
+"dur": 1.023,
+"bands": [
+"low"
+],
+"rise": 14.3,
+"residDb": 37.9,
+"residMinusMix": -1.9,
+"centroid": 417,
+"flatness": 0.018,
+"sweepOctPerS": -1.41,
+"lowShare": 0.66,
+"beat": 23.45,
+"off16ms": -38,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 3545
+},
+"picChangeMax": 0.012,
+"picChangeFrame": 487
+},
+{
+"t": 17.131,
+"frame": 514,
+"frameExact": 513.93,
+"peakT": 17.296,
+"dur": 0.17,
+"bands": [
+"low"
+],
+"rise": 10.3,
+"residDb": 39.0,
+"residMinusMix": -0.6,
+"centroid": 737,
+"flatness": 0.048,
+"sweepOctPerS": -4.61,
+"lowShare": 0.55,
+"beat": 24.68,
+"off16ms": -47,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 4398
+},
+"picChangeMax": 0.072,
+"picChangeFrame": 514
+},
+{
+"t": 17.256,
+"frame": 518,
+"frameExact": 517.67,
+"peakT": 17.296,
+"dur": 0.045,
+"bands": [
+"low"
+],
+"rise": 28.0,
+"residDb": 39.0,
+"residMinusMix": -0.6,
+"centroid": 504,
+"flatness": 0.055,
+"sweepOctPerS": -14.05,
+"lowShare": 0.66,
+"beat": 24.86,
+"off16ms": 78,
+"nearestCut": {
+"shot": 4,
+"frame": 382,
+"dtMs": 4522
+},
+"picChangeMax": 0.048,
+"picChangeFrame": 516
+},
+{
+"t": 17.415,
+"frame": 522,
+"frameExact": 522.46,
+"peakT": 17.72,
+"dur": 0.584,
+"bands": [
+"mid"
+],
+"rise": 13.8,
+"residDb": 37.5,
+"residMinusMix": -0.8,
+"centroid": 812,
+"flatness": 0.006,
+"sweepOctPerS": -4.8,
+"lowShare": 0.4,
+"beat": 25.09,
+"off16ms": 65,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -4618
+},
+"picChangeMax": 0.044,
+"picChangeFrame": 523
+},
+{
+"t": 17.495,
+"frame": 525,
+"frameExact": 524.86,
+"peakT": 17.72,
+"dur": 0.504,
+"bands": [
+"low"
+],
+"rise": 134.2,
+"residDb": 37.5,
+"residMinusMix": -0.8,
+"centroid": 691,
+"flatness": 0.004,
+"sweepOctPerS": -5.54,
+"lowShare": 0.39,
+"beat": 25.21,
+"off16ms": -27,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -4538
+},
+"picChangeMax": 0.047,
+"picChangeFrame": 526
+},
+{
+"t": 17.71,
+"frame": 531,
+"frameExact": 531.29,
+"peakT": 17.914,
+"dur": 0.289,
+"bands": [
+"low",
+"high",
+"mid"
+],
+"rise": 24.7,
+"residDb": 38.7,
+"residMinusMix": -0.4,
+"centroid": 366,
+"flatness": 0.005,
+"sweepOctPerS": -8.59,
+"lowShare": 0.49,
+"beat": 25.52,
+"off16ms": 15,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -4324
+},
+"picChangeMax": 0.034,
+"picChangeFrame": 528
+},
+{
+"t": 17.879,
+"frame": 536,
+"frameExact": 536.38,
+"peakT": 18.144,
+"dur": 0.324,
+"bands": [
+"low"
+],
+"rise": 20.4,
+"residDb": 40.2,
+"residMinusMix": -0.7,
+"centroid": 336,
+"flatness": 0.01,
+"sweepOctPerS": 6.17,
+"lowShare": 0.48,
+"beat": 25.77,
+"off16ms": 12,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -4154
+},
+"picChangeMax": 0.03,
+"picChangeFrame": 536
+},
+{
+"t": 18.089,
+"frame": 543,
+"frameExact": 542.67,
+"peakT": 18.144,
+"dur": 0.115,
+"bands": [
+"low"
+],
+"rise": 23.1,
+"residDb": 40.2,
+"residMinusMix": -0.7,
+"centroid": 698,
+"flatness": 0.01,
+"sweepOctPerS": 10.22,
+"lowShare": 0.22,
+"beat": 26.07,
+"off16ms": 49,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -3944
+},
+"picChangeMax": 0.012,
+"picChangeFrame": 541
+},
+{
+"t": 18.139,
+"frame": 544,
+"frameExact": 544.16,
+"peakT": 18.154,
+"dur": 0.085,
+"bands": [
+"mid"
+],
+"rise": 11.1,
+"residDb": 38.2,
+"residMinusMix": -1.1,
+"centroid": 698,
+"flatness": 0.005,
+"sweepOctPerS": -6.19,
+"lowShare": 0.18,
+"beat": 26.14,
+"off16ms": -73,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -3895
+},
+"picChangeMax": 0.012,
+"picChangeFrame": 541
+},
+{
+"t": 18.663,
+"frame": 560,
+"frameExact": 559.88,
+"peakT": 18.638,
+"dur": 0.055,
+"bands": [
+"low"
+],
+"rise": 151.8,
+"residDb": 36.0,
+"residMinusMix": -0.5,
+"centroid": 1112,
+"flatness": 0.0,
+"sweepOctPerS": 31.43,
+"lowShare": 0.07,
+"beat": 26.9,
+"off16ms": -67,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -3371
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 563
+},
+{
+"t": 18.922,
+"frame": 568,
+"frameExact": 567.66,
+"peakT": 19.301,
+"dur": 0.394,
+"bands": [
+"mid"
+],
+"rise": 13.2,
+"residDb": 39.9,
+"residMinusMix": -1.8,
+"centroid": 1113,
+"flatness": 0.005,
+"sweepOctPerS": 2.39,
+"lowShare": 0.26,
+"beat": 27.28,
+"off16ms": 20,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -3111
+},
+"picChangeMax": 0.04,
+"picChangeFrame": 566
+},
+{
+"t": 19.007,
+"frame": 570,
+"frameExact": 570.2,
+"peakT": 19.301,
+"dur": 0.309,
+"bands": [
+"low"
+],
+"rise": 145.7,
+"residDb": 39.9,
+"residMinusMix": -1.8,
+"centroid": 1218,
+"flatness": 0.007,
+"sweepOctPerS": 3.89,
+"lowShare": 0.33,
+"beat": 27.4,
+"off16ms": -67,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -3027
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 567
+},
+{
+"t": 19.376,
+"frame": 581,
+"frameExact": 581.28,
+"peakT": 19.431,
+"dur": 0.125,
+"bands": [
+"mid",
+"low"
+],
+"rise": 147.8,
+"residDb": 37.6,
+"residMinusMix": -1.0,
+"centroid": 752,
+"flatness": 0.004,
+"sweepOctPerS": 5.7,
+"lowShare": 0.31,
+"beat": 27.94,
+"off16ms": -43,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -2657
+},
+"picChangeMax": 0.007,
+"picChangeFrame": 583
+},
+{
+"t": 19.615,
+"frame": 588,
+"frameExact": 588.46,
+"peakT": 19.775,
+"dur": 0.264,
+"bands": [
+"low"
+],
+"rise": 18.6,
+"residDb": 38.1,
+"residMinusMix": -0.3,
+"centroid": 914,
+"flatness": 0.007,
+"sweepOctPerS": -2.9,
+"lowShare": 0.19,
+"beat": 28.29,
+"off16ms": 24,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -2418
+},
+"picChangeMax": 0.007,
+"picChangeFrame": 585
+},
+{
+"t": 19.775,
+"frame": 593,
+"frameExact": 593.25,
+"peakT": 19.775,
+"dur": 0.105,
+"bands": [
+"low"
+],
+"rise": 151.8,
+"residDb": 38.1,
+"residMinusMix": -0.3,
+"centroid": 498,
+"flatness": 0.006,
+"sweepOctPerS": 24.13,
+"lowShare": 0.19,
+"beat": 28.52,
+"off16ms": 11,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -2258
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 591
+},
+{
+"t": 20.039,
+"frame": 601,
+"frameExact": 601.18,
+"peakT": 20.299,
+"dur": 0.559,
+"bands": [
+"low"
+],
+"rise": 148.4,
+"residDb": 34.8,
+"residMinusMix": -1.0,
+"centroid": 1270,
+"flatness": 0.012,
+"sweepOctPerS": 0.43,
+"lowShare": 0.24,
+"beat": 28.9,
+"off16ms": -69,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -1994
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 604
+},
+{
+"t": 20.274,
+"frame": 608,
+"frameExact": 608.22,
+"peakT": 20.439,
+"dur": 0.259,
+"bands": [
+"low"
+],
+"rise": 13.2,
+"residDb": 39.2,
+"residMinusMix": -0.8,
+"centroid": 1072,
+"flatness": 0.015,
+"sweepOctPerS": 11.91,
+"lowShare": 0.25,
+"beat": 29.24,
+"off16ms": -7,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -1759
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 608
+},
+{
+"t": 20.429,
+"frame": 613,
+"frameExact": 612.86,
+"peakT": 20.439,
+"dur": 0.105,
+"bands": [
+"mid",
+"low"
+],
+"rise": 139.1,
+"residDb": 39.2,
+"residMinusMix": -0.8,
+"centroid": 1187,
+"flatness": 0.003,
+"sweepOctPerS": 6.68,
+"lowShare": 0.04,
+"beat": 29.46,
+"off16ms": -25,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -1605
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 616
+},
+{
+"t": 21.007,
+"frame": 630,
+"frameExact": 630.22,
+"peakT": 21.327,
+"dur": 0.384,
+"bands": [
+"low",
+"mid",
+"high"
+],
+"rise": 139.0,
+"residDb": 39.2,
+"residMinusMix": -0.3,
+"centroid": 742,
+"flatness": 0.009,
+"sweepOctPerS": 2.68,
+"lowShare": 0.21,
+"beat": 30.3,
+"off16ms": 37,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -1026
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 630
+},
+{
+"t": 21.312,
+"frame": 639,
+"frameExact": 639.35,
+"peakT": 21.721,
+"dur": 0.424,
+"bands": [
+"mid",
+"low"
+],
+"rise": 150.1,
+"residDb": 40.0,
+"residMinusMix": -0.2,
+"centroid": 999,
+"flatness": 0.009,
+"sweepOctPerS": 1.02,
+"lowShare": 0.56,
+"beat": 30.74,
+"off16ms": -4,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -722
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 641
+},
+{
+"t": 21.611,
+"frame": 648,
+"frameExact": 648.33,
+"peakT": 21.88,
+"dur": 0.319,
+"bands": [
+"low"
+],
+"rise": 152.9,
+"residDb": 40.6,
+"residMinusMix": -0.6,
+"centroid": 404,
+"flatness": 0.043,
+"sweepOctPerS": -2.17,
+"lowShare": 0.85,
+"beat": 31.18,
+"off16ms": -49,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -422
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 645
+},
+{
+"t": 21.88,
+"frame": 656,
+"frameExact": 656.41,
+"peakT": 21.895,
+"dur": 0.115,
+"bands": [
+"low"
+],
+"rise": 159.5,
+"residDb": 39.9,
+"residMinusMix": -0.7,
+"centroid": 437,
+"flatness": 0.064,
+"sweepOctPerS": 15.79,
+"lowShare": 0.76,
+"beat": 31.57,
+"off16ms": 48,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": -153
+},
+"picChangeMax": 0.015,
+"picChangeFrame": 657
+},
+{
+"t": 22.065,
+"frame": 662,
+"frameExact": 661.95,
+"peakT": 22.354,
+"dur": 0.304,
+"bands": [
+"low"
+],
+"rise": 23.0,
+"residDb": 38.3,
+"residMinusMix": -0.4,
+"centroid": 1895,
+"flatness": 0.07,
+"sweepOctPerS": -1.31,
+"lowShare": 0.48,
+"beat": 31.84,
+"off16ms": 60,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": 32
+},
+"picChangeMax": 0.753,
+"picChangeFrame": 661
+},
+{
+"t": 22.21,
+"frame": 666,
+"frameExact": 666.29,
+"peakT": 22.549,
+"dur": 0.379,
+"bands": [
+"mid",
+"high"
+],
+"rise": 14.7,
+"residDb": 43.3,
+"residMinusMix": -0.1,
+"centroid": 809,
+"flatness": 0.049,
+"sweepOctPerS": -10.77,
+"lowShare": 0.9,
+"beat": 32.05,
+"off16ms": 32,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": 176
+},
+"picChangeMax": 0.007,
+"picChangeFrame": 667
+},
+{
+"t": 22.314,
+"frame": 669,
+"frameExact": 669.43,
+"peakT": 22.549,
+"dur": 0.274,
+"bands": [
+"low"
+],
+"rise": 141.2,
+"residDb": 43.3,
+"residMinusMix": -0.1,
+"centroid": 645,
+"flatness": 0.047,
+"sweepOctPerS": -13.09,
+"lowShare": 0.92,
+"beat": 32.2,
+"off16ms": -35,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": 281
+},
+"picChangeMax": 0.007,
+"picChangeFrame": 667
+},
+{
+"t": 22.529,
+"frame": 676,
+"frameExact": 675.86,
+"peakT": 22.549,
+"dur": 0.06,
+"bands": [
+"mid",
+"low"
+],
+"rise": 27.9,
+"residDb": 43.3,
+"residMinusMix": -0.1,
+"centroid": 90,
+"flatness": 0.009,
+"sweepOctPerS": -7.21,
+"lowShare": 0.98,
+"beat": 32.51,
+"off16ms": 7,
+"nearestCut": {
+"shot": 5,
+"frame": 661,
+"dtMs": 495
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 676
+},
+{
+"t": 22.818,
+"frame": 685,
+"frameExact": 684.54,
+"peakT": 22.978,
+"dur": 0.19,
+"bands": [
+"low"
+],
+"rise": 151.5,
+"residDb": 40.0,
+"residMinusMix": -0.5,
+"centroid": 339,
+"flatness": 0.161,
+"sweepOctPerS": -7.63,
+"lowShare": 0.89,
+"beat": 32.93,
+"off16ms": -49,
+"nearestCut": {
+"shot": 6,
+"frame": 698,
+"dtMs": -449
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 688
+},
+{
+"t": 23.576,
+"frame": 707,
+"frameExact": 707.29,
+"peakT": 23.926,
+"dur": 0.389,
+"bands": [
+"mid"
+],
+"rise": 13.8,
+"residDb": 43.4,
+"residMinusMix": -0.1,
+"centroid": 839,
+"flatness": 0.007,
+"sweepOctPerS": -9.59,
+"lowShare": 0.7,
+"beat": 34.03,
+"off16ms": 20,
+"nearestCut": {
+"shot": 6,
+"frame": 698,
+"dtMs": 310
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 705
+},
+{
+"t": 23.906,
+"frame": 717,
+"frameExact": 717.17,
+"peakT": 23.956,
+"dur": 0.06,
+"bands": [
+"low"
+],
+"rise": 163.2,
+"residDb": 43.4,
+"residMinusMix": -0.1,
+"centroid": 80,
+"flatness": 0.003,
+"sweepOctPerS": -15.9,
+"lowShare": 0.98,
+"beat": 34.51,
+"off16ms": 5,
+"nearestCut": {
+"shot": 6,
+"frame": 698,
+"dtMs": 639
+},
+"picChangeMax": 0.03,
+"picChangeFrame": 720
+},
+{
+"t": 24.195,
+"frame": 726,
+"frameExact": 725.85,
+"peakT": 24.39,
+"dur": 0.629,
+"bands": [
+"high"
+],
+"rise": 18.3,
+"residDb": 38.7,
+"residMinusMix": -1.4,
+"centroid": 1210,
+"flatness": 0.023,
+"sweepOctPerS": -0.04,
+"lowShare": 0.39,
+"beat": 34.93,
+"off16ms": -51,
+"nearestCut": {
+"shot": 6,
+"frame": 698,
+"dtMs": 928
+},
+"picChangeMax": 0.043,
+"picChangeFrame": 727
+},
+{
+"t": 24.649,
+"frame": 739,
+"frameExact": 739.47,
+"peakT": 24.649,
+"dur": 0.13,
+"bands": [
+"low",
+"high"
+],
+"rise": 12.9,
+"residDb": 39.8,
+"residMinusMix": -1.0,
+"centroid": 1669,
+"flatness": 0.062,
+"sweepOctPerS": 0.51,
+"lowShare": 0.5,
+"beat": 35.58,
+"off16ms": 58,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": -1218
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 736
+},
+{
+"t": 25.023,
+"frame": 751,
+"frameExact": 750.69,
+"peakT": 25.302,
+"dur": 0.409,
+"bands": [
+"mid"
+],
+"rise": 25.5,
+"residDb": 38.8,
+"residMinusMix": -0.7,
+"centroid": 1032,
+"flatness": 0.003,
+"sweepOctPerS": -1.39,
+"lowShare": 0.28,
+"beat": 36.13,
+"off16ms": -85,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": -844
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 754
+},
+{
+"t": 25.148,
+"frame": 754,
+"frameExact": 754.44,
+"peakT": 25.467,
+"dur": 0.369,
+"bands": [
+"low"
+],
+"rise": 148.4,
+"residDb": 41.8,
+"residMinusMix": -0.4,
+"centroid": 890,
+"flatness": 0.007,
+"sweepOctPerS": -0.69,
+"lowShare": 0.59,
+"beat": 36.31,
+"off16ms": 40,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": -719
+},
+"picChangeMax": 0.008,
+"picChangeFrame": 757
+},
+{
+"t": 25.302,
+"frame": 759,
+"frameExact": 759.07,
+"peakT": 25.467,
+"dur": 0.215,
+"bands": [
+"mid",
+"low"
+],
+"rise": 143.9,
+"residDb": 41.8,
+"residMinusMix": -0.4,
+"centroid": 857,
+"flatness": 0.01,
+"sweepOctPerS": 2.91,
+"lowShare": 0.66,
+"beat": 36.53,
+"off16ms": 22,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": -564
+},
+"picChangeMax": 0.02,
+"picChangeFrame": 762
+},
+{
+"t": 25.627,
+"frame": 769,
+"frameExact": 768.8,
+"peakT": 25.991,
+"dur": 0.394,
+"bands": [
+"high"
+],
+"rise": 12.4,
+"residDb": 42.5,
+"residMinusMix": -0.2,
+"centroid": 1497,
+"flatness": 0.024,
+"sweepOctPerS": -7.16,
+"lowShare": 0.59,
+"beat": 37.0,
+"off16ms": 2,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": -240
+},
+"picChangeMax": 0.023,
+"picChangeFrame": 772
+},
+{
+"t": 25.981,
+"frame": 779,
+"frameExact": 779.43,
+"peakT": 25.991,
+"dur": 0.04,
+"bands": [
+"high",
+"low"
+],
+"rise": 140.0,
+"residDb": 42.5,
+"residMinusMix": -0.2,
+"centroid": 199,
+"flatness": 0.041,
+"sweepOctPerS": 30.74,
+"lowShare": 0.95,
+"beat": 37.52,
+"off16ms": 11,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": 114
+},
+"picChangeMax": 0.119,
+"picChangeFrame": 776
+},
+{
+"t": 26.126,
+"frame": 784,
+"frameExact": 783.77,
+"peakT": 26.24,
+"dur": 0.145,
+"bands": [
+"low"
+],
+"rise": 148.4,
+"residDb": 35.9,
+"residMinusMix": -0.9,
+"centroid": 1367,
+"flatness": 0.068,
+"sweepOctPerS": 14.76,
+"lowShare": 0.47,
+"beat": 37.73,
+"off16ms": -17,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": 259
+},
+"picChangeMax": 0.013,
+"picChangeFrame": 781
+},
+{
+"t": 26.235,
+"frame": 787,
+"frameExact": 787.06,
+"peakT": 26.575,
+"dur": 0.708,
+"bands": [
+"high",
+"mid"
+],
+"rise": 19.3,
+"residDb": 37.9,
+"residMinusMix": -1.6,
+"centroid": 1613,
+"flatness": 0.015,
+"sweepOctPerS": -0.87,
+"lowShare": 0.22,
+"beat": 37.89,
+"off16ms": -79,
+"nearestCut": {
+"shot": 7,
+"frame": 776,
+"dtMs": 369
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 787
+},
+{
+"t": 26.744,
+"frame": 802,
+"frameExact": 802.33,
+"peakT": 26.734,
+"dur": 0.19,
+"bands": [
+"low"
+],
+"rise": 157.2,
+"residDb": 39.4,
+"residMinusMix": -0.4,
+"centroid": 1353,
+"flatness": 0.007,
+"sweepOctPerS": 0.35,
+"lowShare": 0.38,
+"beat": 38.62,
+"off16ms": 85,
+"nearestCut": {
+"shot": 8,
+"frame": 807,
+"dtMs": -156
+},
+"picChangeMax": 0.028,
+"picChangeFrame": 804
+},
+{
+"t": 27.173,
+"frame": 815,
+"frameExact": 815.2,
+"peakT": 27.208,
+"dur": 0.045,
+"bands": [
+"mid"
+],
+"rise": 15.1,
+"residDb": 42.2,
+"residMinusMix": -0.2,
+"centroid": 320,
+"flatness": 0.036,
+"sweepOctPerS": -25.1,
+"lowShare": 0.89,
+"beat": 39.25,
+"off16ms": -3,
+"nearestCut": {
+"shot": 8,
+"frame": 807,
+"dtMs": 273
+},
+"picChangeMax": 0.014,
+"picChangeFrame": 812
+},
+{
+"t": 27.358,
+"frame": 821,
+"frameExact": 820.73,
+"peakT": 27.378,
+"dur": 0.065,
+"bands": [
+"low"
+],
+"rise": 160.7,
+"residDb": 41.0,
+"residMinusMix": -0.7,
+"centroid": 313,
+"flatness": 0.041,
+"sweepOctPerS": 47.51,
+"lowShare": 0.83,
+"beat": 39.51,
+"off16ms": 9,
+"nearestCut": {
+"shot": 8,
+"frame": 807,
+"dtMs": 458
+},
+"picChangeMax": 0.008,
+"picChangeFrame": 818
+},
+{
+"t": 27.692,
+"frame": 831,
+"frameExact": 830.76,
+"peakT": 27.937,
+"dur": 0.409,
+"bands": [
+"high"
+],
+"rise": 14.3,
+"residDb": 37.7,
+"residMinusMix": -3.3,
+"centroid": 1571,
+"flatness": 0.028,
+"sweepOctPerS": -2.54,
+"lowShare": 0.41,
+"beat": 40.0,
+"off16ms": -2,
+"nearestCut": {
+"shot": 9,
+"frame": 847,
+"dtMs": -541
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 834
+},
+{
+"t": 29.388,
+"frame": 882,
+"frameExact": 881.65,
+"peakT": 29.368,
+"dur": 0.11,
+"bands": [
+"mid"
+],
+"rise": 12.6,
+"residDb": 38.4,
+"residMinusMix": -0.6,
+"centroid": 1013,
+"flatness": 0.0,
+"sweepOctPerS": 5.41,
+"lowShare": 0.12,
+"beat": 42.46,
+"off16ms": -29,
+"nearestCut": {
+"shot": 9,
+"frame": 847,
+"dtMs": 1155
+},
+"picChangeMax": 0.036,
+"picChangeFrame": 879
+},
+{
+"t": 29.653,
+"frame": 890,
+"frameExact": 889.58,
+"peakT": 29.802,
+"dur": 0.559,
+"bands": [
+"high"
+],
+"rise": 10.6,
+"residDb": 37.8,
+"residMinusMix": -1.5,
+"centroid": 1102,
+"flatness": 0.004,
+"sweepOctPerS": 0.23,
+"lowShare": 0.27,
+"beat": 42.84,
+"off16ms": 63,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": -1281
+},
+"picChangeMax": 0.031,
+"picChangeFrame": 892
+},
+{
+"t": 30.65,
+"frame": 920,
+"frameExact": 919.51,
+"peakT": 31.005,
+"dur": 0.384,
+"bands": [
+"mid"
+],
+"rise": 13.4,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 1319,
+"flatness": 0.049,
+"sweepOctPerS": -6.06,
+"lowShare": 0.77,
+"beat": 44.29,
+"off16ms": 26,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": -283
+},
+"picChangeMax": 0.036,
+"picChangeFrame": 918
+},
+{
+"t": 30.81,
+"frame": 924,
+"frameExact": 924.3,
+"peakT": 31.005,
+"dur": 0.224,
+"bands": [
+"mid",
+"high"
+],
+"rise": 19.4,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 984,
+"flatness": 0.031,
+"sweepOctPerS": -15.07,
+"lowShare": 0.83,
+"beat": 44.52,
+"off16ms": 13,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": -123
+},
+"picChangeMax": 0.03,
+"picChangeFrame": 921
+},
+{
+"t": 30.965,
+"frame": 929,
+"frameExact": 928.94,
+"peakT": 31.005,
+"dur": 0.07,
+"bands": [
+"low"
+],
+"rise": 156.3,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 120,
+"flatness": 0.018,
+"sweepOctPerS": -37.17,
+"lowShare": 0.95,
+"beat": 44.74,
+"off16ms": -5,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 31
+},
+"picChangeMax": 0.785,
+"picChangeFrame": 928
+},
+{
+"t": 31.109,
+"frame": 933,
+"frameExact": 933.28,
+"peakT": 31.339,
+"dur": 0.259,
+"bands": [
+"mid",
+"high"
+],
+"rise": 28.9,
+"residDb": 37.3,
+"residMinusMix": -0.5,
+"centroid": 403,
+"flatness": 0.037,
+"sweepOctPerS": -6.26,
+"lowShare": 0.49,
+"beat": 44.95,
+"off16ms": -32,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 176
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 930
+},
+{
+"t": 31.229,
+"frame": 937,
+"frameExact": 936.87,
+"peakT": 31.508,
+"dur": 0.329,
+"bands": [
+"low"
+],
+"rise": 17.4,
+"residDb": 43.0,
+"residMinusMix": -0.3,
+"centroid": 254,
+"flatness": 0.015,
+"sweepOctPerS": -3.51,
+"lowShare": 0.79,
+"beat": 45.13,
+"off16ms": -85,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 296
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 934
+},
+{
+"t": 31.354,
+"frame": 941,
+"frameExact": 940.61,
+"peakT": 31.508,
+"dur": 0.205,
+"bands": [
+"high",
+"mid"
+],
+"rise": 29.2,
+"residDb": 43.0,
+"residMinusMix": -0.3,
+"centroid": 285,
+"flatness": 0.015,
+"sweepOctPerS": -14.35,
+"lowShare": 0.83,
+"beat": 45.31,
+"off16ms": 40,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 420
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 938
+},
+{
+"t": 31.434,
+"frame": 943,
+"frameExact": 943.01,
+"peakT": 31.508,
+"dur": 0.125,
+"bands": [
+"low"
+],
+"rise": 148.7,
+"residDb": 43.0,
+"residMinusMix": -0.3,
+"centroid": 156,
+"flatness": 0.014,
+"sweepOctPerS": -17.3,
+"lowShare": 0.89,
+"beat": 45.42,
+"off16ms": -53,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 500
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 941
+},
+{
+"t": 31.483,
+"frame": 945,
+"frameExact": 944.5,
+"peakT": 31.508,
+"dur": 0.075,
+"bands": [
+"high"
+],
+"rise": 31.1,
+"residDb": 43.0,
+"residMinusMix": -0.3,
+"centroid": 97,
+"flatness": 0.012,
+"sweepOctPerS": -33.19,
+"lowShare": 0.94,
+"beat": 45.5,
+"off16ms": -3,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 550
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 942
+},
+{
+"t": 31.668,
+"frame": 950,
+"frameExact": 950.04,
+"peakT": 32.027,
+"dur": 0.693,
+"bands": [
+"high"
+],
+"rise": 10.5,
+"residDb": 35.3,
+"residMinusMix": -1.6,
+"centroid": 495,
+"flatness": 0.05,
+"sweepOctPerS": 0.79,
+"lowShare": 0.72,
+"beat": 45.76,
+"off16ms": 9,
+"nearestCut": {
+"shot": 10,
+"frame": 928,
+"dtMs": 735
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 947
+},
+{
+"t": 31.848,
+"frame": 955,
+"frameExact": 955.43,
+"peakT": 32.227,
+"dur": 0.419,
+"bands": [
+"high"
+],
+"rise": 10.5,
+"residDb": 41.8,
+"residMinusMix": -1.6,
+"centroid": 487,
+"flatness": 0.048,
+"sweepOctPerS": -2.39,
+"lowShare": 0.72,
+"beat": 46.02,
+"off16ms": 16,
+"nearestCut": {
+"shot": 11,
+"frame": 973,
+"dtMs": -586
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 952
+},
+{
+"t": 32.027,
+"frame": 961,
+"frameExact": 960.82,
+"peakT": 32.227,
+"dur": 0.239,
+"bands": [
+"high",
+"mid"
+],
+"rise": 23.9,
+"residDb": 41.8,
+"residMinusMix": -1.6,
+"centroid": 487,
+"flatness": 0.049,
+"sweepOctPerS": -8.76,
+"lowShare": 0.76,
+"beat": 46.28,
+"off16ms": 24,
+"nearestCut": {
+"shot": 11,
+"frame": 973,
+"dtMs": -406
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 964
+},
+{
+"t": 32.297,
+"frame": 969,
+"frameExact": 968.9,
+"peakT": 32.302,
+"dur": 0.035,
+"bands": [
+"high",
+"low"
+],
+"rise": 24.9,
+"residDb": 40.3,
+"residMinusMix": -0.4,
+"centroid": 324,
+"flatness": 0.245,
+"sweepOctPerS": 55.49,
+"lowShare": 0.92,
+"beat": 46.67,
+"off16ms": -52,
+"nearestCut": {
+"shot": 11,
+"frame": 973,
+"dtMs": -137
+},
+"picChangeMax": 0.017,
+"picChangeFrame": 972
+},
+{
+"t": 32.471,
+"frame": 974,
+"frameExact": 974.14,
+"peakT": 32.805,
+"dur": 0.354,
+"bands": [
+"high"
+],
+"rise": 14.6,
+"residDb": 39.3,
+"residMinusMix": -0.7,
+"centroid": 642,
+"flatness": 0.047,
+"sweepOctPerS": -1.89,
+"lowShare": 0.74,
+"beat": 46.93,
+"off16ms": -50,
+"nearestCut": {
+"shot": 11,
+"frame": 973,
+"dtMs": 38
+},
+"picChangeMax": 0.58,
+"picChangeFrame": 973
+},
+{
+"t": 32.706,
+"frame": 981,
+"frameExact": 981.17,
+"peakT": 32.89,
+"dur": 0.259,
+"bands": [
+"high",
+"mid"
+],
+"rise": 20.3,
+"residDb": 42.4,
+"residMinusMix": -0.1,
+"centroid": 391,
+"flatness": 0.05,
+"sweepOctPerS": 1.54,
+"lowShare": 0.84,
+"beat": 47.27,
+"off16ms": 13,
+"nearestCut": {
+"shot": 11,
+"frame": 973,
+"dtMs": 272
+},
+"picChangeMax": 0.033,
+"picChangeFrame": 978
+},
+{
+"t": 32.795,
+"frame": 984,
+"frameExact": 983.86,
+"peakT": 32.89,
+"dur": 0.17,
+"bands": [
+"low"
+],
+"rise": 156.5,
+"residDb": 42.4,
+"residMinusMix": -0.1,
+"centroid": 276,
+"flatness": 0.051,
+"sweepOctPerS": 14.76,
+"lowShare": 0.87,
+"beat": 47.4,
+"off16ms": -70,
+"nearestCut": {
+"shot": 12,
+"frame": 994,
+"dtMs": -338
+},
+"picChangeMax": 0.023,
+"picChangeFrame": 981
+},
+{
+"t": 32.885,
+"frame": 987,
+"frameExact": 986.56,
+"peakT": 32.915,
+"dur": 0.08,
+"bands": [
+"mid"
+],
+"rise": 11.6,
+"residDb": 40.5,
+"residMinusMix": -0.2,
+"centroid": 520,
+"flatness": 0.055,
+"sweepOctPerS": 47.21,
+"lowShare": 0.87,
+"beat": 47.53,
+"off16ms": 20,
+"nearestCut": {
+"shot": 12,
+"frame": 994,
+"dtMs": -248
+},
+"picChangeMax": 0.009,
+"picChangeFrame": 984
+},
+{
+"t": 33.03,
+"frame": 991,
+"frameExact": 990.9,
+"peakT": 33.399,
+"dur": 0.379,
+"bands": [
+"low"
+],
+"rise": 12.9,
+"residDb": 38.1,
+"residMinusMix": -0.2,
+"centroid": 2132,
+"flatness": 0.039,
+"sweepOctPerS": -0.05,
+"lowShare": 0.43,
+"beat": 47.74,
+"off16ms": -8,
+"nearestCut": {
+"shot": 12,
+"frame": 994,
+"dtMs": -103
+},
+"picChangeMax": 0.163,
+"picChangeFrame": 994
+},
+{
+"t": 33.21,
+"frame": 996,
+"frameExact": 996.29,
+"peakT": 33.604,
+"dur": 0.414,
+"bands": [
+"high",
+"mid"
+],
+"rise": 20.6,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 1168,
+"flatness": 0.047,
+"sweepOctPerS": -9.95,
+"lowShare": 0.85,
+"beat": 48.0,
+"off16ms": -1,
+"nearestCut": {
+"shot": 12,
+"frame": 994,
+"dtMs": 76
+},
+"picChangeMax": 0.163,
+"picChangeFrame": 994
+},
+{
+"t": 33.384,
+"frame": 1002,
+"frameExact": 1001.52,
+"peakT": 33.604,
+"dur": 0.239,
+"bands": [
+"low"
+],
+"rise": 154.7,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 668,
+"flatness": 0.055,
+"sweepOctPerS": -15.02,
+"lowShare": 0.91,
+"beat": 48.25,
+"off16ms": 1,
+"nearestCut": {
+"shot": 13,
+"frame": 1009,
+"dtMs": -249
+},
+"picChangeMax": 0.02,
+"picChangeFrame": 999
+},
+{
+"t": 33.564,
+"frame": 1007,
+"frameExact": 1006.91,
+"peakT": 33.604,
+"dur": 0.06,
+"bands": [
+"low"
+],
+"rise": 161.5,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 89,
+"flatness": 0.018,
+"sweepOctPerS": -15.88,
+"lowShare": 0.98,
+"beat": 48.51,
+"off16ms": 9,
+"nearestCut": {
+"shot": 13,
+"frame": 1009,
+"dtMs": -70
+},
+"picChangeMax": 0.06,
+"picChangeFrame": 1009
+},
+{
+"t": 34.242,
+"frame": 1027,
+"frameExact": 1027.27,
+"peakT": 34.292,
+"dur": 0.08,
+"bands": [
+"low"
+],
+"rise": 16.6,
+"residDb": 43.1,
+"residMinusMix": -0.1,
+"centroid": 88,
+"flatness": 0.011,
+"sweepOctPerS": -22.09,
+"lowShare": 0.98,
+"beat": 49.5,
+"off16ms": -3,
+"nearestCut": {
+"shot": 14,
+"frame": 1035,
+"dtMs": -258
+},
+"picChangeMax": 0.044,
+"picChangeFrame": 1029
+},
+{
+"t": 34.382,
+"frame": 1031,
+"frameExact": 1031.46,
+"peakT": 34.517,
+"dur": 0.165,
+"bands": [
+"high"
+],
+"rise": 11.6,
+"residDb": 38.9,
+"residMinusMix": -0.9,
+"centroid": 800,
+"flatness": 0.086,
+"sweepOctPerS": -8.24,
+"lowShare": 0.84,
+"beat": 49.7,
+"off16ms": -35,
+"nearestCut": {
+"shot": 14,
+"frame": 1035,
+"dtMs": -118
+},
+"picChangeMax": 0.115,
+"picChangeFrame": 1033
+},
+{
+"t": 34.482,
+"frame": 1034,
+"frameExact": 1034.45,
+"peakT": 34.517,
+"dur": 0.065,
+"bands": [
+"low"
+],
+"rise": 155.5,
+"residDb": 38.9,
+"residMinusMix": -0.9,
+"centroid": 383,
+"flatness": 0.148,
+"sweepOctPerS": 42.75,
+"lowShare": 0.88,
+"beat": 49.84,
+"off16ms": 65,
+"nearestCut": {
+"shot": 14,
+"frame": 1035,
+"dtMs": -18
+},
+"picChangeMax": 0.132,
+"picChangeFrame": 1035
+},
+{
+"t": 34.931,
+"frame": 1048,
+"frameExact": 1047.92,
+"peakT": 34.98,
+"dur": 0.07,
+"bands": [
+"mid",
+"low"
+],
+"rise": 11.3,
+"residDb": 43.2,
+"residMinusMix": -0.0,
+"centroid": 106,
+"flatness": 0.023,
+"sweepOctPerS": -28.73,
+"lowShare": 0.96,
+"beat": 50.49,
+"off16ms": -4,
+"nearestCut": {
+"shot": 14,
+"frame": 1035,
+"dtMs": 431
+},
+"picChangeMax": 0.04,
+"picChangeFrame": 1051
+},
+{
+"t": 35.06,
+"frame": 1052,
+"frameExact": 1051.81,
+"peakT": 35.21,
+"dur": 0.19,
+"bands": [
+"high"
+],
+"rise": 15.2,
+"residDb": 39.3,
+"residMinusMix": -0.2,
+"centroid": 2069,
+"flatness": 0.066,
+"sweepOctPerS": -11.31,
+"lowShare": 0.69,
+"beat": 50.68,
+"off16ms": -46,
+"nearestCut": {
+"shot": 14,
+"frame": 1035,
+"dtMs": 560
+},
+"picChangeMax": 0.096,
+"picChangeFrame": 1053
+},
+{
+"t": 35.2,
+"frame": 1056,
+"frameExact": 1056.0,
+"peakT": 35.21,
+"dur": 0.05,
+"bands": [
+"low"
+],
+"rise": 143.6,
+"residDb": 39.3,
+"residMinusMix": -0.2,
+"centroid": 366,
+"flatness": 0.16,
+"sweepOctPerS": 64.02,
+"lowShare": 0.89,
+"beat": 50.89,
+"off16ms": -79,
+"nearestCut": {
+"shot": 14,
+"frame": 1035,
+"dtMs": 700
+},
+"picChangeMax": 0.096,
+"picChangeFrame": 1053
+},
+{
+"t": 35.639,
+"frame": 1069,
+"frameExact": 1069.17,
+"peakT": 35.659,
+"dur": 0.06,
+"bands": [
+"low"
+],
+"rise": 162.2,
+"residDb": 42.4,
+"residMinusMix": -0.3,
+"centroid": 97,
+"flatness": 0.007,
+"sweepOctPerS": 6.1,
+"lowShare": 0.98,
+"beat": 51.52,
+"off16ms": 15,
+"nearestCut": {
+"shot": 15,
+"frame": 1103,
+"dtMs": -1128
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1072
+},
+{
+"t": 36.038,
+"frame": 1081,
+"frameExact": 1081.14,
+"peakT": 36.337,
+"dur": 0.339,
+"bands": [
+"low",
+"high"
+],
+"rise": 151.9,
+"residDb": 37.4,
+"residMinusMix": -0.6,
+"centroid": 355,
+"flatness": 0.024,
+"sweepOctPerS": 5.31,
+"lowShare": 0.71,
+"beat": 52.1,
+"off16ms": 69,
+"nearestCut": {
+"shot": 15,
+"frame": 1103,
+"dtMs": -729
+},
+"picChangeMax": 0.042,
+"picChangeFrame": 1082
+},
+{
+"t": 36.337,
+"frame": 1090,
+"frameExact": 1090.12,
+"peakT": 36.507,
+"dur": 0.279,
+"bands": [
+"high",
+"low",
+"mid"
+],
+"rise": 155.4,
+"residDb": 38.8,
+"residMinusMix": -3.5,
+"centroid": 424,
+"flatness": 0.018,
+"sweepOctPerS": 1.41,
+"lowShare": 0.72,
+"beat": 52.53,
+"off16ms": 24,
+"nearestCut": {
+"shot": 15,
+"frame": 1103,
+"dtMs": -429
+},
+"picChangeMax": 0.081,
+"picChangeFrame": 1092
+},
+{
+"t": 36.766,
+"frame": 1103,
+"frameExact": 1102.99,
+"peakT": 37.021,
+"dur": 0.429,
+"bands": [
+"mid"
+],
+"rise": 14.6,
+"residDb": 38.5,
+"residMinusMix": -2.5,
+"centroid": 1689,
+"flatness": 0.02,
+"sweepOctPerS": 0.42,
+"lowShare": 0.11,
+"beat": 53.16,
+"off16ms": -64,
+"nearestCut": {
+"shot": 15,
+"frame": 1103,
+"dtMs": 0
+},
+"picChangeMax": 0.19,
+"picChangeFrame": 1103
+},
+{
+"t": 37.869,
+"frame": 1136,
+"frameExact": 1136.07,
+"peakT": 37.859,
+"dur": 0.045,
+"bands": [
+"mid"
+],
+"rise": 10.6,
+"residDb": 38.5,
+"residMinusMix": -0.7,
+"centroid": 859,
+"flatness": 0.046,
+"sweepOctPerS": -37.72,
+"lowShare": 0.64,
+"beat": 54.76,
+"off16ms": 4,
+"nearestCut": {
+"shot": 15,
+"frame": 1103,
+"dtMs": 1102
+},
+"picChangeMax": 0.044,
+"picChangeFrame": 1133
+},
+{
+"t": 38.971,
+"frame": 1169,
+"frameExact": 1169.14,
+"peakT": 38.956,
+"dur": 0.06,
+"bands": [
+"low"
+],
+"rise": 140.6,
+"residDb": 39.8,
+"residMinusMix": -0.4,
+"centroid": 1000,
+"flatness": 0.05,
+"sweepOctPerS": -22.47,
+"lowShare": 0.71,
+"beat": 56.35,
+"off16ms": 72,
+"nearestCut": {
+"shot": 16,
+"frame": 1234,
+"dtMs": -2162
+},
+"picChangeMax": 0.032,
+"picChangeFrame": 1167
+},
+{
+"t": 39.78,
+"frame": 1193,
+"frameExact": 1193.39,
+"peakT": 39.785,
+"dur": 0.414,
+"bands": [
+"low"
+],
+"rise": 154.1,
+"residDb": 38.9,
+"residMinusMix": -0.8,
+"centroid": 1311,
+"flatness": 0.005,
+"sweepOctPerS": 1.92,
+"lowShare": 0.23,
+"beat": 57.53,
+"off16ms": 18,
+"nearestCut": {
+"shot": 16,
+"frame": 1234,
+"dtMs": -1354
+},
+"picChangeMax": 0.053,
+"picChangeFrame": 1196
+},
+{
+"t": 40.288,
+"frame": 1209,
+"frameExact": 1208.65,
+"peakT": 40.303,
+"dur": 0.065,
+"bands": [
+"high",
+"low"
+],
+"rise": 154.7,
+"residDb": 37.9,
+"residMinusMix": -0.9,
+"centroid": 1325,
+"flatness": 0.124,
+"sweepOctPerS": -24.82,
+"lowShare": 0.71,
+"beat": 58.26,
+"off16ms": 10,
+"nearestCut": {
+"shot": 16,
+"frame": 1234,
+"dtMs": -845
+},
+"picChangeMax": 0.042,
+"picChangeFrame": 1206
+},
+{
+"t": 41.351,
+"frame": 1241,
+"frameExact": 1240.53,
+"peakT": 41.366,
+"dur": 0.05,
+"bands": [
+"mid"
+],
+"rise": 16.4,
+"residDb": 39.1,
+"residMinusMix": -2.0,
+"centroid": 680,
+"flatness": 0.025,
+"sweepOctPerS": 4.11,
+"lowShare": 0.02,
+"beat": 59.81,
+"off16ms": 38,
+"nearestCut": {
+"shot": 16,
+"frame": 1234,
+"dtMs": 218
+},
+"picChangeMax": 0.091,
+"picChangeFrame": 1239
+},
+{
+"t": 41.83,
+"frame": 1255,
+"frameExact": 1254.9,
+"peakT": 42.049,
+"dur": 0.239,
+"bands": [
+"low"
+],
+"rise": 154.5,
+"residDb": 43.1,
+"residMinusMix": -0.2,
+"centroid": 869,
+"flatness": 0.029,
+"sweepOctPerS": -16.26,
+"lowShare": 0.85,
+"beat": 60.5,
+"off16ms": 0,
+"nearestCut": {
+"shot": 17,
+"frame": 1257,
+"dtMs": -70
+},
+"picChangeMax": 0.631,
+"picChangeFrame": 1257
+},
+{
+"t": 42.005,
+"frame": 1260,
+"frameExact": 1260.14,
+"peakT": 42.049,
+"dur": 0.065,
+"bands": [
+"mid",
+"low"
+],
+"rise": 161.7,
+"residDb": 43.1,
+"residMinusMix": -0.2,
+"centroid": 107,
+"flatness": 0.009,
+"sweepOctPerS": -27.08,
+"lowShare": 0.96,
+"beat": 60.75,
+"off16ms": 2,
+"nearestCut": {
+"shot": 17,
+"frame": 1257,
+"dtMs": 105
+},
+"picChangeMax": 0.631,
+"picChangeFrame": 1257
+},
+{
+"t": 42.149,
+"frame": 1264,
+"frameExact": 1264.48,
+"peakT": 42.518,
+"dur": 0.449,
+"bands": [
+"mid",
+"high"
+],
+"rise": 23.9,
+"residDb": 37.3,
+"residMinusMix": -1.4,
+"centroid": 322,
+"flatness": 0.022,
+"sweepOctPerS": -3.98,
+"lowShare": 0.77,
+"beat": 60.96,
+"off16ms": -26,
+"nearestCut": {
+"shot": 17,
+"frame": 1257,
+"dtMs": 249
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 1263
+},
+{
+"t": 42.264,
+"frame": 1268,
+"frameExact": 1267.92,
+"peakT": 42.558,
+"dur": 0.324,
+"bands": [
+"low"
+],
+"rise": 26.9,
+"residDb": 43.0,
+"residMinusMix": -0.2,
+"centroid": 249,
+"flatness": 0.015,
+"sweepOctPerS": -0.44,
+"lowShare": 0.82,
+"beat": 61.13,
+"off16ms": -83,
+"nearestCut": {
+"shot": 17,
+"frame": 1257,
+"dtMs": 364
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1266
+},
+{
+"t": 42.384,
+"frame": 1272,
+"frameExact": 1271.51,
+"peakT": 42.558,
+"dur": 0.205,
+"bands": [
+"mid",
+"high"
+],
+"rise": 24.8,
+"residDb": 43.0,
+"residMinusMix": -0.2,
+"centroid": 344,
+"flatness": 0.016,
+"sweepOctPerS": -13.4,
+"lowShare": 0.86,
+"beat": 61.3,
+"off16ms": 36,
+"nearestCut": {
+"shot": 17,
+"frame": 1257,
+"dtMs": 484
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1272
+},
+{
+"t": 42.518,
+"frame": 1276,
+"frameExact": 1275.55,
+"peakT": 42.558,
+"dur": 0.07,
+"bands": [
+"mid",
+"high",
+"low"
+],
+"rise": 21.5,
+"residDb": 43.0,
+"residMinusMix": -0.2,
+"centroid": 96,
+"flatness": 0.012,
+"sweepOctPerS": -34.7,
+"lowShare": 0.95,
+"beat": 61.5,
+"off16ms": -1,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": -615
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1273
+},
+{
+"t": 42.723,
+"frame": 1282,
+"frameExact": 1281.69,
+"peakT": 42.808,
+"dur": 0.259,
+"bands": [
+"low",
+"high"
+],
+"rise": 31.2,
+"residDb": 35.6,
+"residMinusMix": -1.6,
+"centroid": 392,
+"flatness": 0.035,
+"sweepOctPerS": 8.0,
+"lowShare": 0.45,
+"beat": 61.79,
+"off16ms": 31,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": -410
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1284
+},
+{
+"t": 42.803,
+"frame": 1284,
+"frameExact": 1284.08,
+"peakT": 42.808,
+"dur": 0.18,
+"bands": [
+"mid"
+],
+"rise": 24.2,
+"residDb": 35.6,
+"residMinusMix": -1.6,
+"centroid": 545,
+"flatness": 0.038,
+"sweepOctPerS": -1.45,
+"lowShare": 0.41,
+"beat": 61.91,
+"off16ms": -62,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": -331
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1287
+},
+{
+"t": 42.912,
+"frame": 1287,
+"frameExact": 1287.37,
+"peakT": 43.257,
+"dur": 0.454,
+"bands": [
+"low"
+],
+"rise": 14.0,
+"residDb": 42.6,
+"residMinusMix": -0.2,
+"centroid": 497,
+"flatness": 0.042,
+"sweepOctPerS": -8.31,
+"lowShare": 0.81,
+"beat": 62.07,
+"off16ms": 48,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": -221
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 1290
+},
+{
+"t": 43.002,
+"frame": 1290,
+"frameExact": 1290.07,
+"peakT": 43.257,
+"dur": 0.364,
+"bands": [
+"high"
+],
+"rise": 10.3,
+"residDb": 42.6,
+"residMinusMix": -0.2,
+"centroid": 613,
+"flatness": 0.042,
+"sweepOctPerS": -14.74,
+"lowShare": 0.83,
+"beat": 62.2,
+"off16ms": -35,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": -131
+},
+"picChangeMax": 0.011,
+"picChangeFrame": 1293
+},
+{
+"t": 43.067,
+"frame": 1292,
+"frameExact": 1292.01,
+"peakT": 43.421,
+"dur": 0.419,
+"bands": [
+"mid"
+],
+"rise": 13.7,
+"residDb": 43.2,
+"residMinusMix": -0.1,
+"centroid": 293,
+"flatness": 0.042,
+"sweepOctPerS": -7.95,
+"lowShare": 0.9,
+"beat": 62.29,
+"off16ms": 30,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": -66
+},
+"picChangeMax": 0.631,
+"picChangeFrame": 1294
+},
+{
+"t": 43.227,
+"frame": 1297,
+"frameExact": 1296.8,
+"peakT": 43.421,
+"dur": 0.259,
+"bands": [
+"low"
+],
+"rise": 153.7,
+"residDb": 43.2,
+"residMinusMix": -0.1,
+"centroid": 98,
+"flatness": 0.035,
+"sweepOctPerS": 2.3,
+"lowShare": 0.95,
+"beat": 62.53,
+"off16ms": 18,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 93
+},
+"picChangeMax": 0.631,
+"picChangeFrame": 1294
+},
+{
+"t": 43.332,
+"frame": 1300,
+"frameExact": 1299.95,
+"peakT": 43.421,
+"dur": 0.155,
+"bands": [
+"high"
+],
+"rise": 13.7,
+"residDb": 43.2,
+"residMinusMix": -0.1,
+"centroid": 96,
+"flatness": 0.032,
+"sweepOctPerS": 5.89,
+"lowShare": 0.97,
+"beat": 62.68,
+"off16ms": -50,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 198
+},
+"picChangeMax": 0.02,
+"picChangeFrame": 1297
+},
+{
+"t": 43.416,
+"frame": 1302,
+"frameExact": 1302.49,
+"peakT": 43.421,
+"dur": 0.07,
+"bands": [
+"low"
+],
+"rise": 19.0,
+"residDb": 43.2,
+"residMinusMix": -0.1,
+"centroid": 83,
+"flatness": 0.052,
+"sweepOctPerS": 42.96,
+"lowShare": 0.98,
+"beat": 62.8,
+"off16ms": 35,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 283
+},
+"picChangeMax": 0.012,
+"picChangeFrame": 1299
+},
+{
+"t": 43.586,
+"frame": 1308,
+"frameExact": 1307.58,
+"peakT": 43.93,
+"dur": 0.374,
+"bands": [
+"mid",
+"high"
+],
+"rise": 32.4,
+"residDb": 42.3,
+"residMinusMix": -0.2,
+"centroid": 1047,
+"flatness": 0.043,
+"sweepOctPerS": -8.18,
+"lowShare": 0.87,
+"beat": 63.05,
+"off16ms": 32,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 453
+},
+"picChangeMax": 0.029,
+"picChangeFrame": 1311
+},
+{
+"t": 43.741,
+"frame": 1312,
+"frameExact": 1312.22,
+"peakT": 43.93,
+"dur": 0.22,
+"bands": [
+"low",
+"mid"
+],
+"rise": 140.9,
+"residDb": 42.3,
+"residMinusMix": -0.2,
+"centroid": 502,
+"flatness": 0.044,
+"sweepOctPerS": -8.33,
+"lowShare": 0.89,
+"beat": 63.27,
+"off16ms": 14,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 607
+},
+"picChangeMax": 0.035,
+"picChangeFrame": 1312
+},
+{
+"t": 43.92,
+"frame": 1318,
+"frameExact": 1317.61,
+"peakT": 43.93,
+"dur": 0.04,
+"bands": [
+"high",
+"low"
+],
+"rise": 161.7,
+"residDb": 42.3,
+"residMinusMix": -0.2,
+"centroid": 136,
+"flatness": 0.031,
+"sweepOctPerS": 31.75,
+"lowShare": 0.97,
+"beat": 63.53,
+"off16ms": 21,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 787
+},
+"picChangeMax": 0.015,
+"picChangeFrame": 1316
+},
+{
+"t": 44.234,
+"frame": 1327,
+"frameExact": 1327.03,
+"peakT": 44.339,
+"dur": 0.125,
+"bands": [
+"mid",
+"high",
+"low"
+],
+"rise": 139.3,
+"residDb": 39.9,
+"residMinusMix": -0.2,
+"centroid": 1030,
+"flatness": 0.097,
+"sweepOctPerS": -27.46,
+"lowShare": 0.82,
+"beat": 63.99,
+"off16ms": -9,
+"nearestCut": {
+"shot": 18,
+"frame": 1294,
+"dtMs": 1101
+},
+"picChangeMax": 0.042,
+"picChangeFrame": 1329
+},
+{
+"t": 44.544,
+"frame": 1336,
+"frameExact": 1336.31,
+"peakT": 44.813,
+"dur": 0.294,
+"bands": [
+"high"
+],
+"rise": 10.8,
+"residDb": 42.7,
+"residMinusMix": -0.1,
+"centroid": 241,
+"flatness": 0.043,
+"sweepOctPerS": -3.34,
+"lowShare": 0.94,
+"beat": 64.44,
+"off16ms": -45,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": -856
+},
+"picChangeMax": 0.019,
+"picChangeFrame": 1333
+},
+{
+"t": 44.599,
+"frame": 1338,
+"frameExact": 1337.96,
+"peakT": 44.813,
+"dur": 0.239,
+"bands": [
+"low"
+],
+"rise": 155.8,
+"residDb": 42.7,
+"residMinusMix": -0.1,
+"centroid": 211,
+"flatness": 0.033,
+"sweepOctPerS": -4.62,
+"lowShare": 0.94,
+"beat": 64.51,
+"off16ms": 10,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": -801
+},
+"picChangeMax": 0.013,
+"picChangeFrame": 1335
+},
+{
+"t": 44.778,
+"frame": 1343,
+"frameExact": 1343.35,
+"peakT": 44.813,
+"dur": 0.06,
+"bands": [
+"low",
+"mid"
+],
+"rise": 134.8,
+"residDb": 42.7,
+"residMinusMix": -0.1,
+"centroid": 104,
+"flatness": 0.024,
+"sweepOctPerS": -2.9,
+"lowShare": 0.98,
+"beat": 64.78,
+"off16ms": 17,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": -622
+},
+"picChangeMax": 0.042,
+"picChangeFrame": 1344
+},
+{
+"t": 44.933,
+"frame": 1348,
+"frameExact": 1347.99,
+"peakT": 45.297,
+"dur": 0.424,
+"bands": [
+"low"
+],
+"rise": 154.9,
+"residDb": 41.9,
+"residMinusMix": -0.2,
+"centroid": 230,
+"flatness": 0.052,
+"sweepOctPerS": -1.52,
+"lowShare": 0.92,
+"beat": 65.0,
+"off16ms": 0,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": -467
+},
+"picChangeMax": 0.028,
+"picChangeFrame": 1346
+},
+{
+"t": 45.237,
+"frame": 1357,
+"frameExact": 1357.12,
+"peakT": 45.297,
+"dur": 0.12,
+"bands": [
+"mid"
+],
+"rise": 11.7,
+"residDb": 41.9,
+"residMinusMix": -0.2,
+"centroid": 136,
+"flatness": 0.024,
+"sweepOctPerS": -3.65,
+"lowShare": 0.95,
+"beat": 65.44,
+"off16ms": -41,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": -163
+},
+"picChangeMax": 0.019,
+"picChangeFrame": 1359
+},
+{
+"t": 45.297,
+"frame": 1359,
+"frameExact": 1358.91,
+"peakT": 45.586,
+"dur": 0.304,
+"bands": [
+"low",
+"high"
+],
+"rise": 22.6,
+"residDb": 40.8,
+"residMinusMix": -0.3,
+"centroid": 138,
+"flatness": 0.051,
+"sweepOctPerS": -2.78,
+"lowShare": 0.96,
+"beat": 65.53,
+"off16ms": 19,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": -103
+},
+"picChangeMax": 0.569,
+"picChangeFrame": 1362
+},
+{
+"t": 45.457,
+"frame": 1364,
+"frameExact": 1363.7,
+"peakT": 45.586,
+"dur": 0.145,
+"bands": [
+"low"
+],
+"rise": 158.0,
+"residDb": 40.8,
+"residMinusMix": -0.3,
+"centroid": 108,
+"flatness": 0.153,
+"sweepOctPerS": 1.09,
+"lowShare": 0.98,
+"beat": 65.76,
+"off16ms": 6,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": 57
+},
+"picChangeMax": 0.569,
+"picChangeFrame": 1362
+},
+{
+"t": 45.696,
+"frame": 1371,
+"frameExact": 1370.88,
+"peakT": 45.995,
+"dur": 0.359,
+"bands": [
+"low",
+"mid"
+],
+"rise": 148.7,
+"residDb": 41.0,
+"residMinusMix": -0.1,
+"centroid": 110,
+"flatness": 0.11,
+"sweepOctPerS": -0.52,
+"lowShare": 0.97,
+"beat": 66.11,
+"off16ms": 73,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": 296
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1368
+},
+{
+"t": 45.821,
+"frame": 1375,
+"frameExact": 1374.63,
+"peakT": 46.19,
+"dur": 0.394,
+"bands": [
+"high"
+],
+"rise": 12.0,
+"residDb": 42.7,
+"residMinusMix": -0.3,
+"centroid": 96,
+"flatness": 0.061,
+"sweepOctPerS": 2.6,
+"lowShare": 0.96,
+"beat": 66.29,
+"off16ms": 26,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": 421
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1372
+},
+{
+"t": 45.956,
+"frame": 1379,
+"frameExact": 1378.67,
+"peakT": 46.195,
+"dur": 0.259,
+"bands": [
+"low",
+"mid",
+"high"
+],
+"rise": 23.4,
+"residDb": 42.7,
+"residMinusMix": -0.2,
+"centroid": 88,
+"flatness": 0.052,
+"sweepOctPerS": 5.98,
+"lowShare": 0.96,
+"beat": 66.48,
+"off16ms": -12,
+"nearestCut": {
+"shot": 19,
+"frame": 1362,
+"dtMs": 556
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 1376
+},
+{
+"t": 46.12,
+"frame": 1384,
+"frameExact": 1383.61,
+"peakT": 46.195,
+"dur": 0.095,
+"bands": [
+"low",
+"high"
+],
+"rise": 158.8,
+"residDb": 42.7,
+"residMinusMix": -0.2,
+"centroid": 197,
+"flatness": 0.028,
+"sweepOctPerS": -15.14,
+"lowShare": 0.97,
+"beat": 66.72,
+"off16ms": -20,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": -513
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 1387
+},
+{
+"t": 46.29,
+"frame": 1389,
+"frameExact": 1388.69,
+"peakT": 46.704,
+"dur": 0.444,
+"bands": [
+"high",
+"low"
+],
+"rise": 155.1,
+"residDb": 42.2,
+"residMinusMix": -0.5,
+"centroid": 321,
+"flatness": 0.052,
+"sweepOctPerS": 2.35,
+"lowShare": 0.87,
+"beat": 66.97,
+"off16ms": -22,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": -344
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1392
+},
+{
+"t": 46.898,
+"frame": 1407,
+"frameExact": 1406.95,
+"peakT": 47.003,
+"dur": 0.13,
+"bands": [
+"mid"
+],
+"rise": 10.7,
+"residDb": 36.0,
+"residMinusMix": -1.9,
+"centroid": 3007,
+"flatness": 0.044,
+"sweepOctPerS": -3.58,
+"lowShare": 0.0,
+"beat": 67.85,
+"off16ms": 69,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": 265
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1404
+},
+{
+"t": 47.163,
+"frame": 1415,
+"frameExact": 1414.88,
+"peakT": 47.542,
+"dur": 0.409,
+"bands": [
+"high"
+],
+"rise": 13.0,
+"residDb": 41.3,
+"residMinusMix": -0.2,
+"centroid": 2388,
+"flatness": 0.041,
+"sweepOctPerS": -5.23,
+"lowShare": 0.56,
+"beat": 68.23,
+"off16ms": -11,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": 529
+},
+"picChangeMax": 0.057,
+"picChangeFrame": 1417
+},
+{
+"t": 47.532,
+"frame": 1426,
+"frameExact": 1425.96,
+"peakT": 47.542,
+"dur": 0.04,
+"bands": [
+"low"
+],
+"rise": 143.5,
+"residDb": 41.3,
+"residMinusMix": -0.2,
+"centroid": 299,
+"flatness": 0.051,
+"sweepOctPerS": -30.03,
+"lowShare": 0.91,
+"beat": 68.77,
+"off16ms": 13,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": 899
+},
+"picChangeMax": 0.051,
+"picChangeFrame": 1429
+},
+{
+"t": 47.592,
+"frame": 1428,
+"frameExact": 1427.76,
+"peakT": 47.981,
+"dur": 0.409,
+"bands": [
+"high"
+],
+"rise": 13.2,
+"residDb": 33.3,
+"residMinusMix": -2.4,
+"centroid": 3850,
+"flatness": 0.05,
+"sweepOctPerS": 1.8,
+"lowShare": 0.43,
+"beat": 68.86,
+"off16ms": 73,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": 959
+},
+"picChangeMax": 0.051,
+"picChangeFrame": 1429
+},
+{
+"t": 47.806,
+"frame": 1434,
+"frameExact": 1434.19,
+"peakT": 48.066,
+"dur": 0.299,
+"bands": [
+"high"
+],
+"rise": 23.6,
+"residDb": 42.5,
+"residMinusMix": -0.3,
+"centroid": 2315,
+"flatness": 0.019,
+"sweepOctPerS": -12.79,
+"lowShare": 0.8,
+"beat": 69.17,
+"off16ms": -57,
+"nearestCut": {
+"shot": 20,
+"frame": 1399,
+"dtMs": 1173
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1431
+},
+{
+"t": 48.55,
+"frame": 1456,
+"frameExact": 1456.49,
+"peakT": 48.939,
+"dur": 0.439,
+"bands": [
+"high"
+],
+"rise": 23.1,
+"residDb": 42.9,
+"residMinusMix": -0.1,
+"centroid": 3000,
+"flatness": 0.016,
+"sweepOctPerS": -11.14,
+"lowShare": 0.88,
+"beat": 70.24,
+"off16ms": -4,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": -1017
+},
+"picChangeMax": 0.052,
+"picChangeFrame": 1459
+},
+{
+"t": 48.804,
+"frame": 1464,
+"frameExact": 1464.12,
+"peakT": 48.939,
+"dur": 0.185,
+"bands": [
+"mid"
+],
+"rise": 29.4,
+"residDb": 42.9,
+"residMinusMix": -0.1,
+"centroid": 1145,
+"flatness": 0.018,
+"sweepOctPerS": -29.53,
+"lowShare": 0.91,
+"beat": 70.61,
+"off16ms": 78,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": -763
+},
+"picChangeMax": 0.058,
+"picChangeFrame": 1462
+},
+{
+"t": 48.894,
+"frame": 1467,
+"frameExact": 1466.82,
+"peakT": 48.939,
+"dur": 0.095,
+"bands": [
+"high",
+"low"
+],
+"rise": 162.6,
+"residDb": 42.9,
+"residMinusMix": -0.1,
+"centroid": 129,
+"flatness": 0.024,
+"sweepOctPerS": -25.46,
+"lowShare": 0.96,
+"beat": 70.74,
+"off16ms": -4,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": -673
+},
+"picChangeMax": 0.016,
+"picChangeFrame": 1464
+},
+{
+"t": 49.158,
+"frame": 1475,
+"frameExact": 1474.75,
+"peakT": 49.433,
+"dur": 0.409,
+"bands": [
+"mid",
+"high"
+],
+"rise": 12.3,
+"residDb": 37.2,
+"residMinusMix": -3.1,
+"centroid": 1757,
+"flatness": 0.025,
+"sweepOctPerS": -0.34,
+"lowShare": 0.24,
+"beat": 71.13,
+"off16ms": -85,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": -408
+},
+"picChangeMax": 0.041,
+"picChangeFrame": 1476
+},
+{
+"t": 49.692,
+"frame": 1491,
+"frameExact": 1490.76,
+"peakT": 49.757,
+"dur": 0.234,
+"bands": [
+"mid"
+],
+"rise": 10.6,
+"residDb": 37.6,
+"residMinusMix": -1.2,
+"centroid": 2749,
+"flatness": 0.011,
+"sweepOctPerS": -1.98,
+"lowShare": 0.06,
+"beat": 71.9,
+"off16ms": -68,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": 125
+},
+"picChangeMax": 0.057,
+"picChangeFrame": 1494
+},
+{
+"t": 49.946,
+"frame": 1498,
+"frameExact": 1498.39,
+"peakT": 50.106,
+"dur": 0.19,
+"bands": [
+"high",
+"mid"
+],
+"rise": 11.8,
+"residDb": 42.0,
+"residMinusMix": -1.1,
+"centroid": 1397,
+"flatness": 0.045,
+"sweepOctPerS": -19.63,
+"lowShare": 0.64,
+"beat": 72.27,
+"off16ms": 14,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": 380
+},
+"picChangeMax": 0.061,
+"picChangeFrame": 1500
+},
+{
+"t": 50.106,
+"frame": 1503,
+"frameExact": 1503.18,
+"peakT": 50.106,
+"dur": 0.03,
+"bands": [
+"low"
+],
+"rise": 159.5,
+"residDb": 42.0,
+"residMinusMix": -1.1,
+"centroid": 98,
+"flatness": 0.021,
+"sweepOctPerS": 124.88,
+"lowShare": 0.96,
+"beat": 72.5,
+"off16ms": 1,
+"nearestCut": {
+"shot": 21,
+"frame": 1487,
+"dtMs": 539
+},
+"picChangeMax": 0.061,
+"picChangeFrame": 1500
+},
+{
+"t": 50.256,
+"frame": 1508,
+"frameExact": 1507.67,
+"peakT": 50.231,
+"dur": 0.015,
+"bands": [
+"low"
+],
+"rise": 24.4,
+"residDb": 40.2,
+"residMinusMix": -0.4,
+"centroid": 78,
+"flatness": 0.021,
+"sweepOctPerS": 267.86,
+"lowShare": 0.97,
+"beat": 72.72,
+"off16ms": -22,
+"nearestCut": {
+"shot": 22,
+"frame": 1523,
+"dtMs": -511
+},
+"picChangeMax": 0.04,
+"picChangeFrame": 1506
+},
+{
+"t": 50.4,
+"frame": 1512,
+"frameExact": 1512.01,
+"peakT": 50.41,
+"dur": 0.644,
+"bands": [
+"mid"
+],
+"rise": 18.0,
+"residDb": 38.6,
+"residMinusMix": -1.5,
+"centroid": 2478,
+"flatness": 0.014,
+"sweepOctPerS": 1.36,
+"lowShare": 0.2,
+"beat": 72.93,
+"off16ms": -49,
+"nearestCut": {
+"shot": 22,
+"frame": 1523,
+"dtMs": -366
+},
+"picChangeMax": 0.031,
+"picChangeFrame": 1511
+},
+{
+"t": 51.014,
+"frame": 1530,
+"frameExact": 1530.42,
+"peakT": 51.094,
+"dur": 0.095,
+"bands": [
+"low"
+],
+"rise": 143.1,
+"residDb": 38.8,
+"residMinusMix": -3.6,
+"centroid": 566,
+"flatness": 0.044,
+"sweepOctPerS": -16.58,
+"lowShare": 0.79,
+"beat": 73.82,
+"off16ms": 47,
+"nearestCut": {
+"shot": 23,
+"frame": 1532,
+"dtMs": -53
+},
+"picChangeMax": 0.093,
+"picChangeFrame": 1532
+},
+{
+"t": 51.583,
+"frame": 1547,
+"frameExact": 1547.48,
+"peakT": 51.712,
+"dur": 0.14,
+"bands": [
+"high"
+],
+"rise": 12.2,
+"residDb": 42.5,
+"residMinusMix": -0.5,
+"centroid": 179,
+"flatness": 0.002,
+"sweepOctPerS": -10.25,
+"lowShare": 0.95,
+"beat": 74.64,
+"off16ms": -74,
+"nearestCut": {
+"shot": 23,
+"frame": 1532,
+"dtMs": 516
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 1545
+},
+{
+"t": 52.107,
+"frame": 1563,
+"frameExact": 1563.2,
+"peakT": 52.141,
+"dur": 0.08,
+"bands": [
+"low",
+"high"
+],
+"rise": 25.2,
+"residDb": 40.5,
+"residMinusMix": -0.6,
+"centroid": 83,
+"flatness": 0.027,
+"sweepOctPerS": 77.07,
+"lowShare": 0.8,
+"beat": 75.4,
+"off16ms": -67,
+"nearestCut": {
+"shot": 23,
+"frame": 1532,
+"dtMs": 1040
+},
+"picChangeMax": 0.037,
+"picChangeFrame": 1560
+},
+{
+"t": 52.476,
+"frame": 1574,
+"frameExact": 1574.27,
+"peakT": 52.571,
+"dur": 0.13,
+"bands": [
+"mid"
+],
+"rise": 25.4,
+"residDb": 42.4,
+"residMinusMix": -0.7,
+"centroid": 390,
+"flatness": 0.012,
+"sweepOctPerS": -24.29,
+"lowShare": 0.94,
+"beat": 75.94,
+"off16ms": -43,
+"nearestCut": {
+"shot": 23,
+"frame": 1532,
+"dtMs": 1409
+},
+"picChangeMax": 0.034,
+"picChangeFrame": 1573
+},
+{
+"t": 52.521,
+"frame": 1576,
+"frameExact": 1575.62,
+"peakT": 52.571,
+"dur": 0.085,
+"bands": [
+"low",
+"high"
+],
+"rise": 161.5,
+"residDb": 42.4,
+"residMinusMix": -0.7,
+"centroid": 120,
+"flatness": 0.012,
+"sweepOctPerS": 16.54,
+"lowShare": 0.96,
+"beat": 76.0,
+"off16ms": 2,
+"nearestCut": {
+"shot": 23,
+"frame": 1532,
+"dtMs": 1454
+},
+"picChangeMax": 0.034,
+"picChangeFrame": 1573
+},
+{
+"t": 52.865,
+"frame": 1586,
+"frameExact": 1585.95,
+"peakT": 53.234,
+"dur": 0.394,
+"bands": [
+"mid"
+],
+"rise": 10.6,
+"residDb": 42.0,
+"residMinusMix": -0.5,
+"centroid": 1447,
+"flatness": 0.009,
+"sweepOctPerS": 0.1,
+"lowShare": 0.76,
+"beat": 76.5,
+"off16ms": 2,
+"nearestCut": {
+"shot": 23,
+"frame": 1532,
+"dtMs": 1798
+},
+"picChangeMax": 0.03,
+"picChangeFrame": 1584
+},
+{
+"t": 53.179,
+"frame": 1595,
+"frameExact": 1595.37,
+"peakT": 53.234,
+"dur": 0.08,
+"bands": [
+"high"
+],
+"rise": 11.9,
+"residDb": 42.0,
+"residMinusMix": -0.5,
+"centroid": 192,
+"flatness": 0.001,
+"sweepOctPerS": -52.77,
+"lowShare": 0.91,
+"beat": 76.96,
+"off16ms": -29,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -1854
+},
+"picChangeMax": 0.038,
+"picChangeFrame": 1592
+},
+{
+"t": 53.449,
+"frame": 1603,
+"frameExact": 1603.46,
+"peakT": 53.673,
+"dur": 0.539,
+"bands": [
+"high"
+],
+"rise": 34.3,
+"residDb": 38.6,
+"residMinusMix": -1.5,
+"centroid": 1254,
+"flatness": 0.016,
+"sweepOctPerS": -1.25,
+"lowShare": 0.25,
+"beat": 77.35,
+"off16ms": 68,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -1585
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 1603
+},
+{
+"t": 53.728,
+"frame": 1612,
+"frameExact": 1611.84,
+"peakT": 53.898,
+"dur": 0.259,
+"bands": [
+"mid",
+"high"
+],
+"rise": 11.2,
+"residDb": 37.2,
+"residMinusMix": -1.0,
+"centroid": 1300,
+"flatness": 0.028,
+"sweepOctPerS": -6.05,
+"lowShare": 0.2,
+"beat": 77.75,
+"off16ms": 3,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -1305
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 1611
+},
+{
+"t": 54.212,
+"frame": 1626,
+"frameExact": 1626.35,
+"peakT": 54.446,
+"dur": 0.324,
+"bands": [
+"high"
+],
+"rise": 18.5,
+"residDb": 37.3,
+"residMinusMix": -1.6,
+"centroid": 1104,
+"flatness": 0.003,
+"sweepOctPerS": 0.92,
+"lowShare": 0.03,
+"beat": 78.46,
+"off16ms": -31,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -822
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1623
+},
+{
+"t": 54.332,
+"frame": 1630,
+"frameExact": 1629.95,
+"peakT": 54.446,
+"dur": 0.205,
+"bands": [
+"high"
+],
+"rise": 28.8,
+"residDb": 37.3,
+"residMinusMix": -1.6,
+"centroid": 1133,
+"flatness": 0.003,
+"sweepOctPerS": -11.67,
+"lowShare": 0.03,
+"beat": 78.63,
+"off16ms": -83,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -702
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1632
+},
+{
+"t": 54.416,
+"frame": 1632,
+"frameExact": 1632.49,
+"peakT": 54.446,
+"dur": 0.12,
+"bands": [
+"mid"
+],
+"rise": 19.5,
+"residDb": 37.3,
+"residMinusMix": -1.6,
+"centroid": 1004,
+"flatness": 0.003,
+"sweepOctPerS": 3.27,
+"lowShare": 0.03,
+"beat": 78.75,
+"off16ms": 2,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -617
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1632
+},
+{
+"t": 54.616,
+"frame": 1638,
+"frameExact": 1638.48,
+"peakT": 54.97,
+"dur": 0.414,
+"bands": [
+"mid"
+],
+"rise": 13.1,
+"residDb": 42.1,
+"residMinusMix": -0.2,
+"centroid": 2428,
+"flatness": 0.011,
+"sweepOctPerS": -6.12,
+"lowShare": 0.63,
+"beat": 79.04,
+"off16ms": 29,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -417
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1636
+},
+{
+"t": 54.83,
+"frame": 1645,
+"frameExact": 1644.91,
+"peakT": 54.97,
+"dur": 0.2,
+"bands": [
+"high"
+],
+"rise": 14.6,
+"residDb": 42.1,
+"residMinusMix": -0.2,
+"centroid": 2010,
+"flatness": 0.015,
+"sweepOctPerS": -18.12,
+"lowShare": 0.77,
+"beat": 79.35,
+"off16ms": 71,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -203
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 1647
+},
+{
+"t": 54.935,
+"frame": 1648,
+"frameExact": 1648.05,
+"peakT": 54.97,
+"dur": 0.095,
+"bands": [
+"high",
+"low",
+"mid"
+],
+"rise": 140.4,
+"residDb": 42.1,
+"residMinusMix": -0.2,
+"centroid": 373,
+"flatness": 0.017,
+"sweepOctPerS": 5.95,
+"lowShare": 0.84,
+"beat": 79.5,
+"off16ms": 3,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": -98
+},
+"picChangeMax": 0.109,
+"picChangeFrame": 1651
+},
+{
+"t": 55.22,
+"frame": 1657,
+"frameExact": 1656.59,
+"peakT": 55.279,
+"dur": 0.155,
+"bands": [
+"high"
+],
+"rise": 15.8,
+"residDb": 34.8,
+"residMinusMix": -3.5,
+"centroid": 2359,
+"flatness": 0.045,
+"sweepOctPerS": 9.58,
+"lowShare": 0.37,
+"beat": 79.92,
+"off16ms": -57,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 186
+},
+"picChangeMax": 0.016,
+"picChangeFrame": 1659
+},
+{
+"t": 55.449,
+"frame": 1663,
+"frameExact": 1663.47,
+"peakT": 55.828,
+"dur": 0.404,
+"bands": [
+"mid",
+"high"
+],
+"rise": 13.2,
+"residDb": 41.7,
+"residMinusMix": -0.1,
+"centroid": 1268,
+"flatness": 0.031,
+"sweepOctPerS": -8.96,
+"lowShare": 0.77,
+"beat": 80.25,
+"off16ms": 0,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 416
+},
+"picChangeMax": 0.026,
+"picChangeFrame": 1666
+},
+{
+"t": 55.778,
+"frame": 1673,
+"frameExact": 1673.35,
+"peakT": 55.918,
+"dur": 0.165,
+"bands": [
+"high",
+"mid",
+"low"
+],
+"rise": 68.7,
+"residDb": 43.8,
+"residMinusMix": -0.4,
+"centroid": 127,
+"flatness": 0.007,
+"sweepOctPerS": -20.04,
+"lowShare": 0.94,
+"beat": 80.73,
+"off16ms": -16,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 745
+},
+"picChangeMax": 0.03,
+"picChangeFrame": 1671
+},
+{
+"t": 55.928,
+"frame": 1678,
+"frameExact": 1677.84,
+"peakT": 56.362,
+"dur": 0.464,
+"bands": [
+"high",
+"mid"
+],
+"rise": 22.6,
+"residDb": 42.3,
+"residMinusMix": -0.2,
+"centroid": 755,
+"flatness": 0.039,
+"sweepOctPerS": -1.78,
+"lowShare": 0.87,
+"beat": 80.94,
+"off16ms": -38,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 895
+},
+"picChangeMax": 0.049,
+"picChangeFrame": 1678
+},
+{
+"t": 56.073,
+"frame": 1682,
+"frameExact": 1682.18,
+"peakT": 56.377,
+"dur": 0.319,
+"bands": [
+"low"
+],
+"rise": 157.2,
+"residDb": 43.0,
+"residMinusMix": -0.2,
+"centroid": 503,
+"flatness": 0.022,
+"sweepOctPerS": -2.85,
+"lowShare": 0.91,
+"beat": 81.15,
+"off16ms": -66,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 1039
+},
+"picChangeMax": 0.039,
+"picChangeFrame": 1680
+},
+{
+"t": 56.152,
+"frame": 1685,
+"frameExact": 1684.57,
+"peakT": 56.377,
+"dur": 0.239,
+"bands": [
+"mid"
+],
+"rise": 16.4,
+"residDb": 43.0,
+"residMinusMix": -0.2,
+"centroid": 503,
+"flatness": 0.02,
+"sweepOctPerS": -8.22,
+"lowShare": 0.9,
+"beat": 81.27,
+"off16ms": 14,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 1119
+},
+"picChangeMax": 0.014,
+"picChangeFrame": 1682
+},
+{
+"t": 56.322,
+"frame": 1690,
+"frameExact": 1689.66,
+"peakT": 56.377,
+"dur": 0.07,
+"bands": [
+"mid",
+"low"
+],
+"rise": 161.0,
+"residDb": 43.0,
+"residMinusMix": -0.2,
+"centroid": 128,
+"flatness": 0.006,
+"sweepOctPerS": -43.86,
+"lowShare": 0.95,
+"beat": 81.52,
+"off16ms": 11,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 1289
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1687
+},
+{
+"t": 56.551,
+"frame": 1697,
+"frameExact": 1696.54,
+"peakT": 56.881,
+"dur": 0.374,
+"bands": [
+"low"
+],
+"rise": 13.9,
+"residDb": 38.9,
+"residMinusMix": -4.4,
+"centroid": 1095,
+"flatness": 0.068,
+"sweepOctPerS": -0.23,
+"lowShare": 0.72,
+"beat": 81.85,
+"off16ms": 68,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 1518
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1699
+},
+{
+"t": 56.686,
+"frame": 1701,
+"frameExact": 1700.59,
+"peakT": 56.951,
+"dur": 0.344,
+"bands": [
+"high"
+],
+"rise": 29.8,
+"residDb": 39.0,
+"residMinusMix": -0.4,
+"centroid": 1134,
+"flatness": 0.099,
+"sweepOctPerS": -5.09,
+"lowShare": 0.79,
+"beat": 82.04,
+"off16ms": 30,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 1653
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1699
+},
+{
+"t": 56.876,
+"frame": 1706,
+"frameExact": 1706.27,
+"peakT": 57.09,
+"dur": 0.234,
+"bands": [
+"high"
+],
+"rise": 14.6,
+"residDb": 42.1,
+"residMinusMix": -0.1,
+"centroid": 556,
+"flatness": 0.106,
+"sweepOctPerS": 2.57,
+"lowShare": 0.88,
+"beat": 82.32,
+"off16ms": 47,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 1842
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 1703
+},
+{
+"t": 57.085,
+"frame": 1713,
+"frameExact": 1712.56,
+"peakT": 57.09,
+"dur": 0.025,
+"bands": [
+"low"
+],
+"rise": 160.1,
+"residDb": 42.1,
+"residMinusMix": -0.1,
+"centroid": 158,
+"flatness": 0.115,
+"sweepOctPerS": 49.14,
+"lowShare": 0.97,
+"beat": 82.62,
+"off16ms": 85,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 2052
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 1713
+},
+{
+"t": 57.165,
+"frame": 1715,
+"frameExact": 1714.95,
+"peakT": 57.225,
+"dur": 0.07,
+"bands": [
+"high",
+"mid"
+],
+"rise": 22.0,
+"residDb": 41.8,
+"residMinusMix": -0.9,
+"centroid": 331,
+"flatness": 0.014,
+"sweepOctPerS": -39.77,
+"lowShare": 0.86,
+"beat": 82.74,
+"off16ms": -8,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 2132
+},
+"picChangeMax": 0.007,
+"picChangeFrame": 1718
+},
+{
+"t": 57.375,
+"frame": 1721,
+"frameExact": 1721.24,
+"peakT": 57.744,
+"dur": 0.474,
+"bands": [
+"high"
+],
+"rise": 29.8,
+"residDb": 41.0,
+"residMinusMix": -0.4,
+"centroid": 1201,
+"flatness": 0.023,
+"sweepOctPerS": -5.77,
+"lowShare": 0.8,
+"beat": 83.04,
+"off16ms": 29,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 2341
+},
+"picChangeMax": 0.032,
+"picChangeFrame": 1723
+},
+{
+"t": 57.499,
+"frame": 1725,
+"frameExact": 1724.98,
+"peakT": 57.744,
+"dur": 0.349,
+"bands": [
+"high"
+],
+"rise": 35.4,
+"residDb": 41.0,
+"residMinusMix": -0.4,
+"centroid": 828,
+"flatness": 0.024,
+"sweepOctPerS": -8.11,
+"lowShare": 0.81,
+"beat": 83.22,
+"off16ms": -19,
+"nearestCut": {
+"shot": 24,
+"frame": 1651,
+"dtMs": 2466
+},
+"picChangeMax": 0.055,
+"picChangeFrame": 1725
+},
+{
+"t": 57.709,
+"frame": 1731,
+"frameExact": 1731.27,
+"peakT": 57.744,
+"dur": 0.14,
+"bands": [
+"mid",
+"low"
+],
+"rise": 160.1,
+"residDb": 41.0,
+"residMinusMix": -0.4,
+"centroid": 282,
+"flatness": 0.02,
+"sweepOctPerS": 0.49,
+"lowShare": 0.92,
+"beat": 83.53,
+"off16ms": 19,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -2291
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1728
+},
+{
+"t": 57.903,
+"frame": 1737,
+"frameExact": 1737.1,
+"peakT": 57.903,
+"dur": 0.08,
+"bands": [
+"high"
+],
+"rise": 14.9,
+"residDb": 37.5,
+"residMinusMix": -1.4,
+"centroid": 3260,
+"flatness": 0.009,
+"sweepOctPerS": -1.48,
+"lowShare": 0.23,
+"beat": 83.81,
+"off16ms": 41,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -2097
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 1734
+},
+{
+"t": 58.033,
+"frame": 1741,
+"frameExact": 1740.99,
+"peakT": 58.427,
+"dur": 0.414,
+"bands": [
+"mid",
+"high"
+],
+"rise": 15.2,
+"residDb": 38.8,
+"residMinusMix": -0.2,
+"centroid": 1640,
+"flatness": 0.051,
+"sweepOctPerS": -0.7,
+"lowShare": 0.59,
+"beat": 84.0,
+"off16ms": -2,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -1967
+},
+"picChangeMax": 0.01,
+"picChangeFrame": 1744
+},
+{
+"t": 58.128,
+"frame": 1744,
+"frameExact": 1743.84,
+"peakT": 58.427,
+"dur": 0.319,
+"bands": [
+"low"
+],
+"rise": 10.4,
+"residDb": 38.8,
+"residMinusMix": -0.2,
+"centroid": 1457,
+"flatness": 0.053,
+"sweepOctPerS": 1.97,
+"lowShare": 0.73,
+"beat": 84.13,
+"off16ms": -80,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -1872
+},
+"picChangeMax": 0.042,
+"picChangeFrame": 1747
+},
+{
+"t": 58.407,
+"frame": 1752,
+"frameExact": 1752.22,
+"peakT": 58.677,
+"dur": 0.309,
+"bands": [
+"low"
+],
+"rise": 16.1,
+"residDb": 43.9,
+"residMinusMix": -0.2,
+"centroid": 400,
+"flatness": 0.016,
+"sweepOctPerS": -19.68,
+"lowShare": 0.93,
+"beat": 84.54,
+"off16ms": 27,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -1593
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 1749
+},
+{
+"t": 58.552,
+"frame": 1757,
+"frameExact": 1756.56,
+"peakT": 58.677,
+"dur": 0.165,
+"bands": [
+"mid",
+"low"
+],
+"rise": 161.1,
+"residDb": 43.9,
+"residMinusMix": -0.2,
+"centroid": 81,
+"flatness": 0.007,
+"sweepOctPerS": -15.54,
+"lowShare": 0.94,
+"beat": 84.75,
+"off16ms": 0,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -1448
+},
+"picChangeMax": 0.006,
+"picChangeFrame": 1759
+},
+{
+"t": 58.746,
+"frame": 1762,
+"frameExact": 1762.39,
+"peakT": 59.101,
+"dur": 0.459,
+"bands": [
+"mid",
+"high"
+],
+"rise": 30.6,
+"residDb": 41.9,
+"residMinusMix": -0.1,
+"centroid": 569,
+"flatness": 0.025,
+"sweepOctPerS": -7.33,
+"lowShare": 0.91,
+"beat": 85.03,
+"off16ms": 22,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -1254
+},
+"picChangeMax": 0.035,
+"picChangeFrame": 1764
+},
+{
+"t": 58.866,
+"frame": 1766,
+"frameExact": 1765.99,
+"peakT": 59.156,
+"dur": 0.339,
+"bands": [
+"low",
+"high",
+"mid"
+],
+"rise": 137.6,
+"residDb": 43.5,
+"residMinusMix": -0.3,
+"centroid": 284,
+"flatness": 0.025,
+"sweepOctPerS": -5.41,
+"lowShare": 0.92,
+"beat": 85.21,
+"off16ms": -31,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -1134
+},
+"picChangeMax": 0.066,
+"picChangeFrame": 1766
+},
+{
+"t": 59.086,
+"frame": 1773,
+"frameExact": 1772.57,
+"peakT": 59.156,
+"dur": 0.12,
+"bands": [
+"mid",
+"low"
+],
+"rise": 27.4,
+"residDb": 43.5,
+"residMinusMix": -0.3,
+"centroid": 120,
+"flatness": 0.011,
+"sweepOctPerS": -0.18,
+"lowShare": 0.96,
+"beat": 85.52,
+"off16ms": 16,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -914
+},
+"picChangeMax": 0.016,
+"picChangeFrame": 1770
+},
+{
+"t": 59.2,
+"frame": 1776,
+"frameExact": 1776.01,
+"peakT": 59.185,
+"dur": 0.005,
+"bands": [
+"high"
+],
+"rise": 20.8,
+"residDb": 42.8,
+"residMinusMix": -0.1,
+"centroid": 717,
+"flatness": 0.049,
+"sweepOctPerS": 0.0,
+"lowShare": 0.97,
+"beat": 85.69,
+"off16ms": -41,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -800
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 1773
+},
+{
+"t": 59.31,
+"frame": 1779,
+"frameExact": 1779.31,
+"peakT": 59.52,
+"dur": 0.215,
+"bands": [
+"low"
+],
+"rise": 10.1,
+"residDb": 39.7,
+"residMinusMix": -0.3,
+"centroid": 583,
+"flatness": 0.041,
+"sweepOctPerS": 7.12,
+"lowShare": 0.8,
+"beat": 85.85,
+"off16ms": 68,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -690
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1776
+},
+{
+"t": 59.445,
+"frame": 1783,
+"frameExact": 1783.35,
+"peakT": 59.764,
+"dur": 0.339,
+"bands": [
+"high"
+],
+"rise": 22.9,
+"residDb": 39.8,
+"residMinusMix": -0.1,
+"centroid": 752,
+"flatness": 0.108,
+"sweepOctPerS": 1.23,
+"lowShare": 0.82,
+"beat": 86.04,
+"off16ms": 31,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -555
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1785
+},
+{
+"t": 59.585,
+"frame": 1788,
+"frameExact": 1787.54,
+"peakT": 59.894,
+"dur": 0.319,
+"bands": [
+"low",
+"high",
+"mid"
+],
+"rise": 106.5,
+"residDb": 42.2,
+"residMinusMix": -0.8,
+"centroid": 1050,
+"flatness": 0.087,
+"sweepOctPerS": 0.54,
+"lowShare": 0.76,
+"beat": 86.25,
+"off16ms": -2,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -415
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1785
+},
+{
+"t": 59.764,
+"frame": 1793,
+"frameExact": 1792.93,
+"peakT": 59.894,
+"dur": 0.14,
+"bands": [
+"high"
+],
+"rise": 10.2,
+"residDb": 42.2,
+"residMinusMix": -0.8,
+"centroid": 1316,
+"flatness": 0.069,
+"sweepOctPerS": -9.41,
+"lowShare": 0.75,
+"beat": 86.51,
+"off16ms": 5,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": -236
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1791
+},
+{
+"t": 60.138,
+"frame": 1804,
+"frameExact": 1804.15,
+"peakT": 60.478,
+"dur": 0.718,
+"bands": [
+"high"
+],
+"rise": 15.3,
+"residDb": 36.0,
+"residMinusMix": -5.5,
+"centroid": 1263,
+"flatness": 0.02,
+"sweepOctPerS": -1.19,
+"lowShare": 0.36,
+"beat": 87.05,
+"off16ms": 35,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": 138
+},
+"picChangeMax": 0.053,
+"picChangeFrame": 1801
+},
+{
+"t": 60.283,
+"frame": 1808,
+"frameExact": 1808.49,
+"peakT": 60.577,
+"dur": 0.574,
+"bands": [
+"high"
+],
+"rise": 14.3,
+"residDb": 36.5,
+"residMinusMix": -4.3,
+"centroid": 1250,
+"flatness": 0.02,
+"sweepOctPerS": -1.47,
+"lowShare": 0.39,
+"beat": 87.26,
+"off16ms": 7,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": 283
+},
+"picChangeMax": 0.058,
+"picChangeFrame": 1808
+},
+{
+"t": 60.951,
+"frame": 1829,
+"frameExact": 1828.54,
+"peakT": 61.131,
+"dur": 0.289,
+"bands": [
+"high"
+],
+"rise": 11.9,
+"residDb": 38.7,
+"residMinusMix": -1.4,
+"centroid": 1276,
+"flatness": 0.009,
+"sweepOctPerS": 0.37,
+"lowShare": 0.19,
+"beat": 88.23,
+"off16ms": -14,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": 951
+},
+"picChangeMax": 0.03,
+"picChangeFrame": 1828
+},
+{
+"t": 61.405,
+"frame": 1842,
+"frameExact": 1842.16,
+"peakT": 61.615,
+"dur": 0.688,
+"bands": [
+"high"
+],
+"rise": 11.5,
+"residDb": 39.0,
+"residMinusMix": -0.7,
+"centroid": 1444,
+"flatness": 0.002,
+"sweepOctPerS": -0.09,
+"lowShare": 0.11,
+"beat": 88.89,
+"off16ms": -78,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": 1405
+},
+"picChangeMax": 0.035,
+"picChangeFrame": 1839
+},
+{
+"t": 61.605,
+"frame": 1848,
+"frameExact": 1848.15,
+"peakT": 61.615,
+"dur": 0.489,
+"bands": [
+"mid"
+],
+"rise": 11.3,
+"residDb": 39.0,
+"residMinusMix": -0.7,
+"centroid": 1399,
+"flatness": 0.0,
+"sweepOctPerS": 0.37,
+"lowShare": 0.08,
+"beat": 89.18,
+"off16ms": -50,
+"nearestCut": {
+"shot": 25,
+"frame": 1800,
+"dtMs": 1605
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 1851
+},
+{
+"t": 61.755,
+"frame": 1853,
+"frameExact": 1852.64,
+"peakT": 61.834,
+"dur": 0.379,
+"bands": [
+"high"
+],
+"rise": 11.9,
+"residDb": 38.3,
+"residMinusMix": -1.3,
+"centroid": 1525,
+"flatness": 0.001,
+"sweepOctPerS": 1.42,
+"lowShare": 0.12,
+"beat": 89.39,
+"off16ms": -73,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -1745
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 1851
+},
+{
+"t": 61.899,
+"frame": 1857,
+"frameExact": 1856.98,
+"peakT": 62.204,
+"dur": 0.479,
+"bands": [
+"high"
+],
+"rise": 11.8,
+"residDb": 39.7,
+"residMinusMix": -0.6,
+"centroid": 1522,
+"flatness": 0.006,
+"sweepOctPerS": -0.21,
+"lowShare": 0.2,
+"beat": 89.6,
+"off16ms": 72,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -1601
+},
+"picChangeMax": 0.02,
+"picChangeFrame": 1854
+},
+{
+"t": 62.184,
+"frame": 1866,
+"frameExact": 1865.51,
+"peakT": 62.204,
+"dur": 0.195,
+"bands": [
+"mid",
+"low"
+],
+"rise": 149.5,
+"residDb": 39.7,
+"residMinusMix": -0.6,
+"centroid": 1363,
+"flatness": 0.002,
+"sweepOctPerS": 2.77,
+"lowShare": 0.21,
+"beat": 90.02,
+"off16ms": 11,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -1316
+},
+"picChangeMax": 0.028,
+"picChangeFrame": 1866
+},
+{
+"t": 62.453,
+"frame": 1874,
+"frameExact": 1873.59,
+"peakT": 62.473,
+"dur": 0.065,
+"bands": [
+"low",
+"mid"
+],
+"rise": 11.5,
+"residDb": 39.5,
+"residMinusMix": -0.0,
+"centroid": 1176,
+"flatness": 0.022,
+"sweepOctPerS": 6.08,
+"lowShare": 0.15,
+"beat": 90.41,
+"off16ms": -64,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -1047
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1876
+},
+{
+"t": 62.588,
+"frame": 1878,
+"frameExact": 1877.63,
+"peakT": 62.712,
+"dur": 0.848,
+"bands": [
+"high"
+],
+"rise": 21.1,
+"residDb": 37.6,
+"residMinusMix": -1.8,
+"centroid": 1157,
+"flatness": 0.009,
+"sweepOctPerS": -2.92,
+"lowShare": 0.42,
+"beat": 90.6,
+"off16ms": 70,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -912
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1876
+},
+{
+"t": 62.712,
+"frame": 1881,
+"frameExact": 1881.37,
+"peakT": 62.992,
+"dur": 0.564,
+"bands": [
+"high"
+],
+"rise": 22.8,
+"residDb": 38.2,
+"residMinusMix": -0.5,
+"centroid": 1249,
+"flatness": 0.005,
+"sweepOctPerS": -1.88,
+"lowShare": 0.33,
+"beat": 90.78,
+"off16ms": 23,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -788
+},
+"picChangeMax": 0.018,
+"picChangeFrame": 1884
+},
+{
+"t": 62.947,
+"frame": 1888,
+"frameExact": 1888.41,
+"peakT": 63.251,
+"dur": 0.309,
+"bands": [
+"low"
+],
+"rise": 150.6,
+"residDb": 40.8,
+"residMinusMix": -1.2,
+"centroid": 1128,
+"flatness": 0.009,
+"sweepOctPerS": -4.28,
+"lowShare": 0.47,
+"beat": 91.12,
+"off16ms": 85,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -553
+},
+"picChangeMax": 0.02,
+"picChangeFrame": 1891
+},
+{
+"t": 63.122,
+"frame": 1894,
+"frameExact": 1893.65,
+"peakT": 63.251,
+"dur": 0.135,
+"bands": [
+"high"
+],
+"rise": 10.2,
+"residDb": 40.8,
+"residMinusMix": -1.2,
+"centroid": 892,
+"flatness": 0.017,
+"sweepOctPerS": -28.12,
+"lowShare": 0.64,
+"beat": 91.38,
+"off16ms": -85,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -378
+},
+"picChangeMax": 0.02,
+"picChangeFrame": 1891
+},
+{
+"t": 63.236,
+"frame": 1897,
+"frameExact": 1897.09,
+"peakT": 63.251,
+"dur": 0.02,
+"bands": [
+"low"
+],
+"rise": 17.2,
+"residDb": 40.8,
+"residMinusMix": -1.2,
+"centroid": 200,
+"flatness": 0.005,
+"sweepOctPerS": 79.57,
+"lowShare": 0.94,
+"beat": 91.54,
+"off16ms": 29,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -264
+},
+"picChangeMax": 0.035,
+"picChangeFrame": 1899
+},
+{
+"t": 63.416,
+"frame": 1902,
+"frameExact": 1902.48,
+"peakT": 63.551,
+"dur": 0.18,
+"bands": [
+"high"
+],
+"rise": 21.5,
+"residDb": 35.9,
+"residMinusMix": -3.3,
+"centroid": 1170,
+"flatness": 0.05,
+"sweepOctPerS": 23.77,
+"lowShare": 0.45,
+"beat": 91.8,
+"off16ms": 37,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": -84
+},
+"picChangeMax": 0.748,
+"picChangeFrame": 1905
+},
+{
+"t": 63.546,
+"frame": 1906,
+"frameExact": 1906.37,
+"peakT": 63.95,
+"dur": 0.449,
+"bands": [
+"high"
+],
+"rise": 42.3,
+"residDb": 38.5,
+"residMinusMix": -0.1,
+"centroid": 1151,
+"flatness": 0.061,
+"sweepOctPerS": -5.72,
+"lowShare": 0.72,
+"beat": 91.99,
+"off16ms": -6,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": 46
+},
+"picChangeMax": 0.748,
+"picChangeFrame": 1905
+},
+{
+"t": 63.715,
+"frame": 1911,
+"frameExact": 1911.46,
+"peakT": 64.114,
+"dur": 0.619,
+"bands": [
+"mid",
+"high"
+],
+"rise": 31.6,
+"residDb": 39.4,
+"residMinusMix": -0.9,
+"centroid": 381,
+"flatness": 0.025,
+"sweepOctPerS": -4.11,
+"lowShare": 0.87,
+"beat": 92.24,
+"off16ms": -9,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": 215
+},
+"picChangeMax": 0.009,
+"picChangeFrame": 1908
+},
+{
+"t": 63.935,
+"frame": 1918,
+"frameExact": 1918.04,
+"peakT": 64.184,
+"dur": 0.319,
+"bands": [
+"high",
+"mid",
+"low"
+],
+"rise": 22.3,
+"residDb": 42.8,
+"residMinusMix": -0.4,
+"centroid": 145,
+"flatness": 0.024,
+"sweepOctPerS": -1.23,
+"lowShare": 0.91,
+"beat": 92.56,
+"off16ms": 38,
+"nearestCut": {
+"shot": 26,
+"frame": 1905,
+"dtMs": 435
+},
+"picChangeMax": 0.003,
+"picChangeFrame": 1916
+},
+{
+"t": 64.099,
+"frame": 1923,
+"frameExact": 1922.98,
+"peakT": 64.184,
+"dur": 0.155,
+"bands": [
+"high",
+"mid"
+],
+"rise": 11.8,
+"residDb": 42.8,
+"residMinusMix": -0.4,
+"centroid": 99,
+"flatness": 0.02,
+"sweepOctPerS": 13.83,
+"lowShare": 0.92,
+"beat": 92.79,
+"off16ms": 30,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": -334
+},
+"picChangeMax": 0.002,
+"picChangeFrame": 1920
+},
+{
+"t": 64.274,
+"frame": 1928,
+"frameExact": 1928.22,
+"peakT": 64.459,
+"dur": 0.249,
+"bands": [
+"high"
+],
+"rise": 21.5,
+"residDb": 39.3,
+"residMinusMix": -0.1,
+"centroid": 254,
+"flatness": 0.021,
+"sweepOctPerS": -2.48,
+"lowShare": 0.85,
+"beat": 93.05,
+"off16ms": 33,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": -159
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 1927
+},
+{
+"t": 64.444,
+"frame": 1933,
+"frameExact": 1933.31,
+"peakT": 64.459,
+"dur": 0.08,
+"bands": [
+"high"
+],
+"rise": 18.5,
+"residDb": 39.3,
+"residMinusMix": -0.1,
+"centroid": 183,
+"flatness": 0.017,
+"sweepOctPerS": 29.17,
+"lowShare": 0.89,
+"beat": 93.29,
+"off16ms": 30,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 10
+},
+"picChangeMax": 0.595,
+"picChangeFrame": 1933
+},
+{
+"t": 64.608,
+"frame": 1938,
+"frameExact": 1938.24,
+"peakT": 64.753,
+"dur": 0.224,
+"bands": [
+"high",
+"mid",
+"low"
+],
+"rise": 19.0,
+"residDb": 39.1,
+"residMinusMix": -0.5,
+"centroid": 145,
+"flatness": 0.025,
+"sweepOctPerS": 0.34,
+"lowShare": 0.89,
+"beat": 93.53,
+"off16ms": 22,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 175
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 1935
+},
+{
+"t": 64.798,
+"frame": 1944,
+"frameExact": 1943.93,
+"peakT": 64.828,
+"dur": 0.035,
+"bands": [
+"high"
+],
+"rise": 31.8,
+"residDb": 38.8,
+"residMinusMix": -0.7,
+"centroid": 110,
+"flatness": 0.006,
+"sweepOctPerS": 14.88,
+"lowShare": 0.94,
+"beat": 93.81,
+"off16ms": 39,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 364
+},
+"picChangeMax": 0.009,
+"picChangeFrame": 1947
+},
+{
+"t": 64.932,
+"frame": 1948,
+"frameExact": 1947.97,
+"peakT": 65.012,
+"dur": 0.105,
+"bands": [
+"mid",
+"high"
+],
+"rise": 28.8,
+"residDb": 38.5,
+"residMinusMix": -1.8,
+"centroid": 797,
+"flatness": 0.055,
+"sweepOctPerS": -50.64,
+"lowShare": 0.61,
+"beat": 94.0,
+"off16ms": 2,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 499
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 1951
+},
+{
+"t": 65.012,
+"frame": 1950,
+"frameExact": 1950.37,
+"peakT": 65.012,
+"dur": 0.025,
+"bands": [
+"low"
+],
+"rise": 12.3,
+"residDb": 38.5,
+"residMinusMix": -1.8,
+"centroid": 125,
+"flatness": 0.003,
+"sweepOctPerS": 12.64,
+"lowShare": 0.94,
+"beat": 94.12,
+"off16ms": 81,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 579
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 1951
+},
+{
+"t": 65.112,
+"frame": 1953,
+"frameExact": 1953.36,
+"peakT": 65.117,
+"dur": 0.045,
+"bands": [
+"high",
+"mid"
+],
+"rise": 27.2,
+"residDb": 36.3,
+"residMinusMix": -2.1,
+"centroid": 354,
+"flatness": 0.114,
+"sweepOctPerS": -40.94,
+"lowShare": 0.89,
+"beat": 94.26,
+"off16ms": 9,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 679
+},
+"picChangeMax": 0.023,
+"picChangeFrame": 1954
+},
+{
+"t": 65.307,
+"frame": 1959,
+"frameExact": 1959.2,
+"peakT": 65.621,
+"dur": 0.349,
+"bands": [
+"high"
+],
+"rise": 15.8,
+"residDb": 36.6,
+"residMinusMix": -2.2,
+"centroid": 4491,
+"flatness": 0.069,
+"sweepOctPerS": -3.22,
+"lowShare": 0.01,
+"beat": 94.54,
+"off16ms": 31,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 873
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 1956
+},
+{
+"t": 65.601,
+"frame": 1968,
+"frameExact": 1968.03,
+"peakT": 66.015,
+"dur": 0.469,
+"bands": [
+"high",
+"mid"
+],
+"rise": 33.8,
+"residDb": 42.8,
+"residMinusMix": -0.2,
+"centroid": 3760,
+"flatness": 0.023,
+"sweepOctPerS": -9.97,
+"lowShare": 0.84,
+"beat": 94.97,
+"off16ms": -20,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 1168
+},
+"picChangeMax": 0.061,
+"picChangeFrame": 1971
+},
+{
+"t": 65.965,
+"frame": 1979,
+"frameExact": 1978.95,
+"peakT": 66.04,
+"dur": 0.105,
+"bands": [
+"high",
+"mid",
+"low"
+],
+"rise": 162.5,
+"residDb": 43.0,
+"residMinusMix": -0.3,
+"centroid": 107,
+"flatness": 0.012,
+"sweepOctPerS": -35.31,
+"lowShare": 0.93,
+"beat": 95.5,
+"off16ms": 0,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 1532
+},
+"picChangeMax": 0.027,
+"picChangeFrame": 1976
+},
+{
+"t": 66.17,
+"frame": 1985,
+"frameExact": 1985.09,
+"peakT": 66.185,
+"dur": 0.02,
+"bands": [
+"high"
+],
+"rise": 20.3,
+"residDb": 39.7,
+"residMinusMix": -0.1,
+"centroid": 146,
+"flatness": 0.068,
+"sweepOctPerS": 5.72,
+"lowShare": 0.97,
+"beat": 95.8,
+"off16ms": 32,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 1736
+},
+"picChangeMax": 0.023,
+"picChangeFrame": 1984
+},
+{
+"t": 66.344,
+"frame": 1990,
+"frameExact": 1990.33,
+"peakT": 66.609,
+"dur": 0.304,
+"bands": [
+"high"
+],
+"rise": 19.8,
+"residDb": 39.5,
+"residMinusMix": -0.2,
+"centroid": 866,
+"flatness": 0.039,
+"sweepOctPerS": 5.65,
+"lowShare": 0.79,
+"beat": 96.05,
+"off16ms": 34,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 1911
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 1989
+},
+{
+"t": 66.459,
+"frame": 1994,
+"frameExact": 1993.77,
+"peakT": 66.858,
+"dur": 0.444,
+"bands": [
+"high",
+"low"
+],
+"rise": 21.1,
+"residDb": 41.7,
+"residMinusMix": -0.2,
+"centroid": 606,
+"flatness": 0.015,
+"sweepOctPerS": -3.76,
+"lowShare": 0.83,
+"beat": 96.22,
+"off16ms": -23,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 2026
+},
+"picChangeMax": 0.019,
+"picChangeFrame": 1991
+},
+{
+"t": 66.838,
+"frame": 2005,
+"frameExact": 2005.14,
+"peakT": 66.858,
+"dur": 0.065,
+"bands": [
+"high",
+"mid"
+],
+"rise": 18.7,
+"residDb": 41.7,
+"residMinusMix": -0.2,
+"centroid": 150,
+"flatness": 0.002,
+"sweepOctPerS": -12.85,
+"lowShare": 0.9,
+"beat": 96.77,
+"off16ms": 11,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 2405
+},
+"picChangeMax": 0.035,
+"picChangeFrame": 2004
+},
+{
+"t": 67.033,
+"frame": 2011,
+"frameExact": 2010.98,
+"peakT": 67.402,
+"dur": 0.434,
+"bands": [
+"high"
+],
+"rise": 21.2,
+"residDb": 42.8,
+"residMinusMix": -0.1,
+"centroid": 163,
+"flatness": 0.002,
+"sweepOctPerS": -4.87,
+"lowShare": 0.92,
+"beat": 97.05,
+"off16ms": 33,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 2599
+},
+"picChangeMax": 0.022,
+"picChangeFrame": 2008
+},
+{
+"t": 67.167,
+"frame": 2015,
+"frameExact": 2015.02,
+"peakT": 67.412,
+"dur": 0.299,
+"bands": [
+"high",
+"low"
+],
+"rise": 156.4,
+"residDb": 42.9,
+"residMinusMix": -0.3,
+"centroid": 140,
+"flatness": 0.002,
+"sweepOctPerS": -8.16,
+"lowShare": 0.92,
+"beat": 97.24,
+"off16ms": -5,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 2734
+},
+"picChangeMax": 0.019,
+"picChangeFrame": 2012
+},
+{
+"t": 67.357,
+"frame": 2021,
+"frameExact": 2020.71,
+"peakT": 67.412,
+"dur": 0.11,
+"bands": [
+"high",
+"mid",
+"low"
+],
+"rise": 161.0,
+"residDb": 42.9,
+"residMinusMix": -0.3,
+"centroid": 79,
+"flatness": 0.001,
+"sweepOctPerS": -17.12,
+"lowShare": 0.94,
+"beat": 97.52,
+"off16ms": 13,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 2924
+},
+"picChangeMax": 0.014,
+"picChangeFrame": 2019
+},
+{
+"t": 67.541,
+"frame": 2026,
+"frameExact": 2026.24,
+"peakT": 67.886,
+"dur": 0.384,
+"bands": [
+"high"
+],
+"rise": 15.6,
+"residDb": 36.9,
+"residMinusMix": -0.8,
+"centroid": 255,
+"flatness": 0.007,
+"sweepOctPerS": 3.49,
+"lowShare": 0.85,
+"beat": 97.79,
+"off16ms": 25,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 3108
+},
+"picChangeMax": 0.014,
+"picChangeFrame": 2029
+},
+{
+"t": 67.826,
+"frame": 2035,
+"frameExact": 2034.78,
+"peakT": 68.25,
+"dur": 0.479,
+"bands": [
+"low",
+"mid"
+],
+"rise": 148.8,
+"residDb": 41.6,
+"residMinusMix": -0.7,
+"centroid": 253,
+"flatness": 0.003,
+"sweepOctPerS": -0.87,
+"lowShare": 0.91,
+"beat": 98.2,
+"off16ms": -36,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 3393
+},
+"picChangeMax": 0.014,
+"picChangeFrame": 2034
+},
+{
+"t": 68.21,
+"frame": 2046,
+"frameExact": 2046.3,
+"peakT": 68.26,
+"dur": 0.095,
+"bands": [
+"mid",
+"low"
+],
+"rise": 161.5,
+"residDb": 42.1,
+"residMinusMix": -0.5,
+"centroid": 116,
+"flatness": 0.001,
+"sweepOctPerS": -16.66,
+"lowShare": 0.92,
+"beat": 98.76,
+"off16ms": 4,
+"nearestCut": {
+"shot": 27,
+"frame": 1933,
+"dtMs": 3777
+},
+"picChangeMax": 0.021,
+"picChangeFrame": 2049
+},
+{
+"t": 68.898,
+"frame": 2067,
+"frameExact": 2066.95,
+"peakT": 68.878,
+"dur": 0.06,
+"bands": [
+"mid"
+],
+"rise": 14.1,
+"residDb": 36.4,
+"residMinusMix": -4.1,
+"centroid": 1770,
+"flatness": 0.01,
+"sweepOctPerS": 21.93,
+"lowShare": 0.01,
+"beat": 99.75,
+"off16ms": 3,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": -3602
+},
+"picChangeMax": 0.025,
+"picChangeFrame": 2064
+},
+{
+"t": 69.178,
+"frame": 2075,
+"frameExact": 2075.33,
+"peakT": 69.183,
+"dur": 0.1,
+"bands": [
+"mid"
+],
+"rise": 11.9,
+"residDb": 28.0,
+"residMinusMix": -5.4,
+"centroid": 1446,
+"flatness": 0.0,
+"sweepOctPerS": 6.18,
+"lowShare": 0.0,
+"beat": 100.16,
+"off16ms": -63,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": -3322
+},
+"picChangeMax": 0.025,
+"picChangeFrame": 2078
+},
+{
+"t": 69.841,
+"frame": 2095,
+"frameExact": 2095.24,
+"peakT": 69.856,
+"dur": 0.02,
+"bands": [
+"low"
+],
+"rise": 135.0,
+"residDb": 25.5,
+"residMinusMix": -1.0,
+"centroid": 70,
+"flatness": 0.0,
+"sweepOctPerS": 256.58,
+"lowShare": 0.99,
+"beat": 101.12,
+"off16ms": 83,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": -2659
+},
+"picChangeMax": 0.005,
+"picChangeFrame": 2096
+},
+{
+"t": 71.877,
+"frame": 2156,
+"frameExact": 2156.3,
+"peakT": 71.981,
+"dur": 0.12,
+"bands": [
+"mid"
+],
+"rise": 108.8,
+"residDb": 24.6,
+"residMinusMix": -6.1,
+"centroid": 4952,
+"flatness": 0.0,
+"sweepOctPerS": -27.02,
+"lowShare": 0.0,
+"beat": 104.07,
+"off16ms": 50,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": -623
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 2156
+},
+{
+"t": 72.176,
+"frame": 2165,
+"frameExact": 2165.28,
+"peakT": 72.211,
+"dur": 0.04,
+"bands": [
+"high"
+],
+"rise": 99.9,
+"residDb": -2.4,
+"residMinusMix": -11.4,
+"centroid": 834,
+"flatness": 0.0,
+"sweepOctPerS": 61.06,
+"lowShare": 0.0,
+"beat": 104.51,
+"off16ms": 5,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": -324
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 2166
+},
+{
+"t": 72.296,
+"frame": 2169,
+"frameExact": 2168.87,
+"peakT": 72.326,
+"dur": 0.045,
+"bands": [
+"high"
+],
+"rise": 91.9,
+"residDb": -17.3,
+"residMinusMix": -15.7,
+"centroid": 1239,
+"flatness": 0.0,
+"sweepOctPerS": 26.97,
+"lowShare": 0.0,
+"beat": 104.68,
+"off16ms": -48,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": -204
+},
+"picChangeMax": 0.004,
+"picChangeFrame": 2166
+},
+{
+"t": 72.864,
+"frame": 2186,
+"frameExact": 2185.93,
+"peakT": 72.999,
+"dur": 0.165,
+"bands": [
+"mid"
+],
+"rise": 154.9,
+"residDb": 50.4,
+"residMinusMix": -0.9,
+"centroid": 56,
+"flatness": 0.0,
+"sweepOctPerS": -21.69,
+"lowShare": 0.97,
+"beat": 105.5,
+"off16ms": 3,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": 364
+},
+"picChangeMax": 0.017,
+"picChangeFrame": 2184
+},
+{
+"t": 73.214,
+"frame": 2196,
+"frameExact": 2196.41,
+"peakT": 73.219,
+"dur": 0.055,
+"bands": [
+"low"
+],
+"rise": 20.9,
+"residDb": 47.5,
+"residMinusMix": -1.2,
+"centroid": 139,
+"flatness": 0.0,
+"sweepOctPerS": -11.94,
+"lowShare": 0.92,
+"beat": 106.01,
+"off16ms": 8,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": 714
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 2196
+},
+{
+"t": 73.408,
+"frame": 2202,
+"frameExact": 2202.24,
+"peakT": 73.413,
+"dur": 0.04,
+"bands": [
+"mid",
+"low"
+],
+"rise": 23.6,
+"residDb": 46.2,
+"residMinusMix": -1.7,
+"centroid": 136,
+"flatness": 0.0,
+"sweepOctPerS": -0.52,
+"lowShare": 0.96,
+"beat": 106.29,
+"off16ms": 30,
+"nearestCut": {
+"shot": 28,
+"frame": 2175,
+"dtMs": 908
+},
+"picChangeMax": 0.001,
+"picChangeFrame": 2199
+}
+]
+}

@@ -1,0 +1,318 @@
+{
+ "note": "section map; frames = [first, last]; startBeat on the 87.01 grid (beat0 0.1107 s); measured from energy.json, bars.json, tools/*.py outputs",
+ "sections": [
+  {
+   "id": "S0",
+   "name": "title lockup",
+   "from": 0.0,
+   "to": 2.3,
+   "frames": [
+    0,
+    68
+   ],
+   "startBeat": -0.16,
+   "plays": "unpulsed tonal pad (B3/B4/E4/F#4, Esus/B colour); sub thumps 0.24-0.30 s and 1.00-1.18 s; two digital static bursts (0.22-0.33, 0.44-0.60 s); soft air whoosh 1.74-2.19 s into the zoom-through",
+   "energy": "M -16.6..-14.2 LUFS; pk -5.6 dBFS; widest section (L/R corr 0.62)"
+  },
+  {
+   "id": "S1",
+   "name": "descent + waterfall",
+   "from": 2.3,
+   "to": 8.27,
+   "frames": [
+    69,
+    247
+   ],
+   "startBeat": 3.17,
+   "plays": "E drone (E1 41 Hz / E2 82 Hz + B1 62 Hz fifth), unpulsed; waterfall noise wash (2-12 kHz band -24 dBFS RMS)",
+   "energy": "S -15.5..-16.4; drone swell 6.0-7.0 s (M -13.5), then the quietest body stretch 7.1-8.4 s (M -18.9..-19.9)"
+  },
+  {
+   "id": "S2",
+   "name": "message + clearing + dialogue",
+   "from": 8.27,
+   "to": 22.181,
+   "frames": [
+    248,
+    664
+   ],
+   "startBeat": 11.83,
+   "plays": "E pedal continues with sparse synth tones (B, A, A#, G, C over E: dark/phrygian colour); message pop 8.30 s; jungle birds 11.2-13.0 s; dialogue 13.37-19.95 s; pixel-fire burst 17.06 s; loose ~87 BPM pulsing pad from ~18.5 s; pixel-out crackle 21.37-22.03 s",
+   "energy": "M -12.1..-15.1, S -13.4..-14.7 (no dip under the dialogue: low band -0.9 dB)"
+  },
+  {
+   "id": "S3a",
+   "name": "groove A: AE montage",
+   "from": 22.181,
+   "to": 36.767,
+   "frames": [
+    665,
+    1102
+   ],
+   "startBeat": 32.01,
+   "plays": "groove enters on bar 8: 808/sub ostinato on F with chromatic neighbours (F F F# F# | F# E F# E per 2 bars), a big low boom on beat 1 every 2 bars, 16th hats/clicks gated and stuttered, pitch-drop tom-like hits; white-card shots thin to a gated synth \"comb\" (22.03-23.27, 30.93-32.43)",
+   "energy": "S -13.0..-14.5; corr 0.89; mid band 4-5 dB lower on card shots (bars 11, 15, 16)"
+  },
+  {
+   "id": "S3b",
+   "name": "groove A: bridge + map cards",
+   "from": 36.767,
+   "to": 46.75,
+   "frames": [
+    1103,
+    1401
+   ],
+   "startBeat": 53.16,
+   "plays": "same ostinato; rapids/river bed from the bridge cut n1103; booms on bar 14 (38.83) and 16 (44.28) downbeats; card shots n1257, n1362 thin the mids",
+   "energy": "S -12.8..-14.9"
+  },
+  {
+   "id": "S4",
+   "name": "break",
+   "from": 46.75,
+   "to": 49.76,
+   "frames": [
+    1402,
+    1492
+   ],
+   "startBeat": 67.63,
+   "plays": "low end out (sub -30..-45 dB relative) 117 ms after the card-out n1399; 808 punctuations 47.53 and 48.02 s; full sub-out 48.17-48.88; hats/clicks continue; 808 return 48.90 s (n1467); tumble whoosh from 49.35 s",
+   "energy": "M -14.4..-20.8 (lowest 48.7 s); widest groove part (corr 0.78, highs side/mid -2.5 dB)"
+  },
+  {
+   "id": "S5",
+   "name": "tumble + arrow + transition",
+   "from": 49.76,
+   "to": 55.277,
+   "frames": [
+    1493,
+    1657
+   ],
+   "startBeat": 72.0,
+   "plays": "groove back on bar 18; tumble 49.35-50.0, arrow whoosh 50.37-51.0, thunk 51.005, sub boom 51.06; bar 19 transitional chords (bass D#/F#/A#/A); mini-break with stutter gaps 52.49-53.43; music re-enters 53.43 with the prompt bar; 808 pickup 54.83-55.0 into the poster cut 55.033",
+   "energy": "M -11.5..-14.4"
+  },
+  {
+   "id": "S6",
+   "name": "drop 1 (poster)",
+   "from": 55.277,
+   "to": 60.793,
+   "frames": [
+    1658,
+    1823
+   ],
+   "startBeat": 80.0,
+   "plays": "full groove: bass F (2 beats) - Ab (2 beats) - Bb (4 beats), i-bIII-IV in F minor; 808 on 16ths 3, 6, 11, 14 of the bar; busy 16th hats; snare/clap energy on beats 2 and 3 (half-time); synth chords",
+   "energy": "S -13.0..-13.4; hats 16th lock 0.4-0.58; corr 0.94"
+  },
+  {
+   "id": "S7",
+   "name": "cave lead",
+   "from": 60.793,
+   "to": 63.552,
+   "frames": [
+    1824,
+    1906
+   ],
+   "startBeat": 88.0,
+   "plays": "drums thinned (lock 0.07), bouncy pitch-drop synth lead in 300-1500 Hz, bass F-D#-A",
+   "energy": "M -11.3..-12.2: loudest momentary of the body (61.5 s)"
+  },
+  {
+   "id": "S8",
+   "name": "drop 2 (download + walk-out)",
+   "from": 63.552,
+   "to": 69.069,
+   "frames": [
+    1907,
+    2071
+   ],
+   "startBeat": 92.0,
+   "plays": "drums back on bar 23 (52 ms after the download card n1905); stutter fill 64.95-66.10 (sub out 65.0-65.6, six 30-70 ms mutes); bar 24 F-Ab again; message bubble on an 808 at 66.87",
+   "energy": "M -11.9..-16.4; hats lock 0.47 in bar 23"
+  },
+  {
+   "id": "S9",
+   "name": "outro",
+   "from": 69.069,
+   "to": 72.35,
+   "frames": [
+    2072,
+    2169
+   ],
+   "startBeat": 100.0,
+   "plays": "groove stops on the bar-25 downbeat (0.30 s before the CTA n2081); sub/808 tail decays; mascot chirps 70.62-72.15; fade to digital silence by 72.35",
+   "energy": "M -14.4 (69.0) -> -27 (70.1); -8..-13 LU under the body"
+  },
+  {
+   "id": "S10",
+   "name": "silence",
+   "from": 72.35,
+   "to": 72.868,
+   "frames": [
+    2170,
+    2185
+   ],
+   "startBeat": 104.76,
+   "plays": "digital silence; the end-card cut n2175 (72.500) sits 0.15 s into it",
+   "energy": "digital zero"
+  },
+  {
+   "id": "S11",
+   "name": "sting",
+   "from": 72.868,
+   "to": 74.52,
+   "frames": [
+    2186,
+    2235
+   ],
+   "startBeat": 105.51,
+   "plays": "low boom + C-major chord over G bass (C/G, the dominant of F), rings out",
+   "energy": "M -6.2 LUFS, peak +0.2 dBFS at 72.951 s: the loudest moment by ~6 LU"
+  },
+  {
+   "id": "S12",
+   "name": "tail",
+   "from": 74.52,
+   "to": 76.533,
+   "frames": [
+    2236,
+    2295
+   ],
+   "startBeat": 107.91,
+   "plays": "digital silence",
+   "energy": ""
+  }
+ ],
+ "rises": [
+  {
+   "t": [
+    21.37,
+    22.03
+   ],
+   "what": "pixel-out crackle/noise wash into the card cut and the groove entry (no long riser)"
+  },
+  {
+   "t": [
+    49.35,
+    50.0
+   ],
+   "what": "tumble whoosh rising into the bar-18 downbeat 49.76"
+  },
+  {
+   "t": [
+    50.37,
+    51.0
+   ],
+   "what": "arrow whoosh (8-16 kHz +16 dB) into the thunk"
+  },
+  {
+   "t": [
+    54.68,
+    55.0
+   ],
+   "what": "pixel-out crackle + 808 pickup into the poster cut / drop"
+  }
+ ],
+ "drops": [
+  {
+   "t": 46.75,
+   "what": "break: low end out (to 49.76)"
+  },
+  {
+   "t": 52.49,
+   "what": "mini-break with stutter gaps (to 53.43)"
+  },
+  {
+   "t": 64.95,
+   "what": "stutter fill, sub out 65.0-65.6"
+  },
+  {
+   "t": 69.069,
+   "what": "outro: groove stops"
+  },
+  {
+   "t": 72.35,
+   "what": "digital silence before the sting"
+  }
+ ],
+ "silences": [
+  {
+   "from": 72.35,
+   "to": 72.868,
+   "dur": 0.518,
+   "frames": [
+    2170,
+    2186
+   ]
+  },
+  {
+   "from": 74.52,
+   "to": 76.533,
+   "dur": 2.013,
+   "frames": [
+    2236,
+    2295
+   ]
+  },
+  {
+   "note": "no other silence; quietest body moments: M -19.9 at 7.5 s, -20.8 at 48.7 s; brief 15-70 ms stutter mutes at 33.24-33.27, 35.74-36.30, 47.85, 48.62-49.23, 52.49-53.27, 65.47-66.11 s"
+  }
+ ],
+ "biggest_hits": [
+  {
+   "t": 72.9,
+   "frame": 2187,
+   "rms50msDbfs": -3.2,
+   "what": "sting"
+  },
+  {
+   "t": 31.52,
+   "frame": 946,
+   "rms50msDbfs": -9.9,
+   "what": "808 note (card 2)"
+  },
+  {
+   "t": 59.13,
+   "frame": 1774,
+   "rms50msDbfs": -10.0,
+   "what": "808 note (drop 1)"
+  },
+  {
+   "t": 42.04,
+   "frame": 1261,
+   "rms50msDbfs": -10.0,
+   "what": "808 after card-cut n1257"
+  },
+  {
+   "t": 42.55,
+   "frame": 1277,
+   "rms50msDbfs": -10.1,
+   "what": "808 (card 3)"
+  },
+  {
+   "t": 53.25,
+   "frame": 1598,
+   "rms50msDbfs": -10.1,
+   "what": "return after the mini-break"
+  },
+  {
+   "t": 31.0,
+   "frame": 930,
+   "rms50msDbfs": -10.2,
+   "what": "808 after card-cut n928"
+  },
+  {
+   "t": 66.01,
+   "frame": 1980,
+   "rms50msDbfs": -10.2,
+   "what": "return after the stutter fill"
+  },
+  {
+   "t": 48.94,
+   "frame": 1468,
+   "rms50msDbfs": -10.4,
+   "what": "808 return from the break"
+  }
+ ]
+}

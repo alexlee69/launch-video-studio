@@ -1,0 +1,9 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "stills/keys/S22-22-v1.png"
+ ],
+ "prompt": "Move the round navy mission patch from her right shoulder (on the LEFT side of the picture) to her left shoulder (on the RIGHT side of the picture), the same patch at the same size, below the orange band line. Remove it from the left side of the picture. Change nothing else: the same face, the same pose, the same light, the same framing."
+}

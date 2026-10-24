@@ -1,0 +1,75 @@
+{
+ "note": "3-12 kHz onsets per second; typing clicks would raise \"during\" well above before/after",
+ "tests": [
+  {
+   "what": "prompt 1 \"I need a promo. Fast. No mistake.\" 588-650",
+   "frames": [
+    588,
+    650
+   ],
+   "during": 7.3,
+   "before": 5.0,
+   "after": 6.0
+  },
+  {
+   "what": "prompt 2 typing 880-895",
+   "frames": [
+    880,
+    895
+   ],
+   "during": 0.0,
+   "before": 0.0,
+   "after": 2.0
+  },
+  {
+   "what": "prompt 3 typing 1145-1163",
+   "frames": [
+    1145,
+    1163
+   ],
+   "during": 0.0,
+   "before": 3.0,
+   "after": 0.0
+  },
+  {
+   "what": "prompt 4 typing 1608-1623",
+   "frames": [
+    1608,
+    1623
+   ],
+   "during": 2.0,
+   "before": 3.0,
+   "after": 8.0
+  },
+  {
+   "what": "prompt 5 typing 1840-1855",
+   "frames": [
+    1840,
+    1855
+   ],
+   "during": 6.0,
+   "before": 5.0,
+   "after": 7.0
+  },
+  {
+   "what": "card 1 text types 663-672",
+   "frames": [
+    663,
+    672
+   ],
+   "during": 3.3,
+   "before": 10.0,
+   "after": 1.0
+  },
+  {
+   "what": "Ara bubble types 808-835",
+   "frames": [
+    808,
+    835
+   ],
+   "during": 3.3,
+   "before": 3.0,
+   "after": 0.0
+  }
+ ]
+}

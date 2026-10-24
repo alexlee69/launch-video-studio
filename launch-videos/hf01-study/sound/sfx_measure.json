@@ -1,0 +1,1063 @@
+{
+"note": "per-candidate measurement in its own band (5 ms blocks); bandRmsDbfs calibrated so a full-scale sine reads 0; overBedDb = peak over the band median in the 300 ms before the window",
+"events": [
+{
+"id": "T1",
+"label": "title lockup in: digital blip",
+"window": [
+0.0,
+0.35
+],
+"band": [
+1000,
+16000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 0.0,
+"peakFrame": 0.0,
+"overBedDb": 14.8,
+"bandRmsDbfs": -20.3,
+"mixPeakDbfs": -7.5,
+"durS": 0.05,
+"centroidHz": 649,
+"peakBeat": -0.16,
+"peakOff16ms": 62
+},
+{
+"id": "T2",
+"label": "OPUS 5.5 flash-in: glitch burst",
+"window": [
+0.38,
+0.65
+],
+"band": [
+4000,
+16000
+],
+"onset": 0.464,
+"onsetFrame": 13.9,
+"peak": 0.524,
+"peakFrame": 15.7,
+"overBedDb": 24.0,
+"bandRmsDbfs": -21.5,
+"mixPeakDbfs": -6.5,
+"durS": 0.14,
+"centroidHz": 5043,
+"peakBeat": 0.6,
+"peakOff16ms": 68
+},
+{
+"id": "T3",
+"label": "title sub hit (pill/playback bar)",
+"window": [
+0.95,
+1.4
+],
+"band": [
+20,
+150
+],
+"onset": 1.003,
+"onsetFrame": 30.1,
+"peak": 1.182,
+"peakFrame": 35.5,
+"overBedDb": 19.7,
+"bandRmsDbfs": -16.2,
+"mixPeakDbfs": -6.7,
+"durS": 0.12,
+"centroidHz": 90,
+"peakBeat": 1.55,
+"peakOff16ms": 37
+},
+{
+"id": "T4",
+"label": "zoom-through whoosh",
+"window": [
+1.55,
+2.45
+],
+"band": [
+2000,
+12000
+],
+"onset": 1.741,
+"onsetFrame": 52.2,
+"peak": 2.19,
+"peakFrame": 65.7,
+"overBedDb": 9.3,
+"bandRmsDbfs": -25.2,
+"mixPeakDbfs": -5.6,
+"durS": 3.02,
+"centroidHz": 1686,
+"peakBeat": 3.02,
+"peakOff16ms": 11
+},
+{
+"id": "A1",
+"label": "waterfall bed (broadband noise)",
+"window": [
+2.3,
+9.4
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 2.988,
+"peakFrame": 89.6,
+"overBedDb": 3.6,
+"bandRmsDbfs": -24.2,
+"mixPeakDbfs": -6.1,
+"durS": 1.87,
+"centroidHz": 1831,
+"peakBeat": 4.17,
+"peakOff16ms": -53
+},
+{
+"id": "A2",
+"label": "message bubble in (n252)",
+"window": [
+8.25,
+8.65
+],
+"band": [
+1000,
+12000
+],
+"onset": 8.301,
+"onsetFrame": 249.0,
+"peak": 8.306,
+"peakFrame": 249.2,
+"overBedDb": 10.9,
+"bandRmsDbfs": -25.9,
+"mixPeakDbfs": -8.3,
+"durS": 2.04,
+"centroidHz": 2209,
+"peakBeat": 11.88,
+"peakOff16ms": -79
+},
+{
+"id": "A3",
+"label": "pack drop thud (n348)",
+"window": [
+11.5,
+11.95
+],
+"band": [
+20,
+300
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 11.903,
+"peakFrame": 357.1,
+"overBedDb": 5.7,
+"bandRmsDbfs": -14.1,
+"mixPeakDbfs": -6.8,
+"durS": 0.64,
+"centroidHz": 89,
+"peakBeat": 17.1,
+"peakOff16ms": 69
+},
+{
+"id": "A4",
+"label": "unzip (n364)",
+"window": [
+12.05,
+12.7
+],
+"band": [
+2500,
+12000
+],
+"onset": 12.078,
+"onsetFrame": 362.3,
+"peak": 12.247,
+"peakFrame": 367.4,
+"overBedDb": 14.8,
+"bandRmsDbfs": -23.8,
+"mixPeakDbfs": -6.6,
+"durS": 0.34,
+"centroidHz": 2310,
+"peakBeat": 17.6,
+"peakOff16ms": 69
+},
+{
+"id": "A5",
+"label": "cat pops up (n385)",
+"window": [
+12.75,
+13.05
+],
+"band": [
+500,
+8000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 12.806,
+"peakFrame": 384.2,
+"overBedDb": 1.8,
+"bandRmsDbfs": -25.1,
+"mixPeakDbfs": -6.5,
+"durS": 2.72,
+"centroidHz": 624,
+"peakBeat": 18.41,
+"peakOff16ms": -62
+},
+{
+"id": "F1",
+"label": "pixel fire burst (n502)",
+"window": [
+16.6,
+17.7
+],
+"band": [
+200,
+8000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 17.52,
+"peakFrame": 525.6,
+"overBedDb": 5.8,
+"bandRmsDbfs": -14.3,
+"mixPeakDbfs": -6.0,
+"durS": 0.61,
+"centroidHz": 794,
+"peakBeat": 25.25,
+"peakOff16ms": -2
+},
+{
+"id": "F2",
+"label": "code burst (n524)",
+"window": [
+17.35,
+17.6
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 17.435,
+"peakFrame": 523.1,
+"overBedDb": 5.4,
+"bandRmsDbfs": -27.1,
+"mixPeakDbfs": -6.0,
+"durS": 0.8,
+"centroidHz": 428,
+"peakBeat": 25.12,
+"peakOff16ms": 85
+},
+{
+"id": "X1",
+"label": "pixel-out into card (n648-661)",
+"window": [
+21.3,
+22.1
+],
+"band": [
+2000,
+12000
+],
+"onset": 21.486,
+"onsetFrame": 644.6,
+"peak": 21.536,
+"peakFrame": 646.1,
+"overBedDb": 10.0,
+"bandRmsDbfs": -20.1,
+"mixPeakDbfs": -5.7,
+"durS": 0.14,
+"centroidHz": 4532,
+"peakBeat": 31.07,
+"peakOff16ms": 49
+},
+{
+"id": "X2",
+"label": "card-cut 1 (n661)",
+"window": [
+21.95,
+22.4
+],
+"band": [
+20,
+150
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 22.394,
+"peakFrame": 671.8,
+"overBedDb": 0.8,
+"bandRmsDbfs": -19.2,
+"mixPeakDbfs": -6.2,
+"durS": 1.72,
+"centroidHz": 147,
+"peakBeat": 32.31,
+"peakOff16ms": 45
+},
+{
+"id": "G1",
+"label": "glitch-cut badge (n698)",
+"window": [
+23.1,
+23.45
+],
+"band": [
+3000,
+16000
+],
+"onset": 23.367,
+"onsetFrame": 701.0,
+"peak": 23.387,
+"peakFrame": 701.6,
+"overBedDb": 10.1,
+"bandRmsDbfs": -20.5,
+"mixPeakDbfs": -5.4,
+"durS": 0.36,
+"centroidHz": 1173,
+"peakBeat": 33.75,
+"peakOff16ms": 3
+},
+{
+"id": "G2",
+"label": "badge drop / ring flare (n702-720)",
+"window": [
+23.35,
+24.1
+],
+"band": [
+1000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 23.387,
+"peakFrame": 701.6,
+"overBedDb": 5.9,
+"bandRmsDbfs": -19.9,
+"mixPeakDbfs": -5.4,
+"durS": 1.3,
+"centroidHz": 1173,
+"peakBeat": 33.75,
+"peakOff16ms": 3
+},
+{
+"id": "G3",
+"label": "glitch-cut AE layers (n776)",
+"window": [
+25.7,
+26.1
+],
+"band": [
+3000,
+16000
+],
+"onset": 25.702,
+"onsetFrame": 771.0,
+"peak": 25.746,
+"peakFrame": 772.4,
+"overBedDb": 11.0,
+"bandRmsDbfs": -19.8,
+"mixPeakDbfs": -5.6,
+"durS": 0.17,
+"centroidHz": 1005,
+"peakBeat": 37.18,
+"peakOff16ms": -51
+},
+{
+"id": "Z1",
+"label": "zoom-blur-cut Ara (n807)",
+"window": [
+26.6,
+27.05
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 26.959,
+"peakFrame": 808.8,
+"overBedDb": 4.3,
+"bandRmsDbfs": -20.1,
+"mixPeakDbfs": -5.7,
+"durS": 1.06,
+"centroidHz": 3389,
+"peakBeat": 38.93,
+"peakOff16ms": -45
+},
+{
+"id": "X3",
+"label": "pixel-out into card (n911-928)",
+"window": [
+30.3,
+30.95
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 30.456,
+"peakFrame": 913.7,
+"overBedDb": 4.8,
+"bandRmsDbfs": -21.9,
+"mixPeakDbfs": -5.7,
+"durS": 1.47,
+"centroidHz": 1205,
+"peakBeat": 44.01,
+"peakOff16ms": 4
+},
+{
+"id": "X4",
+"label": "card-cut 2 low hit (n928)",
+"window": [
+30.8,
+31.15
+],
+"band": [
+20,
+150
+],
+"onset": 30.985,
+"onsetFrame": 929.5,
+"peak": 31.005,
+"peakFrame": 930.1,
+"overBedDb": 10.3,
+"bandRmsDbfs": -11.8,
+"mixPeakDbfs": -6.8,
+"durS": 0.19,
+"centroidHz": 57,
+"peakBeat": 44.8,
+"peakOff16ms": 35
+},
+{
+"id": "G4",
+"label": "glitch-cut project panel (n973)",
+"window": [
+32.3,
+32.55
+],
+"band": [
+3000,
+16000
+],
+"onset": 32.307,
+"onsetFrame": 969.2,
+"peak": 32.351,
+"peakFrame": 970.5,
+"overBedDb": 8.4,
+"bandRmsDbfs": -27.9,
+"mixPeakDbfs": -4.2,
+"durS": 0.16,
+"centroidHz": 233,
+"peakBeat": 46.75,
+"peakOff16ms": 3
+},
+{
+"id": "Z2",
+"label": "zoom-blur-cut sticker sheet (n994)",
+"window": [
+32.85,
+33.25
+],
+"band": [
+2000,
+12000
+],
+"onset": 32.93,
+"onsetFrame": 987.9,
+"peak": 32.94,
+"peakFrame": 988.2,
+"overBedDb": 9.2,
+"bandRmsDbfs": -23.3,
+"mixPeakDbfs": -4.9,
+"durS": 0.73,
+"centroidHz": 719,
+"peakBeat": 47.61,
+"peakOff16ms": 75
+},
+{
+"id": "W1",
+"label": "whip in viewer (n1009)",
+"window": [
+33.35,
+33.75
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 33.748,
+"peakFrame": 1012.4,
+"overBedDb": 5.2,
+"bandRmsDbfs": -23.4,
+"mixPeakDbfs": -6.3,
+"durS": 0.63,
+"centroidHz": 763,
+"peakBeat": 48.78,
+"peakOff16ms": 21
+},
+{
+"id": "Z3",
+"label": "zoom-blur-cut timeline (n1035)",
+"window": [
+34.2,
+34.6
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 34.596,
+"peakFrame": 1037.9,
+"overBedDb": 4.5,
+"bandRmsDbfs": -24.7,
+"mixPeakDbfs": -6.5,
+"durS": 0.64,
+"centroidHz": 917,
+"peakBeat": 50.01,
+"peakOff16ms": 7
+},
+{
+"id": "W2",
+"label": "timeline punch (n1052)",
+"window": [
+34.85,
+35.15
+],
+"band": [
+2000,
+12000
+],
+"onset": 35.125,
+"onsetFrame": 1053.8,
+"peak": 35.125,
+"peakFrame": 1053.8,
+"overBedDb": 6.3,
+"bandRmsDbfs": -22.9,
+"mixPeakDbfs": -6.6,
+"durS": 0.62,
+"centroidHz": 750,
+"peakBeat": 50.78,
+"peakOff16ms": 18
+},
+{
+"id": "W3",
+"label": "whip in viewer (n1083)",
+"window": [
+35.85,
+36.2
+],
+"band": [
+2000,
+12000
+],
+"onset": 35.854,
+"onsetFrame": 1075.6,
+"peak": 35.983,
+"peakFrame": 1079.5,
+"overBedDb": 11.3,
+"bandRmsDbfs": -24.0,
+"mixPeakDbfs": -5.8,
+"durS": 0.05,
+"centroidHz": 2041,
+"peakBeat": 52.02,
+"peakOff16ms": 15
+},
+{
+"id": "B1",
+"label": "bridge wide: rapids bed (n1103)",
+"window": [
+36.7,
+37.2
+],
+"band": [
+2000,
+12000
+],
+"onset": 36.756,
+"onsetFrame": 1102.7,
+"peak": 37.121,
+"peakFrame": 1113.6,
+"overBedDb": 8.0,
+"bandRmsDbfs": -23.4,
+"mixPeakDbfs": -5.6,
+"durS": 2.23,
+"centroidHz": 1498,
+"peakBeat": 53.67,
+"peakOff16ms": -55
+},
+{
+"id": "X5",
+"label": "pixel-out + crash-zoom (n1176-1200)",
+"window": [
+39.0,
+40.1
+],
+"band": [
+2000,
+12000
+],
+"onset": 39.51,
+"onsetFrame": 1185.3,
+"peak": 39.515,
+"peakFrame": 1185.5,
+"overBedDb": 8.3,
+"bandRmsDbfs": -18.5,
+"mixPeakDbfs": -5.5,
+"durS": 0.77,
+"centroidHz": 938,
+"peakBeat": 57.14,
+"peakOff16ms": -74
+},
+{
+"id": "B2",
+"label": "boots on planks (n1234)",
+"window": [
+41.08,
+41.9
+],
+"band": [
+1000,
+8000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 41.486,
+"peakFrame": 1244.6,
+"overBedDb": 3.9,
+"bandRmsDbfs": -21.4,
+"mixPeakDbfs": -5.9,
+"durS": 1.95,
+"centroidHz": 868,
+"peakBeat": 60.0,
+"peakOff16ms": 0
+},
+{
+"id": "X6",
+"label": "card-cut 3 low hit (n1257)",
+"window": [
+41.7,
+42.1
+],
+"band": [
+20,
+150
+],
+"onset": 41.79,
+"onsetFrame": 1253.7,
+"peak": 42.049,
+"peakFrame": 1261.5,
+"overBedDb": 12.2,
+"bandRmsDbfs": -11.7,
+"mixPeakDbfs": -6.5,
+"durS": 0.16,
+"centroidHz": 114,
+"peakBeat": 60.82,
+"peakOff16ms": 47
+},
+{
+"id": "X7",
+"label": "card-cut 4 (n1294)",
+"window": [
+43.0,
+43.3
+],
+"band": [
+20,
+150
+],
+"onset": 43.232,
+"onsetFrame": 1297.0,
+"peak": 43.257,
+"peakFrame": 1297.7,
+"overBedDb": 13.9,
+"bandRmsDbfs": -12.5,
+"mixPeakDbfs": -6.7,
+"durS": 0.2,
+"centroidHz": 58,
+"peakBeat": 62.57,
+"peakOff16ms": 47
+},
+{
+"id": "X8",
+"label": "card-cut 5 (n1362)",
+"window": [
+45.25,
+45.55
+],
+"band": [
+20,
+150
+],
+"onset": 45.297,
+"onsetFrame": 1358.9,
+"peak": 45.317,
+"peakFrame": 1359.5,
+"overBedDb": 7.9,
+"bandRmsDbfs": -12.9,
+"mixPeakDbfs": -6.6,
+"durS": 0.63,
+"centroidHz": 49,
+"peakBeat": 65.56,
+"peakOff16ms": 39
+},
+{
+"id": "X9",
+"label": "card-cut 6 (n1399)",
+"window": [
+46.5,
+46.8
+],
+"band": [
+20,
+150
+],
+"onset": 46.699,
+"onsetFrame": 1401.0,
+"peak": 46.699,
+"peakFrame": 1401.0,
+"overBedDb": 6.3,
+"bandRmsDbfs": -12.4,
+"mixPeakDbfs": -6.4,
+"durS": 0.5,
+"centroidHz": 75,
+"peakBeat": 67.56,
+"peakOff16ms": 42
+},
+{
+"id": "M1",
+"label": "map punch-in (n1444)",
+"window": [
+47.8,
+48.3
+],
+"band": [
+20,
+150
+],
+"onset": 47.891,
+"onsetFrame": 1436.7,
+"peak": 48.066,
+"peakFrame": 1442.0,
+"overBedDb": 24.6,
+"bandRmsDbfs": -12.2,
+"mixPeakDbfs": -6.0,
+"durS": 0.13,
+"centroidHz": 134,
+"peakBeat": 69.54,
+"peakOff16ms": 30
+},
+{
+"id": "H1",
+"label": "tumble at wall (n1487)",
+"window": [
+49.4,
+50.3
+],
+"band": [
+100,
+4000
+],
+"onset": 49.413,
+"onsetFrame": 1482.4,
+"peak": 49.762,
+"peakFrame": 1492.9,
+"overBedDb": 10.0,
+"bandRmsDbfs": -14.6,
+"mixPeakDbfs": -5.0,
+"durS": 0.51,
+"centroidHz": 1974,
+"peakBeat": 72.0,
+"peakOff16ms": 2
+},
+{
+"id": "H2",
+"label": "arrow flight whoosh (n1523)",
+"window": [
+50.3,
+51.0
+],
+"band": [
+2000,
+12000
+],
+"onset": 50.395,
+"onsetFrame": 1511.9,
+"peak": 50.889,
+"peakFrame": 1526.7,
+"overBedDb": 15.6,
+"bandRmsDbfs": -18.0,
+"mixPeakDbfs": -5.6,
+"durS": 0.63,
+"centroidHz": 1654,
+"peakBeat": 73.64,
+"peakOff16ms": -78
+},
+{
+"id": "H3",
+"label": "arrow thunk (n1531)",
+"window": [
+50.95,
+51.25
+],
+"band": [
+100,
+8000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 51.144,
+"peakFrame": 1534.3,
+"overBedDb": 1.5,
+"bandRmsDbfs": -16.6,
+"mixPeakDbfs": -6.1,
+"durS": 1.79,
+"centroidHz": 635,
+"peakBeat": 74.01,
+"peakOff16ms": 4
+},
+{
+"id": "H4",
+"label": "arrow sub boom (n1531)",
+"window": [
+50.95,
+51.4
+],
+"band": [
+20,
+120
+],
+"onset": 51.059,
+"onsetFrame": 1531.8,
+"peak": 51.089,
+"peakFrame": 1532.7,
+"overBedDb": 7.9,
+"bandRmsDbfs": -14.0,
+"mixPeakDbfs": -6.1,
+"durS": 0.81,
+"centroidHz": 96,
+"peakBeat": 73.93,
+"peakOff16ms": -50
+},
+{
+"id": "U1",
+"label": "prompt bar pop (n1606)",
+"window": [
+53.35,
+53.6
+],
+"band": [
+2000,
+12000
+],
+"onset": 53.434,
+"onsetFrame": 1603.0,
+"peak": 53.463,
+"peakFrame": 1603.9,
+"overBedDb": 24.9,
+"bandRmsDbfs": -16.1,
+"mixPeakDbfs": -5.8,
+"durS": 0.11,
+"centroidHz": 3850,
+"peakBeat": 77.37,
+"peakOff16ms": 83
+},
+{
+"id": "X10",
+"label": "pixel-out into poster (n1638-1651)",
+"window": [
+54.5,
+55.05
+],
+"band": [
+2000,
+12000
+],
+"onset": 54.676,
+"onsetFrame": 1640.3,
+"peak": 54.925,
+"peakFrame": 1647.8,
+"overBedDb": 10.1,
+"bandRmsDbfs": -21.5,
+"mixPeakDbfs": -5.8,
+"durS": 0.45,
+"centroidHz": 1868,
+"peakBeat": 79.49,
+"peakOff16ms": -7
+},
+{
+"id": "D1",
+"label": "808 pickup before poster (n1648)",
+"window": [
+54.75,
+55.1
+],
+"band": [
+20,
+150
+],
+"onset": 54.825,
+"onsetFrame": 1644.8,
+"peak": 54.995,
+"peakFrame": 1649.9,
+"overBedDb": 21.5,
+"bandRmsDbfs": -13.0,
+"mixPeakDbfs": -5.8,
+"durS": 0.34,
+"centroidHz": 80,
+"peakBeat": 79.59,
+"peakOff16ms": 63
+},
+{
+"id": "C1",
+"label": "light strike in cave (n1863)",
+"window": [
+61.9,
+62.4
+],
+"band": [
+20,
+16000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 62.204,
+"peakFrame": 1866.1,
+"overBedDb": 1.7,
+"bandRmsDbfs": -13.2,
+"mixPeakDbfs": -5.7,
+"durS": 3.01,
+"centroidHz": 1552,
+"peakBeat": 90.05,
+"peakOff16ms": 31
+},
+{
+"id": "X11",
+"label": "download card blur-zoom (n1905)",
+"window": [
+63.3,
+63.65
+],
+"band": [
+2000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 63.556,
+"peakFrame": 1906.7,
+"overBedDb": 4.5,
+"bandRmsDbfs": -21.4,
+"mixPeakDbfs": -4.7,
+"durS": 0.07,
+"centroidHz": 1669,
+"peakBeat": 92.01,
+"peakOff16ms": 4
+},
+{
+"id": "E1",
+"label": "message in (n2005)",
+"window": [
+66.7,
+67.0
+],
+"band": [
+20,
+150
+],
+"onset": 66.868,
+"onsetFrame": 2006.0,
+"peak": 66.948,
+"peakFrame": 2008.4,
+"overBedDb": 7.2,
+"bandRmsDbfs": -12.5,
+"mixPeakDbfs": -6.6,
+"durS": 0.5,
+"centroidHz": 91,
+"peakBeat": 96.93,
+"peakOff16ms": -52
+},
+{
+"id": "E2",
+"label": "cat appears (n2061)",
+"window": [
+68.6,
+68.9
+],
+"band": [
+1000,
+12000
+],
+"onset": null,
+"onsetFrame": null,
+"peak": 68.898,
+"peakFrame": 2067.0,
+"overBedDb": 3.9,
+"bandRmsDbfs": -19.5,
+"mixPeakDbfs": -6.7,
+"durS": 0.71,
+"centroidHz": 486,
+"peakBeat": 99.75,
+"peakOff16ms": 3
+},
+{
+"id": "V1",
+"label": "mascot chirps (n2121-2163)",
+"window": [
+70.6,
+72.3
+],
+"band": [
+300,
+4000
+],
+"onset": 70.615,
+"onsetFrame": 2118.4,
+"peak": 71.757,
+"peakFrame": 2152.7,
+"overBedDb": 37.5,
+"bandRmsDbfs": -17.7,
+"mixPeakDbfs": -8.1,
+"durS": 0.06,
+"centroidHz": 599,
+"peakBeat": 103.9,
+"peakOff16ms": -70
+},
+{
+"id": "S1",
+"label": "end-card sting (n2186)",
+"window": [
+72.7,
+74.6
+],
+"band": [
+20,
+16000
+],
+"onset": 72.81,
+"onsetFrame": 2184.3,
+"peak": 72.889,
+"peakFrame": 2186.7,
+"overBedDb": 244.1,
+"bandRmsDbfs": -2.8,
+"mixPeakDbfs": 0.2,
+"durS": 0.16,
+"centroidHz": 102,
+"peakBeat": 105.54,
+"peakOff16ms": 28
+}
+]
+}

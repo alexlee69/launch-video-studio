@@ -1,0 +1,10 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [
+  "cast/locked/props.png"
+ ],
+ "prompt": "An empty location plate, three-quarter view, no people: the inside of a small, dim, fictional re-entry capsule: grey padded panels, two reclined seats with harness straps, a few dim indicator lights with no readable screens, one small round window showing black space. The small pale blue-grey plush whale from image 1 (bottom-left tile) hangs on a cord from the ceiling. Dim cabin light. 24mm. Photoreal cinematic film still, visible film grain, slightly soft, true blacks, not a stock photo, no people, no text, no logos, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

@@ -1,0 +1,89 @@
+{
+ "grid": {
+  "bpm": 87.01,
+  "beat_s": 0.68958,
+  "bar_s": 2.7583,
+  "meter": "4/4",
+  "beat0_s": 0.1107,
+  "beat_k_at": "0.1107 + 0.68958*k s; frame = round(30*t)",
+  "bars": "bar b = beats 4b..4b+3 (bar 8 = 22.177 s, bar 20 = 55.277 s, bar 25 = 69.069 s)",
+  "source": "lv.mjs --tempo (87.01, first beat 0.1107, conf 0.903); confirmed by tools/gridfit.py (86.89-87.07 per section) and the constant 16th phase of the hats (-6..-20 ms, tools/tempo.py windows 25-70 s)"
+ },
+ "map": [
+  {
+   "from": 0.0,
+   "to": 22.181,
+   "frames": [
+    0,
+    665
+   ],
+   "tempo": null,
+   "what": "unpulsed: E drone (E1/E2 + B1) + nature ambience + dialogue; no kick/hat pattern",
+   "evidence": "per-bar hat 16th lock 0.02-0.25 (bars.json) vs no-pulse 95th pct 0.15-0.28; tracker sections 0-25.5 s none"
+  },
+  {
+   "from": 18.5,
+   "to": 22.181,
+   "frames": [
+    555,
+    665
+   ],
+   "tempo": "~86-87 BPM (loose)",
+   "what": "a loose quarter-note pulse in the 300-2k band (pulsing pad), phase +45..+60 ms off the later grid: not a beat",
+   "evidence": "modspec 1.43 Hz peak in 300-2k (x4.2); tempo.json windows 19-22 s best 87.3 BPM, acfBeat 0.13-0.19, phase16 +44..+63 ms"
+  },
+  {
+   "from": 22.181,
+   "to": 69.069,
+   "frames": [
+    665,
+    2072
+   ],
+   "tempo": 87.01,
+   "what": "groove on the grid from beat 32 (bar 8 downbeat) to beat 100 (bar 25 downbeat); half-time feel",
+   "evidence": "low booms on bar 10/12/14/16/18 downbeats +28..+101 ms (low-band onset lag); hats 16th phase -10..-17 ms 54-70 s (lock 0.4-0.78)"
+  },
+  {
+   "from": 69.069,
+   "to": 72.35,
+   "frames": [
+    2072,
+    2170
+   ],
+   "tempo": null,
+   "what": "groove stops on the bar-25 downbeat; sub tail + mascot chirps, fade to digital silence"
+  },
+  {
+   "from": 72.35,
+   "to": 72.868,
+   "frames": [
+    2170,
+    2186
+   ],
+   "tempo": null,
+   "what": "digital silence 0.52 s (end-card cut n2175 = 72.500 s inside it, beat 105 -16 ms)"
+  },
+  {
+   "from": 72.868,
+   "to": 74.52,
+   "frames": [
+    2186,
+    2236
+   ],
+   "tempo": null,
+   "what": "sting: onset on the 8th grid (beat 105.5 +7 ms)"
+  },
+  {
+   "from": 74.52,
+   "to": 76.533,
+   "frames": [
+    2236,
+    2296
+   ],
+   "tempo": null,
+   "what": "digital silence to the end"
+  }
+ ],
+ "octave": "quarter = 87.01 (the tracker); felt half-time (43.5) in the drop because the backbeat sits on beat 3; the 174 reading comes from the busy 16th hats",
+ "why_the_tracker_missed_22_51": "sparse syncopated 808 ostinato + gated/stuttered 16ths: per-4 s 16th lock 0.2-0.4 with the same phase as the drop, below the tracker section threshold"
+}

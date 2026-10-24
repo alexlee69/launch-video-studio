@@ -1,0 +1,13 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "leg": "24 (identity key)",
+ "use": "n1800-n1904",
+ "refs": [
+  "cast/locked/eva.png",
+  "stills/locations/capsule-interior-v1.png"
+ ],
+ "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. In this shot the backpack is removed. Image 2 is the location: keep its architecture, materials and design. Do not copy the grey background or the sheet layout: make one single cinematic film frame, 16:9. Cinematic 24mm film still from a low angle inside a small, dim, fictional re-entry capsule: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering); no backpack. She sits strapped into a reclined seat with harness straps, helmet on and gold visor raised, face calm; behind her right shoulder a small round window full of glowing orange-pink plasma streaming past, the warm light spilling across grey padded panels; a small pale-blue plush whale toy dangles on a cord from the ceiling; a few dim indicator lights, no readable screens. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark."
+}

@@ -1,0 +1,15 @@
+{
+ "base": "cast/locked/eva-edit.png",
+ "restored_from": "cast/round1/candidates/cand-02.png",
+ "mask": "ellipse",
+ "center": [
+  480,
+  545
+ ],
+ "radii": [
+  235,
+  290
+ ],
+ "feather_blur": 28,
+ "why": "GPT Image edits soften skin: the untouched close-up face is masked back onto the edit (ad-asset-prep anti-slop composite)"
+}

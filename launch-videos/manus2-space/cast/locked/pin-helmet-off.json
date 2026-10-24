@@ -1,0 +1,28 @@
+{
+ "src": "helmet-off-gen.png",
+ "panels": [
+  [
+   0,
+   0,
+   958,
+   1440,
+   "surface 117..129 -> 138, background 15% of panel"
+  ],
+  [
+   968,
+   0,
+   1706,
+   1440,
+   "surface 122..132 -> 138, background 36% of panel"
+  ],
+  [
+   1716,
+   0,
+   2560,
+   1440,
+   "surface 122..132 -> 138, background 49% of panel"
+  ]
+ ],
+ "bg_after_mean": 138.1,
+ "bg_after_std": 3.0
+}

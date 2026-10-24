@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "5 s, locked-off: soft streaks cross the sky one after another, slow and graceful; the aurora ripples gently and the city lights below drift very slowly. No text, no captions, no logos.",
+    "image_url": "<file A3.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:42:49.700Z",
+  "status": [
+    {
+      "t": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 10,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a169a4-d9e3-7e50-88fd-87c6e442b220",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d9e3-7e50-88fd-87c6e442b220/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d9e3-7e50-88fd-87c6e442b220",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/WPZX3eRlAQOcHTDyJ6Ds1_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "WPZX3eRlAQOcHTDyJ6Ds1_minimax-h3.mp4",
+      "file_size": 15812562
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.354858038946986
+    }
+  },
+  "finished": "2026-10-23T16:43:05.005Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/WPZX3eRlAQOcHTDyJ6Ds1_minimax-h3.mp4",
+      "file": "A3.mp4",
+      "bytes": 15812562,
+      "done": true
+    }
+  ]
+}

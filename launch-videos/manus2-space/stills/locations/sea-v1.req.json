@@ -1,0 +1,10 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [
+  "cast/locked/props.png"
+ ],
+ "prompt": "A location plate at golden hour, three-quarter view, no people: the small white gumdrop-shaped capsule from image 1 (bottom-right tile), one orange band, its hatch open on top, bobbing on an open sea with a gentle swell; a recovery boat a tiny speck on the horizon; a pale sky. Low warm sun from the left, cool blue shadows, the sea's sparkle the brightest area. 50mm. Photoreal cinematic film still, visible film grain, slightly soft, true blacks, not a stock photo, no people, no text, no logos, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

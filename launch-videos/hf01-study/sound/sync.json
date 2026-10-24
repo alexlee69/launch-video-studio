@@ -1,0 +1,73 @@
+{
+ "grid": {
+  "bpm": 87.01,
+  "beat0": 0.1107
+ },
+ "cuts_vs_beats": {
+  "groove_cuts": 21,
+  "within_35ms_of_beat": 0,
+  "chance_pct": 10,
+  "median_abs_ms": 193,
+  "within_35ms_of_16th": 6,
+  "chance_16th_pct": 41,
+  "verdict": "cuts are not on the beat or the 16th grid; picture cuts on action/story"
+ },
+ "section_changes_after_cuts": [
+  {
+   "cut_frame": 661,
+   "cut_s": 22.033,
+   "music": "groove entry, bar 8 downbeat",
+   "music_s": 22.177,
+   "music_minus_cut_ms": 144
+  },
+  {
+   "cut_frame": 1399,
+   "cut_s": 46.633,
+   "music": "break: low end out",
+   "music_s": 46.75,
+   "music_minus_cut_ms": 117
+  },
+  {
+   "cut_frame": 1487,
+   "cut_s": 49.567,
+   "music": "bar 18 downbeat (return)",
+   "music_s": 49.76,
+   "music_minus_cut_ms": 193
+  },
+  {
+   "cut_frame": 1651,
+   "cut_s": 55.033,
+   "music": "drop 1, bar 20 downbeat (808 pickup peaks 80 ms before the cut)",
+   "music_s": 55.277,
+   "music_minus_cut_ms": 244
+  },
+  {
+   "cut_frame": 1905,
+   "cut_s": 63.5,
+   "music": "drums back, bar 23 downbeat",
+   "music_s": 63.552,
+   "music_minus_cut_ms": 52
+  },
+  {
+   "event_frame": 2081,
+   "event_s": 69.367,
+   "music": "groove stops on bar 25 downbeat BEFORE the CTA",
+   "music_s": 69.068,
+   "music_minus_cut_ms": -299
+  },
+  {
+   "cut_frame": 2175,
+   "cut_s": 72.5,
+   "music": "end card on the grid (beat 105) inside the silence; sting 0.368 s later",
+   "music_s": 72.868,
+   "music_minus_cut_ms": 368
+  }
+ ],
+ "sfx_sync": [
+  "diegetic hits are frame-tight or pre-lapped: arrow thunk -28 ms before cut n1531; pack-drop swish peaks -36 ms before cut n348; tumble whoosh starts -220 ms before cut n1487; arrow whoosh starts -400 ms before cut n1523",
+  "title: static burst peaks 0.5 f before the OPUS flash n16; sub hit 0.5 f before the playback bar n36; message tick 3 f before the bubble rises (n249 vs n252)",
+  "transitions (glitch, zoom-blur, whip, card cuts) carry no dedicated whoosh: the score's 808 notes fall 65-150 ms after card cuts (n928 +72, n1257 +149, n1294 +124, n1399 +66 ms)",
+  "UI animation is silent: no typing clicks (3-12 kHz onset rate during typing = before/after) and no card pops"
+ ],
+ "lag_scan": "onset strength vs lag around all cuts: weak max at +220..+240 ms (z 2.0-2.5 vs random times), z -1 at 0 ms: picture leads the music, never the reverse"
+}

@@ -1,0 +1,11 @@
+{
+ "base": "cast/locked/props-ball.png",
+ "tile_from": "cast/locked/props-capsule-edit.png",
+ "box": [
+  1283,
+  723,
+  2560,
+  1440
+ ],
+ "why": "the capsule rendered as a ball; only the fixed tile is pasted so the other props stay untouched"
+}

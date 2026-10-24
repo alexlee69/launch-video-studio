@@ -1,0 +1,8 @@
+{
+ "endpoint": "generations",
+ "model": "gpt-image-2",
+ "size": "1024x1024",
+ "quality": "high",
+ "n": 2,
+ "prompt": "Head-and-shoulders portrait, three-quarter view, of a woman of about 40 with warm brown skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. Her whole face is lit clearly through the bubble with no reflection across her eyes; a calm, quietly amused expression, eyebrows slightly raised. Photographic character reference for a film, seamless dark-grey studio background, one hard white key light from the left and a soft fill, natural skin texture, unretouched, realistic, not a stock photo, no text, no captions, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

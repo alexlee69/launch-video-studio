@@ -1,0 +1,1679 @@
+{
+ "note": "merged from sections/c-events.json, ui-events.json, ae-events.json; AE \"Download card\" events dropped (duplicate of UI \"Ae card s5\"); the AE S1 cut event moved from n697 to n698 (n697 is still the light status screen)",
+ "events": [
+  {
+   "n": 0,
+   "element": "co-brand title",
+   "event": "first frame: Higgsfield MCP mark + word sharp at cy 247 (55 px above its rest at cy 302); flowers not yet visible",
+   "lane": "C"
+  },
+  {
+   "n": 1,
+   "element": "co-brand title",
+   "event": "lockup smears downward; the x appears",
+   "lane": "C"
+  },
+  {
+   "n": 2,
+   "element": "co-brand title",
+   "event": "Claude asterisk + word cut on with a bloom glow (glow fades by n7); lockup drops 55 px with overshoot, bezier(.38,.72,0,1.5) over 8 cf",
+   "lane": "C"
+  },
+  {
+   "n": 3,
+   "element": "co-brand title",
+   "event": "bottom-left flowers start drawing on as white dithered line art",
+   "lane": "C"
+  },
+  {
+   "n": 4,
+   "element": "co-brand title",
+   "event": "lockup overshoot peak +11.5 px below rest",
+   "lane": "C"
+  },
+  {
+   "n": 6,
+   "element": "watermark",
+   "event": "glyph builds at TR as an empty rounded square (n6-n8); top-right flowers start drawing on",
+   "lane": "C"
+  },
+  {
+   "n": 9,
+   "element": "co-brand title",
+   "event": "lockup at rest (cy 302); watermark lens + dot complete",
+   "lane": "C"
+  },
+  {
+   "n": 11,
+   "element": "co-brand title",
+   "event": "bottom-left flowers start colouring pink (n11-n24)",
+   "lane": "C"
+  },
+  {
+   "n": 15,
+   "element": "co-brand title",
+   "event": "lockup smears: the slam starts",
+   "lane": "C"
+  },
+  {
+   "n": 16,
+   "element": "co-brand title",
+   "event": "OPUS 5.5 slams in frame-filling (scale >= 1.6, horizontal smear, peach halftone dots); lockup jumps up and shrinks to 0.65; @HIGGSFIELD.AI handle cuts on",
+   "lane": "C"
+  },
+  {
+   "n": 18,
+   "element": "co-brand title",
+   "event": "OPUS settle: width 736 -> 554 (scale 1.32 -> 1.00) by n26, power-out p 2.8 over 6 cf (max 2.2 px); peach tint fades to white by n24",
+   "lane": "C"
+  },
+  {
+   "n": 19,
+   "element": "co-brand title",
+   "event": "lockup glides up cy 237 -> 193 (n19-n33), fastest n24-n28, bezier(.28,.39,.21,.98) on n24-n36",
+   "lane": "C"
+  },
+  {
+   "n": 24,
+   "element": "co-brand title",
+   "event": "lime 4-point sparkle twinkles bottom-left (n24-n27)",
+   "lane": "C"
+  },
+  {
+   "n": 26,
+   "element": "co-brand title",
+   "event": "pill enters as a full-width dark band at y~495, rises and squashes in x",
+   "lane": "C"
+  },
+  {
+   "n": 26,
+   "element": "co-brand title",
+   "event": "slow push begins: whole title +0.26 %/f about (540,304), linear to n52 (max 1.7 px off a line)",
+   "lane": "C"
+  },
+  {
+   "n": 28,
+   "element": "co-brand title",
+   "event": "pill right edge 1035 -> 736.5 by n34, bezier(.55,.50,.07,1.04); top 419 -> 381, bezier(.16,-.08,0,.92); heavy x motion blur n27-n31",
+   "lane": "C"
+  },
+  {
+   "n": 32,
+   "element": "co-brand title",
+   "event": "pill crisp and at size",
+   "lane": "C"
+  },
+  {
+   "n": 33,
+   "element": "co-brand title",
+   "event": "transport chip glass fades in bottom-left (n33-n35); icons appear left to right n36-n39",
+   "lane": "C"
+  },
+  {
+   "n": 39,
+   "element": "co-brand title",
+   "event": "lime sparkle twinkles right of 5.5 (n39-n44)",
+   "lane": "C"
+  },
+  {
+   "n": 42,
+   "element": "co-brand title",
+   "event": "home chip fades in at right (n42-n45)",
+   "lane": "C"
+  },
+  {
+   "n": 52,
+   "element": "co-brand title",
+   "event": "zoom-through exit starts about (540,304): scale 1 -> 1.72 by n63 (bezier(.64,.04,.85,.49), max 0.5 px), ~4.7 by n67",
+   "lane": "C"
+  },
+  {
+   "n": 66,
+   "element": "co-brand title",
+   "event": "footage cuts underneath while the title keeps zooming; watermark glyph starts turning Instagram-gradient",
+   "lane": "C"
+  },
+  {
+   "n": 66,
+   "element": "watermark",
+   "event": "gradient fades in n66-n75 (saturation 0.14 -> 0.84), then rotates clockwise ~4 deg/f",
+   "lane": "C"
+  },
+  {
+   "n": 68,
+   "element": "co-brand title",
+   "event": "last blurred title stroke; gone at n69",
+   "lane": "C"
+  },
+  {
+   "n": 127,
+   "element": "watermark",
+   "event": "gradient fades back to white n127-n139",
+   "lane": "C"
+  },
+  {
+   "n": 252,
+   "element": "phone bubble 1",
+   "event": "enters as a blank white bar + \"Today 10:24\" (vertical motion blur), rises 56 px top / 21 px bottom, ease cubic-bezier(.14,.86,.39,.97) over 13 cf",
+   "lane": "UI"
+  },
+  {
+   "n": 253,
+   "element": "phone bubble 1",
+   "event": "line 1 soft wipe starts (~7 chars/cf)",
+   "lane": "UI"
+  },
+  {
+   "n": 256,
+   "element": "phone bubble 1",
+   "event": "line 2 \"ASAP.\" starts",
+   "lane": "UI"
+  },
+  {
+   "n": 257,
+   "element": "phone bubble 1",
+   "event": "text complete",
+   "lane": "UI"
+  },
+  {
+   "n": 261,
+   "element": "watermark",
+   "event": "TR fade-out starts (switch s=266): bezier(.81,.28,.14,.68) over 9 cf, gone at n271",
+   "lane": "C"
+  },
+  {
+   "n": 266,
+   "element": "phone bubble 1",
+   "event": "lands (top 204)",
+   "lane": "UI"
+  },
+  {
+   "n": 272,
+   "element": "watermark",
+   "event": "BL fade-in: bezier(.53,.22,.09,.98) over 11 cf, ~0.95 by n281, 1.0 by ~n286",
+   "lane": "C"
+  },
+  {
+   "n": 348,
+   "element": "phone bubble 1",
+   "event": "hard cut out",
+   "lane": "UI"
+  },
+  {
+   "n": 384,
+   "element": "pixel cat",
+   "event": "ears peek out of the backpack at (657,191)",
+   "lane": "C"
+  },
+  {
+   "n": 386,
+   "element": "pixel cat",
+   "event": "rises pale/glowing, stretched tall (~95x143) n386-n387",
+   "lane": "C"
+  },
+  {
+   "n": 390,
+   "element": "pixel cat",
+   "event": "apex near the top edge (575,35), squashed wide",
+   "lane": "C"
+  },
+  {
+   "n": 391,
+   "element": "pixel cat",
+   "event": "swoops down-left: cy 45 -> 264 by n399 (peak 66 px/f, bezier(.50,1.10,.69,.99)); cx 511 -> 365 by n403 (bezier(.21,.35,.15,.83))",
+   "lane": "C"
+  },
+  {
+   "n": 399,
+   "element": "pixel cat",
+   "event": "lands at fill 127x131 centred (378,264); floats +-4 px",
+   "lane": "C"
+  },
+  {
+   "n": 413,
+   "element": "floating words",
+   "event": "\"What\" starts focusing in; whole word layer drifts +7.85,-2.7 px per cf (8.3 px/cf, 19 deg up-right)",
+   "lane": "C"
+  },
+  {
+   "n": 417,
+   "element": "floating words",
+   "event": "\"is it\" starts focusing in",
+   "lane": "C"
+  },
+  {
+   "n": 420,
+   "element": "floating words",
+   "event": "\"this\" starts focusing in",
+   "lane": "C"
+  },
+  {
+   "n": 423,
+   "element": "floating words",
+   "event": "\"What\" sharpest; \"time?\" starts focusing in",
+   "lane": "C"
+  },
+  {
+   "n": 426,
+   "element": "pixel cat",
+   "event": "grows 129 -> 147 px wide by n437 (x1.14), bezier(.41,.14,.57,.90), drifting left to cx 326",
+   "lane": "C"
+  },
+  {
+   "n": 432,
+   "element": "floating words",
+   "event": "\"time?\" sharpest; all four words gone by n441",
+   "lane": "C"
+  },
+  {
+   "n": 446,
+   "element": "floating words",
+   "event": "\"Objects?\" focuses in (n446-n452), sharpest n452, gone n458",
+   "lane": "C"
+  },
+  {
+   "n": 447,
+   "element": "pixel cat",
+   "event": "hard swap to a smooth 3D yellow block 197x108, settles 185x121 by n451",
+   "lane": "C"
+  },
+  {
+   "n": 473,
+   "element": "pixel cat",
+   "event": "block -> pixel triangle through one blurred stepped frame",
+   "lane": "C"
+  },
+  {
+   "n": 476,
+   "element": "floating words",
+   "event": "\"Shapes?\" focuses in, sharpest n482, gone n488",
+   "lane": "C"
+  },
+  {
+   "n": 502,
+   "element": "pixel cat",
+   "event": "triangle -> block for one frame",
+   "lane": "C"
+  },
+  {
+   "n": 502,
+   "element": "floating words",
+   "event": "\"VFX?\" focuses in, sharpest n508-n510, gone n514",
+   "lane": "C"
+  },
+  {
+   "n": 503,
+   "element": "pixel cat",
+   "event": "block -> pixel fire, low and wide; grows upward ~27 px/cf (top y 269 -> 49 by n513) with +-15 px flicker; footage relit warm n506-n522",
+   "lane": "C"
+  },
+  {
+   "n": 523,
+   "element": "pixel cat",
+   "event": "fire breaks into pixel blocks that re-form as code text by n527",
+   "lane": "C"
+  },
+  {
+   "n": 527,
+   "element": "pixel cat",
+   "event": "code \"time * 60 / wiggle(2,10)\" holds at (102-570, 144-271); sparks drift up and fade by n548",
+   "lane": "C"
+  },
+  {
+   "n": 531,
+   "element": "floating words",
+   "event": "\"Expressions?\" focuses in, sharpest n537, gone n543",
+   "lane": "C"
+  },
+  {
+   "n": 536,
+   "element": "watermark",
+   "event": "BL fade-out (s=536), TR fade-in n542-n556",
+   "lane": "C"
+  },
+  {
+   "n": 550,
+   "element": "floating words",
+   "event": "\"Wait\", \"No\", \"Let me explain\" focus in one after another (~n550, n556, n562), each holds ~10 f and racks out; gone ~n590",
+   "lane": "C"
+  },
+  {
+   "n": 566,
+   "element": "pixel cat",
+   "event": "code -> cat: lands 1.27x blurred, 1.04x n567, 1.00x n568 (fill 180x182)",
+   "lane": "C"
+  },
+  {
+   "n": 568,
+   "element": "pixel cat",
+   "event": "floats (+-5 px, slow) until the cut at n661",
+   "lane": "C"
+  },
+  {
+   "n": 581,
+   "element": "prompt bar 1",
+   "event": "first faint frame: horizontal streak, grows from right of centre",
+   "lane": "UI"
+  },
+  {
+   "n": 585,
+   "element": "prompt bar 1",
+   "event": "full size (scale ~1.02), coral outline on",
+   "lane": "UI"
+  },
+  {
+   "n": 587,
+   "element": "prompt bar 1",
+   "event": "pop overshoot peak scale 1.09 (spring w=19.5 rad/s, z=0.59)",
+   "lane": "UI"
+  },
+  {
+   "n": 587,
+   "element": "prompt bar 1",
+   "event": "outline glow pulse peak (period ~20 f)",
+   "lane": "UI"
+  },
+  {
+   "n": 588,
+   "element": "prompt bar 1",
+   "event": "typing visible: 1 chars \"I\"",
+   "lane": "UI"
+  },
+  {
+   "n": 601,
+   "element": "prompt bar 1",
+   "event": "scale settled at 1.00",
+   "lane": "UI"
+  },
+  {
+   "n": 602,
+   "element": "prompt bar 1",
+   "event": "send button arms: outline arrow -> coral fill #D9785E, instant",
+   "lane": "UI"
+  },
+  {
+   "n": 606,
+   "element": "prompt bar 1",
+   "event": "typing pause 11 f after \"I need a promo.\"",
+   "lane": "UI"
+  },
+  {
+   "n": 607,
+   "element": "prompt bar 1",
+   "event": "outline glow pulse peak (period ~20 f)",
+   "lane": "UI"
+  },
+  {
+   "n": 617,
+   "element": "prompt bar 1",
+   "event": "typing resumes \"Fast.\"",
+   "lane": "UI"
+  },
+  {
+   "n": 626,
+   "element": "prompt bar 1",
+   "event": "outline glow pulse peak (period ~20 f)",
+   "lane": "UI"
+  },
+  {
+   "n": 639,
+   "element": "prompt bar 1",
+   "event": "typing resumes \"No mistake.\" after a 17 f pause",
+   "lane": "UI"
+  },
+  {
+   "n": 647,
+   "element": "prompt bar 1",
+   "event": "outline glow pulse peak (period ~20 f)",
+   "lane": "UI"
+  },
+  {
+   "n": 648,
+   "element": "prompt bar 1",
+   "event": "send press: button lightens (#E4997D -> #DFAE92), halo builds",
+   "lane": "UI"
+  },
+  {
+   "n": 649,
+   "element": "prompt bar 1",
+   "event": "typing complete (33 chars)",
+   "lane": "UI"
+  },
+  {
+   "n": 653,
+   "element": "prompt bar 1",
+   "event": "send burst: halo breaks into orange pixel blocks around the button",
+   "lane": "UI"
+  },
+  {
+   "n": 654,
+   "element": "prompt bar 1",
+   "event": "pixel-block column travels left -232 px over 6 cf, cubic-bezier(.68,.79,0,.86)",
+   "lane": "UI"
+  },
+  {
+   "n": 660,
+   "element": "prompt bar 1",
+   "event": "burst ends / last block frame",
+   "lane": "UI"
+  },
+  {
+   "n": 661,
+   "element": "prompt bar 1",
+   "event": "hard cut to status s1",
+   "lane": "UI"
+  },
+  {
+   "n": 661,
+   "element": "status s1",
+   "event": "hard cut in; plate enters ~80-89 px low, rising (expo decay tau 0.14-0.18 s), vertical motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 662,
+   "element": "status s1",
+   "event": "line 1 soft wipe starts, 185 px/cf (~8 chars/cf)",
+   "lane": "UI"
+  },
+  {
+   "n": 664,
+   "element": "status s1",
+   "event": "line 2 wipe starts (+2 f), 188 px/cf",
+   "lane": "UI"
+  },
+  {
+   "n": 669,
+   "element": "status s1",
+   "event": "text fully revealed",
+   "lane": "UI"
+  },
+  {
+   "n": 672,
+   "element": "status s1",
+   "event": "shimmer band starts at left (text dims to ~45 % contrast inside the band)",
+   "lane": "UI"
+  },
+  {
+   "n": 681,
+   "element": "status s1",
+   "event": "shimmer leaves line 2 right end",
+   "lane": "UI"
+  },
+  {
+   "n": 684,
+   "element": "status s1",
+   "event": "plate at rest point (slowest, ~0.7 px/f)",
+   "lane": "UI"
+  },
+  {
+   "n": 697,
+   "element": "status s1",
+   "event": "last frame: plate leaving upward at ~17 px/f (expo growth tau 0.15-0.17 s), motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 698,
+   "element": "status s1",
+   "event": "hard cut out",
+   "lane": "UI"
+  },
+  {
+   "n": 698,
+   "element": "S1 AE badge comp",
+   "event": "hard cut from the white agent status screen into the AE window (window low, blurred; green wallpaper strip visible above)",
+   "lane": "AE"
+  },
+  {
+   "n": 699,
+   "element": "S1 AE badge comp",
+   "event": "AE window rises: title bar top y 66 (n699) > 37 (n701) > 18 (n702) > 4 (n703) > 0 (n705), off the top by n707",
+   "lane": "AE"
+  },
+  {
+   "n": 701,
+   "element": "S1 camera",
+   "event": "settle up: dy 74.9 > 0 by n720, expo-out k=6.1 (max err 4.1 px); slow push s 0.956 > 1.029 runs n701-n774 (~0.1 %/f)",
+   "lane": "AE"
+  },
+  {
+   "n": 706,
+   "element": "S1 cursor",
+   "event": "move 96 px to the disc top-right (n706-n717, peak 41 px/f at n713)",
+   "lane": "AE"
+  },
+  {
+   "n": 711,
+   "element": "S1 glow ring",
+   "event": "lime pixel-glow ring ignites on the disc edge (r ~147 px, centre ~457,245)",
+   "lane": "AE"
+  },
+  {
+   "n": 712,
+   "element": "S1 pixel cat",
+   "event": "pops in at ~190,350 (parent lane)",
+   "lane": "AE"
+  },
+  {
+   "n": 716,
+   "element": "S1 glow ring",
+   "event": "ring expands linearly 14.3 px/f (r 153 > 340 by n729), revealing the forest footage inside; fades n729-n737",
+   "lane": "AE"
+  },
+  {
+   "n": 720,
+   "element": "S1 badge",
+   "event": "green sawtooth disc shrinks 302 > 186 px rim-width and moves (474,248) > (291,171): width bezier(0.55,0.02,0.31,1.14) max 2.2 px, x bezier(0.48,0.20,0.06,0.97) max 3.3 px; lands n733",
+   "lane": "AE"
+  },
+  {
+   "n": 726,
+   "element": "S1 badge",
+   "event": "yellow sawtooth rim + inner yellow ring cut on (one frame)",
+   "lane": "AE"
+  },
+  {
+   "n": 727,
+   "element": "S1 badge",
+   "event": "yellow feather + eye ring cut on",
+   "lane": "AE"
+  },
+  {
+   "n": 735,
+   "element": "S1 badge",
+   "event": "pink ring: ghost (larger, translucent) n735 > crisp n736",
+   "lane": "AE"
+  },
+  {
+   "n": 742,
+   "element": "S1 badge",
+   "event": "red parrot body cuts on",
+   "lane": "AE"
+  },
+  {
+   "n": 748,
+   "element": "S1 badge",
+   "event": "blue wings n748-n750, face/beak n753; each part has one blurred ghost frame",
+   "lane": "AE"
+  },
+  {
+   "n": 751,
+   "element": "S1 cursor",
+   "event": "move 94 px up inside the badge (n751-n762, peak 30 px/f at n757)",
+   "lane": "AE"
+  },
+  {
+   "n": 761,
+   "element": "S1 camera",
+   "event": "exit pan left, accelerating: dx 0 > -66.5 px by n774, bezier(1.0,0.05,0.94,0.44) max 1.4 px; 36.8 px/f at n774",
+   "lane": "AE"
+  },
+  {
+   "n": 763,
+   "element": "S1 pixel cat",
+   "event": "flies right toward the man's hand n763-n775 (parent lane)",
+   "lane": "AE"
+  },
+  {
+   "n": 776,
+   "element": "S2 AE timeline A",
+   "event": "horizontal smear glitch frame (wallpaper strip at left) = cut into timeline A",
+   "lane": "AE"
+  },
+  {
+   "n": 777,
+   "element": "S2 camera",
+   "event": "slide-in: content dx +98 (n777) > 72.6 (n778) > 0 (n799), bezier(0.19,0.24,0.02,0.81) max 1.6 px (~x0.8 per frame decay)",
+   "lane": "AE"
+  },
+  {
+   "n": 781,
+   "element": "S2 layer bars",
+   "event": "bar 1 (green) appears; then n783 green, n787 blue, n789 red, n792 orange, n796 pink, n799 pale pink, n802 green, n804 grey (gaps 2,4,2,3,4,3,3,2 f; mean 2.9 f)",
+   "lane": "AE"
+  },
+  {
+   "n": 799,
+   "element": "S2 camera",
+   "event": "exit push-in accelerating: zoom +0.35, 0.50, 0.74, 1.17, 2.18 %/f (n799-n804), 4.3 %/f at n806",
+   "lane": "AE"
+  },
+  {
+   "n": 806,
+   "element": "watermark",
+   "event": "TR fade-out n801-n811, BL fade-in n812-n826",
+   "lane": "C"
+  },
+  {
+   "n": 807,
+   "element": "S3 AE bubble comp",
+   "event": "zoom-blur cut into the comp viewer with badge + speech bubble (bubble already built)",
+   "lane": "AE"
+  },
+  {
+   "n": 808,
+   "element": "S3 camera",
+   "event": "zoom settle s 0.922 > 1.000 by n829, bezier(0.19,0.22,0.01,0.74), max 0.9 px at the frame edge",
+   "lane": "AE"
+  },
+  {
+   "n": 808,
+   "element": "S3 bubble text",
+   "event": "type-on starts: 46 chars by n833, 1.8 chars/f (2.25 per source frame), linear",
+   "lane": "AE"
+  },
+  {
+   "n": 830,
+   "element": "S3 camera",
+   "event": "exit tilt (content moves down 19 px by n846), accelerating, bezier(0.87,0.19,0.80,0.96) max 0.5 px; push s 1 > 1.014",
+   "lane": "AE"
+  },
+  {
+   "n": 833,
+   "element": "S3 bubble text",
+   "event": "last char lands (\"spots.\")",
+   "lane": "AE"
+  },
+  {
+   "n": 833,
+   "element": "S3 cursor",
+   "event": "move 104 px out of the field (n833-n838, peak 65 px/f at n836)",
+   "lane": "AE"
+  },
+  {
+   "n": 838,
+   "element": "S3 bubble text",
+   "event": "text-field outline disappears (deselect)",
+   "lane": "AE"
+  },
+  {
+   "n": 847,
+   "element": "S3 AE bubble comp",
+   "event": "cut to footage",
+   "lane": "AE"
+  },
+  {
+   "n": 876,
+   "element": "prompt bar 2",
+   "event": "first faint frame: horizontal streak, grows from right of centre",
+   "lane": "UI"
+  },
+  {
+   "n": 879,
+   "element": "prompt bar 2",
+   "event": "full size (scale ~1.02), coral outline on",
+   "lane": "UI"
+  },
+  {
+   "n": 881,
+   "element": "prompt bar 2",
+   "event": "typing visible: 4 chars \"Crea\"",
+   "lane": "UI"
+  },
+  {
+   "n": 882,
+   "element": "prompt bar 2",
+   "event": "pop overshoot peak scale 1.09 (spring w=19.5 rad/s, z=0.59)",
+   "lane": "UI"
+  },
+  {
+   "n": 891,
+   "element": "prompt bar 2",
+   "event": "scale settled at 1.00",
+   "lane": "UI"
+  },
+  {
+   "n": 893,
+   "element": "prompt bar 2",
+   "event": "typing complete (39 chars)",
+   "lane": "UI"
+  },
+  {
+   "n": 909,
+   "element": "prompt bar 2",
+   "event": "send press: button lightens (#E4997D -> #DFAE92), halo builds",
+   "lane": "UI"
+  },
+  {
+   "n": 915,
+   "element": "prompt bar 2",
+   "event": "send burst: halo breaks into orange pixel blocks around the button",
+   "lane": "UI"
+  },
+  {
+   "n": 916,
+   "element": "prompt bar 2",
+   "event": "pixel-block column travels left -232 px over 6 cf, cubic-bezier(.68,.79,0,.86)",
+   "lane": "UI"
+  },
+  {
+   "n": 922,
+   "element": "prompt bar 2",
+   "event": "burst ends / last block frame",
+   "lane": "UI"
+  },
+  {
+   "n": 928,
+   "element": "prompt bar 2",
+   "event": "hard cut to status s2",
+   "lane": "UI"
+  },
+  {
+   "n": 928,
+   "element": "status s2",
+   "event": "hard cut in; plate enters ~80-89 px low, rising (expo decay tau 0.14-0.18 s), vertical motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 928,
+   "element": "status s2",
+   "event": "headline wipe starts (blurred), 102 px/cf, soft edge ~266 px",
+   "lane": "UI"
+  },
+  {
+   "n": 934,
+   "element": "status s2",
+   "event": "headline complete; lime icon appears as a 12 px dot",
+   "lane": "UI"
+  },
+  {
+   "n": 937,
+   "element": "status s2",
+   "event": "lime icon reaches full size, overshoots to 1.07 at n938-939, settles n949 (spring w=23 rad/s, z=0.58)",
+   "lane": "UI"
+  },
+  {
+   "n": 938,
+   "element": "status s2",
+   "event": "line 2 wipe starts in pink-rose, 92 px/cf, 6 chars/cf",
+   "lane": "UI"
+  },
+  {
+   "n": 947,
+   "element": "status s2",
+   "event": "line 2 complete, plum #753D56",
+   "lane": "UI"
+  },
+  {
+   "n": 955,
+   "element": "status s2",
+   "event": "line 2 colour drains plum -> grey left to right",
+   "lane": "UI"
+  },
+  {
+   "n": 964,
+   "element": "status s2",
+   "event": "line 2 fully grey #6B666B",
+   "lane": "UI"
+  },
+  {
+   "n": 972,
+   "element": "status s2",
+   "event": "last frame: plate leaving upward at ~17 px/f (expo growth tau 0.15-0.17 s), motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 973,
+   "element": "status s2",
+   "event": "hard cut out",
+   "lane": "UI"
+  },
+  {
+   "n": 973,
+   "element": "S4 AE project panel",
+   "event": "hard cut from the white agent screen: horizontal smear of the window over a blue-sky desktop (n973-n974)",
+   "lane": "AE"
+  },
+  {
+   "n": 975,
+   "element": "S4 window",
+   "event": "window rises: title-bar top y 77 > 36 > 11 > ~-7 > ~-20 > ~-31 (n975-n981; 41, 25, 18, 13 px/f), settles above the frame top",
+   "lane": "AE"
+  },
+  {
+   "n": 977,
+   "element": "S4 project rows",
+   "event": "folder tree builds row by row: n977, 979, 979, 982, 983, 984, 987, 990, 991 (mean 1.75 f); each name types left to right over ~3 source frames; row pitch 44 px",
+   "lane": "AE"
+  },
+  {
+   "n": 984,
+   "element": "S4 camera",
+   "event": "drift up 16.8 px (decelerating) + zoom-out accelerating s 1.0 > 0.938 by n993, bezier(0.68,0.21,0.88,0.14) max 0.4 px",
+   "lane": "AE"
+  },
+  {
+   "n": 994,
+   "element": "S5 AE pieces comp",
+   "event": "cut into the brand-pieces comp, zoomed: s 1.134 > 1.000 by n999 (fast ease-out, 4 frames)",
+   "lane": "AE"
+  },
+  {
+   "n": 997,
+   "element": "S5 sun medallion",
+   "event": "flies in from the left as a light streak",
+   "lane": "AE"
+  },
+  {
+   "n": 998,
+   "element": "S5 sun medallion",
+   "event": "pop: 0.62 (n998, blurred) > 1.37 (n999) > 0.94 (n1003) > 1.025 (n1005) > 1.0 (n1007); back-out D 5.1 f k 5.1 / spring zeta 0.28, period 7.1 f",
+   "lane": "AE"
+  },
+  {
+   "n": 998,
+   "element": "S5 sun rays",
+   "event": "fan sweeps clockwise 180 > 0 deg in 8 frames (~22 deg/f; 150 n998, 120 n999, 100 n1001, 70 n1002, 50 n1003, 20 n1005, 0 n1006), rays lengthen 100 > 240 px",
+   "lane": "AE"
+  },
+  {
+   "n": 999,
+   "element": "S5 camera",
+   "event": "slow zoom-out s 1.000 > 0.965 (n999-n1007)",
+   "lane": "AE"
+  },
+  {
+   "n": 1008,
+   "element": "S5 camera",
+   "event": "whip pan (content right ~41 px/f, motion blur) n1008-n1011",
+   "lane": "AE"
+  },
+  {
+   "n": 1012,
+   "element": "S5 AE pieces comp B",
+   "event": "sub-cut to the second half of the pieces board (photo frame / pins / places)",
+   "lane": "AE"
+  },
+  {
+   "n": 1021,
+   "element": "S5 island",
+   "event": "selection handles n1021-n1022; island materialises n1023 (blurred, ~50 % opacity) > crisp n1024",
+   "lane": "AE"
+  },
+  {
+   "n": 1026,
+   "element": "S5 camera",
+   "event": "exit push + pan accelerating: dx 0 > 270 by n1033 (169 px/f at n1033), zoom +17 % on n1033",
+   "lane": "AE"
+  },
+  {
+   "n": 1027,
+   "element": "S5 island label",
+   "event": "\"ISLAND M...\" types n1027-n1029",
+   "lane": "AE"
+  },
+  {
+   "n": 1035,
+   "element": "S6 AE timeline B",
+   "event": "cut (smear) into timeline B, zoomed out and offset: s 0.946 > 1, dx -45 > 0 by n1044 (spring zeta ~0.72, max 0.9 px)",
+   "lane": "AE"
+  },
+  {
+   "n": 1046,
+   "element": "S6 camera",
+   "event": "whip pan left accelerating: dx 0 > -225 by n1052 (107 px/f at n1052), bezier(1.0,0.26,0.71,0.40) max 9.7 px",
+   "lane": "AE"
+  },
+  {
+   "n": 1053,
+   "element": "S6 AE timeline B",
+   "event": "lands on the zoomed keyframe view (sub-cut)",
+   "lane": "AE"
+  },
+  {
+   "n": 1062,
+   "element": "S6 keyframe diamonds",
+   "event": "diamonds pop on: count 2 (n1062), 3 (n1066), 5 (n1067), 7 (n1069), 8 (n1073), 9 (n1074), 10 (n1077), 11 (n1078); each 1.40x > 1.10 > 1.02 > 1.0 over 3 frames",
+   "lane": "AE"
+  },
+  {
+   "n": 1076,
+   "element": "watermark",
+   "event": "BL fade-out, TR fade-in n1082-n1096",
+   "lane": "C"
+  },
+  {
+   "n": 1080,
+   "element": "S6 camera",
+   "event": "move down to the lower tracks: whip n1080-n1083, then tilt dy 23 > 2 (n1087-n1093, peak 8 px/f)",
+   "lane": "AE"
+  },
+  {
+   "n": 1103,
+   "element": "S6 AE timeline B",
+   "event": "smear cut to footage",
+   "lane": "AE"
+  },
+  {
+   "n": 1140,
+   "element": "prompt bar 3",
+   "event": "first faint frame: horizontal streak, grows from right of centre",
+   "lane": "UI"
+  },
+  {
+   "n": 1143,
+   "element": "prompt bar 3",
+   "event": "full size (scale ~1.02), coral outline on",
+   "lane": "UI"
+  },
+  {
+   "n": 1144,
+   "element": "prompt bar 3",
+   "event": "typing visible: 3 chars \"Mak\"",
+   "lane": "UI"
+  },
+  {
+   "n": 1145,
+   "element": "prompt bar 3",
+   "event": "pop overshoot peak scale 1.09 (spring w=19.5 rad/s, z=0.59)",
+   "lane": "UI"
+  },
+  {
+   "n": 1155,
+   "element": "prompt bar 3",
+   "event": "scale settled at 1.00",
+   "lane": "UI"
+  },
+  {
+   "n": 1163,
+   "element": "prompt bar 3",
+   "event": "typing complete (45 chars)",
+   "lane": "UI"
+  },
+  {
+   "n": 1177,
+   "element": "prompt bar 3",
+   "event": "send press: button lightens (#E4997D -> #DFAE92), halo builds",
+   "lane": "UI"
+  },
+  {
+   "n": 1182,
+   "element": "prompt bar 3",
+   "event": "send burst: halo breaks into orange pixel blocks around the button",
+   "lane": "UI"
+  },
+  {
+   "n": 1183,
+   "element": "prompt bar 3",
+   "event": "pixel-block column travels left -232 px over 6 cf, cubic-bezier(.68,.79,0,.86)",
+   "lane": "UI"
+  },
+  {
+   "n": 1184,
+   "element": "prompt bar 3",
+   "event": "collapse starts (w 472 -> 215, h 123 -> 48 by n1189)",
+   "lane": "UI"
+  },
+  {
+   "n": 1188,
+   "element": "prompt bar 3",
+   "event": "burst ends / last block frame",
+   "lane": "UI"
+  },
+  {
+   "n": 1191,
+   "element": "prompt bar 3",
+   "event": "gone",
+   "lane": "UI"
+  },
+  {
+   "n": 1193,
+   "element": "floating words",
+   "event": "\"The easy\" rises from under the TR watermark handle, drifting +10.2,-3.5 px/cf, sharpest n1197, racks out n1201-n1205",
+   "lane": "C"
+  },
+  {
+   "n": 1207,
+   "element": "floating words",
+   "event": "\"route!\" appears below, sharp n1209-n1213, racks out n1215-n1219",
+   "lane": "C"
+  },
+  {
+   "n": 1257,
+   "element": "status s3",
+   "event": "hard cut in; plate enters ~80-89 px low, rising (expo decay tau 0.14-0.18 s), vertical motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 1258,
+   "element": "status s3",
+   "event": "line 1 wipe starts, 135 px/cf",
+   "lane": "UI"
+  },
+  {
+   "n": 1261,
+   "element": "status s3",
+   "event": "line 2 wipe starts (+3 f)",
+   "lane": "UI"
+  },
+  {
+   "n": 1264,
+   "element": "status s3",
+   "event": "text complete",
+   "lane": "UI"
+  },
+  {
+   "n": 1268,
+   "element": "status s3",
+   "event": "shimmer starts (text dims to ~17 %)",
+   "lane": "UI"
+  },
+  {
+   "n": 1278,
+   "element": "status s3",
+   "event": "shimmer done",
+   "lane": "UI"
+  },
+  {
+   "n": 1293,
+   "element": "status s3",
+   "event": "last frame: plate leaving upward at ~17 px/f (expo growth tau 0.15-0.17 s), motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 1294,
+   "element": "trail map A (S7)",
+   "event": "map scenery populates: tree clusters thicken n1294-n1306, small huts/bridge cut on n1309-n1315 (by eye)",
+   "lane": "C"
+  },
+  {
+   "n": 1294,
+   "element": "status s3",
+   "event": "hard cut out",
+   "lane": "UI"
+  },
+  {
+   "n": 1294,
+   "element": "S7 AE trail map A",
+   "event": "hard cut from the white agent screen; map comp rises dy 41 > 0 by n1299 (18 px/f at n1296)",
+   "lane": "AE"
+  },
+  {
+   "n": 1301,
+   "element": "S7 camera",
+   "event": "push-in 1.00 > 1.141 by n1321 with pan left 124 px: s bezier(0.62,0.08,0.40,0.97) max 2.8 px; dx peak 25 px/f at n1312",
+   "lane": "AE"
+  },
+  {
+   "n": 1316,
+   "element": "S7 map building",
+   "event": "click > Sun Gate building pops on at the map top-right under the cursor",
+   "lane": "AE"
+  },
+  {
+   "n": 1321,
+   "element": "S7 camera",
+   "event": "pan right 169 px (n1321-n1338), bezier(0.63,0.02,0.22,0.88) max 7.4 px, peak 34 px/f at n1329",
+   "lane": "AE"
+  },
+  {
+   "n": 1335,
+   "element": "S7 IVAYU sign",
+   "event": "placed at 0.32 scale, drag-resized by the cursor to 1.0 by n1342: bezier(0.63,0.51,0.19,1.07) max 0.013 scale",
+   "lane": "AE"
+  },
+  {
+   "n": 1339,
+   "element": "S7 camera",
+   "event": "tilt (content up 51 px) n1339-n1350, bezier(0.61,0.07,0.08,0.94) max 1.3 px, peak 15.7 px/f at n1344",
+   "lane": "AE"
+  },
+  {
+   "n": 1339,
+   "element": "S7 title",
+   "event": "dotted text box n1339; eyebrow \"RESERVE MAP\" n1344; \"IVAYU RESERVE\" types n1344-n1350 (12 letters, 1.33/f, 2 per source frame)",
+   "lane": "AE"
+  },
+  {
+   "n": 1346,
+   "element": "watermark",
+   "event": "TR fade-out, BL fade-in n1352-n1366",
+   "lane": "C"
+  },
+  {
+   "n": 1353,
+   "element": "S7 camera",
+   "event": "exit tilt accelerating dy -35 > -61 (n1353-n1361), bezier(0.70,0.12,0.52,0.16)",
+   "lane": "AE"
+  },
+  {
+   "n": 1362,
+   "element": "status s4",
+   "event": "hard cut in; plate enters ~80-89 px low, rising (expo decay tau 0.14-0.18 s), vertical motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 1362,
+   "element": "status s4",
+   "event": "lime icon appears as a 10 px dot",
+   "lane": "UI"
+  },
+  {
+   "n": 1362,
+   "element": "S7 AE trail map A",
+   "event": "cut to the white agent screen",
+   "lane": "AE"
+  },
+  {
+   "n": 1365,
+   "element": "status s4",
+   "event": "icon full size; text wipe starts in pale pink, 151 px/cf (~9 chars/cf)",
+   "lane": "UI"
+  },
+  {
+   "n": 1366,
+   "element": "status s4",
+   "event": "icon overshoot 1.09 (n1366-1367)",
+   "lane": "UI"
+  },
+  {
+   "n": 1371,
+   "element": "status s4",
+   "event": "text complete; colour rose -> plum #793955 by n1374",
+   "lane": "UI"
+  },
+  {
+   "n": 1380,
+   "element": "status s4",
+   "event": "plum drains to grey",
+   "lane": "UI"
+  },
+  {
+   "n": 1392,
+   "element": "status s4",
+   "event": "text grey #655F66",
+   "lane": "UI"
+  },
+  {
+   "n": 1398,
+   "element": "status s4",
+   "event": "last frame: plate leaving upward at ~17 px/f (expo growth tau 0.15-0.17 s), motion blur",
+   "lane": "UI"
+  },
+  {
+   "n": 1399,
+   "element": "status s4",
+   "event": "hard cut out",
+   "lane": "UI"
+  },
+  {
+   "n": 1399,
+   "element": "S8 AE trail map B",
+   "event": "hard cut: route, pins, labels and distance tags already drawn; settle dy 7.7 > 0 by n1411",
+   "lane": "AE"
+  },
+  {
+   "n": 1407,
+   "element": "S8 card Visitor Center",
+   "event": "marquee n1407 > outline n1411 > glow ring n1413-n1416 > photo n1416 > label n1418",
+   "lane": "AE"
+  },
+  {
+   "n": 1411,
+   "element": "S8 camera",
+   "event": "push-in 1.000 > 1.088 + pan 78 px (n1411-n1423), bezier(0.84,0.19,0.05,1.07) max 1.1 px, peak 36.5 px/f at n1417",
+   "lane": "AE"
+  },
+  {
+   "n": 1414,
+   "element": "S8 card Feather Forest",
+   "event": "marquee n1414 > outline n1416 > seed n1418 > ring n1422-n1428 > label n1426-n1428",
+   "lane": "AE"
+  },
+  {
+   "n": 1421,
+   "element": "S8 card Parrot Falls",
+   "event": "marquee n1421 > ghost outline n1425 > crisp n1426 > seed n1427 > ring n1428-n1434 > label n1431-n1434 > photo full n1435",
+   "lane": "AE"
+  },
+  {
+   "n": 1424,
+   "element": "S8 camera",
+   "event": "second push 1.088 > 1.164 + tilt 36 px (n1424-n1437), bezier(0.58,0.09,0,1.10) max 2.4 px",
+   "lane": "AE"
+  },
+  {
+   "n": 1431,
+   "element": "S8 card Sun Bridge",
+   "event": "ghost outline n1431 > crisp n1433 > seed n1434 > ring n1436-n1441 > photo n1447",
+   "lane": "AE"
+  },
+  {
+   "n": 1437,
+   "element": "S8 card Monocle Lake",
+   "event": "outline n1437 > ring n1440-n1447 > label n1446-n1448",
+   "lane": "AE"
+  },
+  {
+   "n": 1441,
+   "element": "S8 camera",
+   "event": "pan left 128 px (n1441-n1453), bezier(0.34,0.13,0,1.03) max 5.1 px, peak 49 px/f at n1444 (blurred n1444-n1445)",
+   "lane": "AE"
+  },
+  {
+   "n": 1447,
+   "element": "S8 card Sun Gate",
+   "event": "outline n1447 > seed n1449 > ring n1451-n1457 > label n1459",
+   "lane": "AE"
+  },
+  {
+   "n": 1455,
+   "element": "S8 camera",
+   "event": "zoom-out 1.18 > 1.00 with tilt (n1455-n1471), bezier(0.82,0.21,0,0.99) max 1.9 px, peak -5.7 %/f at n1462",
+   "lane": "AE"
+  },
+  {
+   "n": 1468,
+   "element": "S8 camera",
+   "event": "pan right 51 px (n1468-n1480), bezier(0.73,-0.05,0.58,1.07) max 0.8 px",
+   "lane": "AE"
+  },
+  {
+   "n": 1487,
+   "element": "S8 AE trail map B",
+   "event": "cut to footage",
+   "lane": "AE"
+  },
+  {
+   "n": 1605,
+   "element": "prompt bar 4",
+   "event": "first faint frame: horizontal streak, grows from right of centre",
+   "lane": "UI"
+  },
+  {
+   "n": 1608,
+   "element": "prompt bar 4",
+   "event": "full size (scale ~1.02), coral outline on",
+   "lane": "UI"
+  },
+  {
+   "n": 1610,
+   "element": "prompt bar 4",
+   "event": "pop overshoot peak scale 1.09 (spring w=19.5 rad/s, z=0.59)",
+   "lane": "UI"
+  },
+  {
+   "n": 1613,
+   "element": "prompt bar 4",
+   "event": "typing visible: 20 chars \"Create a visual of t\"",
+   "lane": "UI"
+  },
+  {
+   "n": 1616,
+   "element": "watermark",
+   "event": "BL fade-out, TR fade-in n1622-n1636",
+   "lane": "C"
+  },
+  {
+   "n": 1620,
+   "element": "prompt bar 4",
+   "event": "scale settled at 1.00",
+   "lane": "UI"
+  },
+  {
+   "n": 1622,
+   "element": "prompt bar 4",
+   "event": "typing complete (42 chars)",
+   "lane": "UI"
+  },
+  {
+   "n": 1638,
+   "element": "prompt bar 4",
+   "event": "send press: button lightens (#E4997D -> #DFAE92), halo builds",
+   "lane": "UI"
+  },
+  {
+   "n": 1643,
+   "element": "prompt bar 4",
+   "event": "send burst: halo breaks into orange pixel blocks around the button",
+   "lane": "UI"
+  },
+  {
+   "n": 1644,
+   "element": "prompt bar 4",
+   "event": "pixel-block column travels left -232 px over 6 cf, cubic-bezier(.68,.79,0,.86)",
+   "lane": "UI"
+  },
+  {
+   "n": 1650,
+   "element": "prompt bar 4",
+   "event": "burst ends / last block frame",
+   "lane": "UI"
+  },
+  {
+   "n": 1651,
+   "element": "prompt bar 4",
+   "event": "hard cut",
+   "lane": "UI"
+  },
+  {
+   "n": 1651,
+   "element": "S9 AE Sun Gate poster",
+   "event": "hard cut from footage to the empty poster comp (green + rays)",
+   "lane": "AE"
+  },
+  {
+   "n": 1654,
+   "element": "S9 marquee",
+   "event": "cursor marquee ~206 x 51 px at x 548-757",
+   "lane": "AE"
+  },
+  {
+   "n": 1657,
+   "element": "S9 photo frame",
+   "event": "notched outline grows 0.38 > 1.0 by n1663 (to 672 x 388, x 277-949, y 43-431), power-out p 2.5; thick/translucent n1658-n1660, crisp from n1661",
+   "lane": "AE"
+  },
+  {
+   "n": 1658,
+   "element": "S9 glow reveal",
+   "event": "seed spark at ~620,234; ring r 10 > 335 by n1674: ramps 18 > 30 px per source frame, holds n1664-n1665, then ~30 px per source frame (~24 px/f)",
+   "lane": "AE"
+  },
+  {
+   "n": 1668,
+   "element": "S9 corner badge",
+   "event": "pops: 0.25 > 0.97 > 1.21 (n1671) > 0.93 (n1674) > 1.0 (n1677); back-out D 5.35 f k 3.06 / spring zeta 0.40, period 6.7 f",
+   "lane": "AE"
+  },
+  {
+   "n": 1669,
+   "element": "S9 camera",
+   "event": "pan: content moves right 106 px (n1669-n1689), bezier(0.78,0.09,0.05,0.91) max 4.3 px, peak 31 px/f at n1678",
+   "lane": "AE"
+  },
+  {
+   "n": 1674,
+   "element": "S9 photo pin + label",
+   "event": "pin and \"05 SUN GATE\" label appear on the photo (n1674-n1677, estimated)",
+   "lane": "AE"
+  },
+  {
+   "n": 1694,
+   "element": "S9 camera",
+   "event": "push-in 0.957 > 1.009 (n1694-n1708), bezier(0.58,0.16,0,0.90) max 1.1 px, peak 1.75 %/f at n1699",
+   "lane": "AE"
+  },
+  {
+   "n": 1695,
+   "element": "S9 eyebrow",
+   "event": "dotted text box n1695; \"LANDMARK - IVAYU RESERVE\" typed by n1701",
+   "lane": "AE"
+  },
+  {
+   "n": 1702,
+   "element": "S9 title",
+   "event": "THE / SUN / GATE types 1 letter per source frame (0.82 letters/f), done n1713; the caret drops a line on the frame each line completes",
+   "lane": "AE"
+  },
+  {
+   "n": 1713,
+   "element": "S9 body",
+   "event": "body text types 89 chars by n1728 (5.9 chars/f, 7.5 per source frame)",
+   "lane": "AE"
+  },
+  {
+   "n": 1720,
+   "element": "S9 camera",
+   "event": "zoom-out 1.053 > 0.970 + tilt up 47 px (n1720-n1740), bezier(0.47,0.59,0.01,0.99) max 1.0 px; peak n1725-n1726",
+   "lane": "AE"
+  },
+  {
+   "n": 1727,
+   "element": "S9 pills",
+   "event": "STOP 05 pops n1727, 2.4 KM n1729, SUNSET 18:40 n1732: each back-out ~4-6 f, k 2.2-4.8, overshoot 13-36 %",
+   "lane": "AE"
+  },
+  {
+   "n": 1735,
+   "element": "S9 eyebrow 2",
+   "event": "\"ON THE WAY\" box n1735, typed n1736-n1738",
+   "lane": "AE"
+  },
+  {
+   "n": 1741,
+   "element": "S9 camera",
+   "event": "zoom back in 0.970 > 1.000 + tilt down 34 px (n1741-n1757), bezier(0.80,0.05,0.01,1.04) max 0.3 px, peak 12.4 px/f at n1748",
+   "lane": "AE"
+  },
+  {
+   "n": 1741,
+   "element": "S9 thumb 1",
+   "event": "marquee n1741 > outline n1744 > ring n1745-n1751 > label n1749-n1751",
+   "lane": "AE"
+  },
+  {
+   "n": 1752,
+   "element": "S9 thumb 2",
+   "event": "ghost outline n1752 > crisp n1753 > seed n1755 > ring n1756-n1764 > label n1757-n1758",
+   "lane": "AE"
+  },
+  {
+   "n": 1757,
+   "element": "S9 camera",
+   "event": "pan left 66 px (n1757-n1776), bezier(0.69,0.03,0.18,1.06) max 1.7 px",
+   "lane": "AE"
+  },
+  {
+   "n": 1758,
+   "element": "S9 thumb 3",
+   "event": "outline n1758-n1761 > seed n1762 > ring n1763-n1772 > label ~n1770",
+   "lane": "AE"
+  },
+  {
+   "n": 1779,
+   "element": "S9 IVAYU tag",
+   "event": "placed at 0.30, drag-resized by the cursor to 1.0 by n1787: bezier(0.64,-0.17,0.25,0.74) max 0.02 scale",
+   "lane": "AE"
+  },
+  {
+   "n": 1787,
+   "element": "S9 AE Sun Gate poster",
+   "event": "hold, camera locked, until the cut at n1800",
+   "lane": "AE"
+  },
+  {
+   "n": 1834,
+   "element": "prompt bar 5",
+   "event": "first faint frame: horizontal streak, grows from right of centre",
+   "lane": "UI"
+  },
+  {
+   "n": 1838,
+   "element": "prompt bar 5",
+   "event": "full size (scale ~1.02), coral outline on",
+   "lane": "UI"
+  },
+  {
+   "n": 1839,
+   "element": "prompt bar 5",
+   "event": "typing visible: 5 chars \"Rende\"",
+   "lane": "UI"
+  },
+  {
+   "n": 1840,
+   "element": "prompt bar 5",
+   "event": "pop overshoot peak scale 1.09 (spring w=19.5 rad/s, z=0.59)",
+   "lane": "UI"
+  },
+  {
+   "n": 1852,
+   "element": "prompt bar 5",
+   "event": "typing complete (43 chars)",
+   "lane": "UI"
+  },
+  {
+   "n": 1854,
+   "element": "prompt bar 5",
+   "event": "scale settled at 1.00",
+   "lane": "UI"
+  },
+  {
+   "n": 1886,
+   "element": "watermark",
+   "event": "TR fade-out, BL fade-in n1892-n1906",
+   "lane": "C"
+  },
+  {
+   "n": 1891,
+   "element": "prompt bar 5",
+   "event": "send press: button lightens (#E4997D -> #DFAE92), halo builds",
+   "lane": "UI"
+  },
+  {
+   "n": 1896,
+   "element": "prompt bar 5",
+   "event": "send burst: halo breaks into orange pixel blocks around the button",
+   "lane": "UI"
+  },
+  {
+   "n": 1897,
+   "element": "prompt bar 5",
+   "event": "pixel-block column travels left -232 px over 6 cf, cubic-bezier(.68,.79,0,.86)",
+   "lane": "UI"
+  },
+  {
+   "n": 1903,
+   "element": "prompt bar 5",
+   "event": "burst ends / last block frame",
+   "lane": "UI"
+  },
+  {
+   "n": 1905,
+   "element": "prompt bar 5",
+   "event": "hard cut to Ae card",
+   "lane": "UI"
+  },
+  {
+   "n": 1905,
+   "element": "Ae card s5",
+   "event": "hard cut in; card enters 83 px low, expo decay tau 0.154 s, vertical blur on first frame",
+   "lane": "UI"
+  },
+  {
+   "n": 1918,
+   "element": "Ae card s5",
+   "event": "card at rest point, then drifts up ~0.9 px/f",
+   "lane": "UI"
+  },
+  {
+   "n": 1933,
+   "element": "Ae card s5",
+   "event": "hard cut out (no exit acceleration)",
+   "lane": "UI"
+  },
+  {
+   "n": 2004,
+   "element": "phone bubble 2",
+   "event": "enters as blank white bar + timestamp",
+   "lane": "UI"
+  },
+  {
+   "n": 2006,
+   "element": "phone bubble 2",
+   "event": "line 1 wipe starts",
+   "lane": "UI"
+  },
+  {
+   "n": 2008,
+   "element": "phone bubble 2",
+   "event": "line 2 starts",
+   "lane": "UI"
+  },
+  {
+   "n": 2013,
+   "element": "phone bubble 2",
+   "event": "text complete",
+   "lane": "UI"
+  },
+  {
+   "n": 2022,
+   "element": "phone bubble 2",
+   "event": "lands (top 246)",
+   "lane": "UI"
+  },
+  {
+   "n": 2038,
+   "element": "phone bubble 2",
+   "event": "starts sinking (top 246 -> 257 by n2047)",
+   "lane": "UI"
+  },
+  {
+   "n": 2047,
+   "element": "phone bubble 2",
+   "event": "fade-out starts",
+   "lane": "UI"
+  },
+  {
+   "n": 2052,
+   "element": "phone bubble 2",
+   "event": "gone",
+   "lane": "UI"
+  },
+  {
+   "n": 2061,
+   "element": "pixel cat",
+   "event": "end cat pops out of the backpack: top 136 -> 37 by n2071, bezier(.23,.80,.40,.97)",
+   "lane": "C"
+  },
+  {
+   "n": 2068,
+   "element": "pixel cat",
+   "event": "end cat recedes with the camera pull-back: width 147 -> 65 by n2172, bezier(.30,.43,.47,.80); drifts to (624,241)",
+   "lane": "C"
+  },
+  {
+   "n": 2081,
+   "element": "end caption",
+   "event": "hard cut-in, all 74 chars at full opacity",
+   "lane": "UI"
+  },
+  {
+   "n": 2156,
+   "element": "watermark",
+   "event": "BL fade-out, TR fade-in n2162-n2174 (cut short by the end card)",
+   "lane": "C"
+  },
+  {
+   "n": 2175,
+   "element": "end card",
+   "event": "hard cut: frame n2174 frozen and multiplied by 0.23; white Instagram glyph 138 px at centre (540,265)",
+   "lane": "C"
+  },
+  {
+   "n": 2175,
+   "element": "end caption",
+   "event": "dims to ~23 % with the plate under the end card",
+   "lane": "UI"
+  },
+  {
+   "n": 2177,
+   "element": "end card",
+   "event": "glyph grows 138 -> 154 (1.10) by n2181",
+   "lane": "C"
+  },
+  {
+   "n": 2181,
+   "element": "end card",
+   "event": "@HIGGSFIELD.AI handle cuts on at 1.10 scale",
+   "lane": "C"
+  },
+  {
+   "n": 2183,
+   "element": "end card",
+   "event": "glyph + handle snap down to 0.90 (n2184), recover to 1.00 by n2190",
+   "lane": "C"
+  },
+  {
+   "n": 2187,
+   "element": "end card",
+   "event": "Instagram gradient fades in (saturation 0.05 -> 0.93 by n2199), rotates clockwise ~4 deg/f",
+   "lane": "C"
+  },
+  {
+   "n": 2251,
+   "element": "end card",
+   "event": "gradient fades back to white by n2264; white glyph holds to the last frame n2295",
+   "lane": "C"
+  }
+ ]
+}

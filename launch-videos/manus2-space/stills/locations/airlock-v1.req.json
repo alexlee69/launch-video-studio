@@ -1,0 +1,8 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [],
+ "prompt": "An empty location plate, three-quarter view, no people: a cramped white cylindrical spacecraft airlock with padded white walls and handholds under steady cool white panel light. At one end a round outer hatch stands half-closed, the sun's hard white glare in the gap and black space beyond; at the other end a closed round inner hatch with a metal rim. 24mm. Photoreal cinematic film still, visible film grain, slightly soft, true blacks, not a stock photo, no people, no text, no logos, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

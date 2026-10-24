@@ -1,0 +1,13 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "asset": "A5",
+ "slot": "GLOW (0:26-0:30)",
+ "refs": [
+  "stills/locations/capsule-interior-v1.png",
+  "stills/keys/S24-24-v1.png"
+ ],
+ "prompt": "Image 1 is the capsule interior and image 2 shows its round window during re-entry: match that window and its plasma glow. Leave the person out: this frame is the window alone. Cinematic still, 16:9: a small round capsule window seen from inside, filled with glowing orange-pink plasma streaming past during re-entry, warm light spilling across grey padded panels, the rest of the cabin dark. 50 mm. No people, no text, no logos, no watermark."
+}

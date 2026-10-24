@@ -1,0 +1,10 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "refs": [
+  "cast/locked/eva.png"
+ ],
+ "prompt": "Image 1 shows the costume world these props belong to. A faceless props sheet: ONE image of four product photographs in a 2 x 2 grid of equal tiles with thin gutters, on a flat solid neutral grey background (#8a8a8a), seamless, no gradient, no floor, no shadow on the background, even soft studio light, no person: 1 a small white padded tool bag with an orange pull tab and a carabiner; 2 a small silver wrench; 3 a small pale blue-grey plush toy whale on a short cord, soft and well loved; 4 a small white gumdrop-shaped space capsule with one orange band around it and a hatch on top, plain and fictional, in three-quarter view. Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

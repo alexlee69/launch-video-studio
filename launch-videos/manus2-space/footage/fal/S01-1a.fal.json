@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "Free-flying camera, FPV feel. It creeps slowly toward the round hatch for two seconds, then accelerates, bursts out through the hatch into sunlit space, and a dark solar-array panel slides across the whole lens at the end. Smooth and steady. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S01-1a.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:42:49.548Z",
+  "status": [
+    {
+      "t": 1,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 9,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a169a4-d491-7a13-a62b-8ee5d12911c0",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d491-7a13-a62b-8ee5d12911c0/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d491-7a13-a62b-8ee5d12911c0",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/uRXEoiI90uua-eivdXKaU_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "uRXEoiI90uua-eivdXKaU_minimax-h3.mp4",
+      "file_size": 8916525
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.382898915999249
+    }
+  },
+  "finished": "2026-10-23T16:43:02.273Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/uRXEoiI90uua-eivdXKaU_minimax-h3.mp4",
+      "file": "S01-1a.mp4",
+      "bytes": 8916525,
+      "done": true
+    }
+  ]
+}

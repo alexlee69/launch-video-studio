@@ -1,0 +1,14 @@
+{
+ "original": "S04-4A-v4.png",
+ "edit": "S04-4A-v4-patchoff-edit.png",
+ "box": [
+  1110,
+  460,
+  1440,
+  790
+ ],
+ "feather": 18,
+ "edit_drift_inside": 10.8,
+ "edit_drift_outside_not_used": 3.2,
+ "why": "patch was on her right shoulder; removed"
+}

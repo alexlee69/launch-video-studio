@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "Smooth free-flying camera. It glides forward along the truss, passing over the small docked capsule, then descends in a slow curving orbit toward the tiny astronaut working at the rounded module; at the very end a white handrail passes close across the lens. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S01-1b.jpg>",
+    "duration": 6,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "6 s × $0.16/s at 1080P = $0.96",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:42:49.548Z",
+  "status": [
+    {
+      "t": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 9,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a169a4-d533-7fe0-bca8-209105a505c0",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d533-7fe0-bca8-209105a505c0/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a169a4-d533-7fe0-bca8-209105a505c0",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/E5DCoidkuj8iViLeY36LQ_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "E5DCoidkuj8iViLeY36LQ_minimax-h3.mp4",
+      "file_size": 25038700
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 4.8988612269749865
+    }
+  },
+  "finished": "2026-10-23T16:43:02.968Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8e41/E5DCoidkuj8iViLeY36LQ_minimax-h3.mp4",
+      "file": "S01-1b.mp4",
+      "bytes": 25038700,
+      "done": true
+    }
+  ]
+}

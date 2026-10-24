@@ -1,0 +1,176 @@
+{
+ "present": true,
+ "note": "one male voice (f0 115-235 Hz); word-captioned \"floating words\" (agent B frames); no voice-over narrator; we write our own lines",
+ "lines": [
+  {
+   "text_on_screen": "What is it this time?",
+   "voice": [
+    13.37,
+    14.7
+   ],
+   "frames": [
+    401,
+    441
+   ],
+   "caption_frames": [
+    414,
+    442
+   ],
+   "f0": "141-230 Hz, \"time?\" 134-146",
+   "confidence": "high"
+  },
+  {
+   "text_on_screen": "Objects?",
+   "voice": [
+    14.75,
+    15.0
+   ],
+   "frames": [
+    443,
+    450
+   ],
+   "caption_frames": [
+    442,
+    466
+   ],
+   "f0": "rises 175 -> 224 Hz (14.83-14.93)",
+   "confidence": "high"
+  },
+  {
+   "text_on_screen": "Shapes?",
+   "voice": [
+    15.43,
+    15.63
+   ],
+   "frames": [
+    463,
+    469
+   ],
+   "caption_frames": [
+    474,
+    496
+   ],
+   "f0": "133 -> 185 Hz",
+   "confidence": "medium"
+  },
+  {
+   "text_on_screen": "VFX?",
+   "voice": [
+    16.37,
+    16.72
+   ],
+   "frames": [
+    491,
+    502
+   ],
+   "caption_frames": [
+    500,
+    516
+   ],
+   "f0": "rises 185 -> 234 Hz (16.61-16.72)",
+   "confidence": "high"
+  },
+  {
+   "text_on_screen": "Expression?",
+   "voice": [
+    17.5,
+    17.83
+   ],
+   "frames": [
+    525,
+    535
+   ],
+   "caption_frames": [
+    530,
+    548
+   ],
+   "f0": "rises 190 -> 226 Hz (17.70-17.83)",
+   "confidence": "high"
+  },
+  {
+   "text_on_screen": "Wait",
+   "voice": [
+    18.13,
+    18.39
+   ],
+   "frames": [
+    544,
+    552
+   ],
+   "caption_frames": [
+    550,
+    576
+   ],
+   "f0": "127-139 Hz",
+   "confidence": "medium"
+  },
+  {
+   "text_on_screen": "No",
+   "voice": [
+    18.57,
+    18.72
+   ],
+   "frames": [
+    557,
+    562
+   ],
+   "caption_frames": [
+    556,
+    580
+   ],
+   "f0": "116-118 Hz",
+   "confidence": "medium"
+  },
+  {
+   "text_on_screen": "Let me explain",
+   "voice": [
+    18.92,
+    19.95
+   ],
+   "frames": [
+    568,
+    599
+   ],
+   "caption_frames": [
+    562,
+    586
+   ],
+   "f0": "130-141 Hz, falls to 118 at 19.80",
+   "confidence": "medium"
+  },
+  {
+   "text_on_screen": "The easy route!",
+   "voice": [
+    39.66,
+    40.75
+   ],
+   "frames": [
+    1190,
+    1223
+   ],
+   "caption_frames": [
+    1190,
+    1218
+   ],
+   "f0": "186-202 Hz (shout), shouting MCU 1200-1233",
+   "confidence": "medium-low"
+  },
+  {
+   "text_on_screen": null,
+   "voice": [
+    70.62,
+    72.15
+   ],
+   "frames": [
+    2119,
+    2165
+   ],
+   "f0": "130-300 Hz, 4 syllables",
+   "what": "mascot chirps or a short off-screen line",
+   "confidence": "low (identity)"
+  }
+ ],
+ "not_voiced": "prompt-bar texts (typed silently), card texts, the client messages (8.4 s, 66.8 s), the Ara speech bubble; on-camera mouth movement at 10.7-11.5 s has no detectable speech; 23.5-25.4 s (badge footage, the man speaks to camera) shows weak flat f0 contours only: possible, unconfirmed",
+ "level": "voice +5.7 dB over the bed in 300-3400 Hz during syllables; loudness unchanged (S -13.9..-14.6 LUFS)",
+ "ducking": "none: score low band -0.9 dB under the lines; the score stays an unpulsed drone until 22.18 s, after the last line"
+}

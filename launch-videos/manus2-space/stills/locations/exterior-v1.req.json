@@ -1,0 +1,10 @@
+{
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [
+  "cast/locked/props.png"
+ ],
+ "prompt": "An empty location plate in orbit, three-quarter view, no people: a fictional orbital station of white modules wrapped in matte white and pale-gold insulation blankets, a long open lattice truss with white handrails and blue-black solar arrays. At the end of the truss, the new guest module: a soft, rounded white module with one large round window. A small white gumdrop-shaped capsule docked at one of the station's ports, exactly the capsule in image 1 (bottom-right tile): white, one orange band, a hatch on top. The blue Earth curves below, black space above. Hard sunlight from the right, deep shadow sides. 24mm. Photoreal cinematic film still, visible film grain, slightly soft, true blacks, not a stock photo, no people, no text, no logos, no watermark. Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule."
+}

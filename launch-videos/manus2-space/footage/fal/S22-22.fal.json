@@ -1,0 +1,50 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "Static camera. The wrench bounces off the rim and spins slowly away into the room; she follows it with her eyes only, deadpan; a long slow blink; then she calmly lifts her left forearm and taps the wrist display, composed. The light stays steady. The wrist display glows softly but its screen is never readable. Weightless, real-time, natural motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.",
+    "image_url": "<file S22-22.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-23T16:28:07.778Z",
+  "status": [
+    {
+      "t": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 6,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "01a16997-60bf-7181-9e9a-5be20ebc3aed",
+  "status_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-60bf-7181-9e9a-5be20ebc3aed/status",
+  "response_url": "https://queue.fal.run/minimax/h3-max/requests/01a16997-60bf-7181-9e9a-5be20ebc3aed",
+  "result": {
+    "video": {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/gxc7pvvnBJL6d80DoyMI3_minimax-h3.mp4",
+      "content_type": "video/mp4",
+      "file_name": "gxc7pvvnBJL6d80DoyMI3_minimax-h3.mp4",
+      "file_size": 10053679
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.320429469982628
+    }
+  },
+  "finished": "2026-10-23T16:28:18.397Z",
+  "outputs": [
+    {
+      "url": "https://v3b.fal.media/files/b/0aaf8de9/gxc7pvvnBJL6d80DoyMI3_minimax-h3.mp4",
+      "file": "S22-22.mp4",
+      "bytes": 10053679,
+      "done": true
+    }
+  ]
+}
