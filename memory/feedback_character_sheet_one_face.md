@@ -31,3 +31,4 @@ On 2026-10-23 Alex stopped my 15-separate-views character-sheet plan for The Lul
 - Never build a character from a single image, and never as separate per-view images with faces.
 - Expression and light tests belong in the screen test, not on the reference sheet.
 - Related: [[hf01-manus2-recreation]], [[keep-reference-story-engine]].
+- Since 2026-10-23 the product-launch-sting skill builds this in: `video/casting/casting.py`, documented in `video/CASTING.md` and linked from [[launch-video-mode-b]]. Use it instead of hand-writing new sheet tools.

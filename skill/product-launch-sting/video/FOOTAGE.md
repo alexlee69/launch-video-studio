@@ -24,6 +24,11 @@ python3 $V/footage/pin.py out/fal/card-i2v.mp4 assets/screen.png assets/card.mp4
 node $V/footage/screen.mjs --job . --shot s3 --out assets/screen.png                          # stand-in screen from a phone shot (none? below)
 ```
 
+**A recurring person** (the same face and clothes across shots): cast and lock them first, and make their key frames
+from the locked sheets on the user's OpenAI key (`CASTING.md`: one face per sheet, identity-critical stills first), then
+animate those stills here with `gen.mjs video --image`. A FLUX key frame from text alone can't hold an identity
+across shots; keep it for plates with no recurring person.
+
 ## When to generate here
 
 - **Generate here** when the user has a fal.ai key and needs live action that doesn't exist yet: plates behind UI

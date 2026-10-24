@@ -10,6 +10,7 @@ Put everything in `assets/` and reference it by relative path in `beats.yaml`.
 | Product UI | Figma link, or screenshots at device resolution (phone 1170×2532, desktop 2560×1600) | `image:` items, `media` | rebuild key moments with UI items for crisp, animatable versions |
 | Characters / illustrations | SVG, or PNG with transparency | `brand.cast` | the brand's own characters only from its official files |
 | Footage | MP4/MOV, 1080p+, steady, 3–6 s per clip | `media` (src + from) | see live-action-shotlist.md |
+| People in AI footage | a casting brief: who, the one wardrobe, the states, props, places | `casting/casting.py` → locked sheets → key frames → `FOOTAGE.md` | one face per sheet, made and locked before any shot: `CASTING.md` |
 | Music | WAV/MP3 you have a licence for + the second to start from | `music.style: track` | or let the skill compose (playful / keynote / calm) |
 | Voiceover | WAV, dry, 48 kHz | `voiceover` | the music ducks under it |
 | Legal lines | text | a `headline` sub or the endcard | store badges: use the official badge artwork only |

@@ -1,6 +1,6 @@
 ---
 name: product-launch-sting
-description: "Make product launch videos, reels and UI motion clips in code, with automated QA. Mode A: a fixed 12 s square sting from 7 brand inputs. Mode B (video/GUIDE.md): videos designed with the user (brief, script, beat grid, storyboard, 16:9 / 9:16 / 1:1 film, music, voiceover); reels on AI footage (stickers, floating UI cards, splits, captions, comment CTA); Higgsfield-style launch films with product UI over footage; photoreal AI footage made here via the user's fal.ai key (FLUX → MiniMax H3), graded to a reference, app screens pinned onto phones; a reference film recreated frame for frame with our own content, an original on-beat score and side-by-side proof; overlay clips and per-element layers for CapCut / After Effects; reference breakdowns, a track's BPM, review sheets. Use for a launch sting, video or film, promo, teaser, reel / TikTok / Shorts, AI footage, motion graphics over AI video, recreating a reference video, a storyboard, UI or overlay clips, layers, or \"make a launch video/reel for <product>\"."
+description: "Make product launch videos, reels and UI motion clips in code, with automated QA. Mode A: a fixed 12 s square sting from 7 brand inputs. Mode B (video/GUIDE.md): videos designed with the user (brief, script, beat grid, storyboard, 16:9 / 9:16 / 1:1 film, music, voiceover); reels on AI footage (stickers, floating UI cards, splits, captions, comment CTA); Higgsfield-style launch films (UI over footage); AI footage via the user's fal.ai key (FLUX → H3), graded, app screens pinned onto phones; one-face character sheets + key frames (gpt-image-2); a reference film recreated frame for frame with our content, an original on-beat score and proof; overlay clips and per-element layers for CapCut / After Effects; reference breakdowns, a track's BPM, review sheets. Use for a launch sting, video or film, promo, teaser, reel / TikTok / Shorts, AI footage, motion graphics over AI video, recreating a reference video, a storyboard, character sheets, UI or overlay clips, layers, or \"make a launch video/reel for <product>\"."
 ---
 
 # Product launch videos
@@ -22,7 +22,11 @@ description: "Make product launch videos, reels and UI motion clips in code, wit
   tempo** (`--tempo FILE`).
   **AI footage made here** (`video/FOOTAGE.md`): photoreal key frames → MiniMax H3 video through the user's own fal.ai
   key (a dry run with the cost until they approve), conformed to the film's frame grid, graded to a reference's measured
-  look, the app's screen pinned onto phones held in the shot. **A reference film recreated frame for frame**
+  look, the app's screen pinned onto phones held in the shot. **People cast and locked** (`video/CASTING.md`): a
+  recurring person as one-face character sheets (Higgsfield's method: close-up + front + back on #8a8a8a, the body's
+  face erased, each state its own sheet, faceless costume and prop sheets), location plates, and every key frame built
+  from those sheets on the user's OpenAI key (gpt-image-2), identity shots first, quoted before any spend. **A reference
+  film recreated frame for frame**
   (`video/RECREATE.md`): its cuts, camera moves and beat grid with our own story, copy and official brand art, an
   original score in the launch-film style on its grid (`music: film`), and side-by-side proof (`compare.py`).
   Staged with approval gates: brief → script → beat grid → storyboard stills → animatic → film + QA → review sheet

@@ -6,7 +6,8 @@ before/after splits, word-pop captions over Higgsfield / Veo / Kling clips; prod
 Reels and launch films), **UI mockup clips to drop into their own edit** (a phone flow, an approval card, a prompt being
 typed, agent steps ticking off — transparent ProRes 4444 or on a background), or a **breakdown of a reference reel**
 they saved (its shots, pacing and tempo — see Reference breakdown). It also **generates the AI footage** through the
-user's fal.ai key (`FOOTAGE.md`) and **recreates a reference film frame for frame** with our own story and an original
+user's fal.ai key (`FOOTAGE.md`), **casts its people** as one-face character sheets with every key frame built from them
+on the user's OpenAI key (`CASTING.md`), and **recreates a reference film frame for frame** with our own story and an original
 on-beat score (`RECREATE.md`). For the fixed 12 s square sting from 7 inputs, use mode A (`../SKILL.md`).
 
 `$V` = `~/.claude/skills/product-launch-sting/video`. Entry point: `node $V/lv.mjs --job DIR <command>`.
@@ -25,7 +26,7 @@ Requirements are the same as mode A (Node ≥ 18, ffmpeg/ffprobe, Google Chrome)
 | 2 | Script | product facts and the claims they may make | 2–3 directions in a few lines each; then the chosen one as `beats.yaml` | lock the words |
 | 3 | Timing | music choice (compose: playful / keynote / calm / film, or their track + where to start; `--tempo` reads its bpm and first downbeat), tempo feel | `lv.mjs --grid`: the beat grid table + warnings | lock length and cut points |
 | 4 | Storyboard | — | `lv.mjs --storyboard`: one **real** still per shot (not a sketch), PNG + PDF per aspect | notes per shot number — the most important gate |
-| 5 | Assets (in parallel with 2–4) | logo SVG, colours, fonts, Figma/screenshots, characters, footage, VO | `templates/assets-checklist.md`; a live-action shot list (`templates/live-action-shotlist.md`) when footage is needed; footage generated here: `FOOTAGE.md` (prompts and cost approved first) | — |
+| 5 | Assets (in parallel with 2–4) | logo SVG, colours, fonts, Figma/screenshots, characters, footage, VO | `templates/assets-checklist.md`; a live-action shot list (`templates/live-action-shotlist.md`) when footage is needed; footage generated here: `FOOTAGE.md` (prompts and cost approved first); a recurring person cast and locked first, one face per sheet, and the key frames made from those sheets: `CASTING.md` | the locked character sheets |
 | 6 | Animatic (optional; skip ≤ 15 s) | — | `lv.mjs --animatic`: whole video, half size, 30 fps, with sound | pacing notes |
 | 7 | Film | — | `lv.mjs --film`: 60 fps master per aspect + mastered audio + QA; then `lv.mjs --sheet` → a published review sheet (see Review sheet) | notes per shot on the sheet, ~2 rounds |
 | 8 | Deliver | — | the MP4s, master WAV, captions SRT, thumbnails; `lv.mjs --clips` for UI clips; `lv.mjs --layers` for per-element layers to polish by hand; cutdowns via `--cut` | ship |
@@ -58,6 +59,7 @@ node $V/lv.mjs --blocks [--job DIR]                     # the live block catalog
 node $V/lv.mjs --job DIR --breakdown ~/Downloads/reel.mp4  # a saved reference reel → DIR/reference/<name>/: shots, pacing, tempo, sheets, draft timing (see Reference breakdown)
 node $V/lv.mjs --tempo assets/track.wav                 # the user's own track: bpm, first downbeat and a ready `music:` line
 node $V/footage/gen.mjs still|video … [--go]            # AI footage via the user's fal.ai key: a dry run with the cost until --go (FOOTAGE.md)
+python3 $V/casting/casting.py plan|candidates|lock|states|locations|stills|fix … [--go]   # one-face character sheets + key frames on gpt-image-2 (CASTING.md)
 python3 $V/recreate/compare.py --ref REF.mp4 --ours OURS.mp4 --out DIR/compare/NAME   # frame-exact side-by-side + cut report vs a reference (RECREATE.md)
 python3 $V/footage/plates.py DIR/tools/plates.json [SHOT …] --sheet   # one 24 fps plate per live-action shot from its generated legs (FOOTAGE.md)
 python3 $V/recreate/sfx.py DIR/tools/sfx.json --out DIR/audio/sfx.wav  # synthesized effects, each in the reference's own sound slot (RECREATE.md §8)
