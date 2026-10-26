@@ -14,6 +14,7 @@ Worked example: `examples/manus2-space-casting.json` (The Lull, 2026-10-23), the
 cd DIR
 python3 $V/casting/casting.py init .                                  # tools/casting.json: the method's templates, <placeholders> to fill
 python3 $V/casting/casting.py plan                                    # every request, its references, the quote per batch; no network
+python3 $V/casting/casting.py plan --show S09-9                       # …and that request's prompt, fully expanded, before any spend
 python3 $V/casting/casting.py candidates [--only look-1] [--go]       # candidate sheets → cast/candidates/cand-NN.png (each run: new takes)
 python3 $V/casting/casting.py review candidates                       # stills/review/candidates.jpg, numbered: the user picks one
 python3 $V/casting/casting.py lock --pick cand-02 [--go]              # erase the body's face → put the untouched face back → pin the grey
@@ -90,6 +91,34 @@ Size below); rule 5 offers a second composite; and rule 12 keeps the source's Fo
     departs from the source, whose Style Sheet pastes a Forbidden List (what the world is NOT) into every prompt: The
     Lull's fidelity judge found named exclusions pulling their subject in, so the list became the build check.
 
+Rules 13–17 came from studying kaye.creatives' Oakley × Meta ad (Higgsfield's guide and video, 2026-10-26;
+`qa/video-skill-learnings/BREAKDOWN-2026-10-26.md`). They are opt-in snippets and templates, so older specs compile
+exactly as before.
+
+13. **The middle panel can be the pose the shots need.** A cyclist's sheet shows her in the aero tuck; a jockey's, the
+    racing crouch. Use `{SHEET_POSE}` (a candidate) or the starter's `_pose` state, with the pose in the spec's
+    `text.POSE`. The left close-up and the right back view stay as in `{SHEET}`, so the face lock works the same.
+14. **Lock the proportions in numbers** for full-body panels: `{PROPORTIONS}` gives about seven heads tall, legs half
+    the height, the knees at a quarter of it, hands at mid-thigh, shot from waist height several metres back on a normal
+    lens. It is the cure for big heads and short legs. `{EYES_COVERED}` moves the expression to the mouth, cheeks and
+    jaw when glasses or a visor hide the eyes.
+15. **A product gets its own sheet, one per colourway**, and the shape never changes. Use the starter's
+    `_product-gold`: the product photo as Image 1 with `{REF_PRODUCT}` (1:1; only the colours the text names change),
+    tiles of its views and its smallest part, and the colourway. The product then rides into the key frames as one more
+    image.
+16. **Every character gets a sheet: extras, animals and vehicles too.** Kaye's campfire scene with only her own sheet
+    invented random strangers; one sheet per friend and the dog fixed it. A second person is a `states` entry with no
+    refs (the starter's `_extra-1`); an animal, `_animal` (head close-up, side, front); a vehicle rides with its rider
+    in all three panels (`_rider`). Only the hero is face-locked (one `lock` per spec). Another face that must hold
+    exactly gets its own spec. The shot writer (`SHOTS.md`) refuses a shot whose people have no sheet.
+17. **Say each image's one job, end on the one line that matters, and gate the plate's lens.**
+    - **One job per image:** `Image 1 {REF_FACE}`, `Image 2 {REF_CUT}` (only the garment's cut; its colours come from
+      the text), `{REF_PLACE}`, `{REF_POSE}` (a pencil sketch, from `placeholders.py sketch` or Alex's own: pose and composition only).
+    - **The closing line:** `{READS}` opens it ("Before anything else, this frame reads as: …").
+    - **The LENS GATE:** a location plate says where the future shot's camera stands, its height and distance, and its
+      lens with `{FOV:35}` (→ "35 mm full-frame look, about 54 degrees horizontal field of view"), "ready for a
+      performer to be placed". The plate and the shot then share one lens.
+
 ## The steps and the user's gates
 
 | # | Step | Command | The user approves | The Lull |
@@ -115,7 +144,7 @@ Record the picks for the footage step (The Lull: `stills/picks.json`); FOOTAGE.m
 | `model`, `quality`, `sizes`, `rates` | defaults `gpt-image-2`, `high`, `["2560x1440", "2048x1152", "1536x1024"]` (a 400 naming the size steps down, free), USD per 1M tokens `{text_in 5, image_in 8, out 30}` |
 | `dirs` | `candidates` (`../cast/candidates`), `locked` (`../cast/locked`), `locations` (`../stills/locations`), `stills` (`../stills`), `review` (`../stills/review`) |
 | `ban` | words no prompt may contain (whole words, any case) |
-| `text` | snippets: `{NAME}` in any prompt expands (also inside other snippets). Built in, and overridable: `SHEET` (the three-panel layout), `LOCK` + `KEEP` (the face-erase edit), `STATE`, `FACELESS`, `GREY` (with `{GREY_HEX}`), `TAIL` (people), `PROP_TAIL` (faceless costume and prop sheets), `PLATE_TAIL` (locations), `PRE_FACE`, `PRE_LOC` |
+| `text` | snippets: `{NAME}` in any prompt expands (also inside other snippets). Built in, and overridable: `SHEET` (the three-panel layout), `LOCK` + `KEEP` (the face-erase edit), `STATE`, `FACELESS`, `GREY` (with `{GREY_HEX}`), `TAIL` (people), `PROP_TAIL` (faceless costume and prop sheets), `PLATE_TAIL` (locations), `PRE_FACE`, `PRE_LOC`, and since 2026-10-26 `SHEET_POSE` (with your `{POSE}`), `PROPORTIONS`, `EYES_COVERED`, `READS`, `REF_FACE`, `REF_PRODUCT`, `REF_CUT`, `REF_PLACE`, `REF_POSE`. `{FOV:35}` is computed (any focal length 4–1200 mm). An entry whose id starts with `_` is skipped: the starter's templates |
 | `candidates.ID` | `prompt`, `n` (1–10, default 1), `refs` (none: a fresh generation; a face master: an edit). Every run makes new takes (cand numbers continue); to finish a run cut off by an error, `--only` the entries still to make |
 | `lock.NAME` | the one locked sheet: `prompt`, `pick` (used when `lock` gets no `--pick`; `lock --rebuild` reads it from the saved edit's `req.json` and refuses any other), `restore` (either `{ellipse: [cx, cy, rx, ry], feather}` — the untouched close-up face put back onto the edit; on a 2560×1440 three-panel sheet `[480, 545, 235, 290]`, 28 — or `{boxes: [[x0, y0, x1, y1], …], feather}` — only those regions of the edit pasted onto the untouched pick), `pin: {cols, rows}` (gutter centres; `{}` or omitted: found automatically — thin near-white lines clearly brighter than the grey beside them; `false`: no pin) |
 | `states.ID` | `refs` (`["sheet:NAME", …]`), `prompt`, `pin`; one image (`n` is 1); written as `ID-gen.png` → pinned `ID.png`. Made ones are skipped, so a cut-off batch resumes |
@@ -128,7 +157,11 @@ Record the picks for the footage step (The Lull: `stills/picks.json`); FOOTAGE.m
 References: `sheet:NAME` (a locked sheet: a `lock` or `states` entry), `loc:NAME` (a picked location: a `locations`
 entry), `cand:NAME`, or a path relative to the spec; a `sheet:` or `loc:` that names no entry is refused, in `plan` too.
 `--spec FILE` works before or after the command.
-The request sends them in order as `image[]`, and the prompt names each by number ("Image 1 is …").
+The request sends them in order as `image[]`, and the prompt names each by number ("Image 1 is …"). A prompt that
+names an image beyond the ones sent ("Image 3" with two refs) is refused, in `plan` too, and so is any brace left
+after the snippets are expanded (a typo such as `{FOV: 35}`, `{fov:35}` or `{KEY_TAIL` would otherwise reach the
+model as text). Two ids that differ only by case in one folder's entries (stills `S01` and `s01`; a lock and a state)
+are refused too: on macOS they are one file.
 
 ## Cost, the gate, the files
 
@@ -197,6 +230,8 @@ The request sends them in order as `image[]`, and the prompt names each by numbe
 - **A wrong prop in one tile** (the capsule came back as a ball): fix that tile alone and paste it back hard
   (`feather: 0`) so the other props keep their pixels.
 - **Edits drift the whole frame**: always paste a fix back by its box, and restore the close-up face after the lock.
+- **A starter template does nothing until renamed**: `_pose`, `_product-gold`, `_rider`, `_extra-1` and `_animal` are
+  skipped while their id starts with `_`.
 - **The first candidate round was redirected** ("why are you making 4 characters?"): cast one person from the brief
   and make a few sheets of them; candidates are takes of one casting, not a lineup.
 

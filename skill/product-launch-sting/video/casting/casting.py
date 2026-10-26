@@ -80,9 +80,31 @@ TEXT = {
                 'the back. ',
     'PRE_LOC': 'Image 2 is the location: keep its architecture, materials and design. Do not copy the grey background or '
                'the sheet layout: make one single cinematic film frame, 16:9. ',
+    # 2026-10-26 (CASTING.md rules 13-17): opt-in, so older specs compile exactly as before
+    'SHEET_POSE': 'A character reference sheet for a film: ONE image with three side-by-side panels of equal width '
+                  'separated by thin gutters, {GREY}. LEFT panel: a front-facing close-up of the head and shoulders '
+                  'filling the panel, eyes to camera, the whole face clearly visible. MIDDLE panel: the full body, head to '
+                  'feet, in the pose the shots need: {POSE}. RIGHT panel: the full body from directly behind, standing '
+                  'upright and relaxed.',
+    'PROPORTIONS': 'True adult proportions: about seven heads tall, the legs half the height, the knees at a quarter of it, '
+                   'the hands reaching mid-thigh, the elbows at the waist, the shoulders a little wider than the hips; '
+                   'photographed from waist height several metres back on a normal lens, so nothing is distorted.',
+    'EYES_COVERED': 'Where the eyes are covered, the expression lives in the mouth, the cheeks and the jaw.',
+    'READS': 'Before anything else, this frame reads as: ',
+    'REF_FACE': 'supplies only the face, features, skin tone, age, body and proportions: a 100% match',
+    'REF_PRODUCT': 'supplies only the product, reproduced 1:1, identical in every line, surface and detail; only the '
+                   'colours this text names may change',
+    'REF_CUT': 'supplies only the cut and construction of the garment; its colours, the person wearing it and the setting '
+               'come only from this text',
+    'REF_PLACE': 'supplies only the place, the weather and the light',
+    'REF_POSE': 'is the position reference only: it gives the pose and the composition; every visual quality comes from the '
+                'other images and this text',
 }
 SNIPPET = re.compile(r'\{([A-Z][A-Z0-9_]*)\}')
-SAFE_ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,80}$')         # an entry id is one file-name component
+FOV = re.compile(r'\{FOV:([0-9]+(?:\.[0-9]+)?)\}')                # {FOV:35} → "35 mm full-frame look, about 54 degrees …"
+IMAGE_N = re.compile(r'(?<![@\w])Image\s+(\d+)\b')              # "Image 3" in a prompt: there must be at least 3 images
+LEFTOVER = re.compile(r'[{}]')                                     # any brace left after expansion: a typo'd {FOV: 35}, {fov:35}
+SAFE_ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,80}\Z')         # an entry id is one file-name component
 PLACEHOLDER = re.compile(r'<[a-z][^<>\n]{0,300}>')
 GROUPS = ('candidates', 'lock', 'states', 'locations', 'stills', 'fixes')
 KEY = None                                              # set only for --go; every line printed or written is scrubbed of it
@@ -160,6 +182,13 @@ class Spec:
             bad = [k for k in (v or {}) if not k.startswith('_') and (not SAFE_ID.match(k) or '..' in k)]
             if bad:
                 die(2, '%s: entry id %s — ids become file names: letters, digits, . _ - only, no slashes' % (g, ', '.join(map(repr, bad))))
+        for gs in (('lock', 'states'), ('locations',), ('candidates',), ('stills',)):   # each set shares one folder
+            low = {}
+            for g in gs:
+                for k in (self.d.get(g) or {}):
+                    o = low.setdefault(k.lower(), k)
+                    if o != k and not k.startswith('_'):
+                        die(2, '%s: ids %r and %r differ only by case; on macOS they would be one file' % ('/'.join(gs), o, k))
         for k, e in self.group('stills').items():
             dd = e.get('dir', 'keys') if isinstance(e, dict) else 'keys'
             if not isinstance(dd, str) or not SAFE_ID.match(dd) or '..' in dd:
@@ -177,15 +206,23 @@ class Spec:
     def sheets(self):
         return list(self.group('lock')) + list(self.group('states'))
 
+    def fov(self, text, where):
+        def one(m):
+            mm = float(m.group(1))
+            if not 4 <= mm <= 1200:
+                die(2, '%s: {FOV:%s} — a focal length from 4 to 1200 mm' % (where, m.group(1)))
+            return '%g mm full-frame look, about %d degrees horizontal field of view' % (mm, round(math.degrees(2 * math.atan(18.0 / mm))))
+        return FOV.sub(one, text)
+
     def expand(self, text, where):
-        out, seen = str(text), 0
+        out, seen = self.fov(str(text), where), 0
         while SNIPPET.search(out):
             names = set(SNIPPET.findall(out))
             unknown = sorted(n for n in names if n not in self.text)
             if unknown:
                 die(2, '%s: unknown snippet %s — define it in the spec\'s "text" (built in: %s)'
                     % (where, ', '.join('{%s}' % n for n in unknown), ', '.join(sorted(TEXT))))
-            out = SNIPPET.sub(lambda m: self.text[m.group(1)], out)
+            out = self.fov(SNIPPET.sub(lambda m: self.text[m.group(1)], out), where)
             seen += 1
             if seen > 12:
                 die(2, '%s: the snippets refer to each other in a loop' % where)
@@ -366,6 +403,13 @@ def problems(S, req, planning=False):
     ph = PLACEHOLDER.findall(req['prompt'])
     if ph:
         p.append('unfilled placeholder %s' % ph[0][:60])
+    hi, sent = max([int(x) for x in IMAGE_N.findall(req['prompt'])] or [0]), req.get('images', len(req['refs']))
+    if hi > sent:
+        p.append('the prompt names Image %d but sends %d image%s' % (hi, sent, '' if sent == 1 else 's'))
+    left = LEFTOVER.search(req['prompt'])
+    if left:
+        p.append('a brace left in the prompt, "…%s…" (a snippet is {NAME} in capitals, a lens angle {FOV:35})'
+                 % req['prompt'][max(0, left.start() - 20):left.start() + 20])
     for t in req.get('tokens', []):
         kind, _, nm = str(t).partition(':')
         if kind == 'sheet' and nm not in S.sheets():
@@ -1018,7 +1062,7 @@ def cmd_init(a):
 
 def cmd_plan(S, a):
     groups = a.groups or [g for g in GROUPS if S.group(g)]
-    tot, bad = 0.0, 0
+    tot, bad, seen = 0.0, 0, []
     for g in groups:
         if g not in GROUPS:
             die(2, 'plan: no group %r (groups: %s)' % (g, ', '.join(GROUPS)))
@@ -1027,6 +1071,7 @@ def cmd_plan(S, a):
                              key=lambda b: (b != 'identity', b))
             for b in batches:
                 rs = requests(S, 'stills', batch=b)
+                seen += rs
                 tot += quote(S, rs, 'stills --batch %s' % b, planning=True, group='stills')
                 bad += sum(1 for r in rs if problems(S, r, True))
             continue
@@ -1036,10 +1081,12 @@ def cmd_plan(S, a):
             if k:                                    # quote the lock edit before the pick: one edit of one sheet
                 e0 = entry(S, 'lock', k)
                 r = mk(S, 'lock %s (before the pick)' % k, [], e0['prompt'], 1, 'lock.' + k)
+                r['images'] = 1                          # the picked candidate goes with it at --go
                 r['checks'].append(lambda: pin_problem(e0.get('pin'), 'lock.' + k))
                 if e0.get('restore') is not None:
                     r['checks'].append(lambda: '; '.join(restore_problems(e0['restore'], None, 'lock.' + k)) or None)
                 p = problems(S, r, True)
+                seen.append(r)
                 e = estimate(S, S.sizes[0], r['prompt'], [], 1) + 1508 * S.rates['image_in'] / 1e6
                 tot += e
                 TODO[0] += e
@@ -1047,8 +1094,15 @@ def cmd_plan(S, a):
                 say('lock: 1 call, 1 image (the edit of the picked candidate), quote $%.2f%s — after the pick: casting.py lock --pick cand-NN'
                     % (e, ('  ✗ ' + '; '.join(p)) if p else ''))
             continue
+        seen += rs
         tot += quote(S, rs, g, planning=True, group=g)
         bad += sum(1 for r in rs if problems(S, r, True))
+    for want in a.show:                              # the expanded prompt, read before any spend
+        hits = [r for r in seen if r['label'].split()[1:2] == [want]]
+        if not hits:
+            die(2, 'plan --show %s: no request with that id (ids: %s)' % (want, ', '.join(sorted({r['label'].split()[1] for r in seen if len(r['label'].split()) > 1}))))
+        for r in hits:
+            say('\n-- %s (%s, %d image%s) --\n%s' % (r['label'], r['endpoint'], len(r['refs']), '' if len(r['refs']) == 1 else 's', r['prompt']))
     sp = spent(S)
     say('total quote $%.2f, still to make $%.2f (at %s; any other size is quoted at the same, unmeasured); spent so far $%.2f; cap $%.2f'
         % (tot, TODO[0], S.sizes[0], sp, S.cap))
@@ -1370,7 +1424,8 @@ def main():
         p.add_argument('--backoff', type=float, default=30, help=argparse.SUPPRESS)
         return p
     p = sub.add_parser('init', allow_abbrev=False); p.add_argument('dir')
-    p = cmd('plan'); p.add_argument('groups', nargs='*')
+    p = cmd('plan'); p.add_argument('groups', nargs='*'); p.add_argument('--show', action='append', default=[], metavar='ID',
+                                                               help='print that request\'s expanded prompt (repeatable)')
     paid(cmd('candidates')).add_argument('--only')
     p = cmd('review'); p.add_argument('what', choices=['candidates', 'stills']); p.add_argument('--batch'); p.add_argument('--only')
     p = paid(cmd('lock')); p.add_argument('--pick'); p.add_argument('--rebuild', action='store_true')

@@ -1,0 +1,29 @@
+{
+ "_note": "shots.json starter (SHOTS.md). Ask Alex which model first (h3 or seedance) and set \"model\"; nothing is assumed. Each shot keeps Alex's own words in brief/script verbatim; list every field Claude adds in \"proposed\" until Alex OKs it (`shots.py confirm ID`). Replace every <FILL: …> hint (check refuses any left). Paths are relative to the job folder; people/places name entries in the casting spec.",
+ "root": "..",
+ "casting": "casting.json",
+ "aspect": "16:9",
+ "ban": [],
+ "text": {},
+ "people": {
+  "hero": {"sheet": "hero", "is": "<FILL: who, in a few words, e.g. the founder>"}
+ },
+ "places": {
+  "place-1": {"loc": "place-1"}
+ },
+ "products": {},
+ "shots": {
+  "S01": {
+   "brief": "<FILL: Alex's own words for this shot, verbatim>",
+   "proposed": ["recipe", "lens", "motion", "key.frame", "light"],
+   "recipe": "reveal-pullback",
+   "sec": 5,
+   "people": ["hero"],
+   "place": "place-1",
+   "temp": "cold",
+   "key": {"frame": "<FILL: the first frame: framing, where the person is, what they do, their expression>",
+           "light": "<FILL: the light, e.g. overcast daylight from the left, soft and cool>"},
+   "motion": {"beats": ["<FILL: what happens first>", "<FILL: what happens next>"]}
+  }
+ }
+}

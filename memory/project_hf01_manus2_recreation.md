@@ -16,7 +16,7 @@ On 2026-10-23 Alex asked for four things:
 
 **Alex's rules for this lane (2026-10-23):**
 - **Stills and character sheets** use the OpenAI key with the newest GPT image model.
-  - The key is `OPENAI_API_KEY` in `Design-AutoPilot-stable/.env`. Never print it.
+  - The key is `OPENAI_API_KEY`, in `~/Downloads/launch-videos/.env` since 2026-10-25 (copied from `Design-AutoPilot-stable/.env`, which goes away after 10-30). Never print it.
   - The model is `gpt-image-2`. Text-to-image goes through `/v1/images/generations`. A consistent character goes through `/v1/images/edits` with multiple reference images (`image[]`), as `pipeline/image_gen.py` does.
   - This approval is for image generation only. Ask before using the key for anything else, such as transcription.
 - **fal is for video only** (MiniMax H3 image-to-video). No FLUX stills on this lane.

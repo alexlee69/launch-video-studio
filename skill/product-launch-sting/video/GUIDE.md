@@ -7,7 +7,9 @@ Reels and launch films), **UI mockup clips to drop into their own edit** (a phon
 typed, agent steps ticking off — transparent ProRes 4444 or on a background), or a **breakdown of a reference reel**
 they saved (its shots, pacing and tempo — see Reference breakdown). It also **generates the AI footage** through the
 user's fal.ai key (`FOOTAGE.md`), **casts its people** as one-face character sheets with every key frame built from them
-on the user's OpenAI key (`CASTING.md`), and **recreates a reference film frame for frame** with our own story and an original
+on the user's OpenAI key (`CASTING.md`), **storyboards a footage film before any footage exists** on labelled placeholder
+plates, with a phone edition of the board (`STORYBOARD.md`), **writes every footage shot's prompts** from any brief, for the
+model Alex picks (H3 or Seedance 2.5), checked before any spend (`SHOTS.md`), and **recreates a reference film frame for frame** with our own story and an original
 on-beat score (`RECREATE.md`). For the fixed 12 s square sting from 7 inputs, use mode A (`../SKILL.md`).
 
 `$V` = `~/.claude/skills/product-launch-sting/video`. Entry point: `node $V/lv.mjs --job DIR <command>`.
@@ -23,10 +25,10 @@ Requirements are the same as mode A (Node ≥ 18, ffmpeg/ffprobe, Google Chrome)
 | # | Step | Ask the user for | You make | Gate |
 |---|---|---|---|---|
 | 1 | Brief | goal, audience, where it runs (→ aspects), length, deadline, 2–3 references + what to borrow from each (the saved reel files; `--breakdown` each, see Reference breakdown), must-say / must-not-say, CTA | `brief.md` (from `templates/brief.md`; draft it from a PRD if they have one) | "yes, that's the video" |
-| 2 | Script | product facts and the claims they may make | 2–3 directions in a few lines each; then the chosen one as `beats.yaml` | lock the words |
+| 2 | Script | product facts and the claims they may make | 2–3 directions in a few lines each (for a recreation: loglines first, judged on fun as well as fit, keeping the reference's story engine: `RECREATE.md` → The story); then the chosen one as `beats.yaml`; story and edit rules (product features → beats, the hook, an arc, warm/cold contrast): `SHOTS.md` | lock the words |
 | 3 | Timing | music choice (compose: playful / keynote / calm / film, or their track + where to start; `--tempo` reads its bpm and first downbeat), tempo feel | `lv.mjs --grid`: the beat grid table + warnings | lock length and cut points |
-| 4 | Storyboard | — | `lv.mjs --storyboard`: one **real** still per shot (not a sketch), PNG + PDF per aspect | notes per shot number — the most important gate |
-| 5 | Assets (in parallel with 2–4) | logo SVG, colours, fonts, Figma/screenshots, characters, footage, VO | `templates/assets-checklist.md`; a live-action shot list (`templates/live-action-shotlist.md`) when footage is needed; footage generated here: `FOOTAGE.md` (prompts and cost approved first); a recurring person cast and locked first, one face per sheet, and the key frames made from those sheets: `CASTING.md` | the locked character sheets |
+| 4 | Storyboard | — | `lv.mjs --storyboard`: one **real** still per shot (not a sketch), PNG + PDF per aspect; AI-footage shots that don't exist yet stand on labelled placeholder plates, drawn free (`STORYBOARD.md`); `storyboard/phone.mjs` adds a phone edition of the board | notes per shot number — the most important gate |
+| 5 | Assets (in parallel with 2–4; footage and casting only after the step 4 gate) | logo SVG, colours, fonts, Figma/screenshots, characters, footage, VO | `templates/assets-checklist.md`; a live-action shot list (`templates/live-action-shotlist.md`) when footage is needed; once the storyboard is approved, footage generated here: `FOOTAGE.md`, its prompts written and checked by `SHOTS.md` for the model Alex picks each time (prompts and cost approved first); a recurring person cast and locked first, one face per sheet, and the key frames made from those sheets, each placed by its plate's pencil sketch: `CASTING.md`, `STORYBOARD.md` | the locked character sheets |
 | 6 | Animatic (optional; skip ≤ 15 s) | — | `lv.mjs --animatic`: whole video, half size, 30 fps, with sound | pacing notes |
 | 7 | Film | — | `lv.mjs --film`: 60 fps master per aspect + mastered audio + QA; then `lv.mjs --sheet` → a published review sheet (see Review sheet) | notes per shot on the sheet, ~2 rounds |
 | 8 | Deliver | — | the MP4s, master WAV, captions SRT, thumbnails; `lv.mjs --clips` for UI clips; `lv.mjs --layers` for per-element layers to polish by hand; cutdowns via `--cut` | ship |
@@ -34,6 +36,13 @@ Requirements are the same as mode A (Node ≥ 18, ffmpeg/ffprobe, Google Chrome)
 Rules that save the most time:
 - **Words before visuals, timing before motion.** A word change late is cheap; a timing change shifts every later shot.
 - **Never render the film before the storyboard is approved.** Iterate on stills (seconds) instead of films (minutes).
+- **When a story recreates a reference, judge it on fun, not only on fit.** Show loglines before any storyboard and
+  score each premise on excitement and humour against the reference, as well as brand, copy and feasibility
+  (`RECREATE.md` → The story).
+- **Storyboard before any footage is generated.** Footage shots stand on free placeholder plates until the board is
+  approved (`STORYBOARD.md`); casting and generation come after, each quoted first.
+- **Ask which video model every time.** Before writing any footage prompt and again before generating: H3 (sharp,
+  silent) or Seedance 2.5 (people talk, lip-synced). Nothing assumes one (`SHOTS.md`).
 - Notes come back as shot ids or timestamps ("s4: headline too long"); edit `beats.yaml`, re-run the step. After a film,
   collect them on a review sheet (`--sheet`) instead of a chat thread: every note is pinned to one shot.
 - **The user is your ears**: audio is verified by meters only. Say so at every audio review and ask them to listen.
@@ -60,6 +69,9 @@ node $V/lv.mjs --job DIR --breakdown ~/Downloads/reel.mp4  # a saved reference r
 node $V/lv.mjs --tempo assets/track.wav                 # the user's own track: bpm, first downbeat and a ready `music:` line
 node $V/footage/gen.mjs still|video … [--go]            # AI footage via the user's fal.ai key: a dry run with the cost until --go (FOOTAGE.md)
 python3 $V/casting/casting.py plan|candidates|lock|states|locations|stills|fix … [--go]   # one-face character sheets + key frames on gpt-image-2 (CASTING.md)
+python3 $V/storyboard/placeholders.py init|check|draw|sketch|status …   # labelled placeholder plates for footage shots, and pencil sketches of them for key frames, free (STORYBOARD.md)
+node $V/storyboard/phone.mjs --job DIR [--aspect A] [--cut NAME] [--cover cover.yaml]   # the storyboard as a phone-sized PDF; A: the film's first aspect (STORYBOARD.md)
+python3 $V/shots/shots.py init|check|show|confirm|build|emit-casting …   # every footage shot's prompts, for H3 or Seedance, checked (SHOTS.md)
 python3 $V/recreate/compare.py --ref REF.mp4 --ours OURS.mp4 --out DIR/compare/NAME   # frame-exact side-by-side + cut report vs a reference (RECREATE.md)
 python3 $V/footage/plates.py DIR/tools/plates.json [SHOT …] --sheet   # one 24 fps plate per live-action shot from its generated legs (FOOTAGE.md)
 python3 $V/recreate/sfx.py DIR/tools/sfx.json --out DIR/audio/sfx.wav  # synthesized effects, each in the reference's own sound slot (RECREATE.md §8)

@@ -31,6 +31,11 @@ across shots; keep it for plates with no recurring person.
 
 ## When to generate here
 
+- **Not before the storyboard is approved**: until then each footage shot stands on a placeholder plate, a labelled
+  still drawn free (`STORYBOARD.md`; not the footage plates `plates.py` builds below); the approved board then says
+  exactly which shots to generate.
+- **Prompts come from the shot writer** (`SHOTS.md`): ask Alex which model first, H3 or Seedance 2.5 (people talking,
+  lip-synced; `gen.mjs video --endpoint bytedance/seedance-2.5/image-to-video`). Both run through `gen.mjs`, quoted first.
 - **Generate here** when the user has a fal.ai key and needs live action that doesn't exist yet: plates behind UI
   moments, people holding a phone with the product on it, a moment timed to a cut. No shoot, no stock search.
 - **Use their own clips** when they have them (Higgsfield / Veo / Kling exports, filmed shots): skip `gen.mjs`; `look.py`,

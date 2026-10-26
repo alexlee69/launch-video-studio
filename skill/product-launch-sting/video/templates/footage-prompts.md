@@ -1,5 +1,8 @@
 # Footage prompts — key frame, motion, checklist, worked examples
 
+The shot writer (`SHOTS.md`, `shots/shots.py`) now compiles these prompts from a spec and checks them; this page stays
+the reference for the H3 recipe's wording and its worked examples.
+
 The recipe in `FOOTAGE.md`, in words: a **photo key frame** (FLUX 1.1 Pro Ultra, `raw: true`) written like a
 cinematographer's brief, then **image-to-video** (MiniMax H3) with a motion brief that keeps the first frame's look.
 Write both fresh for every shot, in plain sentences, most important first. Never describe the reference's frames,

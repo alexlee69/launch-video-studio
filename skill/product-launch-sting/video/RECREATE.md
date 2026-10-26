@@ -16,10 +16,32 @@ report, the camera curves and a beat check. The worked examples are `~/Downloads
 | event timings: when a bubble pops, a word types, a list steps, a card lands | their characters, mascots, logos, watermark, social icons |
 | the beat grid (bpm, first beat), where the energy dips and hits | their music or audio (except the private temp track below) |
 | the job a shot does in the edit ("a card rushes past in 3D here") | their layouts traced box for box |
+| the story's engine: a heightened genre of our own, a running joke, a set piece per loop, a punchline (see The story) | their plot, or their jokes as written |
 
 **The copy trap**: swapping our nouns into their sentences ("Viewers keep asking…" → "Listeners keep asking…") is still
 their film. Write every line fresh from our story, then put it next to the reference line shown at the same moment and
 check it doesn't read as a rewrite. When in doubt, change the composition, never the motion.
+
+## The story: keep its engine, change its world
+
+When the reference tells a story (higgsfield01 does; a UI-only reference like hf02 doesn't), it works because of its
+story's engine, not its setting. Keep the engine; build a new world on it.
+- **The engine has four parts.** higgsfield01: a heightened genre (an Indiana Jones pastiche); a running joke tied to
+  the work (a desk job inside an action movie: he opens a laptop under fire); a set piece in every loop (monkeys, an
+  arrow, a boulder); a punchline ending ("Next brief: …"). It even ties the deliverable to its world: the promo is for
+  the reserve he runs through.
+- **Change the genre and the world, keep the engine.** A nouns-only swap is the copy trap above. A story with no
+  heightened genre, running joke, set pieces or punchline reads flat next to the reference: for manus2-space the first
+  story, a founder on a foggy ridge run making an ad for her own shoe, was turned down as "more boring, just a founder
+  making an ad for her own product"; the astronaut on a spacewalk, with a re-entry blackout and a "next brief"
+  punchline, was picked. What went wrong was the process: the premise was locked early from a features-first pitch,
+  only the setting was varied, and nobody scored the fun.
+- **Vary the premise and the tone, not only the setting.** Write two or three premises that differ in genre, world and
+  tone, each on the same engine.
+- **Score the fun.** Judge each premise on excitement and humour against the reference, next to fidelity,
+  feasibility, brand and copy safety.
+- **Loglines before storyboards.** Show the user the loglines and premises first; storyboard only the one they pick, on
+  placeholder plates before any footage exists (`STORYBOARD.md`).
 
 ## 1 · Measure the reference
 

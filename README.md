@@ -31,6 +31,37 @@ Higgsfield-recreation jobs.
     byte for byte.
   - **Testing:** three review rounds and 4 test suites (223 checks, against a local mock API). Their record is on the
     Mac in `Design-AutoPilot-stable/qa/cast-skill-port/`.
+- **The storyboard lane (2026-10-26):** `video/storyboard/` and `video/STORYBOARD.md`.
+  - **What it makes:** labelled placeholder plates for AI-footage shots, drawn in code for free, so a film is
+    storyboarded and approved before anything is generated; and a phone edition of the storyboard (a PDF a phone
+    opens, with a cover page).
+  - **The story rule:** `video/RECREATE.md` → "The story: keep its engine, change its world" (when recreating a
+    reference that tells a story: keep its genre jump, running joke, set pieces and punchline in a new world, and judge
+    the premises on fun).
+  - **Worked example:** `video/storyboard/examples/manus2-space-cover.yaml` rebuilds The Lull's 10-23 phone storyboard,
+    every page byte-identical.
+  - **Testing:** three review rounds (the Codex one cut short by its usage limit) and 4 test suites (156 checks, no
+    key, nothing spent). Their record is on the Mac in `Design-AutoPilot-stable/qa/storyboard-skill-port/`.
+- **The shot writer (2026-10-26):** `video/shots/` and `video/SHOTS.md`, from two Higgsfield guides (kaye.creatives'
+  Oakley × Meta ad and the Claude Motion guide), paraphrased.
+  - **What it makes:** any brief (a few sentences, a script, a rough storyboard) becomes every AI-footage shot's
+    key-frame and video prompts, checked before any spend. Alex's words stay verbatim, and Claude's additions wait for
+    his OK.
+  - **The model is asked every time:** H3 (a short motion brief) or Seedance 2.5 (a block prompt with lip-synced
+    lines). `video/footage/gen.mjs` now calls Seedance 2.5 image-to-video, quoted first (480p drafts, the final at
+    720p; fal's fields and prices unconfirmed from the Mac).
+  - **Also in it:**
+    - shot recipes and story and edit rules;
+    - casting upgrades (`CASTING.md` rules 13–17: a sheet for every character, pose panels, a proportion lock, product
+      sheets per colourway, lens-matched plates);
+    - pencil position sketches of the storyboard plates (`placeholders.py sketch`), sent with each key frame.
+  - **Worked example:** `video/shots/examples/manus2-space-shots.json` compiles to The Lull's 20 H3 prompts, byte for
+    byte.
+  - **Testing:**
+    - two review rounds: Sonnet, then Opus (Codex skipped at Alex's word), 38 findings, all fixed;
+    - 5 test suites, 228 checks plus the casting and storyboard suites, with no key and nothing spent.
+
+    Their record is on the Mac in `Design-AutoPilot-stable/qa/shots-skill-port/`.
 
 - **The tool:** `skill/product-launch-sting/` is a Claude Code skill.
   - Mode A: a fixed 12 s square launch sting.

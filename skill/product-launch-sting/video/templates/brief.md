@@ -10,6 +10,11 @@ Fill this in (or answer in chat and Claude fills it). Every line changes what ge
 - **Where it runs:** X, LinkedIn, App Store, TikTok/Reels/Shorts, a keynote, a website hero → sets the aspect ratios (16:9, 9:16, 1:1).
 - **Length:** 6 / 15 / 20 / 30 / 60 s. Rule of thumb: one idea per 2–4 s.
 - **Deadline:**
+- **Your input:** a few sentences / a brief or script / a rough storyboard / let's write it together (any is fine; your words are kept as you wrote them).
+- **Product features to show:** from the product's own page; each one gets a moment in the film.
+- **The hook:** the most striking image to open on (a reference photo is fine).
+- **The arc:** launch / SaaS / journey / life moments (`SHOTS.md` → Story and edit rules).
+- **AI footage model:** H3 (sharp, silent) or Seedance 2.5 (people talk, lip-synced, 720p): asked every time.
 
 ## 2. Words
 - **Must say:** (claims, features, names — exactly as legal/brand allows)

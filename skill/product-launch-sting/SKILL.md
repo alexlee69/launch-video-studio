@@ -25,7 +25,10 @@ description: "Make product launch videos, reels and UI motion clips in code, wit
   look, the app's screen pinned onto phones held in the shot. **People cast and locked** (`video/CASTING.md`): a
   recurring person as one-face character sheets (Higgsfield's method: close-up + front + back on #8a8a8a, the body's
   face erased, each state its own sheet, faceless costume and prop sheets), location plates, and every key frame built
-  from those sheets on the user's OpenAI key (gpt-image-2), identity shots first, quoted before any spend. **A reference
+  from those sheets on the user's OpenAI key (gpt-image-2), identity shots first, quoted before any spend.
+  **Storyboarded before any footage** (`video/STORYBOARD.md`): labelled placeholder plates drawn free for the footage
+  shots, and a phone edition of the board for review. **Shot prompts written and checked** (`video/SHOTS.md`): any
+  brief into key-frame and video prompts for H3 or Seedance 2.5 (asked each time), linted before any spend. **A reference
   film recreated frame for frame**
   (`video/RECREATE.md`): its cuts, camera moves and beat grid with our own story, copy and official brand art, an
   original score in the launch-film style on its grid (`music: film`), and side-by-side proof (`compare.py`).

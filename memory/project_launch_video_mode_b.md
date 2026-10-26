@@ -1,11 +1,11 @@
 ---
 name: launch-video-mode-b
-description: "From-scratch launch videos + transparent UI clips = mode B of the product-launch-sting skill (video/ subfolder); built 2026-10-20 for Alex's Manus 2.0 / Cue work; AI footage via fal + reference-film recreation tools merged into live 2026-10-22"
+description: "From-scratch launch videos + transparent UI clips = mode B of the product-launch-sting skill (video/ subfolder); built 2026-10-20 for Alex's Manus 2.0 / Cue work; AI footage via fal + recreation tools 10-22; casting 10-23; storyboard + shot writer/Seedance/pencil sketches 10-26 (uncommitted)"
 metadata:
   node_type: memory
   type: project
   originSessionId: 27298075-5641-4a31-9fd2-82e27fc1cc9c
-  modified: 2026-10-23T07:40:00.000Z
+  modified: 2026-10-26T11:38:47.203Z
 ---
 
 `~/.claude/skills/product-launch-sting/video/` (entry `lv.mjs`, manual `GUIDE.md`) makes launch/feature/teaser videos designed with the user — brief → beats.yaml → beat grid → storyboard stills (PNG+PDF) → animatic → 60 fps film in 16:9/9:16/1:1 + cutdowns + QA — and per-shot UI clips (`--clips --alpha`: ProRes 4444 + WebM + preview + matching SFX WAV) for the user's own edit. SKILL.md has a mode router (A = the fixed 12 s sting, B = this). Job folders: `~/Downloads/launch-videos/<slug>/`; test jobs steady-sample (16:9+9:16), edge-test (1:1, track, footage, custom block, hold, cutdown), dark-ui-check, and deliberately broken probes that must FAIL: qa-probe (freeze + blank-after-cut), qa-probe2 (`--cut seam --workers 2` freeze across a worker seam; `--cut whip` blank frames during a whip).
@@ -87,10 +87,26 @@ The fix round started 01:20 (workflow wf_4b5e8a81-73f) and is still staged, unme
   - each request is written to the ledger at its estimate before it is sent, under an fcntl lock;
   - there is no auto-retry once a request was sent;
   - redirects are not followed.
-- **Not a regression:** the OpenAI key is NOT in `~/Downloads/launch-videos/.env` yet. The tool looks there (or at `OPENAI_API_KEY`), and the key is still only in Design-AutoPilot-stable/.env. Alex has to paste it, or OK a copy.
+- **Key in place (2026-10-25, Alex OK'd the copy):** the `OPENAI_API_KEY` line is now in `~/Downloads/launch-videos/.env` (mode 600, next to `FAL_KEY`). `casting.py`'s own `load_key` reads it; checked by hash, never printed. The first real paid run is still untested end to end.
 - **Proof:**
   - the worked example spec reproduces The Lull's 35 sent requests byte for byte, and the free steps rebuild its files pixel for pixel;
   - `qa/cast-skill-port/run_all.sh` passes 54 + 81 + 26 + 62 checks against a local mock API (no spend).
 - **Review chain:** Sonnet (10 findings), then Codex (11), then Opus (12). All were fixed and planted in QA 4.
 - **For the fix-round merge:** see `qa/launch-video-skill-review/NOTE-cast-port.md` and `qa/cast-skill-port/apply_pointers.py`.
 - **Trap:** the skill description must stay ≤ 1,024 characters (it was 1,021 before; 1,022 now).
+- **Pushed:** to alexlee69/launch-video-studio as `63fc29f` (2026-10-23, Alex's "push to my github"); remote == local verified.
+
+**Storyboard lane, added to live 2026-10-26 (Alex 10-25: "add the story-engine rule and the pre-footage storyboard (placeholder plates + phone PDF) to the skill … don't push without asking"):** `video/storyboard/placeholders.py` (labelled stand-in plates per AI-footage shot, drawn free from `tools/placeholders.json`: init/check/draw/status; PNG tEXt marker `lv-placeholder` with id/aspect/crops) + `video/storyboard/phone.mjs` (the board `--storyboard` wrote → 1080×1920 JPEG pages → DCTDecode PDF, `--cover` YAML) + `video/STORYBOARD.md`; the story-engine rule is in RECREATE.md "The story: keep its engine, change its world" and a GUIDE rule (both scoped to recreations).
+- **Rule a plate shot needs:** `bgMove: none`, `bgDim: 0`, `push: 0`, and no zoom / offset / pan / move / letterbox, or the engine zooms, dims or covers the plate and the board cuts its label (status and phone.mjs name the field).
+- **lv.mjs / lib / engine untouched** (fix-round merge safety); merge note `qa/launch-video-skill-review/NOTE-storyboard-port.md`; doc edits scripted in `qa/storyboard-skill-port/apply_pointers.py`.
+- **Proof:** phone.mjs rebuilds The Lull's 10-23 phone storyboard 26/26 pages byte-identical; `qa/storyboard-skill-port/run_all.sh` (parity, flow, failures, review fixes; no key, nothing spent).
+- **Review chain:** Sonnet 17 findings → Codex hit its usage limit mid-review (no report; its last note named 4 partial areas, fixed as C1–C4) → Opus 15. All fixed and planted in QA 4; each check fails on the code before its fix.
+- **Trap:** a closed lid sleeps the Mac mid-render; Chrome stalls on a screenshot and the storyboard step times out (16-30 min wall, ~20 s CPU). run_all.sh refuses with the lid closed.
+- **Not committed or pushed, on purpose** (Alex 10-26: "dont commit and push. im working on something similar in the main session"). Live skill and backup folder hold the files uncommitted; the main session decides how it lands. A Codex re-review is owed once its limit resets.
+
+**Shot-writer port, in live 2026-10-26 (uncommitted; Alex approved a plain-words plan from the two Higgsfield guides, [[reference-higgsfield-video-guides]]):** `video/shots/shots.py` + `SHOTS.md` (any brief → `tools/shots.json` → key-frame + video prompts, linted; `model` h3|seedance is ASKED every time, never assumed; Alex's words verbatim in `brief`/`script`, Claude's additions in `proposed` until `confirm`), `recipes.json` (15), story/edit rules; `gen.mjs` Seedance 2.5 image-to-video (`--res 480p|720p`, `--end`, `--audio`, quote $0.2205/s 480p, $0.473/s 720p — unconfirmed, fal.ai unreachable from this Mac); casting upgrades (rules 13–17: pose panel, proportion lock, product sheet per colourway, a sheet for EVERY character, one-job refs, `{FOV:mm}` LENS GATE, Image-N check, `plan --show`, `_` templates); `placeholders.py sketch` = pencil position sketches (red people, yellow heads/props, green ground, grey place; Alex asked for real pencil look), `position: {plate}` in shots.
+- **Design facts:** Seedance runs image-to-video on the approved key frame, so its REFERENCES block describes that one image (no `@Image` tags); reference-to-video (Kaye's way) waits for fal's real fields. gen.mjs keeps a Seedance prompt's line breaks (H3 still joined). A slow-mo recipe on H3 adds the fps sentence and drops "real-time" (`{H3_TAIL_SLOW}`). The sketch's legend lives in `<ID>-sketch.json`; shots.py recomputes `plate_hash` (imported from placeholders.py) to warn on a stale sketch.
+- **Proof:** The Lull's 20 prompts byte for byte; QA in `qa/shots-skill-port/` (run_all.sh = parity incl. the casting + storyboard suites, flow, casting-through-mock, failures, review fixes; gen.mjs --go only vs mockfal.mjs). Merge note `qa/launch-video-skill-review/NOTE-shots-port.md`; doc edits `qa/shots-skill-port/apply_pointers.py` (11).
+- **Review chain 10-26:** Sonnet 22 findings (S1 guessed speaker, S2 rounded Seedance seconds = the highs) → Codex SKIPPED (Alex: "skip the codex review, jump opus") → Opus 16 (P1 case-only ids share files on APFS + casting.py save loop). All fixed; QA4 = 90 checks, `prove_round0.py [round0|round1 --only …]` proves each fails on the code before its fix (rollback/*.round0/.round1). Reports in review-sonnet/ and review-opus/REPORT.md (subagents can't Write report files: save their hand-back yourself).
+- **Next after Alex's test + push OK:** the Claude Motion viral kit (P15 reels study → P8 kit → P9 cross-cut transitions), plan first; ask about downloading the 3 .skill files and the 4 reels.
+

@@ -8,6 +8,11 @@
 //                [--seed N] [--endpoint minimax/h3-max/image-to-video]                  image-to-video from a key frame
 //   node gen.mjs video --guide <guide.mp4, ≤ 15 s> --prompt <…> --out <file.mp4> [--aspect 16:9|9:16|1:1] [--sec 5-15]
 //                [--res …] [--seed N]       minimax/h3-max/reference-to-video: the guide sets timing and framing, not the look
+//   node gen.mjs video --endpoint bytedance/seedance-2.5/image-to-video --image <key> --prompt <…> --out <file.mp4>
+//                [--sec 4-30] [--res 480p|720p] [--end <last frame>] [--audio on|off] [--seed N]   Seedance 2.5: lip-synced
+//                speech and sound with the picture (SHOTS.md); draft at 480p, the final at 720p; its prompt keeps its line
+//                breaks (the blocks). Its field names are the ones fal's docs list (2026-10-26, unconfirmed from this Mac):
+//                check them on the endpoint's page before the first --go (a field fal ignores would change the clip)
 //   node gen.mjs raw <endpoint> <input.json> --out <path>     any endpoint; "@file" strings in *_url / *_urls fields → data
 //                                                             URIs (paths relative to input.json)
 //   node gen.mjs fetch <request_id> --endpoint <endpoint> --out <path>   re-poll / re-download (resuming) a cut-off request
@@ -42,12 +47,13 @@ import { homedir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 
 const STILL = 'fal-ai/flux-pro/v1.1-ultra', I2V = 'minimax/h3-max/image-to-video', R2V = 'minimax/h3-max/reference-to-video';
-const PRICES = 'fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models';
+const SEEDANCE = /^bytedance\/seedance-2\.5\//, SEED_RES = ['480p', '720p'], SEED_RATE = { '480p': 0.2205, '720p': 0.473 };
+const PRICES = 'fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · bytedance/seedance-2.5/* about $0.2205/s at 480p, $0.473/s at 720p (fal\'s page as found 2026-10-26, unconfirmed: check before quoting) · anything else: check fal.ai/models';
 const ASPECTS = ['9:16', '16:9', '1:1', '4:3', '3:4', '21:9', '9:21'], RES = ['480P', '768P', '1080P'];
 const MIME = { '.mp4': 'video/mp4', '.m4v': 'video/mp4', '.mov': 'video/quicktime', '.webm': 'video/webm', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.wav': 'audio/wav', '.mp3': 'audio/mpeg' };
 const EXT = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'video/mp4': '.mp4', 'video/quicktime': '.mov', 'video/webm': '.webm' };
 const BASE = (process.env.FAL_QUEUE_URL || 'https://queue.fal.run').replace(/\/+$/, '');
-const VALUED = ['prompt', 'out', 'n', 'aspect', 'seed', 'raw', 'endpoint', 'image', 'guide', 'sec', 'res', 'timeout', 'env'];
+const VALUED = ['prompt', 'out', 'n', 'aspect', 'seed', 'raw', 'endpoint', 'image', 'guide', 'sec', 'res', 'timeout', 'env', 'end', 'audio'];
 const IMG_EXT = /\.(jpe?g|png|webp)$/i;              // a still's --out may carry one; the prefix is what comes before it
 
 let KEY = null;                                     // set only for --go / fetch; every line printed or written is scrubbed of it
@@ -76,6 +82,7 @@ for (let i = 1; i < argv.length; i++) {
   o[k] = argv[++i];
 }
 if (!['still', 'video', 'raw', 'fetch'].includes(cmd)) die(2, readFileSync(process.argv[1], 'utf8').split('\nimport ')[0].split('\n').filter(l => l.startsWith('//')).map(l => l.slice(3)).join('\n'));
+if (cmd !== 'video' && (o.end != null || o.audio != null)) die(2, `--end and --audio are for video (Seedance 2.5), not ${cmd}`);
 const MAXPOS = { still: 0, video: 0, raw: 2, fetch: 1 }[cmd];   // an unquoted prompt spills words here: never send just its first word
 if (pos.length > MAXPOS) die(2, `unexpected argument${pos.length - MAXPOS > 1 ? 's' : ''} ${pos.slice(MAXPOS).map(q).join(' ')} — quote a prompt that has spaces: --prompt "a woman at a kitchen table"`);
 const int = (v, lo, hi, name) => { const n = Number(v); if (!Number.isInteger(n) || n < lo || n > hi) die(2, `${name} must be a whole number from ${lo} to ${hi} (got ${v})`); return n; };
@@ -87,11 +94,11 @@ const file = (p, what, exts) => {
   if (exts && !exts.includes(extname(f).toLowerCase())) die(2, `${what} ${p}: expected ${exts.join(' / ')}`);
   return f;
 };
-const promptOf = p => {
+const promptOf = (p, lines = false) => {     // lines: keep the line breaks (a Seedance block prompt); else one line
   need(p, '--prompt (the text, or @file.txt)');
   const t = p.startsWith('@') ? readFileSync(file(p.slice(1), '--prompt'), 'utf8') : p;
   if (!t.trim()) die(2, '--prompt is empty');
-  return t.trim().replace(/\s*\n\s*/g, ' ');
+  return lines ? t.trim().replace(/\r\n?/g, '\n') : t.trim().replace(/\s*\n\s*/g, ' ');
 };
 const probe = (f, entries) => {
   const r = spawnSync('ffprobe', ['-v', 'error', ...entries, '-of', 'json', f], { encoding: 'utf8' });
@@ -121,8 +128,18 @@ if (cmd === 'still') {
   if (!o.image === !o.guide) die(2, 'video takes one of --image <key frame> (image-to-video) or --guide <clip> (reference-to-video)');
   out = resolve(need(o.out, '--out <file.mp4>'));
   if (extname(out).toLowerCase() !== '.mp4') die(2, `--out ${o.out}: give the video file's name, ending in .mp4`);
-  const res = oneOf(o.res || '1080P', RES, '--res'), prompt = promptOf(o.prompt);
-  if (o.image) {
+  const seedance = SEEDANCE.test(o.endpoint || '');
+  if (!seedance && (o.end != null || o.audio != null)) die(2, '--end and --audio are for Seedance (--endpoint bytedance/seedance-2.5/image-to-video)');
+  const res = seedance ? oneOf(o.res || '720p', SEED_RES, '--res') : oneOf(o.res || '1080P', RES, '--res'), prompt = promptOf(o.prompt, seedance);
+  if (seedance) {
+    if (!o.image || o.endpoint !== 'bytedance/seedance-2.5/image-to-video') die(2, 'Seedance is wired as image-to-video only: --endpoint bytedance/seedance-2.5/image-to-video --image <key frame> (its reference-to-video waits for fal\'s field names to be confirmed)');
+    if (o.aspect) die(2, '--aspect is for --guide; image-to-video takes the key frame\'s shape (generate the still at the aspect you need)');
+    endpoint = o.endpoint;
+    input = { prompt, image_url: { __file: file(o.image, '--image', ['.jpg', '.jpeg', '.png', '.webp']) },
+      ...(o.end != null ? { end_image_url: { __file: file(o.end, '--end', ['.jpg', '.jpeg', '.png', '.webp']) } } : {}),
+      duration: String(int(o.sec ?? 5, 4, 30, '--sec')), resolution: res,
+      generate_audio: oneOf(String(o.audio ?? 'on'), ['on', 'off'], '--audio') === 'on', ...seed() };
+  } else if (o.image) {
     if (o.aspect) die(2, '--aspect is for --guide; image-to-video takes the key frame\'s shape (generate the still at the aspect you need)');
     endpoint = o.endpoint || I2V;
     input = { prompt, image_url: { __file: file(o.image, '--image', ['.jpg', '.jpeg', '.png', '.webp']) }, duration: int(o.sec ?? 5, 5, 10, '--sec'), resolution: res,
@@ -157,7 +174,7 @@ if (cmd === 'still') {
   expect = [out];
 } else {
   ctx.id = need(pos[0], 'fetch <request_id>'); endpoint = need(o.endpoint, '--endpoint (the model the request went to)'); appOf(endpoint);
-  kind = endpoint === STILL ? 'still' : /^minimax\/h3-max\/(image|reference)-to-video$/.test(endpoint) ? 'video' : 'raw';   // as the run that made it
+  kind = endpoint === STILL ? 'still' : /^(?:minimax\/h3-max\/(?:image|reference)-to-video|bytedance\/seedance-2\.5\/image-to-video)$/.test(endpoint) ? 'video' : 'raw';   // as the run that made it
   out = resolve(need(o.out, '--out <path> (the same --out as the original run)'));
   if (kind === 'still') out = out.replace(IMG_EXT, '');
   logPath = (kind === 'still' ? out : stripExt(out)) + '.fal.json';
@@ -293,6 +310,11 @@ function writeJson(p, v) { writeFileSync(p + '.tmp', scrub(JSON.stringify(v, nul
 
 function estimate(ep, inp) {
   if (ep === STILL) { const n = inp.num_images || 1; return `${n} image${n > 1 ? 's' : ''} × $0.06 = $${(n * .06).toFixed(2)}`; }
+  if (SEEDANCE.test(ep)) {
+    const s = Number(inp.duration), r = inp.resolution || '720p', rate = SEED_RATE[r];
+    if (!(s > 0) || !rate) return `unknown — check fal.ai/models/${ep}`;
+    return `${s} s × about $${rate}/s at ${r} = about $${(s * rate).toFixed(2)} (fal's page as found 2026-10-26, unconfirmed: check before quoting)`;
+  }
   if (/^minimax\/h3-max\//.test(ep)) {
     const s = Number(inp.duration), r = inp.resolution || '1080P';
     if (!(s > 0)) return `unknown — the input has no duration (fal's default applies); check fal.ai/models/${ep}`;
