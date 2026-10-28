@@ -6,6 +6,8 @@ this repo; don't recreate it.
 
 ## Set up or check a Mac
 
+- **On a new Mac, or when `setup.sh --check` isn't READY:** follow `NEW-MAC.md` step by step. It covers the tools,
+  the GitHub sign-in, the clone, `setup.sh`, the keys and what to do with a NOT READY.
 - `bash setup.sh` installs everything a new Mac needs and checks it: the skill in `~/.claude/skills/product-launch-sting`,
   the jobs in `~/Downloads/launch-videos` and `~/Downloads/launch-stings`, an empty keys file, these notes as memory, and a
   render check against the shipped Wayfinch storyboards. `--film-check` also re-renders a film and compares it.

@@ -24,8 +24,9 @@ CHROME=${CHROME_PATH:-"/Applications/Google Chrome.app/Contents/MacOS/Google Chr
 if command -v node >/dev/null && [ "$(node -p 'process.versions.node.split(".")[0]')" -ge 18 ]; then vs node "$(node -v)"
 else miss "Node 18 or newer (brew install node)"; fi
 command -v npm >/dev/null || miss "npm (comes with Node)"
-if command -v ffmpeg >/dev/null && ffmpeg -version | head -1 | grep -q 'version 8\.'; then vs ffmpeg "$(ffmpeg -version | head -1 | awk '{print $3}')"
-else miss "ffmpeg 8 (brew install ffmpeg); the skill's colour and mux fixes are written for 8"; fi
+FV=$(command -v ffmpeg >/dev/null && ffmpeg -version | head -1 | awk '{print $3}')
+if [ "${FV%%.*}" -ge 8 ] 2>/dev/null; then vs ffmpeg "$FV"
+else miss "ffmpeg 8 or newer (brew install ffmpeg); the skill's colour and mux fixes are written for 8${FV:+, this one is $FV}"; fi
 command -v ffprobe >/dev/null || miss "ffprobe (comes with ffmpeg)"
 if [ -x "$CHROME" ]; then vs chrome "$("$CHROME" --version | awk '{print $NF}')"
 else miss "Google Chrome in /Applications (or set CHROME_PATH)"; fi

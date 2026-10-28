@@ -140,6 +140,17 @@ Higgsfield-recreation jobs.
 
 ## Restore on a new Mac
 
+**With Claude:** paste this into Claude Code on the new Mac:
+
+> Set up my video studio from my private GitHub repo alexlee69/launch-video-studio. If you can't read it yet, install the
+> GitHub CLI (`brew install gh`), have me sign in as alexlee69, clone it to ~/launch-video-studio, then follow its NEW-MAC.md
+> exactly.
+
+`NEW-MAC.md` is the full step-by-step that Claude follows. You only type the Mac password, approve the GitHub sign-in and
+paste the two keys.
+
+**By hand:**
+
 Install Node 18+, ffmpeg 8 (`brew install ffmpeg`), Google Chrome, the GitHub CLI (`brew install gh`, then `gh auth login`
 as `alexlee69`) and the Xcode command line tools (`xcode-select --install`, for python3 and git). Then:
 
