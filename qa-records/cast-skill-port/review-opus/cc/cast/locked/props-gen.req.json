@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 1,
+ "refs": [
+  "cast/locked/hero.png"
+ ],
+ "prompt": "Image 1 shows the world these props belong to. A faceless props sheet: ONE image of close-up product photographs in a grid of equal tiles with thin gutters, on a flat solid neutral grey background (#8a8a8a), seamless, no gradient, no floor, no shadow on the background, even soft studio light, no person and no face anywhere. 1 the jacket collar; 2 the boots from the side and from below. Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark."
+}

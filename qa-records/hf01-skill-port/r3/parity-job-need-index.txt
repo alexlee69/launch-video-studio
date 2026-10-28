@@ -1,0 +1,2 @@
+skill index_map (timeline.json starts) == job need_index (cuts.txt) for all 2296 frames: True | clamped: []
+skill index_map (--cuts cuts.txt) == job need_index: True

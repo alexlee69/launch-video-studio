@@ -1,0 +1,1 @@
+{"root": "..", "cap": 50, "ledger": "../cast/ledger.jsonl", "candidates": {"look": {"n": 2, "prompt": "{SHEET} {TAIL}"}}}

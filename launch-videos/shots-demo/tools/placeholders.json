@@ -1,0 +1,97 @@
+{
+ "root": "..",
+ "out": "assets/plates",
+ "aspect": "16x9",
+ "crops": [],
+ "kind": "AI FOOTAGE",
+ "cast": {
+  "founder": {
+   "body": "#e6e8eb",
+   "accent": "#e8611e"
+  },
+  "cofounder": {
+   "body": "#2c4a7a"
+  }
+ },
+ "defaults": {
+  "grain": 4
+ },
+ "plates": {
+  "S01": {
+   "line": "She walks into the empty office at dawn",
+   "lens": "35 mm",
+   "move": "slow dolly-out",
+   "look": "dawn",
+   "horizon": {
+    "y": 0.72,
+    "color": "#3a3d44"
+   },
+   "fx": [
+    {
+     "kind": "glow",
+     "x": 0.82,
+     "y": 0.3,
+     "r": 0.3
+    }
+   ],
+   "shapes": [
+    {
+     "kind": "rect",
+     "box": [
+      0.06,
+      0.2,
+      0.32,
+      0.72
+     ],
+     "color": "#2b2f36"
+    }
+   ],
+   "figures": [
+    {
+     "who": "founder",
+     "x": 0.55,
+     "feet": 0.93,
+     "height": 0.6,
+     "pose": "walk",
+     "facing": "left"
+    }
+   ],
+   "props": [
+    {
+     "kind": "laptop",
+     "x": 0.78,
+     "y": 0.8,
+     "w": 0.16
+    }
+   ]
+  },
+  "S02": {
+   "line": "The two founders at the window",
+   "lens": "50 mm",
+   "move": "locked off",
+   "look": "golden",
+   "horizon": {
+    "y": 0.66,
+    "color": "#6a5a48"
+   },
+   "figures": [
+    {
+     "who": "founder",
+     "x": 0.4,
+     "feet": 0.9,
+     "height": 0.52,
+     "pose": "stand",
+     "facing": "right"
+    },
+    {
+     "who": "cofounder",
+     "x": 0.62,
+     "feet": 0.9,
+     "height": 0.55,
+     "pose": "stand",
+     "facing": "left"
+    }
+   ]
+  }
+ }
+}

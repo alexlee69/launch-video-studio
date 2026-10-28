@@ -1,0 +1,2 @@
+D-old-dark-ui-check 16x9: 630 cams, 630 frames
+INFO 2 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json

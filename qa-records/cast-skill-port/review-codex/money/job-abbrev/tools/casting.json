@@ -1,0 +1,6 @@
+{
+  "cap": 0.10,
+  "candidates": {
+    "look": {"prompt": "{SHEET} A person. {TAIL}"}
+  }
+}

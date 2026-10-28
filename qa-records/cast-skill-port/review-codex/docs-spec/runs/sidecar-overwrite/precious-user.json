@@ -1,0 +1,14 @@
+{
+ "original": "orig.png",
+ "edit": "edit.png",
+ "feather": 0,
+ "edit_drift_inside": 190.6,
+ "edit_drift_outside_not_used": 172.2,
+ "why": "",
+ "box": [
+  10,
+  10,
+  90,
+  90
+ ]
+}

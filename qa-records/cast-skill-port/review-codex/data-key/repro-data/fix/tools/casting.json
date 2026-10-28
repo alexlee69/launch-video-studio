@@ -1,0 +1,18 @@
+{
+  "root": "..",
+  "fixes": {
+    "patch": {
+      "src": "../orig.png",
+      "out": "../out.png",
+      "edit": "../edit.png",
+      "prompt": "Fix it.",
+      "box": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "feather": 0
+    }
+  }
+}

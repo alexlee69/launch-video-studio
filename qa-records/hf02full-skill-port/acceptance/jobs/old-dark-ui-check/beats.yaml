@@ -1,0 +1,29 @@
+# Regression check for dark shots: UI mocks must stay light and readable (Sonnet review #3). Fictional product.
+title: Dark UI check
+slug: darkui
+aspects: [16x9]
+brand: {name: Nightjar, mono: N, colors: {accent: "#0B6E4F"}}
+music: {style: none, bpm: 120}
+shots:
+  - id: p
+    block: phone
+    beats: 8
+    theme: dark
+    text: Approvals, *in the dark.*
+    items:
+      - header: {title: Bea, sub: Your dinner agent, avatar: 3}
+      - msg: Found a table for 2 at 7:30.
+      - card: {title: Approve payment?, sub: Card ending 4021, value: $40.00, icon: $, actions: [Decline, Approve]}
+      - tap: Approve
+      - toast: Booked.
+    out: cut
+  - {id: q, block: prompt, beats: 7, theme: dark, text: "Ask *anything.*", prompt: Book dinner for Friday, steps: [Checking tables, Holding 7:30], out: cut}
+  - id: r
+    block: panel
+    beats: 6
+    theme: dark
+    items:
+      - msg: Plan my week
+        from: user
+      - msg: Done — three runs added.
+      - row: {title: Morning run, sub: "6:30 AM", icon: bolt, check: true}

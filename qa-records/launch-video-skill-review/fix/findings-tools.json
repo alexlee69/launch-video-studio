@@ -1,0 +1,455 @@
+{
+ "group": "tools",
+ "findings": [
+  {
+   "id": "LIB-2",
+   "opus": {
+    "id": "LIB-2",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "QA `whoosh` false-fails a few % of tunnel/glitch cuts (and ~1 % of plain whips) because the noisy, flat-topped envelope peak drifts more than 12 ms",
+    "file": "video/lib/qa.mjs",
+    "line": 218,
+    "root_cause": "peak() takes the argmax of a 20 ms RMS of band-passed and low-passed random noise. Near tp the windowed energy of the u^2.6 rise / exp decay is flat to within ~10 %. That is below the noise variance of a 20 ms window, especially with the 220 Hz low share (tunnel low 2.6). The noise is seeded by the cut's sample index, so the result is deterministic per cut time but arbitrary.",
+    "evidence": "Independent sweep, work/opus-libtoolsdocs/aud/sweep.mjs. It renders one whoosh per engine with the exact sfx() parameters and runs mixdown plus QA's own peak(), over 150 cut positions. tunnel 10/150 > 12 ms (worst 20 ms), glitch 5/150 (16 ms), whip-left 2/150 (14 ms), zoom-in 1/150. drift-up, smear-left and flash 0/150. Mean offsets are −1.3 to −3.9 ms, so the peak is found early. A film with six tunnel cuts fails about 1−0.933^6 ≈ 34 % of the time. Sonnet's pipeline runs agree (tunnel 7/144, glitch 8/144). The old whoosh() (whips/zooms) already carries ~1 % of this risk.",
+    "fix": "Fix it in QA, so no output changes: build the expected energy envelope per whoosh from its type and parameters (tl.whooshes carries `out`: pre, post, tail, u^5.2 rise, exp(−2t/tail) decay). Cross-correlate it with a 5 ms-hop energy envelope of whoosh.wav and take the correlation peak as the measured time. Keep the 12 ms tolerance. Add a self-test that sweeps 300 cut positions per type and asserts 0 cuts over 12 ms. Avoid changing voices.sweep/whoosh: that would change old jobs' audio. Re-verify with the sweep and with a real tunnel×6 film.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-2",
+    "severity": "MEDIUM",
+    "file": "video/lib/qa.mjs",
+    "line": 216,
+    "title": "QA `whoosh` check false-fails ~5% of tunnel and glitch cuts (and ~2% of whip/drift): noise-driven peak lands >12 ms from the cut",
+    "failure_scenario": "A normal film with a `tunnel` or `glitch` exit gets `FAIL whoosh ...` purely from where its cut falls relative to the sample grid; the user cannot fix it except by nudging timing, and GUIDE says never ship a FAIL / never loosen a threshold. A film with 6 same-type cuts fails QA about a quarter of the time.",
+    "evidence": "Real pipeline (loadSpec -> compile -> buildAudio -> the exact `peak()` from qa.mjs:218 on out/audio/whoosh.wav), 24 films x 6 cuts each at varied BPM/lengths (script work/LIB/aud2/run.mjs <out>): tunnel 7/144 cuts > 12 ms (max 25 ms), 6/24 films FAIL; glitch 8/144 (max 21 ms), 7/24 films FAIL; whip-left 3/144 (max 13 ms), 3/24 films; drift-up 2/144; smear-left and flash 0/144. Engine-only sweep over 400 cut times (work/LIB/aud/sweep.mjs): tunnel 25/400 > 12 ms, glitch 6/400, whip 4/400; mean offset is -3 to -4 ms (peak found early). Deterministic failing examples: `cp work/LIB/aud2/fail-tunnel.yaml work/LIB/aud3/beats.yaml; node work/LIB/aud3/one.mjs` -> `1.417->1.416, 2.983->2.968 ... worst 15 ms -> FAIL`; same for fail-glitch.yaml (bpm 116, 15 ms). Removing the low-end share does not cure it (tunnel low=0: still 11/300), so the cause is the long flat u^2.6 rise (tunnel pre .62 s, tail .09) plus random band-pass noise inside the 20 ms RMS window, not the coded peak time. The old `whoosh` already had ~1% tail risk; sweep()/glitch() (voices.mjs:136-163, audio.mjs:97-107) make it 5%.",
+    "reproduced": true,
+    "suggested_fix": "Make the peak deterministic instead of widening the 12 ms tolerance: synthesise the whoosh from a smooth, noise-free amplitude envelope (e.g. shape an envelope-normalised noise, or add a short deterministic thump/click exactly at tp), force the glitch gate open for +/-25 ms around tp, and/or have QA measure on a smoothed or high-passed stem. Add a QA self-test that sweeps tp over 300 positions per type and asserts 0 offsets > 12 ms."
+   }
+  },
+  {
+   "id": "LIB-4",
+   "opus": {
+    "id": "LIB-4",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "`--init --kit film|reel --title X` renames only brand.name; on-screen copy keeps 'Product' (Product × Partner, Product 2, Message Product…, with Product, CTA word Product)",
+    "file": "video/lv.mjs",
+    "line": 456,
+    "root_cause": "The kit branch replaces only the title, slug and `  name: Product` / `  mono: P` lines. Unlike the non-kit path (lv.mjs:461-464), it never walks the shots.",
+    "evidence": "work/opus-libtoolsdocs/ik (`--init --kit film --title Acme`): grep shows Product at beats.yaml:37,38,64,73,75,107,124, and `--grid` prints 'name type … Product × Partner · Product 2'. reel.yaml:35,70,102 hold the same pattern (the CTA word `Product`). It is visible on the storyboard, which is why I rate it LOW rather than MEDIUM: all starter copy is placeholder copy the user rewrites.",
+    "fix": "In the kit branch, replace /\\bProduct\\b/g with the title below the `shots:` line, using a function replacer. Better: put a {{name}} token in the starters and substitute it at init. Add a test that `--init --kit X --title Y` leaves no 'Product'.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-4",
+    "severity": "MEDIUM",
+    "file": "video/lv.mjs",
+    "line": 453,
+    "title": "`--init --kit film|reel --title X` only renames brand.name; the starters' on-screen copy keeps the literal word \"Product\"",
+    "failure_scenario": "Alex runs `--init --kit film --title \"Acme\"` and storyboards: the open card says \"Acme x Partner\" but the next shot says \"Product x Partner\" / \"Product 2\", the agent rows/message bar say \"Product\" and \"Message Product...\", the end line says \"Product 2\". The reel kit shows \"Product x Studio\", \"with Product\" and the CTA keyword \"Product\". `--title` implies the starter is branded, so these ship unnoticed (they pass QA).",
+    "evidence": "work/LIB/j1 (film, --title Acme) `--grid` prints `name type ... Product x Partner . Product 2 . agents that ship` and `end type ... Product 2 . Your launch team. On call.`; work/LIB/j2 (reel) prints `Product x Studio`, `with Product`, `Comment . Product . to get the link`. Literal occurrences: templates/film.yaml lines 37, 38, 64, 73, 75, 107, 124; templates/reel.yaml lines 35, 70, 102. lv.mjs:453-456 replaces only `title:`, `slug:`, `  name: Product` and `  mono: P`; the non-kit path (lv.mjs:457-465) walks shots and replaces Steady/steady.app, the kit path has no equivalent.",
+    "reproduced": true,
+    "suggested_fix": "In the kit branch also replace the remaining `Product` tokens (word-boundary, e.g. /\\bProduct\\b/g in the shots section) with the title, or make the starters read the name from brand.name (use a placeholder token like {{name}} substituted at init), and add a check that `--init --title` leaves no 'Product' behind."
+   }
+  },
+  {
+   "id": "LIB-7",
+   "opus": {
+    "id": "LIB-7",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "--tempo phase locks onto off-beat mid- or low-band hits (claps, shakers, stabs) with confidence 0.8–1. Pure hi-hats don't trigger it, so the trigger is narrower than reported",
+    "file": "video/lib/breakdown.mjs",
+    "line": 579,
+    "root_cause": "The phase comb (breakdown.mjs:577-591) runs on summed log-magnitude flux over all bins. log1p(100·|X|) compresses the kick, so a broadband off-beat hit that carries flux in many bins outscores it. The low-band accent (O.low) is used only to pick the downbeat (:607).",
+    "evidence": "work/opus-libtoolsdocs/bd/t2.mjs: kicks at 0.37 s, 128 BPM, plus off-beat noise high-passed at fc. fc 3500 Hz (a realistic hat) at any level up to equal amplitude: first beat 0.368, correct. A sine off-beat bass: correct. fc 1500 at 0.6/1.0: first beat 0.6075/0.6078 (half a beat late) at confidence 0.78/0.93. fc 800 at 0.3: 0.6077 (0.77). fc 300 at 0.3–1.0: off-beat at confidence 0.91–1. Sonnet's white-noise 'hats' are broadband, which is why they triggered it. Real hi-hats lose most of their energy in the 11025 Hz decode. Off-beat chord stabs, claps and shakers (house, pop) are the realistic trigger. No warning is printed, and every cut lands a half beat off.",
+    "fix": "Choose the phase on low-band novelty: compare comb(ph) with comb(ph+P/2) on O.low, or on a kick-weighted novelty, and keep the one with more low-band energy. When the two phases score within ~15 %, lower the confidence and print 'the beat may be on the off-beat — check by ear'. Re-verify kick-only, kick+3.5 kHz hat, kick+1.5 kHz/300 Hz off-beat and the keynote music.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-7",
+    "severity": "MEDIUM",
+    "file": "video/lib/breakdown.mjs",
+    "line": 575,
+    "title": "`--tempo` first-beat/phase locks onto offbeat hats and reports confidence 1 (cross-area: breakdown.mjs analysis, ships through the lv.mjs --tempo wiring)",
+    "failure_scenario": "On a four-on-the-floor pattern (kick on every beat, noise hat on the off-beats at ~-14 dB) `--tempo` prints the right BPM but a first beat half a beat late, with confidence 1 and no warning, and the ready `music:` line puts `start` on the hat. Every cut then lands on the off-beat, 234 ms off at 128 BPM.",
+    "evidence": "Synthetic tracks (work/LIB/bd/mk.py): kicks at 0.37 s + k*0.46875 s (128 BPM). With hats 0.05 -> first beat 0.3674 (correct). With hats 0.2 (beat128.wav) -> `first beat 0.605`, i.e. 0.37 + beat/2. 90 BPM, kick at 0.5, hats 0.2 -> first beat 0.8351 (kick 0.5 + 0.3351 = half beat). 128 BPM kick at 0.0, hats 0.2 -> 0.2353. Hats 0.5 -> 0.6042 with first downbeat 2.0106. Kick-only tracks (k_only 0.3675, 55 BPM folded to 110, 87.4 and 123.5 BPM fractional, 200 BPM) are correct, and the skill's own keynote music reads on-beat (0.4874 vs grid 0.4839), so the failure needs a hat that is not much weaker than the kick. Cause: the beat phase comes from comb-scoring the summed log-magnitude spectral flux over all bins (breakdown.mjs onsets(), ~526-545, and the comb in analyzeTempo ~569-585), where a broadband hat adds flux in ~250 bins versus a kick's few low bins; the low-band accent is only used to choose the downbeat (~596).",
+    "reproduced": true,
+    "suggested_fix": "Estimate phase from a low-band (< ~200 Hz) or kick-weighted novelty (or run the comb on both and prefer the one whose onsets carry more low-band energy), and lower the reported confidence / add a note when the half-beat phase scores within ~15% of the chosen one."
+   }
+  },
+  {
+   "id": "LIB-9",
+   "opus": {
+    "id": "LIB-9",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Kit --title goes through String.replace replacement strings, so `$&`, `$'` and `$$` in a title are expanded",
+    "file": "video/lv.mjs",
+    "line": 455,
+    "root_cause": "lv.mjs:455 passes a template string as the replacement for /^title: .*$/m, and lv.mjs:452 uses replaceAll('Steady', T) with a string.",
+    "evidence": "work/opus-libtoolsdocs/ik2 (`--init --kit reel --title 'Save $& Co'`) produced `title: \"Save title: Your reel Co reel\"` and brief.md '# Launch video brief — Save Steady Co'. name/mono use function replacers and come out right.",
+    "fix": "Use function replacers: `.replace(re, () => ...)` and `replaceAll('Steady', () => T)`.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-9",
+    "severity": "LOW",
+    "file": "video/lv.mjs",
+    "line": 455,
+    "title": "Kit --title is spliced via String.replace replacement strings, so `$&`, `$$`, `$'` in a title are interpreted",
+    "failure_scenario": "`--init --kit reel --title 'Save $& Co'` writes `title: \"Save title: Your reel Co reel\"` (the matched text is inserted) and the brief gets \"Steady\" in place of `$&`; `$$` collapses to `$`.",
+    "evidence": "work/LIB/j2/beats.yaml after `--init --kit reel --title 'Save $& Co: The \"Movie\"'`: line `title: \"Save title: Your reel Co: The \\\"Movie\\\" reel\"`, brief.md first line `# Launch video brief - Save Steady Co: ...`. lv.mjs:455 `.replace(/^title: .*$/m, `title: ${y(...)}`)` and :452 `txt.replaceAll('Steady', T)` pass strings; the name/mono replacements at :456 use function replacers and are safe.",
+    "reproduced": true,
+    "suggested_fix": "Use function replacers (`() => ...`) for the title and brief substitutions."
+   }
+  },
+  {
+   "id": "LIB-11",
+   "opus": {
+    "id": "LIB-11",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Re-running --breakdown overwrites the hand-filled breakdown.md and wipes thumbs/ (duplicate of TOOL-7)",
+    "file": "video/lib/breakdown.mjs",
+    "line": 990,
+    "root_cause": "breakdown.mjs:990-991 deletes OWN files and sheet-NN.png and removes the whole thumbs/ folder before writing.",
+    "evidence": "From the code: lines 989-991. Sonnet's j3 and TOOL's jobs/rerun both show the edit lost and the extra file in thumbs/ deleted. GUIDE lists breakdown.md among the replaced files, but 'nothing else' is false for thumbs/.",
+    "fix": "See TOOL-7: build in tmp and swap at the end. If breakdown.md differs from the generated template, write breakdown.new.md, and delete only generated thumbs.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-11",
+    "severity": "LOW",
+    "file": "video/lib/breakdown.mjs",
+    "line": 886,
+    "title": "Re-running `--breakdown` silently overwrites the hand-filled breakdown.md and empties thumbs/, contrary to \"replaces exactly these files and nothing else\"",
+    "failure_scenario": "The workflow has Claude/the user fill the What happens / Recreate with / What to borrow columns in breakdown.md after reading the sheets; re-running with a different --threshold (the natural fix for wrongly split shots) wipes that work with no prompt or backup, and any extra file in thumbs/ is deleted.",
+    "evidence": "work/LIB/j3: appended \"USER EDIT\" to reference/ref/breakdown.md and added thumbs/user-extra.jpg and notes.txt, re-ran `--breakdown bd/ref.mp4`: breakdown.md is back to the empty template, thumbs/user-extra.jpg is gone, notes.txt survives. GUIDE.md (Reference breakdown) lists breakdown.md among the replaced files and calls it 'yours to fill'; the 'nothing else' claim is false for thumbs/.",
+    "reproduced": true,
+    "suggested_fix": "If breakdown.md already differs from the generated template, write the new one as breakdown.new.md (or refuse unless --force) and only clear the generated thumbs, not the whole folder."
+   }
+  },
+  {
+   "id": "TOOL-1",
+   "opus": {
+    "id": "TOOL-1",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "--tempo drops a beat at t≈0: the first beat comes out one beat late, and with a clear bar accent `start` is a whole bar late, with a false 'keeps the intro' alternative",
+    "file": "video/lib/breakdown.mjs",
+    "line": 603,
+    "root_cause": "ph0 is folded into [0, beat). When the estimated phase of a beat at 0 lands a hair below `beat`, the loop starts at ~beat−ε and the beat at 0 is never emitted. The `- beat/4` slack on line 604 can't help because s never starts below ph0.",
+    "evidence": "work/opus-libtoolsdocs/bd/t1.mjs, synthetic kicks at 120 BPM. t0=0 gives first 0.4982; t0=0.002 gives 0.4992; t0=0.005 gives 0.0022 (correct); t0=0.02 gives 0.0191. With an accent every 4 beats from 0: first 0.4985 and downbeat 1.9983 at dbConf 0.133 (≥ .1 counts as 'sure'). tempo() then prints start: 1.9983, and the alternative line claims '# keeps the 1.9983 s intro' (breakdown.mjs:1026-1029). Breakdown alignment and draft shift take the phase modulo the beat, so they are unaffected; only firstBeat, downbeat and the snippet are wrong.",
+    "fix": "Start the grid at ph0−beat and keep a beat at s ∈ [−0.012, 0) clamped to 0 when the onset strength there is ≥ ~50 % of the mean beat strength, so a pad's start transient does not count. Clamp firstBeat and start to ≥ 0. Print the 'intro' alternative only when there is onset-free material before start. Re-verify t0 ∈ {0, .002, .005, .02}, the accented bar, and a 2 s pad intro.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-1",
+    "severity": "MEDIUM",
+    "file": "video/lib/breakdown.mjs",
+    "line": 603,
+    "title": "--tempo / analyzeTempo drop the first beat when the audio starts on the beat; the snippet then opens a beat (or a whole bar) late and describes an intro that does not exist",
+    "category": "correctness",
+    "failure_scenario": "A track whose first kick sits at t ≈ 0 (trimmed loop, cue, stock track that starts on the 1): `node lv.mjs --tempo track.wav`. The measured phase comes out a few ms NEGATIVE (e.g. −1 ms), `ph0 = ((toSec(ph) % beat) + beat) % beat` wraps it to ~0.498, and the loop at line 604 starts at ph0, so the beat at ~0 is never emitted even though the `- beat/4` slack on the same line was written to allow it. Result: first beat 0.4986 s instead of 0; with a clear bar accent `start` becomes 1.9985 instead of 0 (the film opens a full bar into the track and 2 s of a 12 s file are lost), and the `alternative` line claims `# keeps the 1.9985 s intro` for a file with no intro. The same wrong 'first beat 0.496 s' prints on the contact sheet and breakdown.md of a reel whose audio starts on a beat.",
+    "evidence": "Synthetic kick at 120 BPM starting at offset t0 (work/TOOL/syn/k_<t0>.wav): t0=0 → 'first beat 0.4982', t0=0.002 → 'first beat 0.4987', t0=0.005 → 'first beat 0.0015' (correct), 0.01/0.02/0.03 correct. So it is a ±3 ms coin flip for any beat at the file start. Accented-bar file work/TOOL/syn/acc0.wav (loud kick on beat 1 of each 2 s bar, starting at 0): output 'first beat 0.4986 s · first downbeat 1.9985 s (bar confidence 0.293)', snippet 'start: 1.9985, downbeat: 0', alt 'start: 0, downbeat: 1.9985 # keeps the 1.9985 s intro'. bar0.wav and a kick-at-0 video (syn/syn_onbeat.mp4, sheet shows 'first beat 0.496 s') behave the same. I patched a copy (work/TOOL/skill-q) with `for (let s = ph0 - beat; …) … beats.push(r4(Math.max(0, s)))`: acc0 → first beat 0 / downbeat 0 (correct), but work/TOOL/syn/padintro.wav (2 s pad, drums from 2.0) regresses to downbeat 0 because the pad's start transient scores as an accent — so the fix needs an onset-strength check.",
+    "suggested_fix": "Start the grid one beat earlier (`s = ph0 - beat`) but keep a beat before ph0 only when the onset strength at it is comparable to the other beats (a bare music-start transient from silence must not count), clamp `firstBeat`/`start` to ≥ 0, and only emit the 'keeps the intro' alternative when there is real pre-beat material (start ≥ ~0.25 s AND the start is a first-beat/downbeat found after an onset-free stretch).",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-2",
+   "opus": {
+    "id": "TOOL-2",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "The 'ready' music: snippet leaves the file path unquoted in a flow map, so common track names ([NCS Release], commas, ': ', ' #') don't paste",
+    "file": "video/lib/breakdown.mjs",
+    "line": 1028,
+    "root_cause": "`file: assets/${basename(file)}` is emitted raw inside `{…}`.",
+    "evidence": "YAML parse of the emitted line: 'Song [NCS Release].mp3' gives 'Unexpected flow-seq-start'. 'Hey #1 Hit.wav' and 'Track: Remix.wav' fail too. 'Artist, Other - Track.mp3' parses as file 'assets/Artist' with a stray key. Parenthesised names are fine. I rate it LOW rather than MEDIUM because every case surfaces at --grid as a YAML or file-not-found error, never as silent wrong output.",
+    "fix": "Emit `file: ${JSON.stringify('assets/' + basename(file))}` in both the snippet and the alternative.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-2",
+    "severity": "MEDIUM",
+    "file": "video/lib/breakdown.mjs",
+    "line": 1028,
+    "title": "The 'ready' music: snippet from --tempo is invalid or wrong YAML for ordinary track file names",
+    "category": "correctness",
+    "failure_scenario": "`lv.mjs --tempo \"Song Title [NCS Release].mp3\"` (or a name with a comma, ': ', ' #', { or }) prints `music: {style: track, file: assets/Song Title [NCS Release].mp3, bpm: …}` — an unquoted scalar inside a flow mapping. Pasting it into beats.yaml makes the whole file fail to parse at --grid ('beats.yaml is not valid YAML …'), or silently truncates the path at ' #'. Same for the `alternative` line (1029).",
+    "evidence": "work/TOOL/syn/\"Artist, Other - Track: Remix [v2] #1.wav\" → snippet `file: assets/Artist, Other - Track: Remix [v2] #1.wav`; yaml.parse of that line: 'Unexpected flow-seq-start at node end at line 1, column 65'. A name 'Hey #1 Hit.wav' fails with 'Flow map in block collection must be sufficiently indented…'. Names with only spaces/parentheses ('Artist - Other (Official Video) 2024.wav') parse fine, so it bites only on , [ ] { } #, ': '.",
+    "suggested_fix": "Emit the path with JSON.stringify (`file: \"assets/…\"`) in both snippet lines, or quote only when /[,\\[\\]{}#:]|^\\s|\\s$/ matches.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-3",
+   "opus": {
+    "id": "TOOL-3",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "--breakdown output folders collide for CJK-only, long or case/underscore-variant names, and the second run overwrites the first (including its filled breakdown.md)",
+    "file": "video/lib/breakdown.mjs",
+    "line": 1040,
+    "root_cause": "referenceDir uses slugify, which strips non-ASCII, lower-cases and truncates to 40 characters. For an empty result slugify returns 'launch-video', so `|| 'reel'` is dead code.",
+    "evidence": "referenceDir('/J', …) gives: 参考视频.mp4 and 对标.mp4 → /J/reference/launch-video; 'Reel A.mp4' and 'reel_a.mp4' → reel-a; '…for Instagram - version 1/2.mp4' → the same 40-character slug. GUIDE asks for 2–3 references per brief, and saved Douyin/Xiaohongshu references often have CJK names.",
+    "fix": "Use a unique folder: slug (or the first characters of the raw name when the slug is empty) plus a short hash of the resolved path or name+size. Alternatively, refuse with a clear message when the target's breakdown.json has a different source.file.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-3",
+    "severity": "MEDIUM",
+    "file": "video/lib/breakdown.mjs",
+    "line": 1040,
+    "title": "--breakdown output folder collides for CJK-only, long, or similarly-named references; the second run silently overwrites the first (including its filled-in breakdown.md)",
+    "category": "data-loss",
+    "failure_scenario": "GUIDE prescribes `--breakdown` once per reference (2–3 references per brief) into `DIR/reference/<name>/`. `referenceDir` uses slugify(), which strips every non-ASCII letter, lower-cases, and truncates to 40 chars; `|| 'reel'` is dead code because slugify itself returns 'launch-video' for an empty result. So `参考视频.mp4` and `对标.mp4` both land in reference/launch-video/; `Higgsfield AI product launch reel for Instagram - version 1.mp4` and `… version 2.mp4` both land in reference/higgsfield-ai-product-launch-reel-for-in/; 'Reel A.mp4' vs 'reel_a.mp4' collide too. The second run deletes the first one's sheets, thumbs, breakdown.json/md and beats-draft.yaml (lines 990–991) with no warning. The draft slug has the same problem ('ref-launch-video').",
+    "evidence": "work/TOOL: `lv.mjs --job cjk --breakdown syn/参考视频.mp4` then `--breakdown syn/对标.mp4` → only `cjk/reference/launch-video/` exists, breakdown.json source.name = 对标.mp4. Long names: `jobs/coll/reference/` holds a single folder 'higgsfield-ai-product-launch-reel-for-in' after two runs on different files.",
+    "suggested_fix": "Make the folder name unique per source: slug + short hash of the resolved path (or of name+size), or refuse/warn when the target folder's breakdown.json has a different source.file. Fall back to a transliteration or the first characters of the raw name when the slug is empty.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-4",
+   "opus": {
+    "id": "TOOL-4",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "Breakdown misses dissolves over moving footage and reports a dip to black with no black hold as one shot",
+    "file": "video/lib/breakdown.mjs",
+    "line": 444,
+    "root_cause": "The blend test compares the mid frame with a mix of frames k±h, which fails when either picture moves. The 'bounded' test (:441) rejects a fade-in whose picture keeps moving, and the overlap filter (:455) drops windows that touch at the black frame.",
+    "evidence": "I ran `--breakdown` on TOOL's syn/realdip.mp4 (two different real clips, fade out then fade in) and got 1 shot with only 'fade-in 4.00–4.60 s'. realdiss.mp4 (0.5 s xfade of the same clips): 1 shot, no events. dip.mp4: 1 shot plus fade-out. Frame checks confirm different pictures at 1 s and 6.5 s. GUIDE's Limits already hints at the dissolve half ('found only when the middle frames really are a mix'). The no-hold dip contradicts GUIDE's 'fade (a dip)' detection claim.",
+    "fix": "Locate the ramp from the per-frame difference profile and blend its edge frames rather than ±h. Let adjacent fade-out and fade-in windows meet at a uniform black or white frame and treat the pair as one 'fade' cut. Relax the bounded test when an end is near-uniform. Meanwhile, state in Limits that dissolves and dips over moving footage are usually missed, and tell Claude to look for two scenes inside one shot on the sheets.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-4",
+    "severity": "MEDIUM",
+    "file": "video/lib/breakdown.mjs",
+    "line": 431,
+    "title": "Gradual transitions are missed on real footage: a cross-dissolve is not found at all, and a dip to black (fade-out immediately followed by fade-in) is reported as ONE shot",
+    "category": "correctness",
+    "failure_scenario": "GUIDE's 'Reading it' lists `dissolve` and `fade (a dip)` as detected transitions. On real moving footage: (a) the blend test at line 444 (`m0.r > .2*raw …`) compares the middle frame with a mix of frames k±h (h up to 24 frames); when either picture moves inside that window the residual exceeds 20 % and every candidate is rejected, so a 0.5 s cross-dissolve between two real clips yields no cut and no event. (b) For a dip with no black hold (fade-out ends on the frame where the fade-in starts) the fade-in candidate is rejected by the 'bounded' test at line 441 (the incoming picture keeps moving, so the quiet-outside condition fails) and the two windows touch at the black frame, which the overlap test at line 455 (`x.a <= g.b && x.b >= g.a`) would also drop. Only the fade-out is reported, as an in-shot event: 'N shots' undercounts and beats-draft.yaml lacks the shot. The workflow only tells the reader to merge OVER-split shots, so the miss is not surfaced.",
+    "evidence": "Real clips (kling-15s + running short video from ~/Downloads, read-only), 0.5 s xfade → work/TOOL/syn/realdiss.mp4: 1 shot, no events. Same clips with fade=out/fade=in back to back → syn/realdip.mp4: 1 shot, events only 'fade-in 4–4.6 s'. Synthetic gradients→testsrc2 and testsrc2→mandelbrot dips (syn/dip.mp4, dip2.mp4, dip3.mp4): 1 shot + 'fade-out 2.4–3.0 s'. With BD_DEBUG-style instrumentation on a patched copy, reason counts for realdiss were reject-5 (blend residual) 57×, reject-4 (bounded) 5×, reject-3 2×; relaxing the overlap test alone only fixed the variant with a 0.3 s black hold (syn/dip5.mp4 → 'fade' cut at 3.0). A dip WITH a black hold already comes out as a dissolve+fade-in pair, so only the no-hold dip and the moving-footage dissolve are lost.",
+    "suggested_fix": "Measure the dissolve against its own start/end frames (locate the ramp from the per-frame difference profile and blend frames at the ramp edges, not at ±h), let adjacent fade-out/fade-in windows touch, and relax the 'bounded' test when the ends are near-uniform (black/white). Until then say in GUIDE Limits that dissolves/dips over moving footage are usually missed, and add 'two different scenes inside one shot' as a thing to look for on the sheets.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-6",
+   "opus": {
+    "id": "TOOL-6",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "A valueless --min-shot / --per-page silently becomes 1, and breakdown parameter errors exit 1, not 2",
+    "file": "video/lv.mjs",
+    "line": 90,
+    "root_cause": "common.arg returns true when no value follows the flag. breakdown.mjs:890 does Number(true)=1, which passes the range checks. UserErrors go through main().catch → die(code 1).",
+    "evidence": "From the code: common.mjs arg(), lv.mjs:90, breakdown.mjs:890-893. TOOL's e1 runs show 6→5 shots with a valueless --min-shot and 6 sheets with a valueless --per-page.",
+    "fix": "In lv.mjs, reject `true` for the numeric breakdown flags with die('--min-shot needs a number', 2). Validate the ranges in lv.mjs with exit 2, as --fps does.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-6",
+    "severity": "LOW",
+    "file": "video/lv.mjs",
+    "line": 90,
+    "title": "Valueless --min-shot / --per-page are silently coerced to 1 (and flag errors exit 1, not 2)",
+    "category": "validation",
+    "failure_scenario": "`lv.mjs --job D --breakdown reel.mp4 --min-shot` (value forgotten) or `--per-page`: common.mjs arg() returns `true` for a flag with no value, and breakdown.mjs:890 does Number(true)=1, which passes the 0–5 / 1–40 checks. So --min-shot becomes 1 s (cuts closer than 1 s are merged away: 6 shots → 5) and --per-page becomes 1 shot per sheet (6 sheet PNGs). `--threshold` with no value only errors by accident (1 is outside 0–1). `--fps` in the same CLI is rejected with exit 2, but the breakdown parameter errors (and file-not-found) exit 1.",
+    "evidence": "work/TOOL: `lv.mjs --job e1 --breakdown syn/syn_onbeat.mp4 --min-shot` → '5 shots … 4/4 cuts' (6 shots / 5 cuts without the flag); `--per-page` → 'sheet-01.png … sheet-06.png'; `--threshold` → error 'must be between 0 and 1' rc=1.",
+    "suggested_fix": "In lv.mjs (and the standalone CLI) treat `true` from arg() as 'missing value' for numeric options and die(…, 2) with the flag name; use exit 2 for parameter errors like --fps does.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-7",
+   "opus": {
+    "id": "TOOL-7",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Breakdown re-run, or a failed run, destroys earlier results before the new ones exist; GUIDE's 'nothing else' is untrue",
+    "file": "video/lib/breakdown.mjs",
+    "line": 990,
+    "root_cause": "Cleanup (990-991) runs before grabFrames and screenshotSheets (995, 1005), and thumbs/ is removed wholesale.",
+    "evidence": "From the code order. TOOL's CHROME_PATH=/nonexistent run leaves beats-draft.yaml, breakdown.html and thumbs/ only, with the previous set already gone. A duplicate of LIB-11.",
+    "fix": "Write into a temp sibling folder and rename it into place at the end. Keep a user-edited breakdown.md (write breakdown.new.md). Remove only generated thumbs. Reword GUIDE.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-7",
+    "severity": "LOW",
+    "file": "video/lib/breakdown.mjs",
+    "line": 990,
+    "title": "Re-run (or a failed run) destroys earlier results; GUIDE's 'exactly these files and nothing else' is not true",
+    "category": "docs-vs-code",
+    "failure_scenario": "GUIDE says re-running replaces 'exactly these files and nothing else', yet lines 990–991 delete every sheet-NN.png and the whole thumbs/ folder (a user file in thumbs/ or a stray sheet-99.png is removed), and the filled-in breakdown.md (the product the workflow tells Claude to complete) is overwritten without warning — an easy mistake because step 2 tells you to re-judge low-confidence cuts. Deletion happens before the Chrome screenshot step (line 1005), so a Chrome failure leaves a folder with beats-draft.yaml, breakdown.html and thumbs/ but no breakdown.json/md/sheets and the previous complete set already gone.",
+    "evidence": "work/TOOL/jobs/rerun: after a re-run notes.txt and overview-old.png survive, but thumbs/mine.txt and sheet-99.png are gone and the appended 'EDIT' line in breakdown.md is gone. `CHROME_PATH=/nonexistent/chrome lv.mjs --job misc2 --breakdown …` → clear 'Could not start Google Chrome' error, folder holds beats-draft.yaml, breakdown.html, thumbs only.",
+    "suggested_fix": "Build everything in the temp folder and swap into place at the end; keep an existing breakdown.md that differs from the generated template (write breakdown.new.md instead) or ask for --force; reword the GUIDE line.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-8",
+   "opus": {
+    "id": "TOOL-8",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Breakdown timecodes drift at 29.97/23.976 sources (1 frame per ~33/42 s)",
+    "file": "video/lib/breakdown.mjs",
+    "line": 919,
+    "root_cause": "fr = Math.round(fps), and timecode() rounds t·fr from seconds, which counts 1.001× too many frames.",
+    "evidence": "timecode(1800·1001/30000, 30) gives 01:00:02, where non-drop TC for frame 1800 is 01:00:00. timecode(900·1001/24000, 24) gives 00:37:13, expected 00:37:12.",
+    "fix": "For CFR sources, derive TC from the decode index (startFrame is stored): F=k, s=floor(k/fr), ff=k%fr. Alternatively, document the TC as seconds × nominal rate.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-8",
+    "severity": "LOW",
+    "file": "video/lib/breakdown.mjs",
+    "line": 919,
+    "title": "Timecodes are wrong by frames at 29.97 / 23.976 (NTSC) source rates",
+    "category": "correctness",
+    "failure_scenario": "For a CFR 29.97 source `fr = Math.round(fps)` = 30 and timecode(t, 30) computes round(t*30) from SECONDS, which counts 1.001× too many frames. The sheet/breakdown.md promise 'MM:SS:FF at the source rate' for finding a cut in an editor, but at 60 s the cut at frame 1800 shows 01:00:02 (non-drop timecode would be 01:00:00); the error grows 1 frame per ~33 s (23.976: ~1 frame per 42 s). The label on thumbnails ('+2f 01:00:04') inherits it.",
+    "evidence": "work/TOOL/syn/ntsc.mp4 (30000/1001, cut at frame 1800, 2100 frames): breakdown.json shots[1].startFrame 1800, tcIn '01:00:02'; last shot tcOut '01:10:02' for frame 2100 (expected 01:10:00).",
+    "suggested_fix": "For non-VFR sources derive the timecode from the decode frame index (a / fr, a % fr; startFrame is already stored) instead of from seconds, or document that the TC is seconds×rate.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-9",
+   "opus": {
+    "id": "TOOL-9",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Kit --title writes YAML booleans/null for True/Null and gives CJK titles monogram 'P' (overlaps LIB-4)",
+    "file": "video/lv.mjs",
+    "line": 454,
+    "root_cause": "y() leaves /^[A-Za-z][\\w .'-]*$/ unquoted, so the YAML 1.2 core keywords true/false/null slip through.",
+    "evidence": "work/opus-libtoolsdocs/ik3 (`--title True`): yaml.parse gives brand.name boolean true and title 'True reel', so the lockup reads 'true'. ik4 (`--title 阿里云`) gives mono: P and slug launch-video.",
+    "fix": "Emit scalars with YAML.stringify or JSON.stringify always. Fall back to the title's first character for mono. Print a note about the remaining 'Product' copy, or fix LIB-4.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-9",
+    "severity": "LOW",
+    "file": "video/lv.mjs",
+    "line": 454,
+    "title": "--init --kit … --title writes YAML-1.2 booleans/null for names like True/Null and keeps 'Product' elsewhere; CJK titles get monogram 'P'",
+    "category": "validation",
+    "failure_scenario": "The kit path edits the starter with a regex and the helper `y()` leaves /^[A-Za-z][\\w .'-]*$/ unquoted, so `--title True` writes `name: True` (boolean true) and `--title Null` writes `name: Null` (null). spec.mjs then takes brand.name = 'true' (String(true)) or falls back to the title 'Null launch film' (which shows in the lockup). A CJK title '阿里云' gets `mono: P` (the regex takes the first Latin letter, falling back to P). In every case the rest of the starter copy still says 'Product', 'Product 2', 'Product × Partner' (chip:, tag:, word:, user:), which --title does not touch and nothing tells the user.",
+    "evidence": "work/TOOL/inits/True_reel/beats.yaml: yaml.parse → brand.name true (boolean); Null_film → null; 阿里云 → mono: P. The non-kit --init path uses YAML.parseDocument and quotes correctly.",
+    "suggested_fix": "Use YAML.stringify(value) for the replaced scalars (or quote anything matching /^(true|false|null|yes|no|on|off|~)$/i); fall back to the first character of the title for mono; print 'copy in the shots still says Product — find/replace it' after --init --kit --title.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-10",
+   "opus": {
+    "id": "TOOL-10",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Templates and companion docs lag today's features (drift-* missing from the out: list, 'link' for references, footage only via media)",
+    "file": "video/templates/beats.yaml",
+    "line": 42,
+    "root_cause": "Only the out: comment list was extended, and only by the cross-cuts. brief.md, assets-checklist.md and live-action-shotlist.md were not touched.",
+    "evidence": "beats.yaml:42 lists cut…flash without drift-*. brief.md:20 asks for a 'link' per reference, while the breakdown needs the saved file. assets-checklist.md:12 and live-action-shotlist.md:14 mention only `media`, not `bg:`. The '~15 s per minute' timing claim is plausible but load-dependent; not re-measured.",
+    "fix": "Add drift-left|right|up|down to the comment. In brief.md ask for the saved file (download or screen-record) and add AI-footage lines. Mention `bg:` in assets-checklist and live-action-shotlist.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-10",
+    "severity": "LOW",
+    "file": "video/templates/beats.yaml",
+    "line": 42,
+    "title": "Template and companion docs lag today's features (drift cuts, bg footage, saved reference files)",
+    "category": "docs",
+    "failure_scenario": "(a) templates/beats.yaml line 42 lists the valid `out:` values 'cut … flash' and omits the four `drift-*` values added today (spec.mjs TRANSITIONS has them); this comment is the first list a user reads. (b) brief.md section 3 asks for a 'link' per reference although the breakdown flow needs the saved file ('the tool never fetches anything'; GUIDE step 1 says 'the saved reel files'), and has no line for AI footage or for the reel/film styles. (c) assets-checklist.md ('Footage … `media` (src + from)') and live-action-shotlist.md ('add a `media` shot per clip') still describe only the `media` block, while GUIDE now calls `bg:` 'the way to put a prompt, panel, browser, phone or headline over AI footage'. (d) GUIDE's '~15 s per minute of reel' holds for 30–60 fps 1080×1920 reels (reel-sample 19.7 s → 4.6 s; film-sample 37.8 s → 11 s) but a 24.8 s iPhone HEVC 1320×2868 60 fps screen recording took 36 s of analysis (~87 s/min) on a loaded machine.",
+    "evidence": "diff of templates/beats.yaml in today.diff (only the transition list changed, without drift-*); grep of brief.md:20, assets-checklist.md:10-12, live-action-shotlist.md:14; breakdown timings in work/TOOL/jobs/realrun.log.",
+    "suggested_fix": "Add drift-left|right|up|down to the comment; change brief.md to 'saved file (download or screen-record it)' and add AI-footage lines; mention `bg:` in assets-checklist/live-action-shotlist; qualify the timing claim.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "TOOL-11",
+   "opus": {
+    "id": "TOOL-11",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Starter placeholders ship through --grid and --film QA without any warning",
+    "file": "video/templates/reel.yaml",
+    "line": 45,
+    "root_cause": "Nothing marks the assets/placeholder-*.svg files that --init writes as stand-ins.",
+    "evidence": "TOOL's reel.log and reel9.log: 'QA PASSED (13 checks)' with the placeholder cards ('replace with …', 'CLIP n – your AI footage here') on screen.",
+    "fix": "WARN (not FAIL) at --grid and in QA for any shot field that resolves to assets/placeholder-*.svg: 'still a stand-in — swap in your own'.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-11",
+    "severity": "LOW",
+    "file": "video/templates/reel.yaml",
+    "line": 23,
+    "title": "Starter placeholders ship through QA with no warning; the PASSED reel is still full of 'YOUR SCREEN / BEFORE / AFTER / replace with …' cards",
+    "category": "qa-blind-spot",
+    "failure_scenario": "Both kits point shots at assets/placeholder-*.svg. Nothing flags them at --grid or --film: the reel starter's QA is 'QA PASSED (13 checks)' at 16x9 and 9x16 while the film shows the literal placeholder text ('replace with your input image or clip', 'CLIP 3 – your AI footage here'). A CapCut-only user who renders without swapping every card gets a PASSED film with stand-in art (the wipe shot s5 even shows the divider handle covering 'BEFORE', 'BEF<handle>ER').",
+    "evidence": "work/TOOL/jobs/reel.log / reel9.log (QA PASSED, 13 checks); work/TOOL/jobs/reel/reel-storyboard-9x16.png.",
+    "suggested_fix": "At --grid/--film add a WARN (not a FAIL) for any shot field resolving to assets/placeholder-*.svg ('still a stand-in').",
+    "reproduced": true
+   }
+  }
+ ],
+ "reviewer_notes": {
+  "engine+reel": [
+   "Codex returned nothing (usage limit), so every verdict above is Sonnet plus Opus only.",
+   "ENG-4, ENG-5, ENG-6, REEL-4, REEL-7 and REEL-9 are confirmed from an unambiguous code path plus Sonnet's own reproductions; I did not re-run them. I re-ran ENG-1, ENG-2, ENG-3, REEL-2 (and its fix), REEL-3 and REEL-5.",
+   "Not tested individually, same mechanism as OP-1: animated APNG named .png, animated WebP, an AVIF `avis` sequence, and an animated GIF in float `card` or split before/after (<img> rather than SVG <image>).",
+   "Not tested: a truncated image in block image fields (float card, split before/after, lockup partner logo). Same root cause as ENG-2.",
+   "Custom-block param names that collide with the new engine-owned shot fields: zoom/focus/offset/pan/move (silently double-applied), bg/bgDim/bgMove/bgFrom/letterbox (now drawn or rejected by the engine) and copy/copyRead (now reserved). None of the jobs in ~/Downloads/launch-videos use them (grepped); jobs elsewhere were not checked.",
+   "REEL-2's fix was verified in 9:16 only (wa, PASS with 0 px). The wipe in 16:9 and 1:1, the reel-sample s6 restack, and the film-pixel delta around the divider still need checking.",
+   "ENG-3's fix (outer tiles +1 px, centre tile drawn last) was not re-verified by me; it needs t_seam plus a --layers footage restack.",
+   "ENG-7's proposed QA rule (incoming-side neighbours for a cut after a block-driven exit) is not implemented; it needs qa-probe/qa-probe2 still failing as labelled, and a planted mis-timed cut after a type-through still failing.",
+   "Outside this group, flagged only: hf02-skill/beats.yaml shot d copy ('Build me a hit app. No half measures', 'Pulling every breakout app launch…') should be checked against the reference film's lines for the originality contract.",
+   "Long sticker `kicker` (nowrap, no maxW): the fit loop shrinks the title for all 8 iterations without ever shrinking the kicker. Text QA probably catches a frame-clipped kicker; not reproduced."
+  ],
+  "film": [
+   "HOUSEKEEPING, please act: while making a runnable copy I accidentally created the symlink /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules -> /Users/bytedance/.claude/skills/product-launch-sting/node_modules (a stray `ln -s` through snap's node_modules symlink, 00:46). My removal (`rm` on that symlink only) was denied by the auto-mode classifier. Node module resolution is unaffected, but `diff -r` and `rsync` over the live skill now see a directory loop. Please remove that one symlink: `rm /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules`.",
+   "Fixes were verified only in work/opus-film/skill_fix and skill_qa: 16x9 and 9x16 storyboards, a roster `--layers` stack check in 9x16, freeze probes and `--qa` re-runs. Not re-run: film-sample and hf02-skill with the fixes, 1x1 for roster and wall, `--layers` for the wall and for the lockup/agent fixes, and the qa-probe/qa-probe2 cut probes after the qa.mjs change (they don't use `type`, so they should be unaffected).",
+   "Not tested: agent `scroll: always` combined with a title/steps (the `early` filter counts the title and steps as already there, so `total` spans the whole column), and the dark composer's pre-wrap bar growing downward past the area with long prompts (QA text only sees the hero frame).",
+   "stack: a card leaving the front wraps to q + n at full opacity when n ≤ 9, which can pop in at the back. I looked at frames 560–562 of the starter; inconclusive, and it is cosmetic.",
+   "wall: `!chipSlots.includes(sl) && r() < .16` short-circuits the rng, so changing the chip list or a chip label re-deals every card's shape and tilt. That surprises review-sheet edits, but it is not a contract break.",
+   "Block validate() output only becomes --grid warnings (timeline.mjs:87); spec.mjs carries the real errors. Any new film-block check must go into spec.mjs to give rc 2.",
+   "Originality: grep found no reference-film copy in the snapshot blocks or templates. hf02-skill proof copy ('Your crew', 'View all 15 agents') comes from hf02-recreate, which MOTION-SPEC.md:4 documents as our own copy. I did not compare against the Higgsfield source frames, and no ref/ frames appeared in any output I rendered.",
+   "Sonnet's scratch probes (scratchpad/review/FILM/*) were wiped. Every number above was re-measured with my own tools in work/opus-film/tools (chips.mjs, shots.mjs, probe.mjs, srcs.mjs, audit.mjs, val.sh)."
+  ],
+  "lib+tools+docs": [
+   "Codex produced no verdicts (usage limit), so every Sonnet finding above was judged by this pass alone, with no second opinion.",
+   "Engine-group items I saw but did not verify: the drift entrance in runtime.js:43 is still .07 W / .08 H with ×0.7 decay, while ANSWERS-measurements recommends ≈.10 W / .085 H with ×0.65 (REPORTS calls it 'answered'). type.js:41 builds 0×0 wrapper divs (`width:0;height:0`), a listed compositing trap.",
+   "There is no validation that a shot is long enough for the cross-cut windows it takes part in. In a shot shorter than the incoming post plus outgoing pre (tunnel 10+7, smear/flash 11), xfxAt switches to the exit overlay early and the incoming overlay jumps; not reproduced.",
+   "The whoosh QA search window [t−0.25 s, t+0.1 s] can pick up a neighbouring whoosh when cuts are under ~0.3 s apart (a whip next to a louder tunnel); not reproduced.",
+   "Footage with an alpha channel (ProRes 4444 / VP9-alpha .mov/.webm) used as a float/stack card is extracted to JPEG and loses its transparency (black card background); not tested.",
+   "There is no per-aspect `bg`: a 16:9 AI clip in a 9:16 cut is cover-cropped to the middle ~32 % of its width, although the starters say 'each aspect is re-laid out, not cropped'. That holds for overlays only; whether to add per-aspect bg is a product call for Alex.",
+   "--tempo folding (>180 or <60 BPM) keeps the phase of the unfolded grid, so the folded start can land on an off-beat; not reproduced.",
+   "No sample job in ~/Downloads/launch-videos runs full film QA across glitch/smear/tunnel/flash. My own work/opus-libtoolsdocs/xc film (all four plus a dark tunnel and a drift) passed QA, but these cuts have no standing regression job, and REPORTS' 'pixel-identical' set doesn't cover them.",
+   "CapCut alpha import, After Effects live text and the layers footage pass were out of scope for this group and not re-tested."
+  ]
+ }
+}

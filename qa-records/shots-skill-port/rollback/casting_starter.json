@@ -1,0 +1,31 @@
+{
+ "_note": "casting.json starter (CASTING.md). Fill every <placeholder> (a --go refuses any left), run `casting.py plan`, quote it to the user. Prompts describe what things ARE; never name what must not appear (that pulls the model toward it): such words go in \"ban\", a build check. Paths are relative to this file; {NAME} expands a snippet from \"text\" or the built-ins (SHEET, LOCK, KEEP, STATE, FACELESS, GREY, TAIL, PROP_TAIL, PLATE_TAIL, PRE_FACE, PRE_LOC).",
+ "root": "..",
+ "grey": "#8a8a8a",
+ "cap": 10,
+ "ledger": "../cast/ledger.jsonl",
+ "ban": [],
+ "text": {
+  "WHO": "<who: one person in plain words, e.g. an East Asian woman of about 40 with light warm skin, short straight black hair, strong dark eyebrows, dark brown eyes and faint laugh lines>",
+  "WARDROBE": "<wardrobe: the one outfit for the whole film, e.g. a plain navy work jacket over a grey T-shirt, dark jeans and white trainers>"
+ },
+ "candidates": {
+  "look-1": {"n": 2, "prompt": "{SHEET} The person is {WHO}, wearing {WARDROBE}. {TAIL}"}
+ },
+ "lock": {
+  "hero": {"prompt": "{LOCK} {KEEP}", "restore": {"ellipse": [480, 545, 235, 290], "feather": 28}, "pin": {}}
+ },
+ "states": {
+  "state-2": {"refs": ["sheet:hero"], "prompt": "{STATE} <the change, e.g. soaked from the rain: hair wet and flat, the jacket dark with water>. LEFT panel: a front-facing close-up of the head and shoulders, eyes to camera. MIDDLE panel: the full body from the front, the face area left as a soft plain shadow with no features. RIGHT panel: the full body from behind. {TAIL}", "pin": {}},
+  "costume": {"refs": ["sheet:hero"], "prompt": "Image 1 is the locked character sheet. A faceless costume detail sheet: {FACELESS} <tiles: e.g. 1 the jacket's collar and badge; 2 the watch on the left wrist; 3 the trainers from the side and from below>. {PROP_TAIL}", "pin": {}},
+  "props": {"refs": ["sheet:hero"], "prompt": "Image 1 shows the world these props belong to. A faceless props sheet: {FACELESS} <tiles, each prop front, side and back, and from below when it will be flipped or tumbled: e.g. 1 a small silver laptop, closed>. {PROP_TAIL}", "pin": {}}
+ },
+ "locations": {
+  "place-1": {"refs": [], "prompt": "An empty location plate, three-quarter view, no people: <the place, its materials, and a clean corridor where the action happens>. <the light, pinned: e.g. low warm sun from the left, cool shadows>. <lens, e.g. 24mm>. {PLATE_TAIL}"}
+ },
+ "stills": {
+  "S01": {"batch": "identity", "face": "hero", "refs": ["sheet:hero", "loc:place-1"], "prompt": "{PRE_FACE}{PRE_LOC}<the shot's first frame: framing, where the person is and what they do, expression, light>", "meta": {"shot": "S01"}}
+ },
+ "fixes": {},
+ "faces": {"hero": [120, 150, 820, 850]}
+}

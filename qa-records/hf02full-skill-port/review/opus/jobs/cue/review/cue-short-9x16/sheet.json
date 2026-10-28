@@ -1,0 +1,220 @@
+{
+ "v": 1,
+ "title": "Cue — A day, handled",
+ "brand": "Cue",
+ "slug": "cue",
+ "cut": "short",
+ "aspect": "9x16",
+ "dur": 16.45,
+ "bpm": 124,
+ "film": {
+  "src": "film.mp4",
+  "sha": "06839df",
+  "rendered": "2026-10-20T11:18:09.419Z",
+  "proxyBytes": 633413
+ },
+ "stills": false,
+ "built": "2026-10-21T08:23:59.291Z",
+ "accent": "#3E7BFA",
+ "accentDark": "#95B6FC",
+ "blocks": [
+  {
+   "id": "title",
+   "doc": "Opener lockup \"<pre> [logo] <name>\": the words slide in, the logo springs, an optional badge bubble pops, a sub line fades in"
+  },
+  {
+   "id": "headline",
+   "doc": "A big statement: 1–3 lines with an *accent* phrase, optional kicker label above and sub line below; words rise in one by one"
+  },
+  {
+   "id": "cast",
+   "doc": "Headline over a row of characters that spring up one after another and keep hopping (two rows on portrait)"
+  },
+  {
+   "id": "orbit",
+   "doc": "A hero (character or logo) with 2–5 satellites (icon + label) flying out to it, joined by moving dotted lines; headline above"
+  },
+  {
+   "id": "field",
+   "doc": "Headline beside a hero surrounded by orbiting app tiles in three rings; the tiles fling outward on a zoom-out exit"
+  },
+  {
+   "id": "stat",
+   "doc": "A big number that counts up (with ticks) and lands with a pop, a label under it and an optional sub line"
+  },
+  {
+   "id": "media",
+   "doc": "Your own image or footage (live action, screen recording) full-bleed or in a phone/browser frame, with a slow Ken Burns move and an optional headline over a soft scrim"
+  },
+  {
+   "id": "endcard",
+   "doc": "Closing lockup: logo + name, a tagline, CTA buttons, an optional URL and an optional row of characters hopping in"
+  },
+  {
+   "id": "phone",
+   "doc": "A phone running a UI flow (chat, cards, taps, toasts, agent steps, screenshots) beside a headline (above it on portrait)"
+  },
+  {
+   "id": "browser",
+   "doc": "A desktop browser / app window running a UI flow (with a mouse cursor for taps), headline above it"
+  },
+  {
+   "id": "panel",
+   "doc": "A floating UI panel (no device) running UI items"
+  },
+  {
+   "id": "prompt",
+   "doc": "A big prompt box: placeholder → the task is typed with key ticks → send → optional agent steps tick off below"
+  }
+ ],
+ "transitions": [
+  "cut",
+  "whip-left",
+  "whip-right",
+  "whip-up",
+  "whip-down",
+  "zoom-in",
+  "zoom-out",
+  "blur"
+ ],
+ "shots": [
+  {
+   "id": "s1",
+   "n": 1,
+   "start": 0,
+   "end": 2.9,
+   "tcIn": "00:00:00",
+   "tcOut": "00:02:27",
+   "beats": 6,
+   "sec": 2.9,
+   "block": "title",
+   "out": "zoom-in",
+   "last": false,
+   "theme": null,
+   "headline": "Meet Cue",
+   "screen": [
+    "logo lockup, “Hi!” bubble",
+    "sub line “by Manus”"
+   ],
+   "sound": [
+    "2 pops",
+    "whoosh into the next shot"
+   ],
+   "note": "Stand-in logo mark until the Manus brand kit (official Cue logo SVG).",
+   "thumb": "thumbs/s1.jpg"
+  },
+  {
+   "id": "s3",
+   "n": 2,
+   "start": 2.9,
+   "end": 6.7667,
+   "tcIn": "00:02:27",
+   "tcOut": "00:06:23",
+   "beats": 8,
+   "sec": 3.87,
+   "block": "phone",
+   "out": "whip-left",
+   "last": false,
+   "theme": null,
+   "headline": "*8 AM.* Inbox, cleared.",
+   "screen": [
+    "phone",
+    "header “Cue” — Sorting your inbox",
+    "row “Newsletters” (38 archived) ✓",
+    "row “Invoice from Acme” (Filed to Finance) ✓",
+    "row “Dentist” (Moved to Thursday) ✓"
+   ],
+   "sound": [
+    "7 pops",
+    "whoosh into the next shot"
+   ],
+   "note": "Claim: each agent has its own email (confirm).",
+   "thumb": "thumbs/s3.jpg"
+  },
+  {
+   "id": "s5",
+   "n": 3,
+   "start": 6.7667,
+   "end": 10.65,
+   "tcIn": "00:06:23",
+   "tcOut": "00:10:20",
+   "beats": 8,
+   "sec": 3.88,
+   "block": "phone",
+   "out": "whip-up",
+   "last": false,
+   "theme": null,
+   "headline": "*1 PM.* Dinner, booked.",
+   "screen": [
+    "phone",
+    "message “Found a table for 2 at 7:30.”",
+    "card “Approve deposit?” $20.00 [Decline / Approve]",
+    "taps Approve",
+    "toast “Booked. Deposit paid.”"
+   ],
+   "sound": [
+    "3 pops",
+    "1 click",
+    "1 chime",
+    "whoosh into the next shot"
+   ],
+   "note": "Claim: Cue only spends after you approve (confirm).",
+   "thumb": "thumbs/s5.jpg"
+  },
+  {
+   "id": "s8",
+   "n": 4,
+   "start": 10.65,
+   "end": 12.5833,
+   "tcIn": "00:10:20",
+   "tcOut": "00:12:18",
+   "beats": 4,
+   "sec": 1.93,
+   "block": "headline",
+   "out": "cut",
+   "last": false,
+   "theme": "dark",
+   "headline": "Your day. *Handled.*",
+   "screen": [
+    "kicker “8 PM”",
+    "words rise in"
+   ],
+   "sound": [
+    "drums drop out"
+   ],
+   "note": null,
+   "thumb": "thumbs/s8.jpg"
+  },
+  {
+   "id": "s9",
+   "n": 5,
+   "start": 12.5833,
+   "end": 16.45,
+   "tcIn": "00:12:18",
+   "tcOut": "00:16:14",
+   "beats": 8,
+   "sec": 3.87,
+   "block": "endcard",
+   "out": "cut",
+   "last": true,
+   "theme": null,
+   "headline": "Cue",
+   "screen": [
+    "end card “Your own team of AI agents.”",
+    "buttons Get it on iOS / Get it on Android",
+    "7 characters"
+   ],
+   "sound": [
+    "1 hit",
+    "7 pops"
+   ],
+   "note": "Stand-in logo + characters; app stores and URL to confirm.",
+   "thumb": "thumbs/s9.jpg"
+  }
+ ],
+ "notes": {
+  "collection": "notes",
+  "doc": "short~<shot id>",
+  "film": "short~_film"
+ }
+}

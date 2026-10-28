@@ -1,0 +1,446 @@
+{
+ "group": "engine",
+ "findings": [
+  {
+   "id": "ENG-1",
+   "opus": {
+    "id": "ENG-1",
+    "verdict": "CONFIRMED",
+    "severity": "HIGH",
+    "title": "Camera field `move: [x, y]` collides with media's documented Ken Burns `move: in|out|left|right|none`",
+    "file": "video/lib/spec.mjs",
+    "line": 189,
+    "root_cause": "spec.mjs:176-189 validates `move` on every shot as a camera pair, so media's documented string values now fail. runtime.js:51-52 (CAM_FIELDS/hasView) also treats any non-null `move` as a camera field, and media.js:50 reads the same key. One shot field has two meanings. GUIDE.md:151 lists `move` as a media field while GUIDE.md:213 gives `move` to the engine, `lv.mjs --blocks` prints both, and sheet.mjs:78 would print an array value as text.",
+    "evidence": "Repro on the snapshot copy, job work/opus-enginereel/m1 (media `src: assets/pic.svg, move: left` + headline). `node skill/video/lv.mjs --job m1 --grid` stops with `✗ beats.yaml has problems: shots[0] (a): move must be [x, y], a constant drift … (got \"left\")`. `node pre/video/lv.mjs --job m1 --grid` prints the timeline. The reverse case comes from the code path: with `move: [0,-.04]`, media.js:50 matches none of in/out/left/right/none, so the shot holds a static 1.1 scale with dx 0 and loses its Ken Burns. No job in ~/Downloads/launch-videos uses media `move` (grep). hf02-skill uses camera `move: [0, -0.04]` on an agent shot, so a pure rename would also touch that job. The same root cause (new engine-owned names on every shot) would silently double-apply zoom/focus/offset/pan in any custom block that already had params with those names. None exist in the local jobs.",
+    "fix": "Key `move` by type rather than renaming it. (1) spec.mjs:189: skip the camera check when the value is a string. (2) runtime.js: make hasView/camFields/viewFor/makeCtx treat `move` as a camera field only when `Array.isArray(perAspect(s.move))`. (3) media.js:50: `const move = typeof s.move === 'string' ? s.move : 'in'`. (4) Fix GUIDE.md:213, the `lv.mjs --blocks` common-fields line and sheet.mjs:78. Re-verify: media with each of in/out/left/right/none passes --grid and its storyboard and film frames are pixel-identical to PRE; hf02-skill shot d is pixel-identical to the snapshot. Add a media `move: left` job to the regression set.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "ENG-1",
+    "severity": "HIGH",
+    "file": "video/lib/spec.mjs (176-189) + video/engine/runtime.js (51-52, 64) + video/engine/blocks/media.js (11, 50)",
+    "line": 176,
+    "category": "back-compat / name collision",
+    "title": "Engine camera field `move: [x, y]` collides with the media block's documented Ken Burns param `move: in|out|left|right|none`",
+    "failure_scenario": "An existing job with `{block: media, src: assets/pic.jpg, move: left}` (the documented media param: GUIDE.md:151 table, `lv.mjs --blocks`) now stops at --grid with exit 2 \"move must be [x, y], a constant drift…\" (every shot is validated for the camera fields). Writing the array form instead passes the spec but media.js:50 reads `s.move || 'in'`, so the array matches none of in/out/left/right/none and the shot gets a static 1.1 scale instead of Ken Burns; the same value also drives the engine camera, so one field means two things. The GUIDE contradicts itself: line 151 lists `move` as a media param, line 213 says the engine owns `move` on every shot.",
+    "evidence": "Job /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/work/ENG/j2/beats.yaml (two media shots, `move: left` and `move: out`, otherwise valid). `node pre/video/lv.mjs --job j2 --grid` → rc=0, timeline printed. `node skill/video/lv.mjs --job j2 --grid` (snapshot copy) → rc=2: \"shots[0] (a): move must be [x, y]… (got \\\"left\\\")\" and the same for shots[1]. grep of every pre block shows media is the only built-in whose param collides with zoom/focus/offset/pan/move/drift (wall's string `drift` is special-cased; media's `move` is not). No sample job in ~/Downloads/launch-videos happens to use media `move`, which is why the regression runs did not see it. lib/sheet.mjs:67 also still describes media with `s.move`.",
+    "reproduced": true,
+    "suggested_fix": "Key the camera field by type: in spec.mjs skip camera validation of `move` when the value is a string (or when block is media), and in runtime.js make hasView/viewFor/camFields treat `move` as a camera field only when Array.isArray(s.move) (or per-aspect map of arrays). Better: rename the camera field (e.g. `glide:`) and keep media's `move` untouched. Update GUIDE.md:213 accordingly and add a media `move: left` job to the regression set."
+   }
+  },
+  {
+   "id": "REEL-1",
+   "opus": {
+    "id": "REEL-1",
+    "verdict": "CONFIRMED",
+    "severity": "HIGH",
+    "title": "Duplicate of ENG-1: media `move: left|none…` fails --grid; array `move` on media kills its Ken Burns",
+    "file": "video/lib/spec.mjs",
+    "line": 189,
+    "root_cause": "Same as ENG-1: spec.mjs:189 plus runtime.js:51-52 CAM_FIELDS and media.js:50 share the `move` key.",
+    "evidence": "Same repro as ENG-1: m1 fails on the snapshot with the camera-pair error and passes on PRE. Sonnet's p9 (left / none / default) shows the same two errors.",
+    "fix": "Same fix as ENG-1 (type-keyed `move`). Track it as one item.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-1",
+    "severity": "HIGH",
+    "category": "back-compat / spec validation",
+    "file": "video/lib/spec.mjs",
+    "line": 189,
+    "title": "media's documented Ken Burns field `move: in|out|left|right|none` now collides with the new camera field `move: [x, y]`; every such job fails --grid",
+    "failure_scenario": "A media shot with `move: left` (or in/out/right/none) — the values listed in media.js params, GUIDE.md:151 and `lv.mjs --blocks` — now exits 2 with \"move must be [x, y], a constant drift in fractions of the frame per second\". The PRE version accepted the same file. GUIDE.md:108 also promises camera fields are opt-in and \"old shots render exactly as before\". The collision is symmetric: a media shot given the new array `move: [0,-0.04]` silently loses its Ken Burns (media.js:50 falls through to a constant 1.1 scale, dx=0).",
+    "evidence": "Job work/REEL/p9 (3 media shots: move left, move none, default). `node work/REEL/s/video/lv.mjs --job work/REEL/p9 --grid` -> rc=2 with two errors (m1 got \"left\", m2 got \"none\"). `node work/REEL/pre/video/lv.mjs --job work/REEL/p9 --grid` -> rc=0, timeline printed. Causes: lib/spec.mjs:189 validates `move` on every block with pair(v,-1,1); engine/runtime.js:51-52 CAM_FIELDS/hasView treat any non-null s.move as a camera field (a string would also switch on the v2 camera and its different motion blur if it ever got past validation). Only media has a param named like a camera field (grepped all pre/snap block params; wall's `drift` is special-cased). No job under ~/Downloads/launch-videos uses media `move:` today, so nothing shipped is affected yet.",
+    "reproduced": true,
+    "suggested_fix": "Make camera `move` mean the camera only when it is an array or a per-aspect map: skip strings in spec.mjs:189 and in runtime.js hasView/viewFor/camFields, so media keeps its string Ken Burns. Or rename media's field (e.g. `kenburns`) with `move:<string>` kept as an alias, and fix GUIDE/--blocks. Add a regression check: media with each of in/out/left/right/none must pass --grid and render pixel-identically to PRE."
+   }
+  },
+  {
+   "id": "LIB-1",
+   "opus": {
+    "id": "LIB-1",
+    "verdict": "CONFIRMED",
+    "severity": "HIGH",
+    "title": "The new camera field `move: [x,y]` collides with media's documented Ken Burns `move: in|out|left|right|none`. Old media shots now fail --grid, and a camera move on a media shot silently stops its Ken Burns",
+    "file": "video/lib/spec.mjs",
+    "line": 189,
+    "root_cause": "Today's camera fields reuse the name `move`, which the built-in media block already owned. spec.mjs:189 applies the [x,y] pair check to every block. runtime.js:52 `hasView` treats any non-null `move` as a camera view. media.js:50-56 still reads `s.move` as its own string.",
+    "evidence": "Reproduced with work/opus-libtoolsdocs/media_move_left (media src: png, move: left). Pre copy: `--grid` rc 0. Snap: rc 2 with 'shots[0] (a): move must be [x, y], a constant drift … (got \"left\")'. The param is still documented in media.js:11, in GUIDE.md:151 (block table) and in `--blocks`. GUIDE.md:213 says the engine owns `move` on every shot. Relaxing only the validator is not enough. In runtime.js:52/64 a string `move` makes `hasView` true and `mv[0]`='l' gives NaN→0, so the shot switches to the v2 blur path and its pixels change. The reverse also breaks: a valid camera `move: [0,-.04]` on a media shot makes media.js:55 skip in/out/none and take the static `sc = 1.1` branch, so its Ken Burns zoom disappears with no warning. No beats.yaml under ~/Downloads uses the string form today (grep), but it is a documented param.",
+    "fix": "(1) spec.mjs: for the built-in media block, accept a string `move` from in|out|left|right|none and skip the camera pair check. Error on any other string. (2) runtime.js `hasView`/`camFields`/`viewFor`: count `move` as a camera field only when it is an array or a per-aspect map. (3) media.js:50: `const move = typeof s.move === 'string' ? s.move : 'in'`. (4) GUIDE:213 and the `--blocks` 'Common to every shot' line: say a string move on media is its Ken Burns and a list is the camera drift. Then re-verify: a media `move: left` job renders pixel-identical to pre, and a media shot with `move: [0,-.04]` keeps its Ken Burns.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-1",
+    "severity": "HIGH",
+    "file": "video/lib/spec.mjs",
+    "line": 189,
+    "title": "New camera field `move: [x,y]` collides with the media block's documented `move: in|out|left|right|none`; old media shots now fail --grid",
+    "failure_scenario": "A pre-existing job with `{block: media, src: assets/a.png, move: left}` (or in/out/right/none, the Ken Burns choices listed in media's own `--blocks` params and in GUIDE's block table) compiled before today. Now `--grid` exits 2: \"shots[0] (a): move must be [x, y], a constant drift in fractions of the frame per second ... (got \"left\")\". The documented media param is unusable, and the error tells the user to give a camera drift they never asked for.",
+    "evidence": "Repro: work/LIB/fz/media_move_left/beats.yaml. `node pre/video/lv.mjs --job fz/media_move_left --grid` -> rc 0; `node skill/video/lv.mjs --job fz/media_move_left --grid` -> rc 2 with the message above (spec.mjs:189 `for (const [k, v] of each('move')) if (v != null && !pair(v, -1, 1))` applies to every block). engine/blocks/media.js:11 (params doc) and :50 (`const move = s.move || 'in'`) still use the string form; GUIDE.md:151 lists `move` for media; GUIDE.md:213 claims the engine owns `move` on every shot but only warns custom blocks. The runtime has the same collision: runtime.js:52 `hasView = s => CAM_FIELDS.some(k => s[k] != null)` would turn a string `move` into an opt-in camera view (velocity blur path) with mv='left' -> NaN -> 0, so only relaxing the validator is not enough. grep of all blocks shows media is the only built-in using a camera-field name for its own param.",
+    "reproduced": true,
+    "suggested_fix": "Exempt `media` (like wall's string drift): in spec.mjs skip the camera `move` check when the value is one of in|out|left|right|none on the built-in media block, and make runtime.js `hasView`/`viewFor` ignore a string `move` (or rename the camera field). Update the GUIDE/--blocks text to say which `move` each block means."
+   }
+  },
+  {
+   "id": "ENG-2",
+   "opus": {
+    "id": "ENG-2",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "A truncated JPEG/PNG used as bg (or in a block image field) passes --grid, the stage build and film QA, and ships a frame with its lower part blank",
+    "file": "video/lib/spec.mjs",
+    "line": 45,
+    "root_cause": "imageProblem() (spec.mjs:45-56) sniffs only the first 4096 bytes. Chrome's img.decode() resolves for a partly decodable raster and leaves the undecoded rows transparent, so the build check in runtime.js:349 passes. The runtime.js:347 comment wrongly says a truncated download is refused. Film QA cannot see it because footage counts as content.",
+    "evidence": "work/opus-enginereel/trunc is a copy of Sonnet's jt_trunc.jpg job; trunc.jpg is a cut-off JPEG, and xxd shows its last bytes are not FFD9. `--grid` passes. `t_open.mjs … 16x9 40` reports `OK built … []` with no page error. Screenshot trunc_f40.png shows the bottom ≈46 % of the frame as the flat dark underlay, with the mirrored strip under it. Sonnet's --film on the PNG variant: QA PASSED (9 checks). ffmpeg detects the damage: `ffmpeg -v error -i trunc.jpg -f null -` prints `[mjpeg] overread 8`, trunc.png prints `chunk too big … Decoding error`, and the intact pic.jpg/pic.png print nothing.",
+    "fix": "In spec.mjs decodable(), also run `ffmpeg -v error -i <file> -f null -` once per image (cache by size+mtime). Any stderr becomes a --grid error: `<path> is damaged or cut short (a truncated download?) — re-export it`. Do NOT require JPEG to end in FFD9: Pixel Motion Photos and Samsung files append data after EOI and would false-fail. Correct the runtime.js:347 comment. Re-verify: the truncated jpg/png fail at --grid with exit 2, and the 83 asset images plus the placeholders still pass.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "ENG-2",
+    "severity": "MEDIUM",
+    "file": "video/engine/runtime.js (347-349) + video/lib/spec.mjs (imageProblem, 45)",
+    "line": 347,
+    "category": "validation hole / QA blind spot",
+    "title": "A truncated or part-corrupt JPEG/PNG used as bg passes --grid, the stage build and film QA, and ships a half-empty frame — the 'truncated download' case the code comment claims to refuse",
+    "failure_scenario": "The comment at runtime.js:347 says an undecodable file (\"a truncated download, an HTML page or a HEIC saved as .jpg\") stops the build. Chrome's img.decode() resolves for a partially decodable raster, imageProblem() only sniffs the first 4096 bytes, so a bg image cut off mid-download renders the top part of the picture and the rest as the dark underlay plus the mirrored strip. Film QA passes because the content reference deliberately hides footage.",
+    "evidence": "work/ENG/jt_trunc.jpg and jt_trunc.png (work/ENG/j4/assets/pic.jpg / pic.png cut at 50% of their bytes, used as `bg:` on a headline shot) and work/ENG/jb (assets/corrupt.png = 400 bytes of mid-IDAT XORed). `lv.mjs --grid` rc=0 for all; t_open.mjs: stage builds with no error; screenshots jt_trunc.jpg.png, jt_trunc.png.png and jb_corrupt.png show the bottom ~47% of the frame as flat dark. `lv.mjs --job jt_trunc.png --film --aspect 16x9` → \"QA PASSED (9 checks)\" (jt.film.log). A fully broken SVG is caught (\"bg assets/broken.svg could not be decoded as an image\"), so only partial decodes slip through.",
+    "reproduced": true,
+    "suggested_fix": "Extend imageProblem() with tail checks: JPEG must end FFD9 (ignoring trailing zero padding), PNG must end with an IEND chunk (ideally walk chunks and CRC them), WebP RIFF size must equal file size − 8, GIF must end 0x3B. Optionally, at build, draw each decoded bg/img to a canvas and refuse an image whose last row is fully transparent or uniform grey. Fix the runtime.js:347 comment and the GUIDE.md:567 sentence to say what is actually caught."
+   }
+  },
+  {
+   "id": "ENG-3",
+   "opus": {
+    "id": "ENG-3",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Mirror-extended bg plate shows 1-px dark seams at tile joins while the total scale is < 1 (opening and plain-cut entrances, a few frames)",
+    "file": "video/engine/runtime.js",
+    "line": 327,
+    "root_cause": "buildFoot lays nine abutting <image> tiles exactly W×H apart. When camera × Ken Burns scale < 1 the joins fall on fractional pixels. The two antialiased edges do not sum to full coverage, so the dark underlay shows through as a hairline.",
+    "evidence": "Repro with work/opus-enginereel/j6 (flat-colour cc.mp4 as bg, bgDim 0, bgMove none), using t_seam.mjs on the snapshot copy. Dips are 1-px values against flat neighbours: f2 at x=36 and 1883 (15 levels), f4 at x=22 and 1897 (18), f8 at x=8 and 1911 (20). There are none from f12 on, once the scale is ≥ 1. On a zoom-out exit and entrance (j6z, f81–96) there are no dips because the motion blur hides the seam. The seam is real but shows only in low-blur frames with scale < 1, a few frames per bg shot, as a hairline near the edge. That is why I rate it LOW rather than MEDIUM.",
+    "fix": "Grow the 8 outer tiles by 1 px on every side (x−1, y−1, W+2, H+2; the flip transform about each tile's centre is unchanged) and append the centre tile last so it paints over the overlap. The centre picture keeps its exact geometry. (Sonnet's variant, ±1 px on all nine tiles, also works but rescales the centre by 0.1 %.) Re-verify t_seam on j6 and j8, and that --layers on a bg shot (footage layer) still restacks.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "ENG-3",
+    "severity": "MEDIUM",
+    "file": "video/engine/runtime.js",
+    "line": 325,
+    "category": "correctness / visible artifact",
+    "title": "The mirror-extended bg plate has 1 px dark seam lines at the tile joins whenever camera × Ken Burns scale is below 1 (every bg shot's first ~3 frames, ~8 at film start, longer with bgMove: none)",
+    "failure_scenario": "buildFoot lays nine abutting <image> tiles. When the shot's total scale is below 1 the tile boundaries fall inside the frame at fractional pixel positions; the two antialiased edges do not add to full coverage and the near-black underlay (C.dark) shows through as a 1 px line, 15–40/255 darker than the picture (a 'hard edge', exactly what the mirror extension is meant to avoid). It happens at the opening (first shot enters at s −0.06), on the default cut entrance (s −0.04 × Ken Burns 1.02 < 1 for ~3 frames = 6 frames at 60 fps, seams 20→3 px inside each edge), on zoom-in/blur/whip entrances, and for ~13 frames with bgMove: none.",
+    "evidence": "work/ENG/j8 (two bg shots, pic.jpg, bgDim 0) and t_seam.mjs (row scan for single-pixel dips next to equal neighbours): f58.5 dips at x=14 (24/255) and x=1905 (30); f59.5 x=5 (33) and x=1914 (40) — the first frames of shot b after a plain cut. work/ENG/j6 (uniform colour footage): f2 x=36/1883, f4 x=22/1897, f4.5 x=20/1899, f8 x=8/1911 with a 15–25 dip on a perfectly flat field. Screenshot work/ENG/j7_f2_crop.png (8× crop of x 0–120, first shot, f2) shows the dark vertical hairline at x≈15. Patched copy work/ENG/skill_fix (tile attributes x−1, y−1, width W+2, height H+2; the flip transform is about the same centre so it is unchanged): the edge dips at x=14/1905/5/1914 disappear (remaining dips at x≈935 are picture content, present in both).",
+    "reproduced": true,
+    "suggested_fix": "runtime.js:327 — give every tile a 1 px overlap: ['x', x − 1], ['y', y − 1], ['width', W + 2], ['height', H + 2]. (Alternatively paint one unflipped, slightly oversized backing <image> under the nine tiles.)"
+   }
+  },
+  {
+   "id": "ENG-4",
+   "opus": {
+    "id": "ENG-4",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "A block layer named `footage` in a shot without bg is allowed, but --layers QA treats it as the engine's footage layer and FAILs (layers / bg / stack)",
+    "file": "video/lib/layers.mjs",
+    "line": 81,
+    "root_cause": "tagLayer (runtime.js:100-102) reserves `footage` only in shots that have bg, so the name is allowed elsewhere. lv.mjs:359 gives such a layer kind 'element', but layers.mjs:81-82 picks the engine layer by name. The block's layer is then dropped from the content count, has to sit at layers[1], and is composited in the bg group.",
+    "evidence": "Code path traced: runtime.js:419 puts 'footage' in `taken` only when hasBg; lv.mjs:358-359 builds the list with kind; layers.mjs:81 uses `l.name === 'footage'`; layers.mjs:108 checks `manifest.layers[1].name !== 'footage'`. Sonnet's jc repro: rc=1 with FAIL layers, FAIL bg and FAIL stack 43/44. No built-in block uses the name (grep of every `layers:` doc). Doc slip confirmed too: GUIDE.md:212 lists glitch under the reserved `transition` layer, but runtime.js:419 reserves it only for overlay types, and glitch has `overlay: false` (kit.js XFX).",
+    "fix": "layers.mjs:81-82: select the engine layers by manifest `kind` (`l.kind === 'footage'` / `'background'`) instead of by name. Do not reserve the name unconditionally, which would break existing custom blocks that use it. Drop glitch from the GUIDE.md:212 list. Re-verify the jc layers export passes, and the reel/film sample layers are unchanged.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "ENG-4",
+    "severity": "MEDIUM",
+    "file": "video/engine/runtime.js (100-105, 419) + video/lib/layers.mjs (81-82, 108) + video/GUIDE.md (210-212)",
+    "line": 102,
+    "category": "contract mismatch",
+    "title": "A block layer named `footage` is allowed in a shot without bg (tagLayer and GUIDE reserve it only 'in a shot that has them'), but --layers QA treats the name as the engine's footage layer and fails the export",
+    "failure_scenario": "A custom block that shows footage and, naturally, names its layer `footage` (ctx.el(html, css, 'footage')) in a shot with no `bg:` builds fine, but `--layers` then reports FAIL layers (the layer is excluded from the content count, 'everything landed in one layer'), FAIL bg ('the footage layer must sit right above the background') and FAIL stack (the layer is composited as bg-group, 43/44 frames off), exit 1: 'never ship a FAIL'. The reserved-name rule is enforced per shot but layer QA identifies the engine layer by name across the whole manifest.",
+    "evidence": "work/ENG/jc: custom block blocks/vidcard.mjs (layers 'headline · footage', no bg), shot a. `node skill/video/lv.mjs --job jc --layers a --aspect 16x9` → rc=1: \"FAIL layers everything landed in one layer (headline) although the shot has 2 elements\", \"FAIL bg the footage layer must sit right above the background (layers[1]), once\", \"FAIL stack 43/44 frames off the flattened transparent clip\" (jc.layers.log). lv.mjs:358 already gives the engine layer `kind: 'footage'` in the manifest but layers.mjs:81 filters by `l.name === 'footage'`.",
+    "reproduced": true,
+    "suggested_fix": "Reserve `footage` unconditionally in tagLayer (drop the `taken` condition for that name) and say so in GUIDE.md:210-212 — or make layers.mjs pick the engine layer by manifest `kind === 'footage'` instead of by name. (Small doc slip alongside: GUIDE.md:212 lists glitch under the reserved `transition` layer, but glitch draws no overlay layer and does not reserve the name.)"
+   }
+  },
+  {
+   "id": "ENG-5",
+   "opus": {
+    "id": "ENG-5",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "A .mp4/.mov that is not a video (HTML from a failed download, audio-only) passes --grid, then dies in plate extraction with raw ffmpeg stderr and a stack trace",
+    "file": "video/lib/spec.mjs",
+    "line": 270,
+    "root_cause": "Footage paths (bg, declared media fields, media src) get only an existence and extension check (spec.mjs:270, :285-286). render.mjs:53 ff() throws a plain Error, not a UserError, so lv.mjs:479 die() prints e.stack. This was already true for media `src`; bg and the reel/film footage fields make it reachable from every shot.",
+    "evidence": "Code path: common.mjs ff() does `throw new Error(`${what} failed:\\n${r.stderr}`)`; render.mjs:53 calls it with `extract footage for ${pl.key}`; lv.mjs:479 prints `e instanceof UserError ? e.message : (e.stack …)`. Sonnet's jd repro: --grid rc 0; --storyboard gives `Output file does not contain any stream` plus a stack, rc 1.",
+    "fix": "At --grid, ffprobe each footage path once (`-select_streams v:0 -show_entries stream=codec_type:format=duration`). Push a spec error when there is no video stream or no duration: `<path> is not a video file / has no picture track (a failed download?)`, so it exits 2. Also catch ff() failures in extractPlates and rethrow as UserError naming the shot and field. No render change.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "ENG-5",
+    "severity": "MEDIUM",
+    "file": "video/lib/spec.mjs (decodable/IMAGE_EXT only, 270 and the media-fields loop) + video/lib/render.mjs (53)",
+    "line": 270,
+    "category": "validation hole",
+    "title": "A file named .mp4/.mov that is not a video (failed download, audio-only clip) used as bg or a media field passes --grid and dies later with raw ffmpeg stderr and a JS stack trace",
+    "failure_scenario": "imageProblem() was added so image problems give 'one clear line at --grid', but footage files are only checked for existence and extension. `bg: assets/clip.mp4` that is an HTML/text file or an audio-only mp4: --grid exits 0 and prints the timeline; the first --storyboard/--film run fails in extractPlates with '✗ Error: extract footage for a:bg failed: … Output file does not contain any stream … Error opening output files' plus a stack, exit 1. The contract says bad input must give a clear --grid error (exit 2), never a stack trace. (Pre-existing for media `src`; the new bg and declared media fields extend the exposure to every shot.)",
+    "evidence": "work/ENG/jd: assets/fake.mp4 (text) and assets/audio_only.mp4 (sine wave). Snapshot: `--job jd --grid` rc=0 for both; `--storyboard --aspect 16x9` → ffmpeg 'Output file does not contain any stream' + 'at ff (…/common.mjs:35)…' stack, rc=1. Pre has the same behaviour for `block: media, src: assets/fake.mp4` ('moov atom not found' + stack), so it is not new for media but is new for bg and block media fields.",
+    "reproduced": true,
+    "suggested_fix": "At --grid, ffprobe each footage path (bg and every declared media field) once for a video stream and a duration, and push a clear spec error ('assets/x.mp4 is not a video file / has no picture track') so it exits 2; also catch ff() failures in extractPlates and rethrow as UserError without the stack."
+   }
+  },
+  {
+   "id": "LIB-5",
+   "opus": {
+    "id": "LIB-5",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "Bad footage reaches --storyboard/--film as a raw ffmpeg error with a Node stack: an unreadable .mp4 passes --grid, and `bgFrom` past the end of the clip skips the friendly 'too short' error",
+    "file": "video/lib/render.mjs",
+    "line": 53,
+    "root_cause": "spec.mjs only extension-checks video paths (decodable() is gated on IMAGE_EXT). extractPlates calls ff(), which throws a plain Error when ffmpeg exits non-zero (common.mjs:33-36). The UserError for a short clip (render.mjs:60-64) only runs when ffmpeg succeeded with too few frames, and lv.mjs:479 prints e.stack for any non-UserError.",
+    "evidence": "work/opus-libtoolsdocs/lf: `bg: assets/f.mp4` (6 s), `bgFrom: 100`. `--grid` rc 0, then `--storyboard` gives '✗ Error: extract footage for b:bg failed: [mjpeg] Non full-range YUV is non-standard … Error while opening encoder'. With an HTML page saved as bad.mp4: grid rc 0, then 'moov atom not found'. bgFrom 5.5 correctly gives the UserError 'is too short — the shot needs 1.93 s from 5.5 s, the file has 6.00 s'. The same code path existed before today for media `from`, and today extends it to bg and every declared footage field.",
+    "fix": "At --grid, add a footageIssues() pass like audioIssues: ffprobe each footage path and check for a video stream, a finite duration and from < duration, then report problems as spec errors (exit 2). In extractPlates, wrap ff() in a try/catch that rethrows UserError(`${shot} ${field}: ${src} can't be read as video (ffmpeg: <last stderr line>)`). Re-verify the HTML-as-mp4, empty file, audio-only mp4 and bgFrom-past-end cases.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-5",
+    "severity": "MEDIUM",
+    "file": "video/lib/render.mjs",
+    "line": 53,
+    "title": "Bad footage reaches `--storyboard/--film` as a raw ffmpeg stack trace: unreadable video passes --grid, and `bgFrom`/`<field>From` past the end of the clip never reach the friendly \"too short\" error",
+    "failure_scenario": "(a) A failed download saved as .mp4 (HTML page, empty file) passes `--grid` (imageProblem only runs for image extensions) and dies later with `Error: extract footage for a:bg failed: ... moov atom not found` plus a Node stack, exit 1. (b) `bgFrom: 100` on a 6 s clip (or any `*From` beyond the file) produces ffmpeg mjpeg encoder noise (\"Non full-range YUV is non-standard ... Error while opening encoder\") and a stack trace instead of the UserError the code already has for short clips. Both break the contract that bad input gives a clear spec error.",
+    "evidence": "(a) work/LIB/fz/bg_mp4_html and bg_mp4_empty: `--grid` rc 0, `--storyboard --aspect 16x9` rc 1 with `at ff (common.mjs:35) at extractPlates (render.mjs:53)`. (b) work/LIB/lf2 (bgFrom: 100): rc 1, first line `Error: extract footage for b:bg failed: [mjpeg @ ...] Non full-range YUV is non-standard...` + stack; work/LIB/lf3 (bgFrom: 5.5 on 6 s) correctly gives `b bg: assets/f.mp4 is too short - the shot needs 1.93 s from 5.5 s, the file has 6.00 s in total. Lower `bgFrom`...`. The too-short branch (render.mjs:60-64) only fires when some frames were produced; `ff()` throws a plain Error when none were (common.mjs:35), and lv.mjs:479 prints e.stack for non-UserError. spec.mjs:88 `decodable()` and imageProblem() are gated by IMAGE_EXT, so video paths (spec.mjs:270, 286) are only extension-checked.",
+    "reproduced": true,
+    "suggested_fix": "In extractPlates, ffprobe the file first (video stream present, duration > from) and throw UserError(`${shot} ${field}: ${src} is not a readable video` / `bgFrom N is past the end (file is X s)`); wrap the `ff` call to convert failures into UserError with the file name. Optionally add a cheap container sniff for video extensions in spec.mjs (ftyp / EBML / RIFF) so --grid says it."
+   }
+  },
+  {
+   "id": "ENG-6",
+   "opus": {
+    "id": "ENG-6",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Shot shorter than prev.post + own.pre between two cross-cut overlays: the incoming overlay is cut off mid-envelope and the corridor snaps; no warning",
+    "file": "video/engine/runtime.js",
+    "line": 480,
+    "root_cause": "xfxAt returns the outgoing transition as soon as f ≥ f1 − out.pre, even while the previous shot's post-envelope is still running. timeline.mjs compares holds with transitions but never compares the shot length D with XFX[prev.out].post + XFX[out].pre.",
+    "evidence": "Code path: runtime.js:483 tests the outgoing branch first; timeline.mjs:72-74 checks only `hold` against xin.post. Sonnet's jx/t_ovl measured overlay opacity 0.22 → 0 between f65 and f65.5, and the rim width jumping 1919 → 1548. It needs a one-beat shot between two tunnels (17 frames > 14.5), which is an edge case.",
+    "fix": "timeline.mjs: warn when D < XFX[prev.out].post + XFX[out].pre, naming both transitions. Optionally let xfxAt finish the incoming envelope before starting the outgoing one. The warning changes no pixels.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "ENG-6",
+    "severity": "LOW",
+    "file": "video/engine/runtime.js (xfxAt 480-487) + video/lib/timeline.mjs",
+    "line": 480,
+    "category": "edge case",
+    "title": "A shot shorter than outgoing.pre + incoming.post between two cross-cut overlays cuts the incoming overlay off mid-envelope and snaps the corridor; nothing warns",
+    "failure_scenario": "xfxAt lets the outgoing transition win as soon as f ≥ f1 − pre, so when D < prev.post + own.pre the previous shot's overlay is replaced while still visible. A one-beat shot (14.5 frames at 124 BPM) between two tunnels (post 10 + pre 7 = 17), or between flash and tunnel (6 + 7), shows the incoming corridor at 22 % opacity for a frame, then it vanishes and the opening snaps from ~full frame to the 0.28 start scale. timeline.mjs only checks holds against the transitions, not short shots.",
+    "evidence": "work/ENG/jx (a 4 beats out tunnel, b 1 beat out tunnel, c): t_ovl.mjs prints overlay opacity 0.22 at f65 then 0 at f65.5 (the outgoing tunnel begins), rim width 1919 → 1548 in the same step; --grid prints only the generic '1 beats / under 1 s' warnings.",
+    "reproduced": true,
+    "suggested_fix": "Warn in timeline.mjs when D < XFX[prev.out].post + XFX[out].pre (name both transitions), or have xfxAt blend: keep the incoming overlay until its own post is done and start the outgoing one only after it."
+   }
+  },
+  {
+   "id": "ENGINEREEL-OP-1",
+   "opus": {
+    "id": "ENGINEREEL-OP-1",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "Animated GIF (also APNG / animated WebP / AVIF sequences) as bg or a reel image field plays in wall-clock time: every render differs, layers can't restack, and QA PASSES",
+    "file": "video/lib/spec.mjs",
+    "line": 51,
+    "root_cause": "spec.mjs:15 IMAGE_EXT accepts .gif/.avif, and imageProblem (:51-52) explicitly accepts GIF8, WebP and the AVIF sequence brand `avis` (`/^avi[fs]$/`). The engine then shows the file as a live <image> or <img> (runtime.js:326 buildFoot tiles, _reel.js:175 reelImg), and Chrome animates it on real time rather than on t. That breaks 'render is a pure function of t'. A media `src: x.gif` was already affected in PRE; bg and the reel card/before/after fields now expose it on every shot.",
+    "evidence": "Job work/opus-enginereel/gif: a 3 s 10-fps testsrc2 GIF as `bg:` on a headline (bgMove none, bgDim 0). Seeking f20 four times 230 ms apart (t_gif.mjs) gives four different screenshot hashes (a653f9…, 085b90…, d92c70…, 3dfdf7…). Two full `--film --aspect 16x9` renders both say `QA PASSED (9 checks)`, yet framemd5 shows 174/174 frames differ between them. Control job gifctl (the GIF's first frame as a still PNG, otherwise identical): two renders, 0/174 frames differ.",
+    "fix": "imageProblem: detect animation in the bytes already read. GIF: a NETSCAPE2.0/ANIMEXTS1.0 application extension, or more than one image descriptor. PNG: an `acTL` chunk before IDAT. WebP: the VP8X animation flag or an ANIM chunk. AVIF: brand `avis`. Return 'is an animated image — Chrome plays it in real time, not frame by frame; convert it to .mp4 (ffmpeg -i x.gif -pix_fmt yuv420p x.mp4)'. The alternative is to route animated images through the plate extraction as footage. Re-verify: animated files exit 2 at --grid, and still GIF/PNG/WebP and the 83 asset images still pass. An old job with an animated GIF in media src would now stop at --grid, but that job never rendered deterministically.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "LIBTOOLSDOCS-OP-1",
+   "opus": {
+    "id": "LIBTOOLSDOCS-OP-1",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "Animated images (GIF, animated WebP/APNG/AVIF) are accepted for bg, footage fields and media and play on Chrome's wall clock, so renders are non-deterministic and QA doesn't notice",
+    "file": "video/lib/spec.mjs",
+    "line": 51,
+    "root_cause": "IMAGE_EXT (spec.mjs:15) includes gif and avif. imageProblem accepts GIF8, RIFF/WEBP, PNG and ftyp avis without checking for animation, and its error text lists GIF and AVIF as valid. platePlan only routes .mp4/.mov/… through frame extraction, so an animated image is a live <img> that Chrome animates in real time, independent of the seeked frame t. The contract says render is a pure function of t.",
+    "evidence": "work/opus-libtoolsdocs/gif: shot a is a headline over `bg: assets/anim.gif` (ffmpeg testsrc2, 10 fps, 3 s); shot b is `float card: assets/anim.gif`. `--grid` rc 0. Five identical `--storyboard` runs gave 01-a hashes d860…, 0c5b…, 2482…, 0c5b… and 02-b hashes 34cf…, b91d…, 652c…, 1f98…. The PIL diff bbox of 02-b, (346,220,1574,915), is the card. A control with the GIF's first frame as PNG (gifc) gave identical hashes on 3 runs. In a --film the GIF runs at render speed rather than its own speed and jumps at worker page seams. freeze and content still pass; only --layers stack would catch it. Pre-existing for media.src (pre had no check); today's bg, footage fields and sniffer extend and bless it. GUIDE documents only .png/.jpg/.webp/.svg for these fields.",
+    "fix": "Preferred: route .gif, animated .webp/.png and .avif through extractPlates like video (ffmpeg decodes them), with platePlan's isVideo covering animated images. Alternatively, have imageProblem detect animation and error with 'an animated image — export it as .mp4 so it plays in step with the film'. Animation tells: GIF with more than one image descriptor or a NETSCAPE2.0 extension (scan the whole file, not 4 KB); WebP VP8X animation flag or ANIM chunk; PNG acTL before IDAT; ftyp brand avis. Drop GIF and AVIF from the 'valid' message until supported. Re-verify that repeated storyboards are hash-identical and that a GIF card plays at its own frame rate in a --film.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "ENGINEREEL-OP-2",
+   "opus": {
+    "id": "ENGINEREEL-OP-2",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "A custom block that declares a footage field named `src` (media: ['src']) can't build: 'no frames were extracted — declare the field in the block's media: list' although it is declared",
+    "file": "video/engine/runtime.js",
+    "line": 90,
+    "root_cause": "Two places key `src` differently. runtime.js:90 plateKey (and _reel.js:173 reelFrames) map field 'src' to the bare shot id, which is media's legacy key, for every block. timeline.mjs:16-19 platePlan keys every declared field as `${id}:${field}`, and only the media block's own src gets the bare id. So ctx.plate('src') / ctx.footage('src') look up `a` while the frames were extracted under `a:src`.",
+    "evidence": "Job work/opus-enginereel/srcf: custom block blocks/vid.mjs with `media: ['src']` that uses ctx.footage('src') in a shot `src: assets/clip.mp4` (a 6 s clip). compile() gives plates `[{\"key\":\"a:src\",\"field\":\"src\",…}]`. `--storyboard --aspect 16x9` gives `✗ stage failed to build: … vid a: src is footage (assets/clip.mp4) but no frames were extracted — declare the field in the block's media: list`. `src` is the most natural name for a footage field (media uses it), and the message sends the author after the wrong cause.",
+    "fix": "runtime.js: make plateKey special-case 'src' only for the media block (`field === 'src' && shot.block === 'media'`), or always use `${id}:${field}`, since media.js already reads ctx.plates[s.id] directly. Apply the same rule in _reel.js:173. Media's own plates and every built-in are unaffected, so there is no pixel change. Re-verify srcf builds and media footage jobs are pixel-identical.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "LIBTOOLSDOCS-OP-3",
+   "opus": {
+    "id": "LIBTOOLSDOCS-OP-3",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "A custom block's declared footage field named `src` is extracted under one key and looked up under another, and the error advises declaring the field it already declares",
+    "file": "video/engine/runtime.js",
+    "line": 90,
+    "root_cause": "timeline.platePlan (timeline.mjs:16-19) keys a declared field as `${id}:${field}`, giving `a:src`. runtime plateKey maps field 'src' to the bare shot id, which is media's legacy key, for every block.",
+    "evidence": "work/opus-libtoolsdocs/srcfield: custom block `clip` with `media: [{field: 'src', fit: 'contain', scale: .5}]` and a valid mp4. Frames were extracted to out/main/16x9/plates/a~src. `--storyboard` then fails with 'clip a: src is footage (assets/f.mp4) but no frames were extracted — declare the field in the block's media: list'. Renaming the field works. GUIDE's custom-block section doesn't reserve `src`.",
+    "fix": "runtime.js:90/285: map 'src' to the bare id only when shot.block === 'media' (the media block reads ctx.plates[s.id] directly anyway). Alternatively, reject a declared `src` field at --grid with a clear message. No pixel change for existing jobs.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "ENGINEREEL-OP-3",
+   "opus": {
+    "id": "ENGINEREEL-OP-3",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Camera fields can frame past the stage plates (offset/pan up to ±2, zoom down to .25): a hard light strip of the stage background shows on dark or bg shots, with no --grid warning",
+    "file": "video/lib/spec.mjs",
+    "line": 190,
+    "root_cause": "spec.mjs:187-199 range-checks zoom (.25–6), offset (±2) and pan `by` (±2) but never checks the base framing (computed exactly as in makeCtx's ctx.view) against what the engine paints. The brand underlay is 2W×2H and the bg mirror plate is 3W×3H. At zoom 1, |offset| > .5 shows the stage's own background (C.bg).",
+    "evidence": "Job work/opus-enginereel/zm, screenshots zm_ab2.png. Shot a (`theme: dark, offset: [0.7, 0]`): the left ≈18 % of the frame is the light #F4F4F7 stage beside the dark underlay. Shot b (`bg: still.png, offset: [1.2, 0]`): a light strip past the mirror plate. Content QA can't see it, because the bg-only reference contains the same edge. Text QA may catch the off-frame headline, but not a UI block's edge. Measured grammar values (offset ≈ .14, pans .14) are far inside the limit, so this is an edge case, related to the known media zoom-out edge.",
+    "fix": "spec.mjs: compute the base view (zoom about focus, offset, plus the sum of pan `by`) per aspect and warn, or error, when it leaves [−.5W, 1.5W] × [−.5H, 1.5H] without bg, or [−W, 2W] × [−H, 2H] with bg. A warning changes no pixels.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "LIB-8",
+   "opus": {
+    "id": "LIB-8",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "imageProblem() isn't applied to UI image items, brand.cast, icons or orbit icons, although GUIDE says --grid checks every image; an SVG whose `<svg` starts after 4096 bytes is rejected",
+    "file": "video/lib/spec.mjs",
+    "line": 151,
+    "root_cause": "decodable() is called only for brand.logo, media src, partner logo, bg and declared footage fields. spec.mjs:151/159/161/290 use asset() only. imageProblem reads just the first 4096 bytes.",
+    "evidence": "From the code: decodable call sites are spec.mjs:89,206,243,270,285. GUIDE.md:567 says '`--grid` checks every image's bytes'. Sonnet's fz/img_item_html, cast_html and icon_html pass grid and then fail at stage build. The stage error is clear but late. The long-prolog false positive follows from the `/<svg[\\s>]/.test(head)` test on 4 KB (spec.mjs:47,54). Sonnet found no false positives across ~6800 real files, which is why this is LOW.",
+    "fix": "Call decodable() wherever asset() takes an image path (items image, card/row/notif icons, cast src, icons, orbit icons). For .svg, search up to 64 KB for `<svg` before rejecting. Until then, soften the GUIDE sentence.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-8",
+    "severity": "LOW",
+    "file": "video/lib/spec.mjs",
+    "line": 88,
+    "title": "imageProblem() is not applied to UI image items, brand.cast, icon lists and orbit icons although GUIDE says `--grid` checks every image's bytes; large-prolog SVGs are false positives",
+    "failure_scenario": "An HTML page saved as .png used as a phone/browser/panel `image:` item, a `brand.cast[].src`, an `icons:` entry or an orbit icon passes `--grid` and fails at storyboard/film start (\"stage failed to build ... could not be decoded as an image\"). Separately, a valid SVG whose `<svg` tag starts after 4096 bytes (long Illustrator/Inkscape comment or DOCTYPE prolog) is rejected as \"not a PNG, JPEG, WebP, GIF, AVIF or SVG image\".",
+    "evidence": "work/LIB/fz/img_item_html, cast_html, icon_html: `--grid` rc 0, `--storyboard` rc 1 with the decode error (a clear message, no stack, but late). Only decodable() calls sit at spec.mjs:89 (brand.logo), :206 (media src), :243 (partner logo), :270 (bg), :285 (media fields); spec.mjs:93, :151-152, :159-161, :290 use asset() only. GUIDE.md QA table, `content` row: \"`--grid` checks every image's bytes\". False positive: fz/bg_svg_longprolog (5 KB comment before `<svg`) -> `bg: assets/a.svg is not a PNG, JPEG, WebP, GIF, AVIF or SVG image` (spec.mjs:45-56 reads only 4096 bytes). No false positives on ~6800 real PNG/JPG/SVG/WebP/GIF files under ~/Downloads and ~/.claude/skills (work/LIB/scanimg.mjs).",
+    "reproduced": true,
+    "suggested_fix": "Call decodable() wherever asset() is used for an image path (items image, cast src, icons, orbit icons, item icons), search up to ~64 KB for `<svg` before rejecting an .svg, and soften the GUIDE sentence until coverage is complete."
+   }
+  },
+  {
+   "id": "LIB-10",
+   "opus": {
+    "id": "LIB-10",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Shot fingerprint ignores the previous shot's id, which seeds the incoming half of glitch/smear/tunnel overlays",
+    "file": "video/lib/fingerprint.mjs",
+    "line": 34,
+    "root_cause": "runtime.js:485 seeds the incoming side with hashStr(`${prev.id}>${prev.out}`), but shotPrints puts only prevOut into the print.",
+    "evidence": "From the code: runtime.js:483-485 against fingerprint.mjs:34. Sonnet's fp/run.mjs shows s1's print unchanged after renaming s0. The same family as LIBTOOLSDOCS-OP-2.",
+    "fix": "Add `prev: i ? [tl.shots[i-1].id, tl.shots[i-1].out] : null` to the print. Prints change, so the next run asks for a re-render; no pixels change.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-10",
+    "severity": "LOW",
+    "file": "video/lib/fingerprint.mjs",
+    "line": 34,
+    "title": "Shot fingerprint ignores the previous shot's id although the incoming cross-cut overlay is seeded from it",
+    "failure_scenario": "Rename shot `s0` (out: smear-left/tunnel/flash/glitch) to `intro`. The tool says only s0 is stale and suggests `--film --range` for s0; s1's first 3-10 frames keep the old overlay seed (streaks/slabs), so the two halves of the transition no longer match across the cut and QA does not notice.",
+    "evidence": "runtime.js:483-485: both halves use `seed: K.hashStr(`${prev.id}>${prev.out}`)` / `${s.id}>${s.out}`. fingerprint.mjs:34 puts only `prevOut` into a shot's print. work/LIB/fp/run.mjs: ids (s0,s1) -> {s0:348113c8..., s1:e86b9aee...}; ids (intro,s1) -> {intro:fb5c2e59..., s1:e86b9aee...} - s1's print is identical.",
+    "reproduced": true,
+    "suggested_fix": "Include the previous shot's id (or just its seed string) next to prevOut in shotPrints()."
+   }
+  },
+  {
+   "id": "LIBTOOLSDOCS-OP-2",
+   "opus": {
+    "id": "LIBTOOLSDOCS-OP-2",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Fingerprint misses that an outgoing tunnel's pre-cut frames depend on the NEXT shot's dark/light state, so stale frames pass as fresh",
+    "file": "video/lib/fingerprint.mjs",
+    "line": 34,
+    "root_cause": "tunnelSVG (runtime.js:577,585) colours the walls, fog, lines and slabs from `shots[fx.to].dark`, which comes from the next shot's theme or bg, and it draws them over the outgoing shot's last 7 frames. shotPrints covers only the shot itself, prevOut and last.",
+    "evidence": "work/opus-libtoolsdocs/fp/run.mjs (a: headline out: tunnel → b: headline). Adding `theme: dark` to b leaves a's print at 973768a250fb3863, while a's frame 57 (inside the tunnel pre window) changes from sha 143d1d60e951 to 6cbb53e57669. lv.mjs therefore marks only b stale and suggests `--film --range` for b. After that, `fresh` passes with white walls before the cut and dark walls after it. checkFilm in --sheet uses the same prints.",
+    "fix": "In shotPrints, include the next shot's darkness when s.out is tunnel, e.g. `next: s.out === 'tunnel' && tl.shots[i+1] ? isDark(tl.shots[i+1]) : null`, computed as runtime.js:386 does. Fold it into the LIB-10 change so the incoming side also carries prev id. Prints change; pixels don't.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  }
+ ],
+ "reviewer_notes": {
+  "engine+reel": [
+   "Codex returned nothing (usage limit), so every verdict above is Sonnet plus Opus only.",
+   "ENG-4, ENG-5, ENG-6, REEL-4, REEL-7 and REEL-9 are confirmed from an unambiguous code path plus Sonnet's own reproductions; I did not re-run them. I re-ran ENG-1, ENG-2, ENG-3, REEL-2 (and its fix), REEL-3 and REEL-5.",
+   "Not tested individually, same mechanism as OP-1: animated APNG named .png, animated WebP, an AVIF `avis` sequence, and an animated GIF in float `card` or split before/after (<img> rather than SVG <image>).",
+   "Not tested: a truncated image in block image fields (float card, split before/after, lockup partner logo). Same root cause as ENG-2.",
+   "Custom-block param names that collide with the new engine-owned shot fields: zoom/focus/offset/pan/move (silently double-applied), bg/bgDim/bgMove/bgFrom/letterbox (now drawn or rejected by the engine) and copy/copyRead (now reserved). None of the jobs in ~/Downloads/launch-videos use them (grepped); jobs elsewhere were not checked.",
+   "REEL-2's fix was verified in 9:16 only (wa, PASS with 0 px). The wipe in 16:9 and 1:1, the reel-sample s6 restack, and the film-pixel delta around the divider still need checking.",
+   "ENG-3's fix (outer tiles +1 px, centre tile drawn last) was not re-verified by me; it needs t_seam plus a --layers footage restack.",
+   "ENG-7's proposed QA rule (incoming-side neighbours for a cut after a block-driven exit) is not implemented; it needs qa-probe/qa-probe2 still failing as labelled, and a planted mis-timed cut after a type-through still failing.",
+   "Outside this group, flagged only: hf02-skill/beats.yaml shot d copy ('Build me a hit app. No half measures', 'Pulling every breakout app launch…') should be checked against the reference film's lines for the originality contract.",
+   "Long sticker `kicker` (nowrap, no maxW): the fit loop shrinks the title for all 8 iterations without ever shrinking the kicker. Text QA probably catches a frame-clipped kicker; not reproduced."
+  ],
+  "film": [
+   "HOUSEKEEPING, please act: while making a runnable copy I accidentally created the symlink /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules -> /Users/bytedance/.claude/skills/product-launch-sting/node_modules (a stray `ln -s` through snap's node_modules symlink, 00:46). My removal (`rm` on that symlink only) was denied by the auto-mode classifier. Node module resolution is unaffected, but `diff -r` and `rsync` over the live skill now see a directory loop. Please remove that one symlink: `rm /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules`.",
+   "Fixes were verified only in work/opus-film/skill_fix and skill_qa: 16x9 and 9x16 storyboards, a roster `--layers` stack check in 9x16, freeze probes and `--qa` re-runs. Not re-run: film-sample and hf02-skill with the fixes, 1x1 for roster and wall, `--layers` for the wall and for the lockup/agent fixes, and the qa-probe/qa-probe2 cut probes after the qa.mjs change (they don't use `type`, so they should be unaffected).",
+   "Not tested: agent `scroll: always` combined with a title/steps (the `early` filter counts the title and steps as already there, so `total` spans the whole column), and the dark composer's pre-wrap bar growing downward past the area with long prompts (QA text only sees the hero frame).",
+   "stack: a card leaving the front wraps to q + n at full opacity when n ≤ 9, which can pop in at the back. I looked at frames 560–562 of the starter; inconclusive, and it is cosmetic.",
+   "wall: `!chipSlots.includes(sl) && r() < .16` short-circuits the rng, so changing the chip list or a chip label re-deals every card's shape and tilt. That surprises review-sheet edits, but it is not a contract break.",
+   "Block validate() output only becomes --grid warnings (timeline.mjs:87); spec.mjs carries the real errors. Any new film-block check must go into spec.mjs to give rc 2.",
+   "Originality: grep found no reference-film copy in the snapshot blocks or templates. hf02-skill proof copy ('Your crew', 'View all 15 agents') comes from hf02-recreate, which MOTION-SPEC.md:4 documents as our own copy. I did not compare against the Higgsfield source frames, and no ref/ frames appeared in any output I rendered.",
+   "Sonnet's scratch probes (scratchpad/review/FILM/*) were wiped. Every number above was re-measured with my own tools in work/opus-film/tools (chips.mjs, shots.mjs, probe.mjs, srcs.mjs, audit.mjs, val.sh)."
+  ],
+  "lib+tools+docs": [
+   "Codex produced no verdicts (usage limit), so every Sonnet finding above was judged by this pass alone, with no second opinion.",
+   "Engine-group items I saw but did not verify: the drift entrance in runtime.js:43 is still .07 W / .08 H with ×0.7 decay, while ANSWERS-measurements recommends ≈.10 W / .085 H with ×0.65 (REPORTS calls it 'answered'). type.js:41 builds 0×0 wrapper divs (`width:0;height:0`), a listed compositing trap.",
+   "There is no validation that a shot is long enough for the cross-cut windows it takes part in. In a shot shorter than the incoming post plus outgoing pre (tunnel 10+7, smear/flash 11), xfxAt switches to the exit overlay early and the incoming overlay jumps; not reproduced.",
+   "The whoosh QA search window [t−0.25 s, t+0.1 s] can pick up a neighbouring whoosh when cuts are under ~0.3 s apart (a whip next to a louder tunnel); not reproduced.",
+   "Footage with an alpha channel (ProRes 4444 / VP9-alpha .mov/.webm) used as a float/stack card is extracted to JPEG and loses its transparency (black card background); not tested.",
+   "There is no per-aspect `bg`: a 16:9 AI clip in a 9:16 cut is cover-cropped to the middle ~32 % of its width, although the starters say 'each aspect is re-laid out, not cropped'. That holds for overlays only; whether to add per-aspect bg is a product call for Alex.",
+   "--tempo folding (>180 or <60 BPM) keeps the phase of the unfolded grid, so the folded start can land on an off-beat; not reproduced.",
+   "No sample job in ~/Downloads/launch-videos runs full film QA across glitch/smear/tunnel/flash. My own work/opus-libtoolsdocs/xc film (all four plus a dark tunnel and a drift) passed QA, but these cuts have no standing regression job, and REPORTS' 'pixel-identical' set doesn't cover them.",
+   "CapCut alpha import, After Effects live text and the layers footage pass were out of scope for this group and not re-tested."
+  ]
+ }
+}

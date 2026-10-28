@@ -1,0 +1,125 @@
+# beats.yaml — a launch-film starter (lv.mjs --init --kit film): product UI composited over AI footage, in the grammar
+# of the AI-footage launch films — a co-brand open, a title that zooms through the camera, UI pinned over footage,
+# light agent UI shot close, a card stack and a video wall, hard cuts on actions.
+# Film blocks: lockup · type · scene (overlays: bar · bubble · words · pill · orb) · agent · roster · stack · wall.
+# It runs as is: no footage needed yet. Then drop your AI clips into assets/ (generated in Higgsfield, Veo, Kling …) and
+# un-comment the `bg:` lines (and swap the placeholder cards for clips) — or keep the scenes bg-less and export their
+# UI as overlays to lay over your footage in CapCut (`--clips hook,command --alpha`).
+title: Your launch film
+slug: launch-film
+aspects: [16x9, 9x16, 1x1]       # each is re-laid out, not cropped
+thumbnail: name
+
+brand:
+  name: Product
+  mono: P
+  # logo: assets/logo.svg        # your mark (SVG/PNG): the lockup, the co-brand line, the prompt-bar tag
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+  # cast: [{shape: bean, col: "#4C6BFF"}, {shape: clover, col: "#FF7A45"}]   # the mascots (agents, lockup)
+
+music: {style: keynote}          # 124 BPM; or your track: {style: track, file: assets/song.mp3, start: 0}  (lv.mjs --tempo …)
+
+shots:
+  # 1 · co-brand card: logos + names type in, × pops, mascots bounce in; the zoom-in exit flies into the title
+  - id: open
+    block: lockup                # every block and its fields: GUIDE.md → "Blocks" (or lv.mjs --blocks)
+    beats: 5
+    partner: {name: Partner}     # {name, logo: assets/partner.svg}
+    pill: Your launch crew
+    cast: 6
+    out: zoom-in
+
+  # 2 · the name settles (tracking, blur, a glint) and zooms THROUGH the camera; hard cut after
+  - id: name
+    block: type
+    beats: 5
+    over: Product × Partner
+    text: Product 2
+    face: serif                  # sans | serif (system serif) | brand (brand.font)
+    pill: agents that *ship*
+    through: true
+    # bg: assets/your-ai-footage.mp4      # footage behind it (it pushes in with the zoom-through)
+    out: cut
+
+  # 3 · the brief arrives: a message bubble over the footage, then a status pill
+  - id: hook
+    block: scene
+    beats: 6
+    # bg: assets/your-ai-footage.mp4      # e.g. a hand holding a phone at dusk
+    # letterbox: true                     # 2.39:1 cinema bars
+    overlays:
+      - {at: 10, pos: left, bubble: "Launch is Friday. Help?", time: Today 9:41, from: Maya}
+      - {at: 44, pos: bottom-right, pill: Opening the brief…, mascot: 1}
+    out: cut
+
+  # 4 · kinetic words pop round the subject and clear (until), then the ask is typed into a dark composer and sent
+  - id: ask
+    block: scene
+    beats: 8
+    theme: dark                  # light-on-dark without footage too (a bg shot is dark unless theme: light)
+    # bg: assets/your-ai-footage.mp4
+    overlays:
+      - {at: 0, pos: [0.36, 0.36], words: [Who?, Which cut?, "By *when?*"], every: 9, until: 40}
+      - {at: 34, pos: bottom-right, bar: Cut our launch film by Friday., chip: Product 2}
+    out: cut
+
+  # 5 · the agents get to work: your message, rows that think and stream a reply, a message bar
+  - id: brief
+    block: agent
+    beats: 8
+    user: Cut our launch film by Friday.
+    rows:
+      - {avatar: spark, name: Product, status: Planning, done: Team briefed, reply: "Briefing the crew now."}
+      - {avatar: 0, name: Scout, status: Scouting, done: Done, reply: "Combing through films like yours."}
+    input: Message Product…
+    push: 0                 # the measured look: no zoom inside UI shots, they drift
+    out: drift-up           # a momentum cut: speeds up into the cut, the list enters still moving
+
+  # 6 · your agents: a close list behind a fixed highlight that never stops, one momentum step per beat
+  - id: team
+    block: roster
+    beats: 6
+    push: 0
+    drift: {in: 2}          # enter the list harder than the default
+    agents:
+      - {name: Scout, sub: Digs up what's working, mascot: 0}
+      - {name: Writer, sub: Writes it in your voice, mascot: 2}
+      - {name: Storyboard, sub: See it before it's shot, mascot: 1}
+      - {name: Motion, sub: Make it move, mascot: 3}
+    more: Meet the whole team
+    out: whip-up
+
+  # 7 · a deep 3D card stack cycles; the last card settles and a status pill lands on it
+  - id: scan
+    block: stack
+    beats: 7
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]   # images or clips
+    count: 8
+    pill: Studying 120 launch films
+    out: blur
+
+  # 8 · the next command in a macro prompt bar that tracks the caret (no bg: a transparent overlay clip with --alpha)
+  - id: command
+    block: scene
+    beats: 5
+    overlays:
+      - {at: 0, pos: center, bar: /teasers Cut three for Friday, theme: light, framing: macro, tag: Product, speed: 1.2}
+      - {at: 48, pos: [0.5, 0.7], pill: Cutting 3 teasers, mascot: spark}
+    out: zoom-out
+
+  # 9 · every cut on a floating wall of phone videos with label chips
+  - id: wall
+    block: wall
+    beats: 7
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+    chips: [Hook in 1s, Captions]
+    text: Every cut, *on brand.*
+    out: blur
+
+  # 10 · end line
+  - id: end
+    block: type
+    beats: 5
+    over: Product 2
+    text: Your launch team.|*On call.*

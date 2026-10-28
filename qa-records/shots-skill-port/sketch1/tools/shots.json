@@ -1,0 +1,20 @@
+{
+ "root": "..",
+ "casting": "casting.json",
+ "model": "h3",
+ "aspect": "16:9",
+ "people": {"hero": {"sheet": "hero", "is": "the founder"}, "friend": {"sheet": "friend", "is": "her co-founder"}},
+ "places": {},
+ "products": {"phone": {"ref": "assets/plates/S01-sketch.png", "anatomy": "A slim black phone with one camera.", "colourway": "black"}},
+ "shots": {
+  "S01": {"brief": "she walks into the empty office at dawn", "sec": 5, "people": ["hero"], "position": {"plate": "S01"},
+          "key": {"frame": "Wide shot: the founder walks in from the right, phone in her left hand.", "light": "Low dawn sun from the right."},
+          "motion": {"camera": "The camera pushes in slowly.", "beats": ["She walks to the window and stops."]}},
+  "S02": {"brief": "two friends on the ridge, the sun behind", "model": "seedance", "sec": 6, "people": ["hero", "friend"], "count": 2,
+          "products": ["phone"], "position": {"plate": "S02"},
+          "scene": "Two founders on a ridge at golden hour.", "first": "Both stand on the ridge, the sun behind them.",
+          "key": {"frame": "Medium-wide: the two founders on the ridge."},
+          "motion": {"camera": "Locked off.", "beats": [{"t": [0, 3], "do": "She turns to him.", "say": {"who": "hero", "line": "We made it."}},
+                                                       {"t": [3, 6], "do": "He laughs and nods."}]}}
+ }
+}

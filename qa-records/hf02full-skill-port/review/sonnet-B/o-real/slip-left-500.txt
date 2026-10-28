@@ -1,0 +1,12 @@
+verify: 0/1909 frames exact (decoded 1910 frames, expected 1909)
+  frame 1: the reference half shows source frame 0 (0.61 levels off it vs 1.03 off frame 1)
+  frame 2: the reference half shows source frame 1 (0.60 levels off it vs 2.75 off frame 2)
+  frame 3: the reference half shows source frame 2 (0.61 levels off it vs 4.08 off frame 3)
+  frame 4: the reference half shows source frame 3 (0.61 levels off it vs 3.30 off frame 4)
+  frame 5: the reference half shows source frame 4 (0.61 levels off it vs 4.07 off frame 5)
+  frame 6: the reference half shows source frame 5 (0.62 levels off it vs 5.49 off frame 6)
+  frame 7: the reference half shows source frame 6 (0.63 levels off it vs 5.77 off frame 7)
+  frame 8: the reference half shows source frame 7 (0.64 levels off it vs 6.51 off frame 8)
+  frame 9: the reference half shows source frame 8 (0.63 levels off it vs 5.29 off frame 9)
+  frame 10: the reference half shows source frame 9 (0.65 levels off it vs 3.98 off frame 10)
+exit=1

@@ -1,0 +1,21 @@
+{
+ "job": "old-cue",
+ "style": "playful",
+ "bpm": 124,
+ "dur": 30,
+ "md5": {
+  "music.wav": "2a28e79639344e223a75051bcef06fe3",
+  "points.wav": "15d67d86a1df459ff06669316384d5df",
+  "qa-lane-0.wav": "5d67ce9d1dc1b85342675c8ab262739a",
+  "qa-lane-1.wav": "3ca8d3f6e6ebc59c7d8a7050720e5929",
+  "qa-lane-2.wav": "61c555eb677008afc724ccec1c39538e",
+  "qa-lane-3.wav": "d944c18a69402857045b13a5ea58e8b2",
+  "qa-lane-4.wav": "eba242e7c10b530c12444bd8efa41f36",
+  "qa-lanes.json": "391e95892d55e0fc3bf996e46765178f",
+  "raw.wav": "097d0b73794a85d090966325654b58a4",
+  "whoosh.wav": "d418967338c55595d4230f5c5d4b0717"
+ },
+ "timeline_sha1": "221bf73c170a31816ffc454e8f4dd6a7b4709b72",
+ "deterministic": true,
+ "built_with": "/Users/bytedance/.claude/skills/product-launch-sting"
+}

@@ -1,0 +1,10 @@
+{
+ "endpoint": "generations",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [],
+ "prompt": "A character reference sheet for a film: ONE image with three side-by-side panels of equal width separated by thin gutters, on a flat solid neutral grey background (#8a8a8a), seamless, no gradient, no floor, no shadow on the background, even soft studio light. LEFT panel: a front-facing close-up of the head and shoulders filling the panel, eyes to camera, the whole face clearly visible. MIDDLE panel: the full body from the front, head to feet, standing upright and relaxed, arms slightly away from the sides. RIGHT panel: the full body from directly behind in the same stance. The person is a white woman of about 40. Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark.",
+ "source": "look-1"
+}

@@ -1,0 +1,5 @@
+title: tiny
+brand: {name: X}
+music: {style: film}
+shots:
+  - {id: a, block: headline, sec: 0.05, text: One}

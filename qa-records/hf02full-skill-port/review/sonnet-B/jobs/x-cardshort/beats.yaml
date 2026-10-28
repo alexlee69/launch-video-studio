@@ -1,0 +1,7 @@
+title: xc
+brand: {name: X}
+music: {style: film}
+shots:
+  - {id: a, block: headline, beats: 4, text: One}
+  - {id: b, block: headline, beats: 16, text: Two}
+  - {id: card, block: endcard, sec: 0.3, tagline: Bye}

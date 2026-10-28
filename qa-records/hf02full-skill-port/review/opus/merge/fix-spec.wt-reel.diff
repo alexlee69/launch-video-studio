@@ -1,0 +1,25 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/lib/spec.mjs	2026-10-21 18:03:15
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-reel/video/lib/spec.mjs	2026-10-22 01:46:27
+@@ -38,6 +38,9 @@
+   stack: { chrome: ['post', 'none'] },
+   wall: { chrome: ['ugc', 'none'], drift: ['up', 'down', 'left', 'right'] },
+ };
++// the reel blocks' on/off options: true or false only (YAML reads no / off / "false" as text, which left the effect on)
++const REEL_BOOLS = { sticker: ['logo', 'shake', 'sparks', 'gloss'], split: ['arrow'], float: ['streak'], cta: ['logo'] };
++const CAPTIONED = ['sticker', 'split', 'float', 'cta', 'media'];   // the built-in blocks with a word-pop caption
+ const OVERLAY_KINDS = ['bar', 'bubble', 'words', 'pill', 'orb'], OVERLAY_POS = ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'];
+ // an image file's bytes must be an image Chrome can decode (a failed download saved as .jpg is an HTML page; an iPhone
+ // photo renamed .jpg is HEIC): returns null when fine, else what's wrong. Raster formats are sniffed by content (any
+@@ -208,6 +211,12 @@
+     if (blk && blk === BLOCKS[s.block]) {
+       for (const [k, opts] of Object.entries(ENUMS[s.block] || {})) if (s[k] != null && !(k === 'drift' && isMap(s[k])) && !opts.includes(String(s[k]))) errs.push(`${where}: ${s.block} ${k} must be one of ${opts.join(', ')} (got ${JSON.stringify(s[k])})`);
+       const list = (k, eg) => { if (s[k] != null && !Array.isArray(s[k])) errs.push(`${where}: ${s.block} ${k} must be a list, e.g. ${eg}`); };
++      for (const k of REEL_BOOLS[s.block] || []) if (s[k] != null && typeof s[k] !== 'boolean') errs.push(`${where}: ${s.block} ${k} must be true or false (got ${JSON.stringify(s[k])})`);
++      if (s.block === 'sticker' && s.tilt != null && !(num(s.tilt) && Math.abs(Number(s.tilt)) <= 45)) errs.push(`${where}: sticker tilt must be a number of degrees −45…45, without "deg" (default −5) (got ${JSON.stringify(s.tilt)})`);
++      if (CAPTIONED.includes(s.block) && s.captionAt != null) {
++        if (!isAt(s.captionAt)) errs.push(`${where}: captionAt must be the caption's first local frame (4) or seconds like 0.5s (got ${JSON.stringify(s.captionAt)})`);
++        else if (s.caption == null || String(s.caption).trim() === '') warns.push(`${where}: captionAt does nothing without caption`);
++      }
+       if (s.block === 'split') { list('labels', '[Before, After]'); if (Array.isArray(s.labels) && s.labels.length > 2) errs.push(`${where}: split labels takes up to two chip labels (got ${s.labels.length})`); }
+       if (s.block === 'stack' || s.block === 'wall') list('cards', '[assets/a.mp4, assets/b.jpg]');
+       if (s.block === 'wall') list('chips', '[Hook in 1s, Captions]');

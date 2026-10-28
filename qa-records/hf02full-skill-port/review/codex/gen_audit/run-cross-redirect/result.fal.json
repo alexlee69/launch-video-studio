@@ -1,0 +1,27 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "kind": "video",
+  "input": {
+    "prompt": "test",
+    "image_url": "<file key.png>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-22T17:13:57.713Z",
+  "status": [
+    {
+      "t": 0,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "second-paid-request",
+  "status_url": "http://127.0.0.1:19734/status/second-paid-request",
+  "response_url": "http://127.0.0.1:19734/result/second-paid-request",
+  "result": {},
+  "finished": "2026-10-22T17:13:57.750Z"
+}

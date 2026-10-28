@@ -1,0 +1,18 @@
+{
+ "cap": 50,
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP}",
+   "restore": {
+    "ellipse": [
+     10,
+     10,
+     9999,
+     9999
+    ],
+    "feather": 0
+   },
+   "pin": false
+  }
+ }
+}

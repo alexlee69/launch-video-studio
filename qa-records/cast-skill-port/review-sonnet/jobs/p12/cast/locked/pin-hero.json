@@ -1,0 +1,34 @@
+{
+ "src": "cast/locked/hero-composite.png",
+ "grey": "#8a8a8a",
+ "cols": [
+  960,
+  1706
+ ],
+ "rows": [],
+ "panels": [
+  [
+   0,
+   0,
+   955,
+   1440,
+   "surface 134..142 -> #8a8a8a, background 80% of panel"
+  ],
+  [
+   965,
+   0,
+   1701,
+   1440,
+   "surface 137..144 -> #8a8a8a, background 74% of panel"
+  ],
+  [
+   1711,
+   0,
+   2560,
+   1440,
+   "surface 140..147 -> #8a8a8a, background 77% of panel"
+  ]
+ ],
+ "bg_after_mean": 138.0,
+ "bg_after_std": 0.9
+}

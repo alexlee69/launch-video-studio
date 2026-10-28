@@ -1,0 +1,9 @@
+{
+ "prompt": "acc raw request",
+ "image_url": "@key.jpg",
+ "reference_video_urls": [
+  "@guide_3.mp4"
+ ],
+ "note": "@key.jpg",
+ "seed": 11
+}

@@ -1,0 +1,12 @@
+{
+  "root": "..",
+  "dirs": {
+    "locations": "../stills/locations"
+  },
+  "locations": {
+    "place": {
+      "refs": [],
+      "prompt": "A place."
+    }
+  }
+}

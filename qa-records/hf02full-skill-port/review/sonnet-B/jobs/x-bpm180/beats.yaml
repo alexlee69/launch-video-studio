@@ -1,0 +1,8 @@
+title: xb180
+brand: {name: X}
+music: {style: film, bpm: 180, key: B, downbeat: 0.1}
+shots:
+  - {id: a, block: headline, beats: 8, text: One}
+  - {id: b, block: headline, beats: 32, text: Two}
+  - {id: c, block: headline, beats: 16, text: Three}
+  - {id: card, block: endcard, beats: 8, tagline: Bye}

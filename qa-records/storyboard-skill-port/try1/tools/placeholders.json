@@ -1,0 +1,129 @@
+{
+ "_note": "placeholders.json starter (STORYBOARD.md). One plate per AI-footage shot, drawn in code: free, nothing generated. Fill every <placeholder> (draw refuses any left), then `placeholders.py draw` and point each shot at its plate with `bg: assets/plates/<ID>.png`. Coordinates are fractions of the plate. root = the job folder relative to this file; crops = the other aspects the film is cut to (dashed guides; the label stays inside every crop).",
+ "root": "..",
+ "out": "assets/plates",
+ "aspect": "16x9",
+ "crops": [
+  "9x16",
+  "1x1"
+ ],
+ "kind": "AI FOOTAGE",
+ "cast": {
+  "hero": {
+   "body": "#e6e8eb",
+   "accent": "#e8611e",
+   "skin": "#a7795a",
+   "hair": "#1b1b1f"
+  }
+ },
+ "defaults": {
+  "look": "overcast",
+  "grain": 4
+ },
+ "plates": {
+  "S01": {
+   "line": "She walks into the empty office at dawn",
+   "lens": "35 mm",
+   "move": "slow push in",
+   "look": "dawn",
+   "horizon": {
+    "y": 0.7,
+    "color": "#3a3d44"
+   },
+   "fx": [
+    {
+     "kind": "glow",
+     "x": 0.8,
+     "y": 0.35,
+     "r": 0.3,
+     "color": "#ffd9a0"
+    }
+   ],
+   "shapes": [
+    {
+     "kind": "rect",
+     "box": [
+      0.06,
+      0.22,
+      0.3,
+      0.7
+     ],
+     "color": "#2b2f36",
+     "blur": 2
+    }
+   ],
+   "figures": [
+    {
+     "who": "hero",
+     "x": 0.55,
+     "feet": 0.92,
+     "height": 0.6,
+     "pose": "walk",
+     "facing": "left",
+     "tag": "Hero, mid-stride"
+    }
+   ],
+   "props": [
+    {
+     "kind": "laptop",
+     "x": 0.32,
+     "y": 0.74,
+     "w": 0.12,
+     "tag": "her laptop"
+    }
+   ]
+  },
+  "S02": {
+   "line": "Close on her face as the phone lights up",
+   "lens": "85 mm",
+   "move": "locked off",
+   "look": "interior-cool",
+   "figures": [
+    {
+     "who": "hero",
+     "x": 0.42,
+     "feet": 1.0,
+     "height": 0.75,
+     "pose": "bust",
+     "facing": "right",
+     "tag": "MCU, she reads"
+    }
+   ],
+   "props": [
+    {
+     "kind": "phone",
+     "x": 0.66,
+     "y": 0.62,
+     "w": 0.07,
+     "front": true
+    }
+   ],
+   "fx": [
+    {
+     "kind": "glow",
+     "x": 0.66,
+     "y": 0.55,
+     "r": 0.25,
+     "color": "#9fc4ff",
+     "strength": 0.5
+    },
+    {
+     "kind": "vignette",
+     "strength": 0.4
+    }
+   ],
+   "end": {
+    "label": "ECU, the screen",
+    "look": "interior-cool",
+    "props": [
+     {
+      "kind": "phone",
+      "x": 0.5,
+      "y": 0.5,
+      "w": 0.3
+     }
+    ]
+   }
+  }
+ }
+}

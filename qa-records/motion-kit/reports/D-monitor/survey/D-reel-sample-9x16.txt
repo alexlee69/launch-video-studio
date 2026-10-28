@@ -1,0 +1,2 @@
+mon-D-old-reel-sample 9x16: 1181 frames in 15.4 s (camera() evaluate avg 1.53 ms)
+INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.23×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json

@@ -2,10 +2,10 @@
 // copies of its manifest / files. Every tampered case must FAIL on the named check; the untouched export must PASS.
 //   node probe.mjs <layers folder> <work folder> <layer to drop> <layer A to swap> <layer B to swap>
 import { readFileSync, mkdtempSync, cpSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { tmpdir, homedir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { qaLayers } from '/Users/bytedance/.claude/skills/product-launch-sting/video/lib/layers.mjs';
+const { qaLayers } = await import(join(homedir(), '.claude/skills/product-launch-sting/video/lib/layers.mjs'));
 
 const [folder, work, drop, swapA, swapB] = process.argv.slice(2);
 const M0 = JSON.parse(readFileSync(join(folder, 'manifest.json'), 'utf8')), stats = JSON.parse(readFileSync(join(work, 'qa-stats.json'), 'utf8'));

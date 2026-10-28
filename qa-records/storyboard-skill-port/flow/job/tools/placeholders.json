@@ -1,0 +1,213 @@
+{
+ "_note": "placeholders.json starter (STORYBOARD.md). One plate per AI-footage shot, drawn in code: free, nothing generated. Fill every <placeholder> (draw refuses any left), then `placeholders.py draw` and point each shot at its plate with `bg: assets/plates/<ID>.png`. Coordinates are fractions of the plate. root = the job folder relative to this file; crops = the other aspects the film is cut to (dashed guides; the label stays inside every crop).",
+ "root": "..",
+ "out": "assets/plates",
+ "aspect": "16x9",
+ "crops": [
+  "9x16",
+  "1x1"
+ ],
+ "kind": "AI FOOTAGE",
+ "cast": {
+  "hero": {
+   "body": "#e6e8eb",
+   "accent": "#e8611e",
+   "skin": "#a7795a",
+   "hair": "#1b1b1f"
+  }
+ },
+ "defaults": {
+  "look": "overcast",
+  "grain": 4
+ },
+ "plates": {
+  "name": {
+   "line": "She runs along the harbour wall at dusk, the city lights coming on",
+   "lens": "50 mm",
+   "move": "tracking left, then the zoom-through",
+   "look": "dusk",
+   "horizon": {
+    "y": 0.66,
+    "color": "#2a2f3a",
+    "line": true
+   },
+   "fx": [
+    {
+     "kind": "glow",
+     "x": 0.25,
+     "y": 0.55,
+     "r": 0.35,
+     "color": "#ffb27a",
+     "strength": 0.7
+    },
+    {
+     "kind": "stars",
+     "n": 80,
+     "box": [
+      0,
+      0,
+      1,
+      0.35
+     ]
+    }
+   ],
+   "shapes": [
+    {
+     "kind": "rect",
+     "box": [
+      0.0,
+      0.48,
+      1.0,
+      0.66
+     ],
+     "color": "#1b1f29",
+     "alpha": 0.85,
+     "blur": 3
+    },
+    {
+     "kind": "ellipse",
+     "box": [
+      0.6,
+      0.5,
+      0.95,
+      0.6
+     ],
+     "color": "#ffd38a",
+     "alpha": 0.35,
+     "blur": 30
+    }
+   ],
+   "figures": [
+    {
+     "who": "hero",
+     "x": 0.5,
+     "feet": 0.9,
+     "height": 0.5,
+     "pose": "walk",
+     "facing": "left",
+     "tag": "Hero, mid-stride"
+    }
+   ]
+  },
+  "hook": {
+   "line": "A hand holds a phone at dusk; the prompt bar types over it",
+   "lens": "85 mm",
+   "move": "locked off, slow drift up",
+   "look": "interior-cool",
+   "fx": [
+    {
+     "kind": "glow",
+     "x": 0.5,
+     "y": 0.5,
+     "r": 0.3,
+     "color": "#9fc4ff",
+     "strength": 0.45
+    },
+    {
+     "kind": "vignette",
+     "strength": 0.4
+    }
+   ],
+   "figures": [
+    {
+     "who": "hero",
+     "x": 0.5,
+     "feet": 1.05,
+     "height": 0.8,
+     "pose": "bust",
+     "facing": "camera",
+     "tag": "MCU, she reads her phone"
+    }
+   ],
+   "props": [
+    {
+     "kind": "phone",
+     "x": 0.5,
+     "y": 0.78,
+     "w": 0.08,
+     "front": true,
+     "tag": "the phone (the app is pinned later)"
+    }
+   ]
+  },
+  "ask": {
+   "line": "Late at the kitchen table, laptop open, rain on the window",
+   "lens": "35 mm",
+   "move": "slow push in",
+   "look": "interior-warm",
+   "shapes": [
+    {
+     "kind": "rect",
+     "box": [
+      0.62,
+      0.12,
+      0.92,
+      0.52
+     ],
+     "color": "#33404f",
+     "blur": 1
+    },
+    {
+     "kind": "rect",
+     "box": [
+      0.0,
+      0.72,
+      1.0,
+      1.0
+     ],
+     "color": "#4a3424"
+    }
+   ],
+   "fx": [
+    {
+     "kind": "rain",
+     "n": 300,
+     "angle": 10,
+     "alpha": 0.25
+    },
+    {
+     "kind": "glow",
+     "x": 0.45,
+     "y": 0.6,
+     "r": 0.25,
+     "color": "#fff2d6",
+     "strength": 0.5
+    }
+   ],
+   "figures": [
+    {
+     "who": "hero",
+     "x": 0.42,
+     "feet": 0.88,
+     "height": 0.55,
+     "pose": "sit",
+     "facing": "right",
+     "tag": "She types"
+    }
+   ],
+   "props": [
+    {
+     "kind": "laptop",
+     "x": 0.6,
+     "y": 0.72,
+     "w": 0.14,
+     "front": true
+    }
+   ],
+   "end": {
+    "label": "MCU, the screen lights her face",
+    "look": "interior-warm",
+    "figures": [
+     {
+      "who": "hero",
+      "x": 0.4,
+      "feet": 1.0,
+      "height": 0.8,
+      "pose": "bust",
+      "facing": "right"
+     }
+    ]
+   }
+  }
+ }
+}

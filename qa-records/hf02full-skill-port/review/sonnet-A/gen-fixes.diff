@@ -1,0 +1,108 @@
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/stage/product-launch-sting/video/footage/gen.mjs	2026-10-22 08:16:31
++++ gen-fixed.mjs	2026-10-22 08:48:14
+@@ -40,7 +40,7 @@
+ const scrub = s => KEY ? String(s).split(KEY).join('****') : String(s);
+ const say = s => console.log(scrub(s)), warn = s => console.error(scrub(s));
+ const die = (code, msg) => { warn(msg); process.exit(code); };
+-class FalError extends Error {}
++class FalError extends Error { constructor(m, unsure = false) { super(m); this.unsure = unsure; } }
+ const ctx = { id: null, endpoint: null, out: null };   // for the "fetch picks it up" hint
+ const fetchHint = () => ctx.id ? `\n  request ${ctx.id} — once it has finished: node ${process.argv[1]} fetch ${ctx.id} --endpoint ${ctx.endpoint} --out ${ctx.out}` : '';
+ 
+@@ -56,6 +56,8 @@
+   o[k] = argv[++i];
+ }
+ if (!['still', 'video', 'raw', 'fetch'].includes(cmd)) die(2, readFileSync(process.argv[1], 'utf8').split('\nimport ')[0].split('\n').filter(l => l.startsWith('//')).map(l => l.slice(3)).join('\n'));
++const maxPos = { still: 0, video: 0, raw: 2, fetch: 1 }[cmd];
++if (pos.length > maxPos) die(2, `unexpected argument${pos.length - maxPos > 1 ? 's' : ''} "${pos.slice(maxPos).join(' ')}" — quote a prompt that has spaces: --prompt "a woman at a table"`);
+ const int = (v, lo, hi, name) => { const n = Number(v); if (!Number.isInteger(n) || n < lo || n > hi) die(2, `${name} must be a whole number from ${lo} to ${hi} (got ${v})`); return n; };
+ const oneOf = (v, list, name) => { if (!list.includes(v)) die(2, `${name} must be one of ${list.join(' | ')} (got ${v})`); return v; };
+ const need = (v, what) => { if (v == null || v === '') die(2, `${what} is required`); return v; };
+@@ -143,7 +145,8 @@
+ function estimate(ep, inp) {
+   if (ep === STILL) { const n = inp.num_images || 1; return `${n} image${n > 1 ? 's' : ''} × $0.06 = $${(n * .06).toFixed(2)}`; }
+   if (/^minimax\/h3-max\//.test(ep)) {
+-    const s = Number(inp.duration) || 0, r = inp.resolution || '1080P';
++    const s = Number(inp.duration), r = inp.resolution || '1080P';
++    if (!(s > 0)) return `unknown — the input has no duration (fal's default applies); check fal.ai/models/${ep}`;
+     return r === '1080P' ? `${s} s × $0.16/s at 1080P = $${(s * .16).toFixed(2)}` : `${s} s at ${r}: unknown — at most $${(s * .16).toFixed(2)} (the 1080P price); check fal.ai/models`;
+   }
+   return `unknown — check fal.ai/models/${ep}`;
+@@ -193,12 +196,12 @@
+       r = await fetch(url, { ...opt, headers: { Authorization: `Key ${KEY}`, ...(opt.body ? { 'Content-Type': 'application/json' } : {}) }, signal: AbortSignal.timeout(120000) });
+       t = await r.text(); break;
+     } catch (e) {                                    // a poll survives a network blip; a submit doesn't retry (it could be charged twice)
+-      if (opt.method === 'POST' || i >= 5) throw new FalError(`couldn't reach fal (${e.cause?.code || e.message})${opt.method === 'POST' ? ' — the request may not have been created; check fal.ai/dashboard/requests before running it again' : ''}`);
++      if (opt.method === 'POST' || i >= 5) throw new FalError(`couldn't reach fal (${e.cause?.code || e.message})${opt.method === 'POST' ? ' — the request may not have been created; check fal.ai/dashboard/requests before running it again' : ''}`, opt.method === 'POST');
+       await sleep(3000);
+     }
+   }
+   let j; try { j = JSON.parse(t); } catch { j = { raw: t.slice(0, 500) }; }
+-  if (r.status >= 400) throw new FalError(`fal answered HTTP ${r.status}: ${detail(j)}`);
++  if (r.status >= 400) throw new FalError(`fal answered HTTP ${r.status}: ${detail(j)}${opt.method === 'POST' && r.status >= 500 ? ' — the request may have been created; check fal.ai/dashboard/requests before running it again' : ''}`, opt.method === 'POST' && r.status >= 500);
+   return j;
+ }
+ const queueUrls = (id, have = {}) => {
+@@ -220,15 +223,20 @@
+     await sleep(3000);
+   }
+ }
+-function outputsOf(res) {                           // images[].url, image.url, video.url, then any other {url} leaf, in that order
++function outputsOf(res, deepWalk = true) {         // images[].url, image.url, video.url, then (raw only) any other {url} leaf, in that order
+   const list = [], seen = new Set();
+   const add = m => { if (m && typeof m.url === 'string' && /^https?:\/\//.test(m.url) && !seen.has(m.url)) { seen.add(m.url); list.push({ url: m.url, size: Number.isFinite(m.file_size) ? m.file_size : null, type: m.content_type || null }); } };
+   (Array.isArray(res?.images) ? res.images : []).forEach(add); add(res?.image); add(res?.video);
+-  (function deep(v) { if (Array.isArray(v)) v.forEach(deep); else if (v && typeof v === 'object') { add(v); Object.values(v).forEach(deep); } })(res);
+-  return list;
++  if (deepWalk || !list.length) (function deep(v) { if (Array.isArray(v)) v.forEach(deep); else if (v && typeof v === 'object') { add(v); Object.values(v).forEach(deep); } })(res);
++  return kind === 'video' ? list.slice(0, 1) : list;
+ }
+ const extOf = m => EXT[m.type] || (/\.[a-z0-9]{2,4}$/i.exec(new URL(m.url).pathname) || [''])[0].toLowerCase() || '.bin';
+-const destsOf = list => list.length === 1 && extname(out) ? [out] : list.map((m, i) => `${stripExt(out)}_${i}${extname(out) || extOf(m)}`);
++const destsOf = list => {
++  if (cmd === 'fetch' && Array.isArray(log0?.outputs) && log0.outputs.length === list.length && log0.request_id === ctx.id) return log0.outputs.map(x => resolve(dirname(logPath), x.file));
++  if (kind === 'still') return list.map((m, i) => `${out}_${i}${extOf(m)}`);
++  return list.length === 1 && extname(out) ? [out] : list.map((m, i) => `${stripExt(out)}_${i}${extname(out) || extOf(m)}`);
++};
++let log0 = null;                                     // fetch: the log the original run left (its output file names)
+ const mb = n => n >= 1e6 ? `${(n / 1e6).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1e3))} KB`;
+ const sizeOf = p => existsSync(p) ? statSync(p).size : 0;
+ const pause = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+@@ -269,20 +277,23 @@
+   let log, urls;
+   if (cmd === 'fetch') {
+     try { log = JSON.parse(readFileSync(logPath, 'utf8')); } catch { log = null; }
++    log0 = log;
+     if (log && log.request_id && log.request_id !== ctx.id && !o.force) die(2, `${relative(process.cwd(), logPath)} belongs to request ${log.request_id}, not ${ctx.id} — pick another --out, or --force`);
+     if (log && log.endpoint && log.endpoint !== endpoint && !o.force) die(2, `${relative(process.cwd(), logPath)} was sent to ${log.endpoint}, not ${endpoint} — check --endpoint`);
+-    log = { endpoint, request_id: ctx.id, status: [], ...(log || {}) };
++    if (log && log.request_id && log.request_id !== ctx.id) log = null;          // only reachable with --force: the old log is another request's
++    log = { status: [], ...(log || {}), endpoint, request_id: ctx.id };
+     urls = queueUrls(ctx.id, log);
+     log.fetched = new Date().toISOString(); save(log);
+     say(`fetching request ${ctx.id} from ${endpoint}`);
+   } else {
+-    if (o.force) for (const p of expect) if (existsSync(p)) unlinkSync(p);   // a resumed download must never continue an old file
+     const est = estimate(endpoint, input);
+     log = { endpoint, input: shown(input, false), estimate: est, prices: PRICES, auth: 'Key ****', submitted: new Date().toISOString(), status: [] };
+-    save(log);
+     say(`estimate ${est} — submitting to ${endpoint}`);
+-    const sub = await api(`${BASE}/${endpoint}`, { method: 'POST', body: JSON.stringify(wire(input)) });
+-    if (!sub.request_id) throw new FalError(`fal accepted the request but sent no request_id: ${JSON.stringify(sub).slice(0, 300)}`);
++    let sub;
++    try { sub = await api(`${BASE}/${endpoint}`, { method: 'POST', body: JSON.stringify(wire(input)) }); }
++    catch (e) { if (e.unsure) save({ ...log, submit: 'unknown: the request may exist at fal' }); throw e; }   // a refused submit leaves no log (a retry needs no --force)
++    if (!sub.request_id) { save({ ...log, submit: 'unknown: no request_id came back' }); throw new FalError(`fal accepted the request but sent no request_id: ${JSON.stringify(sub).slice(0, 300)}`); }
++    for (const p of [...expect, logPath]) if (o.force && existsSync(p)) renameSync(p, p + '.prev');   // the replacement exists now: the old files step aside, never deleted
+     ctx.id = sub.request_id; urls = queueUrls(sub.request_id, sub);
+     Object.assign(log, { request_id: sub.request_id, ...urls }); save(log);
+     say(`submitted — request ${sub.request_id}`);
+@@ -296,7 +307,7 @@
+   const dests = destsOf(list);
+   log.outputs = list.map((m, i) => ({ url: m.url, file: relative(dirname(logPath), dests[i]), bytes: null })); save(log);
+   for (const p of dests) if (existsSync(p) && (cmd !== 'fetch' || o.force)) {      // only fetch resumes a file that is already there
+-    if (o.force) unlinkSync(p); else { renameSync(p, p + '.prev'); warn(`moved the older ${basename(p)} aside to ${basename(p)}.prev`); }
++    renameSync(p, p + '.prev'); warn(`moved the older ${basename(p)} aside to ${basename(p)}.prev`);
+   }
+   mkdirSync(dirname(dests[0]), { recursive: true });
+   for (const [i, m] of list.entries()) {

@@ -1,0 +1,246 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/comparesame.nuz8HJ/proof/sbs.mp4",
+  "frames": 30,
+  "size": [
+   160,
+   90
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/comparesame.nuz8HJ/ours.mp4",
+  "frames": 30,
+  "size": [
+   160,
+   90
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  29
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: none in the reference over this range",
+ "cuts": [],
+ "verify": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/comparesame.nuz8HJ/proof/sbs.mp4",
+  "decoded": 30,
+  "expected": 30,
+  "exact": 0,
+  "mismatches": [
+   [
+    0,
+    "reference",
+    null,
+    97.6,
+    null
+   ],
+   [
+    1,
+    "reference",
+    null,
+    97.42,
+    null
+   ],
+   [
+    2,
+    "reference",
+    null,
+    97.0,
+    null
+   ],
+   [
+    3,
+    "reference",
+    null,
+    96.37,
+    null
+   ],
+   [
+    4,
+    "reference",
+    null,
+    95.76,
+    null
+   ],
+   [
+    5,
+    "reference",
+    null,
+    95.1,
+    null
+   ],
+   [
+    6,
+    "reference",
+    null,
+    94.58,
+    null
+   ],
+   [
+    7,
+    "reference",
+    null,
+    94.11,
+    null
+   ],
+   [
+    8,
+    "reference",
+    null,
+    93.12,
+    null
+   ],
+   [
+    9,
+    "reference",
+    null,
+    92.09,
+    null
+   ],
+   [
+    10,
+    "reference",
+    null,
+    91.98,
+    null
+   ],
+   [
+    11,
+    "reference",
+    null,
+    90.71,
+    null
+   ],
+   [
+    12,
+    "reference",
+    null,
+    90.65,
+    null
+   ],
+   [
+    13,
+    "reference",
+    null,
+    89.5,
+    null
+   ],
+   [
+    14,
+    "reference",
+    null,
+    88.83,
+    null
+   ],
+   [
+    15,
+    "reference",
+    null,
+    87.86,
+    null
+   ],
+   [
+    16,
+    "reference",
+    null,
+    88.0,
+    null
+   ],
+   [
+    17,
+    "reference",
+    null,
+    88.91,
+    null
+   ],
+   [
+    18,
+    "reference",
+    null,
+    89.92,
+    null
+   ],
+   [
+    19,
+    "reference",
+    null,
+    89.59,
+    null
+   ],
+   [
+    20,
+    "reference",
+    null,
+    90.41,
+    null
+   ],
+   [
+    21,
+    "reference",
+    null,
+    90.66,
+    null
+   ],
+   [
+    22,
+    "reference",
+    null,
+    91.19,
+    null
+   ],
+   [
+    23,
+    "reference",
+    null,
+    91.76,
+    null
+   ],
+   [
+    24,
+    "reference",
+    null,
+    91.58,
+    null
+   ],
+   [
+    25,
+    "reference",
+    null,
+    91.84,
+    null
+   ],
+   [
+    26,
+    "reference",
+    null,
+    91.97,
+    null
+   ],
+   [
+    27,
+    "reference",
+    null,
+    92.48,
+    null
+   ],
+   [
+    28,
+    "reference",
+    null,
+    92.87,
+    null
+   ],
+   [
+    29,
+    "reference",
+    null,
+    92.77,
+    null
+   ]
+  ]
+ }
+}

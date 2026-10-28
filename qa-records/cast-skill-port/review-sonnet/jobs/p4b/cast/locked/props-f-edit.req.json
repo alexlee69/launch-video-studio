@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 1,
+ "refs": [
+  "cast/locked/props.png"
+ ],
+ "prompt": "Change the right tile."
+}

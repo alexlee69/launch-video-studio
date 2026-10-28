@@ -1,0 +1,35 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/opus-r3/cmp/ref.mp4",
+  "frames": 90,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/opus-r3/cmp/ours.mp4",
+  "frames": 90,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  89
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: none in the reference over this range",
+ "cuts": [],
+ "verify": {
+  "file": "proof/sbs.mp4",
+  "decoded": 90,
+  "expected": 90,
+  "exact": 90,
+  "mismatches": []
+ }
+}

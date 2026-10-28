@@ -1,0 +1,12 @@
+verify: 1149/1909 frames exact
+  frame 900: the ours half shows source frame 901 (1.12 levels off it vs 9.54 off frame 900)
+  frame 901: the ours half shows source frame 902 (1.15 levels off it vs 9.18 off frame 901)
+  frame 902: the ours half shows source frame 903 (1.07 levels off it vs 8.41 off frame 902)
+  frame 903: the ours half shows source frame 904 (1.05 levels off it vs 8.36 off frame 903)
+  frame 904: the ours half shows source frame 905 (1.07 levels off it vs 8.84 off frame 904)
+  frame 905: the ours half shows source frame 906 (1.07 levels off it vs 8.40 off frame 905)
+  frame 906: the ours half shows source frame 907 (1.06 levels off it vs 9.19 off frame 906)
+  frame 907: the ours half shows source frame 908 (1.02 levels off it vs 9.99 off frame 907)
+  frame 908: the ours half shows source frame 909 (1.06 levels off it vs 10.72 off frame 908)
+  frame 909: the ours half shows source frame 910 (1.04 levels off it vs 13.06 off frame 909)
+exit=1

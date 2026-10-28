@@ -1,0 +1,95 @@
+# beats.yaml — the whole video as data. lv.mjs compiles it into a beat grid, renders stills, the film and clips.
+# Sample: "Steady", a fictional habit tracker (20 s at 120 BPM = 40 beats; one beat = 15 frames at 30 fps).
+title: Steady launch
+slug: steady
+aspects: [16x9, 9x16]            # 16x9 | 9x16 | 1x1 — each is re-laid out, not cropped
+
+brand:
+  name: Steady
+  mono: S                        # monogram stand-in when there is no logo
+  # logo: assets/logo.svg        # your mark (SVG/PNG); logoTint: "#111114" recolours a one-colour mark
+  colors:                        # all optional — an example palette (built-in defaults: GUIDE.md → beats.yaml)
+    bg: "#F6F6F7"                # light shot background
+    ink: "#111114"               # text
+    muted: "#7C7C86"             # secondary text
+    accent: "#3E7BFA"            # *accent* words, buttons, highlights
+    accent2: "#2FC2A3"
+    accent3: "#FFC53D"
+    dark: "#0E0E12"              # background of theme: dark shots
+  bg: grid                       # grid | dots | plain
+  # font: {family: Satoshi, files: {400: assets/fonts/Satoshi-Regular.woff2, 700: assets/fonts/Satoshi-Bold.woff2}}
+  # cast: [{src: assets/char-a.svg}, {shape: hex, col: "#2FC2A3"}]   # your characters, or the built-in shape cast
+
+music:
+  style: film
+  key: F
+  drop: s2                       # the groove drops in at this shot (default: the 2nd)
+  # breaks: [s4]                 # drums drop out under these shots
+  # style: track, file: assets/music.mp3, start: 12.5, downbeat: 0.32   # your track: start = seconds into the file,
+  #                                                                      # downbeat = film time of its first downbeat
+# voiceover: {file: assets/vo.wav, start: 0.5, duck: 9}               # music ducks 9 dB under the voice
+
+shots:
+  - id: s1
+    block: title                 # every block and its fields: GUIDE.md → "Blocks"
+    beats: 6
+    pre: Meet
+    name: Steady
+    badge: Day 1
+    sub: a habit tracker
+    out: zoom-in                 # cut | whip-left | whip-right | whip-up | whip-down | zoom-in | zoom-out | blur
+    note: Logo is a monogram stand-in until the real mark is in assets/.
+
+  - id: s2
+    block: headline
+    beats: 4
+    text: Small habits. *Big streaks.*
+    out: whip-left
+
+  - id: s3
+    block: phone
+    beats: 8
+    text: Check in with *one tap.*
+    items:
+      - header: {title: Today, sub: Thursday · 3 habits, avatar: 0}
+      - row: {title: Morning run, sub: "6:30 AM", icon: bolt, check: true}
+      - row: {title: Read 10 pages, sub: Before bed, icon: star, check: true}
+      - row: {title: Drink water, sub: 8 glasses, icon: heart}
+      - toast: 3-day streak. Nice.
+    out: whip-up
+
+  - id: s4
+    block: stat
+    beats: 5
+    value: 21
+    suffix: " days"
+    label: Your longest *streak* yet.
+    out: cut
+
+  - id: s5
+    block: prompt
+    beats: 7
+    text: Ask your coach *anything.*
+    prompt: Plan my week around my runs
+    steps: [Reading your calendar, Finding free mornings, Adding reminders]
+    out: zoom-out
+
+  - id: s6
+    block: field
+    beats: 5
+    text: Works with *your calendar.*
+    hero: 1
+    out: zoom-out
+
+  - id: s7
+    block: endcard
+    beats: 5
+    name: Steady
+    tagline: Start small. *Stay steady.*
+    cta: [Get it on iOS, Get it on Android]
+    url: steady.app
+
+cutdowns:                        # shorter edits reuse the same shots (music re-arranges to fit)
+  10s: [s1, s3, s7]
+
+thumbnail: s7

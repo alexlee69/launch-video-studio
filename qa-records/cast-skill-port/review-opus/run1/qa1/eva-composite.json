@@ -1,0 +1,15 @@
+{
+ "base": "eva-edit.png",
+ "restored_from": "cand-02.png",
+ "mask": "ellipse",
+ "center": [
+  480,
+  545
+ ],
+ "radii": [
+  235,
+  290
+ ],
+ "feather_blur": 28,
+ "why": "GPT Image edits soften skin: the untouched close-up face is masked back onto the edit"
+}

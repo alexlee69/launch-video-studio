@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Re-derives the three answers in hf02-skill/ANSWERS-measurements.md from the reference curves (read only):
 # 1 entrance offset/decay per cut, 2 camera blur vs speed, 3 roster slot nudges.  python3 -E tools/hf02_skill_answers.py
-import json, math, statistics as st
-C = '/Users/bytedance/Downloads/launch-videos/hf02-skill/ref/curves'
+import json, math, os, statistics as st
+C = os.path.expanduser('~/Downloads/launch-videos/hf02-skill/ref/curves')
 def log(f): return {r['n']: r for r in (json.loads(l) for l in open('%s/%s.log' % (C, f)) if l.strip().startswith('{'))}
 A = {r['n']: r for r in json.load(open(C + '/trackA.json'))}
 B1r, B1f, B2r, D1r, D1f, D2f = (log(f) for f in ('B1r', 'B1f', 'B2r', 'D1r', 'D1f', 'D2f'))

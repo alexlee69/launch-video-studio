@@ -1,0 +1,13 @@
+{
+  "root": "..",
+  "dirs": {
+    "locked": "../cast/locked"
+  },
+  "states": {
+    "hero": {
+      "refs": [],
+      "prompt": "A state.",
+      "pin": false
+    }
+  }
+}

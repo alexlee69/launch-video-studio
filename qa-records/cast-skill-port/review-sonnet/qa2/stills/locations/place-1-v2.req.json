@@ -1,0 +1,9 @@
+{
+ "endpoint": "generations",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [],
+ "prompt": "An empty location plate, three-quarter view, no people: filled in. filled in. filled in. Photoreal cinematic film still, visible film grain, slightly soft, true blacks, not a stock photo, no people, no text, no logos, no watermark."
+}

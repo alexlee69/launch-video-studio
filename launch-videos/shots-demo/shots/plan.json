@@ -1,0 +1,33 @@
+{
+ "model": "h3",
+ "shots": [
+  {
+   "shot": "S01",
+   "model": "h3",
+   "sec": 6.0,
+   "video_prompt": "shots/S01.h3.txt",
+   "words": 69,
+   "key_prompt": "shots/S01.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S01.h3.txt --out footage/fal/S01.mp4 --sec 6"
+  },
+  {
+   "shot": "S02",
+   "model": "seedance",
+   "sec": 6.0,
+   "video_prompt": "shots/S02.seedance.txt",
+   "words": 235,
+   "key_prompt": "shots/S02.key.txt",
+   "gen": "node $V/footage/gen.mjs video --endpoint bytedance/seedance-2.5/image-to-video --image <the picked key frame> --prompt @shots/S02.seedance.txt --out footage/fal/S02.mp4 --sec 6 --res 480p",
+   "final": "node $V/footage/gen.mjs video --endpoint bytedance/seedance-2.5/image-to-video --image <the picked key frame> --prompt @shots/S02.seedance.txt --out footage/fal/S02-720p.mp4 --sec 6 --res 720p"
+  },
+  {
+   "shot": "S03",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S03.h3.txt",
+   "words": 57,
+   "key_prompt": "shots/S03.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S03.h3.txt --out footage/fal/S03.mp4 --sec 5"
+  }
+ ]
+}

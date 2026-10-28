@@ -1,0 +1,19 @@
+# DRAFT timing skeleton from the reference "ref.mp4" — a starting point to EDIT, not a copy.
+# Borrow pacing and structure only: never the reference's footage, audio, music or copy (see breakdown.md).
+# One placeholder headline per reference shot: give each a real block + our own copy ("Recreate with" in breakdown.md),
+# merge or drop shots freely, then save it as the job's beats.yaml (this file is never used as one by itself).
+# Lengths in sec: — the reference has no confident tempo all the way through, so 120 BPM is a placeholder; set ours, then convert to beats:.
+title: "Draft from ref"
+slug: "ref-ref"
+aspects: [16x9]
+brand: {name: TODO}            # copy brand: from the job's real beats.yaml
+music: {style: playful, bpm: 120}   # our own composed music — never the reference's audio
+shots:
+  - {id: r01, block: headline, sec: 1.233, text: "TODO r01", out: cut, note: "ref 00:00:00–00:01:07 — describe & pick a block"}
+  - {id: r02, block: headline, sec: 1.267, text: "TODO r02", out: cut, note: "ref 00:01:07–00:02:15 — describe & pick a block"}
+  - {id: r03, block: headline, sec: 0.967, text: "TODO r03", out: cut, note: "ref 00:02:15–00:03:14 — describe & pick a block"}
+  - {id: r04, block: headline, sec: 1.533, text: "TODO r04", out: cut, note: "ref 00:03:14–00:05:00 — describe & pick a block"}
+  - {id: r05, block: headline, sec: 1.267, text: "TODO r05", out: cut, note: "ref 00:05:00–00:06:08 — describe & pick a block"}
+  - {id: r06, block: headline, sec: 1.067, text: "TODO r06", out: cut, note: "ref 00:06:08–00:07:10 — describe & pick a block"}
+  - {id: r07, block: headline, sec: 1.4, text: "TODO r07", out: cut, note: "ref 00:07:10–00:08:22 — describe & pick a block"}
+  - {id: r08, block: headline, sec: 1.267, text: "TODO r08", out: cut, note: "ref 00:08:22–00:10:00 — describe & pick a block"}

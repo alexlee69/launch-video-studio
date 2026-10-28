@@ -1,0 +1,68 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "input": {
+    "prompt": "p",
+    "aspect_ratio": "16:9",
+    "raw": true,
+    "num_images": 2,
+    "output_format": "jpeg"
+  },
+  "estimate": "2 images × $0.06 = $0.12",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-22T15:28:19.924Z",
+  "status": [
+    {
+      "t": 0,
+      "status": "IN_QUEUE",
+      "queue_position": 1
+    },
+    {
+      "t": 3,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 6,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "735e5bac-e1a7-4fd9-9d3d-1a5c0538cdcc",
+  "status_url": "http://127.0.0.1:18950/fal-ai/flux-pro/requests/735e5bac-e1a7-4fd9-9d3d-1a5c0538cdcc/status",
+  "response_url": "http://127.0.0.1:18950/fal-ai/flux-pro/requests/735e5bac-e1a7-4fd9-9d3d-1a5c0538cdcc",
+  "result": {
+    "images": [
+      {
+        "url": "http://127.0.0.1:18950/files/still_0.jpg",
+        "width": 2752,
+        "height": 1536,
+        "content_type": "image/jpeg"
+      },
+      {
+        "url": "http://127.0.0.1:18950/files/still_1.jpg",
+        "width": 2752,
+        "height": 1536,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 1234,
+    "has_nsfw_concepts": [
+      false,
+      false
+    ],
+    "prompt": "p"
+  },
+  "finished": "2026-10-22T15:28:25.977Z",
+  "outputs": [
+    {
+      "url": "http://127.0.0.1:18950/files/still_0.jpg",
+      "file": "plate.1_0.1",
+      "bytes": 1432931
+    },
+    {
+      "url": "http://127.0.0.1:18950/files/still_1.jpg",
+      "file": "plate.1_1.1",
+      "bytes": 1433485
+    }
+  ]
+}

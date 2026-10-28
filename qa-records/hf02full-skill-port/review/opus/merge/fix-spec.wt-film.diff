@@ -1,0 +1,74 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/lib/spec.mjs	2026-10-21 18:03:15
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-film/video/lib/spec.mjs	2026-10-22 01:58:10
+@@ -28,7 +28,7 @@
+ // fields a block can't do without (custom blocks may declare their own `required`)
+ const REQUIRED = { headline: ['text'], stat: ['value'], media: ['src'], prompt: ['prompt'], phone: ['items'], browser: ['items'], panel: ['items'] };
+ const STYLE_BPM = { playful: 120, keynote: 124, calm: 96 };
+-const RESERVED = ['i', 'f0', 'f1', 'D', 'Db', 'start', 'end', 'heroF', 'cues', 'copy', 'copyRead'];   // fields the timeline adds to shots
++const RESERVED = ['i', 'f0', 'f1', 'D', 'Db', 'start', 'end', 'heroF', 'cues', 'copy', 'copyRead', 'exitMove'];   // fields the timeline adds to shots
+ // the reel and film blocks' fixed choices (checked for the built-in blocks; a job's own block of the same name is its own)
+ const ENUMS = {
+   sticker: { style: ['outline', 'plate', 'pill'], pos: ['center', 'top', 'bottom'] },
+@@ -213,6 +213,20 @@
+       if (s.block === 'wall') list('chips', '[Hook in 1s, Captions]');
+       if (s.block === 'stack' && s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) >= 2 && Number(s.count) <= 14)) errs.push(`${where}: stack count must be a whole number 2–14 (got ${s.count})`);
+       const atNeg = v => v == null || v === '' || /^-?\d+(?:\.\d+)?\s*(s|sec)?$/.test(String(v).trim());     // frames, seconds, or negative (already there)
++      // a mascot / avatar: a cast index (a whole number ≥ 0: brand.cast or the built-in cast), or logo / spark where the
++      // block draws them; a number > 0 (scene overlay sizes and speeds); an on/off field
++      const whole = v => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && Number.isInteger(Number(v)) && Number(v) >= 0;
++      const castIdx = (v, what, marks = true) => { if (v != null && !(whole(v) || (marks && ['logo', 'spark'].includes(String(v))))) errs.push(`${where}: ${what} must be a cast index (a whole number ≥ 0)${marks ? ', logo or spark' : ''} (got ${JSON.stringify(v)})`); };
++      const pos = v => typeof v !== 'boolean' && num(v) && Number(v) > 0;
++      const onOff = (k, what) => { if (s[k] != null && typeof s[k] !== 'boolean') errs.push(`${where}: ${s.block} ${k} must be true or false — ${what} (got ${JSON.stringify(s[k])})`); };
++      if (s.block === 'type') {
++        if (s.through != null && !(typeof s.through === 'boolean' || (num(s.through) && Number(s.through) >= 0))) errs.push(`${where}: type through must be true (its last 10 frames), false, or a frame count ≥ 0 — the zoom through the camera at the end of the shot (got ${JSON.stringify(s.through)})`);
++        onOff('overLogo', 'false drops the brand logo from the co-brand line');
++      }
++      if (s.block === 'lockup') {
++        if (s.cast != null && s.cast !== false && !(whole(s.cast) && Number(s.cast) <= 6)) errs.push(`${where}: lockup cast must be a whole number 0–6 (the mascots round the lockup) or false (got ${JSON.stringify(s.cast)})`);
++        onOff('backdrop', 'false = the plain brand background instead of the light gradient');
++      }
+       if (s.block === 'agent') {
+         list('rows', '[{avatar: 0, name: Scout, status: Scouting, reply: "…"}]'); list('steps', '[Mapped the market, Drafted the script]');
+         if (s.frame != null && s.frame !== 'window') errs.push(`${where}: agent frame must be window (or left out) (got ${JSON.stringify(s.frame)})`);
+@@ -225,8 +239,10 @@
+           else for (const k of ['at', 'drop']) if (!isAt(s.sidebar[k])) errs.push(`${where}: agent sidebar.${k} must be a local frame (25) or seconds like 0.8s (got ${JSON.stringify(s.sidebar[k])})`);
+           if (s.frame !== 'window') warns.push(`${where}: agent sidebar does nothing without frame: window`);
+         }
++        if (isMap(s.header)) castIdx(s.header.avatar, 'agent header.avatar');
+         [].concat(Array.isArray(s.rows) ? s.rows : []).forEach((r, j) => {
+           if (!isMap(r)) return;
++          castIdx(r.avatar, `agent rows[${j}].avatar`);
+           for (const k of ['at', 'statusAt']) if (!atNeg(r[k])) errs.push(`${where}: agent rows[${j}].${k} must be a local frame (20; negative = before the shot) or seconds like 0.7s (got ${JSON.stringify(r[k])})`);
+           if (r.think != null && !(num(r.think) && Number(r.think) >= 0)) errs.push(`${where}: agent rows[${j}].think must be frames ≥ 0 (got ${JSON.stringify(r.think)})`);
+           if (r.statusLen != null && !(num(r.statusLen) && Number(r.statusLen) > 0)) errs.push(`${where}: agent rows[${j}].statusLen must be frames > 0 (got ${JSON.stringify(r.statusLen)})`);
+@@ -234,6 +250,7 @@
+       }
+       if (s.block === 'roster') {
+         list('agents', '[{name: Scout, sub: Digs up what\'s working, mascot: 0}]'); for (const a of [].concat(s.agents || [])) if (!(typeof a === 'string' || (isMap(a) && a.name))) errs.push(`${where}: roster agents are names or {name, sub, mascot} (got ${JSON.stringify(a)})`);
++        [].concat(Array.isArray(s.agents) ? s.agents : []).forEach((a, j) => { if (isMap(a)) castIdx(a.mascot, `roster agents[${j}].mascot`, false); });
+         if (s.beat != null && !(num(s.beat) && Number(s.beat) >= 4)) errs.push(`${where}: roster beat must be frames per step ≥ 4 (got ${JSON.stringify(s.beat)})`);
+         if (s.first != null && !(isAt(s.first) && s.first !== '')) errs.push(`${where}: roster first must be the local frame of the first step (38) or seconds like 1.3s (got ${JSON.stringify(s.first)})`);
+         if (s.run != null && !(Number.isInteger(Number(s.run)) && Number(s.run) >= 0)) errs.push(`${where}: roster run must be a whole number of rows ≥ 0 (got ${JSON.stringify(s.run)})`);
+@@ -242,7 +259,10 @@
+         if (!(typeof s.partner === 'string' || (isMap(s.partner) && s.partner.name))) errs.push(`${where}: lockup partner must be {name: Acme, logo: assets/acme.svg} or a name`);
+         else if (isMap(s.partner) && s.partner.logo) { asset(String(s.partner.logo), `${where}.partner.logo`); if (!['.svg', '.png', '.webp'].includes(extname(String(s.partner.logo)).toLowerCase())) errs.push(`${where}: partner.logo must be .svg, .png or .webp`); else decodable(String(s.partner.logo), `${where}.partner.logo`); }
+       }
+-      if (s.block === 'stack' && s.mascot != null && !['logo', 'spark'].includes(String(s.mascot)) && !Number.isInteger(Number(s.mascot))) errs.push(`${where}: stack mascot is a cast index, logo or spark`);
++      if (s.block === 'stack') {
++        castIdx(s.mascot, 'stack mascot');
++        if (!isAt(s.pillAt)) errs.push(`${where}: stack pillAt must be a local frame (60) or seconds like 2s (got ${JSON.stringify(s.pillAt)})`);
++      }
+       if (s.block === 'scene') {
+         list('overlays', '[{at: 10, pos: left, bubble: "Launch is Friday. Help?"}]');
+         [].concat(Array.isArray(s.overlays) ? s.overlays : []).forEach((o, j) => {
+@@ -253,6 +273,10 @@
+           if (o.pos != null && !(Array.isArray(o.pos) ? o.pos.length === 2 && o.pos.every(v => Number.isFinite(Number(v)) && Number(v) >= 0 && Number(v) <= 1) : OVERLAY_POS.includes(String(o.pos))))
+             errs.push(`${ow}: pos must be one of ${OVERLAY_POS.join(', ')} or [x, y] fractions of the frame (got ${JSON.stringify(o.pos)})`);
+           for (const k of ['at', 'until']) if (!isAt(o[k])) errs.push(`${ow}: ${k} must be a local frame (45) or seconds like 1.5s (got ${JSON.stringify(o[k])})`);
++          const fr = v => { const m = String(v ?? 0).trim().match(/^(\d+(?:\.\d+)?)\s*(s|sec)?$/); return m ? Number(m[1]) * (m[2] ? 30 : 1) : null; };
++          if (o.until != null && o.until !== '' && isAt(o.until) && isAt(o.at) && !(fr(o.until) > fr(o.at))) errs.push(`${ow}: until (${o.until}) must come after at (${o.at ?? 0}) — it is when the overlay has faded out`);
++          for (const k of ['speed', 'every', 'rate', 'size', 'width']) if (o[k] != null && !pos(o[k])) errs.push(`${ow}: ${k} must be a number > 0 (got ${JSON.stringify(o[k])})`);
++          if (Object.hasOwn(o, 'pill')) castIdx(o.mascot, `overlay #${j + 1} mascot`);
+           if (o.words != null && !Array.isArray(o.words)) errs.push(`${ow}: words must be a list, e.g. [Who?, "By *when?*"]`);
+           if (o.theme != null && !['dark', 'light'].includes(String(o.theme))) errs.push(`${ow}: theme must be dark or light`);
+           if (o.framing != null && !['inline', 'macro'].includes(String(o.framing))) errs.push(`${ow}: framing must be inline or macro`);

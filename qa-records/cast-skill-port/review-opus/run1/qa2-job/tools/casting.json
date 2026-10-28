@@ -1,0 +1,110 @@
+{
+ "_note": "casting.json starter (CASTING.md). Fill every <placeholder> (a --go refuses any left), run `casting.py plan`, quote it to the user. Prompts describe what things ARE; never name what must not appear (that pulls the model toward it): such words go in \"ban\", a build check. Paths are relative to this file; {NAME} expands a snippet from \"text\" or the built-ins (SHEET, LOCK, KEEP, STATE, FACELESS, GREY, TAIL, PLATE_TAIL, PRE_FACE, PRE_LOC).",
+ "root": "..",
+ "grey": "#8a8a8a",
+ "cap": 10,
+ "ledger": "../cast/ledger.jsonl",
+ "ban": [],
+ "text": {
+  "WHO": "a white woman of about 40 with fair skin, short brown hair, grey-blue eyes",
+  "WARDROBE": "a navy work jacket, grey T-shirt, dark jeans, white trainers"
+ },
+ "candidates": {
+  "look-1": {
+   "n": 2,
+   "prompt": "{SHEET} The person is {WHO}, wearing {WARDROBE}. {TAIL}"
+  }
+ },
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP}",
+   "restore": {
+    "ellipse": [
+     480,
+     545,
+     235,
+     290
+    ],
+    "feather": 28
+   },
+   "pin": {}
+  }
+ },
+ "states": {
+  "state-2": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} filled in. LEFT panel: a front-facing close-up of the head and shoulders, eyes to camera. MIDDLE panel: the full body from the front, the face area left as a soft plain shadow with no features. RIGHT panel: the full body from behind. {TAIL}",
+   "pin": {}
+  },
+  "costume": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "Image 1 is the locked character sheet. A faceless costume detail sheet: {FACELESS} filled in. {TAIL}",
+   "pin": {}
+  },
+  "props": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "Image 1 shows the world these props belong to. A faceless props sheet: {FACELESS} filled in. {TAIL}",
+   "pin": {}
+  }
+ },
+ "locations": {
+  "place-1": {
+   "refs": [],
+   "prompt": "An empty location plate, three-quarter view, no people: filled in. filled in. filled in. {PLATE_TAIL}"
+  }
+ },
+ "stills": {
+  "S01": {
+   "batch": "identity",
+   "face": "hero",
+   "refs": [
+    "sheet:hero",
+    "loc:place-1"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}filled in",
+   "meta": {
+    "shot": "S01"
+   }
+  }
+ },
+ "fixes": {
+  "S01-v1f": {
+   "src": "../stills/keys/S01-v1.png",
+   "prompt": "Remove the badge from the jacket. Change nothing else.",
+   "box": [
+    1000,
+    300,
+    1400,
+    700
+   ],
+   "feather": 18,
+   "why": "test"
+  },
+  "props-tile": {
+   "sheet": "props",
+   "prompt": "Change ONLY the right tile.",
+   "box": [
+    1280,
+    0,
+    2560,
+    1440
+   ],
+   "feather": 0,
+   "pin": {}
+  }
+ },
+ "faces": {
+  "hero": [
+   120,
+   150,
+   820,
+   850
+  ]
+ }
+}

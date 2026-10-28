@@ -1,0 +1,33 @@
+
+# zoom flip
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; speed ratio 1.6× — numbers per cut in qa.json
+WARN A→B at 60 (zoom-in): the move flips direction on the cut — zoom +2.00/s → −3.25/s (A pushes in, B starts zoomed in and pulls back); keep the sign across the cut
+
+# zoom kept
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratio 1.3× — numbers per cut in qa.json
+
+# carry good
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — all hold; speed ratio 1.0× — numbers per cut in qa.json
+
+# carry bad
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — 2 WARN; speed ratio 2.0× — numbers per cut in qa.json
+WARN A→B at 60 (zoom-in): the carried object's move flips direction on the cut — width +1.20/s → −1.80/s, height +1.20/s → −1.80/s; keep the sign across the cut
+WARN A→B at 60 (zoom-in): the carried object's fastest step is 3 frames late (frames 62→63, 8450 px/s vs 4434 px/s on the cut) — a move across a cut peaks on the cut
+
+# no cams
+INFO no camera log for this render (out/<cut>/<aspect>/cams.json) — re-run --film to check cut continuity
+
+# needle carry (research shape)
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json
+speeds {"54":21,"55":29,"56":40,"57":57,"58":90,"59":183,"60":659,"61":183,"62":90,"63":57,"64":40,"65":29,"66":21} peak {"step":"59→60","v":659,"onCut":659,"off":0}
+
+# needle carry keys +1 f
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — 1 WARN — numbers per cut in qa.json
+WARN A→B at 60 (zoom-in): the carried object's fastest step is 1 frame late (frames 60→61, 659 px/s vs 183 px/s on the cut) — a move across a cut peaks on the cut
+
+# needle carry keys +2 f
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN — numbers per cut in qa.json
+WARN A→B at 60 (zoom-in): the carried object's fastest step is 2 frames late (frames 61→62, 659 px/s vs 90 px/s on the cut) — a move across a cut peaks on the cut
+
+# partial log
+INFO 1 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; no camera data at A→B (re-run --film) — numbers per cut in qa.json

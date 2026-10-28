@@ -3,7 +3,7 @@
 import sys, os, json
 import numpy as np
 from PIL import Image
-J = '/Users/bytedance/Downloads/launch-videos/hf02-full'
+J = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CUTS = [(75, 'lockup > corridor'), (97, 'corridor > plate 1'), (231, 'plate cut'), (264, 'plate > chat'), (312, 'chat'), (357, 'dissolve'),
         (465, 'chat'), (510, 'chat > review card'), (641, 'card > close-up'), (671, 'close-up > research'), (719, 'research > big type'),
         (743, 'big type > thread'), (843, 'whip > wall'), (922, 'wall > featured'), (972, 'featured > insights'), (1000, 'insights > fan'),

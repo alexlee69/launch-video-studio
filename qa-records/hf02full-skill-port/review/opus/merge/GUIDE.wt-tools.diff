@@ -1,0 +1,119 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/GUIDE.md	2026-10-21 19:12:54
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-tools/video/GUIDE.md	2026-10-22 03:04:17
+@@ -40,7 +40,7 @@
+ 
+ ```bash
+ node $V/lv.mjs --job DIR --init [--title "Name"]       # starter brief.md + beats.yaml (the "Steady" sample) + assets/
+-node $V/lv.mjs --job DIR --init --kit reel|film         # a reel (AI footage + stickers) or launch-film (UI over AI footage) starter; runs with no assets
++node $V/lv.mjs --job DIR --init --kit reel|film [--title "Name"]   # a reel (AI footage + stickers) or launch-film (UI over AI footage) starter; runs with no assets
+ node $V/lv.mjs --job DIR --grid                         # compile → beat-grid table; warnings: reading time, UI overflow
+ node $V/lv.mjs --job DIR --storyboard [--aspect all]    # ~5 s: DIR/<slug>-storyboard-<aspect>.png + .pdf
+ node $V/lv.mjs --job DIR --animatic                     # ~40 s for 20 s: DIR/<slug>-animatic-<aspect>.mp4 (preview only)
+@@ -249,6 +249,9 @@
+ 
+ Both starters run straight away (`--grid`, `--storyboard`) with no assets: their footage lines are commented
+ (`# bg: assets/your-ai-footage.mp4`) and the cards/panels point at placeholder stills `--init` writes into `assets/`.
++While any shot still shows one, `--grid`, the storyboard notes and QA name the shots and fields (a warning, never a
++FAIL — so a PASSED film can still be all stand-ins: swap them before you ship). `--title "Acme"` puts the name everywhere the starter shows its stand-in "Product" (title, brand, monogram, and the copy:
++the co-brand line, agent rows, chips, the CTA word), quoted as YAML needs it, with comments and layout left as they are.
+ Finished examples: `~/Downloads/launch-videos/reel-sample/` (Popframe, 19.7 s, 9:16 · 16:9 · 1:1) and
+ `~/Downloads/launch-videos/film-sample/` (Orbit 2, 37.8 s, 16:9 · 9:16 · 1:1) — read their beats.yaml before writing one.
+ 
+@@ -330,19 +333,24 @@
+ ## Reference breakdown: a saved reel's anatomy, for "ours, but like this"
+ 
+ ```bash
+-node $V/lv.mjs --job DIR --breakdown ~/Downloads/reel.mp4 [--threshold 0.3] [--min-shot 0.2] [--per-page 8]   # ~15 s per minute of reel
++node $V/lv.mjs --job DIR --breakdown ~/Downloads/reel.mp4 [--threshold 0.3] [--min-shot 0.2] [--per-page 8]   # ~15 s per minute of a 1080p reel (big screen recordings take longer)
+ node $V/lv.mjs --tempo assets/track.wav                                                                          # the user's own music track
+ ```
+ 
+ The user saves the reel themselves (download or screen-record it; the tool never fetches anything). Run it once per
+-reference; output goes to `DIR/reference/<name>/` (a job folder without a beats.yaml is fine — it's for the brief
+-stage). Re-running replaces exactly these files and nothing else:
++reference; output goes to `DIR/reference/<name>/`, named after the file in any script (`参考视频.mp4` →
++`reference/参考视频/`); another reel with the same name gets `<name>-2`, and a re-run of the same file finds its own
++folder (a job folder without a beats.yaml is fine — it's for the brief stage). A run builds the whole set before it
++replaces anything, so a failed run leaves the last one. A re-run replaces the files below and removes its own stale
++sheets and thumbnails, nothing else — and never your notes: a `breakdown.md` edited since it was written stays as it
++is, and the new table goes to `breakdown.new.md` (carry the notes over). A tuning flag without its number
++(`--min-shot` alone) stops with exit 2 instead of running with 1:
+ 
+ | File | What it is |
+ |---|---|
+-| `sheet-01.png …` | contact sheets, 8 shots each: number, timecode in → out (MM:SS:FF at the source rate, + seconds), length (frames, beats), how the shot came in, on/off the beat, in-shot events, and frames at start+2, middle and end−2. **Read every sheet** |
++| `sheet-01.png …` | contact sheets, 8 shots each: number, timecode in → out (MM:SS:FF, frames counted at the source's whole rate — 30 for 29.97, as an editor's timeline does — + seconds), length (frames, beats), how the shot came in, on/off the beat, in-shot events, and frames at start+2, middle and end−2. **Read every sheet** |
+ | `overview.png` | the middle frame of every shot on one page |
+-| `breakdown.md` | the stats + a shot table with empty **What happens** / **Recreate with** columns and a **What to borrow** section — yours to fill |
++| `breakdown.md` | the stats + a shot table with empty **What happens** / **Recreate with** columns and a **What to borrow** section — yours to fill (a re-run never writes over it once filled) |
+ | `breakdown.json` | everything: shots, transitions (type, confidence, span), flashes / fades / in-shot whip pans and zooms, tempo + beat grid + pulse by section, loudness, cut-to-beat alignment, per-frame signals |
+ | `beats-draft.yaml` | a timing skeleton: one `headline` placeholder per reference shot (`r01…`, note = its timecodes), `music: {style: playful, bpm: <reference tempo>}`, the reference's whips / zooms / blurs as `out:`. The skill compiles it before writing; it is never the job's `beats.yaml` |
+ | `breakdown.html`, `thumbs/` | all shots on one page (open locally), the JPEG frames |
+@@ -351,7 +359,8 @@
+ 1. The user saves the reel file; run `--breakdown` on it.
+ 2. Read each `sheet-NN.png` (and `overview.png`). Per shot fill **What happens** (what's on screen and how it moves,
+    one line) and **Recreate with** (a block — `sticker`, `float`, `scene` … — or "footage: …" for the AI clip) in
+-   `breakdown.md`. A transition marked `?` is low confidence: judge it from its frames, and merge shots it split wrongly.
++   `breakdown.md`. A transition marked `?` is low confidence: judge it from its frames, and merge shots it split wrongly
++   — or split one whose start and end frames are two different scenes (a dissolve it missed).
+ 3. Propose **What to borrow** in 3–5 bullets: pacing (median shot, cuts/s, where it speeds up), structure (hook →
+    proof → CTA), transition grammar, cut on the beat or to the story. The user picks.
+ 4. Edit `beats-draft.yaml` into the job's `beats.yaml`: a real block and our own copy per shot, merge or drop shots, copy
+@@ -359,10 +368,11 @@
+ 
+ Reading it:
+ - **Transitions**: `cut`, `whip-left|right|up|down`, `zoom-in|out` and `blur` map straight to `out:`. `dissolve`,
+-  `fade` (a dip), `flash` (a cut through a white/black frame) and `fx` (a glitch / multi-frame effect) become `out: cut`
+-  with a comment in the draft — pick `glitch`, `flash`, `smear-*` or `tunnel` yourself if that is what the frames show.
+-  In-shot events: a flash that returns to the same picture, a whip pan or zoom inside one shot, a fade in/out. A push
+-  (both pictures sliding together) shows as an in-shot whip pan: look at the shot's frames.
++  `fade` (a dip through black or white, with or without a hold), `flash` (a cut through a white/black frame) and `fx`
++  (a glitch / multi-frame effect) become `out: cut` with a comment in the draft — pick `glitch`, `flash`, `smear-*` or
++  `tunnel` yourself if that is what the frames show. In-shot events: a flash that returns to the same picture, a whip
++  pan or zoom inside one shot, a fade in/out. A push (both pictures sliding together) shows as an in-shot whip pan: look
++  at the shot's frames.
+ - **Cuts on the beat**: "N of M within one frame of a beat" sits beside the chance rate (2 frames ÷ the beat). Near chance
+   means it cuts to the story, not the music. Cuts where the reel has no steady pulse are n/a.
+ - **Tempo** carries a confidence. Silence, speech or no steady pulse gives `none` with the reason, never a guess. Below
+@@ -371,8 +381,12 @@
+ - `beats-draft.yaml` uses `beats: N` only where the reference cut lands on its beat (±1 frame); every other cut keeps its
+   exact `sec:`.
+ - `--tempo` prints bpm, first beat, first downbeat (and how sure the bar is) and a ready line,
+-  `music: {style: track, file: assets/<file>, bpm, start, downbeat: 0}`. Its `start` is the first downbeat (or first beat)
+-  in the file, so the film opens on it. Copy the track into `assets/` first.
++  `music: {style: track, file: "assets/<file>", bpm, start, downbeat: 0}` (the path is quoted, so a name with `[ ]`, a
++  comma or `#` pastes as is). Its `start` is the first downbeat (or first beat) in the file, so the film opens on it: a
++  hit right at 0 s counts, an onset-free intro (a pad or riser before the drums) is skipped — and only then a second line,
++  `start: 0, downbeat: <s>`, keeps the intro. A tempo outside 60–180 BPM is folded into it (halving keeps the stronger of
++  each pair of beats). The beat follows the kicks, not louder off-beat claps or stabs; when the two disagree closely it
++  says the beat may sit on the off-beat (check by ear) and the confidence stays under .6. Copy the track into `assets/` first.
+ 
+ **Originality**: a breakdown borrows pacing and structure only: shot lengths, rhythm, transition grammar, the order of
+ beats. Never the reference's footage or frames, its music or audio (the draft is our own composed music at its tempo),
+@@ -380,7 +394,8 @@
+ 
+ Limits: cuts between near-identical framings can be missed. A push/slide doesn't split. On a flat white UI or sparse
+ motion graphics an animation can split a shot (marked `?`). Dissolves are found only when the middle frames really are a
+-mix of the two ends.
++mix of the two ends: over heavy motion (handheld, fast zooms, crowds, particle footage) they are often missed — look for
++two scenes inside one shot on the sheets. Dips through black / white are found with or without a hold.
+ 
+ ## Review sheet: notes pinned to shots
+ 
+@@ -567,13 +582,14 @@
+ | content | every frame differs from a background-only render of the *same* frame (same camera, block content and `bg` footage hidden) in ≥ 3 thumbnail pixels (1/10 scale, by > 12 luma) — so a blank frame fails even on a busy grid or dark background. **Footage is content**: the reference keeps the brand background (a `bg:` shot's plain underlay), the letterbox bars and any glitch/smear/tunnel/flash drawn over the cut, but not the footage, so a footage-only beat (the AI clip before the first overlay lands) passes, while a frame that shows neither the block nor footage fails — a clip that is a flat frame matching the underlay, a transition that washes the shot out (a solid flash, a corridor hiding it). A file that can't be shown stops earlier: `--grid` checks every image's bytes (an HTML page or a HEIC photo saved as .jpg), the stage refuses to build on an image it can't decode, and missing footage frames are a render error. A footage-only beat needs moving footage: a near-static clip held under a late overlay trips `freeze` |
+ | text | at each hero frame no text clipped by the frame or under a letterbox bar (UI mocks included) and none under 18 px (UI mocks exempt); WARN outside the safe area (inside the bars with letterbox) or under 26 px |
+ | loudness / duration | mp4 audio −14 ± 0.2 LUFS, true peak ≤ −1 dBTP (INFO when the soundtrack is deliberately silent); exact timeline length |
+-| sfx / whoosh | every cue's onset within 1.5 ms (ticks, clicks) or 3 ms (pops, chimes, hits), measured on QA lanes (stems where the previous cue on the lane has finished ringing); cues buried in another sound's tail in the full mix are INFO (a design hint). Whoosh peaks within 12 ms of their cuts on the whoosh stem |
++| sfx / whoosh | every cue's onset within 1.5 ms (ticks, clicks) or 3 ms (pops, chimes, hits), measured on QA lanes (stems where the previous cue on the lane has finished ringing); cues buried in another sound's tail in the full mix are INFO (a design hint). Whoosh peaks within 12 ms of their cuts on the whoosh stem (each one's expected envelope is matched to the stem, so its noise can't move the peak, and a neighbouring whoosh under 0.3 s away isn't mistaken for it) |
+ 
+ Clips get their own QA: frame count and format (alpha plane present), content (alpha coverage for transparent clips, the
+ per-frame background-only render otherwise, footage counting as content as in the film; measured inside the picture when the shot has letterbox bars, which are
+ opaque in every frame) and freeze (same seam rule).
+ 
+-Never ship a FAIL and never loosen a threshold to get a pass. Fix the cause (usually copy too long, a shot too short
++After the checks, a job whose shots still show the kit starters' stand-in stills (`assets/placeholder-*.svg`) gets a
++`WARN assets` line naming them; it never fails QA. Never ship a FAIL and never loosen a threshold to get a pass. Fix the cause (usually copy too long, a shot too short
+ for its UI items, or a custom block that stops moving) and re-run.
+ 
+ ## Limits (raise them at the brief)

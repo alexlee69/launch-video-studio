@@ -1,0 +1,35 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/work-A/media/fixtures/hdr/hlg-card.mp4",
+  "frames": 48,
+  "size": [
+   640,
+   360
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/work-A/media/fixtures/hdr/hlg-card.mp4",
+  "frames": 48,
+  "size": [
+   640,
+   360
+  ]
+ },
+ "fps": 24.0,
+ "range": [
+  0,
+  47
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: none in the reference over this range",
+ "cuts": [],
+ "verify": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/hdrcompare.bEkgbc/proof/sbs.mp4",
+  "decoded": 48,
+  "expected": 48,
+  "exact": 48,
+  "mismatches": []
+ }
+}

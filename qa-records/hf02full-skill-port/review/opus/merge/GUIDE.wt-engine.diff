@@ -1,0 +1,141 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/GUIDE.md	2026-10-21 19:12:54
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-engine/video/GUIDE.md	2026-10-22 02:54:42
+@@ -58,7 +58,8 @@
+ ```
+ 
+ **Stale frames are refused.** Every render stores a fingerprint per shot (its beats.yaml fields, timing, brand, the
+-assets it uses and the engine code). `--audio`, `--qa` and the mux stop when a shot's frames no longer match, name the
++assets it uses and the engine code, plus what a cross-cut takes from the neighbours: the previous shot's exit and id,
++and for a `tunnel` out, whether the next shot is dark). `--audio`, `--qa` and the mux stop when a shot's frames no longer match, name the
+ shots and print the exact `--film --range a,b` per shot to fix them. A `--range` render makes a shot current only when it
+ covers all of that shot's frames; a range that cuts through a shot leaves it stale, so re-render whole shots (the
+ `--grid` table and the error both give their frame ranges). The soundtrack is fingerprinted the same way: QA fails when
+@@ -97,24 +98,35 @@
+   The next shot always *enters* continuing the previous shot's exit (a whip-left exit enters moving left, etc.).
+ - **Drift cuts** (`drift-left | right | up | down`, the way the content moves — measured on a launch film's momentum
+   cuts): the camera speeds up into the cut (expo-in over the shot's last 12 frames, 5 % of the width or 10 % of the
+-  height, fastest on the last frame, with motion blur) and the next shot enters still moving the same way (7 % of the
+-  width / 8 % of the height, decaying ×0.7 a frame), with a lighter whoosh than a whip. `drift: {in: 1.5, out: .6}` on a
+-  shot scales its drift entrance / drift exit (1 = default; a `wall`'s own `drift: up` stays its direction). Use
+-  `push: 0` on drift shots for the measured look (no zoom inside a shot): `agent` and `roster` keep moving by themselves;
+-  on other blocks keep the push, or add a slow `move:` (QA fails frames that stop: a headline is still once its words land).
++  height, its speed building ×1.4 a frame through the last one, with motion blur) and the next shot enters still moving
++  the same way (10 % of the width / 8.5 % of the height, decaying ×0.65 a frame), with a lighter whoosh than a whip. The
++  entrance is the cut's own move: a shot that keeps drifting after it gets that from its own camera terms (a slow
++  `move:`, or a gentle `pan:` easing into the next one), not from a stronger entrance. `drift: {in: 1.5, out: .6}` on a
++  shot scales its drift entrance / drift exit (1 = default; a `wall`'s own `drift: up` stays its direction); `decay: .72`
++  lets its entrance settle slower than the default ×0.65 a frame — for a cut that drops the next shot in (a list falling
++  into place) rather than carrying the momentum on. Use `push: 0` on drift shots for the measured look (no zoom inside a
++  shot): `agent` and `roster` keep moving by themselves; on other blocks keep the push, or add a slow `move:` (QA fails
++  frames that stop: a headline is still once its words land).
+ - **Camera fields** (any shot, opt-in; old shots render exactly as before): `zoom: 1.5` (base scale) about `focus: [x, y]`
+   (fractions of the frame; that point stays put, also under the push), `offset: [x, y]` (fractions of W / H), `pan:
+   [{at: 22, by: [.14, 0], len: 20}]` (a tanh move of `by` whose fastest frame is local frame `at`, τ = len / 7.5; several
+-  allowed), `move: [0, -.04]` (a constant drift, fractions of the frame per second). Any of them can be per aspect:
+-  `zoom: {16x9: 1.2, 9x16: 1}` (an aspect left out gets none). A shot with a drift or camera fields gets velocity motion
+-  blur (σ ≈ 0.2 × speed along the travel, fading in from ~4–14 px/frame at 1080p); blocks can read what the base framing
+-  shows (`ctx.view`) — `agent` keeps its newest message inside it, `roster` fades text before it crosses its top.
++  allowed), `move: [0, -.04]` (a constant drift, fractions of the frame per second; only a list is the camera's — on a
++  `media` shot a word, `move: left`, is still its Ken Burns, and a list adds the drift over its default `in`). Any of
++  them can be per aspect: `zoom: {16x9: 1.2, 9x16: 1}` (an aspect left out gets none). A shot with a drift or camera
++  fields gets velocity motion blur (σ ≈ 0.2 × speed along the travel, fading in from ~4–14 px/frame at 1080p); blocks can
++  read what the base framing shows (`ctx.view`) — `agent` keeps its newest message inside it, `roster` fades text before
++  it crosses its top. `--grid` warns when the base framing (zoom, offset, pans, the move over the shot) runs past what
++  the engine paints — the brand background reaches half a frame past each edge, a `bg:` plate a whole frame — where the
++  plain stage would show as a hard strip.
+   The cross-cut transitions also draw across the cut (both shots see it; each has its own whoosh): `glitch` — ~4 frames
+   out + 3 in of sliced, sideways-jumping bands, vertical pixel streaks and an RGB split; `smear-left` / `smear-right` — a
+   whip with accent-coloured motion streaks racing across; `tunnel` — the camera rushes into the outgoing shot while a
+   perspective corridor (brand line colour, slabs streaking past) fades in, and the next shot flies up out of its
+   vanishing point; `flash` — a bright bloom washes over the cut and back (a hot white core fading to the accent, a lens
+   streak), never a solid frame. All of them are left out of clean `--clips` / `--layers` (see `--with-transitions`).
++  Each reaches into both shots (out / in, 30-fps frames: glitch 4 / 3, smear 6 / 5, tunnel 7 / 10, flash 5 / 6), so a
++  shot between two of them needs both windows (a one-beat shot between two tunnels is too short): `--grid` warns when
++  a shot is shorter than the windows it takes part in, since the incoming overlay would be cut off.
+ - **Footage background, any shot, any block**: `bg: assets/plate.mp4` (or an image: .png/.jpg/.webp/.svg) draws it full-bleed behind the
+   block, inside the camera (it moves with the push and every whip/zoom), replacing the brand background; `bgFrom`
+   (seconds into the footage), `bgDim` (0–1 scrim, default .15), `bgMove: in (default) | out | left | right | none`
+@@ -182,7 +194,11 @@
+ **Footage fields** of these blocks (split `before`/`after`, float `card`, stack/wall `cards`, and the universal `bg`)
+ take an image or a clip; `<field>From` = seconds into the clip (a list for `cards`). Clips are cut to 60-fps frames for
+ the shot: panels and cards are extracted whole (`contain`) and cropped once by the block — stack cards at .75 and wall
+-cards at .5 of the frame's longer side (no card is drawn bigger), to keep extraction small.
++cards at .5 of the frame's longer side (no card is drawn bigger), to keep extraction small. A clip with transparency
++(ProRes 4444 `.mov`, VP9-alpha `.webm`) keeps it — its frames are PNGs instead of JPEGs (heavier to extract) — so a
++cut-out card shows the block behind it. An animated image (GIF, APNG, animated WebP / AVIF, an SVG with SMIL or CSS
++animation) is refused at `--grid`: Chrome plays it on its own clock, so no two renders would match — export it as a
++clip at least as long as the shot (or use a still).
+ 
+ **UI items** (phone / browser / panel `items:`), in order, each optionally pinned with `at: <local frame>` (or seconds, `at: 1.5s`):
+ `header {title, sub, avatar}` · `msg: text` (+ `from: user`) · `typing: frames` · `input: text` (typed, then sent) ·
+@@ -209,9 +225,11 @@
+ add `layers: 'a · b'` to the block (`lv.mjs --blocks --job DIR` lists it); a block with no tags exports one `content`
+ layer, which layer QA fails when the shot has several elements. Layer names: lower-case letters, digits and `-`, up to
+ 40 characters; `background` and `constructor` are reserved, and so are the engine's own layers in a shot that has
+-them: `footage` (its `bg`), `letterbox`, `transition` (a glitch/smear/tunnel/flash in or out).
+-**The engine also owns the camera fields** `push`, `zoom`, `focus`, `offset`, `pan`, `move` and the map form of `drift`
+-(`{in, out}`) on every shot: don't use those names for a custom block's own params (a string `drift` stays the block's).
++them: `footage` (its `bg`), `letterbox`, `transition` (a smear/tunnel/flash in or out; glitch draws no layer of its own).
++**The engine also owns the camera fields** `push`, `zoom`, `focus`, `offset`, `pan`, the list form of `move` (`[x, y]`)
++and the map form of `drift` (`{in, out}`) on every shot: don't use those names for a custom block's own params (a word
++in `move` or `drift` stays the block's, as `media`'s `move: left` is its Ken Burns). `--grid` warns when a custom
++block's `params` names one of the engine's shot fields (these, the bg fields and `letterbox` below, `copy` / `copyRead`).
+ **The engine owns `bg`, `bgFrom`, `bgDim`, `bgMove` and `letterbox` on every shot** — a block must not draw or read them
+ itself: the engine draws the footage and the bars, `ctx.hasBg` says there is a bg, `ctx.dark` that copy should be light
+ (`ctx.C` is already the dark palette), and `ctx.picture` is the box inside the bars (`{x0, y0, x1, y1, w, h, bar}`, the
+@@ -265,10 +283,13 @@
+   stack cycle ≈ 0.17 s, kinetic words land 0.17–0.33 s apart). Typing runs ≈ 12 chars/s in a composer to 25–30 in a macro
+   bar; an agent reply streams ≈ 24 words/s (`rate: 24`). The hero type holds ≈ 1.2 s before it goes through.
+ - **Momentum cuts, not hard cuts** (between UI shots): every shot is one continuous drift. It speeds up into the cut
+-  (×1.3 a frame over its last ~12 frames, 5 % of the width or 6–13 % of the height, peaking at 14–22 px/frame of a
+-  1080-wide frame), cuts on its fastest, most blurred frame, and the next shot enters already moving the same way at
+-  15–45 px/frame, decaying ×0.7 a frame. Nothing ever holds still: the slowest camera speed in the 7 s is ≈ 0.4 px/frame.
+-  → `out: drift-*` with `push: 0` (strength per cut with `drift: {in, out}`; a slow `move:` where a shot only drifts).
++  (×1.38–1.41 a frame over its last ~12 frames, through the very last one, 5 % of the width or 6–13 % of the height,
++  ≈ 16–27 px/frame of a 1080-wide frame on its last frame), cuts on its fastest, most blurred frame, and the next shot
++  enters already moving the same way at 15–45 px/frame, decaying ×0.65 a frame (≈ 0.10 of the width / 0.085 of the
++  height at the cut, over the shot's own slow base drift of ≈ 1–1.5 px/frame). Nothing ever holds still: the slowest
++  camera speed in the 7 s is ≈ 0.4 px/frame.
++  → `out: drift-*` with `push: 0` (strength per cut with `drift: {in, out}`, `decay` for a drop; a slow `move:` where
++  a shot only drifts).
+   Hard cuts stay for actions over footage (the send click cuts footage → white UI); the zoom-through is 9–10 frames at
+   30 fps (`type` `through: true` = its last 10 frames, then `out: cut`); a tunnel ≈ 0.6 s; glitch / pixel streaks 3–6
+   frames (`out: glitch`).
+@@ -311,8 +332,8 @@
+ 
+ **Bringing the AI footage in.** The user generates the clips themselves and drops the files into `assets/`; nothing is
+ generated here. Generate at the film's aspect (9:16 for a reel) and a little longer than the shot (the clip must cover
+-the shot from its `…From` point, or `--film` stops and says by how much); leave room where the sticker or card goes, and
+-no text in the clip. Then, per shot:
++the shot from its `…From` point: `--grid` warns, and `--storyboard` / `--film` stop and say by how much); leave room
++where the sticker or card goes, and no text in the clip. Then, per shot:
+ - `bg: assets/clip.mp4` on **any** shot draws it full-bleed behind the block (`bgFrom`, `bgDim`, `bgMove`, `letterbox`;
+   the reel blocks bring heavier scrims: sticker .25, float .45, cta .5). Copy over it turns light-on-dark.
+ - The blocks' own footage fields: `split` `before` / `after`, `float` `card`, `stack` / `wall` `cards` (each with
+@@ -452,7 +473,7 @@
+ | `01-footage.mov` | a `bg:` shot's footage (mirror-extended, Ken Burns, scrim baked in) with the camera move — swap in your own. Not with `--alpha` |
+ | `01-<layer>.mov` … | each element alone, numbered back to front: ProRes 4444 with alpha (straight), BT.709; `.webm` (VP9 alpha) too with `--webm`. With `--with-transitions`, a smear/tunnel/flash overlay is a `transition` layer near the top; `letterbox` (the bars) is always the top layer |
+ | `<slug>-<id>-<aspect>-sfx.wav` | the shot's UI sounds, as for clips |
+-| `manifest.json` | order (`layers[0]` is the bottom), names, kind (`background` / `text` / `element` / `content`), fps, frame count, size, each layer's visible frames and bounding box, the copy of text layers, QA results |
++| `manifest.json` | order (`layers[0]` is the bottom), names, kind (`background` / `footage` / `text` / `element` / `content` / `transition` / `letterbox` — layer QA finds the engine's own layers by kind, so a block's layer may be called `footage` in a shot without `bg`), fps, frame count, size, each layer's visible frames and bounding box, the copy of text layers, QA results |
+ | `<slug>-<id>-<aspect>.jsx` | After Effects import script (below) |
+ | `…-preview.mp4` | the layers restacked by ffmpeg, i.e. what an editor will see |
+ | `…-layers.png` | contact sheet: the finished frame, then every layer alone on a checkerboard (good for a phone) |
+@@ -564,7 +585,7 @@
+ | shots | the renderer's log changes shot exactly at the timeline's cut indices |
+ | cut | hard cuts (`out: cut`) are one-frame luma spikes ≥ 1.25× their neighbours; moving transitions (whips, zooms, blur, drifts and the cross-cut ones) are INFO (the shot log proves them) |
+ | freeze | no run of ≥ 4 identical frames outside `hold:` ranges. Frames from one Chrome page must be pixel-identical to count; across a page seam (where one render worker hands over to the next, or where a `--range` render meets older frames) Chrome's raster noise is ±1–2 code values, so a pair there counts as still at ≤ 2. Holds are reported as verified still |
+-| content | every frame differs from a background-only render of the *same* frame (same camera, block content and `bg` footage hidden) in ≥ 3 thumbnail pixels (1/10 scale, by > 12 luma) — so a blank frame fails even on a busy grid or dark background. **Footage is content**: the reference keeps the brand background (a `bg:` shot's plain underlay), the letterbox bars and any glitch/smear/tunnel/flash drawn over the cut, but not the footage, so a footage-only beat (the AI clip before the first overlay lands) passes, while a frame that shows neither the block nor footage fails — a clip that is a flat frame matching the underlay, a transition that washes the shot out (a solid flash, a corridor hiding it). A file that can't be shown stops earlier: `--grid` checks every image's bytes (an HTML page or a HEIC photo saved as .jpg), the stage refuses to build on an image it can't decode, and missing footage frames are a render error. A footage-only beat needs moving footage: a near-static clip held under a late overlay trips `freeze` |
++| content | every frame differs from a background-only render of the *same* frame (same camera, block content and `bg` footage hidden) in ≥ 3 thumbnail pixels (1/10 scale, by > 12 luma) — so a blank frame fails even on a busy grid or dark background. **Footage is content**: the reference keeps the brand background (a `bg:` shot's plain underlay), the letterbox bars and any glitch/smear/tunnel/flash drawn over the cut, but not the footage, so a footage-only beat (the AI clip before the first overlay lands) passes, while a frame that shows neither the block nor footage fails — a clip that is a flat frame matching the underlay, a transition that washes the shot out (a solid flash, a corridor hiding it). A file that can't be shown stops earlier: `--grid` checks every image (an HTML page or a HEIC photo saved as .jpg, a download cut short — ffmpeg decodes each one, since Chrome would draw the top part and leave the rest blank — or an animated GIF / APNG / WebP / AVIF / SVG, which Chrome plays on its own clock) and probes every clip (not a video, no picture track, a `…From` past its end; too short for its shot warns), the stage refuses to build on an image it can't decode, and missing footage frames are a render error. A footage-only beat needs moving footage: a near-static clip held under a late overlay trips `freeze` |
+ | text | at each hero frame no text clipped by the frame or under a letterbox bar (UI mocks included) and none under 18 px (UI mocks exempt); WARN outside the safe area (inside the bars with letterbox) or under 26 px |
+ | loudness / duration | mp4 audio −14 ± 0.2 LUFS, true peak ≤ −1 dBTP (INFO when the soundtrack is deliberately silent); exact timeline length |
+ | sfx / whoosh | every cue's onset within 1.5 ms (ticks, clicks) or 3 ms (pops, chimes, hits), measured on QA lanes (stems where the previous cue on the lane has finished ringing); cues buried in another sound's tail in the full mix are INFO (a design hint). Whoosh peaks within 12 ms of their cuts on the whoosh stem |
+@@ -608,7 +629,7 @@
+   Layers). **CapCut**: whether a build keeps ProRes 4444 alpha is untested here — check one overlay over a colour
+   before laying out a whole reel (`--webm` is the fallback).
+ - Every footage plate is extracted at stage size for each aspect (60-fps JPEGs: ~30 KB each for flat graphics, up to
+-  ~300 KB for detailed camera footage at 1080p); a block's
++  ~300 KB for detailed camera footage at 1080p; PNGs, several times that, for a clip with transparency); a block's
+   small footage fields can declare `scale`. Letterbox bars belong to their shot: they snap on and off at a cut into or
+   out of a shot without them.
+ - Disk: layer exports keep ~150 MB of PNGs per 4 s shot in `DIR/out/<cut>/<aspect>/layers/` (delete after hand-off).

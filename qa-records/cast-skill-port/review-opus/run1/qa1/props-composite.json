@@ -1,0 +1,14 @@
+{
+ "original": "props-ball.png",
+ "edit": "props-capsule-edit.png",
+ "feather": 0,
+ "edit_drift_inside": 11.1,
+ "edit_drift_outside_not_used": 3.7,
+ "why": "",
+ "box": [
+  1283,
+  723,
+  2560,
+  1440
+ ]
+}

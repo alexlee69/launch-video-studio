@@ -1,0 +1,24 @@
+{
+ "job": "old-edge-test",
+ "style": "track",
+ "bpm": 124,
+ "dur": 18.866666666666667,
+ "md5": {
+  "music-lev.wav": "5e556a1b827245db5e725bda09f1376b",
+  "music.wav": "5f94454c3c16f414e05f2822e5553e0c",
+  "points.wav": "c10559f1b7efd3f28d9e430d9be3f661",
+  "qa-lane-0.wav": "4d31329c8f296a4e1474f3ef4c37f267",
+  "qa-lane-1.wav": "9f7a0b208dff1fe756b790e4f43d47df",
+  "qa-lane-2.wav": "773a1354646638e4242ca60b712ab2ac",
+  "qa-lanes.json": "d66d8c29a220673cf14177eb03c8c61a",
+  "raw.wav": "9d9ad7d88b909c9b8b4ccd569030ee04",
+  "sfx-tmp.wav": "fc6f0f200ca7d5987f6726f2ac7f258c",
+  "track.f32": "a23383f599c52061bd6143e6d1fd5c69",
+  "vo.f32": "6d6d25dbf202d80a1f24428d87efc1ba",
+  "vo.wav": "7eb587b8346987eb8b84ca34d612a9f8",
+  "whoosh.wav": "55a831e1171d798dc44cf3c63c85fad7"
+ },
+ "timeline_sha1": "a2cf13b2266ce5aac721d8a301320850fc391cf3",
+ "deterministic": true,
+ "built_with": "/Users/bytedance/.claude/skills/product-launch-sting"
+}

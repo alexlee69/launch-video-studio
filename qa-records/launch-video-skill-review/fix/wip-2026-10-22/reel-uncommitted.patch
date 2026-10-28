@@ -1,0 +1,198 @@
+diff --git a/video/GUIDE.md b/video/GUIDE.md
+index 8cbd39d..dd6c0a6 100644
+--- a/video/GUIDE.md
++++ b/video/GUIDE.md
+@@ -167,10 +167,12 @@ Run `node $V/lv.mjs --blocks` for the live list with every field. Summary:
+ **Reel captions**: `caption: "Pick a style, hit *generate*"` (+ `captionAt:` its first local frame, or seconds like
+ `0.5s`; default 4) on any reel block and on `media` — words pop one at a time (~3 a second, compressed so the last lands
+ by ~72 % of the shot), white heavy type with an ink stroke, the newest word on an accent plate, at most 2 lines, at 70 %
+-of the height on 9:16 (above the platform UI). Chinese and Japanese (no spaces between words) pop a character at a time:
+-punctuation stays with its character, a Latin word or a number stays whole. The storyboard/hero frame waits for the last
+-word. At `--grid` a `captionAt` that is neither a frame nor seconds stops the run; a caption faster than ~5 words/s (CJK:
+-characters/s), one whose last words would pop after the shot ends, and a `captionAt` past the shot's end warn.
++of the height on 9:16 (above the platform UI). A word runs from space to space, so `*generate*.` pops whole, accent and
++full stop together. Chinese and Japanese (no spaces between words) pop a character at a time: punctuation stays with its
++character, a Latin word or a number stays whole (`3.5`, `1,000`, `3:30`, `manus.im`), and straight quotes `"` open and
++close in turn (curly `“ ”` and `「 」` are never ambiguous). The storyboard/hero frame waits for the last word. At `--grid` a
++`captionAt` that is neither a frame nor seconds stops the run; a caption faster than ~5 words/s (CJK: characters/s), one
++whose last words would pop after the shot ends, and a `captionAt` past the shot's end warn.
+ 
+ **Reel on/off fields** — sticker `shake` / `sparks` / `gloss` / `logo`, split `arrow`, float `streak`, cta `logo` — take
+ `true` or `false`: YAML reads `no`, `off` and `"false"` as text, so `--grid` stops on them rather than leave the effect on.
+diff --git a/video/engine/blocks/_reel.js b/video/engine/blocks/_reel.js
+index 6450c4d..f88750d 100644
+--- a/video/engine/blocks/_reel.js
++++ b/video/engine/blocks/_reel.js
+@@ -1,7 +1,7 @@
+ // Reel helpers, shared by the reel blocks (sticker · split · float · cta) and the media block's caption: display font,
+ // palette, sticker type, image/footage sources, lockup transforms, impact shake, word-pop caption. Browser-side helpers
+-// take ctx (ctx.K = kit math, ctx.A = art); the timing helpers (reelWords, reelCapWords, reelCapPlan) are plain math so
+-// cues()/hero() can use them in Node. Nothing touches the DOM at import time.
++// take ctx (ctx.K = kit math, ctx.A = art); the timing helpers (reelWords, reelRuns, reelCapWords, reelCapPlan) are plain
++// math so cues()/hero() can use them in Node. Nothing touches the DOM at import time.
+ import { parseCopy, frameAt } from '../kit.js';
+ const REEL_INTER = '/skill/node_modules/@fontsource/inter/files/inter-latin-';
+ const REEL_FACES = [[900, 'italic'], [800, 'italic'], [900, 'normal']];
+@@ -9,26 +9,38 @@ export const REEL_VIDEO = p => /\.(mp4|mov|m4v|webm|mkv)$/i.test(String(p || '')
+ // the words ctx.text draws (one .lv-w span each): the copy's markup parsed as ctx.text parses it, split at spaces — so a
+ // lone `*` is a word here as it is on screen
+ export const reelWords = c => parseCopy(String(c ?? '')).flatMap(p => p.br ? [] : p.text.split(/\s+/)).filter(Boolean);
++// the words a word-pop caption pops: its text split at spaces and line breaks with the accent markup dropped, so a word
++// that is part accent, part plain (`*generate*.`, `*发布*，`) pops as one
++export const reelRuns = c => parseCopy(String(c ?? '')).map(p => p.br ? '\n' : p.text).join('').split(/\s+/).filter(Boolean);
+ // Chinese and Japanese don't put spaces between words, so a word-pop caption pops them a character at a time: each Han /
+-// kana character is a piece; a run of Latin letters or digits stays one; closing punctuation, marks, ー and small kana stay
+-// with the piece before, opening brackets and quotes (and # @) with the piece after, a ZWJ emoji in one piece. Korean
+-// spaces its words, so it pops word by word. Plain code-point classes, so Node and Chrome cut a caption identically.
+-const REEL_CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u;
+-const REEL_HEAD = /[\p{Ps}\p{Pi}#@＃＠]/u, REEL_TAIL = /[\p{Pe}\p{Pf}\p{Po}\p{M}\uFE0E\uFE0Fー々ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ]/u;
+-export function reelPieces(word) {
+-  if (!REEL_CJK.test(word)) return [word];
++// kana character is a piece; a run of Latin letters or digits stays one, across the punctuation inside it (3.5, 1,000,
++// 3:30, manus.im); closing punctuation, ー, 々 and small kana stay with the piece before, opening brackets and quotes (and
++// # @, and a closing mark a word starts with) with the piece after; marks and ZWJ emoji stay with their character. A
++// straight " opens and closes in turn through the caption (st.q counts them). Korean spaces its words, so it pops word by
++// word. Plain code-point classes, so Node and Chrome cut a caption identically.
++const REEL_CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u, REEL_MARK = /[\p{M}\uFE0E\uFE0F]/u, REEL_LN = /[\p{L}\p{N}]/u;
++const REEL_HEAD = /[\p{Ps}\p{Pi}#@＃＠]/u, REEL_TAIL = /[\p{Pe}\p{Pf}\p{Po}ー々ゝゞヽヾぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ]/u;
++const REEL_WIDE = /[\u3000-\u303F\uFF00-\uFFEF]/u;   // CJK / full-width punctuation ends a Latin run
++export function reelPieces(word, st = { q: 0 }) {
++  if (!REEL_CJK.test(word)) { st.q += word.split('"').length - 1; return [word]; }
+   const out = [];
+-  let prev = null;
+-  for (const ch of word) {
+-    const k = ch === '\u200D' ? 'z' : REEL_CJK.test(ch) && !REEL_TAIL.test(ch) ? 'c' : REEL_HEAD.test(ch) ? 'h' : REEL_TAIL.test(ch) ? 't' : 'o';
+-    if (out.length && (prev === 'h' || prev === 'z' || k === 'z' || k === 't' || (k === 'o' && prev === 'o'))) out[out.length - 1] += ch;
+-    else out.push(ch);
+-    prev = k;
++  let prev = null, pc = '', base = null;            // prev / pc: the last character's class and the character, marks skipped;
++  for (const ch of word) {                           // base: the piece's last c / o class, null while it only opens
++    let k = ch === '\u200D' ? 'z' : REEL_MARK.test(ch) ? 'm' : ch === '"' ? (st.q++ % 2 ? 't' : 'h')
++      : REEL_CJK.test(ch) && !REEL_TAIL.test(ch) ? 'c' : REEL_HEAD.test(ch) ? 'h' : REEL_TAIL.test(ch) ? 't' : 'o';
++    if (k === 't' && base === null) k = 'h';
++    if (out.length && (base === null || k === 'm' || k === 'z' || prev === 'z' || k === 't'
++      || (k === 'o' && (prev === 'o' || (prev === 't' && base === 'o' && REEL_LN.test(ch) && !REEL_WIDE.test(pc)))))) out[out.length - 1] += ch;
++    else { out.push(ch); base = null; }
++    if (k === 'c' || k === 'o') base = k;
++    if (k !== 'm') { prev = k; pc = ch; }
+   }
+   return out;
+ }
++// each word's pieces (reelRuns words), cut in caption order: the straight-quote count runs through the whole caption
++export const reelCut = runs => { const st = { q: 0 }; return runs.map(w => reelPieces(w, st)); };
+ // what a word-pop caption pops, one at a time: its words, CJK words cut into pieces
+-export const reelCapWords = c => reelWords(c).flatMap(reelPieces);
++export const reelCapWords = c => reelCut(reelRuns(c)).flat();
+ export const reelF = v => (+v).toFixed(3);
+ 
+ // Inter Black Italic (display) + Black upright (captions), loaded once per page through the FontFace API and awaited
+@@ -236,32 +248,57 @@ export function reelCaption(ctx, F, P, s) {
+   const txt = ctx.text(s.caption, { parent: wrap, size: size / u, weight: F.caption.weight, lh: 1.14, ls: '.01em', color: P.paper, accent: P.acc2, align: 'center', maxW, lines: 2, min: 30,
+     style: `font-family:${F.caption.family};font-style:${F.caption.style};text-transform:uppercase;-webkit-text-stroke:.15em ${P.ink};paint-order:stroke fill;text-shadow:0 .07em 0 ${P.ink}` });
+   txt.style.left = '0px'; txt.style.top = '0px';
+-  // a CJK word becomes one span per piece (reelPieces; the spans can wrap between them), then the caption is fitted again
+-  let cut = false;
+-  for (const w of [...txt.querySelectorAll('.lv-w')]) {
+-    const ps = reelPieces(w.textContent);
+-    if (ps.length < 2) continue;
+-    w.replaceWith(...ps.map(p => { const e = w.cloneNode(false); e.textContent = p; return e; }));
+-    cut = true;
++  // what pops (reelRuns, reelCut): a word, space to space, so its accent and plain spans pop together; a CJK word piece by
++  // piece, its spans cut at the piece edges (the pieces can wrap between them), and then the caption is fitted again
++  const runs = [], pops = [];
++  let run = null, cut = false;
++  for (const n of [...txt.childNodes]) {
++    if (n.nodeType !== 1 || n.tagName === 'BR') { run = null; continue; }   // a space or a line break ends a word
++    if (!n.textContent) continue;                                          // ctx.text leaves empty spans at spaces
++    if (!run) runs.push(run = []);
++    run.push(n);
+   }
++  reelCut(runs.map(r => r.map(w => w.textContent).join(''))).forEach((ps, i) => {
++    if (ps.length < 2) { pops.push(runs[i]); return; }
++    const end = [], group = ps.map(() => []);                             // each piece's end offset in the word, its spans
++    ps.reduce((a, p) => (end.push(a + p.length), a + p.length), 0);
++    let at = 0, j = 0;
++    for (const w of runs[i]) {
++      const str = w.textContent, segs = [];
++      for (let a = 0; a < str.length;) {
++        while (end[j] <= at + a) j++;
++        const b = Math.min(str.length, end[j] - at);
++        segs.push([str.slice(a, b), j]); a = b;
++      }
++      at += str.length;
++      if (segs.length < 2) { group[segs[0][1]].push(w); continue; }
++      w.replaceWith(...segs.map(([p, g]) => { const e = w.cloneNode(false); e.textContent = p; group[g].push(e); return e; }));
++      cut = true;
++    }
++    pops.push(...group);
++  });
+   if (cut) { txt.style.fontSize = txt.dataset.size0 + 'px'; ctx.fit(txt, { maxW, lines: 2, min: 30 * u }); }
+   const fs = parseFloat(txt.style.fontSize), h = txt.offsetHeight, top = Math.min(cy - h / 2, safe.y1 - h);
+   wrap.style.top = top.toFixed(2) + 'px'; wrap.style.height = h + 'px';
+   hi.style.fontSize = fs + 'px';
+-  const words = [...txt.querySelectorAll('.lv-w')].filter(w => w.textContent.trim());   // ctx.text leaves empty spans at spaces
+-  if (words.length !== plan.n) throw new Error(`${s.block} ${s.id}: caption has ${words.length} words on screen but ${plan.n} in its timing — report this caption`);
+-  const box = words.map(w => ({ x: w.offsetLeft, y: w.offsetTop, w: w.offsetWidth, h: w.offsetHeight }));
++  if (pops.length !== plan.n) throw new Error(`${s.block} ${s.id}: caption has ${pops.length} words on screen but ${plan.n} in its timing — report this caption`);
++  const box = pops.map(g => {                                    // a pop's spans on its first span's line
++    const row = g.filter(w => Math.abs(w.offsetTop - g[0].offsetTop) < 2), x = Math.min(...row.map(w => w.offsetLeft));
++    return { x, y: g[0].offsetTop, w: Math.max(...row.map(w => w.offsetLeft + w.offsetWidth)) - x, h: g[0].offsetHeight, row };
++  });
++  for (const b of box) if (b.row.length > 1)                     // a pop of several spans scales about its middle, as one
++    for (const w of b.row) w.style.transformOrigin = `${b.x + b.w / 2 - w.offsetLeft}px 50%`;
+   const cap = (.5 * (1.14 - 1.21) + .969 - .727) * fs;          // cap-top offset inside a word box (Inter metrics, lh 1.14)
+   return {
+     top, bottom: top + h, el: wrap,
+     front() { ctx.root.appendChild(wrap); },              // the caption is built first (blocks lay out above it), drawn last
+     render(t) {
+       let cur = -1;
+-      words.forEach((w, i) => {
++      pops.forEach((g, i) => {
+         const a = plan.start + i * plan.per, k = K.u01(t, a, a + 6);
+         if (t >= a) cur = i;
+-        w.style.opacity = K.clamp(k * 3).toFixed(3);
+-        w.style.transform = k >= 1 ? 'none' : `translateY(${((1 - K.outCubic(k)) * .22 * fs).toFixed(2)}px) scale(${K.lerp(.5, 1, K.outBack(k, 2.4)).toFixed(4)})`;
++        const o = K.clamp(k * 3).toFixed(3), tf = k >= 1 ? 'none' : `translateY(${((1 - K.outCubic(k)) * .22 * fs).toFixed(2)}px) scale(${K.lerp(.5, 1, K.outBack(k, 2.4)).toFixed(4)})`;
++        for (const w of g) { w.style.opacity = o; w.style.transform = tf; }
+       });
+       if (cur < 0) { hi.style.opacity = '0'; return; }
+       const a = plan.start + cur * plan.per, k = K.outCubic(K.u01(t, a, a + 3)), b = box[cur], p = box[Math.max(0, cur - 1)];
+@@ -312,9 +349,9 @@ export const reelChip = (ctx, F, P, copy, look, size, layer) => reelSticker(ctx,
+ export function reelWarn(s, D) {
+   const out = [], p = reelCapPlan(s, D);
+   if (!p) return out;
+-  const unit = reelWords(s.caption).length < p.n ? 'characters' : 'words';
+-  if (p.start >= D) out.push(`${s.block} ${s.id}: captionAt ${s.captionAt} is past the shot's ${D} frames — the caption never shows; start it earlier`);
+-  else if (p.start + p.per * (p.n - 1) >= D) out.push(`${s.block} ${s.id}: caption "${s.caption}" — its last ${unit} would pop after the shot ends (captionAt ${s.captionAt ?? 4}, ${D} frames); start it earlier, cut ${unit} or lengthen the shot`);
++  const unit = reelRuns(s.caption).length < p.n ? 'characters' : 'words', at = s.captionAt ?? 4, d = Math.round(D);
++  if (p.start >= D) out.push(`${s.block} ${s.id}: captionAt ${at} is past the shot's ${d} frames — the caption never shows; start it earlier`);
++  else if (p.start + p.per * (p.n - 1) >= D) out.push(`${s.block} ${s.id}: caption "${s.caption}" — its last ${unit} would pop after the shot ends (captionAt ${at}, ${d} frames); start it earlier, cut ${unit} or lengthen the shot`);
+   else if (p.n > 1 && p.per < 6) out.push(`${s.block} ${s.id}: caption "${s.caption}" pops ${(30 / p.per).toFixed(1)} ${unit}/s — cut ${unit} or lengthen the shot`);
+   return out;
+ }
+diff --git a/video/engine/blocks/media.js b/video/engine/blocks/media.js
+index 1b8e6f7..86a169a 100644
+--- a/video/engine/blocks/media.js
++++ b/video/engine/blocks/media.js
+@@ -9,7 +9,7 @@ export default {
+   doc: 'Your own image or footage (live action, screen recording) full-bleed or in a phone/browser frame, with a slow Ken Burns move and an optional headline over a soft scrim.',
+   layers: 'media · scrim · headline · caption',   // --layers export, back to front (caption only with caption:)
+   params: { src: 'asset path: .png/.jpg/.webp or .mp4/.mov (footage is cut from `from` for the shot length)', from: 'seconds into the footage (default 0)', device: 'none (default, full-bleed) | phone | browser', move: 'in (default) | out | left | right | none', text: 'optional headline', pos: 'bottom (default) | top | center — where the headline sits', url: 'address-bar text when device: browser',
+-    caption: 'optional reel caption: words pop one at a time, the newest on an accent plate (+ captionAt: start frame, default 4)' },
++    caption: 'optional reel caption: words pop one at a time, the newest on an accent plate (+ captionAt: its first local frame, or seconds like 0.5s; default 4)' },
+   // every line a viewer reads (captions SRT, reading time, storyboard): only with a caption — otherwise the fixed fields
+   copy: s => s.caption ? [s.text, s.caption].filter(x => x != null && String(x).trim() !== '').map(String) : null,
+   validate: (s, D) => s.caption ? reelWarn(s, D) : [],
+diff --git a/video/engine/blocks/sticker.js b/video/engine/blocks/sticker.js
+index 8b88635..79d20f5 100644
+--- a/video/engine/blocks/sticker.js
++++ b/video/engine/blocks/sticker.js
+@@ -27,7 +27,7 @@ export default {
+     logo: 'true: the brand logo inside the kicker pill',
+     ribbon: 'tag below, e.g. "Free to start"',
+     bg: '(any shot) AI footage or an image behind the sticker (bgDim default .25 here, bgFrom, bgMove); omit it for an overlay',
+-    tilt: 'degrees (default −5)',
++    tilt: 'degrees, −45…45 (default −5; a number, not "-5deg")',
+     pos: 'center (default) | top | bottom',
+     shake: 'impact shake after the slam (default true)',
+     sparks: 'sparkles around the title (default true)',

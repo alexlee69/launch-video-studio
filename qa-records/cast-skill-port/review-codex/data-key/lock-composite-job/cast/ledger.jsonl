@@ -1,0 +1,2 @@
+{"t": "2026-10-23T20:56:59-07:00", "call": "414ddb377b21", "label": "lock hero from cand-01", "size": "128x128", "status": "sent", "usd": 0.0356, "usd_from": "estimate: no answer yet", "est": 0.0356}
+{"t": "2026-10-23T20:56:59-07:00", "call": "414ddb377b21", "label": "lock hero from cand-01", "size": "128x128", "status": 200, "n": 1, "refs": ["cast/candidates/cand-01.png"], "usage": {"input_tokens": 1, "output_tokens": 1, "input_tokens_details": {"text_tokens": 1, "image_tokens": 0}}, "usd": 0.0, "usd_from": "usage", "est": 0.0356, "s": 0}

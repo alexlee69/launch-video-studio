@@ -1,0 +1,14 @@
+{
+ "lv": "position",
+ "id": "S01",
+ "image": "S01-sketch.png",
+ "aspect": "16x9",
+ "plate_hash": "1d949f09",
+ "legend": {
+  "red": "the people: where each one stands and how big they are",
+  "yellow": "each head and each product or prop; the red cross on a head shows which way the face looks",
+  "green": "the ground line their feet stand on",
+  "grey": "the place: its horizon, its big shapes and where the light comes from"
+ },
+ "says": "Figure 1 (founder) walks in the centre, about 60% of the frame tall, facing left, feet near the bottom; prop 1 (laptop) right of centre, low in the frame."
+}

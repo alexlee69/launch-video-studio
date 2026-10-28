@@ -1,0 +1,14 @@
+{
+ "original": "S01-v1.png",
+ "edit": "S01-v1f-edit.png",
+ "feather": 18,
+ "edit_drift_inside": 6.0,
+ "edit_drift_outside_not_used": 6.0,
+ "why": "",
+ "box": [
+  1100,
+  400,
+  1500,
+  800
+ ]
+}

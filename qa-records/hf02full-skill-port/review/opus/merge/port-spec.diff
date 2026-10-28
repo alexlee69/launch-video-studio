@@ -1,0 +1,32 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/lib/spec.mjs	2026-10-21 18:03:15
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/stage/product-launch-sting/video/lib/spec.mjs	2026-10-22 10:28:39
+@@ -20,14 +20,14 @@
+   return [].concat((block && block.media) || []).map(m => typeof m === 'string' ? { field: m, fit: 'cover', scale: 1 }
+     : m && typeof m === 'object' && m.field ? { field: String(m.field), fit: m.fit === 'contain' ? 'contain' : 'cover', scale: Number(m.scale) > 0 && Number(m.scale) <= 1 ? Number(m.scale) : 1 } : null).filter(Boolean);
+ }
+-export const STYLES = ['playful', 'keynote', 'calm', 'none', 'track'];
++export const STYLES = ['playful', 'keynote', 'calm', 'film', 'none', 'track'];
+ export const KEYS = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };
+ const HEX = /^#[0-9a-fA-F]{6}$/;
+ const DEFAULT_COLORS = { bg: '#F6F6F7', ink: '#111114', muted: '#7C7C86', accent: '#4C8DF6', accent2: '#2FC2A3', accent3: '#FFC53D', dark: '#0E0E12', line: '#C3C8D4', card: '#FFFFFF' };
+ const lighten = (hex, k) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) + (255 - parseInt(hex.slice(i, i + 2), 16)) * k).toString(16).padStart(2, '0')).join('').toUpperCase();
+ // fields a block can't do without (custom blocks may declare their own `required`)
+ const REQUIRED = { headline: ['text'], stat: ['value'], media: ['src'], prompt: ['prompt'], phone: ['items'], browser: ['items'], panel: ['items'] };
+-const STYLE_BPM = { playful: 120, keynote: 124, calm: 96 };
++const STYLE_BPM = { playful: 120, keynote: 124, calm: 96, film: 87 };
+ const RESERVED = ['i', 'f0', 'f1', 'D', 'Db', 'start', 'end', 'heroF', 'cues', 'copy', 'copyRead'];   // fields the timeline adds to shots
+ // the reel and film blocks' fixed choices (checked for the built-in blocks; a job's own block of the same name is its own)
+ const ENUMS = {
+@@ -104,8 +104,11 @@
+   if (!(bpm >= 60 && bpm <= 180)) errs.push('music.bpm must be 60–180');
+   if (m.key && !(m.key in KEYS)) errs.push(`music.key must be one of ${Object.keys(KEYS).join(' ')}`);
+   if (style === 'track') { if (!m.file) errs.push('music.style track needs music.file'); else asset(m.file, 'music.file'); }
+-  const music = { style, bpm, key: m.key || { playful: 'F', keynote: 'D', calm: 'G' }[style] || 'C', file: m.file || null, start: Number(m.start || 0),
++  const music = { style, bpm, key: m.key || { playful: 'F', keynote: 'D', calm: 'G', film: 'F' }[style] || 'C', file: m.file || null, start: Number(m.start || 0),
+     downbeat: Number(m.downbeat || 0), drop: m.drop != null ? String(m.drop) : null, breaks: [].concat(m.breaks || []).map(String), level: Number(m.level || 0) };
++  // music.hit (style film only; the other styles ignore it, as before): when the hit lands, in seconds after the end card's first frame
++  if (style === 'film' && m.hit != null && !(m.hit !== '' && Number.isFinite(Number(m.hit)) && Number(m.hit) >= -1 && Number(m.hit) <= 2)) errs.push(`music.hit is seconds after the end card's first frame, −1…2 s (got ${JSON.stringify(m.hit)}) — e.g. hit: 0.372 when the reference's hit lands 0.372 s into its end card`);
++  if (style === 'film' && m.hit != null) music.hit = Number(m.hit);
+   // voiceover: {file, start, duck} (or just a file path); a cutdown gets its own read under voiceover.cutdowns.<name>
+   const voRead = (v, what) => {
+     const x = typeof v === 'string' ? { file: v } : mapOr(v, what, '{file: assets/vo.wav, start: 0.5}');

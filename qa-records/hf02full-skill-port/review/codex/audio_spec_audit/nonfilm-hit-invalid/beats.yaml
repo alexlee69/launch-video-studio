@@ -1,0 +1,7 @@
+title: Non-film hit compatibility probe
+brand: {name: Probe}
+aspects: [16x9]
+music: {style: playful, hit: 59.939}
+shots:
+  - {id: a, block: headline, beats: 4, text: Probe}
+  - {id: card, block: endcard, beats: 4, tagline: Done}

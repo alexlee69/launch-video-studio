@@ -1,0 +1,19 @@
+{
+ "cap": 50,
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP}",
+   "restore": {
+    "boxes": [
+     [
+      10,
+      10,
+      100,
+      100
+     ]
+    ],
+    "feather": "18"
+   }
+  }
+ }
+}

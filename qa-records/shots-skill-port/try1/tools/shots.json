@@ -1,0 +1,140 @@
+{
+ "_note": "shots.json starter (SHOTS.md). Ask Alex which model first (h3 or seedance) and set \"model\"; nothing is assumed. Each shot keeps Alex's own words in brief/script verbatim; list every field Claude adds in \"proposed\" until Alex OKs it (`shots.py confirm ID`). Replace every <FILL: \u2026> hint (check refuses any left). Paths are relative to the job folder; people/places name entries in the casting spec.",
+ "root": "..",
+ "casting": "casting.json",
+ "aspect": "16:9",
+ "ban": [],
+ "text": {},
+ "people": {
+  "hero": {
+   "sheet": "hero",
+   "is": "the founder"
+  }
+ },
+ "places": {
+  "place-1": {
+   "loc": "place-1"
+  }
+ },
+ "products": {
+  "glasses": {
+   "ref": "assets/product/glasses.png",
+   "anatomy": "A single wraparound shield lens under a slim frame band, a small round camera lens at the upper corner by the bridge.",
+   "colourway": "a mirrored gold lens, matte black frame"
+  }
+ },
+ "shots": {
+  "S01": {
+   "brief": "She stands at the cliff edge at dawn, then we pull back to show the whole valley.",
+   "proposed": [],
+   "recipe": "reveal-pullback",
+   "sec": 5,
+   "people": [
+    "hero"
+   ],
+   "place": "place-1",
+   "temp": "cold",
+   "key": {
+    "frame": "A close-up of her face at the cliff edge, eyes on the horizon, wind in her hair.",
+    "light": "Cool dawn light from the left, soft and low."
+   },
+   "motion": {
+    "beats": [
+     "She breathes in and looks down into the valley.",
+     "She smiles and steps back from the edge."
+    ]
+   },
+   "confirmed": [
+    "key.frame",
+    "lens",
+    "light",
+    "motion",
+    "recipe"
+   ]
+  },
+  "S02": {
+   "model": "seedance",
+   "brief": "Upside down on the cliff she asks her glasses if they are filming, they answer, and she flips off the edge.",
+   "recipe": "reveal-pullback",
+   "sec": 10,
+   "people": [
+    "hero"
+   ],
+   "place": "place-1",
+   "products": [
+    "glasses"
+   ],
+   "temp": "cold",
+   "count": 1,
+   "position": {
+    "file": "assets/sketches/S02.png",
+    "legend": {
+     "red": "her body",
+     "yellow": "her head with the glasses",
+     "green": "the ridge line"
+    }
+   },
+   "scene": "On a windy overcast ridge she holds a one-arm handstand, talks to her glasses, then pushes off backward over the edge.",
+   "first": "A close-up of her upside-down face, the gold lens in the centre of the frame, the rock at the bottom, mist behind.",
+   "final": "Her full body in the centre, palm on the crest, legs in a wide V against the sky; the ridge crosses the lower third.",
+   "light": "Overcast daylight, soft and diffuse, that brightens and dims as the clouds move.",
+   "palette": {
+    "only": [
+     "the pink lines of her suit",
+     "the gold lens"
+    ],
+    "accent": "#F4A6C6"
+   },
+   "audio": [
+    "strong gusting wind",
+    "her voice",
+    "the calm voice from the glasses",
+    "her joyful scream fading below the ridge"
+   ],
+   "locks": [
+    "She falls backward, away from the camera, and the ridge stays empty to the last frame."
+   ],
+   "motion": {
+    "beats": [
+     {
+      "t": [
+       0,
+       3
+      ],
+      "do": "The pull-back begins on her face; she balances with tiny corrections.",
+      "say": {
+       "who": "She",
+       "line": "Hey, are you filming?"
+      }
+     },
+     {
+      "t": [
+       3,
+       5
+      ],
+      "do": "A calm voice answers from the glasses; she grins.",
+      "say": {
+       "who": "The glasses",
+       "line": "Already on it!"
+      }
+     },
+     {
+      "t": [
+       5,
+       8
+      ],
+      "do": "She pushes off backward over the far side of the ridge and drops out of sight, screaming with joy."
+     },
+     {
+      "t": [
+       8,
+       10
+      ],
+      "do": "The camera holds on the empty ridge, mist streaming across."
+     }
+    ]
+   }
+  }
+ },
+ "model": "h3"
+}

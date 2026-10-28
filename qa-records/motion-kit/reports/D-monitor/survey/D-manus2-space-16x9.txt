@@ -1,0 +1,4 @@
+mon-D-old-manus2-space 16x9: 4592 frames in 41.0 s (camera() evaluate avg 1.49 ms)
+INFO 26 cuts, 10 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 2 WARN; speed ratios 1.1–438.6× (over 2×: S06→S07 2.25×, S07→S08 2.09×, S11→S12 2.65×, S12→S13 2.09×, S21→S22 2.25×) — numbers per cut in qa.json
+WARN S20→S21 at 3046 (cut): speed 1 → 290 px/s across the cut (438.61×, over 3×) — S20 is still and S21 starts moving on the cut (give S20 a move into the cut, or start S21's move after it)
+WARN S20→S21 at 3046 (cut): the fastest step is 5 frames after the cut (frames 3051→3052, 938 px/s vs 290 px/s on the cut) — a move across a cut peaks on the cut

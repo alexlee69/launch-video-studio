@@ -1,0 +1,1 @@
+scale=in_color_matrix=bt2020:in_range=tv:out_range=pc,format=gbrpf32le,lut3d=file='/var/folders/pb/hkcb70bn6nn5r27km1sg9lwc0000gn/T/lv-arib-std-b67-to-sdr709-v1.cube':interp=tetrahedral

@@ -1,0 +1,19 @@
+#!/bin/bash
+# The shot-writer port's QA: every suite; no network beyond 127.0.0.1, no keys, nothing spent. QA 1 also runs the
+# casting and storyboard ports' suites (the storyboard one renders in Chrome, so keep the lid open).
+cd "$(dirname "$0")" || exit 2
+if ioreg -r -k AppleClamshellState -d 4 2>/dev/null | grep -q '"AppleClamshellState" = Yes'; then
+  echo "the lid is closed: the Mac will sleep mid-render. Open it and run again." >&2; exit 2
+fi
+mkdir -p out
+fail=0
+for t in test_parity.py test_flow.py test_casting_mock.py test_failures.py test_review_fixes.py test_phase2.py; do
+  [ -f "$t" ] || continue
+  echo "=== $t"
+  caffeinate -i /usr/bin/python3 -B "$t" > "out/$t.log" 2>&1
+  rc=$?
+  grep '^FAIL' "out/$t.log" || true
+  tail -1 "out/$t.log"
+  [ $rc -eq 0 ] || fail=1
+done
+[ $fail -eq 0 ] && echo "ALL SUITES PASS" || { echo "SOME SUITES FAILED (logs in out/)"; exit 1; }

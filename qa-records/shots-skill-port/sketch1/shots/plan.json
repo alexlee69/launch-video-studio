@@ -1,0 +1,14 @@
+{
+ "model": "h3",
+ "shots": [
+  {
+   "shot": "S02",
+   "model": "seedance",
+   "sec": 6.0,
+   "video_prompt": "shots/S02.seedance.txt",
+   "words": 193,
+   "key_prompt": "shots/S02.key.txt",
+   "gen": "node $V/footage/gen.mjs video --endpoint bytedance/seedance-2.5/image-to-video --image <the picked key frame> --prompt @shots/S02.seedance.txt --out footage/fal/S02.mp4 --sec 6 --res 720p"
+  }
+ ]
+}

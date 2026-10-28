@@ -1,0 +1,93 @@
+{
+ "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/musicnan.n6iENP/silence.wav",
+ "tracker": null,
+ "grid": {
+  "bpm": 120.0,
+  "first_beat": 0.0,
+  "downbeat": 0.0
+ },
+ "from": 1.0,
+ "to": 8.5,
+ "groove": {
+  "kick 30-120": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "snare/body 150-2.5k": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "hats 5-11k": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "balance_db": {
+  "sub/bass": NaN,
+  "low-mid": NaN,
+  "mid": NaN,
+  "upper-mid": NaN,
+  "air": NaN
+ },
+ "centroid_hz": 0.0,
+ "key": "C major",
+ "key_r": NaN,
+ "runner_up": "C# major",
+ "runner_up_r": NaN,
+ "chroma": {
+  "C": 0.0,
+  "C#": 0.0,
+  "D": 0.0,
+  "D#": 0.0,
+  "E": 0.0,
+  "F": 0.0,
+  "F#": 0.0,
+  "G": 0.0,
+  "G#": 0.0,
+  "A": 0.0,
+  "A#": 0.0,
+  "B": 0.0
+ }
+}

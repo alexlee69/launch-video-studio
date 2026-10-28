@@ -1,0 +1,30 @@
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stageD/product-launch-sting/video/lib/qa.mjs	2026-10-26 10:03:20
++++ /private/tmp/claude-501/-Users-bytedance-Downloads-Design-AutoPilot-stable/fa3ddc2b-1841-41b6-9859-439143f36875/scratchpad/patchD/product-launch-sting/video/lib/qa.mjs	2026-10-26 11:12:52
+@@ -27,7 +27,7 @@
+ import { join } from 'node:path';
+ import { ASPECTS, SR, sh, measureLoudness } from './common.mjs';
+ import { fileSha } from './fingerprint.mjs';
+-import { letterboxBar } from '../engine/kit.js';
++import { letterboxBar, exitLen } from '../engine/kit.js';
+ 
+ export const FREEZE_RUN = 3;          // ≥ 3 identical pairs in a row = 4 identical frames (~1/15 s at 60 fps)
+ export const CONTENT_DELTA = 12;      // thumbnail luma difference from the bg-only render that counts as "something there"
+@@ -167,7 +167,8 @@
+   for (let k = 0; k < n - 1; k++) {
+     const A = tl.shots[k], B = tl.shots[k + 1], c = tl.cuts[k], a0 = k ? tl.cuts[k - 1] : 0, b1 = (k + 2 < n ? tl.cuts[k + 1] : tl.frames) - 1;
+     const range = (x, y) => Array.from({ length: Math.max(0, y - x + 1) }, (_, i) => x + i);
+-    const win = [...range(Math.max(a0 + 1, c - CONT.win), c - 1), ...range(c + 1, Math.min(b1, c + CONT.win))];
++    const bx = B.out === 'cut' || k + 2 >= n ? b1 : Math.min(b1, Math.round(B.f1 * 2) - 2 * exitLen(B.out));   // B's own exit ramp belongs to the next cut
++    const win = [...range(Math.max(a0 + 1, c - CONT.win), c - 1), ...range(c + 1, Math.min(bx, c + CONT.win))];
+     const cam = c - 2 >= a0 && c + 1 <= b1 ? judge(camStep, c - 1, c + 1, [c - 1, c + 1], win, [['z', CONT.zoomSign], ['vx', CONT.panSign], ['vy', CONT.panSign]]) : null;
+     const carry = [];
+     for (let j = 0; j < rects(cams[c]).length; j++) {
+@@ -189,7 +190,7 @@
+         const why = r.flips.includes('z') ? r.before.z > 0 ? ` (${ida} pushes in, ${idb} starts zoomed in and pulls back)` : ` (${ida} pulls back, ${idb} starts small and pushes in)` : '';
+         warns.push(`${head}: the ${cam ? '' : what + "'s "}move flips direction on the cut — ${r.flips.map(k => `${AX[k][0]} ${AX[k][1](r.before[k])} → ${AX[k][1](r.after[k])}`).join(', ')}${why}; keep the sign across the cut`);
+       }
+-      if ((r.ratio == null || r.ratio > CONT.ratio) && (cam || !r.peak.off)) {
++      if ((r.ratio == null || r.ratio > CONT.ratio) && Math.max(r.before.v, r.after.v) >= CONT.moving && (cam || !r.peak.off)) {
+         const slow = r.after.v < r.before.v, still = Math.min(r.before.v, r.after.v) < CONT.moving / 4, rx = r.ratio == null ? '∞' : r.ratio;
+         const why = !cam ? `the ${what} ${slow ? (still ? 'stops on the cut' : `slows ${rx}× through the cut`) : (still ? 'starts from rest on the cut' : `speeds up ${rx}× through the cut`)}`
+           : slow ? (still ? `${idb} stands still on its first frames (a hold from its first frame, or a camera move that starts later?)` : `${idb} starts ${rx}× slower than ${ida} leaves`)

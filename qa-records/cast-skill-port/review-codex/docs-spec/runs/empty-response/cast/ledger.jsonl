@@ -1,0 +1,2 @@
+{"t": "2026-10-23T20:53:40-07:00", "call": "c83aea426bb0", "label": "candidate look", "size": "2560x1440", "status": "sent", "usd": 0.4442, "usd_from": "estimate: no answer yet", "est": 0.4442}
+{"t": "2026-10-23T20:53:40-07:00", "call": "c83aea426bb0", "label": "candidate look", "size": "2560x1440", "status": 200, "n": 2, "refs": [], "usage": {"input_tokens": 0, "output_tokens": 0, "input_tokens_details": {"text_tokens": 0, "image_tokens": 0}}, "usd": 0.0, "usd_from": "usage", "est": 0.4442, "s": 0}

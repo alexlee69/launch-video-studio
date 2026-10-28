@@ -1,0 +1,8 @@
+S02: master f696…f727 (start mod 5 = 1) shows plate frames [0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 10, 10, 10, 11, 11, 12, 12]
+    the round-near model (p = 2·(f − start) // 5) matches every master frame
+    finish picks → plate frames [0, 1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 11, None]: IRREGULAR at [(363, None)]
+    finish picks (clamped) → plate frames [0, 1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 11, 12]: one per edit frame
+S03: master f728…f763 (start mod 5 = 3) shows plate frames [0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5, 6, 6, 6, 7, 7, 8, 8, 8, 9, 9, 10, 10, 10, 11, 11, 12, 12, 12, 13, 13, 14]
+    the round-near model (p = 2·(f − start) // 5) matches every master frame
+    finish picks → plate frames [0, 0, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 10, 10, 12, 12, 12, 14]: IRREGULAR at [(366, 2), (367, 0), (368, 2), (369, 0), (371, 2), (372, 0), (373, 2), (375, 0), (376, 2), (377, 0), (378, 2), (379, 0), (381, 2)]
+    finish picks (clamped) → plate frames [0, 0, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 10, 10, 12, 12, 12, 14]: IRREGULAR at [(366, 2), (367, 0), (368, 2), (369, 0), (371, 2), (372, 0), (373, 2), (375, 0), (376, 2), (377, 0), (378, 2), (379, 0), (381, 2)]

@@ -1,0 +1,31 @@
+{
+  "copy": {
+    "name": "Frame by Frame",
+    "pill": "on Whop",
+    "mono": "FF",
+    "prompt": "Make a launch video for my app",
+    "crumbs": ["Frame by Frame", "Module 2", "Lesson 2.1"],
+    "pageTitle": "2.1 Choose a reference",
+    "body": ["Pick a launch video you love and rebuild it ", {"k": "frame for frame"}, ". Match every cut, every ease and every beat, then swap in your own brand."],
+    "body2": "Start with ten seconds. Name each shot, note its first and last frame, and copy the camera before you copy the colours.",
+    "card5": ["Reference breakdown", "Lesson 2.1 · 6 min"],
+    "cards": [["Module 3", "Launch"], ["Module 5", "Sound"]],
+    "hubNav": ["Courses", "Chat"],
+    "hubSub": "Course · 8 lessons",
+    "clock": "Mon Jun 22  9:41 AM"
+  },
+  "palette": {
+    "page": "#FDFDFB", "haze": "#B7CFEB", "ice": "#E6F0FA", "deep": "#294376", "sky": "#769CC2",
+    "navy": "#1E2F52", "blue": "#2F6BFF", "teal": "#3CC8F0", "mint": "#4ED6A0", "white": "#FFFFFF"
+  },
+  "tints": {
+    "winHead": "#F1F6FF", "glowA": "#CDE5FC", "glowB": "#DBEEFD", "ring1": "#D5F3FF", "ring2": "#E6F9FF", "ring3": "#F7FEFF",
+    "blueHi": "#4A80FF", "tealHi": "#5AD4F4", "mintHi": "#68DFB1", "wall2": "#3E5F92", "wall4": "#8AAED0", "glass": "#D6E8FF",
+    "glassShadow": "#0C1A38", "bar": "#182544", "tintS3": "#E6F4FE", "tintS4": "#E2F4FE", "halo8": "#D6E2F0",
+    "launchTop": "#15244A", "launchBot": "#6F98C6", "planetTop": "#1F3767", "planetBot": "#0E1A36", "rim": "#ECF6FF",
+    "soundA": "#182A52", "soundB": "#22578A", "barMid": "#B9F3E0", "miniBar": "#1B2846", "refA": "#EEF5FC", "refB": "#B9D1EB"
+  },
+  "logoSvgPath": null,
+  "logoTint": true,
+  "music": {"mode": "synth", "transpose": 0}
+}

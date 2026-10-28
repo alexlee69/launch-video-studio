@@ -1,0 +1,31 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "request_id": "d9687b47-e4bf-4a0e-a366-b7e6e8c2c412",
+  "status": [
+    {
+      "t": 0,
+      "status": "COMPLETED"
+    }
+  ],
+  "fetched": "2026-10-22T15:40:44.594Z",
+  "result": {
+    "video": {
+      "url": "http://127.0.0.1:18950/files/clip.mp4",
+      "content_type": "video/mp4",
+      "file_name": "abc_minimax-h3.mp4",
+      "file_size": 2392134
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.1
+    }
+  },
+  "finished": "2026-10-22T15:40:44.636Z",
+  "outputs": [
+    {
+      "url": "http://127.0.0.1:18950/files/clip.mp4",
+      "file": "small.mp4",
+      "bytes": 2392134
+    }
+  ]
+}

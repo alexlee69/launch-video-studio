@@ -1,0 +1,44 @@
+plates-parity              PASS  12/12 byte-identical to r1 (= the job's plates)
+plates-fail-long           PASS  exit 2 
+plates-fail-sum            PASS  exit 2 
+plates-fail-missing        PASS  exit 2 
+plates-fail-nokind         PASS  exit 2 
+sfx-parity                 PASS  byte-identical to the job's audio/sfx.wav (r1 snapshot)
+sfx-fail-unknown           PASS  exit 2 ✗ event 1 (kazoo): unknown sound 'kazoo' — the kit: static_burst, sub_thump, swish, comms_tick, flare_whoo
+sfx-fail-badparam          PASS  exit 2 ✗ event 1 (swish): swish(sec=0.2, lo=100, hi=900, wobble=3): got an unexpected keyword argument 'wobble' —
+sfx-fail-pastend           PASS  exit 2 ✗ event 1 (clang): at frame 2400 (80.00 s) it starts past the end (76.533 s)
+sfx-fail-clip              PASS  exit 1 ✗ the summed effects peak at 1.53 (3.7 dBFS) and would clip — lower the loudest events' db
+finish-measure             PASS  15:5,10,14 — 457 of 459 slots repeat; 105 other repeats (holds); edit rate 24 fps in 30 fps
+finish-full                PASS  exit 0 
+      audio: stems music + sfx.wav, mastered: WAV -14.0 LUFS / TP -1.1, after AAC -14.0 LUFS / TP -1.1 dBTP (gain -1.00 dB, limiter -1.9 dBFS)
+        ✓ frames    2296 frames (want 2296)
+        ✓ duration  76.533 s (want 76.533)
+        ✓ bt709     colour tags bt709,bt709,bt709
+        ✓ cadence   repeats on 15:5,10,14 slots 459/459, extra holds 900; measured 15:5,10,14
+        ✓ picks     1836/1836 frames match the master frame they were taken from (NCC vs ±1)
+        ✓ loudness  -14.0 LUFS (want -14.0 ±0.3, the mp4's AAC)
+        ✓ true peak -1.1 dBTP (want ≤ -1.0)
+finish-cuts-exact          PASS  cuts: 26 in the reference — 25 exact, 1 within 1 f
+finish-shots               PASS  exit 0 
+finish-wrong-phase         PASS  exit 1   ✗ cadence   repeats on 15:5,10,14 slots 83/180, extra holds 427; measured 5:2 — NOT the reference's
+finish-own-pattern         PASS  exit 0 
+finish-none                PASS  exit 0 
+finish-none-vs-ref         PASS  exit 1   ✗ cadence   repeats on 15:5,10,14 slots 85/180, extra holds 341; measured none — NOT the reference's
+finish-picks-harness       PASS  exit 0   ✗ picks     656/719 frames match the master frame they were taken from (NCC vs ±1)
+err-pattern-half           PASS  exit 2 ✗ --pattern 15:1,3,5,7,9,11,13,14: slots are output frames 1…14 of each period of 15 that repeat the frame
+err-pattern-text           PASS  exit 2 ✗ --pattern abc: give it as PERIOD:SLOT,SLOT,… — e.g. 15:5,10,14 (a 24 fps edit in a 30 fps file)
+err-pattern-slot           PASS  exit 2 ✗ --pattern 15:0,15: slots are output frames 1…14 of each period of 15 that repeat the frame before, fewer
+err-missing-stem           PASS  exit 2 ✗ no such audio: /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/lead/../r1/stems/nosu
+err-missing-add            PASS  exit 2 ✗ no such audio: /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r5-lead-verify/err/no
+err-bug-no-glyph           PASS  exit 2 ✗ --bug needs its sprites: --bug-glyph (and --bug-text)
+err-out-is-master          PASS  exit 2 ✗ the output /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/lead/../r1/baseline-16x9.
+err-out-not-mp4            PASS  exit 2 ✗ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r5-lead-verify/err/out.wav: the outp
+err-no-cadence             PASS  exit 2 ✗ give --ref REF.mp4 (its cadence is measured), --pattern 15:5,10,14, or --cadence none
+err-noaudio-keep           PASS  exit 2 ✗ --no-audio leaves the soundtrack out: drop --keep / --add, or --no-audio
+err-no-master              PASS  exit 2 ✗ no such file: /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r5-lead-verify/err/nos
+err-qa-no-master           PASS  exit 2 ✗ --qa needs --master (the frames are checked against it)
+err-bad-fps                PASS  exit 2 ✗ --fps abc: give the output rate, e.g. 30
+err-no-cuts                PASS  exit 2 ✗ which master frame starts each shot? There is no /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf0
+err-wrong-timeline         PASS  exit 2 ✗ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r5-lead-verify/timeline-wrong.json i
+err-bad-cuts               PASS  exit 2 ✗ --cuts 348,abc: give the shot starts (348,364,…), a file that lists them (timeline.json, cuts.json, brea
+0 failure(s)

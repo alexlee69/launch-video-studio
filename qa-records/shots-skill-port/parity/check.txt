@@ -1,0 +1,17 @@
+! shots.S01-1b.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S01-1c.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S02-2.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S03-3.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S04-4A.motion.camera: 2 camera moves (in, tilt): one move per shot reads as real
+! shots.S04-4B.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S14-14A.motion.camera: 2 camera moves (in, track): one move per shot reads as real
+! shots.S14-14A.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S14-14B.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S15-15.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S20-20.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S21-21.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S26-26.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.A1.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.A2.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.A3.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+✓ tools/shots.json: 20 shots, MiniMax H3 (fal)

@@ -1,0 +1,6 @@
+{
+ "still": "still.png",
+ "ref": "ref.mp4",
+ "ours_bright": "ours_bright.png",
+ "note": "expected numbers come from oracle/look_oracle.py (today's look_stats formulas)"
+}

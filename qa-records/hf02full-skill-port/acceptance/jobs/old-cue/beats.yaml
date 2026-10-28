@@ -1,0 +1,117 @@
+# Cue — "A day, handled" (direction B). 30 s at 124 BPM (one beat = 0.48 s); 16:9 + 9:16; captions only.
+# Brand assets are STAND-INS (monogram "C", generic built-in characters, Inter) until the Manus brand kit arrives —
+# drop the official logo/characters/fonts into assets/ and point brand: at them; nothing else needs re-editing.
+# Product claims marked (confirm) in notes come from Cue's public launch film and need Manus sign-off before publishing.
+title: Cue — A day, handled
+slug: cue
+aspects: [16x9, 9x16]
+thumbnail: s9
+
+brand:
+  name: Cue
+  mono: C
+  colors:
+    accent: "#3E7BFA"     # stand-in blue (headline accent phrase, buttons)
+  bg: grid
+
+music:
+  style: playful          # composed in code, mallets + bass + claps
+  bpm: 124
+  key: F
+  drop: s2                # groove arrives with the team
+  breaks: [s8]            # drums drop out under "Your day. Handled."
+
+shots:
+  - id: s1
+    block: title
+    beats: 6
+    pre: Meet
+    name: Cue
+    badge: Hi!
+    sub: by Manus
+    out: zoom-in
+    note: Stand-in logo mark until the Manus brand kit (official Cue logo SVG).
+
+  - id: s2
+    block: cast
+    beats: 6
+    text: Your own team of *AI agents.*
+    count: 7
+    out: whip-left
+    note: Built-in original characters stand in for Cue's characters.
+
+  - id: s3
+    block: phone
+    beats: 8
+    text: "*8 AM.* Inbox, cleared."
+    items:
+      - header: {title: Cue, sub: Sorting your inbox, avatar: 0}
+      - row: {title: Newsletters, sub: 38 archived, icon: mail, check: true}
+      - row: {title: Invoice from Acme, sub: Filed to Finance, icon: chart, check: true}
+      - row: {title: Dentist, sub: Moved to Thursday, icon: calendar, check: true}
+    out: whip-left
+    note: "Claim: each agent has its own email (confirm)."
+
+  - id: s4
+    block: phone
+    beats: 8
+    text: "*11 AM.* A call, handled."
+    side: right
+    items:
+      - header: {title: Cue, sub: On a call for you, avatar: 1}
+      - msg: Calling the airline about your seat.
+      - typing: 18
+      - msg: Done. You're in 14A, no fee.
+      - toast: Call handled · 4 min
+    out: whip-left
+    note: "Claim: each agent has its own phone number (confirm)."
+
+  - id: s5
+    block: phone
+    beats: 8
+    text: "*1 PM.* Dinner, booked."
+    items:
+      - msg: Found a table for 2 at 7:30.
+      - card: {title: Approve deposit?, sub: Card ending 4021, value: $20.00, icon: $, actions: [Decline, Approve]}
+      - tap: Approve
+      - toast: Booked. Deposit paid.
+    out: whip-up
+    note: "Claim: Cue only spends after you approve (confirm)."
+
+  - id: s6
+    block: prompt
+    beats: 8
+    text: "*4 PM.* A trip, planned."
+    prompt: Plan a Lisbon weekend for 4
+    steps: [Flights compared, Hotel shortlisted, Shared in the group chat]
+    out: zoom-out
+    note: "Claim: a team of agents splits one job (confirm)."
+
+  - id: s7
+    block: panel
+    beats: 6
+    text: "*7 PM.* Pickup, ordered."
+    items:
+      - notif: {app: Cue, title: Pickup ordered, body: You approved $14.50 · ready 7:10}
+      - notif: {app: Cue, title: Groceries on the way, body: Arriving 8–9 PM}
+    out: blur
+
+  - id: s8
+    block: headline
+    beats: 4
+    theme: dark
+    kicker: 8 PM
+    text: Your day. *Handled.*
+    out: cut
+
+  - id: s9
+    block: endcard
+    beats: 8
+    name: Cue
+    tagline: Your own team of *AI agents.*
+    cta: [Get it on iOS, Get it on Android]
+    cast: 7
+    note: Stand-in logo + characters; app stores and URL to confirm.
+
+cutdowns:
+  short: [s1, s3, s5, s8, s9]     # ≈ 16.5 s: meet → morning → the approval moment → payoff → end

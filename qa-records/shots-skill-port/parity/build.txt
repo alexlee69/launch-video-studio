@@ -1,0 +1,37 @@
+! shots.S01-1b.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S01-1c.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S02-2.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S03-3.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S04-4A.motion.camera: 2 camera moves (in, tilt): one move per shot reads as real
+! shots.S04-4B.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S14-14A.motion.camera: 2 camera moves (in, track): one move per shot reads as real
+! shots.S14-14A.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S14-14B.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S15-15.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S20-20.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S21-21.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.S26-26.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.A1.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.A2.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+! shots.A3.motion.beats: 1 beats; MiniMax H3 (fal) takes 2–4
+→ S01-1a  shots/S01-1a.h3.txt  67 words  + shots/S01-1a.key.txt
+→ S01-1b  shots/S01-1b.h3.txt  69 words  + shots/S01-1b.key.txt
+→ S01-1c  shots/S01-1c.h3.txt  92 words  + shots/S01-1c.key.txt
+→ S02-2  shots/S02-2.h3.txt  53 words  + shots/S02-2.key.txt
+→ S03-3  shots/S03-3.h3.txt  62 words  + shots/S03-3.key.txt
+→ S04-4A  shots/S04-4A.h3.txt  102 words  + shots/S04-4A.key.txt
+→ S04-4B  shots/S04-4B.h3.txt  86 words  + shots/S04-4B.key.txt
+→ S09-9  shots/S09-9.h3.txt  109 words  + shots/S09-9.key.txt
+→ S14-14A  shots/S14-14A.h3.txt  95 words  + shots/S14-14A.key.txt
+→ S14-14B  shots/S14-14B.h3.txt  50 words  + shots/S14-14B.key.txt
+→ S15-15  shots/S15-15.h3.txt  51 words  + shots/S15-15.key.txt
+→ S20-20  shots/S20-20.h3.txt  61 words  + shots/S20-20.key.txt
+→ S21-21  shots/S21-21.h3.txt  51 words  + shots/S21-21.key.txt
+→ S22-22  shots/S22-22.h3.txt  80 words  + shots/S22-22.key.txt
+→ S24-24  shots/S24-24.h3.txt  102 words  + shots/S24-24.key.txt
+→ S26-26  shots/S26-26.h3.txt  132 words  + shots/S26-26.key.txt
+→ A1  shots/A1.h3.txt  33 words  + shots/A1.key.txt
+→ A2  shots/A2.h3.txt  37 words  + shots/A2.key.txt
+→ A3  shots/A3.h3.txt  33 words  + shots/A3.key.txt
+→ S01-1c-t2  shots/S01-1c-t2.h3.txt  112 words
+→ shots/plan.json: dry-run gen.mjs lines; quote them and get Alex's yes before any --go

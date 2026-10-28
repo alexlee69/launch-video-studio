@@ -1,7 +1,7 @@
 #!/bin/bash
 # one aspect at a time, --workers 2, a thermal check (and a 180 s pause on any warning level) before each render
-J=/Users/bytedance/Downloads/launch-videos/motion-kit-sample
-S=/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video
+J=$(cd "$(dirname "$0")/.." && pwd)
+S=${SKILL:-$HOME/.claude/skills/product-launch-sting}/video
 TAG=${1:-final}; shift
 for A in "${@:-16x9 9x16 1x1}"; do
   for A1 in $A; do

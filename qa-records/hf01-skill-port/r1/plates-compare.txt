@@ -1,0 +1,13 @@
+S01  frames 281 vs 281  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S02  frames 16 vs 16  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S03  frames 17 vs 17  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S04  frames 226 vs 226  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S09  frames 68 vs 68  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S14  frames 108 vs 108  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S15  frames 21 vs 21  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S20  frames 32 vs 32  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S21  frames 9 vs 9  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S22  frames 99 vs 99  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S24  frames 87 vs 87  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+S26  frames 197 vs 197  bytes IDENTICAL  mean|Δ| max 0.000 mean 0.000  PASS
+ALL PASS

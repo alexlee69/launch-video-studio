@@ -1,0 +1,74 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ref.mp4",
+  "frames": 120,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ref.mp4",
+  "frames": 120,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  119
+ ],
+ "cuts_from": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/jobs/bd/reference/ref/breakdown.json",
+ "source": "breakdown",
+ "notes": [],
+ "summary": "cuts: 3 in the reference — 3 exact, 0 within 1 f",
+ "cuts": [
+  {
+   "n": 30,
+   "listed": 30,
+   "label": "cut",
+   "t": 1.0,
+   "ref_strength": 2.66,
+   "ours": 30,
+   "ours_strength": 2.66,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  },
+  {
+   "n": 60,
+   "listed": 60,
+   "label": "cut",
+   "t": 2.0,
+   "ref_strength": 3.54,
+   "ours": 60,
+   "ours_strength": 3.54,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  },
+  {
+   "n": 90,
+   "listed": 90,
+   "label": "fx",
+   "t": 3.0,
+   "ref_strength": 3.87,
+   "ours": 90,
+   "ours_strength": 3.87,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  }
+ ]
+}

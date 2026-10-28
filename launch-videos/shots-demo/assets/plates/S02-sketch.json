@@ -1,0 +1,14 @@
+{
+ "lv": "position",
+ "id": "S02",
+ "image": "S02-sketch.png",
+ "aspect": "16x9",
+ "plate_hash": "d0ea4aa6",
+ "legend": {
+  "red": "the people: where each one stands and how big they are",
+  "yellow": "each head; the red cross on a head shows which way the face looks",
+  "green": "the ground line their feet stand on",
+  "grey": "the place: its horizon, its big shapes and where the light comes from"
+ },
+ "says": "Figure 1 (founder) stands left of centre, about 52% of the frame tall, facing right, feet near the bottom; figure 2 (cofounder) stands right of centre, about 55% of the frame tall, facing left, feet near the bottom."
+}

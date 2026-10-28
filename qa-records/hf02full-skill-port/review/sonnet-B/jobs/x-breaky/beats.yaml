@@ -1,0 +1,13 @@
+title: breaky
+brand: {name: X}
+music: {style: film, breaks: [c, d, e, f, g, h], level: 6}
+shots:
+  - {id: a, block: headline, beats: 4, text: One, out: whip-left}
+  - {id: b, block: headline, beats: 8, text: Two, out: smear-right}
+  - {id: c, block: headline, beats: 4, text: Three, out: tunnel}
+  - {id: d, block: headline, beats: 4, text: Four, out: flash}
+  - {id: e, block: headline, beats: 4, text: Five, out: glitch}
+  - {id: f, block: headline, beats: 4, text: Six, out: whip-up}
+  - {id: g, block: headline, beats: 4, text: Seven, out: zoom-in}
+  - {id: h, block: headline, beats: 4, text: Eight, out: blur}
+  - {id: card, block: endcard, beats: 4, tagline: Bye}

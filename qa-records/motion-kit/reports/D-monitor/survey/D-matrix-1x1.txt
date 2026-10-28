@@ -1,0 +1,2 @@
+mon-D-old-matrix 1x1: 1080 frames in 3.3 s (camera() evaluate avg 0.96 ms)
+INFO 17 cuts, 14 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: t01→t02 2.22×, t02→t03 2.22×, t05→t06 2.07×, t06→t07 2.56×, t09→t10 2.22×, t10→t11 2.22×) — numbers per cut in qa.json

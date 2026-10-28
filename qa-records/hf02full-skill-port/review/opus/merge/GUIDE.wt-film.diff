@@ -1,0 +1,89 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/GUIDE.md	2026-10-21 19:12:54
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-film/video/GUIDE.md	2026-10-22 02:05:47
+@@ -157,12 +157,12 @@
+ | cta | the comment-keyword end card, "Comment WORD to get the link" | word, pre, post, logo; no bg = dark with drifting glows, `bg: none` = nothing behind it |
+ | **Launch films** | *product UI composited over AI footage (see Reels and launch films)* | |
+ | scene | timed overlays pinned to the frame over the shot's footage: a prompt bar that types and sends (inline, dark composer or a macro close-up tracking the caret), a message bubble, kinetic words, a status pill, a voice orb with captions | overlays: [{at, pos, until, and one of bar · bubble · words · pill · orb}] |
+-| agent | a light agent-at-work UI: your message, rows that slide in (avatar from the left), think (shimmering status), stream a reply and tick ✓, then a streamed bold title with steps; the chat scrolls with a momentum move. `frame: window` = inside an app window (sidebar, header, rules, message bar arriving on measured beats; an agent drops into the sidebar's skeleton slot) | user, rows [{avatar, name, status, done, reply, at (negative = already there), think, statusAt, statusLen}], title, steps, input, rate, scroll (auto · always), dolly, frame, sidebar {title, at, drop}, header {name, sub, avatar} |
+-| roster | "Your agents": a close list behind a fixed highlight slot that never stops — one momentum step per beat (optionally a fast run at the end), row 0 drops into the slot, the others fly in from the left and reveal (wipe, unblur, tint → grey), mascots change expression, "more" builds its grid square by square | agents [{name, sub, mascot}], title, more, beat (15), first, run |
++| agent | a light agent-at-work UI: your message, rows that slide in (avatar from the left), think (shimmering status), stream a reply and tick ✓, then a streamed bold title with steps; the chat scrolls with a momentum move. `frame: window` = inside an app window (sidebar, header, rules, message bar arriving on measured beats; an agent drops into the sidebar's skeleton slot) | user, rows [{avatar, name, status, done, reply, at (negative = already there), think, statusAt (the status label stays hidden until then, then wipes in), statusLen}], title, steps, input, rate, scroll (auto · always), dolly, frame, sidebar {title, at, drop}, header {name, sub, avatar} |
++| roster | "Your agents": a close list behind a fixed highlight slot that never stops — one momentum step per beat (optionally a fast run at the end), row 0 drops into the slot, the others fly in from the left and reveal (wipe, unblur, tint → grey), mascots change expression, "more" builds its grid square by square; rows well above the slot fade out with their mascots; long names / subs shrink together to fit the slot | agents [{name, sub, mascot}], title, more, beat (15), first, run |
+ | type | kinetic name: tracking closes, blur and a glint settle, a co-brand line above, an accent pill under; `through` zooms it through the camera | text, face (sans · serif · brand), over, overLogo, pill, through |
+-| lockup | co-brand card: [logo] Name × [logo] Partner, a pill, 4–6 mascots bouncing round it | name, partner {name, logo}, pill, cast, backdrop |
++| lockup | co-brand card: [logo] Name × [logo] Partner, a pill, 4–6 mascots bouncing round it, on a light gradient (none over `bg` footage: the names turn light) | name, partner {name, logo}, pill, cast (0–6), backdrop |
+ | stack | a deep 3D card stack cycles to the front, the last card turns and settles, a status pill lands on it | cards (images or clips), count, pill, mascot, chrome (post · none), pillAt |
+-| wall | a floating video wall: tilted phone cards at three depths drifting with parallax, label chips, a centre headline | cards (images or clips), chips, text, chrome (ugc · none), drift |
++| wall | a floating video wall: tilted phone cards at three depths drifting with parallax, label chips riding clear of the nearer cards and the headline's glow (one that can't fit in an aspect is left out there: `--grid` names it), a centre headline | cards (images or clips), chips, text, chrome (ugc · none), drift |
+ 
+ **Reel captions**: `caption: "Pick a style, hit *generate*"` (+ `captionAt:` its first local frame, default 4) on any reel
+ block and on `media` — words pop one at a time (~3 a second, compressed so the last lands by ~72 % of the shot), white
+@@ -178,6 +178,9 @@
+ `size`} (one at a time on a scatter, each blurs and dims as the next lands) · `pill: "text"` {`mascot`: cast index |
+ logo | spark, `theme`} · `orb: true` {`caption`: a line or lines streamed word by word, `size`, `color2`}. Overlays lay
+ out inside the safe area and inside letterbox bars. Bubble meta (time / from) and bar chips are UI texture, not copy.
++Without `bg` a scene opens on the bare background until its first overlay shows (entrances lead by 3 frames; words fade
++in from their own `at`): start an overlay at 0 — not words — or `--grid` warns that QA content will fail those frames.
++A dark composer wraps a long prompt and grows as it types (upward from the bottom); it is placed at its full height.
+ 
+ **Footage fields** of these blocks (split `before`/`after`, float `card`, stack/wall `cards`, and the universal `bg`)
+ take an image or a clip; `<field>From` = seconds into the clip (a list for `cards`). Clips are cut to 60-fps frames for
+@@ -220,6 +223,8 @@
+ them when the shot leaves that field out (the shot's own value always wins). A block that moves the footage with its own
+ animation exports `bgMotion: (ctx, shot) => (t, D) => ({x, y, s})` (px offsets and an extra scale on top of the Ken
+ Burns, a pure function of `t`; return null for none) — the sticker's impact shake and type's zoom-through push use it.
++A block that draws its own exit before a hard cut (a zoom or fly-out over its last frames) exports `exitMove: shot =>
++true` (type: `through:` set); QA's `cut` check then measures that cut against the frames after it.
+ **Footage in a
+ block's own fields**: declare them — `media: ['card', 'cards']` (or `{field: 'shot', fit: 'contain', scale: .4}`;
+ fit `cover` by default = cover-cropped to the stage (× `scale`); `contain` = the whole file, fitted inside a square of
+@@ -233,7 +238,7 @@
+ overlay text, labels, CTA lines …). The timeline stores it on the shot (`copy`) and the captions SRT, the `--grid` table,
+ the storyboard's copy line and the review sheet use it instead of the fixed fields (`kicker`, `text`, `sub`, `prompt` …);
+ `read(shot)` (default: all of `copy`) is what the reading-time warning counts — e.g. `agent` counts the user's message
+-and its title, not the replies it streams as UI. `copy` and `copyRead` are reserved shot fields. Built-in blocks may
++and its title, not the replies it streams as UI. `copy`, `copyRead` and `exitMove` are reserved shot fields. Built-in blocks may
+ import `../kit.js`, `../art.js` and their shared helpers (`_reel.js`, `_film.js`); a job's `blocks/*.mjs` still gets no
+ imports (everything arrives on ctx).
+ 
+@@ -247,8 +252,10 @@
+ node $V/lv.mjs --job DIR --init --kit film    # 10 shots, 16:9 first: lockup · type · scene · agent · roster · stack · wall
+ ```
+ 
+-Both starters run straight away (`--grid`, `--storyboard`) with no assets: their footage lines are commented
+-(`# bg: assets/your-ai-footage.mp4`) and the cards/panels point at placeholder stills `--init` writes into `assets/`.
++Both starters run straight away with no assets: the cards and panels point at placeholder stills `--init` writes into
++`assets/`. The reel's footage lines are commented (`# bg: assets/your-ai-footage.mp4`); the film's footage shots (`hook`,
++`ask`) run on placeholder footage (`bg: assets/placeholder-footage-1.svg`), so the film starter passes `--film` QA as
++it is — point those lines at your clips.
+ Finished examples: `~/Downloads/launch-videos/reel-sample/` (Popframe, 19.7 s, 9:16 · 16:9 · 1:1) and
+ `~/Downloads/launch-videos/film-sample/` (Orbit 2, 37.8 s, 16:9 · 9:16 · 1:1) — read their beats.yaml before writing one.
+ 
+@@ -257,7 +264,7 @@
+ | Where | Instagram Reels / TikTok / Shorts; 9:16 first | X, LinkedIn, YouTube, a website hero, a keynote; 16:9 first |
+ | Length, pace | 10–30 s; 4–6 beats a shot at 120–130 BPM; a moving exit (whip / zoom) on most cuts | 30–60 s; UI moments hold 1.5–3.5 s; momentum (drift) cuts between UI shots, hard cuts on actions over footage |
+ | Picture | ~80 % AI footage, a small kit of loud graphics on top: heavy italic stickers with a stroke and offset shadow, tilted, slammed in with a shake; a UI card flying over the footage; before / after; word-pop captions; a comment-keyword CTA | product UI composited into footage (a message bubble, a prompt typed and sent, kinetic words, a voice orb), then light agent UI shot close, a co-brand lockup, a title that zooms through the camera, a card stack, a video wall |
+-| Blocks | `sticker` · `float` · `split` · `cta` (+ `caption:` on any of them and on `media`) | `lockup` · `type` · `scene` · `agent` · `roster` · `stack` · `wall` (and any built-in block with `bg:`) |
++| Blocks | `sticker` · `float` · `split` · `cta` (+ `caption:` on any of them and on `media`) | `lockup` · `type` · `scene` · `agent` · `roster` · `stack` · `wall` (and any built-in block with `bg:` — but `agent` and `roster` are light UI: keep them on the brand background) |
+ 
+ **The grammar, measured on the reference films** (frame sheets of three Higgsfield launch films, and one 7 s stretch of
+ film 02 tracked to the pixel; recreate the rhythm, never their footage, copy or characters):
+@@ -314,7 +321,9 @@
+ the shot from its `…From` point, or `--film` stops and says by how much); leave room where the sticker or card goes, and
+ no text in the clip. Then, per shot:
+ - `bg: assets/clip.mp4` on **any** shot draws it full-bleed behind the block (`bgFrom`, `bgDim`, `bgMove`, `letterbox`;
+-  the reel blocks bring heavier scrims: sticker .25, float .45, cta .5). Copy over it turns light-on-dark.
++  the reel blocks bring heavier scrims: sticker .25, float .45, cta .5). Copy over it turns light-on-dark; `lockup`
++  drops its light gradient, `wall` keeps its headline dark on its own light glow. `agent` and `roster` don't turn
++  light-on-dark yet (their light UI is drawn in dark ink): `--grid` warns when one has `bg` or `theme: dark`.
+ - The blocks' own footage fields: `split` `before` / `after`, `float` `card`, `stack` / `wall` `cards` (each with
+   `<field>From`), and `media` `src` (`from`).
+ - **Or keep the motion design separate** and lay it over the footage in CapCut: leave `bg` off (or keep it — `--alpha`
+@@ -562,7 +571,7 @@
+ | video | W×H, 60 fps, frame count = timeline, h264 yuv420p, bt709 primaries/transfer/matrix, tv range |
+ | fresh / audio | the mp4 holds exactly the current frames and master (recorded at mux time); its soundtrack was built from this timeline and audio code — an animatic or clip export never touches the film's audio |
+ | shots | the renderer's log changes shot exactly at the timeline's cut indices |
+-| cut | hard cuts (`out: cut`) are one-frame luma spikes ≥ 1.25× their neighbours; moving transitions (whips, zooms, blur, drifts and the cross-cut ones) are INFO (the shot log proves them) |
++| cut | hard cuts (`out: cut`) are one-frame luma spikes ≥ 1.25× their neighbours — after a block's own exit move (`type` `through:`, whose last frames change as fast as the cut) ≥ 1.25× the three frames after it, which a late, early or dissolved cut still fails; moving transitions (whips, zooms, blur, drifts and the cross-cut ones) are INFO (the shot log proves them) |
+ | freeze | no run of ≥ 4 identical frames outside `hold:` ranges. Frames from one Chrome page must be pixel-identical to count; across a page seam (where one render worker hands over to the next, or where a `--range` render meets older frames) Chrome's raster noise is ±1–2 code values, so a pair there counts as still at ≤ 2. Holds are reported as verified still |
+ | content | every frame differs from a background-only render of the *same* frame (same camera, block content and `bg` footage hidden) in ≥ 3 thumbnail pixels (1/10 scale, by > 12 luma) — so a blank frame fails even on a busy grid or dark background. **Footage is content**: the reference keeps the brand background (a `bg:` shot's plain underlay), the letterbox bars and any glitch/smear/tunnel/flash drawn over the cut, but not the footage, so a footage-only beat (the AI clip before the first overlay lands) passes, while a frame that shows neither the block nor footage fails — a clip that is a flat frame matching the underlay, a transition that washes the shot out (a solid flash, a corridor hiding it). A file that can't be shown stops earlier: `--grid` checks every image's bytes (an HTML page or a HEIC photo saved as .jpg), the stage refuses to build on an image it can't decode, and missing footage frames are a render error. A footage-only beat needs moving footage: a near-static clip held under a late overlay trips `freeze` |
+ | text | at each hero frame no text clipped by the frame or under a letterbox bar (UI mocks included) and none under 18 px (UI mocks exempt); WARN outside the safe area (inside the bars with letterbox) or under 26 px |

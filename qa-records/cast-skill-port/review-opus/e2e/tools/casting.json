@@ -1,0 +1,108 @@
+{
+ "_note": "casting.json starter (CASTING.md). Fill every <placeholder> (a --go refuses any left), run `casting.py plan`, quote it to the user. Prompts describe what things ARE; never name what must not appear (that pulls the model toward it): such words go in \"ban\", a build check. Paths are relative to this file; {NAME} expands a snippet from \"text\" or the built-ins (SHEET, LOCK, KEEP, STATE, FACELESS, GREY, TAIL, PLATE_TAIL, PRE_FACE, PRE_LOC).",
+ "root": "..",
+ "grey": "#8a8a8a",
+ "cap": 10,
+ "ledger": "../cast/ledger.jsonl",
+ "ban": [],
+ "text": {
+  "WHO": "a man of about 50 with dark brown skin, a short grey beard, close-cropped hair and deep-set brown eyes",
+  "WARDROBE": "a rust-orange canvas field jacket over a cream henley, olive work trousers and brown leather boots"
+ },
+ "candidates": {
+  "look-1": {
+   "n": 2,
+   "prompt": "{SHEET} The person is {WHO}, wearing {WARDROBE}. {TAIL}"
+  }
+ },
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP}",
+   "restore": {
+    "ellipse": [
+     480,
+     545,
+     235,
+     290
+    ],
+    "feather": 28
+   },
+   "pin": {}
+  }
+ },
+ "states": {
+  "state-2": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} soaked from the rain: hair wet, the jacket dark with water. LEFT panel: a front-facing close-up of the head and shoulders, eyes to camera. MIDDLE panel: the full body from the front, the face area left as a soft plain shadow with no features. RIGHT panel: the full body from behind. {TAIL}",
+   "pin": {}
+  },
+  "costume": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "Image 1 is the locked character sheet. A faceless costume detail sheet: {FACELESS} 1 the jacket collar; 2 the boots from the side and from below. {TAIL}",
+   "pin": {}
+  },
+  "props": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "Image 1 shows the world these props belong to. A faceless props sheet: {FACELESS} 1 the jacket collar; 2 the boots from the side and from below. {TAIL}",
+   "pin": {}
+  }
+ },
+ "locations": {
+  "place-1": {
+   "refs": [],
+   "prompt": "An empty location plate, three-quarter view, no people: a desert field station of corrugated steel and canvas, a clear path down the middle. low warm sun from the left, long cool shadows. 24mm lens. {PLATE_TAIL}"
+  }
+ },
+ "stills": {
+  "S01": {
+   "batch": "identity",
+   "face": "hero",
+   "refs": [
+    "sheet:hero",
+    "loc:place-1"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}a medium shot: he walks toward camera down the path, squinting, warm low sun",
+   "meta": {
+    "shot": "S01"
+   }
+  }
+ },
+ "fixes": {
+  "S01-v1f": {
+   "src": "../stills/keys/S01-v1.png",
+   "prompt": "Move the patch to his own left shoulder. Keep everything else exactly as it is.",
+   "box": [
+    1100,
+    400,
+    1500,
+    800
+   ]
+  },
+  "props-tile": {
+   "sheet": "props",
+   "prompt": "In the bottom-right tile make the boot seen from below. Keep everything else exactly as it is.",
+   "box": [
+    1283,
+    723,
+    2560,
+    1440
+   ],
+   "feather": 0,
+   "pin": {}
+  }
+ },
+ "faces": {
+  "hero": [
+   120,
+   150,
+   820,
+   850
+  ]
+ }
+}

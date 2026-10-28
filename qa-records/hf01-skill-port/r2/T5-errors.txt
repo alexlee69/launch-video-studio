@@ -1,0 +1,14 @@
+bad-pattern-half       exit 0 (want 2) FAIL | 
+bad-pattern-text       exit 2 (want 2) PASS | ✗ --pattern abc: give it as PERIOD:SLOT,SLOT,… — e.g. 15:5,10,14 (a 24 fps edit in a 30 fps file)
+bad-pattern-slot       exit 2 (want 2) PASS | ✗ --pattern 15:0,15: slots are output frames 1…14 of each period of 15 that repeat the frame before, fewer than half of them
+missing-stem           exit 2 (want 2) PASS | ✗ no such audio: /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r1/stems/nosuch.wav (the engine's stems are music, points, wh
+missing-add            exit 2 (want 2) PASS | ✗ no such audio: /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r2/err/none.wav
+bug-no-glyph           exit 2 (want 2) PASS | ✗ --bug needs its sprites: --bug-glyph (and --bug-text)
+out-is-master          exit 2 (want 2) PASS | ✗ the output /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r1/baseline-16x9.mp4 is the input /Users/bytedance/Downloads/Desi
+out-not-mp4            exit 2 (want 2) PASS | ✗ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r2/err/out.wav: the output is an H.264 movie — name it .mp4
+no-cadence-src         exit 2 (want 2) PASS | ✗ give --ref REF.mp4 (its cadence is measured), --pattern 15:5,10,14, or --cadence none
+noaudio-and-keep       exit 2 (want 2) PASS | ✗ --no-audio leaves the soundtrack out: drop --keep / --add, or --no-audio
+no-master              exit 2 (want 2) PASS | ✗ no such file: /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf01-skill-port/r2/err/nosuch.mp4
+qa-no-master           exit 2 (want 2) PASS | ✗ --qa needs --master (the frames are checked against it)
+bad-fps                exit 2 (want 2) PASS | ✗ --fps abc: give the output rate, e.g. 30
+bad-pattern-half       exit 2 (want 2) PASS | ✗ --pattern 15:1,3,5,7,9,11,13,14: slots are output frames 1…14 of each period of 15 that repeat the frame before, fewer than half of them

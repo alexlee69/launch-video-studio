@@ -1,0 +1,2 @@
+D-old-cue-overlays 16x9: 639 cams, 639 frames
+INFO 2 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json

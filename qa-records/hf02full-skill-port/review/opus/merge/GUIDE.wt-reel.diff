@@ -1,0 +1,50 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/GUIDE.md	2026-10-21 19:12:54
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-reel/video/GUIDE.md	2026-10-22 03:22:31
+@@ -151,10 +151,10 @@
+ | media | your image or footage (full-bleed, cover-cropped; or a screen recording in a phone/browser, shown whole), Ken Burns, headline over a scrim, optional reel caption; HDR (HLG/PQ) footage is converted to SDR | src, from, device, move, text, pos, caption |
+ | endcard | logo lockup, tagline, CTA buttons, URL, character row | name, tagline, cta, url, cast, theme |
+ | **Reels** | *AI footage + loud motion design (see Reels and launch films)* | |
+-| sticker | the reel title card: 1–4 heavy italic words slam in as a sticker with an impact shake, a kicker pill above, a ribbon below, sparkles | text, style (outline · plate · pill), kicker, logo, ribbon, tilt, pos (center · top · bottom), shake, sparks, gloss |
++| sticker | the reel title card: 1–4 heavy italic words slam in as a sticker with an impact shake, a kicker pill above, a ribbon below, sparkles | text, style (outline · plate · pill), kicker (one line; a long one is set smaller to fit), logo, ribbon, tilt (degrees, −45…45), pos (center · top · bottom), shake, sparks, gloss |
+ | split | before / after: two panels pop in side by side (stacked on 9:16) with label chips and an arrow, or one frame a divider wipes across | before, after (images or clips), labels, mode (side · wipe), text, arrow |
+ | float | a UI card (or a phone) flies in over the footage with a speed streak, focus brackets snap round it with a tag, then it bobs | card (image or clip), device (card · phone), label, from (left · right), streak, text |
+-| cta | the comment-keyword end card, "Comment WORD to get the link" | word, pre, post, logo; no bg = dark with drifting glows, `bg: none` = nothing behind it |
++| cta | the comment-keyword end card, "Comment WORD to get the link" | word, pre, post (`""` = no line), logo; no bg = dark with drifting glows (part of the block, so an `--alpha` clip of it is opaque), `bg: none` = nothing behind it (the overlay form) |
+ | **Launch films** | *product UI composited over AI footage (see Reels and launch films)* | |
+ | scene | timed overlays pinned to the frame over the shot's footage: a prompt bar that types and sends (inline, dark composer or a macro close-up tracking the caret), a message bubble, kinetic words, a status pill, a voice orb with captions | overlays: [{at, pos, until, and one of bar · bubble · words · pill · orb}] |
+ | agent | a light agent-at-work UI: your message, rows that slide in (avatar from the left), think (shimmering status), stream a reply and tick ✓, then a streamed bold title with steps; the chat scrolls with a momentum move. `frame: window` = inside an app window (sidebar, header, rules, message bar arriving on measured beats; an agent drops into the sidebar's skeleton slot) | user, rows [{avatar, name, status, done, reply, at (negative = already there), think, statusAt, statusLen}], title, steps, input, rate, scroll (auto · always), dolly, frame, sidebar {title, at, drop}, header {name, sub, avatar} |
+@@ -164,11 +164,20 @@
+ | stack | a deep 3D card stack cycles to the front, the last card turns and settles, a status pill lands on it | cards (images or clips), count, pill, mascot, chrome (post · none), pillAt |
+ | wall | a floating video wall: tilted phone cards at three depths drifting with parallax, label chips, a centre headline | cards (images or clips), chips, text, chrome (ugc · none), drift |
+ 
+-**Reel captions**: `caption: "Pick a style, hit *generate*"` (+ `captionAt:` its first local frame, default 4) on any reel
+-block and on `media` — words pop one at a time (~3 a second, compressed so the last lands by ~72 % of the shot), white
+-heavy type with an ink stroke, the newest word on an accent plate, at most 2 lines, at 70 % of the height on 9:16 (above
+-the platform UI). The storyboard/hero frame waits for the last word. A caption faster than ~5 words/s warns at `--grid`.
++**Reel captions**: `caption: "Pick a style, hit *generate*"` (+ `captionAt:` its first local frame, or seconds like
++`0.5s`; default 4) on any reel block and on `media` — words pop one at a time (~3 a second, compressed so the last lands
++by ~72 % of the shot), white heavy type with an ink stroke, the newest word on an accent plate, at most 2 lines, at 70 %
++of the height on 9:16 (above the platform UI). A word runs from space to space, so `*generate*.` pops whole, accent and
++full stop together. Chinese and Japanese (no spaces between words) pop a character at a time: punctuation stays with its
++character, a Latin word or a number stays whole (`3.5`, `1,000`, `3:30`, `manus.im`), and straight quotes `"` open and
++close in turn (curly `“ ”` and `「 」` are never ambiguous). The storyboard/hero frame waits for the last word. At `--grid` a
++`captionAt` that is neither a frame nor seconds stops the run; a caption faster than ~5 words/s (CJK: characters/s), one
++whose last words would pop after the shot ends, and a `captionAt` past the shot's end warn.
+ 
++**Reel on/off fields** — sticker `shake` / `sparks` / `gloss` / `logo`, split `arrow`, float `streak`, cta `logo` — take
++`true` or `false`: YAML reads `no`, `off` and `"false"` as text, so `--grid` stops on them rather than leave the effect on.
++Sticker `tilt` is a number of degrees, −45…45 (`-5`, not `-5deg`).
++
+ **Scene overlays** (`overlays:` list, in paint order): each has `at` (local frame, or seconds `"1.5s"`), `pos`
+ (`top-left` … `bottom-right`, `center`, or `[x, y]` as fractions of the frame), optional `until` (it fades out), and
+ exactly one of: `bar: "typed text"` {`theme: dark | light` (default: dark over footage), `framing: inline | macro` (a
+@@ -318,7 +327,8 @@
+ - The blocks' own footage fields: `split` `before` / `after`, `float` `card`, `stack` / `wall` `cards` (each with
+   `<field>From`), and `media` `src` (`from`).
+ - **Or keep the motion design separate** and lay it over the footage in CapCut: leave `bg` off (or keep it — `--alpha`
+-  leaves it out) and export the graphics as transparent overlays, `--clips s1,s4 --alpha` (ProRes 4444; add `--webm` for
++  leaves it out; a `cta` takes `bg: none`, since without a bg it draws its own dark backdrop, which stays in the clip) and
++  export the graphics as transparent overlays, `--clips s1,s4 --alpha` (ProRes 4444; add `--webm` for
+   a VP9-alpha twin) or per-element `--layers`; put the footage on CapCut's main track and the overlay above it. Check
+   one overlay over a colour first (see CapCut under Layers: alpha import is untested here). Letterbox bars stay in an
+   `--alpha` export (drop `letterbox` from the shot for a bar-less overlay).

@@ -1,0 +1,127 @@
+{
+ "area": "FILM \u2014 film blocks (_film.js, scene, agent, roster, type, lockup, stack, wall)",
+ "findings": [
+  {
+   "id": "FILM-1",
+   "severity": "HIGH",
+   "category": "correctness",
+   "file": "video/engine/blocks/wall.js",
+   "line": 53,
+   "title": "wall chips are dropped, cut off or hidden behind neighbour cards; 0 of 5 appear in 9:16, and QA still passes",
+   "failure_scenario": "wall with chips: [Hook in 1s, Product close-up, UGC reaction, Sound on, Captions], text: Every cut, *on brand.* (the film-sample wall; the starter has the same pattern). 16:9 hero frame: 4 of 5 chips are placed. 'Product close-up' shows only 'e-up' and 'Sound on' shows 'Sound c' because the next card is painted over them, and 'Captions' is never drawn. 9:16: 0 of 5 are placed (the starter's 2 chips give 1). 1:1: 2 of 5. The captions SRT, the review sheet and the SFX still list every chip, and wall.cues() pops for all of them (up to 6), so the film has chip sounds with no chip on screen.",
+   "evidence": "Cause, wall.js:46-54: chip slots are mid-tier slots sorted by distance from the centre, kept only if the chip rect stays inside the frame and safe y-range. Nothing tests overlap with other cards. In portrait there are only 4 columns, so about one slot ever qualifies. Chips are children of their own card (wall.js:78-86, card.appendChild(chip)), so any later card in the same group, or any near-tier card, paints over them. Nothing warns when fewer chips can be placed than declared. wall.js:18 (copy) and :22 (cues) use chipsOf(s) as declared.\nReproduced with scratch job t-wall (5 chips, placeholder cards) through a Playwright probe on the stage:\n- 16x9: placed=4 (Hook in 1s, Product close-up, UGC reaction, Sound on). Screenshot wall-16x9.png shows 'e-up' and 'Hook in 1s'.\n- 9x16: placed=0.\n- 1x1: placed=2.\nFiles: scratchpad/review/FILM/wall4.out, wall-16x9.png, wall-9x16.png.\nThe shipped MP4s show the same: ~/Downloads/launch-videos/film-sample/orbit-film-16x9.mp4 at 30.5 s shows 'e-up' and 'Sound c' and no 'Captions' (extracted to scratchpad/review/FILM/fs-wall-16x9.png). orbit-film-9x16.mp4 at 30.6 s shows no chips at all (fs-wall-9x16.png). The starter's 16:9 hero (base/out/main/16x9/board/09-wall.png) hides 'Hook in 1s' behind the blue CLIP 1 card.\nQA passes because the chips are .lv-ui text boxes that still count as 'visible' in the text audit (runtime.js audit()), which has no occlusion test.",
+   "reproduced": true,
+   "suggested_fix": "Draw chips in their own group above 'near' (below glow and headline). Position each from its card's per-frame transform, or give chip cards a higher z-index. Choose chip slots by checking the chip rect against the other cards' rects (and the headline glow) at the chip's pop frame and at the hero frame. Allow chip slots in 'near'/'far' tiers when portrait has too few mid slots. Make build or validate warn, or cap copy() and cues() to the chips actually placed, when placed < declared."
+  },
+  {
+   "id": "FILM-2",
+   "severity": "MEDIUM",
+   "category": "hf02-deviation",
+   "file": "video/engine/blocks/roster.js",
+   "line": 119,
+   "title": "roster title/sub are positioned by CSS top instead of baseline, so the sub sits ~0.085 p too high and collides with title descenders",
+   "failure_scenario": "Any roster row whose name has a descender (Storyboard, Analyst, Strategy, Copywriter) renders with the 'y' or 'g' crossing the first letters of the sub line. 16:9 starter hero frame (base/out/main/16x9/board/06-team.png): the 'y' of 'Storyboard' cuts through the 'b' of 'See it before it's shot'. Rows without descenders touch ('Builder' / 'Automate the routine'). It also ships in film-sample's 9:16 MP4 (Storyboard/See it before it's shot, Motion/Make it move, Sound/Make it hit) and in the hf02 proof job (Analyst).",
+   "evidence": "roster.js:118-119 put the title at top:0 (font .275 p, line-height 1) and the sub at top:.247 p (font .176 p). ~/Downloads/launch-videos/hf02-recreate/stage.html:209-222 positions text by baseline: SUB_DY = 43 is the sub baseline minus the title baseline, in a 174 px pitch, so .247 p. Title baseline is at row top + 35.5 px = .204 p; sub baseline at +78.5 px = .451 p. With Inter's baseline at about .8637 em in a line-height-1 box, the block's baselines are .2375 p (title) and .399 p (sub). The title-to-sub baseline gap is therefore .162 p, not .247 p (about 53 px against 76 px at p = 309 px in 16:9; measured on 06-team.png: ~53 px). The title baseline is also ~.033 p low against the reference. The same file's header (line 164) and the 'more' row (lines 125-128) were transcribed correctly by baseline, so only the row title/sub are off. Zoom: scratchpad/review/FILM/crop-roster.png.",
+   "reproduced": true,
+   "suggested_fix": "Convert the measured baselines to box tops: title top = (35.5/174 \u2212 .8637\u00b7.275) p \u2248 \u2212.0335 p, sub top = (78.5/174 \u2212 .8637\u00b7.176) p \u2248 .299 p. Leave the .229 p row-top offset and the mascot centre alone. Re-check the tracker numbers afterwards, since the title moves up about 10 px at 1080p."
+  },
+  {
+   "id": "FILM-3",
+   "severity": "MEDIUM",
+   "category": "layout",
+   "file": "video/engine/blocks/roster.js",
+   "line": 172,
+   "title": "roster in 9:16: text fades 2.8 pitches above the slot but the mascots do not, leaving label-less avatars",
+   "failure_scenario": "A roster of 5+ rows in 9:16 (pitch .16 H, slot at .5 H) shows 3\u20134 rows above the slot. Each row's text and sub fade out completely at 2.8 pitches above the slot, but the mascot wrappers are never faded, so avatars hang in the top third with no name. Seen in the shipped hf02-proof-9x16.mp4 at 6.2 s (a grey dome with no label above Builder/Writer) and in film-sample's orbit-film-9x16.mp4 at 18.9 s (a purple hexagon with no label). 16:9 hides this because the frame top cuts off at about 2.5 pitches.",
+   "evidence": "roster.js:172: far = clamp(1 \u2212 ((slot + .229p \u2212 (L + k p))/p \u2212 1.6)/1.2) \u00d7 edge(...) is applied only to r.ti and r.su opacity (lines 186-187). The mascot loop (lines 203-231) applies no equivalent fade. Probe screenshot proof-9x16-c-100.png and the two MP4 frames (scratchpad/review/FILM/roster-9x16-pair.png).",
+   "reproduced": true,
+   "suggested_fix": "Apply the same far/edge factor to the mascot. Fade the inner .ro-md SVG (or the img), not the moving, filtered wrapper, so Chrome does not composite it (GUIDE trap list). Alternatively scale the 1.6/1.2 thresholds by the number of rows that fit above the slot (portrait or square) so text and avatar leave together."
+  },
+  {
+   "id": "FILM-4",
+   "severity": "MEDIUM",
+   "category": "correctness",
+   "file": "video/engine/blocks/wall.js",
+   "line": 58,
+   "title": "wall card index (i*7+3) % cards.length collapses to one source (or two or three) when the card count is a multiple of 7",
+   "failure_scenario": "wall with 7 clips (or 14 or 21): every one of the 28 cards uses clip #4 (index 3). 14 clips use only 2 of them (3 and 10), 21 use 3. The other clips are still extracted to 60 fps plates (ffmpeg time and disk) and never shown. GUIDE says the cards are 'repeated to fill the wall'.",
+   "evidence": "wall.js:58: src = srcs[(i*7+3) % srcs.length], field = cards.${(i*7+3) % srcs.length}. Node check over i = 0..27: len 7 gives 1 distinct index {3}, len 14 gives {3,10}, len 21 gives {3,10,17}; every other length from 3 to 12 gives all indices. DOM check on scratch job t-wall7 (7 distinct svg cards, 16:9): all 28 <img> have src /job/assets/c4.svg. Output: scratchpad/review/FILM/p-w7.mjs.",
+   "reproduced": true,
+   "suggested_fix": "Use an index with no common factor, or a shuffled round-robin: e.g. (i*P + 3) % n with P a prime that does not divide n, or build a seeded permutation (F.rng) of 0..n-1 and cycle through it."
+  },
+  {
+   "id": "FILM-5",
+   "severity": "MEDIUM",
+   "category": "freeze",
+   "file": "video/engine/blocks/roster.js",
+   "line": 146,
+   "title": "roster stops moving 30 frames after its last move: with push: 0 and an explicit early `first`, QA freeze fails, contradicting GUIDE",
+   "failure_scenario": "GUIDE.md:103 says that with `push: 0` 'agent and roster keep moving by themselves'. A roster with agents: [Scout, Writer, Critic], first: 10, push: 0 in an 8-beat shot (D = 116): the slot drift ramp ends at P.end + 30 (frame ~55), the list drift ends at P.end, and the glides end ~25 frames after the last landing. Frames 84\u2013115.5 are pixel-identical (64 consecutive half-frames, 32 frames at 30 fps), which is a QA `freeze` FAIL (\u2265 4 identical frames). Default `first` is safe because the schedule is derived from D (a 25-frame tail). The failure needs an explicit early `first:` or a long tail.",
+   "evidence": "roster.js:146: slot = slotY0 \u2212 M.slotDrift\u00b7p\u00b7ramp(t, 0, P.end + 30, 3) + \u2026; the code comment says it holds so a long roster stays centred. roster.js:47: the base drift ramp stops at `end`. Probe p-freeze2.mjs on scratch job t-rfreeze (r1 = first: 10, push: 0): runs '84..115.5 (64 half-frames same)'; r2 (default first, push: 0) has no runs. Other blocks at push: 0 (lockup, type, scene bubble / words / bar, stack, wall, agent, agent window) show no frozen runs in their last 14 frames (t-idle). Note that roster.validate() warns only for first < 14 and gives no tail warning.",
+   "reproduced": true,
+   "suggested_fix": "Keep a sub-pixel idle drift in the roster (the way agent adds the 0.0001\u00b7t creep): continue slotDrift at a tiny rate past P.end + 30, or add a slow sine bob to the slot or list. Or add a validate() warning when D \u2212 (end + 30) > 3 and push is 0, and soften the GUIDE sentence."
+  },
+  {
+   "id": "FILM-6",
+   "severity": "MEDIUM",
+   "category": "docs-vs-code",
+   "file": "video/engine/blocks/agent.js",
+   "line": 108,
+   "title": "GUIDE promises 'any built-in block with bg:' and 'copy turns light-on-dark', but agent, roster, lockup and wall ignore ctx.dark and are unreadable over footage",
+   "failure_scenario": "Putting AI footage under an agent, roster, lockup (backdrop: false) or wall shot, which is the documented launch-film workflow, gives dark-ink text on dark footage. agent: the user bubble is readable but 'Scout', 'Combing through films like yours' and the title are near-invisible. wall: the headline uses ctx.text with the dark palette's white ink on the wall's own B.bg glow, so it is white on near-white (washed out). lockup: names are B.ink dark on dark footage. roster: rows above the slot are unreadable. Nothing warns at --grid or in QA, since footage counts as content.",
+   "evidence": "GUIDE.md:260 lists the film blocks plus '(and any built-in block with `bg:`)'; GUIDE says copy over bg turns light-on-dark. runtime.js:386: dark = hasBg ? s.theme !== 'light' : \u2026. grep of agent/roster/lockup/stack/wall for ctx.dark or ctx.C returns nothing: agent.js:108 ink = F.rgb(B.ink) with grey replies; roster.js:102 titleC from B.ink; lockup.js:33 B.ink; wall.js:95-98 headline via ctx.text (C.ink = white when dark) over a glow of B.bg. Rendered scratch job t-bg (bg: placeholder clip, 16:9 hero frames): scratchpad/review/FILM/bg-sheet.png shows each of these. scene, type and stack's pill are fine.",
+   "reproduced": true,
+   "suggested_fix": "Make these blocks honour ctx.dark / ctx.C (light copy over footage; the wall glow and lockup backdrop should pick the dark palette or be dropped when ctx.hasBg). Or limit the GUIDE sentence to scene / type / stack / reel blocks and add a --grid warning when bg is set on agent / roster / lockup / wall."
+  },
+  {
+   "id": "FILM-7",
+   "severity": "MEDIUM",
+   "category": "spec-validation",
+   "file": "video/engine/blocks/type.js",
+   "line": 9,
+   "title": "film block fields are accepted silently with bad values (through: yes, cast, roster mascot, scene numbers, stack pillAt message) and long roster text clips with no warning",
+   "failure_scenario": "All of these pass `--grid` with rc 0 and no warning:\n(a) type `through: yes` (a common YAML slip; the yaml lib reads it as the string 'yes') or `through: abc` \u2192 thr() = Number(...)||0 = 0, so the zoom-through is silently gone.\n(b) lockup `cast: lots` \u2192 nCast is NaN, so no mascots.\n(c) roster `agents[].mascot: spark` or `logo` (agent rows support those) \u2192 silently cast 0.\n(d) scene overlay `speed: fast` \u2192 1; `until` earlier than `at` is accepted; a negative bar speed makes typing run backwards; orb `rate`, bar `size` and `width` are not checked.\n(e) stack `pillAt: foo` \u2192 rc 2 but the message is the generic \"beats.yaml: at must be a frame number\u2026\" with no shot or field (F.at is called without a `what`, stack.js:14).\n(f) roster sub of ~46 chars in 9:16 runs to x = 1222 of 1080 (no fit or shrink) and only fails QA text if that row is on the hero frame.",
+   "evidence": "type.js:9 thr; lockup.js:7 nCast; scene.js:11 `Number(o.speed) || 1`; stack.js:14 `F.at(s.pillAt)` (_film.js:9 default what = 'at'); lib/spec.mjs ENUMS/validation covers none of these (checked the roster, scene, agent, lockup and stack branches at spec.mjs:117-174). Ran `--grid` on scratch jobs t-type1, t-scene1, t-scene2 and t-stackbad, all as described. Roster overflow: probe p-long.mjs on t-long (9:16) gave audit box 'Drafts replies and escalates e' x1 = 1222.",
+   "reproduced": true,
+   "suggested_fix": "In spec.mjs: type `through` must be true or a number \u2265 0 (error otherwise); lockup `cast` an integer 0\u20136 or false; roster agents[].mascot an integer; scene numeric fields (speed, every, rate, size, width) > 0 and until > at; pass the field name to F.at for pillAt. Add a roster fit/validate warning for long names and subs (shrink or `lines`)."
+  },
+  {
+   "id": "FILM-8",
+   "severity": "LOW",
+   "category": "docs-vs-code",
+   "file": "video/engine/blocks/agent.js",
+   "line": 271,
+   "title": "agent rows[].statusAt hides the status label until statusAt instead of re-wiping it",
+   "failure_scenario": "The row params doc says 'statusAt / statusLen: re-wipe its status (or done) label from that frame over statusLen frames'. A row that arrived at frame 0 with `statusAt: 30` has no status label at all for frames 0\u201330 (mask fully transparent), then wipes it in. A user who wants a re-wipe of a visible label gets a gap. The proof only works because it uses statusAt: 0 on an already-there row.",
+   "evidence": "agent.js:271: wipe(e.lb, r.statusAt != null ? K.clamp((t \u2212 r.statusAt)/r.statusLen) : tab(CHROME.status, a)); wipe(el, 0) writes mask linear-gradient(90deg,#000 \u221240%,transparent 0%). Probe on scratch job t-agent2 (row at 0, statusAt 30): .ag-lb mask-image at local frames 6/12/24 is '\u2026 rgb(0,0,0) -40%, rgba(0,0,0,0) 0' (fully hidden); at 34 the wipe has started.",
+   "reproduced": true,
+   "suggested_fix": "Before statusAt, keep the label's normal arrival state (tab(CHROME.status, a)) and only run the 0\u21921 wipe from statusAt (or state in the param doc that the label is hidden until statusAt)."
+  },
+  {
+   "id": "FILM-9",
+   "severity": "LOW",
+   "category": "known-item-diagnosis",
+   "file": "video/engine/blocks/scene.js",
+   "line": 229,
+   "title": "K1 root cause: a bg-less scene shot opens empty for first-overlay-at minus 3 frames; the starter's hook has its first overlay at 10",
+   "failure_scenario": "`--init --kit film` starter: shot `hook` (scene, no bg) has its first overlay (bubble) at `at: 10`. scene.render leads each entrance by 3 frames (a0 = at \u2212 3), so for local frames 0\u20137 (60 fps frames ~290\u2013304) nothing is drawn and the bubble is at opacity 0 until frame 7. Both K1 failures follow from that. `content` fails because those frames equal the bare-background reference (footage would have counted as content, but the bg lines are commented out). `cut name\u2192hook` is 0.96\u00d7 because the cut joins the last `name` frame (the zoom-through's blurred, 45 %-opacity smear) to a blank frame, so the change at the cut is no bigger than its neighbours.",
+   "evidence": "Probe p-hook.mjs on the base starter job: bubble opacity at hook local frames 0,2,4,6,7 = 0; 8 \u2192 .333; 9 \u2192 .667; 10 \u2192 1; LV.audit() lists 0 text boxes at all of those frames. scene.js:229 (a0 = p.at \u2212 3), bubble opacity K.clamp(K.u01(t, a0, a0+3)) at scene.js:247-248; templates/film.yaml hook overlay `{at: 10, pos: left, bubble: \u2026}`.",
+   "reproduced": true,
+   "suggested_fix": "Best fix is two-part. (1) Starter: put the first hook overlay at `at: 0`..3 (the bubble is then on screen from frame 0 and the cut gets a real picture change), or un-comment a bg. (2) Engine: have scene.validate() warn when the shot has no bg and the earliest overlay at \u2212 3 > 0 ('opens empty for N frames: QA content fails; start an overlay at 0 or add bg'), so any user job with this pattern is caught at --grid rather than at the end of --film."
+  }
+ ],
+ "checked": [
+  "Block contract: all 8 files export name/doc/params/required/layers/cues/hero/build; cues(), hero(), validate() and copy() run in Node with no DOM access (the starter and 10 probe jobs compiled through lv.mjs --grid / compile). No Math.random, Date.now or performance.now in any film block; seeded rng via F.rng matches K.rng (same algorithm)",
+  "Layer names in code match each block's `layers:` doc (agent user/row-N/title/step-N/input/sidebar/header, roster header/highlight/agent-N/more, scene bar-N\u2026 with caption-N, type over/headline/pill, lockup backdrop\u2026character-N, stack cards/pill, wall far/mid/near/glow/headline). No block uses the reserved footage/letterbox/transition names",
+  "Freeze at shot ends with push: 0 (60 fps half-frame screenshot hashing of the last 14 frames): lockup, type, scene bubble/words/bar, stack, wall, agent, agent window and roster with default `first` have no identical runs; only the explicit-early-`first` roster freezes (FILM-5)",
+  "Roster geometry against ~/Downloads/launch-videos/hf02-recreate/stage.html: slot 4.09 \u00d7 .914 p with radius .167 p, mascot rest x .49 p and centre row-top + .27 p, title x 1.05 p, header baseline \u2212.687 p, and the 'more' row (grid squares at .18 p / .144 p spacing / .11 p, text .264 p) all transcribe correctly. Only the row title/sub vertical placement is off (FILM-2)",
+  "Agent window geometry against HANDOVER-hf02-motion.md: header rule at 177.6 px, input bar at wy1 \u2212 181.2 px (y .832\u2013.909), 83.5 px tall, divider/sidebar/chat x fractions, d(23.8) body text = 2.2 % of H all match; the window re-lays out for 9:16 (9\u201382 % band) and 1:1 (checked by eye on proof-9x16 / 1x1 screenshots)",
+  "Agent drop-into-slot curve is continuous at \u03c4 = 4.5 (\u2212.1504 vs \u2212.153); chat scroll \u03c4 constants (1.5 / 1.8) agree with the GUIDE's \u00d71.9 / \u00d70.57; status wipe default 22 frames and slide-in \u22121.1 av \u00d7 0.74^t match motion.js",
+  "Lockup measuring and mascot avoidance: no mascot/lockup overlap in 16:9 or 9:16 for the starter, a long partner name or a short partner; in 1:1 the bounding boxes touch but the rendered shapes do not collide (screenshot lock-1x1-l3-46.png). Stacked (portrait) mode measures correctly",
+  "Stack/wall footage plates: keys `${id}:cards.${i}` match platePlan and F.plate; `contain` plates keep the clip's own aspect and are cover-cropped by the block (not square); scale .75 / .5 give \u2265 1\u00d7 pixel density at settled card sizes in all three aspects (an upscale of up to 1.6\u00d7 only during the wall's faded, blurred entrance)",
+  "copy()/read() lists are consistent with what each block draws (agent read = user + title; roster/wall read = header/headline; lockup uses the {brand} arg), except wall copy and cues still list chips that were not placed (FILM-1)",
+  "Spec errors that already work: bad stack pillAt gives rc 2 (message is generic, FILM-7e), scene overlay kind/pos/at/until/theme/framing, agent frame/scroll/dolly/rate/sidebar/rows at/think/statusLen, roster beat/first/run, stack count/mascot, lockup partner and logo, ENUMS for type/stack/wall",
+  "Originality: block code, defaults and the starter contain no Higgsfield footage, logo or mascot; defaults ('Your agents', 'Message <name>', 'Today 9:41') are generic. Reference frames are not referenced by any block. The proof job's prompt text is identical to the recreation's PROMPT, which is outside this area's block code",
+  "Footage freeze, compositing and --layers behaviour were not re-run (covered by the monitor logs); only the visual and DOM facts above were reproduced on my own scratch copy (scratchpad/review/FILM/skill, a copy of the snapshot with node_modules symlinked)"
+ ]
+}

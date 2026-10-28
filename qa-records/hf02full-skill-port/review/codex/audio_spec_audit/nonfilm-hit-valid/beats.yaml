@@ -1,0 +1,7 @@
+title: Non-film hit fingerprint probe
+brand: {name: Probe}
+aspects: [16x9]
+music: {style: playful, hit: 0.5}
+shots:
+  - {id: a, block: headline, beats: 4, text: Probe}
+  - {id: card, block: endcard, beats: 4, tagline: Done}

@@ -1,0 +1,239 @@
+--- /Users/bytedance/.claude/skills/product-launch-sting/video/lib/spec.mjs	2026-10-21 18:03:15
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/wt-engine/video/lib/spec.mjs	2026-10-22 02:44:56
+@@ -4,7 +4,7 @@
+ import { join, extname } from 'node:path';
+ import { pathToFileURL } from 'node:url';
+ import YAML from 'yaml';
+-import { VIDEO, ASPECTS, slugify } from './common.mjs';
++import { VIDEO, ASPECTS, slugify, sh } from './common.mjs';
+ import { BLOCKS } from '../engine/blocks/index.js';
+ import { normItems } from '../engine/ui.js';
+ import { ICON_NAMES } from '../engine/art.js';
+@@ -38,21 +38,100 @@
+   stack: { chrome: ['post', 'none'] },
+   wall: { chrome: ['ugc', 'none'], drift: ['up', 'down', 'left', 'right'] },
+ };
++// shot fields the engine itself reads on every shot (any block): a custom block's own param of that name collides
++const ENGINE_FIELDS = Object.fromEntries([
++  ...['zoom', 'focus', 'offset', 'pan', 'push'].map(k => [k, 'it moves the camera too']),
++  ['move', 'a list moves the camera too (a word stays the block\'s)'],
++  ...['bg', 'bgFrom', 'bgDim', 'bgMove', 'letterbox'].map(k => [k, 'the engine draws the footage background and the cinema bars itself']),
++  ...['copy', 'copyRead'].map(k => [k, 'reserved by the timeline for the block\'s copy() lines']),
++]);
+ const OVERLAY_KINDS = ['bar', 'bubble', 'words', 'pill', 'orb'], OVERLAY_POS = ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'];
+ // an image file's bytes must be an image Chrome can decode (a failed download saved as .jpg is an HTML page; an iPhone
+-// photo renamed .jpg is HEIC): returns null when fine, else what's wrong. Raster formats are sniffed by content (any
+-// raster extension works); SVG must be named .svg (it is served as image/svg+xml)
++// photo renamed .jpg is HEIC), whole (a download cut short still decodes in Chrome — its top part, the rest left blank —
++// so ffmpeg decodes every raster once) and still (Chrome plays an animated GIF / APNG / WebP / AVIF / SVG on its own
++// clock, not frame by frame, so no two renders would match): returns null when fine, else what's wrong. Raster formats
++// are sniffed by content (any raster extension works); SVG must be named .svg (it is served as image/svg+xml). Each file
++// is checked once per version (size + mtime).
++const IMG_SEEN = new Map();
+ export function imageProblem(file) {
++  let st;
++  try { st = statSync(file); if (!st.isFile()) return null; } catch { return null; }
++  const key = `${file}\0${st.size}\0${st.mtimeMs}`;
++  if (!IMG_SEEN.has(key)) IMG_SEEN.set(key, imageCheck(file, st.size));
++  return IMG_SEEN.get(key);
++}
++function imageCheck(file, size) {
+   let buf;
+-  try { if (!statSync(file).isFile()) return null; const fd = openSync(file, 'r'); buf = Buffer.alloc(4096); const n = readSync(fd, buf, 0, 4096, 0); closeSync(fd); buf = buf.subarray(0, n); } catch { return null; }
+-  const at = (i, str) => buf.subarray(i, i + str.length).toString('latin1') === str, head = buf.toString('utf8').replace(/^\uFEFF/, '').trimStart().toLowerCase();
+-  const svgName = /\.svg$/i.test(file);
++  try { const fd = openSync(file, 'r'); buf = Buffer.alloc(Math.min(size, 16 << 20)); const n = readSync(fd, buf, 0, buf.length, 0); closeSync(fd); buf = buf.subarray(0, n); } catch { return null; }
++  const at = (i, str) => buf.subarray(i, i + str.length).toString('latin1') === str, head = buf.subarray(0, 65536).toString('utf8').replace(/^\uFEFF/, '').trimStart().toLowerCase();
++  const svgName = /\.svg$/i.test(file), name = file.split(/[\\/]/).pop();
+   if (!buf.length) return 'is empty';
+-  if (buf[0] === 0x89 && at(1, 'PNG') || buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF || at(0, 'GIF8') || at(0, 'RIFF') && at(8, 'WEBP')) return svgName ? 'is a raster image named .svg — give it its real extension (.png/.jpg/.webp)' : null;
+-  if (at(4, 'ftyp')) { const brand = buf.subarray(8, 12).toString('latin1'); return /^avi[fs]$/.test(brand) ? null : /^(hei[cxms]|hev[cx]|mif1|msf1)$/.test(brand) ? 'is a HEIC/HEIF photo — export it as JPEG or PNG' : `is a video/ISO file (${brand}), not an image`; }
++  const still = (kind, fix = `export it as a clip at least as long as the shot (.mp4${kind === 'GIF' ? `, e.g. ffmpeg -ignore_loop 0 -i ${name} -t 5 -pix_fmt yuv420p ${name.replace(/\.[^.]+$/, '')}.mp4` : ''}, or a ProRes 4444 .mov to keep transparency) or use a still`) =>
++    `is an animated ${kind} — Chrome plays it on its own clock, not the film's, so no two renders would match; ${fix}`;
++  // a raster: still, then decoded whole by ffmpeg (no ffmpeg: nothing more to say)
++  const whole = () => {
++    const r = sh('ffmpeg', ['-hide_banner', '-v', 'error', '-i', file, '-f', 'null', '-']);
++    if (r.error) return null;
++    const msg = String(r.stderr || '').trim().split('\n')[0].replace(/\[[^\]]*@ 0x[0-9a-f]+\]\s*/g, '');
++    return r.status !== 0 || msg ? `is damaged or cut short (a truncated download?${msg ? ` ffmpeg: ${msg}` : ''}) — download or export it again` : null;
++  };
++  if (buf[0] === 0x89 && at(1, 'PNG') || buf[0] === 0xFF && buf[1] === 0xD8 && buf[2] === 0xFF || at(0, 'GIF8') || at(0, 'RIFF') && at(8, 'WEBP')) {
++    if (svgName) return 'is a raster image named .svg — give it its real extension (.png/.jpg/.webp)';
++    const anim = animation(buf, at);
++    return anim ? still(anim) : whole();
++  }
++  if (at(4, 'ftyp')) { const brand = buf.subarray(8, 12).toString('latin1'); return brand === 'avis' ? still('AVIF (an image sequence)') : brand === 'avif' ? whole() : /^(hei[cxms]|hev[cx]|mif1|msf1)$/.test(brand) ? 'is a HEIC/HEIF photo — export it as JPEG or PNG' : `is a video/ISO file (${brand}), not an image`; }
+   if (head.startsWith('<!doctype html') || head.startsWith('<html')) return 'is an HTML page, not an image (a failed download?)';
+-  if (/<svg[\s>]/.test(head) && (head.startsWith('<svg') || head.startsWith('<?xml') || head.startsWith('<!--') || head.startsWith('<!doctype svg'))) return svgName ? null : 'is an SVG — name it .svg';
++  if (/<svg[\s>]/.test(head) && (head.startsWith('<svg') || head.startsWith('<?xml') || head.startsWith('<!--') || head.startsWith('<!doctype svg'))) {
++    if (!svgName) return 'is an SVG — name it .svg';
++    return /<(animate|animateTransform|animateMotion|set)[\s/>]|@keyframes|animation(-name)?\s*:/i.test(buf.toString('utf8')) ? still('SVG (SMIL or CSS animation)', 'remove the animation, or export it as a clip at least as long as the shot') : null;
++  }
+   return 'is not a PNG, JPEG, WebP, GIF, AVIF or SVG image';
++}
++// which animated raster this is, or null: a GIF with a second frame, a PNG with an acTL chunk before its image data
++// (APNG), a WebP whose VP8X header sets the animation flag
++function animation(buf, at) {
++  if (at(0, 'GIF8')) {
++    let i = 13 + (buf[10] & 0x80 ? 3 << ((buf[10] & 7) + 1) : 0), frames = 0;
++    const blocks = () => { while (i < buf.length && buf[i]) i += buf[i] + 1; i++; };      // data sub-blocks up to the 0 terminator
++    while (i < buf.length && frames < 2) {
++      if (buf[i] === 0x21) { i += 2; blocks(); }
++      else if (buf[i] === 0x2C) { frames++; const p = buf[i + 9]; i += 10 + (p & 0x80 ? 3 << ((p & 7) + 1) : 0) + 1; blocks(); }
++      else break;                                                                            // 0x3B trailer (or a cut-off file)
++    }
++    return frames > 1 ? 'GIF' : null;
++  }
++  if (buf[0] === 0x89) {
++    for (let i = 8; i + 8 <= buf.length;) { const t = buf.subarray(i + 4, i + 8).toString('latin1'); if (t === 'acTL') return 'PNG (APNG)'; if (t === 'IDAT') break; i += 12 + buf.readUInt32BE(i); }
++    return null;
++  }
++  return at(0, 'RIFF') && at(12, 'VP8X') && buf[20] & 0x02 ? 'WebP' : null;
++}
++// a footage file must be a video ffprobe can read, with a picture track and a duration (a failed download saved as
++// .mp4 is an HTML page; an audio-only clip has no picture): {duration, alpha, codec} or {problem}; null without
++// ffprobe. alpha: it carries transparency (ProRes 4444, PNG / QuickTime Animation, VP9 with alpha) — extracted as PNG
++// frames so it keeps it (VP9's alpha needs the libvpx decoder)
++const VID_SEEN = new Map();
++export function footageInfo(file) {
++  let st;
++  try { st = statSync(file); if (!st.isFile()) return null; } catch { return null; }
++  const key = `${file}\0${st.size}\0${st.mtimeMs}`;
++  if (VID_SEEN.has(key)) return VID_SEEN.get(key);
++  const r = st.size ? sh('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=codec_name,pix_fmt,duration:stream_tags=alpha_mode:format=duration', '-of', 'json', file]) : null;
++  let j = null, info = null;
++  try { j = JSON.parse(r.stdout); } catch { /* not JSON: unreadable */ }
++  const msg = r ? String(r.stderr || '').trim().split('\n').pop().split(file + ': ').join('') : '';
++  if (!r) info = { problem: 'is empty' };
++  else if (r.error) info = null;
++  else if (r.status !== 0 || !j) info = { problem: `can't be read as video (a failed download, or not a video file?${msg ? ` ffprobe: ${msg}` : ''}) — export it again as .mp4 / .mov` };
++  else {
++    const v = (j.streams || [])[0], duration = Number((j.format || {}).duration) || Number(v && v.duration);
++    info = !v ? { problem: 'has no picture track (an audio-only file?) — export the clip with its video' }
++      : !(duration > 0) ? { problem: 'has no duration ffprobe can read — export it again as .mp4' }
++      : { duration, codec: String(v.codec_name || ''), alpha: /^(yuva|rgba|bgra|argb|abgr|gbrap|ya\d)/.test(String(v.pix_fmt || '')) || String((v.tags || {}).alpha_mode) === '1' };
++  }
++  VID_SEEN.set(key, info);
++  return info;
+ }
+ const isAt = v => v == null || v === '' || /^\d+(?:\.\d+)?\s*(s|sec)?$/.test(String(v).trim());     // a local frame (45) or seconds ("1.5s")
+ 
+@@ -78,6 +157,11 @@
+   if (!isMap(raw)) throw new Error('beats.yaml must be a map of settings (title:, brand:, music:, shots: …) — see templates/beats.yaml');
+   const errs = [], warns = [];
+   const blocks = await loadBlocks(job);
++  // a custom block's own params can't reuse the fields the engine reads on every shot: the engine would apply them too
++  for (const cb of Object.values(blocks.__custom)) {
++    const ks = Object.keys(cb.params || {}).filter(k => Object.hasOwn(ENGINE_FIELDS, k));
++    if (ks.length) warns.push(`blocks/${cb.file}: ${ks.length > 1 ? 'params' : 'param'} ${ks.map(k => `\`${k}\``).join(', ')} ${ks.length > 1 ? 'are' : 'is'} the engine's on every shot (${[...new Set(ks.map(k => ENGINE_FIELDS[k]))].join('; ')}) — rename the block's own ${ks.length > 1 ? 'params' : 'param'} (GUIDE: Custom blocks)`);
++  }
+   const mapOr = (v, what, eg) => { if (v == null) return {}; if (isMap(v)) return v; errs.push(`${what} must be a map${eg ? `, e.g. ${eg}` : ''} (got ${JSON.stringify(v)})`); return {}; };
+   const b = mapOr(raw.brand, 'brand', '{name: Acme, colors: {accent: "#4C8DF6"}}');
+   const colors = { ...DEFAULT_COLORS, ...mapOr(b.colors, 'brand.colors', '{accent: "#4C8DF6"}') };
+@@ -86,11 +170,23 @@
+   const asset = (p, what) => { if (p && !existsSync(join(job, p))) errs.push(`${what}: file not found: ${p}`); return p; };
+   // an existing image file that can't be an image: one clear line at --grid instead of a broken frame or a stage error
+   const decodable = (p, what) => { if (p && IMAGE_EXT.test(p) && existsSync(join(job, p))) { const bad = imageProblem(join(job, p)); if (bad) errs.push(`${what}: ${p} ${bad}`); } };
++  // the same for footage: a file ffprobe can't read as video, or a start point past its end, is one clear line here
++  // instead of an ffmpeg error when the frames are extracted; footage = what was probed ({path: {duration, alpha}}: the
++  // timeline warns when a clip is too short for its shot, the extraction keeps an alpha clip's transparency)
++  const footage = {};
++  const playable = (p, what, from, fromK) => {
++    if (!(p && VIDEO_EXT.test(p) && existsSync(join(job, p)))) return;
++    const fi = footageInfo(join(job, p));
++    if (!fi) return;
++    if (fi.problem) { errs.push(`${what}: ${p} ${fi.problem}`); return; }
++    footage[p] = fi;
++    for (const x of [].concat(from ?? [])) if (Number(x) >= fi.duration) errs.push(`${what}: ${fromK} ${x} is past the end of ${p} (${fi.duration.toFixed(2)} s long) — lower it`);
++  };
+   if (b.logo) { asset(b.logo, 'brand.logo'); if (!['.svg', '.png', '.webp'].includes(extname(b.logo).toLowerCase())) errs.push('brand.logo must be .svg, .png or .webp'); else decodable(b.logo, 'brand.logo'); }
+   if (b.font != null && !(isMap(b.font) && b.font.family && isMap(b.font.files))) errs.push('brand.font must be {family: Name, files: {400: assets/x.woff2, 700: assets/y.woff2}}');
+   else if (b.font) for (const [w, f] of Object.entries(b.font.files)) asset(f, `brand.font.files.${w}`);
+   if (b.cast != null && !Array.isArray(b.cast)) errs.push('brand.cast must be a list, e.g. [{src: assets/hero.svg}, {shape: blob, col: "#FF8A4C"}]');
+-  for (const c of Array.isArray(b.cast) ? b.cast : []) { if (!isMap(c)) errs.push(`brand.cast: each entry is a map like {src: assets/x.svg} (got ${JSON.stringify(c)})`); else if (c.src) asset(c.src, 'brand.cast'); }
++  for (const c of Array.isArray(b.cast) ? b.cast : []) { if (!isMap(c)) errs.push(`brand.cast: each entry is a map like {src: assets/x.svg} (got ${JSON.stringify(c)})`); else if (c.src) { asset(c.src, 'brand.cast'); decodable(String(c.src), 'brand.cast'); } }
+   const bname = String(b.name || raw.title || 'Product');
+   const brand = {
+     name: bname, mono: String(b.mono || (bname.match(/[A-Za-z0-9]/) || ['P'])[0].toUpperCase()), logo: b.logo || null, mark: b.mark || 'monogram',
+@@ -148,17 +244,17 @@
+         its.forEach((it, j) => {
+           if (it.type === 'tap' && !its.slice(0, j).some(p => p.type === 'card' && [].concat(p.actions || []).map(String).includes(it.text)))
+             errs.push(`${where}: tap "${it.text}" has no card button with that label before it`);
+-          if (it.type === 'image') asset(it.src, `${where} image item`);
+-          if (['card', 'row', 'notif'].includes(it.type) && it.icon && /[./]/.test(String(it.icon)) && it.icon !== 'logo') asset(String(it.icon), `${where} ${it.type} icon`);
++          if (it.type === 'image') { asset(it.src, `${where} image item`); decodable(String(it.src), `${where} image item`); }
++          if (['card', 'row', 'notif'].includes(it.type) && it.icon && /[./]/.test(String(it.icon)) && it.icon !== 'logo') { asset(String(it.icon), `${where} ${it.type} icon`); decodable(String(it.icon), `${where} ${it.type} icon`); }
+         });
+       } catch (e) { errs.push(`${where}: ${e.message}`); }
+     }
+     if (s.block === 'orbit' && s.items != null) {
+       if (!Array.isArray(s.items) && typeof s.items !== 'string') errs.push(`${where}: orbit items must be a list of names or {icon, label} maps`);
+       for (const it of [].concat(s.items)) {
+-        if (typeof it === 'string') { if (/[./]/.test(it)) asset(it, `${where} orbit icon`); }
++        if (typeof it === 'string') { if (/[./]/.test(it)) { asset(it, `${where} orbit icon`); decodable(it, `${where} orbit icon`); } }
+         else if (!isMap(it)) errs.push(`${where}: orbit item ${JSON.stringify(it)} must be a name (mail, chat …) or {icon, label}`);
+-        else if (it.icon && !ICON_NAMES.includes(it.icon)) asset(String(it.icon), `${where} orbit icon`);
++        else if (it.icon && !ICON_NAMES.includes(it.icon)) { asset(String(it.icon), `${where} orbit icon`); decodable(String(it.icon), `${where} orbit icon`); }
+       }
+     }
+     for (const k of RESERVED) if (k in s) errs.push(`${where}: "${k}" is reserved by the timeline — rename that field`);
+@@ -186,7 +282,10 @@
+     const each = k => s[k] == null ? [] : camMaps[k] ? Object.entries(camMaps[k]).map(([a, v]) => [`${k}.${a}`, v]) : [[k, s[k]]];
+     for (const [k, v] of each('zoom')) if (v != null && !(num(v) && Number(v) >= .25 && Number(v) <= 6)) errs.push(`${where}: ${k} must be a number 0.25–6 (the camera's base scale; 2 = twice as close) (got ${JSON.stringify(v)})`);
+     for (const [k, v] of each('focus')) if (v != null && !pair(v, 0, 1)) errs.push(`${where}: ${k} must be [x, y], fractions 0–1 of the frame — the point the zoom keeps in place (got ${JSON.stringify(v)})`);
+-    for (const [k, v] of each('move')) if (v != null && !pair(v, -1, 1)) errs.push(`${where}: ${k} must be [x, y], a constant drift in fractions of the frame per second (e.g. [0, -0.04]) (got ${JSON.stringify(v)})`);
++    // `move` is the camera's as a list; a word is media's Ken Burns (a custom block's own word is its own)
++    const ownMove = typeof s.move === 'string' && blk !== BLOCKS[s.block];
++    if (typeof s.move === 'string' && s.block === 'media' && !ownMove) { if (!BG_MOVES.includes(s.move)) errs.push(`${where}: media move must be one of ${BG_MOVES.join(', ')} (its Ken Burns), or [x, y] for a camera drift (got ${JSON.stringify(s.move)})`); }
++    else if (!ownMove) for (const [k, v] of each('move')) if (v != null && !pair(v, -1, 1)) errs.push(`${where}: ${k} must be [x, y], a constant drift in fractions of the frame per second (e.g. [0, -0.04]) (got ${JSON.stringify(v)})`);
+     for (const [k, v] of each('offset')) if (v != null && !pair(v, -2, 2)) errs.push(`${where}: ${k} must be [x, y], fractions of the frame's width and height (e.g. [-0.14, 0]) (got ${JSON.stringify(v)})`);
+     for (const [k, v] of each('pan')) {
+       if (v == null) continue;
+@@ -200,10 +299,14 @@
+       });
+     }
+     if (s.drift != null && (isMap(s.drift) || (blk === BLOCKS[s.block] && s.block !== 'wall'))) {      // a wall's (or a custom block's) own drift word is its own
+-      if (!isMap(s.drift) || Object.keys(s.drift).some(k => !['in', 'out'].includes(k))) errs.push(`${where}: drift must be {in: N, out: N} — strengths of the shot's drift entrance / drift exit (1 = default) (got ${JSON.stringify(s.drift)})`);
+-      else for (const k of ['in', 'out']) if (s.drift[k] != null && !(num(s.drift[k]) && Number(s.drift[k]) >= 0 && Number(s.drift[k]) <= 10)) errs.push(`${where}: drift.${k} must be a number 0–10 (got ${JSON.stringify(s.drift[k])})`);
++      if (!isMap(s.drift) || Object.keys(s.drift).some(k => !['in', 'out', 'decay'].includes(k))) errs.push(`${where}: drift must be {in: N, out: N, decay: N} — strengths of the shot's drift entrance / drift exit (1 = default) and how fast the entrance settles (got ${JSON.stringify(s.drift)})`);
++      else {
++        for (const k of ['in', 'out']) if (s.drift[k] != null && !(num(s.drift[k]) && Number(s.drift[k]) >= 0 && Number(s.drift[k]) <= 10)) errs.push(`${where}: drift.${k} must be a number 0–10 (got ${JSON.stringify(s.drift[k])})`);
++        if (s.drift.decay != null && !(num(s.drift.decay) && Number(s.drift.decay) >= .3 && Number(s.drift.decay) <= .95)) errs.push(`${where}: drift.decay must be a number 0.3–0.95 — the share of the entrance move left after each frame (default .65) (got ${JSON.stringify(s.drift.decay)})`);
++      }
+     }
+-    if (s.block === 'media' && s.src) { asset(s.src, `${where}.src`); decodable(String(s.src), `${where}.src`); }
++    if (s.block === 'media' && s.from != null && !(Number.isFinite(Number(s.from)) && Number(s.from) >= 0)) errs.push(`${where}: media from must be seconds ≥ 0 into the footage (got ${JSON.stringify(s.from)})`);
++    if (s.block === 'media' && s.src) { asset(s.src, `${where}.src`); decodable(String(s.src), `${where}.src`); playable(String(s.src), `${where}.src`, s.from, 'from'); }
+     // the reel / film blocks: fixed choices, list fields, scene overlays, the lockup's partner logo
+     if (blk && blk === BLOCKS[s.block]) {
+       for (const [k, opts] of Object.entries(ENUMS[s.block] || {})) if (s[k] != null && !(k === 'drift' && isMap(s[k])) && !opts.includes(String(s[k]))) errs.push(`${where}: ${s.block} ${k} must be one of ${opts.join(', ')} (got ${JSON.stringify(s[k])})`);
+@@ -267,7 +370,7 @@
+     const hasBg = s.bg != null && s.bg !== false && String(s.bg).trim() !== '' && String(s.bg).toLowerCase() !== 'none';
+     if (hasBg) {
+       if (typeof s.bg !== 'string') errs.push(`${where}: bg must be an image or footage path in assets/ (got ${JSON.stringify(s.bg)})`);
+-      else { asset(s.bg, `${where}.bg`); decodable(s.bg, `${where}.bg`); if (!IMAGE_EXT.test(s.bg) && !VIDEO_EXT.test(s.bg)) errs.push(`${where}: bg must be an image (.png/.jpg/.webp/.svg) or footage (.mp4/.mov/.m4v/.webm/.mkv)`); }
++      else { asset(s.bg, `${where}.bg`); decodable(s.bg, `${where}.bg`); playable(s.bg, `${where}.bg`, s.bgFrom ?? ((blk && blk.bgDefaults) || {}).bgFrom, 'bgFrom'); if (!IMAGE_EXT.test(s.bg) && !VIDEO_EXT.test(s.bg)) errs.push(`${where}: bg must be an image (.png/.jpg/.webp/.svg) or footage (.mp4/.mov/.m4v/.webm/.mkv)`); }
+     }
+     if (s.bgFrom != null && !(Number.isFinite(Number(s.bgFrom)) && Number(s.bgFrom) >= 0)) errs.push(`${where}: bgFrom must be seconds ≥ 0 into the footage (got ${s.bgFrom})`);
+     if (s.bgDim != null && !(Number.isFinite(Number(s.bgDim)) && Number(s.bgDim) >= 0 && Number(s.bgDim) <= 1)) errs.push(`${where}: bgDim must be 0–1 (got ${s.bgDim})`);
+@@ -283,11 +386,12 @@
+       for (const [j, x] of (Array.isArray(v) ? v.map((x, j) => [j, x]) : v != null ? [[null, v]] : [])) {
+         if (typeof x !== 'string') { if (x != null) errs.push(`${where}: ${field}${j == null ? '' : `[${j}]`} must be a file path (got ${JSON.stringify(x)})`); continue; }
+         asset(x, `${where}.${field}${j == null ? '' : `[${j}]`}`); decodable(x, `${where}.${field}${j == null ? '' : `[${j}]`}`);
++        playable(x, `${where}.${field}${j == null ? '' : `[${j}]`}`, Array.isArray(fromV) && j != null ? fromV[j] : fromV, `${field}From`);
+         if (!IMAGE_EXT.test(x) && !VIDEO_EXT.test(x)) errs.push(`${where}: ${field}${j == null ? '' : `[${j}]`} must be an image (.png/.jpg/.webp/.svg) or footage (.mp4/.mov/.m4v/.webm/.mkv) (got ${x})`);
+       }
+       for (const x of [].concat(fromV ?? [])) if (!(Number.isFinite(Number(x)) && Number(x) >= 0)) errs.push(`${where}: ${field}From must be seconds ≥ 0 (got ${JSON.stringify(fromV)})`);
+     }
+-    for (const ic of s.icons || []) asset(ic, `${where}.icons`);
++    for (const ic of s.icons || []) { asset(ic, `${where}.icons`); decodable(String(ic), `${where}.icons`); }
+   });
+   const cutdowns = mapOr(raw.cutdowns, 'cutdowns', '{10s: [s1, s3, s7]} (a name, then its shots)');
+   for (const [name, list] of Object.entries(cutdowns)) {
+@@ -303,5 +407,5 @@
+   const thumbnail = raw.thumbnail != null ? String(raw.thumbnail) : null;
+   if (thumbnail != null && !ids.has(thumbnail)) errs.push(`thumbnail: unknown shot id ${thumbnail}`);
+   if (errs.length) throw new Error('beats.yaml has problems:\n  - ' + errs.join('\n  - '));
+-  return { title: raw.title || brand.name, slug: slugify(raw.slug || raw.title || brand.name), brand, music, vo, aspects, shots, cutdowns, blocks, warns, thumbnail };
++  return { title: raw.title || brand.name, slug: slugify(raw.slug || raw.title || brand.name), brand, music, vo, aspects, shots, cutdowns, blocks, warns, thumbnail, footage };
+ }

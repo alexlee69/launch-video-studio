@@ -1,0 +1,1 @@
+acceptance exit=0 450s :: 85 PASS, 0 FAIL, 0 SKIP in 7 min — report /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/acceptance/runs/20261022-102715/report.txt

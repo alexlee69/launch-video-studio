@@ -1,0 +1,4 @@
+D-old-hf02-skill 16x9: 539 cams, 539 frames
+INFO 4 cuts, 4 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 2 WARN; speed ratios 1.1–14.1× — numbers per cut in qa.json
+WARN a→b at 83 (drift-right): speed 702 → 2213 px/s across the cut (3.15×, over 3×) — b starts 3.15× faster than a leaves
+WARN b→c at 173 (drift-down): speed 391 → 5504 px/s across the cut (14.07×, over 3×) — c starts 14.07× faster than b leaves

@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 1,
+ "refs": [
+  "cast/locked/hero.png"
+ ],
+ "prompt": "Image 1 is the locked character sheet. Make the same person in a new state as a new sheet with the same layout, the same flat solid neutral grey background (#8a8a8a) and the same face. soaked from the rain: hair wet, the jacket dark with water. LEFT panel: a front-facing close-up of the head and shoulders, eyes to camera. MIDDLE panel: the full body from the front, the face area left as a soft plain shadow with no features. RIGHT panel: the full body from behind. Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark."
+}

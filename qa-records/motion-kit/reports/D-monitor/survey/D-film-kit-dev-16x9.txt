@@ -1,0 +1,14 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.evaluate: Error: layer name "footage" is the engine's own layer in this shot (its bg footage) — name the block's element something else
+    at tagLayer (http://127.0.0.1:53642/skill/video/engine/runtime.js:102:39)
+    at Object.el (http://127.0.0.1:53642/skill/video/engine/runtime.js:236:214)
+    at devBackdrop (http://127.0.0.1:53642/job/blocks/type.mjs:171:20)
+    at Object.build (http://127.0.0.1:53642/job/blocks/type.mjs:217:16)
+    at build (http://127.0.0.1:53642/skill/video/engine/runtime.js:431:30)
+    at async <anonymous>:260:30
+    at /private/tmp/claude-501/-Users-bytedance-Downloads-Design-AutoPilot-stable/fa3ddc2b-1841-41b6-9859-439143f36875/scratchpad/camsurvey.mjs:24:12
+
+Node.js v25.9.0

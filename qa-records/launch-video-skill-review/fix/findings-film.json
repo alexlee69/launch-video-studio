@@ -1,0 +1,453 @@
+{
+ "group": "film",
+ "findings": [
+  {
+   "id": "FILM-OP-2",
+   "opus": {
+    "id": "FILM-OP-2",
+    "verdict": "CONFIRMED",
+    "severity": "HIGH",
+    "title": "QA `cut` false-fails the documented `type through: true` + `out: cut` whenever the next shot opens without footage. This is the real cause of K1's cut failure, and it reaches beyond the starter.",
+    "file": "video/lib/qa.mjs",
+    "line": 164,
+    "root_cause": "The cut check requires the luma change at a hard cut to be at least 1.25× every neighbour within ±3 frames. The zoom-through's last frames are themselves the biggest per-frame changes in the shot (pair 143→144 = 32.20), so a cut from the 45 %-opacity smear to a light shot (30.85) can never be 1.25× of them, however clean the cut is. GUIDE:272-273 and type.js params prescribe exactly this recipe ('through: true = its last 10 frames, then out: cut').",
+    "evidence": "Jobs in work/opus-film, rendered with `--film --aspect 16x9` on the snapshot copy:\n- k1a (starter name+hook): FAIL cut 30.85 vs 32.20 (0.96×).\n- k1b (hook bubble moved to at: 0): content PASS, but cut is still 0.96× (30.97 vs 32.20).\n- k1d (through: false): cut PASS at 49×.\n- k1e (bg image on hook): cut PASS at 4.26×.\n- k1f (type through → cut → bg-less agent shot whose user message is on screen from frame 2): FAIL cut 30.94 vs 32.20 (0.96×), while content PASSES. So any zoom-through into light UI fails, not only the starter.\n- Per-pair luma (ffmpeg tblend on k1a frames): 140→144 = 23.3 / 25.5 / 28.1 / 32.2, the cut = 30.85, after the cut 0.005–0.05.\n- With only qa.mjs patched (work/opus-film/skill_qa, `--qa` re-run): k1a cut 667×, k1b 175× → QA PASSED (11 checks), k1f 53.55× → QA PASSED.\n- `grep through ~/Downloads/launch-videos/*/beats.yaml` matches only film-sample and film-kit-dev. The planted cut probes (qa-probe, qa-probe2) don't use type, so they are unaffected.",
+    "fix": "Add a block hook, `exitMove(s)` (type: `s => thr(s) > 0`). The timeline stores `sh.exitMove`. qa.mjs:164 then uses only the incoming neighbours [1, 2, 3] for such a shot and keeps `d > 1`, which still catches a stale frame. Quick form used for the test: `const thr = s.block === 'type' && (s.through === true || Number(s.through) > 0)` → neighbours `thr ? [1,2,3] : [-3..3]`. Re-verify after the fix: qa-probe and qa-probe2 cut probes still FAIL, film-sample QA ×3, the starter in 3 aspects.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "FILM-1",
+   "opus": {
+    "id": "FILM-1",
+    "verdict": "CONFIRMED",
+    "severity": "HIGH",
+    "title": "wall chips are dropped or hidden under other cards in every aspect of the starter, while the SFX, captions SRT and sheet still list them and QA passes",
+    "file": "video/engine/blocks/wall.js",
+    "line": 53,
+    "root_cause": "Two causes:\n1. Slot choice (wall.js:49-54) is a single pass over mid-tier slots in label order and tests only frame/safe bounds. A slot that rejects one label is never retried, nothing tests overlap with other cards or the glow, and in narrow frames the chip's rightward extent (cwid) disqualifies most slots.\n2. Each chip is appended to its own card inside the tier group (wall.js:78-89). Every later mid card, every near card and the glow paint over it.\n\ncopy() and cues() (wall.js:18, :22) use the declared chips, and LV.audit has no occlusion test.",
+    "evidence": "Probe work/opus-film/tools/chips.mjs (elementsFromPoint over each chip at the hero frame):\n- Starter (2 chips), 16x9: both placed; 'Hook in 1s' 0 % visible, under a mid card.\n- Starter, 9x16: 1 of 2 placed.\n- Starter, 1x1: 'Captions' 0 % visible, 'Hook in 1s' 78 %. See base/out/main/1x1/board/09-wall.png: 'Hook in' cut off, Captions invisible.\n- twall (5 chips): 16x9 4/5 placed ('Product close-up' 33 % visible, 'Sound on' 67 %), 9x16 0/5, 1x1 2/5. Same counts as Sonnet.\n- LV.audit still lists every placed chip as a visible text box.",
+    "fix": "1. Paint order: give chip cards z-index:1 inside the mid group, which is isolation:isolate so the change stays in the mid layer. Or move the chip into a 'chips' group above near, positioned from the card's per-frame matrix.\n2. Choose chip slots by testing the chip rect, computed with at(), against every near card and the glow at the pop frame and the hero frame. Retry the remaining slots for each label. Allow the chip on the card's left side when the right side overflows.\n3. Placement is pure arithmetic. wall.validate can run it for the job's aspects and warn 'only k of n chips fit in 9x16'. Cues and copy are shared across aspects, so they can't simply be capped.\n\nRe-verify: chips probe on the starter and the 5-chip job in 3 aspects, `--layers` on the wall, film-sample re-render.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-1",
+    "severity": "HIGH",
+    "category": "correctness",
+    "file": "video/engine/blocks/wall.js",
+    "line": 53,
+    "title": "wall chips are dropped, cut off or hidden behind neighbour cards; 0 of 5 appear in 9:16, and QA still passes",
+    "failure_scenario": "wall with chips: [Hook in 1s, Product close-up, UGC reaction, Sound on, Captions], text: Every cut, *on brand.* (the film-sample wall; the starter has the same pattern). 16:9 hero frame: 4 of 5 chips are placed. 'Product close-up' shows only 'e-up' and 'Sound on' shows 'Sound c' because the next card is painted over them, and 'Captions' is never drawn. 9:16: 0 of 5 are placed (the starter's 2 chips give 1). 1:1: 2 of 5. The captions SRT, the review sheet and the SFX still list every chip, and wall.cues() pops for all of them (up to 6), so the film has chip sounds with no chip on screen.",
+    "evidence": "Cause, wall.js:46-54: chip slots are mid-tier slots sorted by distance from the centre, kept only if the chip rect stays inside the frame and safe y-range. Nothing tests overlap with other cards. In portrait there are only 4 columns, so about one slot ever qualifies. Chips are children of their own card (wall.js:78-86, card.appendChild(chip)), so any later card in the same group, or any near-tier card, paints over them. Nothing warns when fewer chips can be placed than declared. wall.js:18 (copy) and :22 (cues) use chipsOf(s) as declared.\nReproduced with scratch job t-wall (5 chips, placeholder cards) through a Playwright probe on the stage:\n- 16x9: placed=4 (Hook in 1s, Product close-up, UGC reaction, Sound on). Screenshot wall-16x9.png shows 'e-up' and 'Hook in 1s'.\n- 9x16: placed=0.\n- 1x1: placed=2.\nFiles: scratchpad/review/FILM/wall4.out, wall-16x9.png, wall-9x16.png.\nThe shipped MP4s show the same: ~/Downloads/launch-videos/film-sample/orbit-film-16x9.mp4 at 30.5 s shows 'e-up' and 'Sound c' and no 'Captions' (extracted to scratchpad/review/FILM/fs-wall-16x9.png). orbit-film-9x16.mp4 at 30.6 s shows no chips at all (fs-wall-9x16.png). The starter's 16:9 hero (base/out/main/16x9/board/09-wall.png) hides 'Hook in 1s' behind the blue CLIP 1 card.\nQA passes because the chips are .lv-ui text boxes that still count as 'visible' in the text audit (runtime.js audit()), which has no occlusion test.",
+    "reproduced": true,
+    "suggested_fix": "Draw chips in their own group above 'near' (below glow and headline). Position each from its card's per-frame transform, or give chip cards a higher z-index. Choose chip slots by checking the chip rect against the other cards' rects (and the headline glow) at the chip's pop frame and at the hero frame. Allow chip slots in 'near'/'far' tiers when portrait has too few mid slots. Make build or validate warn, or cap copy() and cues() to the chips actually placed, when placed < declared."
+   }
+  },
+  {
+   "id": "FILM-2",
+   "opus": {
+    "id": "FILM-2",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "roster title and sub use the reference's baseline numbers as CSS tops, so the sub sits 0.085 p too close and descenders cross it",
+    "file": "video/engine/blocks/roster.js",
+    "line": 119,
+    "root_cause": "In the reference (hf02-recreate/stage.html:219-222) both lines are placed by baseline: title at base 35.5, sub at 35.5 + SUB_DY 43, in a 174 px pitch. roster.js:118-119 uses top:0 and top:.247p in line-height-1 boxes. Inter's baseline in such a box is at .8636 em, so the title baseline lands at .2375 p (reference .204 p) and the sub baseline at .399 p (reference .451 p): a gap of .162 p instead of .247 p. The header and 'more' rows were converted correctly (.687 p and .261 p match the reference).",
+    "evidence": "base/out/main/16x9/board/06-team.png and 9x16 06-team.png: the 'y' of 'Storyboard' cuts through the 'b' of 'before'. The mascot centre (.27 p = 47/174) and the text x (1.05 p = (364−181)/174) confirm that the row origin matches the reference, so only the two tops are wrong.",
+    "fix": "title top = (35.5/174 − .8636·.275)·p ≈ −.0335 p; sub top = (78.5/174 − .8636·.176)·p ≈ .2991 p. Applied in work/opus-film/skill_fix: basefix/out/main/16x9/board/06-team.png shows clean separation, and `--layers team --aspect 9x16` passes stack (0 px > 16) and stack+bg. Re-check the hf02-skill tracker numbers: the title moves up ~10 px at 1080p.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-2",
+    "severity": "MEDIUM",
+    "category": "hf02-deviation",
+    "file": "video/engine/blocks/roster.js",
+    "line": 119,
+    "title": "roster title/sub are positioned by CSS top instead of baseline, so the sub sits ~0.085 p too high and collides with title descenders",
+    "failure_scenario": "Any roster row whose name has a descender (Storyboard, Analyst, Strategy, Copywriter) renders with the 'y' or 'g' crossing the first letters of the sub line. 16:9 starter hero frame (base/out/main/16x9/board/06-team.png): the 'y' of 'Storyboard' cuts through the 'b' of 'See it before it's shot'. Rows without descenders touch ('Builder' / 'Automate the routine'). It also ships in film-sample's 9:16 MP4 (Storyboard/See it before it's shot, Motion/Make it move, Sound/Make it hit) and in the hf02 proof job (Analyst).",
+    "evidence": "roster.js:118-119 put the title at top:0 (font .275 p, line-height 1) and the sub at top:.247 p (font .176 p). ~/Downloads/launch-videos/hf02-recreate/stage.html:209-222 positions text by baseline: SUB_DY = 43 is the sub baseline minus the title baseline, in a 174 px pitch, so .247 p. Title baseline is at row top + 35.5 px = .204 p; sub baseline at +78.5 px = .451 p. With Inter's baseline at about .8637 em in a line-height-1 box, the block's baselines are .2375 p (title) and .399 p (sub). The title-to-sub baseline gap is therefore .162 p, not .247 p (about 53 px against 76 px at p = 309 px in 16:9; measured on 06-team.png: ~53 px). The title baseline is also ~.033 p low against the reference. The same file's header (line 164) and the 'more' row (lines 125-128) were transcribed correctly by baseline, so only the row title/sub are off. Zoom: scratchpad/review/FILM/crop-roster.png.",
+    "reproduced": true,
+    "suggested_fix": "Convert the measured baselines to box tops: title top = (35.5/174 − .8637·.275) p ≈ −.0335 p, sub top = (78.5/174 − .8637·.176) p ≈ .299 p. Leave the .229 p row-top offset and the mascot centre alone. Re-check the tracker numbers afterwards, since the title moves up about 10 px at 1080p."
+   }
+  },
+  {
+   "id": "FILM-3",
+   "opus": {
+    "id": "FILM-3",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "roster in 9:16: rows above the slot lose their text but keep their mascot (label-less avatars)",
+    "file": "video/engine/blocks/roster.js",
+    "line": 172,
+    "root_cause": "The `far` fade (1.6–2.8 pitches above the slot) and `edge` are applied only to r.ti/r.su opacity (lines 186-187). The mascot loop (203-231) never fades. In 16:9 only ~1.5 rows fit above the slot, so this stays hidden there; in 9:16 ~3.9 rows fit.",
+    "evidence": "work/opus-film/shots/team/9x16-545.png (starter, team shot near its end): the pink Writer mascot has no label and the blue Scout mascot is cut at the top with no label. A 9:16 frame from film-sample showed the same.",
+    "fix": "Apply `far` (NOT `edge`) to the mascot's inner .ro-md mood divs, never to the moving, filtered wrapper: `const far = k===0 && t<21.5 ? 1 : K.clamp(1 - ((g.slot + .229*p - (g.L + k*p))/p - 1.6)/1.2); for (const el of Object.values(m.md)) el.style.opacity = far >= .999 ? '' : far.toFixed(3);`.\n\nVerified in skill_fix (shots/teamfix-sheet.png): avatars leave with their labels, and `--layers` 9x16 stack passes. Also multiplying by edge() removed the 16:9 top-edge mascot entirely, which is a measured-look change, so leave edge out. With `far` alone, the 16:9 top-edge mascot dims to ~.67.\n\nSeparate taste point for Alex: in 9:16 the bottom ~45 % of the frame stays empty for the whole shot (slot at .5 H, nothing below it). Scaling the 1.6/1.2 thresholds to the rows that fit above the slot is the alternative fix.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-3",
+    "severity": "MEDIUM",
+    "category": "layout",
+    "file": "video/engine/blocks/roster.js",
+    "line": 172,
+    "title": "roster in 9:16: text fades 2.8 pitches above the slot but the mascots do not, leaving label-less avatars",
+    "failure_scenario": "A roster of 5+ rows in 9:16 (pitch .16 H, slot at .5 H) shows 3–4 rows above the slot. Each row's text and sub fade out completely at 2.8 pitches above the slot, but the mascot wrappers are never faded, so avatars hang in the top third with no name. Seen in the shipped hf02-proof-9x16.mp4 at 6.2 s (a grey dome with no label above Builder/Writer) and in film-sample's orbit-film-9x16.mp4 at 18.9 s (a purple hexagon with no label). 16:9 hides this because the frame top cuts off at about 2.5 pitches.",
+    "evidence": "roster.js:172: far = clamp(1 − ((slot + .229p − (L + k p))/p − 1.6)/1.2) × edge(...) is applied only to r.ti and r.su opacity (lines 186-187). The mascot loop (lines 203-231) applies no equivalent fade. Probe screenshot proof-9x16-c-100.png and the two MP4 frames (scratchpad/review/FILM/roster-9x16-pair.png).",
+    "reproduced": true,
+    "suggested_fix": "Apply the same far/edge factor to the mascot. Fade the inner .ro-md SVG (or the img), not the moving, filtered wrapper, so Chrome does not composite it (GUIDE trap list). Alternatively scale the 1.6/1.2 thresholds by the number of rows that fit above the slot (portrait or square) so text and avatar leave together."
+   }
+  },
+  {
+   "id": "FILM-4",
+   "opus": {
+    "id": "FILM-4",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "wall shows a single clip on every card when it has 7 clips (2 of 14, 3 of 21)",
+    "file": "video/engine/blocks/wall.js",
+    "line": 58,
+    "root_cause": "Card i uses clip (i·7+3) mod n. When 7 divides n, the stride 7 shares that factor with n and cycles over only n/7 indices. Every clip is still extracted.",
+    "evidence": "Node check: card counts 20/24/28 (1x1, 9x16, 16x9) with n = 7, 14, 21 use 1, 2, 3 clips; every other n from 2 to 21 uses them all. DOM check on job work/opus-film/tw7 (7 distinct SVGs, 16x9): {c4.svg: 28}. With the fix: 4 of each.",
+    "fix": "`const NS = srcs.length, STR = [7, 5, 11, 13, 3, 1].find(q => q === 1 || NS % q !== 0)`, then use `(i*STR + 3) % NS` for both src and field (verified in skill_fix, tools/srcs.mjs). The result is identical to today whenever 7 does not divide n (the starter's 4 cards, film-sample).",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-4",
+    "severity": "MEDIUM",
+    "category": "correctness",
+    "file": "video/engine/blocks/wall.js",
+    "line": 58,
+    "title": "wall card index (i*7+3) % cards.length collapses to one source (or two or three) when the card count is a multiple of 7",
+    "failure_scenario": "wall with 7 clips (or 14 or 21): every one of the 28 cards uses clip #4 (index 3). 14 clips use only 2 of them (3 and 10), 21 use 3. The other clips are still extracted to 60 fps plates (ffmpeg time and disk) and never shown. GUIDE says the cards are 'repeated to fill the wall'.",
+    "evidence": "wall.js:58: src = srcs[(i*7+3) % srcs.length], field = cards.${(i*7+3) % srcs.length}. Node check over i = 0..27: len 7 gives 1 distinct index {3}, len 14 gives {3,10}, len 21 gives {3,10,17}; every other length from 3 to 12 gives all indices. DOM check on scratch job t-wall7 (7 distinct svg cards, 16:9): all 28 <img> have src /job/assets/c4.svg. Output: scratchpad/review/FILM/p-w7.mjs.",
+    "reproduced": true,
+    "suggested_fix": "Use an index with no common factor, or a shuffled round-robin: e.g. (i*P + 3) % n with P a prime that does not divide n, or build a seeded permutation (F.rng) of 0..n-1 and cycle through it."
+   }
+  },
+  {
+   "id": "FILM-5",
+   "opus": {
+    "id": "FILM-5",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "roster with push: 0 and an explicit early `first` stops moving and fails QA freeze; GUIDE says it keeps moving and --grid gives no warning",
+    "file": "video/engine/blocks/roster.js",
+    "line": 146,
+    "root_cause": "The slot drift ramp ends at P.end+30 (softplus tail ≈ 0 by about +29 frames), the list pulses decay, and the glides end ~25 frames after the last landing. Nothing idles after that. With the default `first`, end = D−25, so the ramp runs past D and the shot never stops. An explicit early `first` leaves a still tail.",
+    "evidence": "Job work/opus-film/troster, r1 = 3 agents, first: 20, push: 0, 8 beats; `--grid` prints no warning at all. Frames rendered with tools/probe.mjs and compared by md5: local 83.5–115.5 are pixel-identical (65 half-frames). r2 (default first) has no frozen runs.",
+    "fix": "roster.js:146: `slot = slotY0 - M.slotDrift*p*(ramp(t, 0, P.end+30, 3) + .08*Math.max(0, t - (P.end+30))) + …` (≈ .11 px/frame at 16:9 1080p). The added term is zero for t ≤ P.end+30, so default rosters are pixel-identical. Verified in skill_fix: 0 frozen runs, and `--layers` passes. Optionally soften GUIDE:103 ('roster keeps moving unless you pin first: early').",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-5",
+    "severity": "MEDIUM",
+    "category": "freeze",
+    "file": "video/engine/blocks/roster.js",
+    "line": 146,
+    "title": "roster stops moving 30 frames after its last move: with push: 0 and an explicit early `first`, QA freeze fails, contradicting GUIDE",
+    "failure_scenario": "GUIDE.md:103 says that with `push: 0` 'agent and roster keep moving by themselves'. A roster with agents: [Scout, Writer, Critic], first: 10, push: 0 in an 8-beat shot (D = 116): the slot drift ramp ends at P.end + 30 (frame ~55), the list drift ends at P.end, and the glides end ~25 frames after the last landing. Frames 84–115.5 are pixel-identical (64 consecutive half-frames, 32 frames at 30 fps), which is a QA `freeze` FAIL (≥ 4 identical frames). Default `first` is safe because the schedule is derived from D (a 25-frame tail). The failure needs an explicit early `first:` or a long tail.",
+    "evidence": "roster.js:146: slot = slotY0 − M.slotDrift·p·ramp(t, 0, P.end + 30, 3) + …; the code comment says it holds so a long roster stays centred. roster.js:47: the base drift ramp stops at `end`. Probe p-freeze2.mjs on scratch job t-rfreeze (r1 = first: 10, push: 0): runs '84..115.5 (64 half-frames same)'; r2 (default first, push: 0) has no runs. Other blocks at push: 0 (lockup, type, scene bubble / words / bar, stack, wall, agent, agent window) show no frozen runs in their last 14 frames (t-idle). Note that roster.validate() warns only for first < 14 and gives no tail warning.",
+    "reproduced": true,
+    "suggested_fix": "Keep a sub-pixel idle drift in the roster (the way agent adds the 0.0001·t creep): continue slotDrift at a tiny rate past P.end + 30, or add a slow sine bob to the slot or list. Or add a validate() warning when D − (end + 30) > 3 and push is 0, and soften the GUIDE sentence."
+   }
+  },
+  {
+   "id": "FILM-6",
+   "opus": {
+    "id": "FILM-6",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "Over bg (and with theme: dark), agent, roster, lockup and wall copy is unreadable or the footage is hidden; GUIDE invites 'any built-in block with bg:' and QA has no contrast check",
+    "file": "video/engine/blocks/wall.js",
+    "line": 95,
+    "root_cause": "- agent.js:108, roster.js:100-102 and lockup.js:33 hard-code brand ink and ignore ctx.dark / ctx.C.\n- lockup's default backdrop (lockup.js:25) is an opaque full-frame gradient that hides the bg footage entirely, although the footage is still extracted and exported as 01-footage.\n- wall's headline takes the dark palette's white ink from ctx.text (C.ink), while its glow is always the light B.bg.",
+    "evidence": "Job work/opus-film/tbg, storyboard 16x9 (shots/bg-sheet.png):\n- agent: 'Scout', the reply and the title are near-invisible on the footage.\n- roster: rows above the slot are dark on dark.\n- lockup (default backdrop): no footage visible at all.\n- lockup (backdrop: false): dark names on dark footage.\n- wall with bg, and wall with theme: dark and no bg: white headline on a white glow.\n- qa.mjs has no contrast check.",
+    "fix": "- wall: `ctx.text(s.text, {color: B.ink, accent: B.accent, …})`. Verified (shots/wallfix.png). Light walls are unchanged because C === brand colours when not dark.\n- lockup: with ctx.hasBg, default backdrop to off and use ctx.C ink, or warn at --grid that the backdrop hides the bg.\n- agent and roster: a product decision for Alex. Either honour ctx.C when ctx.dark, or put the UI on a light card when ctx.hasBg ('UI mocks stay light cards', GUIDE:122).\n- Until then, add a --grid warning when bg or theme: dark is set on agent/roster, and narrow GUIDE:124/260.",
+    "breaks_old_jobs": false,
+    "needs_alex": true
+   },
+   "sonnet": {
+    "id": "FILM-6",
+    "severity": "MEDIUM",
+    "category": "docs-vs-code",
+    "file": "video/engine/blocks/agent.js",
+    "line": 108,
+    "title": "GUIDE promises 'any built-in block with bg:' and 'copy turns light-on-dark', but agent, roster, lockup and wall ignore ctx.dark and are unreadable over footage",
+    "failure_scenario": "Putting AI footage under an agent, roster, lockup (backdrop: false) or wall shot, which is the documented launch-film workflow, gives dark-ink text on dark footage. agent: the user bubble is readable but 'Scout', 'Combing through films like yours' and the title are near-invisible. wall: the headline uses ctx.text with the dark palette's white ink on the wall's own B.bg glow, so it is white on near-white (washed out). lockup: names are B.ink dark on dark footage. roster: rows above the slot are unreadable. Nothing warns at --grid or in QA, since footage counts as content.",
+    "evidence": "GUIDE.md:260 lists the film blocks plus '(and any built-in block with `bg:`)'; GUIDE says copy over bg turns light-on-dark. runtime.js:386: dark = hasBg ? s.theme !== 'light' : …. grep of agent/roster/lockup/stack/wall for ctx.dark or ctx.C returns nothing: agent.js:108 ink = F.rgb(B.ink) with grey replies; roster.js:102 titleC from B.ink; lockup.js:33 B.ink; wall.js:95-98 headline via ctx.text (C.ink = white when dark) over a glow of B.bg. Rendered scratch job t-bg (bg: placeholder clip, 16:9 hero frames): scratchpad/review/FILM/bg-sheet.png shows each of these. scene, type and stack's pill are fine.",
+    "reproduced": true,
+    "suggested_fix": "Make these blocks honour ctx.dark / ctx.C (light copy over footage; the wall glow and lockup backdrop should pick the dark palette or be dropped when ctx.hasBg). Or limit the GUIDE sentence to scene / type / stack / reel blocks and add a --grid warning when bg is set on agent / roster / lockup / wall."
+   }
+  },
+  {
+   "id": "FILM-7",
+   "opus": {
+    "id": "FILM-7",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "Film block fields with bad values pass --grid silently, stack pillAt gives an unlocated error, and long roster subs overflow 9:16",
+    "file": "video/engine/blocks/type.js",
+    "line": 9,
+    "root_cause": "spec.mjs (ENUMS and per-block branches 211-264) has no checks for:\n- type `through`;\n- lockup `cast`;\n- roster agents[].mascot;\n- scene speed / every / rate / size / width, and until vs at;\n- stack pillAt.\n\nThe blocks coerce with `Number(x) || default`. stack.js:14 calls F.at without a `what`. Roster text has no fit.",
+    "evidence": "tools/val.sh one-shot jobs in work/opus-film/val:\n- thr-yes, thr-abc, cast-lots, ro-spark, sc-speed (speed: fast) and sc-until (until 10 < at 40): all rc 0, no warning.\n- st-pillat: rc 2 with '✗ beats.yaml: at must be a frame number … (got \"foo\")', naming neither the shot nor the field.\n- ro-long (9x16): the 39-character sub 'Drafts replies and escalates edge cases' ends at x1 = 1126–1134 of 1080 (tools/audit.mjs). QA text only catches it if that row is on the hero frame.",
+    "fix": "Errors in spec.mjs:\n- type through: true, false or a frame count ≥ 0;\n- lockup cast: a whole number 0–6 or false;\n- roster agents[].mascot: a whole number ≥ 0 (roster can't draw spark/logo);\n- scene speed / every / rate / size / width > 0 and until > at;\n- stack pillAt via isAt, and pass `stack ${s.id} pillAt` to F.at.\n\nAdd a roster fit (shrink the sub to the frame) or a warning for long names/subs. Only input that was silently wrong starts to error.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-7",
+    "severity": "MEDIUM",
+    "category": "spec-validation",
+    "file": "video/engine/blocks/type.js",
+    "line": 9,
+    "title": "film block fields are accepted silently with bad values (through: yes, cast, roster mascot, scene numbers, stack pillAt message) and long roster text clips with no warning",
+    "failure_scenario": "All of these pass `--grid` with rc 0 and no warning:\n(a) type `through: yes` (a common YAML slip; the yaml lib reads it as the string 'yes') or `through: abc` → thr() = Number(...)||0 = 0, so the zoom-through is silently gone.\n(b) lockup `cast: lots` → nCast is NaN, so no mascots.\n(c) roster `agents[].mascot: spark` or `logo` (agent rows support those) → silently cast 0.\n(d) scene overlay `speed: fast` → 1; `until` earlier than `at` is accepted; a negative bar speed makes typing run backwards; orb `rate`, bar `size` and `width` are not checked.\n(e) stack `pillAt: foo` → rc 2 but the message is the generic \"beats.yaml: at must be a frame number…\" with no shot or field (F.at is called without a `what`, stack.js:14).\n(f) roster sub of ~46 chars in 9:16 runs to x = 1222 of 1080 (no fit or shrink) and only fails QA text if that row is on the hero frame.",
+    "evidence": "type.js:9 thr; lockup.js:7 nCast; scene.js:11 `Number(o.speed) || 1`; stack.js:14 `F.at(s.pillAt)` (_film.js:9 default what = 'at'); lib/spec.mjs ENUMS/validation covers none of these (checked the roster, scene, agent, lockup and stack branches at spec.mjs:117-174). Ran `--grid` on scratch jobs t-type1, t-scene1, t-scene2 and t-stackbad, all as described. Roster overflow: probe p-long.mjs on t-long (9:16) gave audit box 'Drafts replies and escalates e' x1 = 1222.",
+    "reproduced": true,
+    "suggested_fix": "In spec.mjs: type `through` must be true or a number ≥ 0 (error otherwise); lockup `cast` an integer 0–6 or false; roster agents[].mascot an integer; scene numeric fields (speed, every, rate, size, width) > 0 and until > at; pass the field name to F.at for pillAt. Add a roster fit/validate warning for long names and subs (shrink or `lines`)."
+   }
+  },
+  {
+   "id": "FILM-OP-1",
+   "opus": {
+    "id": "FILM-OP-1",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "A negative or fractional mascot/avatar index passes --grid, then crashes the stage build with a bare TypeError",
+    "file": "video/engine/runtime.js",
+    "line": 282,
+    "root_cause": "ctx.cast(i) indexes `list[i % len]`. JS % keeps the sign, and a fractional index returns undefined, so `c.src` throws. The index comes straight from user fields: roster.js:103/137 (`Number(a.mascot) || 0`), and through F.mascot (_film.js:89) agent rows[].avatar, header.avatar, scene pill mascot and stack mascot. spec.mjs:244 checks stack mascot with Number.isInteger, so -1 passes.",
+    "evidence": "val/ro-neg (roster mascot -1 / 1.5) and val/ag-neg (agent avatar -2): `--grid` rc 0. `--storyboard` rc 1 with '✗ stage failed to build: page.evaluate: TypeError: Cannot read properties of undefined (reading 'src')', naming no shot or field. With the fix (skill_fix, val/ro-negfix and val/ag-negfix), both storyboards build.",
+    "fix": "runtime.js:282: `c = L0[((Math.trunc(Number(i)) || 0) % n0 + n0) % n0]`. This is unchanged for the non-negative integers that worked before. Add spec errors so every mascot/avatar field is a whole number ≥ 0, or logo/spark where F.mascot supports it.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "FILM-9",
+   "opus": {
+    "id": "FILM-9",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "K1 content half: a bg-less scene opens on the bare background for (first at − 3) frames. Sonnet's claim that moving the overlay also fixes the cut is REFUTED (see FILM-OP-2)",
+    "file": "video/engine/blocks/scene.js",
+    "line": 229,
+    "root_cause": "Entrances lead by 3 frames (a0 = at − 3). The starter's hook bubble is at 10, so local frames 0–8.5 show nothing. Even at 3, the white bubble on #F4F4F7 (luma difference ≈ 11, under CONTENT_DELTA 12) is still too faint for frames 0–1.5. The cut failure has a separate cause: the zoom-through vs the cut check (FILM-OP-2).",
+    "evidence": "k1a: content fails 145–161 (17 frames). k1c (at: 3): content still fails 145–147. k1b (at: 0): content PASS, but the cut is still 0.96×. k1e (bg on hook): all checks pass. k1b plus the FILM-OP-2 QA fix: QA PASSED (11 checks).",
+    "fix": "1. Starter templates/film.yaml: put the hook bubble at `at: 0` (≤ 1 works).\n2. scene.validate: warn when the shot has no bg and its earliest overlay is at ≥ 2, unless it is entered through a cross-cut overlay transition ('nothing on screen for the first N frames: QA content fails; start an overlay at 0 or add bg').\n\nTogether with FILM-OP-2 the film starter passes. No pixel change for old jobs.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-9",
+    "severity": "LOW",
+    "category": "known-item-diagnosis",
+    "file": "video/engine/blocks/scene.js",
+    "line": 229,
+    "title": "K1 root cause: a bg-less scene shot opens empty for first-overlay-at minus 3 frames; the starter's hook has its first overlay at 10",
+    "failure_scenario": "`--init --kit film` starter: shot `hook` (scene, no bg) has its first overlay (bubble) at `at: 10`. scene.render leads each entrance by 3 frames (a0 = at − 3), so for local frames 0–7 (60 fps frames ~290–304) nothing is drawn and the bubble is at opacity 0 until frame 7. Both K1 failures follow from that. `content` fails because those frames equal the bare-background reference (footage would have counted as content, but the bg lines are commented out). `cut name→hook` is 0.96× because the cut joins the last `name` frame (the zoom-through's blurred, 45 %-opacity smear) to a blank frame, so the change at the cut is no bigger than its neighbours.",
+    "evidence": "Probe p-hook.mjs on the base starter job: bubble opacity at hook local frames 0,2,4,6,7 = 0; 8 → .333; 9 → .667; 10 → 1; LV.audit() lists 0 text boxes at all of those frames. scene.js:229 (a0 = p.at − 3), bubble opacity K.clamp(K.u01(t, a0, a0+3)) at scene.js:247-248; templates/film.yaml hook overlay `{at: 10, pos: left, bubble: …}`.",
+    "reproduced": true,
+    "suggested_fix": "Best fix is two-part. (1) Starter: put the first hook overlay at `at: 0`..3 (the bubble is then on screen from frame 0 and the cut gets a real picture change), or un-comment a bg. (2) Engine: have scene.validate() warn when the shot has no bg and the earliest overlay at − 3 > 0 ('opens empty for N frames: QA content fails; start an overlay at 0 or add bg'), so any user job with this pattern is caught at --grid rather than at the end of --film."
+   }
+  },
+  {
+   "id": "FILM-8",
+   "opus": {
+    "id": "FILM-8",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "agent statusAt hides the label until statusAt; the param doc's 're-wipe' suggests it is visible before",
+    "file": "video/engine/blocks/agent.js",
+    "line": 271,
+    "root_cause": "`wipe(e.lb, clamp((t − statusAt)/statusLen))` writes a fully transparent mask for t < statusAt. That matches the measured use (HANDOVER:106, MOTION-SPEC:57: the label wipes IN at the shot's start on a carried-over row, at: -60, statusAt: 0) but not the doc wording at agent.js:73 and in the GUIDE table.",
+    "evidence": "The code path is unambiguous. A row with at: 0 and statusAt: 30 has no status label for frames 0–30. The hf02-skill proof uses at: -60, statusAt: 0, where the hidden interval is empty.",
+    "fix": "Doc only: 'statusAt / statusLen: the status (or done) label stays hidden until statusAt, then wipes in over statusLen frames (a row carried over from the previous shot: at: -60, statusAt: 0)'. Change the code (keep tab(CHROME.status, a) before statusAt) only if Alex wants a visible label to vanish and re-wipe; that change would not alter the proof's pixels.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "FILM-8",
+    "severity": "LOW",
+    "category": "docs-vs-code",
+    "file": "video/engine/blocks/agent.js",
+    "line": 271,
+    "title": "agent rows[].statusAt hides the status label until statusAt instead of re-wiping it",
+    "failure_scenario": "The row params doc says 'statusAt / statusLen: re-wipe its status (or done) label from that frame over statusLen frames'. A row that arrived at frame 0 with `statusAt: 30` has no status label at all for frames 0–30 (mask fully transparent), then wipes it in. A user who wants a re-wipe of a visible label gets a gap. The proof only works because it uses statusAt: 0 on an already-there row.",
+    "evidence": "agent.js:271: wipe(e.lb, r.statusAt != null ? K.clamp((t − r.statusAt)/r.statusLen) : tab(CHROME.status, a)); wipe(el, 0) writes mask linear-gradient(90deg,#000 −40%,transparent 0%). Probe on scratch job t-agent2 (row at 0, statusAt 30): .ag-lb mask-image at local frames 6/12/24 is '… rgb(0,0,0) -40%, rgba(0,0,0,0) 0' (fully hidden); at 34 the wipe has started.",
+    "reproduced": true,
+    "suggested_fix": "Before statusAt, keep the label's normal arrival state (tab(CHROME.status, a)) and only run the 0→1 wipe from statusAt (or state in the param doc that the label is hidden until statusAt)."
+   }
+  },
+  {
+   "id": "FILM-OP-3",
+   "opus": {
+    "id": "FILM-OP-3",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "roster copy omits every sub line, and `title: false` or '' puts 'false' (or nothing) in copy while 'Your agents' is drawn",
+    "file": "video/engine/blocks/roster.js",
+    "line": 65,
+    "root_cause": "copy() lists the title, names and more but not the subs. copy uses `s.title ?? 'Your agents'` while build uses `s.title || 'Your agents'`. GUIDE ('Every line these blocks show reaches the captions SRT, the reading-time warning, the storyboard's copy line and the review sheet') overclaims.",
+    "evidence": "In the starter's `--grid` output, the team row reads 'Your agents · Scout · Writer · Storyboard · Motion · Meet th…' with no subs. val/ro-title (title: false): the copy column shows 'false · Scout · Writer', while the frame draws 'Your agents'.",
+    "fix": "`copy: s => [s.title || 'Your agents', ...agentsOf(s).flatMap(a => [a.name, a.sub]), s.more]…`, with the same `||` in read(). Or support title: false as 'no header text' in build. Only the SRT, storyboard and sheet text change; no pixels.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": null
+  },
+  {
+   "id": "LIB-3",
+   "opus": {
+    "id": "LIB-3",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "K1 root cause: the documented `type through: true` + `out: cut` pattern fails the `cut` check whenever the next shot has no footage; the starter also opens bg-less scenes on bare frames",
+    "file": "video/lib/qa.mjs",
+    "line": 166,
+    "root_cause": "qa.mjs:166 treats every `out: cut` as a one-frame spike, at least 1.25× each of its ±3 neighbours. type.js:9 draws its own zoom-through over the last 10 frames, and those frames change 32–38 luma per frame. A cut into a shot without footage is therefore no bigger than the pre-cut motion. For content: film.yaml keeps hook and ask without a bg, and their overlays pop in from nothing.",
+    "evidence": "I re-rendered work/opus-libtoolsdocs/th: a `type` with through: true and out: cut, then a plain headline. Result: 'FAIL cut a→b at 116: change 44.71, neighbours ≤ 37.87 (1.18×)', deterministic and identical to Sonnet's run. The cut is plainly visible (mean |Δluma| 44.7), so this is a false fail, not an imperceptible cut. film-sample passes only because hook has footage (1.59×). For K1 I recomputed contentCheck on work/LIB/k1 frames: empty = 290–306 plus 465. REPORTS' '290–307' is off by one, and frame 465 is ask's first frame. Both reviewers' range re-renders with `bg: assets/placeholder-clip-1.svg` on hook and `-2.svg` on ask give QA PASSED (cut 150.38 vs 32.20, 4.67×; content min 262 px).",
+    "fix": "Best K1 fix, in two parts. (1) templates/film.yaml: un-comment bg on hook and ask, pointing at placeholder footage. Ideally ship landscape placeholders (placeholders/footage-1.svg and -2.svg) in KITS.film, keep the 'replace with your clip' comment, and reword 'It runs as is' to cover --film. (2) qa.mjs: let a block declare a block-drawn exit, e.g. type exports `ownExit: s => thr(s)`, and have the timeline store `sh.ownExit`. For such a shot, measure the cut spike against the incoming side only (c+1..c+3), or report INFO with the shot-log proof as moving transitions already do. Re-verify th (PASS), K1 starter in all 3 aspects (PASS), and the qa-probe cut probes (still FAIL).",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-3",
+    "severity": "MEDIUM",
+    "file": "video/lib/qa.mjs",
+    "line": 163,
+    "title": "K1 diagnosed: `type through: true` + `out: cut` (the documented pattern) fails QA `cut`; film starter also fails `content` on bare first frames of overlay-only scenes",
+    "failure_scenario": "(a) Any shot ending in a `type` zoom-through followed by `out: cut` fails `cut`, not just the starter: the through zoom's own frame-to-frame change (up to 32-38 luma) is as large as the cut. (b) `--init --kit film` fails `content` on every bare-background scene: hook opens with 18 near-empty 60-fps frames (290-307) and ask's first frame (465) is empty because overlays pop in from nothing.",
+    "evidence": "Starter: `--init --kit film --title Acme` then `--film --aspect 16x9` (work/LIB/k1, log work/LIB/k1.log): `FAIL cut name->hook at 290: change 30.85, neighbours <= 32.20 (0.96x)`, `FAIL content near-empty frames ... 290..301 (18)`. Per-frame YAVG around the cut (ffmpeg tblend on k1/out/main/16x9/frames): 281:18.1, 283:22.8, 285:22.0, 287:25.5, 288:28.1, 289:32.2, 290(cut):30.8, 291:0.05 - the pre-cut side is the through zoom, the post-cut side is a bare brand background. General case, minimal job work/LIB/th (type through:true, out: cut, then a plain headline): `FAIL cut a->b at 116: change 44.71, neighbours <= 37.87 (1.18x)`. Verified fix without touching thresholds (work/LIB/k1b, range re-render of hook+ask): setting `bg: assets/placeholder-clip-1.svg` on hook and `bg: assets/placeholder-clip-2.svg` on ask (the placeholder SVGs are already copied by --init) gives `PASS cut name->hook ... 150.38 vs 32.20 (4.67x)` and `PASS content ... min 262 differing thumbnail px`. Merely moving hook's first overlay `at: 10 -> 2` still leaves frames 290 and 465 empty (`FAIL content ... 290, 465`), so overlay timing alone cannot fix it. Sources: engine/blocks/type.js:9 (`thr` = through frames) and :31; qa.mjs:166 treats every `out: cut` strictly; templates/film.yaml:34-44, 46-51, 55-62 keep the scenes bg-less.",
+    "reproduced": true,
+    "suggested_fix": "Two-part: (1) templates/film.yaml: enable `bg: assets/placeholder-clip-N.svg` on `hook` and `ask` (keep the 'swap for your AI clip' comment; bg-less overlays can stay a documented --clips --alpha option). (2) qa.mjs cut check: when the outgoing block exports a block-owned exit (type with `through`), treat the boundary as a moving exit (INFO, shot log proves it) or exclude the through window (last thr(s) frames x2) from the neighbour max so the cut is still required to spike against the incoming side. Consider a grace of <= 2 bare first frames for scenes whose overlays pop in, or have `scene` always draw a faint element at frame 0."
+   }
+  },
+  {
+   "id": "TOOL-5",
+   "opus": {
+    "id": "TOOL-5",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "K1 diagnosis: putting placeholder footage on hook AND ask makes the film starter pass QA; REPORTS lists the content frames wrongly",
+    "file": "video/templates/film.yaml",
+    "line": 49,
+    "root_cause": "As LIB-3: no bg on hook or ask, and overlays pop in from nothing. The cut name→hook fails because the `through` zoom's own motion equals the cut. TOOL-5's reading that 'the check is right, the cut is imperceptible' is wrong: the th repro shows a visible cut (44.7 mean Δluma) false-failing.",
+    "evidence": "Recomputed contentCheck on work/LIB/k1: empty frames 290–306 and 465, not REPORTS' '290–307'. film-fix2 and k1b (bg placeholders on hook+ask, --range re-render): 'QA PASSED (14 checks)'. bg on hook only still fails at 465 (TOOL's film-fix). The 'It runs as is' headers in film.yaml:5 and reel.yaml:4 are true only for --grid/--storyboard on the film kit.",
+    "fix": "Same as LIB-3 part 1 (template placeholders on hook and ask, with landscape footage placeholders), plus LIB-3 part 2 (the QA cut rule for block-drawn exits), so a user's real but flat footage after a zoom-through doesn't false-fail. Correct REPORTS K1 to 'content 290–306 + 465'.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "TOOL-5",
+    "severity": "MEDIUM",
+    "file": "video/templates/film.yaml",
+    "line": 42,
+    "title": "K1 diagnosis: three independent causes, all removed by giving `hook` AND `ask` a bg (placeholder footage); REPORTS under-reports the content failure",
+    "category": "templates",
+    "failure_scenario": "`lv.mjs --init --kit film` then `--film --aspect 16x9` ends 'QA FAILED (2)'. (1) cut name→hook: change 30.85 vs neighbours ≤ 32.20 (0.96×). The `type through:true` zoom-through ends on a huge blur whose frame-to-frame change is as large as the cut, and the bg-less `hook` is a pale blank frame (light UI on light plain background), so the hard cut has no luma contrast; the check is right, the cut is imperceptible. (2) content, frames 290–306 (17 frames, 0.28 s): `hook` has no bg and its first overlay (bubble) pops at `at: 10` (30-fps frame 10 = 20 render frames), so the shot opens on the bare background. (3) content, frame 465 (REPORTS lists only '290–307'): the first frame of `ask` (theme dark, no bg, words overlay fading in from at: 0) is the bare dark background (0 differing thumbnail px). The sentences 'It runs as is' in film.yaml/reel.yaml header comments read as promising a QA-clean film, but only --grid/--storyboard are true.",
+    "evidence": "work/TOOL/jobs/film.log: `FAIL cut name→hook at 290: change 30.85, neighbours ≤ 32.20 (0.96×)` and `FAIL content near-empty frames …: 290 … (18)`; running qa.mjs contentCheck on those frames gives empty = 290–306 plus 465. Fix tried on copies of the rendered job: (a) bg on `hook` only (`bg: assets/placeholder-clip-1.svg`, `--film --aspect 16x9 --range 290,464`, jobs/film-fix): cut becomes 150.38 (4.67×) PASS but content still FAILs at frame 465. (b) bg on `hook` and `ask` (placeholder-clip-1 / -2, `--range 290,696`, jobs/film-fix2): 'QA PASSED (14 checks)', content min 262 px, cut name→hook 4.67×, freeze PASS (Ken Burns keeps the still bg moving). `--clips hook,command --alpha` (the starter's own CapCut advice) already PASSes. Reel starter: QA PASSED (13 checks) at 16x9 and 9x16, `--clips s1,s4 --alpha` PASS.",
+    "suggested_fix": "Ship a 16:9 `placeholders/footage.svg` (dark gradient, 'your AI footage here') via KITS.film and write `bg: assets/placeholder-footage.svg` UN-commented on `hook` and `ask` (optionally `name`), with the comment 'replace with your clip'. Keep QA as is. Reword the header to 'runs as is (--grid, --storyboard, --film with the placeholder footage)', and update the GUIDE sentence about un-commenting bg lines.",
+    "reproduced": true
+   }
+  },
+  {
+   "id": "ENG-7",
+   "opus": {
+    "id": "ENG-7",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "K1 diagnosis: two separate causes, and the `cut` one is not specific to the starter: any `type through: true` → `out: cut` into a scene of similar luma fails QA",
+    "file": "video/lib/qa.mjs",
+    "line": 164,
+    "root_cause": "(1) The `content` FAIL at frames 290–307 is real: the starter's hook has no bg and its first overlay starts at at: 10, so its first ~9 frames are bare. (2) The `cut` FAIL is structural. qa.mjs:164 takes the neighbour max over ±3 frames, which includes the zoom-through's own last frames on the outgoing side. A hard cut after a zoom-through passes only if it is ≥ 1.25× the zoom-through's fastest frame.",
+    "evidence": "Frame differences of Sonnet's j1fix render around the cut at 290 (192×108 grey, mean abs): 285–289 = 23.9, 26.0, 28.3, 31.5, 36.8 (the zoom-through); 290 = 56.5 (the cut); 291–296 = 0.08–0.16. So the outgoing side sets the neighbour max. Sonnet's j1fix with placeholder picture bgs on name, hook and ask still FAILs at 1.18×, and only a dark hook picture passes (1.52×). film-sample passes name→hook at only 1.59× in 16:9, helped by dusk.jpg and the letterbox bars. GUIDE.md:272-273 prescribes exactly this grammar (`through: true` = its last 10 frames, then `out: cut`), so users' own films will hit it.",
+    "fix": "Cut check: when the outgoing shot ends on a block-driven move (type with `through: true`, or a block flag such as `exitMove: true`), measure the spike against the incoming-side neighbours only (c+1…c+3). That still proves a one-frame cut; it is a neighbour-window rule, not a looser threshold. Or treat that cut as INFO like the moving transitions. Content FAIL: change the starter (bubble `at: 0`, or ship a placeholder bg on hook). Re-verify: `--init --kit film --film` gives QA PASSED in 3 aspects; qa-probe and qa-probe2 still fail as labelled; a planted mis-timed cut after a type-through still FAILs.",
+    "breaks_old_jobs": false,
+    "needs_alex": true
+   },
+   "sonnet": {
+    "id": "ENG-7",
+    "severity": "LOW",
+    "file": "video/templates/film.yaml (+ video/lib/qa.mjs 'cut' check)",
+    "line": 35,
+    "category": "known item K1 — fix diagnosis (not a new defect)",
+    "title": "K1 (known) best fix: ship the film starter with placeholder bg pictures on name / hook / ask; the cut-spike rule then needs a high-contrast picture after the zoom-through",
+    "failure_scenario": "The starter's `content` FAIL (frames 290–307) is the hook scene's first ~9 frames showing nothing (no bg, first overlay at frame 10) — a legitimate content failure. Its `cut name→hook 0.96×` FAIL is because the zoom-through's own motion makes the neighbouring frames change ~32 luma, so a hard cut into a plain light scene cannot be a ≥1.25× spike.",
+    "evidence": "Copy of the starter at work/ENG/j1fix (16x9 only) with `bg: assets/placeholder-clip-3.svg` on name, `placeholder-clip-1.svg` on hook, `placeholder-clip-2.svg` on ask: `--film` → content PASS (min 262 px) but cut name→hook still FAIL 1.18× (change 37.5 vs neighbours 31.9). Replacing the hook's picture with a dark gradient SVG (assets/placeholder-dark.svg) → cut name→hook PASS 1.52×, content PASS, 'QA PASSED (14 checks)' (j1fix2.film.log).",
+    "reproduced": true,
+    "suggested_fix": "In `--init --kit film`: ship placeholder bg pictures (at least one dark, high-contrast SVG on the hook shot, and bgs on name and ask) instead of the commented-out `bg:` lines, so the starter passes as delivered. Optionally treat a `type through: true` + `out: cut` boundary as INFO in qa.mjs's cut check (the zoom-through is the transition), since any light follow-up shot will trip the 1.25× spike rule."
+   }
+  },
+  {
+   "id": "LIB-6",
+   "opus": {
+    "id": "LIB-6",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "New params aren't validated. `captionAt: 0.5s` crashes the stage; boolean options set to no/off/0 silently stay on; `through: yes` silently does nothing; `push` is unbounded; a list in a single-path footage field fails only at stage build",
+    "file": "video/lib/spec.mjs",
+    "line": 208,
+    "root_cause": "spec.mjs has no captionAt check. _reel.js:194 does Number(s.captionAt ?? 4), so 0.5s becomes NaN. Blocks test `=== false`, and YAML 1.2 parses no/off as strings and 0 as a number. type.js:9 `thr` maps any non-true value through Number(), so 'yes' becomes 0. push only gets num(). mediaFields() can't tell list fields from single-path fields.",
+    "evidence": "work/opus-libtoolsdocs/cap (sticker caption, `captionAt: 0.5s`): grid rc 0, then storyboard fails with 'page errors … <feGaussianBlur> attribute stdDeviation: Expected number, \"NaN NaN\"'. Every other timing field in the skill accepts seconds. work/opus-libtoolsdocs/bool (`shake: no, sparks: off, gloss: 0`, `through: yes`, `push: 99`): grid rc 0, and loadSpec keeps ['no','off',0], 'yes' and 99. The code tests are sticker.js:21/44/46/103/114, float.js:44, split.js:38/74, cta.js:32/62, lockup.js:25, type.js:9/52. Only agent.dolly is type-checked (spec.mjs:220).",
+    "fix": "In spec.mjs, for built-in blocks: (a) check captionAt with isAt and convert seconds via K.frameAt in _reel.reelCapPlan; (b) accept only true/false for the documented on/off options (shake, sparks, gloss, streak, arrow, logo, overLogo, backdrop) and for `through` (true/false or a frame count > 0 and < D), naming the field; (c) bound push, e.g. −0.5…0.5; (d) give mediaFields a `list` flag so a list in card/before/after, or a non-string list item, is a --grid error. No pixel change for valid jobs.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-6",
+    "severity": "MEDIUM",
+    "file": "video/lib/spec.mjs",
+    "line": 208,
+    "title": "Several new params are not validated: `captionAt` (crashes the page), boolean options that silently stay ON for no/off/0, unbounded `push`, a list in a single-path footage field",
+    "failure_scenario": "`captionAt: 0.5s` (every other timing field in the skill accepts seconds) passes --grid and then crashes the stage with a TypeError; `captionAt: soon` gives NaN SVG errors. `shake: no`, `sparks: off`, `gloss: 0` parse as the strings 'no'/'off' or 0 (YAML 1.2), are not `=== false`, and the effect silently stays on. `push: 99` is accepted (100x zoom). `float card: [a.png, b.png]` or a dangling `- ` in `stack cards` passes --grid and fails only when the stage builds.",
+    "evidence": "work/LIB/fz/capAt_secs (sticker caption + `captionAt: 0.5s`): `--grid` rc 0; `--storyboard` rc 1 `page.evaluate: TypeError: Cannot read properties of undefined (reading '0') at _reel.js:168:19`. work/LIB/fz/sticker_caption_at (`captionAt: soon`): `Error: <feGaussianBlur> attribute stdDeviation: Expected number, \"NaN NaN\"`. _reel.js:194 `Number(s.captionAt ?? 4)`; no captionAt check anywhere in spec.mjs although media, sticker, split, float and cta all take it. Booleans: `yaml.parse('shake: no\\nsparks: off\\ngloss: 0')` -> {shake:'no', sparks:'off', gloss:0}; grid accepts (fz/bool_off rc 0); code tests `=== false`: sticker.js:21,44,46,103,114; float.js:44; split.js:38,74; cta.js:32,62; lockup.js:25; type.js:52. Only agent.dolly got a boolean check (spec.mjs:220). `push` check is `num()` only (spec.mjs:184; fz/push_99 rc 0). Lists: fz/float_card_list -> `stage failed to build: shot a: assets/a.png,assets/b.png could not be decoded as an image` + HTTP 404; fz/split_before_null_in_list -> `shot a: null could not be decoded as an image`; mediaFields() (spec.mjs:19) cannot tell list fields from single-path fields so spec.mjs:283-288 accepts both shapes for any field.",
+    "reproduced": true,
+    "suggested_fix": "Validate captionAt with the same isAt()/frameAt rule (and convert seconds) for blocks that list a caption param; reject non-boolean values for the known on/off options (allow true/false only, name the field); bound push (e.g. -0.5..0.5); let mediaFields() carry `list: true|false` so a list in a scalar field (or a non-string item) is a clear --grid error."
+   }
+  }
+ ],
+ "reviewer_notes": {
+  "engine+reel": [
+   "Codex returned nothing (usage limit), so every verdict above is Sonnet plus Opus only.",
+   "ENG-4, ENG-5, ENG-6, REEL-4, REEL-7 and REEL-9 are confirmed from an unambiguous code path plus Sonnet's own reproductions; I did not re-run them. I re-ran ENG-1, ENG-2, ENG-3, REEL-2 (and its fix), REEL-3 and REEL-5.",
+   "Not tested individually, same mechanism as OP-1: animated APNG named .png, animated WebP, an AVIF `avis` sequence, and an animated GIF in float `card` or split before/after (<img> rather than SVG <image>).",
+   "Not tested: a truncated image in block image fields (float card, split before/after, lockup partner logo). Same root cause as ENG-2.",
+   "Custom-block param names that collide with the new engine-owned shot fields: zoom/focus/offset/pan/move (silently double-applied), bg/bgDim/bgMove/bgFrom/letterbox (now drawn or rejected by the engine) and copy/copyRead (now reserved). None of the jobs in ~/Downloads/launch-videos use them (grepped); jobs elsewhere were not checked.",
+   "REEL-2's fix was verified in 9:16 only (wa, PASS with 0 px). The wipe in 16:9 and 1:1, the reel-sample s6 restack, and the film-pixel delta around the divider still need checking.",
+   "ENG-3's fix (outer tiles +1 px, centre tile drawn last) was not re-verified by me; it needs t_seam plus a --layers footage restack.",
+   "ENG-7's proposed QA rule (incoming-side neighbours for a cut after a block-driven exit) is not implemented; it needs qa-probe/qa-probe2 still failing as labelled, and a planted mis-timed cut after a type-through still failing.",
+   "Outside this group, flagged only: hf02-skill/beats.yaml shot d copy ('Build me a hit app. No half measures', 'Pulling every breakout app launch…') should be checked against the reference film's lines for the originality contract.",
+   "Long sticker `kicker` (nowrap, no maxW): the fit loop shrinks the title for all 8 iterations without ever shrinking the kicker. Text QA probably catches a frame-clipped kicker; not reproduced."
+  ],
+  "film": [
+   "HOUSEKEEPING, please act: while making a runnable copy I accidentally created the symlink /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules -> /Users/bytedance/.claude/skills/product-launch-sting/node_modules (a stray `ln -s` through snap's node_modules symlink, 00:46). My removal (`rm` on that symlink only) was denied by the auto-mode classifier. Node module resolution is unaffected, but `diff -r` and `rsync` over the live skill now see a directory loop. Please remove that one symlink: `rm /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules`.",
+   "Fixes were verified only in work/opus-film/skill_fix and skill_qa: 16x9 and 9x16 storyboards, a roster `--layers` stack check in 9x16, freeze probes and `--qa` re-runs. Not re-run: film-sample and hf02-skill with the fixes, 1x1 for roster and wall, `--layers` for the wall and for the lockup/agent fixes, and the qa-probe/qa-probe2 cut probes after the qa.mjs change (they don't use `type`, so they should be unaffected).",
+   "Not tested: agent `scroll: always` combined with a title/steps (the `early` filter counts the title and steps as already there, so `total` spans the whole column), and the dark composer's pre-wrap bar growing downward past the area with long prompts (QA text only sees the hero frame).",
+   "stack: a card leaving the front wraps to q + n at full opacity when n ≤ 9, which can pop in at the back. I looked at frames 560–562 of the starter; inconclusive, and it is cosmetic.",
+   "wall: `!chipSlots.includes(sl) && r() < .16` short-circuits the rng, so changing the chip list or a chip label re-deals every card's shape and tilt. That surprises review-sheet edits, but it is not a contract break.",
+   "Block validate() output only becomes --grid warnings (timeline.mjs:87); spec.mjs carries the real errors. Any new film-block check must go into spec.mjs to give rc 2.",
+   "Originality: grep found no reference-film copy in the snapshot blocks or templates. hf02-skill proof copy ('Your crew', 'View all 15 agents') comes from hf02-recreate, which MOTION-SPEC.md:4 documents as our own copy. I did not compare against the Higgsfield source frames, and no ref/ frames appeared in any output I rendered.",
+   "Sonnet's scratch probes (scratchpad/review/FILM/*) were wiped. Every number above was re-measured with my own tools in work/opus-film/tools (chips.mjs, shots.mjs, probe.mjs, srcs.mjs, audit.mjs, val.sh)."
+  ],
+  "lib+tools+docs": [
+   "Codex produced no verdicts (usage limit), so every Sonnet finding above was judged by this pass alone, with no second opinion.",
+   "Engine-group items I saw but did not verify: the drift entrance in runtime.js:43 is still .07 W / .08 H with ×0.7 decay, while ANSWERS-measurements recommends ≈.10 W / .085 H with ×0.65 (REPORTS calls it 'answered'). type.js:41 builds 0×0 wrapper divs (`width:0;height:0`), a listed compositing trap.",
+   "There is no validation that a shot is long enough for the cross-cut windows it takes part in. In a shot shorter than the incoming post plus outgoing pre (tunnel 10+7, smear/flash 11), xfxAt switches to the exit overlay early and the incoming overlay jumps; not reproduced.",
+   "The whoosh QA search window [t−0.25 s, t+0.1 s] can pick up a neighbouring whoosh when cuts are under ~0.3 s apart (a whip next to a louder tunnel); not reproduced.",
+   "Footage with an alpha channel (ProRes 4444 / VP9-alpha .mov/.webm) used as a float/stack card is extracted to JPEG and loses its transparency (black card background); not tested.",
+   "There is no per-aspect `bg`: a 16:9 AI clip in a 9:16 cut is cover-cropped to the middle ~32 % of its width, although the starters say 'each aspect is re-laid out, not cropped'. That holds for overlays only; whether to add per-aspect bg is a product call for Alex.",
+   "--tempo folding (>180 or <60 BPM) keeps the phase of the unfolded grid, so the folded start can land on an off-beat; not reproduced.",
+   "No sample job in ~/Downloads/launch-videos runs full film QA across glitch/smear/tunnel/flash. My own work/opus-libtoolsdocs/xc film (all four plus a dark tunnel and a drift) passed QA, but these cuts have no standing regression job, and REPORTS' 'pixel-identical' set doesn't cover them.",
+   "CapCut alpha import, After Effects live text and the layers footage pass were out of scope for this group and not re-tested."
+  ]
+ }
+}

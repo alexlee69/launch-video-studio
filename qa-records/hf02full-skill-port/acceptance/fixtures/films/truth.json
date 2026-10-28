@@ -1,0 +1,11 @@
+{
+ "ref": "ref_a.mp4",
+ "film": "film_a.mp4",
+ "refuse": [
+  "film_short2.mp4",
+  "film_long10.mp4"
+ ],
+ "borderline": "film_short1.mp4",
+ "ref_pcm_md5": "fd269176e90a7a45cfcd733a059d3229",
+ "film_video_md5": "0c8b61519afe6d0e7d17bf39ab0d5d77"
+}

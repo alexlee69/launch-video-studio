@@ -1,0 +1,14 @@
+{
+ "original": "hero-before-f1.png",
+ "edit": "hero-f1-edit.png",
+ "feather": 0,
+ "edit_drift_inside": 66.7,
+ "edit_drift_outside_not_used": 0.0,
+ "why": "",
+ "box": [
+  0,
+  0,
+  64,
+  128
+ ]
+}

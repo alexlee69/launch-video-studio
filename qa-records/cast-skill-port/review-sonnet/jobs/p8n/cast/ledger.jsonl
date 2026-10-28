@@ -1,0 +1,1 @@
+{"t": "2026-10-23T20:26:18-07:00", "label": "candidate look-1", "size": "2560x1440", "status": 200, "n": 11, "refs": [], "usage": {"input_tokens": 1661, "output_tokens": 81070, "input_tokens_details": {"text_tokens": 1661, "image_tokens": 0}}, "usd": 2.4404, "usd_from": "usage", "est": 2.4413, "s": 3}

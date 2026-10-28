@@ -1,0 +1,153 @@
+# beats.yaml — a 30 s launch starter (lv.mjs --init --kit launch30): the full arc at 120 BPM (one beat = 0.5 s, 60
+# beats). The brief's pacing targets are built in: a surprise by 2 s (the hook), the brand by 5 s (the title at 1 s),
+# the product by 3 s (its screen, under the feature line), one idea per 2–4 s, something new about every 0.5 s.
+#   hook → title → feature → action → result → inputs → output → before → after → punctuation → one → many → proof →
+#   summary → the title again → the call to action → the end card.
+# 15 shots of 1–3 s (paired beats share a shot: inputs → output, before → after). 31 words to read, as lv.mjs --grid
+# counts them (the typed prompt and the address bar included): that is the cap, so cut a word before adding one; each
+# word costs about 0.35 s of reading time.
+# Transitions (the brief's passport): hard cuts and drifts, plus one signature, the title zooming through the camera.
+# It opens and closes in the dark: the title card, its repeat and the end card share one dark register.
+# It runs as is: no footage needed yet. Drop your clips into assets/ and swap the placeholder cards for them, or put
+# footage behind any shot with `bg:` (GUIDE.md → "Reels and launch films"). A "round 1:" note names the motion-kit
+# block that fits that moment better, once your copy of the skill has it (lv.mjs --blocks lists what it has).
+title: Your 30 s launch
+slug: launch-30
+aspects: [16x9, 9x16, 1x1]       # each is re-laid out, not cropped
+thumbnail: result
+
+brand:
+  name: Product
+  mono: P
+  # logo: assets/logo.svg        # your mark (SVG/PNG): the end card
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+
+music: {style: keynote, bpm: 120, breaks: [punct]}   # the groove drops on the title; it dips for the punctuation beat
+
+shots:
+  # 0:00–0:01 · the hook (2 beats): no words, the most arresting picture you have, already moving
+  - id: hook
+    block: media                 # round 1: block: particles (mode: burst), a seeded dot field bursting
+    beats: 2
+    src: assets/placeholder-clip-2.svg   # your strongest AI clip (.mp4/.mov, from: seconds into it); a still only drifts
+    out: cut
+
+  # 0:01–0:03 · the title (4 beats) settles, then zooms through the camera: the film's one signature move
+  - id: title
+    block: type
+    beats: 4
+    theme: dark                  # a dark title card: the cut out of the zoom-through must read as a cut (QA checks it)
+    text: Product                # your product's name
+    face: serif
+    through: true
+    out: cut
+
+  # 0:03–0:06 · the feature (6 beats): what it does, in one line, over the product itself
+  - id: feature
+    block: media
+    beats: 6
+    src: assets/placeholder-card.svg   # a screenshot or screen recording of your product
+    device: browser
+    url: product.app             # your address
+    text: Launch films, *cut for you.*
+    out: drift-up
+
+  # 0:06–0:08.5 · the action (5 beats): the prompt typed in a macro bar and sent
+  - id: action
+    block: scene                 # round 1: follow it with a block: press shot for the click itself
+    beats: 5
+    # bg: assets/your-ai-footage.mp4      # e.g. hands on a laptop at night
+    overlays:
+      - {at: 0, pos: center, bar: Cut our Friday teaser, framing: macro, theme: light}
+    out: drift-up                # a momentum cut: a hard cut here wouldn't read, both sides are mostly background (QA checks it)
+
+  # 0:08.5–0:11 · the result (5 beats): it flies in within 0.5 s and holds for 1.6 s before it drifts on
+  - id: result
+    block: float
+    beats: 5
+    card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
+    label: Output
+    out: drift-left
+
+  # 0:11–0:13 · inputs → output (4 beats): what went in, what came out, side by side
+  - id: inout
+    block: split
+    beats: 4
+    before: assets/placeholder-card.svg
+    after: assets/placeholder-clip-3.svg
+    labels: [Input, Output]
+    out: drift-left
+
+  # 0:13–0:15 · before → after (4 beats): a divider wipes the old version away
+  - id: change
+    block: split
+    beats: 4
+    mode: wipe
+    before: assets/placeholder-before.svg
+    after: assets/placeholder-after.svg
+    out: cut
+
+  # 0:15–0:16.5 · punctuation (3 beats): one word, the music dips under it
+  - id: punct
+    block: type
+    beats: 3
+    text: "*Done.*"
+    out: cut
+
+  # 0:16.5–0:19 · one (5 beats): the cards cycle one by one and the last one settles
+  - id: one
+    block: stack                 # round 1: block: fan (one → many: the cards deal out from the hero card)
+    beats: 5
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+    count: 8
+    pill: 120 films studied      # your claim, as approved by legal
+    out: drift-up
+
+  # 0:19–0:20 · many (2 beats): the whole wall of them. Today's wall builds up from its centre over its first 0.4 s,
+  # so it follows a moving exit, never a bare hard cut (QA's content check flags a bare first frame)
+  - id: many
+    block: wall                  # round 1: block: wall with layout: grid (one tile lit)
+    beats: 2
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+    out: drift-up
+
+  # 0:20–0:22 · proof (4 beats): one number, said big
+  - id: proof
+    block: stat
+    beats: 4
+    value: 10                    # your claim, as approved by legal: a number you can source
+    suffix: "×"
+    label: faster
+    out: cut
+
+  # 0:22–0:24.5 · the summary (5 beats): the whole film in four words
+  - id: summary
+    block: headline
+    beats: 5
+    text: Brief it. *Ship it.*
+    out: cut
+
+  # 0:24.5–0:26 · the title again (3 beats): the bookend
+  - id: again
+    block: type
+    beats: 3
+    theme: dark                  # the same dark title card as at the open
+    text: Product                # your product's name
+    face: serif
+    out: cut
+
+  # 0:26–0:28 · the call to action (4 beats), said big
+  - id: cta
+    block: headline
+    beats: 4
+    text: Try it *free.*         # 3 words at most: under 2 s to read
+    out: cut
+
+  # 0:28–0:30 · the end card (4 beats), dark like the open: the lockup lands in 0.5 s and holds; the address fades in
+  - id: end
+    block: endcard
+    beats: 4
+    theme: dark
+    url: product.app             # your address
+    cast: 0

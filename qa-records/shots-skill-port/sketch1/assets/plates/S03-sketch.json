@@ -1,0 +1,12 @@
+{
+ "lv": "position",
+ "id": "S03",
+ "image": "S03-sketch.png",
+ "aspect": "16x9",
+ "plate_hash": "e6d70a96",
+ "legend": {
+  "red": "the people: where each one stands and how big they are",
+  "yellow": "each head, the cross on it showing which way the face looks, and each product or prop"
+ },
+ "says": "Figure 1 (hero), head and shoulders, left of centre, facing right; prop 1 (laptop) right of centre, low in the frame."
+}

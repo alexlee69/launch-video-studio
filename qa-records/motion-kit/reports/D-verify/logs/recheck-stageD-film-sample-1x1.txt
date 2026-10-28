@@ -1,0 +1,2 @@
+D-old-film-sample 1x1: 2265 cams, 2265 frames
+INFO 11 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.9–2.6× (over 2×: open→name 2.08×, brief→team 2.62×, team→scan 2.02×, command→wall 2.62×) — numbers per cut in qa.json

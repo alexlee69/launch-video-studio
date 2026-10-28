@@ -1,0 +1,37 @@
+# Edge-case QA job: 1:1, 124 BPM (fractional frames per beat), long name, brand font files, logo, dots bg,
+# your-own-track music + voiceover ducking, footage plate, browser UI flow with a cursor tap, orbit with the logo,
+# a declared hold (intentional freeze), a custom block, a dark end card, and a cutdown. Fernly is fictional.
+title: Fernly Assistant reveal
+slug: fernly
+aspects: [1x1]
+brand:
+  name: Fernly Assistant for Busy Teams
+  mono: F
+  logo: assets/logo.svg
+  colors: {bg: "#F3F5F2", ink: "#10201A", muted: "#6B7A72", accent: "#0B6E4F", accent2: "#E0A526", accent3: "#3E7BFA", dark: "#0C1612", accentOnDark: "#6FD3AE"}
+  bg: dots
+  font: {family: Brandsans, files: {400: assets/fonts/brand-400.woff2, 700: assets/fonts/brand-700.woff2}}
+music: {style: track, file: assets/track.wav, start: 1.0645, bpm: 124, downbeat: 0.0}
+voiceover: {file: assets/vo.wav, start: 0.4, duck: 9}
+shots:
+  - {id: a, block: title, beats: 5, pre: Meet, name: Fernly Assistant for Busy Teams, sub: by Fernly Labs, out: blur}
+  - {id: b, block: media, beats: 6, src: assets/footage.mp4, from: 0.5, text: "Your day, *handled.*", out: whip-right}
+  - id: c
+    block: browser
+    beats: 9
+    text: One window. *Every errand.*
+    url: app.fernly.test
+    items:
+      - input: Book a table for four on Friday
+      - typing: 10
+      - msg: Done — Casa Verde, 7:30 PM. Add it to everyone's calendar?
+      - card: {title: Add to calendars?, sub: 4 invites, actions: [Not now, Add]}
+      - tap: Add
+      - toast: Invites sent.
+    out: whip-down
+  - {id: d, block: orbit, beats: 5, text: "Its own *email and number.*", hero: logo, items: [{icon: mail, label: Email}, {icon: phone, label: Phone}, {icon: calendar, label: Calendar}, {icon: chat, label: Chat}], out: cut}
+  - {id: e, block: cast, beats: 4, text: "A whole *team* of helpers.", count: 5, hold: [30, 44], out: zoom-in}
+  - {id: f, block: ticker, beats: 4, words: [Books., Buys., Follows up.], out: cut}
+  - {id: g, block: endcard, beats: 6, name: Fernly, tagline: "Busy teams, *handled.*", cta: [Join the waitlist], url: fernly.test, cast: 0, theme: dark}
+cutdowns:
+  short: [a, c, g]

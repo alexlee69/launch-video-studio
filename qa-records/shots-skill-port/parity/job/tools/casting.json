@@ -1,0 +1,530 @@
+{
+ "_note": "Worked example: The Lull (manus2-space, 2026-10-23), one East Asian woman of about 40 as a fictional astronaut, locked the Higgsfield way and every key frame built from her sheets. Every prompt here is the one the job sent (expanded from these snippets, byte for byte). The job kept two ledgers and caps (cast/round1, $8.50; stills, $12): $2.23 for 9 sheet calls, $13.24 for 29 still calls. Copy into DIR/tools/casting.json for a new job only as a pattern: the person, world and ban list are this film's.",
+ "root": "..",
+ "grey": "#8a8a8a",
+ "cap": 20.5,
+ "ledger": "../cast/ledger.jsonl",
+ "dirs": {
+  "candidates": "../cast/round1/candidates",
+  "locked": "../cast/locked",
+  "locations": "../stills/locations",
+  "stills": "../stills",
+  "review": "../stills/review"
+ },
+ "ban": [
+  "NASA",
+  "ESA",
+  "SpaceX",
+  "ISS",
+  "Roscosmos",
+  "International Space Station",
+  "safety video",
+  "Cupola",
+  "Soyuz",
+  "Dragon",
+  "Orion",
+  "Starliner",
+  "Shuttle",
+  "golden solar",
+  "jungle",
+  "waterfall",
+  "rope bridge",
+  "bridge",
+  "temple",
+  "cave",
+  "ruin",
+  "ruins",
+  "boulder",
+  "monkey",
+  "monkeys",
+  "macaw",
+  "macaws",
+  "arrow",
+  "glacier",
+  "canyon",
+  "salt flat",
+  "dunes",
+  "dumpling",
+  "shophouse"
+ ],
+ "text": {
+  "NEG": "Unbranded and fictional: no logos, no flags, no name tags and no lettering anywhere on the station, suit or capsule.",
+  "STATION": "a fictional orbital station of white modules wrapped in matte white and pale-gold insulation blankets, a long open lattice truss with white handrails and blue-black solar arrays",
+  "SIDES": "Her mission patch and wrist display are on her own LEFT side: in the front view they are on the right side of the picture; in the back view the patch is on the left side of the picture.",
+  "FROM_MASTER": "Image 1 is the identity master. Keep exactly this woman: the same face, the same strong dark eyebrows and the small pale scar through her own LEFT eyebrow, the same warm brown skin, dark brown eyes and laugh lines; the same helmet, comms cap and suit. ",
+  "TAIL": "Photographic, natural skin texture, unretouched, realistic, not a stock photo. One clean subject, no props, no text, no labels, no numbers, no watermark. {NEG}",
+  "LAYOUT": "A character reference sheet for a film: ONE image with three side-by-side panels of equal width separated by thin gutters, {GREY}. LEFT panel: a front-facing close-up of her head and shoulders filling the panel, eyes to camera, calm with a hint of dry amusement, her whole face clearly visible through the clear bubble with no reflection across her eyes, the small pale scar through her own left eyebrow visible. MIDDLE panel: her full body from the front, head to boots, standing upright and relaxed, arms slightly away from her sides. RIGHT panel: her full body from directly behind in the same stance, showing the white life-support backpack and an orange-sleeved safety tether on a small reel at her waist ending in a steel hook. {SIDES}",
+  "PRE_FACE": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. Sides are hers: whenever she faces the camera, the patch and the wrist display are on the RIGHT side of the picture and the helmet camera on the LEFT side of the picture. ",
+  "PRE_LOC": "Image 2 is the location: keep its architecture, materials and design. Do not copy the grey background or the sheet layout: make one single cinematic film frame, 16:9. ",
+  "PLATE_TAIL": "Photoreal cinematic film still, visible film grain, slightly soft, true blacks, not a stock photo, no people, no text, no logos, no watermark. {NEG}",
+  "PRE_FACE_OFF": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back with the helmet off and no backpack: the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. Sides are hers: whenever she faces the camera, the patch and the wrist display are on the RIGHT side of the picture and the helmet camera on the LEFT side of the picture. "
+ },
+ "candidates": {
+  "from-A": {
+   "n": 1,
+   "refs": [
+    "../cast/round1/A/05-identity-master.png"
+   ],
+   "prompt": "{FROM_MASTER}{LAYOUT} She is a woman of about 40 with warm brown skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. {TAIL}",
+   "note": "became cand-01"
+  },
+  "asian": {
+   "n": 1,
+   "refs": [],
+   "prompt": "{LAYOUT} She is an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. {TAIL}",
+   "note": "became cand-02"
+  }
+ },
+ "lock": {
+  "eva": {
+   "pick": "cand-02",
+   "prompt": "This is a character reference sheet in three panels. Make exactly these three changes and nothing else. 1) MIDDLE panel (full body, front): erase her face. Inside its clear helmet bubble show only the black comms cap and a soft plain shadow where the face was: no eyes, no nose, no mouth. 2) The small helmet camera belongs on her own RIGHT side of the helmet. In the LEFT and MIDDLE panels, where she faces us, it must sit on the LEFT side of the picture, next to that lamp; remove it from the right side of the picture. In the RIGHT panel, seen from behind, it sits on the right side of the picture. 3) RIGHT panel (seen from behind): the round mission patch belongs on her own LEFT shoulder, which from behind is on the LEFT side of the picture. Remove the patch from the shoulder on the right side of the picture and put the same patch on the shoulder on the left side of the picture. Keep everything else exactly as it is: the close-up face in the left panel unchanged, the same flat grey, the same suit, the same poses, the same framing and layout.",
+   "restore": {
+    "ellipse": [
+     480,
+     545,
+     235,
+     290
+    ],
+    "feather": 28
+   },
+   "pin": {
+    "cols": [
+     964,
+     1712
+    ],
+    "rows": []
+   }
+  }
+ },
+ "states": {
+  "helmet-off": {
+   "refs": [
+    "sheet:eva"
+   ],
+   "prompt": "Image 1 is her locked character sheet. Make her second state as a new sheet with the same layout, the same flat solid neutral grey background (#8a8a8a) and the same woman: the helmet and comms cap are OFF and there is NO backpack. LEFT panel: a front-facing close-up of her head and shoulders, short straight black hair, cropped close at the sides and damp from the sea, a few drops on her skin, eyes to camera, tired and quietly pleased, the small pale scar through her own left eyebrow visible. MIDDLE panel: her full body from the front, holding the clear bubble helmet against her hip, the face area of this panel left as a soft plain shadow with no features. RIGHT panel: her full body from behind, no backpack, damp hair. The suit is the same suit, slightly wet. {SIDES} {TAIL}",
+   "pin": {
+    "cols": [
+     963,
+     1711
+    ],
+    "rows": []
+   },
+   "note": "the job named the raw edit helmet-off-gen.png"
+  },
+  "costume": {
+   "refs": [
+    "sheet:eva",
+    "../cast/refs/patch.png"
+   ],
+   "prompt": "Image 1 is her locked character sheet; image 2 is her mission patch. A faceless costume detail sheet: ONE image of six close-up product photographs in a 3 x 2 grid of equal tiles with thin gutters, {GREY}, no person and no face anywhere: 1 the round embroidered mission patch exactly as image 2, on white suit fabric; 2 the slim wrist display under its padded white cover with a small window strip, strapped on the white sleeve; 3 the same wrist display with the cover open, the dark screen glowing softly and unreadable; 4 the empty clear bubble helmet with its black comms cap inside, two small lamps on its sides, a small camera on its right side and the gold visor raised; 5 a white glove with orange fingertip grips; 6 the tether reel at the waist with the orange-sleeved line and a steel hook. {TAIL}",
+   "pin": {
+    "cols": [
+     853,
+     1707
+    ],
+    "rows": [
+     722
+    ]
+   },
+   "note": "the job named the raw edit costume-gen.png"
+  },
+  "props": {
+   "refs": [
+    "sheet:eva"
+   ],
+   "prompt": "Image 1 shows the costume world these props belong to. A faceless props sheet: ONE image of four product photographs in a 2 x 2 grid of equal tiles with thin gutters, {GREY}, no person: 1 a small white padded tool bag with an orange pull tab and a carabiner; 2 a small silver wrench; 3 a small pale blue-grey plush toy whale on a short cord, soft and well loved; 4 a small white gumdrop-shaped space capsule with one orange band around it and a hatch on top, plain and fictional, in three-quarter view. {TAIL}",
+   "pin": {
+    "cols": [
+     1281
+    ],
+    "rows": [
+     718
+    ]
+   },
+   "note": "the job named the raw edit props-ball.png"
+  }
+ },
+ "locations": {
+  "exterior": {
+   "refs": [
+    "sheet:props"
+   ],
+   "prompt": "An empty location plate in orbit, three-quarter view, no people: {STATION}. At the end of the truss, the new guest module: a soft, rounded white module with one large round window. A small white gumdrop-shaped capsule docked at one of the station's ports, exactly the capsule in image 1 (bottom-right tile): white, one orange band, a hatch on top. The blue Earth curves below, black space above. Hard sunlight from the right, deep shadow sides. 24mm. {PLATE_TAIL}"
+  },
+  "airlock": {
+   "refs": [],
+   "prompt": "An empty location plate, three-quarter view, no people: a cramped white cylindrical spacecraft airlock with padded white walls and handholds under steady cool white panel light. At one end a round outer hatch stands half-closed, the sun's hard white glare in the gap and black space beyond; at the other end a closed round inner hatch with a metal rim. 24mm. {PLATE_TAIL}"
+  },
+  "capsule-interior": {
+   "refs": [
+    "sheet:props"
+   ],
+   "prompt": "An empty location plate, three-quarter view, no people: the inside of a small, dim, fictional re-entry capsule: grey padded panels, two reclined seats with harness straps, a few dim indicator lights with no readable screens, one small round window showing black space. The small pale blue-grey plush whale from image 1 (bottom-left tile) hangs on a cord from the ceiling. Dim cabin light. 24mm. {PLATE_TAIL}"
+  },
+  "sea": {
+   "refs": [
+    "sheet:props"
+   ],
+   "prompt": "A location plate at golden hour, three-quarter view, no people: the small white gumdrop-shaped capsule from image 1 (bottom-right tile), one orange band, its hatch open on top, bobbing on an open sea with a gentle swell; a recovery boat a tiny speck on the horizon; a pale sky. Low warm sun from the left, cool blue shadows, the sea's sparkle the brightest area. 50mm. {PLATE_TAIL}"
+  }
+ },
+ "stills": {
+  "S01-1a": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [],
+   "prompt": "Cinematic 16:9 still from inside a dark space-station module: near-black silhouettes of cable bundles, stowage straps and white handrails frame an open round hatch in the centre; through the hatch, black space in the upper half and the bright curved blue limb of Earth across the lower third. 18 mm, deep focus, the interior in deep shadow, the hatch the only bright area. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "1a",
+    "use": "n0-n95",
+    "from": "shots"
+   }
+  },
+  "S01-1b": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 is the location: keep its architecture, materials and design, seen from much higher and wider. Cinematic 16:9 still in orbit: high above {STATION}, with a small white gumdrop-shaped capsule with one orange band docked at one of the station's ports; the bright blue-and-white Earth filling the lower half of the frame, black space above; far along the truss, at a soft rounded white module with one large round window, one tiny spacewalking astronaut in a white suit with signal-orange bands. Hard sunlight. 24 mm, deep focus. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "1b",
+    "use": "n95-n246",
+    "from": "shots"
+   }
+  },
+  "S01-1c": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. {PRE_LOC}Cinematic 35mm film still, slightly high medium close-up in orbit: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She floats beside the white hull of a rounded guest module, one glove on a white handrail, a small silver wrench loosely held in her other glove, her left forearm raised as a small window strip in the wrist display's cover lights up; she reads it with a flat, deadpan stare. Black space fills the left of the frame; the blue Earth curves below. Hard sunlight from the right, deep shadow side, her face clearly visible through the clear helmet bubble with no reflection over the eyes. 35 mm, mild depth of field. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "1c (identity key)",
+    "use": "n246-n347",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S02-2": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:costume",
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 shows the exact design of the gloves, wrist display and suit fabric. {PRE_LOC}Cinematic 35mm film still, close-up in orbit: a white spacesuit glove with orange fingertip grips letting go of a small white tool bag with an orange pull tab, which floats in mid-air against the white insulated hull of a space station and a white handrail; the blue Earth soft and out of focus behind. Hard sunlight, deep shadows. Shallow depth of field. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "2",
+    "use": "n348-n363",
+    "from": "shots"
+   }
+  },
+  "S03-3": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:costume",
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 shows the exact design of the gloves, wrist display and suit fabric. {PRE_LOC}Cinematic 50mm film still, close-up in orbit: a white spacesuit glove with orange fingertip grips gripping the padded white Velcro cover of a slim wrist display strapped to the other forearm, just below a saturated signal-orange arm band; low side light, black space behind, the fabric texture crisp. Shallow depth of field. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "3",
+    "use": "n364-n381",
+    "from": "shots"
+   }
+  },
+  "S04-4A": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:exterior"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}Lighting is the point of this frame: the sun has NOT risen yet. It is orbital dawn, a low-key, mostly dark frame: Earth below is in night shadow except one thin bright blue line of atmosphere along the horizon; the station is lit only by that faint limb glow, her two helmet lamps and the soft blue-white glow of the wrist display on her face. Most of the frame is near-black. Cinematic 35mm film still, handheld-feel framing low on a floating astronaut at orbital dawn: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She floats on the right half of the frame beside the white hull of a rounded space-station module, one glove on a white handrail; her left forearm with the open wrist display glowing soft blue-white fills the middle of the frame, her face in the top quarter in three-quarter profile, looking down at it, clearly visible through the helmet bubble. Earth's curved horizon a thin bright blue line low in the frame, black space filling the left half. Dim dawn light from the limb and the display, deep shadows. 35mm, soft background. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "4A (identity key)",
+    "use": "n382-n505",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S04-4B": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:exterior"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}Cinematic 35mm film still, medium-wide in orbit at sunrise: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She floats on the right third beside the white hull of a rounded module, one glove on a handrail, squinting and turning her face away from a blinding gold sunburst that has just cleared Earth's horizon behind her; gold light floods across her helmet and suit; black space on the left half. 35mm. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "4B",
+    "use": "n503-n660",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S09-9": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. {PRE_LOC}Cinematic 35mm film still in orbit, side-on medium-wide: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She drifts away from {STATION}, spread slightly, turning slowly, completely calm, eyebrows raised, looking at the wrist display on her raised left forearm; an orange-sleeved safety tether runs from her waist back to a white handrail on the station in a long loose curve; the station big behind her at the left; the bright blue Earth fills the lower half; a dark truss strut very close to the lens covers the left and bottom edge, out of focus. Hard sunlight. 35mm, shallow depth of field. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "9 (identity key)",
+    "use": "n847-n927",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S14-14A": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:exterior"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}Cinematic 28mm film still, wide shot in orbit on the night side: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She hauls herself left to right along a white handrail on the open lattice truss of {STATION}, the truss receding far behind her, lit by the station's floodlights and her helmet lamps; behind her a large dark solar array; a field of tiny bright debris streaks crosses the black sky diagonally behind her, a few pinpoint sparkles of impacts on the array; below, Earth's night side under rippling green aurora curtains, amber city lights beneath them. 28mm, deep focus. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "14A",
+    "use": "n1103-n1196",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S14-14B": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. {PRE_LOC}Cinematic 85mm film still, profile medium close-up in orbit at night: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. Mouth wide open in a delighted shout, eyebrows up, eyes bright, her face lit by the helmet lamps and a soft green glow from below, tiny glints of light sliding across the clear helmet bubble; the background a soft black-blue-green blur with points of bokeh. 85mm, very shallow depth of field, slight motion blur. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "14B (identity key)",
+    "use": "n1192-n1233",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S15-15": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:costume",
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 shows the exact design of the gloves, wrist display and suit fabric. {PRE_LOC}Cinematic 24mm film still, tracking close-up along a white space-station handrail at night: two white spacesuit gloves with orange fingertip grips grabbing the rail hand over hand at speed, an orange arm band at the edge of frame, bright debris streaks blurred in the black behind, floodlight glare. Heavy motion blur. Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "15",
+    "use": "n1234-n1256",
+    "from": "shots"
+   }
+  },
+  "S20-20": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:airlock"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}Cinematic 24mm film still inside a cramped white cylindrical spacecraft airlock: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She is already inside, turning slowly in mid-air in three-quarter profile, her face visible through the bubble, a shoulder about to touch the padded far wall; behind her a round outer hatch stands half-closed on an orange tether lying across its seal, hard white sunlight glaring through the gap; white padded walls with handholds, steady cool white panel light. 24mm, handheld. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "20",
+    "use": "n1487-n1522",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S21-21": {
+   "batch": "rest",
+   "dir": "keys",
+   "refs": [
+    "sheet:props",
+    "loc:airlock"
+   ],
+   "prompt": "Image 1 shows the exact design of the wrench. {PRE_LOC}Extreme close-up macro tracking still: a small silver wrench tumbling end over end through the air, sharp in the middle of the frame, cool light glinting on its steel; the background a horizontal streak of white padded wall and light blurred into lines. 100mm macro. Visible film grain, realistic, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "21",
+    "use": "n1523-n1530",
+    "from": "shots"
+   }
+  },
+  "S22-22": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:airlock"
+   ],
+   "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. {PRE_LOC}Cinematic 50mm film still, medium close-up inside a cramped white airlock: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering) and a white life-support backpack. She sits curled against a closed round inner hatch, her helmet just below its metal rim; a small silver wrench is bouncing off the rim just above her helmet; steady cool white panel light on the white padded walls and her face. 50mm. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "22 (identity key)",
+    "use": "n1531-n1650",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S24-24": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:eva",
+    "loc:capsule-interior"
+   ],
+   "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back: the helmet camera on her right, the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. In this shot the backpack is removed. {PRE_LOC}Cinematic 24mm film still from a low angle inside a small, dim, fictional re-entry capsule: an East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow, dark brown eyes and faint laugh lines, wearing a black fabric comms cap with small ear cups inside a clear bubble helmet whose gold sun visor is raised so her whole face is visible, two small lamps at the helmet's temples and a small camera on its right side, and a fictional white spacesuit of matte multi-layer fabric with a hard upper torso, saturated signal-orange bands around both upper arms and both thighs, an orange helmet neck ring, white gloves with orange fingertip grips, a slim dark wrist display under a padded white cover strapped over the left forearm, an embroidered round mission patch on the left shoulder (navy twill, gold border, a crescent cradling a small circle and three stars, no lettering); no backpack. She sits strapped into a reclined seat with harness straps, helmet on and gold visor raised, face calm; behind her right shoulder a small round window full of glowing orange-pink plasma streaming past, the warm light spilling across grey padded panels; a small pale-blue plush whale toy dangles on a cord from the ceiling; a few dim indicator lights, no readable screens. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "24 (identity key)",
+    "use": "n1800-n1904",
+    "from": "shots"
+   },
+   "face": "eva"
+  },
+  "S26-26": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:helmet-off",
+    "loc:sea"
+   ],
+   "prompt": "Image 1 is her locked character sheet. The woman in its LEFT close-up is the only face to use: keep exactly her face, her strong dark eyebrows with the small pale scar through her own left eyebrow, her skin tone and eyes. Its middle and right panels show her suit from the front and back with the helmet off and no backpack: the mission patch on her left shoulder only, the wrist display on her left forearm, the orange bands. {PRE_LOC}Cinematic 85mm film still, slightly low medium close-up at golden hour on the open sea: the same East Asian woman of about 40 with light warm skin, strong expressive dark eyebrows with a small pale scar through the left brow and short wet straight black hair, helmet and comms cap off, wearing the fictional white spacesuit with no backpack, saturated signal-orange bands around both upper arms and both thighs, an orange neck ring, the slim dark wrist display on her left forearm and an embroidered round mission patch on the left shoulder (no lettering), her helmet resting on her lap, a small pale-blue plush whale toy tucked under one arm, sitting on top of a bobbing white space capsule with one orange band beside its open hatch; face turned up to the low sun, eyes closed, a wide relieved smile; behind her a soft-focus golden sea and a pale sky. Warm low sun from the side, cool shadows. 85mm, shallow depth of field. {NEG} Photoreal cinematic film still, natural skin texture, visible film grain, slightly soft, unretouched, not a stock photo, true blacks, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "leg": "26 (identity key)",
+    "use": "n1933-n2174",
+    "from": "shots"
+   },
+   "face": "helmet-off"
+  },
+  "A1": {
+   "batch": "ad",
+   "dir": "ad",
+   "refs": [
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 is the station: the hull and handrail at the frame edge belong to it. Helmet-camera POV still, 16:9, ultra-wide about 16 mm: from just outside a white space-station module, the sun bursting over the thin blue curve of Earth's horizon, a starburst flare and a gold wash across the frame, the white insulated hull and one white handrail at the lower right edge, black space above. Crisp, slightly HDR highlights, faint curved reflection of a helmet bubble at the frame edge. No people, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "asset": "A1",
+    "slot": "SUNRISE (0:05-0:10)",
+    "from": "shots"
+   }
+  },
+  "A2": {
+   "batch": "ad",
+   "dir": "ad",
+   "refs": [
+    "loc:exterior"
+   ],
+   "prompt": "Image 1 is the station she is drifting away from: keep its design. Helmet-camera POV still, 16:9, ultra-wide about 16 mm: drifting away from a fictional white orbital station that floats in the middle distance, a long lattice truss and dark solar arrays, the bright blue-and-white Earth filling the lower half, an orange-sleeved safety tether running from the lens back toward the station in a long loose curve. Hard sunlight, black space. No people, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "asset": "A2",
+    "slot": "DRIFT (0:00-0:05)",
+    "from": "shots"
+   }
+  },
+  "A3": {
+   "batch": "ad",
+   "dir": "ad",
+   "refs": [
+    "../stills/keys/S14-14A-v1f.png"
+   ],
+   "prompt": "Image 1 shows the same moment from outside: match its aurora, city lights, debris streaks and station truss. This frame is her own helmet-camera view, so she is not in it. Cinematic still, 16:9: Earth's night side from orbit, rippling green aurora curtains and amber city lights below, a thin blue airglow line on the horizon; a gentle shower of thin, soft, warm-white streaks crossing the black sky diagonally like shooting stars; the edge of a white station truss softly lit at the left. Wide, deep focus. No people, no flags, no insignia, no text, no logos, no watermark.",
+   "meta": {
+    "asset": "A3",
+    "slot": "STARS (0:10-0:15)",
+    "from": "shots"
+   }
+  }
+ },
+ "fixes": {
+  "props-capsule": {
+   "sheet": "props",
+   "edit": "../cast/locked/props-capsule-edit.png",
+   "prompt": "This is a props sheet in a 2 x 2 grid. Change ONLY the bottom-right tile: replace the round ball with a small fictional space capsule in a gumdrop shape: a wide, flat, slightly rounded heat-shield base, straight sides tapering upward to a narrower flat top with a small hatch, white with one orange band around it, plain and fictional, in three-quarter view, on the same flat grey background. Keep the other three tiles, the gutters and the grey exactly as they are.",
+   "box": [
+    1283,
+    723,
+    2560,
+    1440
+   ],
+   "feather": 0,
+   "why": "the capsule rendered as a ball; only the fixed tile is pasted so the other props stay untouched",
+   "pin": {
+    "cols": [
+     1281
+    ],
+    "rows": [
+     718
+    ]
+   }
+  },
+  "S22-22-v1f": {
+   "src": "../stills/keys/S22-22-v1.png",
+   "out": "../stills/keys/S22-22-v1f.png",
+   "edit": "../stills/keys/S22-22-v1-patchfix-edit.png",
+   "prompt": "Move the round navy mission patch from her right shoulder (on the LEFT side of the picture) to her left shoulder (on the RIGHT side of the picture), the same patch at the same size, below the orange band line. Remove it from the left side of the picture. Change nothing else: the same face, the same pose, the same light, the same framing.",
+   "box": [
+    360,
+    680,
+    800,
+    1120
+   ],
+   "feather": 18,
+   "why": "patch was on her right shoulder; the edit removed it (it also put one on her thigh, which is outside the box and not used)"
+  },
+  "S14-14A-v1f": {
+   "src": "../stills/keys/S14-14A-v1.png",
+   "out": "../stills/keys/S14-14A-v1f.png",
+   "edit": "../stills/keys/S14-14A-v1-patchoff-edit.png",
+   "prompt": "Remove the round navy mission patch from the shoulder on the LEFT side of the picture: leave plain white suit fabric there with the same folds, texture and light. Do not add a patch anywhere else. Change nothing else: the same face, the same pose, the same light, the same framing.",
+   "box": [
+    1130,
+    500,
+    1460,
+    820
+   ],
+   "feather": 18,
+   "why": "patch was on her right shoulder; removed"
+  },
+  "S04-4A-v4f": {
+   "src": "../stills/keys/S04-4A-v4.png",
+   "out": "../stills/keys/S04-4A-v4f.png",
+   "edit": "../stills/keys/S04-4A-v4-patchoff-edit.png",
+   "prompt": "Remove the round navy mission patch from the shoulder on the LEFT side of the picture: leave plain white suit fabric there with the same folds, texture and light. Do not add a patch anywhere else. Change nothing else: the same face, the same pose, the same light, the same framing.",
+   "box": [
+    1110,
+    460,
+    1440,
+    790
+   ],
+   "feather": 18,
+   "why": "patch was on her right shoulder; removed"
+  }
+ },
+ "faces": {
+  "eva": [
+   120,
+   150,
+   820,
+   850
+  ],
+  "helmet-off": [
+   160,
+   230,
+   800,
+   870
+  ]
+ },
+ "_picks": {
+  "locations": {
+   "exterior": "exterior-v2.png",
+   "airlock": "airlock-v1.png",
+   "capsule-interior": "capsule-interior-v1.png",
+   "sea": "sea-v1.png"
+  }
+ }
+}

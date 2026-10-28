@@ -1,0 +1,3 @@
+frames: skill 2296, job first cut 2296
+mean |Δ| per frame (480x270 luma): median 0.49, p99 0.77, max 1.00 at n1194
+of the 40 most different frames, closer to a neighbour of the job's frame than to its own index: [(1195, {np.int64(1194): 1.0, np.int64(1195): 1.0, np.int64(1196): 56.18}), (1659, {np.int64(1658): 5.84, np.int64(1659): 0.8, np.int64(1660): 0.8}), (1654, {np.int64(1653): 3.61, np.int64(1654): 0.8, np.int64(1655): 0.8})]

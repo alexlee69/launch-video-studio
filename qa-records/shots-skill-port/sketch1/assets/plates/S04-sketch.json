@@ -1,0 +1,14 @@
+{
+ "lv": "position",
+ "id": "S04",
+ "image": "S04-sketch.png",
+ "aspect": "16x9",
+ "plate_hash": "3c8c96ea",
+ "legend": {
+  "red": "the people: where each one stands and how big they are",
+  "yellow": "each head, the cross on it showing which way the face looks; a head shaded grey all over faces away, and each product or prop",
+  "green": "the ground line their feet stand on",
+  "grey": "the place: its horizon, its big shapes and where the light comes from"
+ },
+ "says": "Figure 1 (friend) sits in the centre, about 50% of the frame tall, with the back to the camera, feet near the bottom; prop 1 (screen) right of centre, at mid height; prop 2 (box) left of centre, low in the frame."
+}

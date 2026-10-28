@@ -1,0 +1,11 @@
+{
+ "cap": 50,
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP}",
+   "pin": {
+    "cols": 123
+   }
+  }
+ }
+}

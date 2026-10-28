@@ -1,0 +1,36 @@
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/reports/D-verify/pre-verify/qa.mjs	2026-10-26 11:36:17
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stageD/product-launch-sting/video/lib/qa.mjs	2026-10-26 12:48:15
+@@ -123,6 +123,8 @@
+ // design); a side under CONT.moving / 4 is at rest (no ratio: "from rest" / "to rest"); (3) peak — no step within
+ // ±CONT.win frames (inside each shot) is faster than those two. The incoming shot's window stops where its own exit ramp
+ // starts (that motion belongs to the next cut: a short insert that whips out). Not warned, named in the INFO line: an
++// incoming shot shorter than its own exit that speeds up on that exit from its first frame (its ramp is the next cut's;
++// a slow-down or a flip there still warns), an
+ // outgoing shot that only slows down from its first frame (its entrance still settling: a short insert), and a speed
+ // change set by hand-tuned drift strengths (`drift: {in, out}` on a drift cut, e.g. fitted to a reference film).
+ // A carried object (cam.carry = its screen rectangle {x, y, w, h} — top-left + size, stage px — or a list of them) gets
+@@ -187,6 +189,7 @@
+     const bx = B.out === 'cut' || k + 2 >= n ? b1 : Math.min(b1, Math.round(B.f1 * 2) - 2 * exitLen(B.out));   // B's own exit ramp belongs to the next cut
+     const win = [...range(Math.max(a0 + 1, c - CONT.win), c - 1), ...range(c + 1, Math.min(bx, c + CONT.win))];
+     const cam = c - 2 >= a0 && c + 1 <= b1 ? judge(camStep, c - 1, c + 1, [c - 1, c + 1], win, [['z', CONT.zoomSign], ['vx', CONT.panSign], ['vy', CONT.panSign]], A.out === 'dive' ? CONT.matched : CONT.ratio) : null;
++    if (B.out !== 'cut' && k + 2 < n && bx <= c && cam?.limit && cam.after.v > cam.before.v) { delete cam.limit; delete cam.ratio; cam.short = true; }   // B is shorter than its exit: that ramp speeds it up
+     if (cam?.peak?.off < 0) {                      // A only slows down from its first frame: its entrance still settling
+       const sp = range(a0 + 1, c - 1).map(i => camStep(i)?.v);
+       if (sp.every((v, i) => v != null && (!i || v <= sp[i - 1] * 1.02 + 1))) cam.peak.settle = true;
+@@ -239,7 +242,7 @@
+   const moving = all.filter(r => r.moving), rs = moving.map(r => r.ratio).filter(Number.isFinite), unknown = C.cuts.filter(x => !x.camera).map(x => x.cut);
+   const over = r => !!r.limit && (r.ratio == null || r.ratio > r.limit);
+   const near = moving.filter(r => Number.isFinite(r.ratio) && r.ratio > CONT.near && !over(r));
+-  const tuned = moving.filter(r => r.tuned && over(r)), settle = moving.filter(r => r.peak?.settle), ending = moving.filter(r => r.half);
++  const tuned = moving.filter(r => r.tuned && over(r)), settle = moving.filter(r => r.peak?.settle), ending = moving.filter(r => r.half), short = moving.filter(r => r.short);
+   const skipped = C.cuts.filter(x => x.carrySkipped).map(x => x.cut);
+   const span = rs.length ? [Math.min(...rs).toFixed(1), Math.max(...rs).toFixed(1)] : null;
+   const nCam = moving.filter(r => r.j == null).length, nCarry = moving.length - nCam;
+@@ -248,6 +251,7 @@
+     `${tuned.length ? `; set by tuned drift strengths (drift: in/out), not warned: ${tuned.map(r => `${r.cut} ${r.ratio == null ? 'at rest on one side' : `${r.ratio}×`}`).join(', ')}` : ''}` +
+     `${settle.length ? `; still settling from its entrance (fastest ${settle.map(r => `${-r.peak.off} f before ${r.cut}`).join(', ')}), not warned` : ''}` +
+     `${ending.length ? `; ends on the cut (the half before it checked): ${ending.map(r => r.cut).join(', ')}` : ''}` +
++    `${short.length ? `; the incoming shot is shorter than its own exit and speeds up on it from its first frame, not warned: ${short.map(r => r.cut).join(', ')}` : ''}` +
+     `${skipped.length ? `; a carried object too short to check at ${skipped.join(', ')}` : ''}` +
+     `${unknown.length ? `; no camera data at ${unknown.join(', ')} (re-run --film)` : ''} — numbers per cut in qa.json`;
+ }

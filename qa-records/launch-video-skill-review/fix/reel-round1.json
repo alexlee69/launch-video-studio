@@ -1,0 +1,210 @@
+{
+ "worker_report": {
+  "group": "reel",
+  "commit": "0adac5f",
+  "items": [
+   {
+    "id": "REEL-2",
+    "status": "fixed",
+    "change": "split.js (680e6e7): the wipe divider wrapper no longer fades or moves by transform. It keeps opacity 1 and is positioned with `left` (x0 + px). Its two children (line, handle) each fade via divider._.parts. Layer name and order are unchanged. GUIDE's 'built-in blocks avoid every trigger except panel glass' is true again, so no GUIDE edit was needed.",
+    "files": [
+     "video/engine/blocks/split.js"
+    ],
+    "verification": "Job `work-reel/jobs/p8` (wa = bare wipe, wb = +text, wc = +bg, wd = +caption), run with `lv.mjs --job jobs/p8 --layers wa,wb,wc,wd --aspect <A>`.\n- PRE: 9x16 wa FAIL stack 8/71 (f0 2969 px > 16, f2 8470, f4 8692; composited in ref-alpha, ref-opaque, divider), rc 1. 16x9 wa FAIL 8/71 (f2 12442 px), wb FAIL 17/70. 1x1 wa FAIL 8/71 (f3 10321 px), wb FAIL 17/70.\n- POST: all 12 shot×aspect exports PASS stack and stack+bg, worst 0 px > 16, max diff 3–9.\n- reel-sample s6 copy (`jobs/rs --layers s6`): PASS in all 3 aspects with 0 px > 16. The reviewers measured 36 px PRE in 9x16.\n- Reel starter s5 (`jobs/kit --layers s5 --aspect 9x16`): PASS, 0 px > 16.\n- Logs: work-reel/logs/reel2_{wt0,pre,post}_*.log.",
+    "old_job_pixels": "Intended change, wipe shots only: reel-sample s6 and the reel starter s5. No other old job has a wipe.\n- reel-sample, rendered every 3rd frame of every shot in 3 aspects with tools/frames.mjs (PRE vs POST): 174/198 frames identical per aspect, and all 24 that differ are s6.\n- s6 f0–8 differ by ≤ 5 code values (PRE's composited, invisible divider perturbed the raster).\n- s6 f9–70: the > 16 differences sit on the divider line and handle edges (≤ 4353 px > 16, max 185–244). The divider now lands on whole pixels like the wipe edge instead of a fractional translate: a sub-pixel shift with no visible change (out-frames/rs_s6_f36_zoom.png). At most 19 px outside the divider column per frame (antialiased frame corners).\n- Reel starter storyboard: only s5 differs in 3 aspects."
+   },
+   {
+    "id": "REEL-3",
+    "status": "fixed",
+    "change": "In commit 0febd80:\n- `_reel.js` reelCapPlan reads captionAt with K.frameAt (a frame or '1.5s', default 4). Numeric values behave as before.\n- `spec.mjs`, for built-in sticker/split/float/cta/media: a captionAt that is not a frame or seconds is an error (rc 2) naming the shot and field. captionAt without a caption is a warning.\n- reelWarn now warns when captionAt is past the shot end, and when the last words would pop after the shot ends.\n- The four reel blocks' param docs and GUIDE 'Reel captions' are updated.\n- Not done: the timeline.mjs:89 non-finite hero() guard (engine-owned; see open).",
+    "files": [
+     "video/engine/blocks/_reel.js",
+     "video/lib/spec.mjs",
+     "video/engine/blocks/sticker.js",
+     "video/engine/blocks/split.js",
+     "video/engine/blocks/float.js",
+     "video/engine/blocks/cta.js",
+     "video/GUIDE.md"
+    ],
+    "verification": "- `jobs/opus-enginereel_cap1` (captionAt: 1.5s): `--storyboard --aspect 9x16` PRE rc 1 'TypeError: Cannot read properties of undefined'; POST rc 0.\n- `jobs/opus-libtoolsdocs_cap` (0.5s): PRE rc 1 page errors; POST rc 0.\n- `jobs/p1 --grid` (captionAt: abc): PRE rc 0, then the storyboard crashes. POST rc 2: 'shots[2] (a3): captionAt must be the caption's first local frame (4) or seconds like 0.5s (got \"abc\")'.\n- `jobs/val`: captionAt soon and -3 give rc 2.\n- `jobs/cap`: seconds on sticker/float/cta/media render in 9x16/16x9/1x1. a8 captionAt 400 warns 'captionAt 400 is past the shot's 84 frames'.\n- `tools/unit.mjs`: 1.5s → 45, '0.5 sec' → 15, all pass.",
+    "old_job_pixels": "Unchanged. --grid output and every timeline.json (cues, heroF, copy; all cutdowns) are identical PRE vs POST for all 11 old jobs (logs/old_jobs_grid_timeline_pre_post.log). No old job uses captionAt."
+   },
+   {
+    "id": "REEL-4",
+    "status": "fixed",
+    "change": "In c988ffb: spec.mjs errors unless sticker `tilt` is a number −45…45 (the message says no 'deg'). sticker.js falls back to −5 for a non-finite value, so NaN can never reach the fit loop. GUIDE gains a 'Reel on/off fields' paragraph and the tilt range in the Blocks table.",
+    "files": [
+     "video/lib/spec.mjs",
+     "video/engine/blocks/sticker.js",
+     "video/GUIDE.md"
+    ],
+    "verification": "- `jobs/p20` and `jobs/p5 --grid`: PRE rc 0 with no warning (silent ~56 % untilted sticker); POST rc 2 'sticker tilt must be a number of degrees −45…45, without \"deg\" (default −5) (got \"-5deg\")'.\n- `jobs/val` tilt 60 gives rc 2. A quoted '-5' and numbers pass.",
+    "old_job_pixels": "Unchanged. Numeric tilts take the same path (reel-sample s4/s7 tilt −4/4 identical)."
+   },
+   {
+    "id": "REEL-5",
+    "status": "fixed",
+    "change": "In 0febd80, reelWords now tokenises with K.parseCopy plus a whitespace split, exactly as ctx.text draws .lv-w spans. A lone * or ** is a word on both sides.",
+    "files": [
+     "video/engine/blocks/_reel.js"
+    ],
+    "verification": "- `jobs/opus-enginereel_cap2` ('Terms * apply now'): `--storyboard --aspect 9x16` PRE rc 1 'caption has 4 words on screen but 3 in its timing — report this caption'; POST rc 0.\n- `jobs/cap` a1/a5 (\"**\") render in 3 aspects.\n- tools/unit.mjs: all 53 caption/text/word fields in the old jobs and templates count the same as before.",
+    "old_job_pixels": "Unchanged (no old caption has a lone star; counts identical)."
+   },
+   {
+    "id": "REEL-6",
+    "status": "fixed",
+    "change": "In 6d1cab2 (docs only):\n- The GUIDE overlay bullet says a cta takes `bg: none` (without a bg its dark backdrop stays in the clip).\n- The Blocks-table cta row says the no-bg backdrop is part of the block, so an --alpha clip of it is opaque, and that `bg: none` is the overlay form.\n- The templates/reel.yaml header says '(the cta: `bg: none`)'.\n- The optional qaClip INFO for an all-opaque --alpha clip is not done (qa.mjs is outside this group).",
+    "files": [
+     "video/GUIDE.md",
+     "video/templates/reel.yaml"
+    ],
+    "verification": "Re-read cta.js:37 and qa.mjs:239-241: the behaviour is as the finding says. `--init --kit reel` (POST) writes the new header. Reel starter --grid is identical PRE/POST apart from that comment.",
+    "old_job_pixels": "Unchanged (comments and docs)."
+   },
+   {
+    "id": "REEL-7",
+    "status": "fixed",
+    "change": "In c988ffb, spec.mjs gains REEL_BOOLS. Built-in sticker logo/shake/sparks/gloss, split arrow, float streak and cta logo must be true or false: '<shot>: sticker sparks must be true or false (got \"no\")', rc 2. The unknown-key / did-you-mean warning (optional in the finding, a gap in every block and in PRE) is not done; see open.",
+    "files": [
+     "video/lib/spec.mjs",
+     "video/GUIDE.md"
+    ],
+    "verification": "- `jobs/p5`: PRE rc 0 with effects on; POST rc 2 naming shake \"false\", sparks \"no\", gloss \"off\".\n- `jobs/opus-libtoolsdocs_bool`: POST rc 2 for shake no / sparks off / gloss 0.\n- `jobs/val`: cta logo \"no\", split arrow 0, float streak \"off\" and sticker logo yes all give rc 2. Real booleans pass.",
+    "old_job_pixels": "Unchanged (reel-sample uses real booleans: logo true, shake false)."
+   },
+   {
+    "id": "REEL-8",
+    "status": "fixed",
+    "change": "In 0febd80:\n- New reelPieces / reelCapWords: a Han or kana word pops one character at a time. Closing punctuation, marks, ー and small kana stay with the piece before; opening brackets/quotes and # @ with the piece after. Latin runs, numbers and ZWJ emoji stay whole. Korean keeps its spaced words.\n- reelCaption splits those spans in the browser and refits. The spans can wrap between them.\n- The pace warning says 'characters/s' for CJK.\n- It uses plain Unicode property classes, not Intl.Segmenter, so the Node count and the Chrome spans always agree.\n- GUIDE documents it.\n- 0adac5f rewrote three invisible characters as \\u escapes.",
+    "files": [
+     "video/engine/blocks/_reel.js",
+     "video/GUIDE.md"
+    ],
+    "verification": "- `jobs/cap` a7 ('「新品」*发布*，iPhone用户100%满意！'): POST pops 「新|品」|发|布，|iPhone|用|户|100%|满|意！ over two lines with the plate sliding (out-frames/cap-a7-strip.png), and renders in 3 aspects.\n- PRE (reviewer p11): the whole sentence appears at once with the plate over the whole line.\n- `jobs/p11 --grid` POST warns 'pops 12.0 characters/s'.\n- tools/unit.mjs: 15 tokenizer cases pass.",
+    "old_job_pixels": "Unchanged (no CJK in old jobs; a caption without CJK takes the exact old path, with no split and no refit)."
+   },
+   {
+    "id": "REEL-9",
+    "status": "fixed",
+    "change": "In fc58e14:\n- cta cues are built from the same `pre ?? 'Comment'` / `post ?? 'to get the link'` values as build, and skip an empty line.\n- In sheet.mjs, the cta describe line lists only the lines that exist.\n- The param docs and the GUIDE cta row say \"\" = no line.",
+    "files": [
+     "video/engine/blocks/cta.js",
+     "video/lib/sheet.mjs",
+     "video/GUIDE.md"
+    ],
+    "verification": "`jobs/p17 --grid` (q1 pre \"\", post \"\", logo false; q2 default): PRE 9 SFX cues, POST 7. q1 keeps hit + icon pop; q2 is unchanged (hit + 4 pops).",
+    "old_job_pixels": "Unchanged. Audio changes only for a cta with an empty pre/post; none in the old jobs, and all old timelines incl. cues are identical."
+   },
+   {
+    "id": "REEL-10",
+    "status": "fixed",
+    "change": "In 3d3ad87, float `text` param doc and layout comment now say: beside the card on 16:9 for a phone or a card narrower than 16:10 (on 1:1 for a phone only), above it otherwise (a wide card; always on 9:16).",
+    "files": [
+     "video/engine/blocks/float.js"
+    ],
+    "verification": "`lv.mjs --blocks` prints the new text, which matches float.js:54 `side = text && !portrait && (phone || (!square && ar < 1.6))`.",
+    "old_job_pixels": "Unchanged (doc strings only)."
+   },
+   {
+    "id": "LIB-6",
+    "status": "partly_fixed",
+    "change": "Reel parts only:\n- captionAt validation and seconds support (0febd80, see REEL-3).\n- true/false checks for the reel on/off options shake/sparks/gloss/logo/arrow/streak/cta logo (c988ffb, see REEL-7).\n- Not done here, owned by other groups: type `through`, lockup overLogo/backdrop booleans, bounding `push`, and the mediaFields list flag.",
+    "files": [
+     "video/lib/spec.mjs",
+     "video/engine/blocks/_reel.js"
+    ],
+    "verification": "- `jobs/opus-libtoolsdocs_cap` (captionAt 0.5s): PRE storyboard rc 1 feGaussianBlur NaN page error; POST rc 0.\n- `jobs/opus-libtoolsdocs_bool --grid`: POST rc 2 on shake no / sparks off / gloss 0. `through: yes` and `push: 99` are still accepted (other groups).",
+    "old_job_pixels": "Unchanged."
+   },
+   {
+    "id": "REEL-KICKER (reviewer note: long sticker kicker never shrinks)",
+    "status": "fixed",
+    "change": "In 3b5b1bd:\n- sticker.js builds the kicker at its size. If it is wider than 90 % of the area, it is rebuilt (at most twice) scaled to fit: pill, logo and words together, floor 22 px at 1080.\n- A kicker that fits is built exactly as before.\n- Kicker param doc and GUIDE Blocks row updated.",
+    "files": [
+     "video/engine/blocks/sticker.js",
+     "video/GUIDE.md"
+    ],
+    "verification": "`jobs/kick` vs `jobs/kick-pre`, `--storyboard` in 3 aspects:\n- PRE 9x16 and 1x1 warn 'text clipped by the frame: k1 …, k3 …' (film QA would FAIL), with the title shrunk ~56 %.\n- POST has no clipping warning and a full-size title (out-frames/kick_pre_post_916.png).\n- k2 (reel-sample's kicker) is identical in all aspects.\n- 16x9: all three identical (the long kickers fit there).",
+    "old_job_pixels": "Unchanged. Only kickers wider than 90 % of the area change; none in the old jobs (reel-sample s1 is identical)."
+   }
+  ],
+  "extra_changes": [
+   "lib/sheet.mjs, one line in its reel section (fc58e14): the cta describe line skips empty pre/post (part of REEL-9's fix).",
+   "0adac5f: a style-only follow-up that rewrites three invisible characters in _reel.js as \\u escapes. Unit checks and the cap storyboard are unchanged.",
+   "Created a gitignored symlink wt-reel/video/node_modules -> live video/node_modules (wt-engine has the same one). Without it the worktree can't resolve `yaml`. Nothing was created inside any node_modules.",
+   "R/snap is not runnable as given: `node snap/video/lv.mjs` fails with ERR_MODULE_NOT_FOUND 'yaml' because snap has no video/node_modules. PRE was run from work-reel/pre-skill, an rsync of snap that passes `shasum -c snap.sha1` 78/78, with node_modules symlinks outside any node_modules dir.",
+   "Deleted only my own regenerable layer PNG caches (jobs/*/out/*/*/layers in work-reel; list in logs/deleted_layer_png_caches.txt). The delivered layer folders and logs are kept.",
+   "Tools in work-reel/tools: frames.mjs (frames via the skill's own renderFrames), cmp.py (fixed early: Pillow's RGBA getbbox looks at alpha only, so the first version reported everything identical; results above are from the fixed version), unit.mjs, divband.py, split_commits.py (+ plan_selectors.py, msg/) used to cut the work into per-finding commits."
+  ],
+  "needs_alex": [
+   "(a) agent / roster over bg footage: whether the UI should honour ctx.dark or sit on a light card. A product call, not touched here.",
+   "(b) Per-aspect bg footage. Not touched.",
+   "(c) Converting film-sample from whips/zooms to drift cuts. Not touched.",
+   "CJK captions now pop at the word rate (~3 pieces/s, min 2.5 frames each), and the ~5/s pace warning counts characters. Alex may want a different reading rate for Chinese or Japanese captions."
+  ],
+  "open": [
+   "REEL-3 remainder (engine group, lib/timeline.mjs:89): throw a UserError naming the block and shot when hero() is not finite. No built-in block can produce NaN now, but a custom block's hero() still can.",
+   "media.js caption param doc still says 'captionAt: start frame, default 4' (it should mention seconds). Left for the engine group, which owns media.js and is editing its params for ENG-1; a one-line doc change at merge.",
+   "REEL-6 optional: qaClip INFO when an --alpha clip is opaque in every frame (qa.mjs, outside this group).",
+   "REEL-7 optional: unknown or misspelled shot-key warnings with a did-you-mean (ribon, capton). A gap in every block, including PRE; not a regression.",
+   "REEL-8 side effects outside reel files: the timeline reading-time check (K.wordCount, kit.js) counts a CJK sentence as one word. ctx.reveal headlines also reveal CJK as one word (they still wrap; checked in jobs/cjkhead). Engine group.",
+   "LIB-6 non-reel parts: type `through`, lockup overLogo/backdrop booleans, a `push` bound, the mediaFields list flag (film/engine groups).",
+   "Merge note for spec.mjs: my REEL_BOOLS/CAPTIONED constants sit right after ENUMS, and my checks sit right after the `list` helper in the built-in-block branch. A film-group boolean table or checks in the same spot will conflict textually; keep both.",
+   "Suggest adding work-reel/jobs/p8 (wa = bare wipe, wb = text + wipe) to the layers regression set.",
+   "REPORT.md was not written: the harness refused report .md files for this subagent. The per-finding log (finding → change → proof → pixel impact) is in the fix/reel commit messages, raw evidence is in work-reel/logs/, and this output has the rest."
+  ],
+  "report_path": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/work-reel/logs",
+  "template_requests": "None. templates/reel.yaml changed only in its header comment (the cta overlay needs `bg: none`)."
+ },
+ "monitor": {
+  "verdict": "issues",
+  "issues": [
+   {
+    "id": "M-REEL-1",
+    "finding_id": "REEL-8",
+    "severity": "LOW",
+    "problem": "The CJK caption splitter cuts numbers, times and domains that sit inside a CJK word into two pops. It also pops punctuation on its own after an *accent* phrase or after an ASCII opening quote. This contradicts what the GUIDE and the code comment now promise: \"punctuation stays with its character, a Latin word or a number stays whole\" and \"a run of Latin letters or digits stays one\". The worker's report and commit 0febd80 say the a7 caption pops \"布，\", but the tokenizer actually gives 布|，.",
+    "evidence": "Node probe monitor/tok.mjs against wt-reel _reel.js: 提升3.5倍 → 提|升|3.|5|倍; 仅需9.9元 → 仅|需|9.|9|元; 1,000+用户 → 1,|000+|用|户; 下午3:30开始 → 下|午|3:|30|开|始; manus.im官网 → manus.|im|官|网; *新品*！ → 新|品|！; \"新品\"发布 → \"|新|品\"|发|布; 「新品」*发布*，iPhone… → 「新|品」|发|布|，|iPhone|…. The cause is in reelPieces: a \\p{Po} character after a Latin/digit run is classed 't', and the next digit or letter (prev === 't') starts a new piece. A word that begins with tail punctuation (the next .lv-w span after an accent part) becomes a piece by itself. Rendered proof: monitor/jobs/r8, frames a1-0018/0022/0026 → monitor/frames/r8_pop_strip.png. \"3.\" pops with the accent plate, then \"5\" pops alone about 0.2 s later. Prices, ratings and multipliers like these are very common in Chinese marketing captions. Node and Chrome still agree on the count: the mc storyboard renders in all 3 aspects with rc 0, so this is cosmetic.",
+    "required_fix": "In reelPieces, keep a Latin/number piece open across punctuation when a letter or digit follows. For example, track the current piece's base class and let a run character after a 't' join when that base is a Latin/digit run, so 3.5, 9.9, 1,000, 3:30 and manus.im stay whole. Treat an ASCII \" or ' at the start of a word as an opening mark. For a span that starts with closing punctuation after an accent part, either merge that piece into the previous pop (in reelCapWords and in the browser split together, so the counts still match) or say in the GUIDE and the comment that punctuation right after an accent phrase pops on its own. Add these cases to the unit cases, and correct the 布， claim in the report."
+   },
+   {
+    "id": "M-REEL-2",
+    "finding_id": "REEL-3",
+    "severity": "LOW",
+    "problem": "The media block's caption param doc still says \"captionAt: start frame, default 4\". `lv.mjs --blocks` (the live field list GUIDE points to) therefore contradicts GUIDE 'Reel captions' and the other four reel blocks, which now say a local frame or seconds like 0.5s. The task allowed a minimal media.js hunk for captionAt. The worker deferred it to the engine group, so nothing on either branch fixes it yet.",
+    "evidence": "`node wt-reel/video/lv.mjs --job jobs/vok --blocks` prints, for media: \"caption  optional reel caption: words pop one at a time, the newest on an accent plate (+ captionAt: start frame, default 4)\". The sticker, split, float and cta blocks print \"(+ captionAt: its first local frame, or seconds like 0.5s; default 4)\". wt-engine's media.js diff changes only the line above (the params object and the move text); its caption line is unchanged.",
+    "required_fix": "Make the one-line media.js change (\"+ captionAt: its first local frame, or seconds like 0.5s; default 4\"), either as a minimal hunk on fix/reel or as an explicit item in the merge plan, resolved against engine's adjacent ENG-1 edit to the params line. Do not leave it as an open note."
+   },
+   {
+    "id": "M-REEL-3",
+    "finding_id": "REEL-4",
+    "severity": "LOW",
+    "problem": "sticker.js still documents `tilt` as \"degrees (default −5)\", but --grid now stops the run outside −45…45. The bound appears only in the GUIDE Blocks row, not in the block's own param doc that `--blocks` prints.",
+    "evidence": "`lv.mjs --blocks` (worktree) prints \"tilt  degrees (default −5)\". spec.mjs:214 errors with \"sticker tilt must be a number of degrees −45…45, without \"deg\" (default −5)\". GUIDE row: \"tilt (degrees, −45…45)\".",
+    "required_fix": "Change the sticker.js param to e.g. 'degrees, −45…45 (default −5; a number, not \"-5deg\")', so --blocks matches the check and GUIDE."
+   },
+   {
+    "id": "M-REEL-4",
+    "finding_id": "REEL-3",
+    "severity": "LOW",
+    "problem": "The new reelWarn 'past the shot' message prints the raw field, so it reads 'captionAt undefined' when captionAt is left at its default and the shot is 4 frames or shorter. It also prints a fractional block length ('84.5 frames'). The next branch already uses `s.captionAt ?? 4`.",
+    "evidence": "Node probe (monitor/tok.mjs): reelWarn({block:'sticker', id:'z', caption:'a b'}, 3) → \"sticker z: captionAt undefined is past the shot's 3 frames — the caption never shows; start it earlier\".",
+    "required_fix": "_reel.js:316: use `${s.captionAt ?? 4}` (and optionally a rounded D) in the message, matching line 317."
+   }
+  ],
+  "verified": [
+   "REEL-2",
+   "REEL-3",
+   "REEL-4",
+   "REEL-5",
+   "REEL-6",
+   "REEL-7",
+   "REEL-9",
+   "REEL-10",
+   "LIB-6",
+   "REEL-KICKER"
+  ],
+  "notes": "Verdict: 4 LOW issues, no regressions. All probes are in /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/launch-video-skill-review/fix/work-reel/monitor (jobs/, logs/, frames/, tools/{cmp.py,band.py,tl.mjs,frames.mjs}, tok.mjs). PRE = work-reel/pre-skill. I checked it: shasum -c snap.sha1 passes, diff -r against snap and against fix/main is empty, and the live skill is still identical to snap.\n\nREEL-2 (wipe divider):\n- My own wipe variants in monitor/jobs/mw: w1 = no labels + caption; w2 = text + labels + caption + bg; w3 = footage before/after; w4 = light theme, one label.\n- POST --layers: all 12 shot×aspect exports PASS stack and stack+bg, worst 0 px > 16, max diff 3–4 (logs/mw_post_layers_{16x9,1x1,9x16}.log).\n- PRE: w2 and w4 FAIL in 16x9 (20/84 and 8/71 frames). w4 FAILs in 1x1 (8/71). Logs: mw_pre2_layers_*.log.\n- My first PRE run (mw_pre_layers_16x9.log) died with the REEL-3 feGaussianBlur NaN error, because w2 has captionAt 0.4s. That doubles as a REEL-3 repro.\n- reel-sample pixel check, PRE vs POST, in 3 aspects. I rendered frames the worker did not (offset 1/2, step 3; s6 step 2; plus heroes).\n  - 9x16: 176/211 identical. 16x9: 174/208. 1x1: 176/211.\n  - Every differing frame is s6.\n  - Before f9 the diffs are ≤ 5 code values. From f21 the >16 px sit in the divider column only (about 104–145 px wide).\n  - Crops (frames/s6_f45_pre_post_diff.png, s6_divider_pre_post_diff.png) show only sub-pixel edge shifts and no visible change.\n\nREEL-3, REEL-5 and REEL-8 (storyboards):\n- r3 (captionAt 1.5s/0.5s/1s): PRE TypeError rc 1, POST rc 0.\n- r5 (lone * and **): PRE 'report this caption' rc 1, POST rc 0.\n- mc (CJK, kana, Korean, emoji, #/@, lone stars, long kicker): POST storyboards rc 0 in all 3 aspects, so the Node count and Chrome spans agree.\n- CJK now pops progressively. One residual is filed as M-REEL-1: numbers with a point, comma or colon split, and punctuation pops alone after an accent phrase. I left REEL-8 out of `verified` for that reason, though its original failure (the whole sentence appearing at once) is gone.\n\nREEL-4 and REEL-7 (--grid):\n- vbad PRE rc 0 silently; POST rc 2 with one error per field, each naming the shot and field. Covered: tilt -5deg/46/abc/\"\"; logo yes; shake no; sparks off; gloss \"false\"/0; arrow \"no\"; streak \"off\"; cta logo 1; captionAt soon/-3/1.5S/true/\"1,5s\".\n- vok: every valid form passes.\n- num() still accepts `tilt: true` (→ 1°) and `tilt: [5]`. The codebase's num() behaves this way everywhere, so I did not file it.\n\nREEL-9: vok gives 21 SFX cues POST vs 23 PRE (the cta with \"\" pre/post). Build, copy, cues and sheet all use the same truthiness test.\n\nREEL-6 and REEL-10: the docs now match cta.js:38 and float.js:54. The only aspects are 16x9, 9x16 and 1x1.\n\nKicker:\n- rk hero frames: only too-long kickers change. k2 (a normal kicker with a caption) is identical at the hero frame and f10–40 in 3 aspects. In 16x9, k1 and k4 are identical too.\n- POST removes the PRE 'text clipped' warnings for k1 and k4.\n- A 105-character kicker still clips at the 22 px floor, and the title still shrinks. The storyboard warns 'text clipped by the frame', which is acceptable for such an extreme input.\n\nOld jobs: compiled timelines (shots, heroF, copy, cues, warns) are byte-identical PRE vs POST for all 11 old jobs. The reel, film and plain starters also compile identically; the reel starter's beats.yaml differs only in its header comment.\n\nMerge risks (not defects):\n- spec.mjs: REEL_BOOLS and CAPTIONED sit right after ENUMS, where wt-engine inserts ENGINE_FIELDS. The reel checks sit right after the `list` helper, where wt-film has a hunk at @@ -213. The worker warned about the film conflict only; the engine one will conflict too.\n- sheet.mjs: the one-line cta edit is outside the listed files, but REEL-9's fix requires it (Opus named sheet.mjs:89). It does not overlap engine's sheet.mjs change to the media case.\n\nPre-existing, not caused by this diff:\n- GUIDE's 'all avoided by the built-in blocks' is broader than the code: split side-mode panels and arrow, and sticker lines, move by transform and fade, yet pass --layers.\n- CJK glyphs fall back to a system font without the heavy look.\n- The ZWJ family emoji renders as tofu in headless Chrome.\n- The CJK pace warning fires on typical Chinese captions; the worker already listed the reading rate under needs_alex.\n\nNo product decisions were taken. needs_alex (a)(b)(c) are listed and untouched. No stray symlinks, and the worktree is clean. REPORT.md was not written (the worker says the harness refused it); the per-finding log is in the commit messages."
+ }
+}

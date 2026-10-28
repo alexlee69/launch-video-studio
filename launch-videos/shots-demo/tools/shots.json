@@ -1,0 +1,134 @@
+{
+ "root": "..",
+ "casting": "casting.json",
+ "model": "h3",
+ "aspect": "16:9",
+ "people": {
+  "founder": {
+   "sheet": "hero",
+   "is": "the founder"
+  },
+  "cofounder": {
+   "sheet": "cofounder",
+   "is": "her co-founder"
+  }
+ },
+ "places": {
+  "office": {
+   "loc": "office"
+  }
+ },
+ "products": {},
+ "shots": {
+  "S01": {
+   "brief": "Open on her face, then pull back: she has walked into the empty office at dawn.",
+   "confirmed": [
+    "recipe",
+    "key.frame",
+    "light",
+    "motion"
+   ],
+   "recipe": "reveal-pullback",
+   "sec": 6,
+   "people": [
+    "founder"
+   ],
+   "place": "office",
+   "temp": "cold",
+   "position": {
+    "plate": "S01"
+   },
+   "key": {
+    "frame": "Close on the founder's face, eyes on the windows; the empty office behind her.",
+    "light": "Low warm dawn sun from the right, cool shadows."
+   },
+   "motion": {
+    "beats": [
+     "She breathes out and looks across the room.",
+     "She sets her bag down on the desk."
+    ]
+   }
+  },
+  "S02": {
+   "script": "She turns to him: \"We made it.\" He laughs.",
+   "model": "seedance",
+   "sec": 6,
+   "confirmed": [
+    "scene",
+    "lens",
+    "motion",
+    "audio"
+   ],
+   "people": [
+    "founder",
+    "cofounder"
+   ],
+   "count": 2,
+   "place": "office",
+   "temp": "warm",
+   "position": {
+    "plate": "S02"
+   },
+   "scene": "The two founders stand at the office window at golden hour, the city behind them.",
+   "first": "Medium-wide: both at the window, she on the left, he on the right, looking out.",
+   "key": {
+    "frame": "Medium-wide: the two founders at the window, the city behind them."
+   },
+   "lens": {
+    "mm": 50,
+    "distance": "three metres"
+   },
+   "audio": [
+    "his laugh",
+    "the hum of the city"
+   ],
+   "motion": {
+    "camera": "Locked off.",
+    "beats": [
+     {
+      "t": [
+       0,
+       3
+      ],
+      "do": "She turns to him.",
+      "say": {
+       "who": "founder",
+       "line": "We made it."
+      }
+     },
+     {
+      "t": [
+       3,
+       6
+      ],
+      "do": "He laughs and puts an arm round her shoulders."
+     }
+    ]
+   }
+  },
+  "S03": {
+   "brief": "Something that shows the laptop, the launch moment.",
+   "proposed": [],
+   "recipe": "top-shot",
+   "sec": 5,
+   "people": [
+    "founder"
+   ],
+   "place": "office",
+   "temp": "cold",
+   "key": {
+    "frame": "Straight down on the desk: her hands on the laptop keyboard, a coffee cup beside it."
+   },
+   "motion": {
+    "beats": [
+     "Her finger hovers over the Enter key, then presses it."
+    ]
+   },
+   "confirmed": [
+    "key.frame",
+    "motion",
+    "recipe"
+   ]
+  }
+ }
+}

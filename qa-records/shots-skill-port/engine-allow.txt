@@ -1,0 +1,3 @@
+# Engine files a STAGED copy of the skill may change (test_parity.py P4/P4b read this only when SHOTS_QA_VIDEO points
+# away from the live skill), one path per line, relative to the skill folder. Empty: the 2026-10 motion kit shipped live
+# 2026-10-27 and P4's fingerprints (rollback/pre.sha1) were re-taken from it; the old list is engine-allow.txt.before-motion-kit.

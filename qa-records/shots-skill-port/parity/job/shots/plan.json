@@ -1,0 +1,184 @@
+{
+ "model": "h3",
+ "shots": [
+  {
+   "shot": "S01-1a",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S01-1a.h3.txt",
+   "words": 67,
+   "key_prompt": "shots/S01-1a.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S01-1a.h3.txt --out footage/fal/S01-1a.mp4 --sec 5"
+  },
+  {
+   "shot": "S01-1b",
+   "model": "h3",
+   "sec": 6.0,
+   "video_prompt": "shots/S01-1b.h3.txt",
+   "words": 69,
+   "key_prompt": "shots/S01-1b.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S01-1b.h3.txt --out footage/fal/S01-1b.mp4 --sec 6"
+  },
+  {
+   "shot": "S01-1c",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S01-1c.h3.txt",
+   "words": 92,
+   "key_prompt": "shots/S01-1c.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S01-1c.h3.txt --out footage/fal/S01-1c.mp4 --sec 5"
+  },
+  {
+   "shot": "S02-2",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S02-2.h3.txt",
+   "words": 53,
+   "key_prompt": "shots/S02-2.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S02-2.h3.txt --out footage/fal/S02-2.mp4 --sec 5"
+  },
+  {
+   "shot": "S03-3",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S03-3.h3.txt",
+   "words": 62,
+   "key_prompt": "shots/S03-3.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S03-3.h3.txt --out footage/fal/S03-3.mp4 --sec 5"
+  },
+  {
+   "shot": "S04-4A",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S04-4A.h3.txt",
+   "words": 102,
+   "key_prompt": "shots/S04-4A.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S04-4A.h3.txt --out footage/fal/S04-4A.mp4 --sec 5"
+  },
+  {
+   "shot": "S04-4B",
+   "model": "h3",
+   "sec": 6.0,
+   "video_prompt": "shots/S04-4B.h3.txt",
+   "words": 86,
+   "key_prompt": "shots/S04-4B.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S04-4B.h3.txt --out footage/fal/S04-4B.mp4 --sec 6"
+  },
+  {
+   "shot": "S09-9",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S09-9.h3.txt",
+   "words": 109,
+   "key_prompt": "shots/S09-9.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S09-9.h3.txt --out footage/fal/S09-9.mp4 --sec 5"
+  },
+  {
+   "shot": "S14-14A",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S14-14A.h3.txt",
+   "words": 95,
+   "key_prompt": "shots/S14-14A.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S14-14A.h3.txt --out footage/fal/S14-14A.mp4 --sec 5"
+  },
+  {
+   "shot": "S14-14B",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S14-14B.h3.txt",
+   "words": 50,
+   "key_prompt": "shots/S14-14B.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S14-14B.h3.txt --out footage/fal/S14-14B.mp4 --sec 5"
+  },
+  {
+   "shot": "S15-15",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S15-15.h3.txt",
+   "words": 51,
+   "key_prompt": "shots/S15-15.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S15-15.h3.txt --out footage/fal/S15-15.mp4 --sec 5"
+  },
+  {
+   "shot": "S20-20",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S20-20.h3.txt",
+   "words": 61,
+   "key_prompt": "shots/S20-20.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S20-20.h3.txt --out footage/fal/S20-20.mp4 --sec 5"
+  },
+  {
+   "shot": "S21-21",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S21-21.h3.txt",
+   "words": 51,
+   "key_prompt": "shots/S21-21.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S21-21.h3.txt --out footage/fal/S21-21.mp4 --sec 5"
+  },
+  {
+   "shot": "S22-22",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S22-22.h3.txt",
+   "words": 80,
+   "key_prompt": "shots/S22-22.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S22-22.h3.txt --out footage/fal/S22-22.mp4 --sec 5"
+  },
+  {
+   "shot": "S24-24",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S24-24.h3.txt",
+   "words": 102,
+   "key_prompt": "shots/S24-24.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S24-24.h3.txt --out footage/fal/S24-24.mp4 --sec 5"
+  },
+  {
+   "shot": "S26-26",
+   "model": "h3",
+   "sec": 10.0,
+   "video_prompt": "shots/S26-26.h3.txt",
+   "words": 132,
+   "key_prompt": "shots/S26-26.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S26-26.h3.txt --out footage/fal/S26-26.mp4 --sec 10"
+  },
+  {
+   "shot": "A1",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/A1.h3.txt",
+   "words": 33,
+   "key_prompt": "shots/A1.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/A1.h3.txt --out footage/fal/A1.mp4 --sec 5"
+  },
+  {
+   "shot": "A2",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/A2.h3.txt",
+   "words": 37,
+   "key_prompt": "shots/A2.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/A2.h3.txt --out footage/fal/A2.mp4 --sec 5"
+  },
+  {
+   "shot": "A3",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/A3.h3.txt",
+   "words": 33,
+   "key_prompt": "shots/A3.key.txt",
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/A3.h3.txt --out footage/fal/A3.mp4 --sec 5"
+  },
+  {
+   "shot": "S01-1c-t2",
+   "model": "h3",
+   "sec": 5.0,
+   "video_prompt": "shots/S01-1c-t2.h3.txt",
+   "words": 112,
+   "gen": "node $V/footage/gen.mjs video --image <the picked key frame> --prompt @shots/S01-1c-t2.h3.txt --out footage/fal/S01-1c-t2.mp4 --sec 5"
+  }
+ ]
+}

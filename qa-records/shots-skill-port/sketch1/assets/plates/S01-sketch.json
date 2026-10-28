@@ -1,0 +1,14 @@
+{
+ "lv": "position",
+ "id": "S01",
+ "image": "S01-sketch.png",
+ "aspect": "16x9",
+ "plate_hash": "625a2965",
+ "legend": {
+  "red": "the people: where each one stands and how big they are",
+  "yellow": "each head, the cross on it showing which way the face looks, and each product or prop",
+  "green": "the ground line their feet stand on",
+  "grey": "the place: its horizon, its big shapes and where the light comes from"
+ },
+ "says": "Figure 1 (hero) walks in the centre, about 60% of the frame tall, facing left, feet near the bottom; prop 1 (phone) in the centre, at mid height."
+}

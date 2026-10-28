@@ -1,0 +1,28 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/cover.ZD2xIR/covered.mp4",
+  "frames": 30,
+  "size": [
+   160,
+   90
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/cover.ZD2xIR/covered.mp4",
+  "frames": 30,
+  "size": [
+   160,
+   90
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  29
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: none in the reference over this range",
+ "cuts": []
+}

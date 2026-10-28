@@ -1,0 +1,15 @@
+{
+ "job": "old-qa-probe",
+ "style": "none",
+ "bpm": 120,
+ "dur": 8,
+ "md5": {
+  "points.wav": "83be70771d30b5516f6e82627ede99f6",
+  "qa-lanes.json": "83f9f01cf40eeb7f915d3e99ed3531e0",
+  "raw.wav": "83be70771d30b5516f6e82627ede99f6",
+  "whoosh.wav": "83be70771d30b5516f6e82627ede99f6"
+ },
+ "timeline_sha1": "b140346ba296f19e7b6811d23489a05e070852e3",
+ "deterministic": true,
+ "built_with": "/Users/bytedance/.claude/skills/product-launch-sting"
+}

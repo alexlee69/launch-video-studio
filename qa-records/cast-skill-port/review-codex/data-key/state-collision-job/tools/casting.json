@@ -1,0 +1,19 @@
+{
+  "root": "..",
+  "cap": 5,
+  "sizes": [
+    "128x128"
+  ],
+  "states": {
+    "foo": {
+      "refs": [],
+      "prompt": "FIRST",
+      "pin": false
+    },
+    "foo-gen": {
+      "refs": [],
+      "prompt": "SECOND",
+      "pin": false
+    }
+  }
+}

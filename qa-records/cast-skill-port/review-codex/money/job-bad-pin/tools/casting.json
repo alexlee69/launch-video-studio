@@ -1,0 +1,15 @@
+{
+  "cap": 10,
+  "candidates": {
+    "look": {
+      "prompt": "{SHEET} A person. {TAIL}"
+    }
+  },
+  "lock": {
+    "hero": {
+      "pick": "cand-01",
+      "prompt": "{LOCK} {KEEP}",
+      "pin": {"cols": "not-pixels"}
+    }
+  }
+}

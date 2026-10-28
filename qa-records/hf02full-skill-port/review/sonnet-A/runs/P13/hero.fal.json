@@ -1,0 +1,61 @@
+{
+  "endpoint": "fal-ai/flux-pro/v1.1-ultra",
+  "request_id": "697cbd96-e19c-48b3-94ae-be53889b694b",
+  "status": [
+    {
+      "t": 0,
+      "status": "IN_QUEUE",
+      "queue_position": 1
+    },
+    {
+      "t": 3,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 6,
+      "status": "COMPLETED"
+    },
+    {
+      "t": 0,
+      "status": "COMPLETED"
+    }
+  ],
+  "input": {
+    "prompt": "p",
+    "aspect_ratio": "16:9",
+    "raw": true,
+    "num_images": 1,
+    "output_format": "jpeg"
+  },
+  "estimate": "1 image × $0.06 = $0.06",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-22T15:44:36.503Z",
+  "status_url": "http://127.0.0.1:18950/fal-ai/flux-pro/requests/697cbd96-e19c-48b3-94ae-be53889b694b/status",
+  "response_url": "http://127.0.0.1:18950/fal-ai/flux-pro/requests/697cbd96-e19c-48b3-94ae-be53889b694b",
+  "result": {
+    "images": [
+      {
+        "url": "http://127.0.0.1:18950/files/still_0.jpg",
+        "width": 2752,
+        "height": 1536,
+        "content_type": "image/jpeg"
+      }
+    ],
+    "timings": {},
+    "seed": 1234,
+    "has_nsfw_concepts": [
+      false
+    ],
+    "prompt": "p"
+  },
+  "finished": "2026-10-22T15:44:48.826Z",
+  "outputs": [
+    {
+      "url": "http://127.0.0.1:18950/files/still_0.jpg",
+      "file": "hero.jpg",
+      "bytes": 1432931
+    }
+  ],
+  "fetched": "2026-10-22T15:44:48.780Z"
+}

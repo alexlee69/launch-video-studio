@@ -1,0 +1,81 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ref.mp4",
+  "frames": 120,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ours-portrait.mp4",
+  "frames": 120,
+  "size": [
+   360,
+   640
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  119
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: 3 in the reference — 3 exact, 0 within 1 f",
+ "cuts": [
+  {
+   "n": 30,
+   "listed": 30,
+   "label": "",
+   "t": 1.0,
+   "ref_strength": 2.66,
+   "ours": 30,
+   "ours_strength": 2.65,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  },
+  {
+   "n": 60,
+   "listed": 60,
+   "label": "",
+   "t": 2.0,
+   "ref_strength": 3.54,
+   "ours": 60,
+   "ours_strength": 3.54,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  },
+  {
+   "n": 90,
+   "listed": 90,
+   "label": "",
+   "t": 3.0,
+   "ref_strength": 3.87,
+   "ours": 90,
+   "ours_strength": 3.83,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  }
+ ],
+ "verify": {
+  "file": "out-p/sbs-half.mp4",
+  "decoded": 120,
+  "expected": 120,
+  "exact": 120,
+  "mismatches": []
+ }
+}

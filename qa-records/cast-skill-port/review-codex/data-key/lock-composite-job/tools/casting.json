@@ -1,0 +1,27 @@
+{
+  "root": "..",
+  "cap": 5,
+  "sizes": [
+    "128x128"
+  ],
+  "dirs": {
+    "candidates": "../cast/candidates",
+    "locked": "../cast/locked"
+  },
+  "lock": {
+    "hero": {
+      "pick": "cand-01",
+      "prompt": "Erase the body face.",
+      "restore": {
+        "ellipse": [
+          32,
+          32,
+          16,
+          16
+        ],
+        "feather": 2
+      },
+      "pin": false
+    }
+  }
+}

@@ -1,0 +1,2 @@
+mon-D-old-qa-probe 16x9: 480 frames in 1.7 s (camera() evaluate avg 0.75 ms)
+INFO 3 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json

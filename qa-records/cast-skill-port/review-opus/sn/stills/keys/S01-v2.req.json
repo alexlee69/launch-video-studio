@@ -1,0 +1,13 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 2,
+ "refs": [
+  "cast/locked/hero.png",
+  "stills/locations/place-1-v2.png"
+ ],
+ "prompt": "Image 1 is the locked character sheet. The person in its LEFT close-up is the only face to use: keep exactly that face, skin tone and eyes. Its middle and right panels show the wardrobe from the front and the back. Image 2 is the location: keep its architecture, materials and design. Do not copy the grey background or the sheet layout: make one single cinematic film frame, 16:9. a medium shot: he walks toward camera down the path, squinting, warm low sun",
+ "shot": "S01"
+}

@@ -1,0 +1,9 @@
+{
+ "endpoint": "generations",
+ "model": "gpt-image-2",
+ "size": "128x128",
+ "quality": "high",
+ "n": 1,
+ "refs": [],
+ "prompt": "SECOND"
+}

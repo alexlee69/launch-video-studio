@@ -1,0 +1,99 @@
+{
+ "_note": "Shot writer phase 2, worked example (SHOTS.md → Phase 2). A fictional fitness band: K01 on Seedance uses every phase-2 field, K02 on H3 shows what the short prompt keeps (the trick and the fail lines). Put it in a job as tools/shots.json beside a casting.json that has the sheet \"runner\" and the location \"bridge\", with the band's photo at assets/band.jpg. Its negatives are still only proposed: show K01 lists them apart and keeps them out of the prompt until `shots.py confirm K01`.",
+ "root": "..",
+ "casting": "casting.json",
+ "model": "seedance",
+ "aspect": "16:9",
+ "people": {
+  "runner": {"sheet": "runner", "is": "the runner"}
+ },
+ "places": {
+  "bridge": {"loc": "bridge"}
+ },
+ "products": {
+  "band": {"ref": "assets/band.jpg", "anatomy": "The band is a flat matte strap with a small square face of black glass and one side button.", "is": "the band"}
+ },
+ "shots": {
+  "K01": {
+   "brief": "Her morning run over the bridge, seen from the band's side of things. Keep it real.",
+   "proposed": ["negatives"],
+   "confirmed": ["acting", "audio", "fail", "first", "key.frame", "lens", "light", "motion", "must", "refs", "scene", "sizes", "task", "trick"],
+   "sec": 8,
+   "people": ["runner"],
+   "products": ["band"],
+   "place": "bridge",
+   "count": 1,
+   "temp": "cold",
+   "key": {"frame": "Wide-angle from a short arm on her left wrist: the band fills the lower-left of the frame, her hand at the bottom edge, the bridge deck and its railings running away behind it."},
+   "scene": "She runs across the bridge at dawn to make a green light, and the camera rides on her wrist the whole way.",
+   "first": "The band in the lower-left third, her hand at the bottom edge, the bridge running away behind.",
+   "lens": {"mm": 18, "distance": "about 30 cm from the band, on a short arm", "focus": "deep focus from the band to the far end of the bridge"},
+   "light": "Low cold morning sun from behind her left shoulder; long shadows across the deck.",
+   "trick": {
+    "rule": "The camera rides on her wrist beside the band, so the band stays put in the frame while the whole city swings round it.",
+    "so": ["The band holds the lower-left third of the frame in every frame.",
+           "Every swing of her arm shows as the street wheeling past behind the band.",
+           "We never see the camera, its arm or the strap from outside."]
+   },
+   "must": ["The band never moves within the frame: same place, same size, every frame.",
+            "Her hand stays at the bottom edge of the frame for the whole shot."],
+   "fail": ["the band slides, turns or changes size in the frame",
+            "the street stands still while her arm swings"],
+   "refs": [
+    {"ref": "runner", "dont": ["the grey backdrop", "the flat studio light", "the sheet's layout"]},
+    {"ref": "bridge", "dont": ["the people on the pavement", "its midday light"]},
+    {"ref": "first", "dont": ["the lens flare in its top-right corner"]}
+   ],
+   "task": "she keeps checking the time on the band between strides",
+   "acting": {
+    "direction": "she is trying to make the green light before it changes",
+    "motive": "she promised herself a personal best today",
+    "goal": "cross before the light turns",
+    "obstacle": "a delivery van pulls across the crossing",
+    "tactic": "she cuts round the back of the van without breaking stride",
+    "eyes": [{"t": [0, 3], "do": "on the light ahead, then a flick down to the band"},
+             {"t": [3, 6], "do": "on the van's back bumper, judging the gap"},
+             {"t": [6, 8], "do": "back on the light, then the band"}],
+    "restrained": true
+   },
+   "sizes": {
+    "the band": {"frame": "a sixth of the frame width", "body": "as wide as two of her fingers", "hand": "it wraps her wrist with a thumb's width to spare"}
+   },
+   "negatives": ["the band drifts or turns within the frame",
+                 "the camera films her from outside",
+                 "the street holds still while her arm moves",
+                 "a second band or a second runner appears"],
+   "motion": {
+    "camera": "The camera is clamped to a short arm on her left wrist, beside the band, and rides every swing of her arm.",
+    "hold": false,
+    "beats": [
+     {"t": [0, 3], "do": "She runs onto the bridge, arm swinging; the railings sweep past behind the band"},
+     {"t": [3, 6], "do": "A delivery van pulls across the crossing ahead; she cuts round its back without breaking stride"},
+     {"t": [6, 8], "do": "She glances at the band as the light ahead turns green"}
+    ]
+   },
+   "realism": "{REAL_FILM}",
+   "audio": ["her footsteps on the bridge deck", "her breathing", "traffic passing below", "the van's engine"]
+  },
+  "K02": {
+   "brief": "The band on the desk after the run.",
+   "confirmed": ["fail", "key.frame", "lens", "motion", "sizes", "trick"],
+   "model": "h3",
+   "sec": 6,
+   "products": ["band"],
+   "temp": "warm",
+   "key": {"frame": "Straight down on a worn oak desk: the band lies face up at the centre, a coffee cup at the top edge of the frame.",
+           "light": "Warm window light from the left."},
+   "lens": {"mm": 50},
+   "trick": "Locked off straight down, the band lies still at the centre while the light and shadows travel across the desk.",
+   "fail": ["the band moves, turns or slides on the desk", "the camera moves"],
+   "sizes": {
+    "the band": {"frame": "a fifth of the frame width", "body": "as long as her index finger", "hand": "it would lie across her palm"}
+   },
+   "motion": {
+    "camera": "Straight down, locked off.",
+    "beats": ["Window light sweeps across the desk as a cloud passes", "The band's face lights up once with a soft glow"]
+   }
+  }
+ }
+}

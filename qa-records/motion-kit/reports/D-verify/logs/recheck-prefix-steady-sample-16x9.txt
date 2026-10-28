@@ -1,0 +1,2 @@
+D-old-steady-sample 16x9: 1200 cams, 1200 frames
+INFO 6 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.6× (over 2×: s1→s2 2.07×, s2→s3 2.24×, s3→s4 2.01×, s5→s6 2.62×, s6→s7 2.63×) — numbers per cut in qa.json

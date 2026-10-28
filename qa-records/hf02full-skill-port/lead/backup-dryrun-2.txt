@@ -1,0 +1,844 @@
+== skill (mirror of live)
+.d..t.... ./
+>f.st.... SKILL.md
+.d..t.... video/
+>f+++++++ video/FOOTAGE.md
+>f.st.... video/GUIDE.md
+>f+++++++ video/RECREATE.md
+>f.st.... video/lv.mjs
+.d..t.... video/engine/
+>f.st.... video/engine/art.js
+>f.st.... video/engine/kit.js
+>f.st.... video/engine/runtime.js
+.d..t.... video/engine/blocks/
+>f+++++++ video/engine/blocks/_film.js
+>f+++++++ video/engine/blocks/_reel.js
+>f+++++++ video/engine/blocks/agent.js
+>f.st.... video/engine/blocks/browser.js
+>f+++++++ video/engine/blocks/cta.js
+>f.st.... video/engine/blocks/endcard.js
+>f+++++++ video/engine/blocks/float.js
+>f.st.... video/engine/blocks/index.js
+>f+++++++ video/engine/blocks/lockup.js
+>f.st.... video/engine/blocks/media.js
+>f.st.... video/engine/blocks/panel.js
+>f+++++++ video/engine/blocks/roster.js
+>f+++++++ video/engine/blocks/scene.js
+>f+++++++ video/engine/blocks/split.js
+>f+++++++ video/engine/blocks/stack.js
+>f+++++++ video/engine/blocks/sticker.js
+>f+++++++ video/engine/blocks/type.js
+>f+++++++ video/engine/blocks/wall.js
+cd+++++++ video/footage/
+>f+++++++ video/footage/_media.py
+>f+++++++ video/footage/conform.py
+>f+++++++ video/footage/gen.mjs
+>f+++++++ video/footage/look.py
+>f+++++++ video/footage/pin.py
+>f+++++++ video/footage/screen.mjs
+.d..t.... video/lib/
+>f.st.... video/lib/audio.mjs
+>f+++++++ video/lib/breakdown.mjs
+>f.st.... video/lib/common.mjs
+>f.st.... video/lib/deliver.mjs
+>f+++++++ video/lib/layers-qa-worker.mjs
+>f.st.... video/lib/layers.mjs
+>f.st.... video/lib/qa.mjs
+>f.st.... video/lib/render.mjs
+>f+++++++ video/lib/sheet.html
+>f+++++++ video/lib/sheet.mjs
+>f.st.... video/lib/spec.mjs
+>f.st.... video/lib/timeline.mjs
+>f.st.... video/lib/voices.mjs
+cd+++++++ video/recreate/
+>f+++++++ video/recreate/compare.py
+>f+++++++ video/recreate/media.py
+>f+++++++ video/recreate/music.py
+>f+++++++ video/recreate/temptrack.py
+>f+++++++ video/recreate/track.py
+.d..t.... video/templates/
+>f.st.... video/templates/beats.yaml
+>f+++++++ video/templates/film.yaml
+>f+++++++ video/templates/footage-prompts.md
+>f+++++++ video/templates/reel.yaml
+cd+++++++ video/templates/placeholders/
+>f+++++++ video/templates/placeholders/after.svg
+>f+++++++ video/templates/placeholders/before.svg
+>f+++++++ video/templates/placeholders/card.svg
+>f+++++++ video/templates/placeholders/clip-1.svg
+>f+++++++ video/templates/placeholders/clip-2.svg
+>f+++++++ video/templates/placeholders/clip-3.svg
+>f+++++++ video/templates/placeholders/clip-4.svg
+== jobs already in the backup (updated in place)
+cue: .d..t.... ./
+cue: >f..t.... beats.yaml
+cue: >f..t.... brief.md
+cue: >f..t.... cue-16x9-thumb.jpg
+cue: >f..t.... cue-16x9.mp4
+cue: >f..t.... cue-9x16-thumb.jpg
+cue: >f..t.... cue-9x16.mp4
+cue: >f..t.... cue-captions.srt
+cue: >f..t.... cue-master.wav
+cue: >f..t.... cue-short-16x9-thumb.jpg
+cue: >f..t.... cue-short-16x9.mp4
+cue: >f..t.... cue-short-9x16-thumb.jpg
+cue: >f..t.... cue-short-9x16.mp4
+cue: >f..t.... cue-short-captions.srt
+cue: >f..t.... cue-short-master.wav
+cue: >f..t.... cue-storyboard-16x9.pdf
+cue: >f..t.... cue-storyboard-16x9.png
+cue: >f..t.... cue-storyboard-9x16.pdf
+cue: >f..t.... cue-storyboard-9x16.png
+cue: cd+++++++ assets/
+cue-overlays: .d..t.... ./
+cue-overlays: >f..t.... beats.yaml
+cue-overlays: >f..t.... cue-ui-storyboard-16x9.pdf
+cue-overlays: >f..t.... cue-ui-storyboard-16x9.png
+cue-overlays: cd+++++++ assets/
+steady-sample: .d..t.... ./
+steady-sample: >f..t.... beats.yaml
+steady-sample: >f..t.... brief.md
+steady-sample: >f..t.... steady-10s-16x9-thumb.jpg
+steady-sample: >f..t.... steady-10s-16x9.mp4
+steady-sample: >f..t.... steady-10s-9x16-thumb.jpg
+steady-sample: >f..t.... steady-10s-9x16.mp4
+steady-sample: >f..t.... steady-10s-captions.srt
+steady-sample: >f..t.... steady-10s-master.wav
+steady-sample: >f..t.... steady-16x9-thumb.jpg
+steady-sample: >f..t.... steady-16x9.mp4
+steady-sample: >f..t.... steady-9x16-thumb.jpg
+steady-sample: >f..t.... steady-9x16.mp4
+steady-sample: >f..t.... steady-animatic.mp4
+steady-sample: >f..t.... steady-captions.srt
+steady-sample: >f..t.... steady-master.wav
+steady-sample: >f..t.... steady-storyboard-16x9.pdf
+steady-sample: >f..t.... steady-storyboard-16x9.png
+steady-sample: >f..t.... steady-storyboard-9x16.pdf
+steady-sample: >f..t.... steady-storyboard-9x16.png
+steady-sample: cd+++++++ assets/
+edge-test: .d..t.... ./
+edge-test: >f..t.... beats.yaml
+edge-test: >f..t.... fernly-1x1-thumb.jpg
+edge-test: >f..t.... fernly-1x1.mp4
+edge-test: >f..t.... fernly-captions.srt
+edge-test: >f..t.... fernly-master.wav
+edge-test: >f..t.... fernly-short-1x1-thumb.jpg
+edge-test: >f..t.... fernly-short-1x1.mp4
+edge-test: >f..t.... fernly-short-captions.srt
+edge-test: >f..t.... fernly-short-master.wav
+edge-test: >f..t.... fernly-storyboard-1x1.pdf
+edge-test: >f..t.... fernly-storyboard-1x1.png
+edge-test: .d..t.... assets/
+edge-test: >f..t.... assets/footage.mp4
+edge-test: >f..t.... assets/logo.svg
+edge-test: >f..t.... assets/track.wav
+edge-test: >f..t.... assets/vo.wav
+edge-test: .d..t.... assets/fonts/
+edge-test: >f..t.... assets/fonts/brand-400.woff2
+edge-test: >f..t.... assets/fonts/brand-700.woff2
+edge-test: .d..t.... blocks/
+edge-test: >f..t.... blocks/ticker.mjs
+dark-ui-check: .d..t.... ./
+dark-ui-check: >f..t.... beats.yaml
+dark-ui-check: >f..t.... darkui-16x9-thumb.jpg
+dark-ui-check: >f..t.... darkui-16x9.mp4
+dark-ui-check: >f..t.... darkui-captions.srt
+dark-ui-check: >f..t.... darkui-master.wav
+dark-ui-check: >f..t.... darkui-storyboard-16x9.pdf
+dark-ui-check: >f..t.... darkui-storyboard-16x9.png
+qa-probe: .d..t.... ./
+qa-probe: >f..t.... beats.yaml
+qa-probe: >f..t.... probe-16x9-thumb.jpg
+qa-probe: >f..t.... probe-16x9.mp4
+qa-probe: >f..t.... probe-captions.srt
+qa-probe: >f..t.... probe-master.wav
+qa-probe: .d..t.... blocks/
+qa-probe: >f..t.... blocks/blank.mjs
+qa-probe: >f..t.... blocks/still.mjs
+qa-probe2: .d..t.... ./
+qa-probe2: >f..t.... beats.yaml
+qa-probe2: >f..t.... probe2-seam-16x9-thumb.jpg
+qa-probe2: >f..t.... probe2-seam-16x9.mp4
+qa-probe2: >f..t.... probe2-seam-captions.srt
+qa-probe2: >f..t.... probe2-seam-master.wav
+qa-probe2: >f..t.... probe2-whip-16x9-thumb.jpg
+qa-probe2: >f..t.... probe2-whip-16x9.mp4
+qa-probe2: >f..t.... probe2-whip-captions.srt
+qa-probe2: >f..t.... probe2-whip-master.wav
+qa-probe2: .d..t.... blocks/
+qa-probe2: >f..t.... blocks/blankexit.mjs
+qa-probe2: >f..t.... blocks/seamfreeze.mjs
+== new jobs
+film-sample: cd+++++++ ./
+film-sample: >f....... beats.yaml
+film-sample: >f....... orbit-film-16x9-thumb.jpg
+film-sample: >f....... orbit-film-16x9.mp4
+film-sample: >f....... orbit-film-1x1-thumb.jpg
+film-sample: >f....... orbit-film-1x1.mp4
+film-sample: >f....... orbit-film-9x16-thumb.jpg
+film-sample: >f....... orbit-film-9x16.mp4
+film-sample: >f....... orbit-film-captions.srt
+film-sample: >f....... orbit-film-master.wav
+film-sample: >f....... orbit-film-storyboard-16x9.pdf
+film-sample: >f....... orbit-film-storyboard-16x9.png
+film-sample: >f....... orbit-film-storyboard-1x1.pdf
+film-sample: >f....... orbit-film-storyboard-1x1.png
+film-sample: >f....... orbit-film-storyboard-9x16.pdf
+film-sample: >f....... orbit-film-storyboard-9x16.png
+film-sample: cd+++++++ assets/
+film-sample: >f....... assets/acme-logo.svg
+film-sample: >f....... assets/dusk.jpg
+film-sample: >f....... assets/forest.jpg
+film-sample: >f....... assets/night.jpg
+film-sample: >f....... assets/orbit-logo.svg
+film-sample: >f....... assets/sky.jpg
+film-sample: >f....... assets/studio.jpg
+film-sample: cd+++++++ assets/cards/
+film-sample: >f....... assets/cards/p-dusk-a.jpg
+film-sample: >f....... assets/cards/p-dusk-b.jpg
+film-sample: >f....... assets/cards/p-forest-a.jpg
+film-sample: >f....... assets/cards/p-forest-b.jpg
+film-sample: >f....... assets/cards/p-night-a.jpg
+film-sample: >f....... assets/cards/p-night-b.jpg
+film-sample: >f....... assets/cards/p-sky-a.jpg
+film-sample: >f....... assets/cards/p-sky-b.jpg
+film-sample: >f....... assets/cards/p-studio-a.jpg
+film-sample: >f....... assets/cards/p-studio-b.jpg
+film-sample: >f....... assets/cards/q-cue-cast.jpg
+film-sample: >f....... assets/cards/q-cue-dark.jpg
+film-sample: >f....... assets/cards/q-dusk.jpg
+film-sample: >f....... assets/cards/q-forest.jpg
+film-sample: >f....... assets/cards/q-night.jpg
+film-sample: >f....... assets/cards/q-sky.jpg
+film-sample: >f....... assets/cards/q-steady-orbit.jpg
+film-sample: >f....... assets/cards/q-studio.jpg
+film-sample: >f....... assets/cards/r-cue-cast.jpg
+film-sample: >f....... assets/cards/r-cue-dark.jpg
+film-sample: >f....... assets/cards/r-cue-end.jpg
+film-sample: >f....... assets/cards/r-steady-orbit.jpg
+film-sample: >f....... assets/cards/r-steady-stat.jpg
+reel-sample: cd+++++++ ./
+reel-sample: >f....... beats.yaml
+reel-sample: >f....... popframe-reel-16x9-thumb.jpg
+reel-sample: >f....... popframe-reel-16x9.mp4
+reel-sample: >f....... popframe-reel-1x1-thumb.jpg
+reel-sample: >f....... popframe-reel-1x1.mp4
+reel-sample: >f....... popframe-reel-9x16-thumb.jpg
+reel-sample: >f....... popframe-reel-9x16.mp4
+reel-sample: >f....... popframe-reel-captions.srt
+reel-sample: >f....... popframe-reel-master.wav
+reel-sample: >f....... popframe-reel-storyboard-16x9.pdf
+reel-sample: >f....... popframe-reel-storyboard-16x9.png
+reel-sample: >f....... popframe-reel-storyboard-1x1.pdf
+reel-sample: >f....... popframe-reel-storyboard-1x1.png
+reel-sample: >f....... popframe-reel-storyboard-9x16.pdf
+reel-sample: >f....... popframe-reel-storyboard-9x16.png
+reel-sample: cd+++++++ assets/
+reel-sample: >f....... assets/after-park.jpg
+reel-sample: >f....... assets/app-prompt.jpg
+reel-sample: >f....... assets/before-park.jpg
+reel-sample: >f....... assets/bg-neon.jpg
+reel-sample: >f....... assets/bg-studio.jpg
+reel-sample: >f....... assets/bg-sunset.jpg
+reel-sample: >f....... assets/logo.svg
+hf02-full: cd+++++++ ./
+hf02-full: >f....... BRIEF.md
+hf02-full: >f....... audio.mjs
+hf02-full: >f....... film.mp4
+hf02-full: cL+++++++ node_modules -> /Users/bytedance/.claude/skills/product-launch-sting/node_modules
+hf02-full: >f....... render.mjs
+hf02-full: >f....... stage.html
+hf02-full: >f....... story.js
+hf02-full: cd+++++++ brand/
+hf02-full: cd+++++++ brand/cue/
+hf02-full: cd+++++++ brand/cue/official/
+hf02-full: >f....... brand/cue/official/cue-icon.png
+hf02-full: >f....... brand/cue/official/logo.webp
+hf02-full: cd+++++++ lib/
+hf02-full: >f....... lib/app.js
+hf02-full: >f....... lib/art.js
+hf02-full: >f....... lib/cast.js
+hf02-full: >f....... lib/core.js
+hf02-full: cd+++++++ motion/
+hf02-full: >f....... motion/w1.js
+hf02-full: >f....... motion/w2.js
+hf02-full: >f....... motion/w3.js
+hf02-full: >f....... motion/w4.js
+hf02-full: >f....... motion/w5.js
+hf02-full: >f....... motion/w6.js
+hf02-full: cd+++++++ notes/
+hf02-full: >f....... notes/w1.md
+hf02-full: >f....... notes/w2.md
+hf02-full: >f....... notes/w3.md
+hf02-full: >f....... notes/w6.md
+hf02-full: cd+++++++ scenes/
+hf02-full: >f....... scenes/w1-open.js
+hf02-full: >f....... scenes/w2-plates.js
+hf02-full: >f....... scenes/w3-chat.js
+hf02-full: >f....... scenes/w4-cards.js
+hf02-full: >f....... scenes/w5-fan.js
+hf02-full: >f....... scenes/w6-burst.js
+hf02-full: cd+++++++ tools/
+hf02-full: >f....... tools/audio_qa.py
+hf02-full: >f....... tools/beat_check.py
+hf02-full: >f....... tools/cmp.py
+hf02-full: >f....... tools/cutcheck.py
+hf02-full: >f....... tools/cuts.py
+hf02-full: >f....... tools/gallery.html
+hf02-full: >f....... tools/hf02_skill_answers.py
+hf02-full: >f....... tools/listL.py
+hf02-full: >f....... tools/listc.py
+hf02-full: >f....... tools/music_profile.py
+hf02-full: >f....... tools/pick.py
+hf02-full: >f....... tools/progress_sheet.py
+hf02-full: >f....... tools/qa.py
+hf02-full: >f....... tools/sbs.py
+hf02-full: >f....... tools/sbs_full.py
+hf02-full: >f....... tools/sheet.py
+hf02-full: >f....... tools/shot.mjs
+hf02-full: >f....... tools/stage_errors.mjs
+hf02-full: >f....... tools/track.py
+hf02-full: >f....... tools/verify_sbs.py
+hf02-full: cd+++++++ tools/audio/
+hf02-full: >f....... tools/audio/energy.py
+hf02-full: cd+++++++ tools/fal/
+hf02-full: >f....... tools/fal/carousel_pin.py
+hf02-full: >f....... tools/fal/conform.py
+hf02-full: >f....... tools/fal/fal_gen.mjs
+hf02-full: >f....... tools/fal/guide_clip.mjs
+hf02-full: >f....... tools/fal/look_stats.py
+hf02-full: >f....... tools/fal/render_with_footage.mjs
+hf02-full: >f....... tools/fal/ui_screen.mjs
+hf02-full: cd+++++++ tools/w1/
+hf02-full: >f....... tools/w1/blobs.py
+hf02-full: >f....... tools/w1/compare.py
+hf02-full: >f....... tools/w1/compare_build.py
+hf02-full: >f....... tools/w1/compare_chars.py
+hf02-full: >f....... tools/w1/compare_conv.py
+hf02-full: >f....... tools/w1/compare_corr.py
+hf02-full: >f....... tools/w1/compare_outro.py
+hf02-full: >f....... tools/w1/conv_tables.py
+hf02-full: >f....... tools/w1/corr_chars.py
+hf02-full: >f....... tools/w1/down1080.py
+hf02-full: >f....... tools/w1/gen_motion.py
+hf02-full: >f....... tools/w1/probe.mjs
+hf02-full: >f....... tools/w1/sbs_w1.py
+hf02-full: >f....... tools/w1/shotdbg.mjs
+hf02-full: >f....... tools/w1/tmpl.py
+hf02-full: >f....... tools/w1/track_roi.py
+hf02-full: >f....... tools/w1/tunnel.py
+hf02-full: >f....... tools/w1/zoomfit.py
+hf02-full: cd+++++++ tools/w1/logs/
+hf02-full: >f....... tools/w1/logs/O1_push.json
+hf02-full: >f....... tools/w1/logs/O2_build.json
+hf02-full: >f....... tools/w1/logs/O3_outro_b.json
+hf02-full: >f....... tools/w1/logs/O3_outro_f.json
+hf02-full: >f....... tools/w1/logs/T1_push.json
+hf02-full: >f....... tools/w1/logs/T2_build.json
+hf02-full: >f....... tools/w1/logs/T3_outro_b.json
+hf02-full: >f....... tools/w1/logs/T3_outro_f.json
+hf02-full: >f....... tools/w1/logs/blobs_open.json
+hf02-full: >f....... tools/w1/logs/blobs_ours_open.json
+hf02-full: >f....... tools/w1/logs/blobs_ours_open_a.json
+hf02-full: >f....... tools/w1/logs/blobs_ours_outro.json
+hf02-full: >f....... tools/w1/logs/blobs_outro.json
+hf02-full: >f....... tools/w1/logs/compare_out.json
+hf02-full: >f....... tools/w1/logs/compare_pops.json
+hf02-full: >f....... tools/w1/logs/conv_paths.json
+hf02-full: >f....... tools/w1/logs/conv_tables.json
+hf02-full: >f....... tools/w1/logs/corr_chars.json
+hf02-full: >f....... tools/w1/logs/to2_80.json
+hf02-full: >f....... tools/w1/logs/to2_83.json
+hf02-full: >f....... tools/w1/logs/to2_86.json
+hf02-full: >f....... tools/w1/logs/tr2_80.json
+hf02-full: >f....... tools/w1/logs/tr2_83.json
+hf02-full: >f....... tools/w1/logs/tr2_86.json
+hf02-full: >f....... tools/w1/logs/tunnel_ours.json
+hf02-full: >f....... tools/w1/logs/tunnel_ref.json
+hf02-full: cd+++++++ tools/w2/
+hf02-full: >f....... tools/w2/bar.py
+hf02-full: >f....... tools/w2/bbox.py
+hf02-full: >f....... tools/w2/build_motion.py
+hf02-full: >f....... tools/w2/card.py
+hf02-full: >f....... tools/w2/corner.py
+hf02-full: >f....... tools/w2/corner2.py
+hf02-full: >f....... tools/w2/edgew.py
+hf02-full: >f....... tools/w2/margins.py
+hf02-full: >f....... tools/w2/pcorr.py
+hf02-full: >f....... tools/w2/qa_all.sh
+hf02-full: >f....... tools/w2/qa_cam.py
+hf02-full: >f....... tools/w2/render_qa.mjs
+hf02-full: >f....... tools/w2/sheets.sh
+hf02-full: >f....... tools/w2/sweep.py
+hf02-full: >f....... tools/w2/topedge.py
+hf02-full: >f....... tools/w2/trackm.py
+hf02-full: >f....... tools/w2/trackp.py
+hf02-full: >f....... tools/w2/vedge.py
+hf02-full: cd+++++++ tools/w2/logs/
+hf02-full: >f....... tools/w2/logs/bar_main.txt
+hf02-full: >f....... tools/w2/logs/bar_rise.txt
+hf02-full: >f....... tools/w2/logs/bubble_bar.txt
+hf02-full: >f....... tools/w2/logs/car_pcorr.txt
+hf02-full: >f....... tools/w2/logs/car_top.txt
+hf02-full: >f....... tools/w2/logs/p1_pair_a.json
+hf02-full: >f....... tools/w2/logs/p1_pair_b.json
+hf02-full: >f....... tools/w2/logs/p1_pair_b2.json
+hf02-full: >f....... tools/w2/logs/p1_pair_b3.json
+hf02-full: >f....... tools/w2/logs/p1_pair_c.json
+hf02-full: >f....... tools/w2/logs/p2_card.json
+hf02-full: >f....... tools/w2/logs/p2_cardbox.jsonl
+hf02-full: >f....... tools/w2/logs/p2_corner_ref.jsonl
+hf02-full: >f....... tools/w2/logs/p2_pair.json
+hf02-full: >f....... tools/w2/logs/p2_pair_b.json
+hf02-full: >f....... tools/w2/logs/r1_p1card.json
+hf02-full: >f....... tools/w2/logs/r1b.json
+hf02-full: >f....... tools/w2/logs/r2_p1wide.json
+hf02-full: >f....... tools/w2/logs/r3_p1zoom.json
+hf02-full: >f....... tools/w2/logs/r4_p1f2a.json
+hf02-full: >f....... tools/w2/logs/r5a.json
+hf02-full: >f....... tools/w2/logs/r5b.json
+hf02-full: >f....... tools/w2/logs/r6a.json
+hf02-full: >f....... tools/w2/logs/r6b.json
+hf02-full: >f....... tools/w2/logs/r7a.json
+hf02-full: >f....... tools/w2/logs/r7b.json
+hf02-full: >f....... tools/w2/logs/sweep_ref.txt
+hf02-full: cd+++++++ tools/w2/logs/ours/
+hf02-full: >f....... tools/w2/logs/ours/bar_rise.jsonl
+hf02-full: >f....... tools/w2/logs/ours/bar_whip.jsonl
+hf02-full: >f....... tools/w2/logs/ours/car_bbox.txt
+hf02-full: >f....... tools/w2/logs/ours/car_pcorr.txt
+hf02-full: >f....... tools/w2/logs/ours/corner_final.txt
+hf02-full: >f....... tools/w2/logs/ours/p1_blur_final.txt
+hf02-full: >f....... tools/w2/logs/ours/p1a.json
+hf02-full: >f....... tools/w2/logs/ours/p1b.json
+hf02-full: >f....... tools/w2/logs/ours/p1b3.json
+hf02-full: >f....... tools/w2/logs/ours/p1c.json
+hf02-full: >f....... tools/w2/logs/ours/p2.json
+hf02-full: >f....... tools/w2/logs/ours/p2_card_final.txt
+hf02-full: >f....... tools/w2/logs/ours/p2_cardbox.jsonl
+hf02-full: >f....... tools/w2/logs/ours/p2card.json
+hf02-full: >f....... tools/w2/logs/ours/p2q_cardbox.jsonl
+hf02-full: >f....... tools/w2/logs/ours/p2q_corner.jsonl
+hf02-full: >f....... tools/w2/logs/ours/qa_all.out
+hf02-full: >f....... tools/w2/logs/ours/qbar_rise.jsonl
+hf02-full: >f....... tools/w2/logs/ours/qbar_whip.jsonl
+hf02-full: >f....... tools/w2/logs/ours/sweep.txt
+hf02-full: cd+++++++ tools/w3/
+hf02-full: >f....... tools/w3/blurfit.py
+hf02-full: >f....... tools/w3/cmplm.py
+hf02-full: >f....... tools/w3/cmptrack.py
+hf02-full: >f....... tools/w3/down.py
+hf02-full: >f....... tools/w3/film_w3.py
+hf02-full: >f....... tools/w3/fitstream.py
+hf02-full: >f....... tools/w3/ink.py
+hf02-full: >f....... tools/w3/listours.py
+hf02-full: >f....... tools/w3/mw3.json
+hf02-full: >f....... tools/w3/mw3.py
+hf02-full: >f....... tools/w3/peaks.py
+hf02-full: >f....... tools/w3/sbs_w3.py
+hf02-full: >f....... tools/w3/tmpl.py
+hf02-full: >f....... tools/w3/vprof.py
+hf02-full: cd+++++++ tools/w3/curves/
+hf02-full: >f....... tools/w3/curves/A_bub.json
+hf02-full: >f....... tools/w3/curves/A_ink2.txt
+hf02-full: >f....... tools/w3/curves/A_m.json
+hf02-full: >f....... tools/w3/curves/A_name.json
+hf02-full: >f....... tools/w3/curves/A_r.json
+hf02-full: >f....... tools/w3/curves/A_rep.json
+hf02-full: >f....... tools/w3/curves/D2_ref.json
+hf02-full: >f....... tools/w3/curves/D_ink.txt
+hf02-full: >f....... tools/w3/curves/D_ink2.txt
+hf02-full: >f....... tools/w3/curves/D_ink3.txt
+hf02-full: >f....... tools/w3/curves/G_f.json
+hf02-full: >f....... tools/w3/curves/G_found.json
+hf02-full: >f....... tools/w3/curves/G_found2.json
+hf02-full: >f....... tools/w3/curves/G_heres.json
+hf02-full: >f....... tools/w3/curves/G_ink2.txt
+hf02-full: >f....... tools/w3/curves/G_m.json
+hf02-full: >f....... tools/w3/curves/G_r.json
+hf02-full: >f....... tools/w3/curves/G_read.json
+hf02-full: >f....... tools/w3/curves/I_ava.json
+hf02-full: >f....... tools/w3/curves/I_f.json
+hf02-full: >f....... tools/w3/curves/I_head.json
+hf02-full: >f....... tools/w3/curves/I_ink2.txt
+hf02-full: >f....... tools/w3/curves/I_r.json
+hf02-full: >f....... tools/w3/curves/R_f.json
+hf02-full: >f....... tools/w3/curves/R_head.json
+hf02-full: >f....... tools/w3/curves/R_ink.txt
+hf02-full: >f....... tools/w3/curves/R_m.json
+hf02-full: >f....... tools/w3/curves/R_name.json
+hf02-full: >f....... tools/w3/curves/R_r.json
+hf02-full: >f....... tools/w3/curves/R_sub.json
+hf02-full: >f....... tools/w3/curves/fit_G_last.txt
+hf02-full: >f....... tools/w3/curves/fit_I_head.txt
+hf02-full: >f....... tools/w3/curves/fit_I_sub.txt
+hf02-full: >f....... tools/w3/curves/fit_I_sub46.txt
+hf02-full: >f....... tools/w3/curves/fit_R_head33.txt
+hf02-full: cd+++++++ tools/w3/ours/
+hf02-full: >f....... tools/w3/ours/A1.json
+hf02-full: >f....... tools/w3/ours/A_ink.txt
+hf02-full: >f....... tools/w3/ours/A_m.json
+hf02-full: >f....... tools/w3/ours/A_m3.json
+hf02-full: >f....... tools/w3/ours/A_name.json
+hf02-full: >f....... tools/w3/ours/A_rep.json
+hf02-full: >f....... tools/w3/ours/B1f.json
+hf02-full: >f....... tools/w3/ours/B1r.json
+hf02-full: >f....... tools/w3/ours/B2f.json
+hf02-full: >f....... tools/w3/ours/B2r.json
+hf02-full: >f....... tools/w3/ours/C_list.json
+hf02-full: >f....... tools/w3/ours/D1f.json
+hf02-full: >f....... tools/w3/ours/D1r.json
+hf02-full: >f....... tools/w3/ours/D2_ours.json
+hf02-full: >f....... tools/w3/ours/D2f.json
+hf02-full: >f....... tools/w3/ours/D2r.json
+hf02-full: >f....... tools/w3/ours/D_ink.txt
+hf02-full: >f....... tools/w3/ours/D_ink2.txt
+hf02-full: >f....... tools/w3/ours/D_ink3.txt
+hf02-full: >f....... tools/w3/ours/G_heres.json
+hf02-full: >f....... tools/w3/ours/G_heres2.json
+hf02-full: >f....... tools/w3/ours/G_heres3.json
+hf02-full: >f....... tools/w3/ours/G_ink.txt
+hf02-full: >f....... tools/w3/ours/G_ink3.txt
+hf02-full: >f....... tools/w3/ours/G_m.json
+hf02-full: >f....... tools/w3/ours/G_m3.json
+hf02-full: >f....... tools/w3/ours/G_read.json
+hf02-full: >f....... tools/w3/ours/I_ava.json
+hf02-full: >f....... tools/w3/ours/I_ava3.json
+hf02-full: >f....... tools/w3/ours/I_head.json
+hf02-full: >f....... tools/w3/ours/I_head3.json
+hf02-full: >f....... tools/w3/ours/I_ink.txt
+hf02-full: >f....... tools/w3/ours/I_ink3.txt
+hf02-full: >f....... tools/w3/ours/R_ink.txt
+hf02-full: >f....... tools/w3/ours/R_ink3.txt
+hf02-full: >f....... tools/w3/ours/R_m.json
+hf02-full: >f....... tools/w3/ours/R_m3.json
+hf02-full: >f....... tools/w3/ours/R_name.json
+hf02-full: >f....... tools/w3/ours/R_name3.json
+hf02-full: cd+++++++ tools/w4/
+hf02-full: >f....... tools/w4/blob.py
+hf02-full: >f....... tools/w4/build_motion.py
+hf02-full: >f....... tools/w4/cuedges.py
+hf02-full: >f....... tools/w4/deck3d.py
+hf02-full: >f....... tools/w4/deckb2.py
+hf02-full: >f....... tools/w4/deckfit.py
+hf02-full: >f....... tools/w4/deckfit2.py
+hf02-full: >f....... tools/w4/deckfit3.py
+hf02-full: >f....... tools/w4/deckfit_core.py
+hf02-full: >f....... tools/w4/deckfront.py
+hf02-full: >f....... tools/w4/deckmeas.py
+hf02-full: >f....... tools/w4/deckrig.py
+hf02-full: >f....... tools/w4/deckv.py
+hf02-full: >f....... tools/w4/deckv2.py
+hf02-full: >f....... tools/w4/deckviz.py
+hf02-full: >f....... tools/w4/deckviz3.py
+hf02-full: >f....... tools/w4/down.py
+hf02-full: >f....... tools/w4/edgeblur.py
+hf02-full: >f....... tools/w4/homog.py
+hf02-full: >f....... tools/w4/qa_cmp.py
+hf02-full: >f....... tools/w4/quad.py
+hf02-full: >f....... tools/w4/render_q.mjs
+hf02-full: >f....... tools/w4/show.py
+hf02-full: >f....... tools/w4/sil.py
+hf02-full: >f....... tools/w4/thread.py
+hf02-full: cd+++++++ tools/w5/
+hf02-full: >f....... tools/w5/blurtest.mjs
+hf02-full: >f....... tools/w5/build_motion.py
+hf02-full: >f....... tools/w5/buildref.py
+hf02-full: >f....... tools/w5/chatours.py
+hf02-full: >f....... tools/w5/chatref.py
+hf02-full: >f....... tools/w5/chattiming.py
+hf02-full: >f....... tools/w5/cmp_pose.py
+hf02-full: >f....... tools/w5/edges.py
+hf02-full: >f....... tools/w5/edges2.py
+hf02-full: >f....... tools/w5/edgesig.py
+hf02-full: >f....... tools/w5/fan.py
+hf02-full: >f....... tools/w5/fanfit.py
+hf02-full: >f....... tools/w5/fanjoint.py
+hf02-full: >f....... tools/w5/fit_corners.py
+hf02-full: >f....... tools/w5/gfit.py
+hf02-full: >f....... tools/w5/gfit2.py
+hf02-full: >f....... tools/w5/headrow.py
+hf02-full: >f....... tools/w5/homofit.py
+hf02-full: >f....... tools/w5/labellayer.py
+hf02-full: >f....... tools/w5/labels.py
+hf02-full: >f....... tools/w5/labtrack.py
+hf02-full: >f....... tools/w5/nm.py
+hf02-full: >f....... tools/w5/notes_tables.py
+hf02-full: >f....... tools/w5/probe.mjs
+hf02-full: >f....... tools/w5/probe2.mjs
+hf02-full: >f....... tools/w5/probe3.mjs
+hf02-full: >f....... tools/w5/render5.mjs
+hf02-full: >f....... tools/w5/showlt.py
+hf02-full: >f....... tools/w5/stage-w5.html
+hf02-full: >f....... tools/w5/to1080.py
+hf02-full: cd+++++++ tools/w5/logs/
+hf02-full: >f....... tools/w5/logs/fan_c1.json
+hf02-full: >f....... tools/w5/logs/fan_c2.json
+hf02-full: >f....... tools/w5/logs/fan_c3.json
+hf02-full: >f....... tools/w5/logs/fan_c4.json
+hf02-full: >f....... tools/w5/logs/g11_mid.json
+hf02-full: >f....... tools/w5/logs/g11_open.json
+hf02-full: >f....... tools/w5/logs/g11_zoom.json
+hf02-full: >f....... tools/w5/logs/g11_zoom2.json
+hf02-full: >f....... tools/w5/logs/g2_test.json
+hf02-full: >f....... tools/w5/logs/g_open.json
+hf02-full: >f....... tools/w5/logs/g_zoom.json
+hf02-full: >f....... tools/w5/logs/homo_mid.json
+hf02-full: >f....... tools/w5/logs/homo_open.json
+hf02-full: >f....... tools/w5/logs/homo_zoom.json
+hf02-full: >f....... tools/w5/logs/label_layer.json
+hf02-full: >f....... tools/w5/logs/labels.json
+hf02-full: >f....... tools/w5/logs/lt_apps.json
+hf02-full: >f....... tools/w5/logs/lt_brand.json
+hf02-full: >f....... tools/w5/logs/lt_brief.json
+hf02-full: >f....... tools/w5/logs/lt_core.json
+hf02-full: >f....... tools/w5/logs/lt_launch.json
+hf02-full: >f....... tools/w5/logs/lt_screens.json
+hf02-full: >f....... tools/w5/logs/lt_ux.json
+hf02-full: >f....... tools/w5/logs/notes_tables.md
+hf02-full: >f....... tools/w5/logs/pf_dn.json
+hf02-full: >f....... tools/w5/logs/pf_up.json
+hf02-full: >f....... tools/w5/logs/pose_raw.txt
+hf02-full: >f....... tools/w5/logs/probe2.json
+hf02-full: >f....... tools/w5/logs/ref_avatar_end.json
+hf02-full: >f....... tools/w5/logs/ref_build.json
+hf02-full: >f....... tools/w5/logs/ref_chat.json
+hf02-full: >f....... tools/w5/logs/ref_edges2.json
+hf02-full: >f....... tools/w5/logs/ref_edges_A.json
+hf02-full: >f....... tools/w5/logs/ref_edges_DE.json
+hf02-full: >f....... tools/w5/logs/ref_headrow.json
+hf02-full: >f....... tools/w5/logs/ref_headrow_build.json
+hf02-full: >f....... tools/w5/logs/ref_trk_build_all.json
+hf02-full: >f....... tools/w5/logs/ref_trk_buildin.json
+hf02-full: >f....... tools/w5/logs/ref_trk_buildout.json
+hf02-full: >f....... tools/w5/logs/ref_trk_exit.json
+hf02-full: >f....... tools/w5/logs/t1080.json
+hf02-full: >f....... tools/w5/logs/t1080_N11.json
+hf02-full: >f....... tools/w5/logs/t1080_N12.json
+hf02-full: >f....... tools/w5/logs/t1080_N13.json
+hf02-full: cd+++++++ tools/w5/logs/ours/
+hf02-full: >f....... tools/w5/logs/ours/chat_build.json
+hf02-full: >f....... tools/w5/logs/ours/chat_build4.json
+hf02-full: >f....... tools/w5/logs/ours/chat_plan.json
+hf02-full: >f....... tools/w5/logs/ours/chat_plan4.json
+hf02-full: >f....... tools/w5/logs/ours/edges2.json
+hf02-full: >f....... tools/w5/logs/ours/edges_A.json
+hf02-full: >f....... tools/w5/logs/ours/edges_DE.json
+hf02-full: >f....... tools/w5/logs/ours/g11_B.json
+hf02-full: >f....... tools/w5/logs/ours/g11_open.json
+hf02-full: >f....... tools/w5/logs/ours/headrow.json
+hf02-full: >f....... tools/w5/logs/ours/homo_B.json
+hf02-full: >f....... tools/w5/logs/ours/homo_open.json
+hf02-full: >f....... tools/w5/logs/ours/homo_open2.json
+hf02-full: >f....... tools/w5/logs/ours/homo_open3.json
+hf02-full: >f....... tools/w5/logs/ours/label_layer.json
+hf02-full: >f....... tools/w5/logs/ours/label_layer.txt
+hf02-full: >f....... tools/w5/logs/ours/lt_apps.json
+hf02-full: >f....... tools/w5/logs/ours/lt_brand.json
+hf02-full: >f....... tools/w5/logs/ours/lt_brief.json
+hf02-full: >f....... tools/w5/logs/ours/lt_core.json
+hf02-full: >f....... tools/w5/logs/ours/lt_launch.json
+hf02-full: >f....... tools/w5/logs/ours/lt_screens.json
+hf02-full: >f....... tools/w5/logs/ours/lt_ux.json
+hf02-full: >f....... tools/w5/logs/ours/pan_erf.txt
+hf02-full: >f....... tools/w5/logs/ours/trk_buildin.json
+hf02-full: >f....... tools/w5/logs/ours/trk_buildout.json
+hf02-full: >f....... tools/w5/logs/ours/trk_exit.json
+hf02-full: cd+++++++ tools/w5/logs/ours/p5/
+hf02-full: >f....... tools/w5/logs/ours/p5/chat_build.json
+hf02-full: >f....... tools/w5/logs/ours/p5/chat_plan.json
+hf02-full: >f....... tools/w5/logs/ours/p5/lt_apps.json
+hf02-full: >f....... tools/w5/logs/ours/p5/lt_core.json
+hf02-full: >f....... tools/w5/logs/ours/p5/lt_launch.json
+hf02-full: cd+++++++ tools/w6/
+hf02-full: >f....... tools/w6/0
+hf02-full: >f....... tools/w6/blobs.py
+hf02-full: >f....... tools/w6/build_motion.py
+hf02-full: >f....... tools/w6/burst_tables.py
+hf02-full: >f....... tools/w6/burstfit.py
+hf02-full: >f....... tools/w6/curvecmp.py
+hf02-full: >f....... tools/w6/edgeblur.py
+hf02-full: >f....... tools/w6/moments.py
+hf02-full: >f....... tools/w6/phone_bottom2.py
+hf02-full: >f....... tools/w6/phone_y.py
+hf02-full: >f....... tools/w6/phoneblur.py
+hf02-full: >f....... tools/w6/pillm.py
+hf02-full: >f....... tools/w6/qa_compare.py
+hf02-full: >f....... tools/w6/rect.py
+hf02-full: >f....... tools/w6/sbs_w6.py
+hf02-full: >f....... tools/w6/split.py
+hf02-full: >f....... tools/w6/split2.py
+hf02-full: >f....... tools/w6/to1080.py
+hf02-full: >f....... tools/w6/trackm.py
+hf02-recreate: cd+++++++ ./
+hf02-recreate: >f....... MOTION-SPEC.md
+hf02-recreate: >f....... audio.mjs
+hf02-recreate: >f....... hf02-recreate.mp4
+hf02-recreate: >f....... motion.js
+hf02-recreate: cL+++++++ node_modules -> /Users/bytedance/.claude/skills/product-launch-sting/node_modules
+hf02-recreate: >f....... render.mjs
+hf02-recreate: >f....... stage.html
+hf02-recreate: cd+++++++ tools/
+hf02-recreate: >f....... tools/audio_qa.py
+hf02-recreate: >f....... tools/blurcal.mjs
+hf02-recreate: >f....... tools/calib.mjs
+hf02-recreate: >f....... tools/metrics.mjs
+hf02-recreate: >f....... tools/probe.mjs
+hf02-recreate: >f....... tools/qa.py
+hf02-skill: cd+++++++ ./
+hf02-skill: >f....... ANSWERS-measurements.md
+hf02-skill: >f....... beats.yaml
+hf02-skill: >f....... hf02-proof-16x9-thumb.jpg
+hf02-skill: >f....... hf02-proof-16x9.mp4
+hf02-skill: >f....... hf02-proof-1x1-thumb.jpg
+hf02-skill: >f....... hf02-proof-1x1.mp4
+hf02-skill: >f....... hf02-proof-9x16-thumb.jpg
+hf02-skill: >f....... hf02-proof-9x16.mp4
+hf02-skill: >f....... hf02-proof-captions.srt
+hf02-skill: >f....... hf02-proof-master.wav
+hf02-skill: >f....... hf02-proof-storyboard-16x9.pdf
+hf02-skill: >f....... hf02-proof-storyboard-16x9.png
+hf02-skill: >f....... hf02-proof-storyboard-1x1.pdf
+hf02-skill: >f....... hf02-proof-storyboard-1x1.png
+hf02-skill: >f....... hf02-proof-storyboard-9x16.pdf
+hf02-skill: >f....... hf02-proof-storyboard-9x16.png
+hf02-skill: cd+++++++ compare/
+hf02-skill: >f....... compare/blur-applied.jsonl
+hf02-skill: >f....... compare/blurcal.py
+hf02-skill: >f....... compare/blurcal.txt
+hf02-skill: >f....... compare/compare.json
+hf02-skill: >f....... compare/compare.py
+hf02-skill: >f....... compare/compare.txt
+hf02-skill: >f....... compare/landings.json
+hf02-skill: >f....... compare/landings.py
+hf02-skill: >f....... compare/landings.txt
+hf02-skill: >f....... compare/listL-ours.json
+hf02-skill: >f....... compare/listc-ours.json
+hf02-skill: >f....... compare/prep.py
+hf02-skill: >f....... compare/run.sh
+hf02-skill: >f....... compare/segments.txt
+hf02-skill: >f....... compare/trk-A.json
+hf02-skill: >f....... compare/trk-B1f.json
+hf02-skill: >f....... compare/trk-B1r.json
+hf02-skill: >f....... compare/trk-B2f.json
+hf02-skill: >f....... compare/trk-B2r.json
+hf02-skill: >f....... compare/trk-C0f.json
+hf02-skill: >f....... compare/trk-C0r.json
+hf02-skill: >f....... compare/trk-D1f.json
+hf02-skill: >f....... compare/trk-D1r.json
+hf02-skill: >f....... compare/trk-D2f.json
+hf02-skill: >f....... compare/trk-D2r.json
+hf02-skill: cd+++++++ compare/tools/
+hf02-skill: >f....... compare/tools/camdump.mjs
+hf02-skill: >f....... compare/tools/listc2.py
+hf02-skill: cd+++++++ tools/
+hf02-skill: >f....... tools/cmp.py
+hf02-skill: >f....... tools/listL.py
+hf02-skill: >f....... tools/listc.py
+hf02-skill: >f....... tools/pick.py
+hf02-skill: >f....... tools/sbs.py
+hf02-skill: >f....... tools/sheet.py
+hf02-skill: >f....... tools/track.py
+== hf02-full: the paid fal footage (the film's 8 clips + their raw generations, key stills and request logs)
+hf02-full/out/fal/v2: cd+++++++ ./
+hf02-full/out/fal/v2: >f....... plate1-i2v.fal.json
+hf02-full/out/fal/v2: >f....... plate1-i2v.input.json
+hf02-full/out/fal/v2: >f....... plate1-i2v.mp4
+hf02-full/out/fal/v2: >f....... plate1-key.input.json
+hf02-full/out/fal/v2: >f....... plate1-key.jpg.fal.json
+hf02-full/out/fal/v2: >f....... plate1-key_0.jpg
+hf02-full/out/fal/v2: >f....... plate1-key_1-clean.jpg
+hf02-full/out/fal/v2: >f....... plate1-key_1.jpg
+hf02-full/out/fal/v2: >f....... plate1-v2-fit.mp4
+hf02-full/out/fal/v3: cd+++++++ ./
+hf02-full/out/fal/v3: >f....... car0-fit.mp4
+hf02-full/out/fal/v3: >f....... car0-i2v.fal.json
+hf02-full/out/fal/v3: >f....... car0-i2v.input.json
+hf02-full/out/fal/v3: >f....... car0-i2v.mp4
+hf02-full/out/fal/v3: >f....... car0-key.input.json
+hf02-full/out/fal/v3: >f....... car0-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car0-key_0.jpg
+hf02-full/out/fal/v3: >f....... car0-key_1.jpg
+hf02-full/out/fal/v3: >f....... car1-fit.mp4
+hf02-full/out/fal/v3: >f....... car1-i2v.fal.json
+hf02-full/out/fal/v3: >f....... car1-i2v.input.json
+hf02-full/out/fal/v3: >f....... car1-i2v.mp4
+hf02-full/out/fal/v3: >f....... car1-key.input.json
+hf02-full/out/fal/v3: >f....... car1-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car1-key_0.jpg
+hf02-full/out/fal/v3: >f....... car1-key_1.jpg
+hf02-full/out/fal/v3: >f....... car2-fit.mp4
+hf02-full/out/fal/v3: >f....... car2-i2v.fal.json
+hf02-full/out/fal/v3: >f....... car2-i2v.input.json
+hf02-full/out/fal/v3: >f....... car2-i2v.mp4
+hf02-full/out/fal/v3: >f....... car2-key.input.json
+hf02-full/out/fal/v3: >f....... car2-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car2-key_0.jpg
+hf02-full/out/fal/v3: >f....... car2-key_1.jpg
+hf02-full/out/fal/v3: >f....... car3-fit.mp4
+hf02-full/out/fal/v3: >f....... car3-i2v.fal.json
+hf02-full/out/fal/v3: >f....... car3-i2v.input.json
+hf02-full/out/fal/v3: >f....... car3-i2v.mp4
+hf02-full/out/fal/v3: >f....... car3-key.input.json
+hf02-full/out/fal/v3: >f....... car3-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car3-key2.input.json
+hf02-full/out/fal/v3: >f....... car3-key2.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car3-key2_0.jpg
+hf02-full/out/fal/v3: >f....... car3-key2_1.jpg
+hf02-full/out/fal/v3: >f....... car3-key_0.jpg
+hf02-full/out/fal/v3: >f....... car3-key_1.jpg
+hf02-full/out/fal/v3: >f....... car4-fit.mp4
+hf02-full/out/fal/v3: >f....... car4-i2v.fal.json
+hf02-full/out/fal/v3: >f....... car4-i2v.input.json
+hf02-full/out/fal/v3: >f....... car4-i2v.mp4
+hf02-full/out/fal/v3: >f....... car4-key.input.json
+hf02-full/out/fal/v3: >f....... car4-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car4-key_0.jpg
+hf02-full/out/fal/v3: >f....... car4-key_1.jpg
+hf02-full/out/fal/v3: >f....... car5-fit.mp4
+hf02-full/out/fal/v3: >f....... car5-i2v.fal.json
+hf02-full/out/fal/v3: >f....... car5-i2v.input.json
+hf02-full/out/fal/v3: >f....... car5-i2v.mp4
+hf02-full/out/fal/v3: >f....... car5-key.input.json
+hf02-full/out/fal/v3: >f....... car5-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... car5-key_0.jpg
+hf02-full/out/fal/v3: >f....... car5-key_1.jpg
+hf02-full/out/fal/v3: >f....... plate2-fit.mp4
+hf02-full/out/fal/v3: >f....... plate2-i2v.fal.json
+hf02-full/out/fal/v3: >f....... plate2-i2v.input.json
+hf02-full/out/fal/v3: >f....... plate2-i2v.mp4
+hf02-full/out/fal/v3: >f....... plate2-key.input.json
+hf02-full/out/fal/v3: >f....... plate2-key.jpg.fal.json
+hf02-full/out/fal/v3: >f....... plate2-key_0.jpg
+hf02-full/out/fal/v3: >f....... plate2-key_1.jpg
+== measurement data (numbers only, no frames or audio): hf02-full/ref cuts + breakdown, hf02-skill/ref curves
+hf02-full/ref: cd+++++++ ./
+hf02-full/ref: >f....... cuts.json
+hf02-full/ref: cd+++++++ audio/
+hf02-full/ref: >f....... audio/beats.json
+hf02-full/ref: cd+++++++ breakdown/
+hf02-full/ref: >f....... breakdown/breakdown.json
+hf02-full/ref: >f....... breakdown/breakdown.md
+hf02-skill/ref: cd+++++++ ./
+hf02-skill/ref: cd+++++++ curves/
+hf02-skill/ref: >f....... curves/listL.json
+hf02-skill/ref: >f....... curves/listc.json
+hf02-skill/ref: >f....... curves/trackA.json
+== memory notes for this work
+>f..t.... feedback_one_skill_per_domain.md
+>f..t.... project_cue_painted_short.md
+>f.st.... project_launch_video_mode_b.md
+>f..t.... project_product_sting_recreation.md
+>f.st.... reference_chrome_layer_separation_traps.md
+>f.st.... reference_ffmpeg8_mux_traps.md
+>f.st.... user_github_account.md
+>f+++++++ project_hf02_motion_recreation.md
+>f+++++++ reference_minimax_h3_video_api.md
+>f+++++++ reference_video_motion_measurement.md
+>f+++++++ reference_layers_render_speedup.md
+>f+++++++ project_manus_reel_style_gap.md
+>f+++++++ reference_instagram_reel_frame_capture.md
+== handovers
+>f..t.... HANDOVER-cue-video.md
+>f+++++++ HANDOVER-hf02-motion.md
+(dry run: nothing written)

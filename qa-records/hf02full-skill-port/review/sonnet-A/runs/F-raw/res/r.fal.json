@@ -1,0 +1,52 @@
+{
+  "endpoint": "fal-ai/some-model/v2",
+  "input": {
+    "prompt": "x"
+  },
+  "estimate": "unknown — check fal.ai/models/fal-ai/some-model/v2",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-22T15:46:24.007Z",
+  "status": [
+    {
+      "t": 0,
+      "status": "IN_QUEUE",
+      "queue_position": 1
+    },
+    {
+      "t": 3,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 6,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "cc0cbad4-c30e-464a-9633-f9d30bef2b5e",
+  "status_url": "http://127.0.0.1:18950/fal-ai/some-model/requests/cc0cbad4-c30e-464a-9633-f9d30bef2b5e/status",
+  "response_url": "http://127.0.0.1:18950/fal-ai/some-model/requests/cc0cbad4-c30e-464a-9633-f9d30bef2b5e",
+  "result": {
+    "image": {
+      "url": "http://127.0.0.1:18950/files/still_0.jpg",
+      "content_type": "image/jpeg"
+    },
+    "extra": {
+      "thumb": {
+        "url": "http://127.0.0.1:18950/files/still_1.jpg"
+      }
+    }
+  },
+  "finished": "2026-10-22T15:46:30.061Z",
+  "outputs": [
+    {
+      "url": "http://127.0.0.1:18950/files/still_0.jpg",
+      "file": "r_0.jpg",
+      "bytes": 1432931
+    },
+    {
+      "url": "http://127.0.0.1:18950/files/still_1.jpg",
+      "file": "r_1.jpg",
+      "bytes": 1433485
+    }
+  ]
+}

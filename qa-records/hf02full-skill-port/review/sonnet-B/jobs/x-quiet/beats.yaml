@@ -1,0 +1,7 @@
+title: quiet
+brand: {name: X}
+music: {style: film, level: -12}
+shots:
+  - {id: a, block: headline, beats: 4, text: One, out: whip-left}
+  - {id: b, block: headline, beats: 24, text: Two, out: smear-right}
+  - {id: card, block: endcard, beats: 4, tagline: Bye}

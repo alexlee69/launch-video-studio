@@ -1,0 +1,2 @@
+D-old-layers-probe 16x9: 1380 cams, 1380 frames
+INFO 12 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: p4→p5 2.02×, p5→p6 2.23×) — numbers per cut in qa.json

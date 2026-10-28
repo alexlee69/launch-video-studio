@@ -1,0 +1,24 @@
+# The cover of The Lull's phone storyboard (manus2-space, 2026-10-23), as a --cover file for phone.mjs.
+# The title is left out, so it comes from the timeline ("Manus 2.0 — The Lull").
+line: Astronaut storyboard · DRAFT v0.1 for Alex’s review · 2026-10-23
+tag: 'Storyboard only: every live-action plate is a labelled placeholder'
+logline: >-
+  Mid-spacewalk, an astronaut gets Marketing’s email: the launch moved up, the film is due tonight. With five deadpan
+  prompts from her wrist display she has Manus 2.0 recast every disaster that follows as a serene launch film for the
+  station’s new guest module, and it ships while she is in radio blackout. Then, bobbing on the ocean, she gets the
+  next brief.
+table:
+  title: The five prompts (the plot), each sent on higgsfield01’s send frame
+  rows:
+    - [P1, S04 · 0:21.73, Lull launch film. 30s. Make it calm.]
+    - [P2, S09 · 0:30.43, Open on this drift.]
+    - [P3, S14 · 0:39.37, Call it shooting stars.]
+    - [P4, S22 · 0:54.70, Red alarm? Mood lighting.]
+    - [P5, S24 · 1:03.17, End on this glow. Ship it.]
+read:
+  - 27 panels, one still per shot, on higgsfield01’s cut frames (76.53 s, 30 fps).
+  - Bold line under each still = every word on screen in that shot. Blue box = what happens, the motion, and any “Check with Manus” flag.
+  - '“AI FOOTAGE · Sxx” plates are code-drawn placeholders: no image or video has been generated yet. They show composition, not her face, light or weather.'
+  - Prompt bar, status cards, editor, bubbles and end card are built as they would ship; the Manus marks are the official files, unaltered.
+  - 'No reference frames are in this file. Full-resolution sheet for desktop: manus2-space-storyboard-16x9.pdf.'
+footer: DRAFT v0.1 for Alex · placeholder plates, nothing generated · no reference frames

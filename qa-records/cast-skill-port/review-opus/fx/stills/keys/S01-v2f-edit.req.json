@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 1,
+ "refs": [
+  "stills/keys/S01-v2.png"
+ ],
+ "prompt": "Fix the glove. Keep everything else exactly as it is."
+}

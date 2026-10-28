@@ -1,0 +1,53 @@
+{
+  "endpoint": "minimax/h3-max/image-to-video",
+  "input": {
+    "prompt": "B",
+    "image_url": "<file still_0.jpg>",
+    "duration": 5,
+    "resolution": "1080P",
+    "prompt_expansion_mode": "disabled",
+    "enable_safety_checker": true
+  },
+  "estimate": "5 s × $0.16/s at 1080P = $0.80",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-22T15:47:41.356Z",
+  "status": [
+    {
+      "t": 0,
+      "status": "IN_QUEUE",
+      "queue_position": 1
+    },
+    {
+      "t": 3,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "t": 6,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "0acfcc89-0f79-41c7-8cc3-00f54881b2a1",
+  "status_url": "http://127.0.0.1:18950/minimax/h3-max/requests/0acfcc89-0f79-41c7-8cc3-00f54881b2a1/status",
+  "response_url": "http://127.0.0.1:18950/minimax/h3-max/requests/0acfcc89-0f79-41c7-8cc3-00f54881b2a1",
+  "result": {
+    "video": {
+      "url": "http://127.0.0.1:18950/files/clip.mp4",
+      "content_type": "video/mp4",
+      "file_name": "abc_minimax-h3.mp4",
+      "file_size": 2392134
+    },
+    "expanded_prompt": null,
+    "timings": {
+      "inference": 3.1
+    }
+  },
+  "finished": "2026-10-22T15:47:47.418Z",
+  "outputs": [
+    {
+      "url": "http://127.0.0.1:18950/files/clip.mp4",
+      "file": "z.mp4",
+      "bytes": 2392134
+    }
+  ]
+}

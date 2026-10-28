@@ -1,0 +1,9 @@
+repro exit=0 57s :: 14 passed, 0 failed
+look exit=0 60s :: 35 passed, 0 failed — log /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/work-A/logs/test_look.log
+conform_pin exit=0 42s :: 34 passed, 0 failed — log /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/work-A/logs/test_conform_pin.log
+conform_pin_Clocale exit=0 44s :: 34 passed, 0 failed — log /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/work-A/logs/test_conform_pin-clocale.log
+gen exit=0 143s :: 71 passed, 0 failed — log /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/work-A/logs/test_gen.log
+screen_bg exit=0 50s :: 10 passed, 0 failed
+mutants_gen exit=0 151s :: 6 of 6 mutants caught
+mutants_py exit=0 304s :: 6 of 6 mutants caught
+DONE

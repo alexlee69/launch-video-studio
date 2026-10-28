@@ -1,0 +1,162 @@
+# film-sample — "Orbit 2": a ~38 s launch film for a fictional agent team, in 16:9 / 9:16 / 1:1, built from
+# the skill's film blocks (scene · agent · roster · type · lockup · stack · wall) in the grammar of the AI-footage
+# launch films: UI composited over footage, light agent UI shot close, a zoom-through title, hard cuts on actions.
+# Orbit and Acme are FICTIONAL. The assets/*.jpg plates are generated stand-ins for AI footage, and the cards are cut
+# from them and from our own renders: swap in the clips you generate as `bg: assets/your-clip.mp4` (and `cards:` take
+# footage too) — nothing else changes.
+title: Orbit 2 — launch film
+slug: orbit-film87
+aspects: [16x9, 9x16, 1x1]
+thumbnail: name
+
+brand:
+  name: Orbit
+  logo: assets/orbit-logo.svg
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+  cast:
+    - {shape: bean, col: "#4C6BFF"}
+    - {shape: clover, col: "#FF7A45"}
+    - {shape: hex, col: "#9B6BFF"}
+    - {shape: capsule, col: "#21C07A"}
+    - {shape: dome, col: "#FFB21E"}
+    - {shape: cloud, col: "#FF6FA8"}
+    - {shape: gem, col: "#D9DBE3"}
+
+music: {style: film, bpm: 87.46, downbeat: 0.3905, drop: name, breaks: [edge, voice]}   # work-B: the film style on the hf02 reference grid
+
+shots:
+  # 1 · co-brand card: logos + names type in, × pops, six mascots bounce in; the zoom-in exit flies into the type
+  - id: open
+    block: lockup
+    beats: 5
+    partner: {name: Acme, logo: assets/acme-logo.svg}
+    pill: Your launch crew
+    cast: 6
+    out: zoom-in
+
+  # 2 · the name over footage, settling with tracking; it zooms THROUGH the camera at the end (hard cut after)
+  - id: name
+    block: type
+    beats: 5
+    over: Orbit × Acme
+    text: Orbit 2
+    face: serif
+    pill: agents that *ship*
+    bg: assets/sky.jpg
+    bgDim: 0.12
+    through: true
+    out: cut
+
+  # 3 · the brief arrives: a message bubble composited into a cinematic plate; the agent starts reading it
+  - id: hook
+    block: scene
+    beats: 6
+    bg: assets/dusk.jpg
+    letterbox: true
+    overlays:
+      - {at: 10, pos: left, bubble: "Launch is Friday. Help?", time: Today 9:41, from: Maya · Acme}
+      - {at: 44, pos: bottom-right, pill: Opening the brief…, mascot: 1}
+    out: cut
+
+  # 4 · questions pop around the subject one by one and clear (until), then the ask is typed into a dark composer
+  #     over the same plate — send, hard cut to the light UI
+  - id: ask
+    block: scene
+    beats: 9
+    bg: assets/forest.jpg
+    bgMove: right
+    overlays:
+      - {at: 0, pos: [0.36, 0.36], words: [Who?, Which cut?, "By *when?*", Seriously?], every: 9, until: 52}
+      - {at: 40, pos: bottom-right, bar: Cut our launch film by Friday., chip: Orbit 2, speed: 1.15}
+    out: cut
+
+  # 6 · the agents get to work (Manus-style light UI): user message, two rows streaming replies, a message bar
+  - id: brief
+    block: agent
+    beats: 9
+    user: Cut our launch film by Friday.
+    rows:
+      - {avatar: spark, name: Orbit, status: Planning, done: Team briefed, reply: "Briefing the crew: research, script, motion."}
+      - {avatar: 0, name: Scout, status: Scouting, done: Done, reply: "Combing through 120 films like yours to see what made them land."}
+    input: Message Orbit…
+    out: zoom-out
+
+  # 7 · your agents: the roster steps through the highlight with vertical motion blur
+  - id: team
+    block: roster
+    beats: 7
+    title: Your agents
+    agents:
+      - {name: Scout, sub: Digs up what's working, mascot: 0}
+      - {name: Writer, sub: Writes it in your voice, mascot: 2}
+      - {name: Storyboard, sub: See it before it's shot, mascot: 1}
+      - {name: Motion, sub: Make it move, mascot: 3}
+      - {name: Sound, sub: Make it hit, mascot: 4}
+    more: Meet all 12 agents
+    out: whip-up
+
+  # 8 · research at work: a deep card stack cycles, the last card settles, a status pill lands on it
+  - id: scan
+    block: stack
+    beats: 7
+    cards: [assets/cards/q-dusk.jpg, assets/cards/q-night.jpg, assets/cards/q-cue-cast.jpg, assets/cards/q-forest.jpg, assets/cards/q-studio.jpg, assets/cards/q-steady-orbit.jpg, assets/cards/q-sky.jpg, assets/cards/q-cue-dark.jpg]
+    count: 10
+    pill: Studying 120 launch films
+    mascot: 0
+    out: blur
+
+  # 9 · the finding, streamed as a bold title with progress lines ticking
+  - id: edge
+    block: agent
+    beats: 7
+    rows:
+      - {avatar: 0, name: Scout, status: Comparing, done: Done}
+    title: "Best window:|*Thursday, 6 pm.*"
+    steps: [Compared 120 launch films, Checked when your audience is online, Drafted three teaser cuts]
+    out: cut
+
+  # 10 · the next command in a big light prompt bar (no footage: this shot exports as a transparent overlay clip)
+  - id: command
+    block: scene
+    beats: 5
+    overlays:
+      - {at: 0, pos: center, bar: /teasers Cut three for Friday, theme: light, framing: macro, tag: Orbit, chip: Orbit 2, speed: 1.2}
+      - {at: 48, pos: [0.5, 0.7], pill: Cutting 3 teasers, mascot: spark}
+    out: zoom-out
+
+  # 11 · every cut on a floating wall of phone videos with label chips
+  - id: wall
+    block: wall
+    beats: 7
+    cards: [assets/cards/p-dusk-a.jpg, assets/cards/p-night-a.jpg, assets/cards/r-cue-cast.jpg, assets/cards/p-forest-a.jpg, assets/cards/p-studio-a.jpg, assets/cards/p-sky-a.jpg, assets/cards/r-steady-orbit.jpg, assets/cards/p-night-b.jpg, assets/cards/p-dusk-b.jpg, assets/cards/r-cue-dark.jpg, assets/cards/p-forest-b.jpg, assets/cards/p-studio-b.jpg]
+    chips: [Hook in 1s, Product close-up, UGC reaction, Sound on, Captions]
+    text: Every cut, *on brand.*
+    out: blur
+
+  # 12 · the agent answers by voice: a glowing orb with streamed captions over the plate
+  - id: voice
+    block: scene
+    beats: 6
+    bg: assets/studio.jpg
+    letterbox: 2.2
+    bgMove: left
+    overlays:
+      - {at: 2, pos: [0.32, 0.46], orb: true, caption: [Done., "Three teasers, *ready Friday.*"]}
+    out: cut
+
+  # 13 · end line
+  - id: end
+    block: type
+    beats: 5
+    over: Orbit 2
+    text: Your launch team.|*On call.*
+    face: brand
+
+  # 14 · end card (work-B: added so the film style's silence + hit land on an end card)
+  - id: card
+    block: endcard
+    beats: 4
+    tagline: Your launch team, *on call.*
+    cta: [Try Orbit 2]
+    cast: 0

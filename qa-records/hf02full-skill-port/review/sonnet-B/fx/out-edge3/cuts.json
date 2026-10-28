@@ -1,0 +1,59 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ref-edge.mp4",
+  "frames": 120,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ours-late-edge.mp4",
+  "frames": 120,
+  "size": [
+   320,
+   180
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  119
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: 2 in the reference — 0 exact, 1 within 1 f, 1 missing (n119 no change in ours)",
+ "cuts": [
+  {
+   "n": 1,
+   "listed": 1,
+   "label": "",
+   "t": 0.033,
+   "ref_strength": 2.75,
+   "ours": 2,
+   "ours_strength": 2.75,
+   "offset": 1,
+   "curve_offset": 1,
+   "curve_r": 1.0,
+   "status": "±1",
+   "trivial": false,
+   "check": false
+  },
+  {
+   "n": 119,
+   "listed": 119,
+   "label": "",
+   "t": 3.967,
+   "ref_strength": 3.08,
+   "ours": 116,
+   "ours_strength": 0.13,
+   "offset": -3,
+   "curve_offset": 0,
+   "curve_r": 0.34,
+   "status": "missing",
+   "trivial": false,
+   "check": false
+  }
+ ]
+}

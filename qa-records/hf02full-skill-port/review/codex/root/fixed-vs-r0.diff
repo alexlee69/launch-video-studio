@@ -1,0 +1,1289 @@
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/FOOTAGE.md qa/hf02full-skill-port/stage/product-launch-sting/video/FOOTAGE.md
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/FOOTAGE.md	2026-10-22 08:05:01
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/FOOTAGE.md	2026-10-22 09:30:23
+@@ -5,6 +5,8 @@
+ screen pinned onto phones held in the shot. The motion design stays code on top (`bg:` and the blocks' footage fields).
+ Tools in `$V/footage/`; prompts in `templates/footage-prompts.md`. Worked example: `~/Downloads/launch-videos/hf02-full/`
+ (the Cue film, 2026-10-22: 2 plates + 6 selfie cards, `out/fal/v2`, `out/fal/v3`).
++**Needs**, besides the skill's Node, ffmpeg and Chrome: `curl` for `gen.mjs`, and `python3` with numpy and Pillow for
++`look.py`, `conform.py` and `pin.py` (`pip3 install numpy pillow` once; without them the tools say so and stop).
+ 
+ ```bash
+ node $V/footage/gen.mjs still --prompt @key.txt --out out/fal/plate1-key --aspect 16:9          # dry run: request + cost
+@@ -14,8 +16,8 @@
+ node $V/footage/gen.mjs raw <endpoint> input.json --out out/fal/x.mp4 [--go]                     # any other fal model
+ node $V/footage/gen.mjs fetch <request_id> --endpoint <endpoint> --out <same --out>             # resume a cut-off run
+ python3 $V/footage/look.py out/fal/plate1-i2v.mp4 --ref ~/Downloads/ref.mp4 --ref-from 130f --ref-to 260f --ref-crop 0,0,760,400
+-python3 $V/footage/conform.py out/fal/plate1-i2v.mp4 assets/plate1.mp4 --frames 88 --start 0.9 --size 1920x1080 --grade "…"
+-python3 $V/footage/pin.py out/fal/card-i2v.mp4 assets/screen.png assets/card.mp4 --frames 69 --start 0.2 --grade "…"
++python3 $V/footage/conform.py out/fal/plate1-i2v.mp4 assets/plate1.mp4 --frames 88 --start 0.9 --size 1920x1080 --grade "eq=saturation=1.25,gblur=sigma=1.4"
++python3 $V/footage/pin.py out/fal/card-i2v.mp4 assets/screen.png assets/card.mp4 --frames 69 --start 0.2 --grade "eq=saturation=0.75,gblur=sigma=0.8"
+ node $V/footage/screen.mjs --job DIR --shot s3 --out assets/screen.png                        # stand-in screen from a phone shot
+ ```
+ 
+@@ -46,7 +48,10 @@
+ 
+ ## The realism recipe
+ 
+-Measured with `look.py` against the reference's own live-action plates:
++Measured with `look.py` against the reference's own live-action plates (the frames used: reference plate 1 `n130–260`, 11
++frames, `--crop 0,0,760,400`, and plate 2 `n1560–1625`, 6 frames, `--crop 260,0,820,380`; the draft 6 grabs at 0.5–5.5 s;
++the raw clip 9 grabs at 0–6.4 s; the graded clip frames `10f–160f`. look.py's default, 12 frames over the whole clip,
++lands within a few points: graded p50 66 instead of 64):
+ 
+ | | p50 luma | deep shadow (< 40) | saturation | sharpness | shadows / highlights |
+ |---|---|---|---|---|---|
+@@ -92,6 +97,9 @@
+   that works.
+ - `--size 1920x1080` cover-crops to the film's frame (1080P clips are 1928×1076); the grade is baked in; the model's
+   audio is dropped (mix sound with `music` / `voiceover`); BT.709 tags, yuv420p.
++- **The user's own phone clips** work too: HDR (HLG / PQ) is converted to SDR with the film engine's own conversion
++  (`lib/hdr.mjs`, the same one `bg:` footage gets), a rotation tag is honoured (portrait stays portrait), and an odd
++  width or height loses its last column / row (no resampling). `look.py` measures them the same way.
+ 
+ ## Pin the app onto a phone — `pin.py`
+ 
+@@ -124,7 +132,8 @@
+ - Generate at the shot's aspect (16:9 plates, 9:16 cards); a 16:9 clip in a 9:16 film is cover-cropped to its middle.
+ - **CapCut instead**: conform the clips at the edit's frame rate (`--fps 30`), lay them on the main track, and export
+   the motion design as overlays (`--clips … --alpha`).
+-- Re-generating means new files and a new estimate: `gen.mjs` never overwrites an output without `--force`.
++- Re-generating means new files and a new estimate: `gen.mjs` stops on an existing output unless `--force`, and even then
++  touches nothing until fal has accepted the new request; the older clip and its log are then kept as `*.prev`.
+ 
+ ## Traps
+ 
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/GUIDE.md qa/hf02full-skill-port/stage/product-launch-sting/video/GUIDE.md
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/GUIDE.md	2026-10-22 06:59:24
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/GUIDE.md	2026-10-22 09:07:43
+@@ -14,7 +14,8 @@
+ deliverables land at the top of `DIR` (clips in `DIR/clips/`). Make jobs in `~/Downloads/launch-videos/<slug>/` unless the
+ user names a folder (the CLI always takes `--job DIR`).
+ Requirements are the same as mode A (Node ≥ 18, ffmpeg/ffprobe, Google Chrome). If `$V/node_modules` is missing:
+-`cd $V && npm ci` (and `cd .. && npm ci` for the parent's playwright-core + Inter).
++`cd $V && npm ci` (and `cd .. && npm ci` for the parent's playwright-core + Inter). The footage and recreate tools
++(`FOOTAGE.md`, `RECREATE.md`) also need python3 with numpy and Pillow (`pip3 install numpy pillow`) and curl.
+ 
+ ## The workflow — every step ends with something the user approves
+ 
+@@ -22,7 +23,7 @@
+ |---|---|---|---|---|
+ | 1 | Brief | goal, audience, where it runs (→ aspects), length, deadline, 2–3 references + what to borrow from each (the saved reel files; `--breakdown` each, see Reference breakdown), must-say / must-not-say, CTA | `brief.md` (from `templates/brief.md`; draft it from a PRD if they have one) | "yes, that's the video" |
+ | 2 | Script | product facts and the claims they may make | 2–3 directions in a few lines each; then the chosen one as `beats.yaml` | lock the words |
+-| 3 | Timing | music choice (compose: playful / keynote / calm, or their track + where to start; `--tempo` reads its bpm and first downbeat), tempo feel | `lv.mjs --grid`: the beat grid table + warnings | lock length and cut points |
++| 3 | Timing | music choice (compose: playful / keynote / calm / film, or their track + where to start; `--tempo` reads its bpm and first downbeat), tempo feel | `lv.mjs --grid`: the beat grid table + warnings | lock length and cut points |
+ | 4 | Storyboard | — | `lv.mjs --storyboard`: one **real** still per shot (not a sketch), PNG + PDF per aspect | notes per shot number — the most important gate |
+ | 5 | Assets (in parallel with 2–4) | logo SVG, colours, fonts, Figma/screenshots, characters, footage, VO | `templates/assets-checklist.md`; a live-action shot list (`templates/live-action-shotlist.md`) when footage is needed; footage generated here: `FOOTAGE.md` (prompts and cost approved first) | — |
+ | 6 | Animatic (optional; skip ≤ 15 s) | — | `lv.mjs --animatic`: whole video, half size, 30 fps, with sound | pacing notes |
+@@ -87,7 +88,8 @@
+   `level: dB` (music vs SFX), and for a track `file`, `start` (seconds into the file), `downbeat` (film time of its
+   first downbeat). `music: calm` is shorthand for `{style: calm}`. A track must cover the whole cut from `start`
+   (`--grid` warns, `--film` refuses rather than letting the music stop early). `film` is the launch-film groove (87 BPM
+-  in F, from the Cue film): its grid starts at `downbeat`, so a film can sit on a reference's beat (`RECREATE.md`).
++  in F, from the Cue film): its grid starts at `downbeat`, so a film can sit on a reference's beat, and `hit:` moves its
++  end hit off the end card's first frame (seconds after it, −1…2; `RECREATE.md`).
+   `voiceover: {file, start, duck}` (or just `voiceover: assets/vo.wav`) ducks the music under a recorded VO. Cutdowns
+   never reuse the main read (its lines wouldn't match their shots): give one its own with
+   `voiceover: {file: …, cutdowns: {10s: assets/vo-10s.wav}}`, otherwise that cutdown plays music + SFX only.
+@@ -585,9 +587,11 @@
+ 
+ ## Limits (raise them at the brief)
+ 
+-- **Live action and AI footage** aren't generated here: the user generates clips in their AI video tool (or films them —
+-  write a shot list, `templates/live-action-shotlist.md` — or licenses stock) and drops the files into `assets/`; `bg:`,
+-  the blocks' footage fields and `media` play them and composite the motion design over them.
++- **Live action and AI footage**: generated here only through the user's own fal.ai key, prompts and cost approved
++  first (`FOOTAGE.md`); otherwise the user generates clips in their AI video tool (or films them — write a shot list,
++  `templates/live-action-shotlist.md` — or licenses stock) and drops the files into `assets/`. `bg:`, the blocks'
++  footage fields and `media` play them and composite the motion design over them. AI video never holds exact UI text,
++  logos or frame-exact UI motion: those stay code (or the official screenshot, pinned).
+ - **Voiceover** isn't synthesised: the user records it (or picks a TTS service); `voiceover:` mixes and ducks it.
+ - **Audio** is checked by meters (loudness, true peak, onset timing), never by ear.
+ - **Output is a code project**, not After Effects. If a motion designer takes over, deliver per-element layers
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/RECREATE.md qa/hf02full-skill-port/stage/product-launch-sting/video/RECREATE.md
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/RECREATE.md	2026-10-22 08:25:17
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/RECREATE.md	2026-10-22 09:22:17
+@@ -4,7 +4,8 @@
+ competitor's reel) rebuilt so every cut, camera move, ease, blur and event lands on the reference's frame, with our own
+ story on screen and our own score on the reference's beat grid. It ends with proof: a frame-locked side-by-side, a cut
+ report, the camera curves and a beat check. The worked example is `~/Downloads/launch-videos/hf02-full/` (numbers at the
+-end). `$V` = `~/.claude/skills/product-launch-sting/video`. Python tools run with `/usr/bin/python3` (numpy, Pillow).
++end). `$V` = `~/.claude/skills/product-launch-sting/video`. Requirements: `/usr/bin/python3` with numpy and Pillow (missing:
++`pip3 install numpy pillow`), ffmpeg/ffprobe, node.
+ 
+ ## What we borrow, what we never do
+ 
+@@ -75,21 +76,29 @@
+ ## 4 · Score: our own music on their beat
+ 
+ ```yaml
+-music: {style: film, bpm: 87.46, downbeat: 0.3905, drop: s2, breaks: [s14, s19], key: F}
++music: {style: film, bpm: 87.46, downbeat: 0.3905, drop: s2, breaks: [s14, s19], key: F, hit: 0.372}
+ ```
+ 
+ - `style: film` is the hf02 score as a style: an original groove (16th shaker with accents, stabs on 1 and 3 with a
+   light pickup on the and of 4, kick + soft clap, syncopated bass, a 16th arpeggio and a motif over rootless 9th chords
+   I · vi · IV · Vsus2 in `key`). Every event sits on the grid `downbeat + k·beat`, the intro too, so the score's first
+   beat is the reference's. Intro: pad swell, arpeggio, a shaker pickup and a riser into the `drop` shot (default the
+-  2nd); each `breaks:` shot dips to pad + shaker with a short riser back in; a lift over the last two bars before an
+-  `endcard` shot, the music silent for its last 0.44 s, then the hit on the end card ringing out. No end card: the last
+-  bar rings out. Default 87 BPM in F; `level:` moves the music against the SFX. `music:` scores beats.yaml jobs; a
+-  hand-built stage (section 2) keeps its own score script — start from hf02-full's `audio.mjs`, the same groove.
++  2nd); each `breaks:` shot dips to pad + shaker with a short riser back in (touching breaks are one dip); a lift
++  over the last two bars before the hit, the music silent for 0.44 s, then the hit on the `endcard` shot (`hit` s
++  into it) ringing out. No end card: the last bar rings out. Default 87 BPM in F; `level:` moves the music against the
++  SFX. `music:` scores beats.yaml jobs; a hand-built stage (section 2) keeps its own score script — start from
++  hf02-full's `audio.mjs`, the same groove.
+ - **bpm / downbeat** from the reference's tracker reading (`lv.mjs --tempo ref.mp4`): `downbeat` = its first beat
+   (when the bar accent is clear, its first downbeat). **drop / breaks** from its energy map: the shot where its groove
+   comes in, the shots where it dips. Lay the shots on the same frames as the reference first (section 2), then the dips
+-  and the hit fall where theirs do.
++  fall where theirs do. A cut up to 35 ms off a grid line counts as on it (frame-cut `sec:` shots land up to ±17 ms off).
++- **hit**: when the hit lands, in seconds after the end card's first frame (default 0 = on the cut; −1…2). A reference
++  often cuts to its end card in silence and hits later. Measure it: `music.py compare ref.mp4 ours.mp4` prints the
++  reference's biggest hit (hf02: 59.939 s); the breakdown gives the end card's first frame (hf02: n1787 = 59.567 s); the
++  difference is `hit` (0.372). The silence is the 0.44 s before the hit and the lift counts back from it; the end card's
++  own sounds before a later hit stay out of the mix (its stems keep them). No end card: `hit` does nothing.
++- **Tempo octaves**: a film at 60 BPM reads 120 on the tracker, one at 180 reads 90 (its prior sits at 120): keep
++  between ~70 and ~160, or expect compare's half/double-time note.
+ - Check it: `python3 $V/recreate/music.py compare ref.mp4 ours.mp4` → both tracker readings, the onset lag of ours,
+   quiet stretches, the biggest hit, both profiles on the reference's grid, and `verdict: ON THEIR BEAT` (exit 0) or
+   `OFF THEIR BEAT — <why>` (exit 1): tempo within 0.15 BPM, beat phase and onsets within 35 ms, the hits within 35 ms,
+@@ -101,14 +110,20 @@
+ ## 5 · Proofs
+ 
+ ```bash
++python3 $V/footage/conform.py DIR/<slug>-16x9.mp4 DIR/proof/ours30.mp4 --frames <ref frames> --fps 30    # 60 fps master → the reference's 30
+ python3 $V/recreate/compare.py --ref ref.mp4 --ours DIR/<slug>-16x9.mp4 --out DIR/proof --cuts-from DIR/proof/cuts.txt
+ python3 $V/recreate/compare.py ... --out DIR/proof-slow --from 10 --to 17 --half          # a stretch at half speed
+-python3 $V/recreate/track.py DIR/<slug>-16x9.mp4 --key 300 --from 300 --to 311 --half --scale-to 1080x608 --out curves/ours-pan-312.json
++python3 $V/recreate/track.py DIR/proof/ours30.mp4 --key 300 --from 300 --to 311 --half --scale-to 1080x608 --out curves/ours-pan-312.json
+ ```
+ 
++`lv.mjs --film` masters are 60 fps; the reference is usually 30. `compare.py` reads an exact multiple directly (ours'
++frame 2i against the reference's frame i, the same frames `conform.py --fps 30` keeps); any other rate it refuses with
++the conform command to run. `track.py` numbers frames in its file's own rate, so track the 30 fps conform (no audio:
++compare it with `--audio ref` or `none`).
++
+ - `sbs.mp4`: frame i = reference i | ours i, decoded **by index** (never ffmpeg hstack: it re-times irregular
+   timestamps and slipped 1,411 of 1,909 frames on hf02), then decoded back and checked: `verify: N/N frames exact` or
+-  exit 1 with the frames that slipped. Same frame rate required (conform first).
++  exit 1 with the frames that slipped. Same frame rate, or ours an exact multiple of it.
+ - `cuts.md` / `cuts.json`: per reference cut, our biggest picture change within ±4 frames and its offset — `exact`,
+   `±1`, `off`, `missing`. `trivial` = a neighbouring shot of ours is blank (a cut next to an unbuilt shot matches for
+   free; don't count it). `check` = the offset says off but the two change curves line up: motion next to the cut won the
+@@ -153,7 +168,9 @@
+   14.07 px/f at n311, ×1.36. After the cut theirs decays ×0.71 a frame.
+ - Score (its own `audio.mjs`, the basis of `style: film`): tracker 87.45 BPM vs their 87.46, first beat 0.3912 vs
+   0.3905 s, confidence 0.75 vs 0.94; onsets +5 ms behind theirs; the silence before the hit and the hit itself at
+-  59.939 s in both; key F major in both. Groove on their grid: body r 0.65, hats r 0.55; ours is darker (centroid 3113
+-  vs 3367 Hz) and heavier below 120 Hz (+2 dB).
++  59.939 s in both; key F major in both. Groove on their grid: body r 0.65, hats r 0.55, but **kick r −0.21** — our
++  kick pattern runs against theirs (accents on 1 and 3 where theirs spreads over the bar); ours is darker (centroid
++  3113 vs 3367 Hz) and heavier below 120 Hz (+2 dB). The end card's hit lands 0.372 s after its cut in both
++  (`hit: 0.372` in a beats.yaml rebuild).
+ - Temp track: `out/film-tempmusic-PRIVATE.mp4`, decoded audio md5 486aab4c… = the reference's, video packets
+   80d435ae… = film.mp4's, the same 2,112-sample priming.
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/_media.py qa/hf02full-skill-port/stage/product-launch-sting/video/footage/_media.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/_media.py	2026-10-22 07:27:04
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/footage/_media.py	2026-10-22 09:21:26
+@@ -1,8 +1,10 @@
+ # -*- coding: utf-8 -*-
+-# Shared by conform.py, pin.py and look.py: ffprobe facts, the conform filter chain, frame grabs, the cadence in words.
+-# numpy + Pillow live in the user site-packages on this Mac: under `python3 -I` (no user site) it is added back here.
++# Shared by conform.py, pin.py and look.py: ffprobe facts (rotation and HDR included), the conform filter chain, the
++# engine's own HDR → SDR conversion, frame grabs, the cadence in words. numpy + Pillow live in the user site-packages on
++# this Mac: under `python3 -I` (no user site) it is added back here; need_numpy() says how to install them if missing.
+ import json, math, os, subprocess, sys
+ from fractions import Fraction
++from urllib.request import pathname2url
+ 
+ try:
+     import numpy, PIL  # noqa: F401
+@@ -12,6 +14,8 @@
+         sys.path.append(site.getusersitepackages())
+ 
+ BT709 = 'setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709'
++HDR = {'arib-std-b67': 'HLG', 'smpte2084': 'PQ (HDR10)'}          # the transfers lib/hdr.mjs converts, as the film engine does
++HDR_JS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib', 'hdr.mjs')
+ 
+ 
+ def die(code, msg):
+@@ -19,6 +23,13 @@
+     sys.exit(code)
+ 
+ 
++def need_numpy(tool):
++    try:
++        import numpy, PIL  # noqa: F401,F811
++    except ImportError as e:
++        die(2, '%s needs numpy and Pillow (%s). Install them once: pip3 install numpy pillow' % (tool, e))
++
++
+ def run(cmd, what):
+     r = subprocess.run(cmd, capture_output=True)
+     if r.returncode:
+@@ -27,11 +38,12 @@
+ 
+ 
+ def probe(path):
+-    """The first video stream: w, h, fps (Fraction, r_frame_rate), duration (s), audio (bool); None if unreadable."""
++    """The first video stream as ffmpeg decodes it: w, h (after its rotation tag), fps (Fraction, r_frame_rate), duration
++    (s), audio (bool), trc (color_transfer); None if unreadable."""
+     if not os.path.isfile(path):
+         return None
+-    r = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,width,height,r_frame_rate:format=duration',
+-                        '-of', 'json', path], capture_output=True)
++    r = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,width,height,r_frame_rate,color_transfer:stream_tags=rotate:'
++                        'stream_side_data=rotation:format=duration', '-of', 'json', path], capture_output=True)
+     try:
+         j = json.loads(r.stdout.decode('utf-8', 'replace')) if r.returncode == 0 else {}
+     except ValueError:
+@@ -44,10 +56,36 @@
+         fps = Fraction(v.get('r_frame_rate') or '0/1')
+     except (ValueError, ZeroDivisionError):
+         fps = Fraction(0)
++    w, h = int(v['width']), int(v['height'])
++    rot = next((d['rotation'] for d in v.get('side_data_list') or [] if 'rotation' in d), None)
++    if rot is None:
++        rot = (v.get('tags') or {}).get('rotate') or 0
++    if int(round(float(rot))) % 180:                  # a phone clip stored sideways + a rotation tag: ffmpeg decodes it upright
++        w, h = h, w
+     dur = float((j.get('format') or {}).get('duration') or 0)
+-    return dict(w=int(v['width']), h=int(v['height']), fps=fps, dur=dur, audio=any(s.get('codec_type') == 'audio' for s in st))
++    return dict(w=w, h=h, fps=fps, dur=dur, audio=any(s.get('codec_type') == 'audio' for s in st), trc=v.get('color_transfer'))
+ 
+ 
++_hdr_cache = {}
++
++
++def hdr_prefix(info, path):
++    """The film engine's HDR → SDR BT.709 conversion (lib/hdr.mjs hdrFilter, exactly as lv.mjs's extractPlates uses it),
++    as a filter prefix ending in ','; '' for SDR footage."""
++    trc = (info or {}).get('trc')
++    if trc not in HDR:
++        return ''
++    if trc not in _hdr_cache:
++        r = subprocess.run(['node', '--input-type=module', '-e', 'import { hdrFilter } from %s; process.stdout.write(hdrFilter(process.argv[1]))'
++                            % json.dumps('file://' + pathname2url(HDR_JS)), trc], capture_output=True)
++        f = r.stdout.decode('utf-8', 'replace')
++        if r.returncode or not f.endswith(','):
++            die(2, "%s is %s HDR, and the film engine's conversion to SDR (%s, run with node) failed:\n%s\nConvert the clip to SDR first, "
++                'or film with HDR Video off.' % (path, HDR[trc], HDR_JS, r.stderr.decode('utf-8', 'replace').strip()))
++        _hdr_cache[trc] = f
++    return _hdr_cache[trc]
++
++
+ def fps_arg(s):
+     """'30', '29.97', '30000/1001' → Fraction; the string ffmpeg gets back is the shortest exact form ('30' stays '30')."""
+     try:
+@@ -82,14 +120,17 @@
+     return 'scale=%d:%d:force_original_aspect_ratio=increase:flags=lanczos,crop=%d:%d' % (w, h, w, h)
+ 
+ 
+-def chain(fps, grade='', size=None):
+-    """fps=<fps>:round=near (native speed: frames repeat or drop, never blend) → cover crop → grade → BT.709 → yuv420p."""
+-    vf = 'fps=%s:round=near' % fps_str(fps)
++def chain(fps, grade='', size=None, hdr='', odd=None):
++    """[HDR → SDR] fps=<fps>:round=near (native speed: frames repeat or drop, never blend) → [an odd w×h cropped to even, no
++    resampling] → [cover crop] → grade → BT.709 → yuv420p. SDR footage of even size gets exactly the chain it always had."""
++    vf = hdr + 'fps=%s:round=near' % fps_str(fps)
++    if odd:
++        vf += ',crop=%d:%d' % (odd[0] - odd[0] % 2, odd[1] - odd[1] % 2)
+     if size:
+         vf += ',' + cover(*size)
+     if grade:
+         vf += ',' + grade
+-    return vf + ',' + BT709 + ',format=yuv420p'
++    return vf + ',' + BT709 + (':range=tv' if hdr else '') + ',format=yuv420p'   # the HDR conversion ends full range: back to TV
+ 
+ 
+ def cadence(src, dst):
+@@ -110,23 +151,30 @@
+     return head + 'every %s source frame kept (native speed)' % {2: '2nd', 3: '3rd'}.get(k, '%dth' % k)
+ 
+ 
+-def frames_at(path, w, h, picks):
+-    """RGB frames of a clip as uint8 arrays. picks = ('t', [seconds]) grabs each with `-ss t -frames:v 1` (what a still
+-    export does); ('n', [indices]) decodes by frame index (select=eq(n,…)), for clips with irregular timestamps."""
++def frames_at(path, w, h, picks, hdr=''):
++    """RGB frames of a clip as uint8 arrays, upright and (HDR) converted to SDR like the engine. picks = ('t', [seconds])
++    grabs each with `-ss t -frames:v 1` (what a still export does); ('n', [indices]) decodes by frame index (select=eq(n,…),
++    48 indices per pass: a longer select= expression runs ffmpeg out of memory), for clips with irregular timestamps."""
+     np = __import__('numpy')
+     kind, vals = picks
++    conv = ['-vf', hdr + 'format=rgb24'] if hdr else []
+     out = []
+     if kind == 't':
+         for t in vals:
+-            raw = run(['ffmpeg', '-v', 'error', '-ss', '%.4f' % t, '-i', path, '-an', '-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], 'ffmpeg (grab %.3f s of %s)' % (t, path))
++            raw = run(['ffmpeg', '-v', 'error', '-ss', '%.4f' % t, '-i', path, '-an'] + conv + ['-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'],
++                      'ffmpeg (grab %.3f s of %s)' % (t, path))
+             if len(raw) < w * h * 3:
+                 die(2, '%s has no frame at %.3f s (it is %.2f s long)' % (path, t, (probe(path) or {}).get('dur', 0)))
+             out.append(np.frombuffer(raw[:w * h * 3], np.uint8).reshape(h, w, 3))
+         return out
+-    sel = '+'.join('eq(n\\,%d)' % n for n in sorted(set(vals)))
+-    raw = run(['ffmpeg', '-v', 'error', '-i', path, '-an', '-vf', 'select=' + sel, '-fps_mode', 'passthrough', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], 'ffmpeg (frames of %s)' % path)
+-    got = np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3)
+-    by = dict(zip(sorted(set(vals)), got))
++    want, by = sorted(set(vals)), {}
++    for k in range(0, len(want), 48):
++        part = want[k:k + 48]
++        sel = 'select=' + '+'.join('eq(n\\,%d)' % n for n in part)
++        raw = run(['ffmpeg', '-v', 'error', '-i', path, '-an', '-vf', sel + (',' + hdr + 'format=rgb24' if hdr else ''), '-fps_mode', 'passthrough',
++                   '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], 'ffmpeg (frames of %s)' % path)
++        got = np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3)
++        by.update(zip(part, got))
+     miss = [n for n in vals if n not in by]
+     if miss:
+         r = subprocess.run(['ffprobe', '-v', 'error', '-count_packets', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', path], capture_output=True)
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/conform.py qa/hf02full-skill-port/stage/product-launch-sting/video/footage/conform.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/conform.py	2026-10-22 08:03:51
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/footage/conform.py	2026-10-22 09:21:47
+@@ -5,11 +5,13 @@
+ #   python3 conform.py <in> <out.mp4> --frames N [--fps 30] [--start S] [--size WxH] [--grade "<ffmpeg filters>"] [--crf 15]
+ # --start = seconds into the clip for the shot's first frame: pick it so the action lands on the shot's beats (clips come
+ # back longer than asked — 6 s → 6.58 s — with the action stretched to match). --grade is appended after the fps (and
+-# --size) step, e.g. FOOTAGE.md's grades. Refuses when the clip can't cover N frames from --start, saying how much is missing.
+-# Exit codes: 0 written · 2 bad arguments, an unreadable clip, or a clip too short for N frames from --start · 1 ffmpeg failed.
++# --size) step, e.g. FOOTAGE.md's grades. HDR clips (HLG / PQ, as phones record) go to SDR first through the film engine's
++# own conversion (lib/hdr.mjs); a rotation tag is honoured; an odd width or height loses its last column / row (H.264
++# 4:2:0 needs even sizes; nothing is resampled). Refuses when the clip can't cover N frames from --start, saying how much
++# is missing. Exit codes: 0 written · 2 bad arguments, an unreadable clip, or a clip too short for N frames · 1 ffmpeg failed.
+ import argparse, math, os, subprocess, sys
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.dont_write_bytecode = True   # no __pycache__ in the skill
+-from _media import die, run, probe, fps_arg, fps_str, num, size_arg, chain, cadence
++from _media import die, run, probe, fps_arg, fps_str, num, size_arg, chain, cadence, hdr_prefix, HDR
+ 
+ ap = argparse.ArgumentParser(description='Conform a generated clip to the film: native speed, N frames at --fps, graded, no audio.')
+ ap.add_argument('src'); ap.add_argument('dst')
+@@ -29,6 +31,12 @@
+ if os.path.abspath(a.src) == os.path.abspath(a.dst):
+     die(2, 'the output would overwrite the input')
+ fps, size = fps_arg(a.fps), size_arg(a.size) if a.size else None
++try:
++    os.makedirs(os.path.dirname(os.path.abspath(a.dst)), exist_ok=True)   # before the work, not after it
++except OSError as e:
++    die(2, "can't create the folder for %s: %s" % (a.dst, e))
++hdr = hdr_prefix(info, a.src)
++odd = (info['w'], info['h']) if not size and (info['w'] % 2 or info['h'] % 2) else None
+ # what ffmpeg's fps filter really yields from a start (the same seek + filter, decoded small; passthrough like the mp4 —
+ # a raw pipe would pad a start that lands between source frames with one extra frame): exact, edge cases included
+ count = lambda t: len(run(['ffmpeg', '-v', 'error', '-ss', '%.4f' % t, '-i', a.src, '-an', '-sn', '-vf', 'fps=%s:round=near,scale=8:8' % fps_str(fps),
+@@ -48,12 +56,12 @@
+         a.src, have, a.frames, a.start, num(fps), miss, '' if miss == 1 else 's', miss / float(fps),
+         ('Start earlier (--start %.2f works), shorten the shot, or generate a longer clip (gen.mjs video --sec).' % ok) if ok is not None else
+         ('Even from 0 s it gives %d frames (%.2f s at %s fps): shorten the shot or generate a longer clip (gen.mjs video --sec).' % (whole, whole / float(fps), num(fps)))))
+-os.makedirs(os.path.dirname(os.path.abspath(a.dst)), exist_ok=True)
+-run(['ffmpeg', '-y', '-v', 'error', '-ss', '%.4f' % a.start, '-i', a.src, '-an', '-sn', '-vf', chain(fps, a.grade, size), '-frames:v', str(a.frames),
++run(['ffmpeg', '-y', '-v', 'error', '-ss', '%.4f' % a.start, '-i', a.src, '-an', '-sn', '-vf', chain(fps, a.grade, size, hdr, odd), '-frames:v', str(a.frames),
+      '-c:v', 'libx264', '-preset', 'slow', '-crf', str(a.crf), '-movflags', '+faststart', a.dst], 'ffmpeg (conform)')
+ got = subprocess.run(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0', '-show_entries', 'stream=nb_read_frames,width,height',
+                       '-of', 'csv=p=0', a.dst], capture_output=True).stdout.decode().strip().split(',')
+ if len(got) < 3 or int(got[2]) != a.frames:
+     die(1, 'wrote %s but it has %s frames, not %d' % (a.dst, got[-1] if got else '?', a.frames))
+ print('wrote %s: %d frames at %s fps (%sx%s, %.2f s) from %.2f s into %s' % (a.dst, a.frames, num(fps), got[0], got[1], a.frames / float(fps), a.start, os.path.basename(a.src)))
+-print('  %s%s%s · BT.709, yuv420p, crf %d' % (cadence(info['fps'], fps), ' · audio dropped' if info['audio'] else '', ' · graded' if a.grade else '', a.crf))
++print('  %s%s%s%s%s · BT.709, yuv420p, crf %d' % (cadence(info['fps'], fps), ' · audio dropped' if info['audio'] else '', ' · graded' if a.grade else '',
++      ' · %s HDR → SDR (the film engine\'s conversion)' % HDR[info['trc']] if hdr else '', ' · %dx%d cropped to even' % odd if odd else '', a.crf))
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/gen.mjs qa/hf02full-skill-port/stage/product-launch-sting/video/footage/gen.mjs
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/gen.mjs	2026-10-22 08:16:31
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/footage/gen.mjs	2026-10-22 09:12:21
+@@ -14,8 +14,9 @@
+ //   still / video / raw also take [--go] [--force] [--timeout 900] [--env FILE]; fetch [--timeout] [--env] [--force]
+ // Defaults: stills raw, jpeg, 2 images, 16:9; video 1080P, 5 s (reference-to-video: the guide's length rounded up, min 5),
+ // prompt expansion off, safety checker on. Each run logs to <out without extension>.fal.json (stills: <prefix>.fal.json):
+-// endpoint, input (files by name), request id, times, estimate, output URLs, files. Outputs are never overwritten
+-// without --force. Video comes back at 24 fps with the model's own audio (conform.py / pin.py drop it).
++// endpoint, input (files by name), request id, times, estimate, output URLs, files. Outputs are never overwritten: without
++// --force a run stops; with it, once fal has accepted the new request, the older files and log are kept as *.prev.
++// Video comes back at 24 fps with the model's own audio (conform.py / pin.py drop it).
+ // Key: --env FILE if given, else FAL_KEY in the environment, else ~/Downloads/launch-videos/.env (a line FAL_KEY=…).
+ // It is sent only to the queue (FAL_QUEUE_URL, default https://queue.fal.run) and never printed or written anywhere.
+ // Downloads: a fresh `curl -C -` per try (resumes after every drop or stall; curl's own --retry restarts a try from its
+@@ -31,18 +32,22 @@
+ const STILL = 'fal-ai/flux-pro/v1.1-ultra', I2V = 'minimax/h3-max/image-to-video', R2V = 'minimax/h3-max/reference-to-video';
+ const PRICES = 'fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models';
+ const ASPECTS = ['9:16', '16:9', '1:1', '4:3', '3:4', '21:9', '9:21'], RES = ['480P', '768P', '1080P'];
+-const MIME = { '.mp4': 'video/mp4', '.mov': 'video/quicktime', '.webm': 'video/webm', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.wav': 'audio/wav', '.mp3': 'audio/mpeg' };
++const MIME = { '.mp4': 'video/mp4', '.m4v': 'video/mp4', '.mov': 'video/quicktime', '.webm': 'video/webm', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.wav': 'audio/wav', '.mp3': 'audio/mpeg' };
+ const EXT = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'video/mp4': '.mp4', 'video/quicktime': '.mov', 'video/webm': '.webm' };
+ const BASE = (process.env.FAL_QUEUE_URL || 'https://queue.fal.run').replace(/\/+$/, '');
+ const VALUED = ['prompt', 'out', 'n', 'aspect', 'seed', 'raw', 'endpoint', 'image', 'guide', 'sec', 'res', 'timeout', 'env'];
++const IMG_EXT = /\.(jpe?g|png|webp)$/i;              // a still's --out may carry one; the prefix is what comes before it
+ 
+ let KEY = null;                                     // set only for --go / fetch; every line printed or written is scrubbed of it
+ const scrub = s => KEY ? String(s).split(KEY).join('****') : String(s);
+ const say = s => console.log(scrub(s)), warn = s => console.error(scrub(s));
+ const die = (code, msg) => { warn(msg); process.exit(code); };
+-class FalError extends Error {}
++class FalError extends Error { constructor(m, unsure = false) { super(m); this.unsure = unsure; } }   // unsure: fal may have created it
++const q = s => /^[\w@%+=:,./-]+$/.test(String(s)) ? String(s) : `'${String(s).replace(/'/g, `'\\''`)}'`;   // shell-quoted, for printed commands
++const rel = p => relative(process.cwd(), p) || '.';
+ const ctx = { id: null, endpoint: null, out: null };   // for the "fetch picks it up" hint
+-const fetchHint = () => ctx.id ? `\n  request ${ctx.id} — once it has finished: node ${process.argv[1]} fetch ${ctx.id} --endpoint ${ctx.endpoint} --out ${ctx.out}` : '';
++const fetchCmd = () => `node ${q(process.argv[1])} fetch ${q(ctx.id)} --endpoint ${q(ctx.endpoint)} --out ${q(ctx.out)}`;
++const fetchHint = () => ctx.id ? `\n  request ${ctx.id} — once it has finished: ${fetchCmd()}` : '';
+ 
+ // ---- arguments
+ const argv = process.argv.slice(2), cmd = argv[0], pos = [], o = {};
+@@ -56,6 +61,8 @@
+   o[k] = argv[++i];
+ }
+ if (!['still', 'video', 'raw', 'fetch'].includes(cmd)) die(2, readFileSync(process.argv[1], 'utf8').split('\nimport ')[0].split('\n').filter(l => l.startsWith('//')).map(l => l.slice(3)).join('\n'));
++const MAXPOS = { still: 0, video: 0, raw: 2, fetch: 1 }[cmd];   // an unquoted prompt spills words here: never send just its first word
++if (pos.length > MAXPOS) die(2, `unexpected argument${pos.length - MAXPOS > 1 ? 's' : ''} ${pos.slice(MAXPOS).map(q).join(' ')} — quote a prompt that has spaces: --prompt "a woman at a kitchen table"`);
+ const int = (v, lo, hi, name) => { const n = Number(v); if (!Number.isInteger(n) || n < lo || n > hi) die(2, `${name} must be a whole number from ${lo} to ${hi} (got ${v})`); return n; };
+ const oneOf = (v, list, name) => { if (!list.includes(v)) die(2, `${name} must be one of ${list.join(' | ')} (got ${v})`); return v; };
+ const need = (v, what) => { if (v == null || v === '') die(2, `${what} is required`); return v; };
+@@ -86,12 +93,13 @@
+ const seed = () => o.seed == null ? {} : { seed: int(o.seed, 0, 2 ** 31 - 1, '--seed') };
+ const stripExt = p => p.replace(/\.[a-z0-9]{2,5}$/i, '');
+ 
++// kind = how the result is read and named: still (images → <prefix>_<i>.jpg), video (the video → --out), raw (every URL)
+ let endpoint, input, out, logPath, expect = null, kind = cmd;
+ if (cmd === 'still') {
+   const n = int(o.n ?? 2, 1, 4, '--n'), raw = oneOf(String(o.raw ?? 'true'), ['true', 'false'], '--raw') === 'true';
+   endpoint = o.endpoint || STILL;
+   input = { prompt: promptOf(o.prompt), aspect_ratio: oneOf(o.aspect || '16:9', ASPECTS, '--aspect'), raw, num_images: n, ...seed(), output_format: 'jpeg' };
+-  out = stripExt(resolve(need(o.out, '--out <prefix>')));
++  out = resolve(need(o.out, '--out <prefix>')).replace(IMG_EXT, '');
+   logPath = out + '.fal.json';
+   expect = Array.from({ length: n }, (_, i) => `${out}_${i}.jpg`);
+ } else if (cmd === 'video') {
+@@ -134,8 +142,10 @@
+   expect = [out];
+ } else {
+   ctx.id = need(pos[0], 'fetch <request_id>'); endpoint = need(o.endpoint, '--endpoint (the model the request went to)'); appOf(endpoint);
++  kind = endpoint === STILL ? 'still' : /^minimax\/h3-max\/(image|reference)-to-video$/.test(endpoint) ? 'video' : 'raw';   // as the run that made it
+   out = resolve(need(o.out, '--out <path> (the same --out as the original run)'));
+-  logPath = stripExt(out) + '.fal.json';
++  if (kind === 'still') out = out.replace(IMG_EXT, '');
++  logPath = (kind === 'still' ? out : stripExt(out)) + '.fal.json';
+ }
+ ctx.endpoint = endpoint; ctx.out = o.out;
+ const timeout = int(o.timeout ?? 900, 1, 86400, '--timeout');
+@@ -143,7 +153,8 @@
+ function estimate(ep, inp) {
+   if (ep === STILL) { const n = inp.num_images || 1; return `${n} image${n > 1 ? 's' : ''} × $0.06 = $${(n * .06).toFixed(2)}`; }
+   if (/^minimax\/h3-max\//.test(ep)) {
+-    const s = Number(inp.duration) || 0, r = inp.resolution || '1080P';
++    const s = Number(inp.duration), r = inp.resolution || '1080P';
++    if (!(s > 0)) return `unknown — the input has no duration (fal's default applies); check fal.ai/models/${ep}`;
+     return r === '1080P' ? `${s} s × $0.16/s at 1080P = $${(s * .16).toFixed(2)}` : `${s} s at ${r}: unknown — at most $${(s * .16).toFixed(2)} (the 1080P price); check fal.ai/models`;
+   }
+   return `unknown — check fal.ai/models/${ep}`;
+@@ -153,9 +164,9 @@
+   if (!o.env && process.env.FAL_KEY && process.env.FAL_KEY.trim()) return { key: process.env.FAL_KEY.trim() };
+   const f = o.env ? resolve(o.env) : join(homedir(), 'Downloads', 'launch-videos', '.env');
+   let t = ''; try { t = readFileSync(f, 'utf8'); } catch { /* no file = no key */ }
+-  const m = t.match(/^[ \t]*(?:export[ \t]+)?FAL_KEY[ \t]*=[ \t]*(.*)$/m);
+-  let k = m ? m[1].trim() : '';
+-  if (/^(["']).*\1$/.test(k)) k = k.slice(1, -1).trim(); else k = k.replace(/\s+#.*$/, '');
++  const m = t.match(/^[ \t]*(?:export[ \t]+)?FAL_KEY[ \t]*=[ \t]*(.*)$/m), v = m ? m[1].trim() : '';
++  const quoted = /^(["'])(.*?)\1/.exec(v);           // a quoted value ends at its closing quote (a "# note" after it is a comment)
++  const k = quoted ? quoted[2].trim() : v.replace(/\s+#.*$/, '').trim();
+   return { key: k || null, file: f };
+ }
+ const keyAdvice = f => `no fal.ai key found (${o.env ? `--env ${f}` : `FAL_KEY is not set, and ${f}`} has no FAL_KEY line). Ask the user to paste their own key\n` +
+@@ -164,13 +175,13 @@
+ // ---- dry run: nothing leaves this machine, nothing is written
+ if (cmd !== 'fetch') {
+   const exists = [...expect, logPath].filter(p => existsSync(p));
+-  if (exists.length && !o.force) die(2, `${exists.map(p => relative(process.cwd(), p)).join(', ')} already exist${exists.length > 1 ? '' : 's'} — pick another --out, or add --force to replace ${exists.length > 1 ? 'them' : 'it'} (and pay again)`);
++  if (exists.length && !o.force) die(2, `${exists.map(rel).join(', ')} already exist${exists.length > 1 ? '' : 's'} — pick another --out, or add --force to replace ${exists.length > 1 ? 'them' : 'it'} (and pay again; the older files are kept as .prev)`);
+   const est = estimate(endpoint, input);
+   if (!o.go) {
+     say(`endpoint  ${endpoint}`);
+     say(`input     ${JSON.stringify(shown(input, true), null, 2).replace(/\n/g, '\n          ')}`);
+     say(`estimate  ${est}\n          (${PRICES})`);
+-    say(`writes    ${expect.map(p => relative(process.cwd(), p)).join(', ')}${kind === 'raw' ? ' (or _0, _1 … for several outputs)' : ''} + ${relative(process.cwd(), logPath)}`);
++    say(`writes    ${expect.map(rel).join(', ')}${kind === 'raw' ? ' (or _0, _1 … for several outputs)' : ''} + ${rel(logPath)}`);
+     if (!loadKey().key) say(`note      ${keyAdvice(loadKey().file).replace(/\n/g, '\n          ')}`);
+     say('dry run — show the user the prompt and the estimate; add --go once they approve the spend');
+     process.exit(0);
+@@ -181,35 +192,45 @@
+ const K = loadKey();
+ if (!K.key) die(3, keyAdvice(K.file));
+ KEY = K.key;
+-const save = log => { mkdirSync(dirname(logPath), { recursive: true }); writeFileSync(logPath + '.tmp', scrub(JSON.stringify(log, null, 2)) + '\n'); renameSync(logPath + '.tmp', logPath); };
++try { mkdirSync(dirname(logPath), { recursive: true }); mkdirSync(dirname(out), { recursive: true }); }   // before anything is paid for
++catch (e) { die(2, `can't create the folder for ${rel(logPath)}: ${e.message}`); }
++const save = log => { writeFileSync(logPath + '.tmp', scrub(JSON.stringify(log, null, 2)) + '\n'); renameSync(logPath + '.tmp', logPath); };
++const keep = p => { if (existsSync(p)) { renameSync(p, p + '.prev'); warn(`kept the older ${basename(p)} as ${basename(p)}.prev`); } };   // never deleted
+ const sleep = ms => new Promise(r => setTimeout(r, ms));
+ const detail = j => typeof j?.detail === 'string' ? j.detail : Array.isArray(j?.detail) ? j.detail.map(d => `${(d.loc || []).filter(x => x !== 'body').join('.')}: ${d.msg}`).join('; ')
+   : j?.error ? `${j.error}${j.error_type ? ` (${j.error_type})` : ''}` : JSON.stringify(j).slice(0, 600);
+ async function api(url, opt = {}) {                 // the key goes to the queue only — never to a URL on another host
+   if (new URL(url).origin !== new URL(BASE).origin) throw new FalError(`refusing to send the key to ${new URL(url).origin} (the queue is ${new URL(BASE).origin})`);
+-  let r, t;
++  const post = opt.method === 'POST';
+   for (let i = 0; ; i++) {
++    let r, t;
+     try {
+       r = await fetch(url, { ...opt, headers: { Authorization: `Key ${KEY}`, ...(opt.body ? { 'Content-Type': 'application/json' } : {}) }, signal: AbortSignal.timeout(120000) });
+-      t = await r.text(); break;
++      t = await r.text();
+     } catch (e) {                                    // a poll survives a network blip; a submit doesn't retry (it could be charged twice)
+-      if (opt.method === 'POST' || i >= 5) throw new FalError(`couldn't reach fal (${e.cause?.code || e.message})${opt.method === 'POST' ? ' — the request may not have been created; check fal.ai/dashboard/requests before running it again' : ''}`);
+-      await sleep(3000);
++      if (post) throw new FalError(`couldn't reach fal (${e.cause?.code || e.message}) — the request may or may not have been created; check fal.ai/dashboard/requests before running it again`, true);
++      if (i >= 5) throw new FalError(`couldn't reach fal (${e.cause?.code || e.message})`);
++      await sleep(3000); continue;
+     }
++    let j; try { j = JSON.parse(t); } catch { j = { raw: t.slice(0, 500) }; }
++    if (!post && (r.status === 429 || r.status >= 500) && i < 5) {   // a busy or briefly failing queue: wait, ask again
++      const ra = Number(r.headers.get('retry-after'));
++      await sleep(Math.min(30, ra > 0 ? ra : 3) * 1000); continue;
++    }
++    if (r.status >= 400) throw new FalError(`fal answered HTTP ${r.status}: ${detail(j)}${post && r.status >= 500 ? ' — the request may have been created; check fal.ai/dashboard/requests before running it again' : ''}`, post && r.status >= 500);
++    return j;
+   }
+-  let j; try { j = JSON.parse(t); } catch { j = { raw: t.slice(0, 500) }; }
+-  if (r.status >= 400) throw new FalError(`fal answered HTTP ${r.status}: ${detail(j)}`);
+-  return j;
+ }
+ const queueUrls = (id, have = {}) => {
+   const ok = u => { try { return new URL(u).origin === new URL(BASE).origin; } catch { return false; } };
+   const app = `${BASE}/${appOf(endpoint)}/requests/${id}`;
+   return { status_url: ok(have.status_url) ? have.status_url : `${app}/status`, response_url: ok(have.response_url) ? have.response_url : app };
+ };
+-async function waitFor(urls, log) {
+-  const t0 = Date.now(); let last = '';
++async function waitFor(urls, log, confirmed = () => {}) {   // confirmed(): once, when fal first answers for this request
++  const t0 = Date.now(); let last = '', first = true;
+   for (;;) {
+     const s = await api(urls.status_url), t = Math.round((Date.now() - t0) / 1000);
++    if (first) { first = false; confirmed(); }
+     if (s.status !== last) {
+       last = s.status; log.status.push({ t, status: s.status, ...(s.queue_position != null ? { queue_position: s.queue_position } : {}) }); save(log);
+       say(`${t} s  ${s.status}${s.queue_position != null ? ` (queue ${s.queue_position})` : ''}`);
+@@ -220,15 +241,18 @@
+     await sleep(3000);
+   }
+ }
+-function outputsOf(res) {                           // images[].url, image.url, video.url, then any other {url} leaf, in that order
++function outputsOf(res) {   // still: images[] / image · video: the video (one file) · raw: also any other {url} leaf
+   const list = [], seen = new Set();
+   const add = m => { if (m && typeof m.url === 'string' && /^https?:\/\//.test(m.url) && !seen.has(m.url)) { seen.add(m.url); list.push({ url: m.url, size: Number.isFinite(m.file_size) ? m.file_size : null, type: m.content_type || null }); } };
+-  (Array.isArray(res?.images) ? res.images : []).forEach(add); add(res?.image); add(res?.video);
+-  (function deep(v) { if (Array.isArray(v)) v.forEach(deep); else if (v && typeof v === 'object') { add(v); Object.values(v).forEach(deep); } })(res);
++  (Array.isArray(res?.images) ? res.images : []).forEach(add); add(res?.image);
++  if (kind !== 'still') add(res?.video);
++  if (kind === 'raw') (function deep(v) { if (Array.isArray(v)) v.forEach(deep); else if (v && typeof v === 'object') { add(v); Object.values(v).forEach(deep); } })(res);
++  if (kind === 'video') { const v = list.find(m => m.url === res?.video?.url) || list[0]; return v ? [v] : []; }
+   return list;
+ }
+ const extOf = m => EXT[m.type] || (/\.[a-z0-9]{2,4}$/i.exec(new URL(m.url).pathname) || [''])[0].toLowerCase() || '.bin';
+-const destsOf = list => list.length === 1 && extname(out) ? [out] : list.map((m, i) => `${stripExt(out)}_${i}${extname(out) || extOf(m)}`);
++const destsOf = list => kind === 'still' ? list.map((m, i) => `${out}_${i}${extOf(m)}`)
++  : list.length === 1 && extname(out) ? [out] : list.map((m, i) => `${stripExt(out)}_${i}${extname(out) || extOf(m)}`);
+ const mb = n => n >= 1e6 ? `${(n / 1e6).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1e3))} KB`;
+ const sizeOf = p => existsSync(p) ? statSync(p).size : 0;
+ const pause = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+@@ -238,75 +262,86 @@
+   const last = (r.stdout || '').split(/\r?\n\r?\n/).filter(b => /^HTTP\//.test(b)).pop() || '';
+   return r.status === 0 && /^HTTP\/\S+ 2/.test(last) && /^content-length:\s*(\d+)/im.test(last) ? +/^content-length:\s*(\d+)/im.exec(last)[1] : null;
+ }
+-function download(m, dest) {
++function download(m, dest) {   // done when curl finishes cleanly and ffprobe reads the file; fal's file_size is only a hint
+   const tries = Math.max(1, Math.round(+process.env.FAL_DL_ATTEMPTS || 30)), tmax = Math.max(1, Math.round(+process.env.FAL_DL_TIMEOUT || 120));
+   const want = m.size ?? contentLength(m.url);
+-  let gone = 0;                                      // consecutive 4xx answers (an expired or wrong URL): stop after 3
+-  for (let i = 1; i <= tries; i++) {
+-    if (want != null && sizeOf(dest) === want) break;
+-    if (want != null && sizeOf(dest) > want) unlinkSync(dest);           // not this file: start over
++  let gone = 0, done = false;                        // gone: consecutive 4xx answers (an expired or wrong URL), stop after 3
++  for (let i = 1; i <= tries && !done; i++) {
+     const r = spawnSync('curl', ['-4', '--http1.1', '-sS', '-L', '--fail', '-C', '-', '--connect-timeout', '20', '--max-time', String(tmax), '-w', '%{http_code}', '-o', dest, m.url], { encoding: 'utf8' });
+-    if (r.status === 0 && (want == null || sizeOf(dest) === want)) break;
+-    if (r.status === 33) { try { unlinkSync(dest); } catch { /* nothing to resume */ } }   // the CDN ignores Range: start over
++    if (r.status === 0) { done = true; break; }
++    if (r.status === 33) { try { unlinkSync(dest); } catch { /* nothing to resume */ } }   // the CDN ignores Range: this download starts over
+     const code = +(r.stdout || '').trim().slice(-3);
+     gone = code >= 400 && code < 500 && code !== 408 && code !== 429 ? gone + 1 : 0;
+     warn(`  ${basename(dest)}: try ${i}/${tries} stopped at ${mb(sizeOf(dest))}${want ? ` of ${mb(want)}` : ''} (${(r.stderr || '').trim().split('\n').pop() || `curl exit ${r.status}`})${gone >= 3 ? '' : ' — resuming'}`);
+     if (gone >= 3) break;
+     if (i < tries) pause(2000);
+   }
+-  return { bytes: sizeOf(dest), want, ok: (want == null ? sizeOf(dest) > 0 : sizeOf(dest) === want) && readable(dest) };
++  const bytes = sizeOf(dest), ok = done && bytes > 0 && readable(dest);
++  if (ok && want != null && bytes !== want) warn(`  ${basename(dest)}: ${bytes} bytes where fal said ${want} — kept (curl finished cleanly and ffprobe reads it)`);
++  return { bytes, want, ok, done };
+ }
+ function describe(p) {
+   const j = probe(p, ['-show_entries', 'stream=codec_type,width,height,r_frame_rate:format=duration']) || {}, st = j.streams || [];
+   const v = st.find(s => s.codec_type === 'video'), a = st.some(s => s.codec_type === 'audio');
+-  if (!v) return `${relative(process.cwd(), p)} (${mb(sizeOf(p))})`;
++  if (!v) return `${rel(p)} (${mb(sizeOf(p))})`;
+   const [nu, de] = String(v.r_frame_rate || '0/1').split('/').map(Number), fps = de ? +(nu / de).toFixed(3) : 0, dur = Number(j.format?.duration);
+-  if (!(dur > 0.2) || /^image|_pipe$/.test(j.format?.format_name || '') || /\.(jpe?g|png|webp)$/i.test(p)) return `${relative(process.cwd(), p)} (${mb(sizeOf(p))}, ${v.width}×${v.height})`;
+-  return `${relative(process.cwd(), p)} (${mb(sizeOf(p))}, ${v.width}×${v.height}, ${fps} fps, ${dur.toFixed(2)} s${a ? ', with the model\'s own audio track' : ''}) — conform.py / pin.py ${a ? 'drop the audio and ' : ''}put the ${fps} fps picture on the film's frame grid`;
++  if (!(dur > 0.2) || /^image|_pipe$/.test(j.format?.format_name || '') || /\.(jpe?g|png|webp)$/i.test(p)) return `${rel(p)} (${mb(sizeOf(p))}, ${v.width}×${v.height})`;
++  return `${rel(p)} (${mb(sizeOf(p))}, ${v.width}×${v.height}, ${fps} fps, ${dur.toFixed(2)} s${a ? ', with the model\'s own audio track' : ''}) — conform.py / pin.py ${a ? 'drop the audio and ' : ''}put the ${fps} fps picture on the film's frame grid`;
+ }
+ 
+ async function main() {
+-  let log, urls;
++  let log, urls, log0 = null, mine = false;
+   if (cmd === 'fetch') {
+-    try { log = JSON.parse(readFileSync(logPath, 'utf8')); } catch { log = null; }
+-    if (log && log.request_id && log.request_id !== ctx.id && !o.force) die(2, `${relative(process.cwd(), logPath)} belongs to request ${log.request_id}, not ${ctx.id} — pick another --out, or --force`);
+-    if (log && log.endpoint && log.endpoint !== endpoint && !o.force) die(2, `${relative(process.cwd(), logPath)} was sent to ${log.endpoint}, not ${endpoint} — check --endpoint`);
+-    log = { endpoint, request_id: ctx.id, status: [], ...(log || {}) };
+-    urls = queueUrls(ctx.id, log);
+-    log.fetched = new Date().toISOString(); save(log);
++    try { log0 = JSON.parse(readFileSync(logPath, 'utf8')); } catch { log0 = null; }
++    mine = !!log0 && log0.request_id === ctx.id;
++    if (log0 && log0.request_id && !mine && !o.force) die(2, `${rel(logPath)} belongs to request ${log0.request_id}, not ${ctx.id} — pick another --out, or --force (the older files are kept as .prev)`);
++    if (log0 && log0.endpoint && log0.endpoint !== endpoint && !o.force) die(2, `${rel(logPath)} was sent to ${log0.endpoint}, not ${endpoint} — check --endpoint`);
++    if (mine && ['still', 'video', 'raw'].includes(log0.kind)) kind = log0.kind;
++    const listed = new Set(mine ? (log0.outputs || []).map(x => resolve(dirname(logPath), x.file)) : []);
++    if (!o.force && existsSync(out) && !listed.has(out)) die(2, `${rel(out)} exists, and no log shows it as request ${ctx.id}'s download — pick another --out, or --force (it is kept as .prev)`);
++    log = mine ? { status: [], ...log0, endpoint, request_id: ctx.id } : { endpoint, kind, request_id: ctx.id, status: [] };   // another request's log never leaks in
++    urls = queueUrls(ctx.id, mine ? log0 : {});
+     say(`fetching request ${ctx.id} from ${endpoint}`);
++    // nothing on disk changes until fal answers for this request: then another request's log steps aside and this one's is written
++    await waitFor(urls, log, () => { if (log0 && !mine) keep(logPath); log.fetched = new Date().toISOString(); save(log); });
+   } else {
+-    if (o.force) for (const p of expect) if (existsSync(p)) unlinkSync(p);   // a resumed download must never continue an old file
+     const est = estimate(endpoint, input);
+-    log = { endpoint, input: shown(input, false), estimate: est, prices: PRICES, auth: 'Key ****', submitted: new Date().toISOString(), status: [] };
+-    save(log);
++    log = { endpoint, kind, input: shown(input, false), estimate: est, prices: PRICES, auth: 'Key ****', submitted: new Date().toISOString(), status: [] };
+     say(`estimate ${est} — submitting to ${endpoint}`);
+-    const sub = await api(`${BASE}/${endpoint}`, { method: 'POST', body: JSON.stringify(wire(input)) });
+-    if (!sub.request_id) throw new FalError(`fal accepted the request but sent no request_id: ${JSON.stringify(sub).slice(0, 300)}`);
++    const unsure = why => {                          // fal may have created (and will charge) it: a log that blocks a plain re-run
++      if (!existsSync(logPath)) save({ ...log, submit: `unknown — ${why}; check fal.ai/dashboard/requests before running it again` });
++    };
++    let sub;
++    try { sub = await api(`${BASE}/${endpoint}`, { method: 'POST', body: JSON.stringify(wire(input)) }); }
++    catch (e) { if (e.unsure) unsure('the submit failed halfway'); throw e; }   // refused outright (4xx): nothing is written, a retry needs no --force
++    if (!sub.request_id) { unsure('fal sent no request_id'); throw new FalError(`fal accepted the request but sent no request_id: ${JSON.stringify(sub).slice(0, 300)}`, true); }
++    if (o.force) for (const p of [...expect, logPath]) keep(p);   // fal has the new request: only now do the older files step aside
+     ctx.id = sub.request_id; urls = queueUrls(sub.request_id, sub);
+     Object.assign(log, { request_id: sub.request_id, ...urls }); save(log);
+     say(`submitted — request ${sub.request_id}`);
++    await waitFor(urls, log);
+   }
+-  await waitFor(urls, log);
+   const res = await api(urls.response_url);
+   log.result = res; log.finished = new Date().toISOString(); save(log);
+   if (res && res.detail) throw new FalError(`fal: ${detail(res)}`);
+   const list = outputsOf(res);
+-  if (!list.length) throw new FalError(`fal's result has no image or video URL: ${JSON.stringify(res).slice(0, 400)}`);
+-  const dests = destsOf(list);
+-  log.outputs = list.map((m, i) => ({ url: m.url, file: relative(dirname(logPath), dests[i]), bytes: null })); save(log);
+-  for (const p of dests) if (existsSync(p) && (cmd !== 'fetch' || o.force)) {      // only fetch resumes a file that is already there
+-    if (o.force) unlinkSync(p); else { renameSync(p, p + '.prev'); warn(`moved the older ${basename(p)} aside to ${basename(p)}.prev`); }
++  if (!list.length) throw new FalError(`fal's result has no ${kind === 'still' ? 'image' : kind === 'video' ? 'video' : 'image or video'} URL: ${JSON.stringify(res).slice(0, 400)}`);
++  const listed = mine && Array.isArray(log0.outputs) && log0.outputs.length === list.length ? log0.outputs.map(x => resolve(dirname(logPath), x.file)) : null;
++  const dests = listed || destsOf(list);
++  if (cmd === 'fetch' && !o.force) {                 // only this request's own partial downloads are resumed
++    const strange = dests.filter(p => existsSync(p) && !(listed || []).includes(p));
++    if (strange.length) die(2, `${strange.map(rel).join(', ')} already exist${strange.length > 1 ? '' : 's'}, and no log shows ${strange.length > 1 ? 'them' : 'it'} as request ${ctx.id}'s download — pick another --out, or --force (kept as .prev)`);
+   }
+-  mkdirSync(dirname(dests[0]), { recursive: true });
++  for (const p of dests) if (cmd !== 'fetch' || o.force) keep(p);   // a fresh download never continues an older file
++  log.outputs = list.map((m, i) => ({ url: m.url, file: relative(dirname(logPath), dests[i]), bytes: null })); save(log);
+   for (const [i, m] of list.entries()) {
+     const d = download(m, dests[i]);
+     log.outputs[i].bytes = d.bytes; save(log);
+-    if (!d.ok) die(5, `download never completed: ${m.url}\n  → ${relative(process.cwd(), dests[i])} has ${mb(d.bytes)}${d.want ? ` of ${mb(d.want)}` : ''}${d.bytes && d.want === d.bytes ? ' but ffprobe can\'t read it' : ''}. ` +
+-      `Resume it later: node ${process.argv[1]} fetch ${ctx.id} --endpoint ${endpoint} --out ${o.out}\n  (or by hand: curl -4 --http1.1 -L -C - -o ${relative(process.cwd(), dests[i])} '${m.url}')`);
++    if (!d.ok) die(5, `download never completed: ${m.url}\n  → ${rel(dests[i])} has ${mb(d.bytes)}${d.want ? ` of ${mb(d.want)}` : ''}${d.done ? ' but ffprobe can\'t read it (delete it and fetch again)' : ''}. ` +
++      `Resume it later: ${fetchCmd()}\n  (or by hand: curl -4 --http1.1 -L -C - -o ${q(rel(dests[i]))} ${q(m.url)})`);
+   }
+   for (const p of dests) say(`wrote ${describe(p)}`);
+-  say(`log ${relative(process.cwd(), logPath)}`);
++  say(`log ${rel(logPath)}`);
+ }
+ main().catch(e => {
+   if (e instanceof FalError) die(4, `${e.message}${fetchHint()}`);
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/look.py qa/hf02full-skill-port/stage/product-launch-sting/video/footage/look.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/look.py	2026-10-22 08:03:51
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/footage/look.py	2026-10-22 09:22:23
+@@ -9,11 +9,13 @@
+ # still export does (ffmpeg -ss t); `130f` picks frames by index (clips with irregular timestamps, or frame numbers from a
+ # breakdown). Each --crop (x,y,w,h in the source's pixels) measures that box of every frame — crop the reference to its
+ # picture (no UI, watermark or letterbox); several crops average together. With --ref: both columns, the delta, and
+-# "◂ outside" where our mean leaves the reference's frame-to-frame range.
++# "◂ outside" where our mean leaves the reference's frame-to-frame range. Clips are measured as the film shows them:
++# upright (rotation tags honoured) and, for HDR (HLG / PQ), after the film engine's own conversion to SDR (lib/hdr.mjs).
+ # Exit codes: 0 measured · 2 bad arguments or an unreadable input.
+ import argparse, glob, json, os, sys
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.dont_write_bytecode = True   # no __pycache__ in the skill
+-from _media import die, probe, frames_at
++from _media import die, probe, frames_at, need_numpy, hdr_prefix
++need_numpy('look.py')
+ import numpy as np
+ from PIL import Image
+ 
+@@ -94,7 +96,7 @@
+ def measure(srcs, a, b, n, crop_specs, flag):
+     paths = []
+     for s in srcs:
+-        if any(ch in s for ch in '*?['):
++        if not os.path.exists(s) and any(ch in s for ch in '*?['):   # a real file named shot[1].mp4 is a file, not a pattern
+             paths += sorted(glob.glob(s))
+         elif os.path.isdir(s):
+             paths += sorted(os.path.join(s, f) for f in os.listdir(s) if f.lower().endswith(IMG))
+@@ -114,7 +116,7 @@
+             if not info:
+                 die(2, '%s: no such image or video (ffprobe finds no picture in it)' % p)
+             unit, vals = picks(p, info, a, b, n, flag)
+-            ims = [(Image.fromarray(fr), {'src': p, unit: v}) for fr, v in zip(frames_at(p, info['w'], info['h'], (unit, vals)), vals)]
++            ims = [(Image.fromarray(fr), {'src': p, unit: v}) for fr, v in zip(frames_at(p, info['w'], info['h'], (unit, vals), hdr_prefix(info, p)), vals)]
+         for im, meta in ims:
+             for box in boxes:
+                 if box and (box[2] > im.width or box[3] > im.height):
+@@ -141,6 +143,11 @@
+ o = ap.parse_args()
+ if o.frames < 1 or (o.ref_frames is not None and o.ref_frames < 1):
+     die(2, '--frames must be ≥ 1')
++if o.json:                                          # its folder exists before the measuring, not after it
++    try:
++        os.makedirs(os.path.dirname(os.path.abspath(o.json)), exist_ok=True)
++    except OSError as e:
++        die(2, "can't create the folder for --json %s: %s" % (o.json, e))
+ ours = measure(o.src, o.a, o.b, o.frames, o.crop, '--')
+ name = lambda srcs, lab: lab or ', '.join(os.path.basename(s.rstrip('/')) or s for s in srcs)
+ ours['label'] = name(o.src, o.label)
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/pin.py qa/hf02full-skill-port/stage/product-launch-sting/video/footage/pin.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/pin.py	2026-10-22 08:03:51
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/footage/pin.py	2026-10-22 09:22:05
+@@ -10,11 +10,13 @@
+ # pushed out 4 % over the rounded corners, smoothed over 3 frames; the screen is warped onto them (PIL PERSPECTIVE) and
+ # shows only where the phone is black, so fingers over the glass stay in front. Works at --size (cover-cropped) or, by
+ # default, the clip scaled to 720 px on its short side. Writes <out>-track.png: frames first / middle / last with the corners.
++# HDR clips (HLG / PQ) go to SDR first through the film engine's own conversion (lib/hdr.mjs); a rotation tag is honoured.
+ # Exit codes: 0 written · 2 bad arguments, an unreadable clip, or a clip too short for N frames from --start · 3 no
+ # phone-like black screen in the first frame (advice printed) · 1 ffmpeg failed.
+ import argparse, math, os, subprocess, sys
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); sys.dont_write_bytecode = True   # no __pycache__ in the skill
+-from _media import die, run, probe, fps_arg, fps_str, num, size_arg, cover, cadence, BT709
++from _media import die, run, probe, fps_arg, fps_str, num, size_arg, cover, cadence, BT709, need_numpy, hdr_prefix, HDR
++need_numpy('pin.py')
+ import numpy as np
+ from PIL import Image, ImageDraw
+ 
+@@ -34,6 +36,15 @@
+     die(2, '%s: the output is an H.264 movie — name it .mp4' % a.out)
+ if a.frames < 1 or a.start < 0 or not 0 <= a.crf <= 51 or not 0 < a.dark < 255:
+     die(2, '--frames must be ≥ 1, --start ≥ 0, --crf 0–51 and --dark 1–254')
++track = a.track_png or os.path.splitext(a.out)[0] + '-track.png'
++same = lambda x, y: os.path.abspath(x) == os.path.abspath(y)
++if same(a.src, a.out) or same(a.screen, a.out) or same(track, a.out) or same(track, a.src) or same(track, a.screen):
++    die(2, 'the output (%s) or the tracking sheet (%s) would overwrite an input — give them names of their own' % (a.out, track))
++try:                                                # the folders exist before the work, not after it
++    for d in {os.path.dirname(os.path.abspath(a.out)), os.path.dirname(os.path.abspath(track))}:
++        os.makedirs(d, exist_ok=True)
++except OSError as e:
++    die(2, "can't create the folder for %s: %s" % (a.out, e))
+ FPS, SRC = fps_arg(a.fps), info['fps']
+ if a.size:
+     W, H = size_arg(a.size); fit = cover(W, H)
+@@ -42,7 +53,8 @@
+     W, H = (s, even(s * info['h'] / info['w'])) if info['w'] <= info['h'] else (even(s * info['w'] / info['h']), s)
+     W, H = even(W), even(H); fit = 'scale=%d:%d:flags=lanczos' % (W, H)
+ N24 = int(math.ceil(a.frames / float(FPS) * float(SRC))) + 3
+-raw = run(['ffmpeg', '-v', 'error', '-ss', '%.3f' % a.start, '-i', a.src, '-an', '-vf', fit, '-frames:v', str(N24), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], 'ffmpeg (decode)')
++hdr = hdr_prefix(info, a.src)                      # '' for SDR: the decode is then exactly what it always was
++raw = run(['ffmpeg', '-v', 'error', '-ss', '%.3f' % a.start, '-i', a.src, '-an', '-vf', hdr + fit, '-frames:v', str(N24), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], 'ffmpeg (decode)')
+ F = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+ have = int(math.floor(len(F) * float(FPS) / float(SRC) + 0.5))        # what fps=<FPS>:round=near makes of len(F) piped frames
+ if have < a.frames:                                 # source frames the shot needs vs what the clip has left after --start
+@@ -152,7 +164,6 @@
+ for i in range(len(Q)):
+     Qs[i] = Q[max(0, i - 1):i + 2].mean(0)                              # 3-frame smoothing
+ scr = Image.open(a.screen).convert('RGBA'); sw, sh = scr.size; S = [(0, 0), (sw, 0), (sw, sh), (0, sh)]
+-os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
+ vf = 'fps=%s:round=near' % fps_str(FPS) + (',' + a.grade if a.grade else '') + ',' + BT709 + ',format=yuv420p'
+ p = subprocess.Popen(['ffmpeg', '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '%dx%d' % (W, H), '-framerate', fps_str(SRC), '-i', '-',
+                       '-vf', vf, '-frames:v', str(a.frames), '-c:v', 'libx264', '-preset', 'slow', '-crf', str(a.crf), '-movflags', '+faststart', a.out],
+@@ -174,7 +185,6 @@
+ err = p.stderr.read().decode('utf-8', 'replace'); p.stderr.close()
+ if p.wait() != 0:
+     die(1, 'ffmpeg (encode) failed:\n' + err.strip())
+-track = a.track_png or os.path.splitext(a.out)[0] + '-track.png'
+ dbg = Image.fromarray(np.concatenate([F[0], F[len(F) // 2], F[-1]], 1)); d = ImageDraw.Draw(dbg)
+ for k, idx in enumerate([0, len(F) // 2, len(F) - 1]):
+     pts = [(x + k * W, y) for x, y in Qs[idx]]; d.line(pts + [pts[0]], fill=(255, 40, 40), width=4)
+@@ -185,5 +195,6 @@
+     die(1, 'wrote %s but it has %s frames, not %d' % (a.out, got or '?', a.frames))
+ print('wrote %s: %d frames at %s fps (%dx%d) from %.2f s into %s — %d source frames tracked, screen %.1f%% of the frame' % (
+     a.out, a.frames, num(FPS), W, H, a.start, os.path.basename(a.src), len(F), 100 * regs[0].mean()))
+-print('  %s%s%s · tracking sheet %s (check the red corners hug the screen on all three frames)' % (
+-    cadence(SRC, FPS), ' · audio dropped' if info['audio'] else '', ' · graded' if a.grade else '', track))
++print('  %s%s%s%s · tracking sheet %s (check the red corners hug the screen on all three frames)' % (
++    cadence(SRC, FPS), ' · audio dropped' if info['audio'] else '', ' · graded' if a.grade else '',
++    ' · %s HDR → SDR (the film engine\'s conversion)' % HDR[info['trc']] if hdr else '', track))
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/screen.mjs qa/hf02full-skill-port/stage/product-launch-sting/video/footage/screen.mjs
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/footage/screen.mjs	2026-10-22 07:47:30
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/footage/screen.mjs	2026-10-22 09:22:48
+@@ -4,10 +4,11 @@
+ // screen shape (≈ 1 : 2.15). For the real product, pin its official screenshot instead (FOOTAGE.md).
+ //   node screen.mjs --job DIR --shot ID --out screen.png [--at F] [--aspect 16x9|9x16|1x1] [--scale 3]
+ // --at = a local frame of the shot (default: its storyboard frame, once the UI has built up).
+-// Exit codes: 0 written · 2 bad arguments, beats.yaml problems or not a phone shot · 1 the stage failed.
++// Exit codes: 0 written · 2 bad arguments, beats.yaml or footage problems (as --storyboard reports them), or not a phone shot ·
++// 1 the stage or Chrome failed. Every failure is one plain message, no stack.
+ import { mkdirSync, readFileSync } from 'node:fs';
+ import { resolve, dirname, relative } from 'node:path';
+-import { ASPECTS, arg, jobDir } from '../lib/common.mjs';
++import { ASPECTS, arg, jobDir, UserError } from '../lib/common.mjs';
+ import { loadSpec } from '../lib/spec.mjs';
+ import { compile } from '../lib/timeline.mjs';
+ import { launch, extractPlates } from '../lib/render.mjs';
+@@ -26,8 +27,12 @@
+ if (!ASPECTS[aspect]) die(`--aspect ${aspect}: one of ${Object.keys(ASPECTS).join(', ')}`);
+ const local = at == null || at === true ? s.heroF : Number(at);
+ if (!(local >= 0 && local < s.D)) die(`--at ${at}: a local frame of ${id}, 0–${Math.floor(s.D) - 1}`);
+-const { W, H } = ASPECTS[aspect], plates = extractPlates(job, tl, aspect);
+-const server = await serve(job), browser = await launch(), errors = [];
++try { mkdirSync(dirname(resolve(out)), { recursive: true }); } catch (e) { die(`can't create the folder for ${out}: ${e.message}`); }   // before the work
++const { W, H } = ASPECTS[aspect];
++let plates; try { plates = extractPlates(job, tl, aspect); } catch (e) { die(`✗ ${e.message}`, e instanceof UserError ? 2 : 1); }   // footage the job's shots use
++let server, browser;
++try { server = await serve(job); browser = await launch(); } catch (e) { if (server) await server.close(); die(`✗ ${e.message}`, 1); }
++const errors = [];
+ let box;
+ try {
+   const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: scale });
+@@ -45,10 +50,10 @@
+     return { x: x0, y: y0, width: x1 - x0, height: y1 - y0, cut: x0 > r.left || y0 > r.top || x1 < r.right || y1 < r.bottom };
+   }, [W, H]);
+   if (!box || box.width < 20 || box.height < 20) die(`${id}: no phone screen on the stage at local frame ${local} (try another --at)`, 1);
+-  mkdirSync(dirname(resolve(out)), { recursive: true });
+   await page.screenshot({ path: resolve(out), clip: { x: box.x, y: box.y, width: box.width, height: box.height } });
+   if (errors.length) die('page errors while rendering the screen:\n' + errors.join('\n'), 1);
+-} finally { await browser.close().catch(() => null); await server.close(); }
++} catch (e) { await browser.close().catch(() => null); await server.close(); die(`✗ screen.mjs: ${e instanceof UserError ? '' : 'the stage failed: '}${String(e.message).split('\n')[0]}`, e instanceof UserError ? 2 : 1); }
++await browser.close().catch(() => null); await server.close();
+ const png = readFileSync(resolve(out));                   // the size as written (IHDR), not the CSS box × scale
+ console.log(`wrote ${relative(process.cwd(), resolve(out))} (${png.readUInt32BE(16)}×${png.readUInt32BE(20)}): ${id}'s phone screen at local frame ${local}, ${aspect}` +
+   (box.cut ? ' — the phone runs off the frame at this moment, so its screen is cut: try another --at or --aspect' : ''));
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/lib/audio.mjs qa/hf02full-skill-port/stage/product-launch-sting/video/lib/audio.mjs
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/lib/audio.mjs	2026-10-22 08:01:32
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/lib/audio.mjs	2026-10-22 09:16:02
+@@ -21,10 +21,10 @@
+ // Intro (0 → drop): pad swell, a soft 16th arpeggio, a shaker pickup, a riser. From the drop: kick on 1 and 3 + a ghost,
+ // a soft clap on 2 and 4, bright stabs on 1 and 3 + a light pickup on the and of 4, a 16th shaker with accents, hats,
+ // a syncopated bass, the arpeggio, a motif every other bar. Each break: pad + shaker. A lift over the last two bars
+-// before the end card, the music silent for its last 0.44 s, the hit on the end card ringing out (no end card: the
+-// last bar rings out). Accent the beats: flattened 16ths killed the tracked pulse (confidence 0.16) and off-beat
+-// stabs flipped its phase half a beat. The shaker is .9 with a 6 ms attack (the hf02 score: 1.2, 3 ms) — the louder,
+-// sharper noise bursts made the mux's AAC encode overshoot the −1 dBTP limit by up to 6 dB.
++// before the hit, the music silent for 0.44 s, then the hit on the end card (music.hit s after its first frame) ringing
++// out (no end card: the last bar rings out). Accent the beats: flattened 16ths killed the tracked pulse (confidence
++// 0.16) and off-beat stabs flipped its phase half a beat. The shaker is .9 with a 6 ms attack (the hf02 score: 1.2,
++// 3 ms) — the louder, sharper noise bursts made the mux's AAC encode overshoot the −1 dBTP limit by up to 6 dB.
+ const FILM_MIX = { pad: .02, arp: .12, arpUp: .05, arpHi: .06, stab: .085, hat: .3, shaker: .9, bass: .1, kick: .64, clap: .32, motif: .07, stabCut: 9000 };
+ const FILM_PROG = {     // rootless 9ths voiced in F (moved to music.key): [pad notes, bass root]
+   A: [[[57, 60, 64, 67], 41], [[53, 57, 60, 64], 38], [[57, 60, 62, 65], 46], [[55, 60, 62, 67], 48]],   // Imaj9 · vi9 · IVmaj9 · Vsus2
+@@ -73,18 +73,19 @@
+   const tr = (((KEYS[m.key] ?? 5) - 5) % 12 + 18) % 12 - 6;             // semitones from F, −6…+5: the same register in any key
+   const bt = k => db + k * beat, kAt = t => (t - db) / beat, j16 = k => ((Math.round(k * 4) % 16) + 16) % 16;   // 16th of the bar
+   const barOf = k => k - (((Math.round(k) % 4) + 4) % 4);                  // the bar line at or before beat k
+-  const onGrid = t => { const k = Math.round(kAt(t)); return Math.abs(bt(k) - t) <= .01 ? bt(k) : t; };   // a cut ≤ 10 ms off a grid line is on it
++  const onGrid = t => { const k = Math.round(kAt(t)); return Math.abs(bt(k) - t) <= .035 ? bt(k) : t; };  // a cut ≤ 35 ms off a grid line is on it (frame-cut sec: shots)
+   const dropShot = tl.shots.find(s => s.id === m.drop) || tl.shots[1] || tl.shots[0];
+   const dropT = onGrid(dropShot.start), kDrop = Math.ceil(kAt(dropT) - eps), kBar0 = barOf(kDrop);
+-  // the end: the hit on the end card's first frame (the cut, within half a 60-fps frame of its grid line), the music
+-  // silent FILM_SILENCE before it; no end card: a ring-out on the last bar line
++  // the end: the hit music.hit s after the end card's first frame (default 0, on the cut; hf02's hit lands 0.372 s in),
++  // kept inside the film, the music silent FILM_SILENCE before it; no end card: a ring-out on the last bar line
+   const card = tl.endcard != null && tl.endcard > dropT + FILM_SILENCE + .25 ? tl.endcard : null;
+-  let hitT = card, end = card != null ? card - FILM_SILENCE : dur;
++  let hitT = card != null ? Math.min(dur - .1, Math.max(dropT + FILM_SILENCE + .25, card + (Number(m.hit) || 0))) : null, end = hitT != null ? hitT - FILM_SILENCE : dur;
+   if (card == null) { const k = barOf(Math.floor(kAt(dur - bar) + eps)); if (bt(k) >= dropT + bar) hitT = end = bt(k); }
+   // the lift: from the bar line two bars before the hit (one bar if that's all there is after a bar of groove)
+   let liftT = Infinity;
+   if (hitT != null) for (const n of [8, 4]) { const k = barOf(Math.round(kAt(hitT)) - n); if (bt(k) >= dropT + bar - eps) { liftT = bt(k); break; } }
+-  const breaks = tl.shots.filter(s => m.breaks.includes(s.id)).map(s => [onGrid(s.start), onGrid(s.end)]).filter(([a, b]) => b > dropT && a < end);
++  const breaks = tl.shots.filter(s => m.breaks.includes(s.id)).map(s => [onGrid(s.start), onGrid(s.end)]).filter(([a, b]) => b > dropT && a < end)
++    .sort((x, y) => x[0] - y[0]).reduce((acc, [a, b]) => { const l = acc[acc.length - 1]; if (l && a <= l[1] + .001) l[1] = Math.max(l[1], b); else acc.push([a, b]); return acc; }, []);   // breaks that touch are one dip
+   const inDip = t => t >= dropT - eps && breaks.some(([a, b]) => t >= a - .001 && t < b - .001);
+   const kB = breaks.length ? barOf(Math.round(kAt(Math.min(...breaks.map(b => b[1]))))) : Infinity;
+   const chordAt = t => {                                                   // [pad notes, bass root] at time t
+@@ -154,7 +155,7 @@
+   if (dropT > .5) E.riser(Math.max(.1, dropT - 1.2), dropT - .02, .1, 500, 8000);
+   E.crash(dropT, .12);
+   for (const [, b] of breaks) if (b < end - .2) { E.riser(Math.max(0, b - Math.min(1.2, 2 * beat)), b - .02, .08, 400, 6000); E.crash(b, .12); }
+-  if (liftT < end) { E.riser(Math.max(0, liftT - 1.2), liftT - .02, .1, 500, 8000); E.crash(liftT, .12); }
++  if (liftT < end && !breaks.some(([a, b]) => Math.abs(b - liftT) <= .02 || (a - .02 <= liftT && liftT < b - .02))) { E.riser(Math.max(0, liftT - 1.2), liftT - .02, .1, 500, 8000); E.crash(liftT, .12); }   // not when a break comes back in on the lift (it marks it) or the lift starts in a dip
+   // the hit (a low boom on an end card), then a bell bed rings out over a quiet pad
+   if (hitT != null && hitT < dur - .05) {
+     const rest = dur - hitT;
+@@ -166,12 +167,14 @@
+     E.pad(hitT + .05, dur, [53, 57, 60, 64].map(x => x + tr), .012, .25, .2);
+   }
+   // after the mix: the bus, then the silence before the hit (a 12 ms fade into it; the reverb and delay tails go too)
+-  return (L, R) => {
++  const post = (L, R) => {
+     filmBus(L, R);
+     if (card == null) return;
+-    const a = Math.round(end * SR), b = Math.min(L.length, Math.round(card * SR)), f = Math.round(.012 * SR);
++    const a = Math.round(end * SR), b = Math.min(L.length, Math.round(hitT * SR)), f = Math.round(.012 * SR);
+     for (let i = Math.max(0, a - f); i < b; i++) { const g = i < a ? (a - i) / f : 0; L[i] *= g; R[i] *= g; }
+   };
++  if (card != null && hitT > card + .001) post.quietSfx = [card, hitT];   // a later hit: the end card's own sounds before it stay out of the mix
++  return post;
+ }
+ 
+ function arrange(tl, E) {
+@@ -311,7 +314,7 @@
+   });
+   laneEnd.forEach((_, k) => stem(`qa-lane-${k}.wav`, E => sfx(tl, E, { whooshes: false, only: new Set(assign.flatMap((a, i) => a === k ? [i] : [])) })));
+   writeFileSync(join(dir, 'qa-lanes.json'), JSON.stringify({ lanes: laneEnd.length, assign }));
+-  let music;
++  let music, quiet = null;
+   const style = tl.music.style;
+   if (style === 'track') {
+     toF32(job, tl.music.file, join(dir, 'track.f32'), tl.dur, tl.music.start);
+@@ -322,7 +325,13 @@
+     }
+     writeWav(join(dir, 'music.wav'), music[0], music[1]);
+   } else if (style === 'none') music = [new Float32Array(N), new Float32Array(N)];
+-  else music = stem('music.wav', E => style === 'film' ? arrangeFilm(tl, E) : arrange(tl, E));
++  else { let fp = null; music = stem('music.wav', E => style === 'film' ? (fp = arrangeFilm(tl, E)) : arrange(tl, E)); quiet = fp && fp.quietSfx; }
++  // film with music.hit > 0: the end card's own sounds that land before the hit (its landing hit on frame 0) would break
++  // the breath and pre-empt the hit — they stay out of the mix (2 ms out, 20 ms back in); the stems and QA lanes keep them
++  if (quiet) {
++    const a = Math.round(quiet[0] * SR), b = Math.min(N, Math.round(quiet[1] * SR)), fo = Math.round(.002 * SR), fi = Math.round(.02 * SR);
++    for (const S of [points, whoosh]) for (const ch of S) for (let i = Math.max(0, a - fo); i < Math.min(N, b + fi); i++) ch[i] *= i < a ? (a - i) / fo : i < b ? 0 : (i - b) / fi;
++  }
+   // level the music against the SFX: a track sits where the synth cue would (music ≈ 8 LU above the SFX)
+   let mg = 1;
+   if (style === 'track') {
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/lib/spec.mjs qa/hf02full-skill-port/stage/product-launch-sting/video/lib/spec.mjs
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/lib/spec.mjs	2026-10-22 07:15:00
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/lib/spec.mjs	2026-10-22 09:10:57
+@@ -106,6 +106,9 @@
+   if (style === 'track') { if (!m.file) errs.push('music.style track needs music.file'); else asset(m.file, 'music.file'); }
+   const music = { style, bpm, key: m.key || { playful: 'F', keynote: 'D', calm: 'G', film: 'F' }[style] || 'C', file: m.file || null, start: Number(m.start || 0),
+     downbeat: Number(m.downbeat || 0), drop: m.drop != null ? String(m.drop) : null, breaks: [].concat(m.breaks || []).map(String), level: Number(m.level || 0) };
++  // music.hit (film style): when the hit lands, in seconds after the end card's first frame (a reference's can land later)
++  if (m.hit != null && !(m.hit !== '' && Number.isFinite(Number(m.hit)) && Number(m.hit) >= -1 && Number(m.hit) <= 2)) errs.push(`music.hit is seconds after the end card's first frame, −1…2 s (got ${JSON.stringify(m.hit)}) — e.g. hit: 0.372 when the reference's hit lands 0.372 s into its end card`);
++  if (m.hit != null) music.hit = Number(m.hit);
+   // voiceover: {file, start, duck} (or just a file path); a cutdown gets its own read under voiceover.cutdowns.<name>
+   const voRead = (v, what) => {
+     const x = typeof v === 'string' ? { file: v } : mapOr(v, what, '{file: assets/vo.wav, start: 0.5}');
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/compare.py qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/compare.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/compare.py	2026-10-22 08:16:42
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/compare.py	2026-10-22 09:28:59
+@@ -19,9 +19,11 @@
+ # from an earlier run, or a list of reference cut frames (JSON [75, 97] or text lines "75 lockup > corridor"); without it
+ # the reference's cuts are detected here (hard cuts and the peak of a dissolve; a fallback — element whips can read as
+ # cuts and momentum cuts between near-identical screens can be missed).
++# Frame rates: the same, or ours an exact multiple (a 60 fps lv.mjs master against a 30 fps reference reads ours' frame
++# 2i — the frame conform.py --fps 30 keeps); any other rate exits 2 with the conform.py command to run first.
+ # sbs.mp4 and sheet.png show the reference's own frames: private review only, never a deliverable.
+ # exit 0 done · 1 the side-by-side failed its frame check · 2 bad input (missing file, no video, frame rates differ …)
+-import os, sys, json, argparse
++import os, sys, json, argparse, shlex
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ sys.dont_write_bytecode = True                  # no __pycache__ inside the skill
+ import media
+@@ -39,12 +41,12 @@
+     return float((x * y).sum() / d) if d > 1e-3 else (1.0 if np.abs(a - b).mean() < 1 else 0.0)
+ 
+ 
+-def series(path, size, keep=False):
++def series(path, size, keep=False, step=1):
+     """per frame n ≥ 1: change score vs frame n−1 (1 − NCC + MAD/30), luma std; optionally every thumbnail. Next to a
+     blank frame NCC means nothing: a textured frame ↔ a blank one counts as a full change (1 + MAD/30), two blank or
+     faint frames (a fade crossing the threshold) by their level change alone"""
+     s, sd, kept, prev = [0.0], [], [], None
+-    for f in media.frames(path, size, 'gray', flags='area'):
++    for f in media.frames(path, size, 'gray', flags='area', step=step):
+         a = f.astype(np.float32)
+         sd.append(float(a.std()))
+         if prev is not None:
+@@ -94,7 +96,7 @@
+ 
+ def detect(s, sd, thumbs, a, b):
+     cuts = []
+-    for n in range(max(a + 1, 1), b + 1):
++    for n in range(max(a, 1), b + 1):
+         lo, hi = max(1, n - 2), min(len(s), n + 3)
+         if s[n] < .8 or s[n] < s[lo:hi].max():
+             continue
+@@ -146,22 +148,23 @@
+ 
+ # ── per cut: where does ours change most, and do the two change curves line up? ──
+ def match_cuts(cuts, sr, so, sdo, a, b, fps):
+-    cuts = sorted([c for c in cuts if a < c['n'] <= b], key=lambda c: c['n'])
++    lo = max(a, 1)                                  # a cut on --from counts (its change is from the frame before)
++    cuts = sorted([c for c in cuts if lo <= c['n'] <= b], key=lambda c: c['n'])
+     rows = []
+     for i, c in enumerate(cuts):
+         gap_l = c['n'] - cuts[i - 1]['n'] if i else 99
+         gap_r = cuts[i + 1]['n'] - c['n'] if i + 1 < len(cuts) else 99
+         w = max(1, min(WIN, (gap_l - 1) // 2, (gap_r - 1) // 2))
+-        win = [n for n in range(c['n'] - w, c['n'] + w + 1) if a < n <= b]
++        win = [n for n in range(c['n'] - w, c['n'] + w + 1) if lo <= n <= b]
+         rn = max(win, key=lambda n: sr[n])
+-        winO = [n for n in range(rn - w, rn + w + 1) if a < n <= b]
++        winO = [n for n in range(rn - w, rn + w + 1) if lo <= n <= b]
+         on = max(winO, key=lambda n: so[n])
+         off = on - rn
+         # change-curve alignment: the shift (±w) that best correlates ours with the reference over rn ± 5
+         best = (0, -1.0)
+-        ref_curve = np.array([sr[n] if a < n <= b else 0 for n in range(rn - 5, rn + 6)])
++        ref_curve = np.array([sr[n] if lo <= n <= b else 0 for n in range(rn - 5, rn + 6)])
+         for d in range(-w, w + 1):
+-            ours_curve = np.array([so[n] if a < n <= b else 0 for n in range(rn - 5 + d, rn + 6 + d)])
++            ours_curve = np.array([so[n] if lo <= n <= b else 0 for n in range(rn - 5 + d, rn + 6 + d)])
+             x, y = ref_curve - ref_curve.mean(), ours_curve - ours_curve.mean()
+             r = float((x * y).sum() / (np.sqrt((x * x).sum() * (y * y).sum()) + 1e-9))
+             if r > best[1] + 1e-9 or (abs(r - best[1]) <= 1e-9 and abs(d) < abs(best[0])):
+@@ -222,12 +225,13 @@
+     return y[:h, :w].reshape(h // f, f, w // f, f).mean(axis=(1, 3))
+ 
+ 
+-def verify(sbs, ref, ours, a, b, Wl, Wr, H, band):
++def verify(sbs, ref, ours, a, b, Wl, Wr, H, band, stepO=1):
+     """decode the side-by-side next to both sources: each half of output frame k must show source frame a + k. A slip
+-    is a half that source frame k ± 1 explains clearly better (by a quarter of how much k and k ± 1 differ, and by at
+-    least 0.2 luma levels); a half that matches no source frame at all (mean difference > 10 levels) is wrong too.
++    is a half that source frame k ± 1 explains clearly better (by a quarter of how much k and k ± 1 differ, by at least
++    0.2 luma levels, and by a fifth of its own difference — a narrow half's few pixels are noisy); a half that matches no
++    source frame at all (mean difference > 10 levels) is wrong too.
+     Returns (frames decoded, frames expected, [(k, side, shown, own, other)])"""
+-    srcs = (media.frames(ref, (Wl, H), 'rgb24', a, b, flags='bicubic'), media.frames(ours, (Wr, H), 'rgb24', a, b, flags='bicubic'))
++    srcs = (media.frames(ref, (Wl, H), 'rgb24', a, b, flags='bicubic'), media.frames(ours, (Wr, H), 'rgb24', a, b, flags='bicubic', step=stepO))
+     S, done, bad, n = ({}, {}), [False, False], [], 0
+     def src(side, k):                      # source thumbnail k (read in order; frames before k − 1 are dropped)
+         while k >= 0 and not done[side] and (not S[side] or max(S[side]) < k):
+@@ -249,7 +253,7 @@
+                 sj = src(side, j)
+                 if sj is not None:
+                     other = mad(d, sj)
+-                    if other + max(.2, .25 * mad(sk, sj)) < own and (slip is None or other < slip[1]):
++                    if other + max(.2, .25 * mad(sk, sj)) < own and other < .8 * own and (slip is None or other < slip[1]):
+                         slip = (j, other)
+             if slip:
+                 bad.append((k, name, slip[0], round(own, 2), round(slip[1], 2)))
+@@ -281,18 +285,24 @@
+     for P, who in ((R, '--ref'), (O, '--ours')):
+         if not P['video']:
+             raise UserError('%s %s has no video stream' % (who, P['name']))
+-    fps = R['video']['fps']
+-    if abs(O['video']['fps'] - fps) > .01 * fps:
+-        raise UserError('frame rates differ: the reference runs at %.3f fps, ours at %.3f — frame i must mean the same moment in both; conform ours to %.3f fps first (footage/conform.py --fps %g)' % (fps, O['video']['fps'], fps, round(fps, 3)))
++    fps, fo = R['video']['fps'], O['video']['fps']
++    # frame i must mean the same moment in both: an exact multiple (a 60 fps master against a 30 fps reference) reads
++    # ours' frame k·i — the frame conform.py --fps keeps; any other rate is conformed first
++    stepO = int(round(fo / fps)) if fps and fo / fps > 1.5 and abs(fo / fps - round(fo / fps)) < .001 * fo / fps else 1
++    if stepO == 1 and abs(fo - fps) > .01 * fps:
++        conf = os.path.join(media.VIDEO_DIR, 'footage', 'conform.py')
++        out30 = os.path.splitext(os.path.abspath(A.ours))[0] + '-%gfps.mp4' % round(fps, 3)
++        raise UserError('frame rates differ: the reference runs at %g fps, ours at %g — frame i must mean the same moment in both. Conform ours to the reference first (no audio comes along):\n  python3 %s %s %s --frames %d --fps %g\nthen compare with --ours %s --audio ref (or --audio none)'
++                        % (round(fps, 3), round(fo, 3), shlex.quote(conf), shlex.quote(os.path.abspath(A.ours)), shlex.quote(out30), media.count_frames(R), round(fps, 3), shlex.quote(out30)))
+     os.makedirs(A.out, exist_ok=True)
+     # 1 · analysis (every frame of both, by index)
+     sr, sdr, thr = series(A.ref, thumb_size(R), keep=True)
+-    so, sdo, _ = series(A.ours, thumb_size(O))
++    so, sdo, _ = series(A.ours, thumb_size(O), step=stepO)
+     nR, nO = len(sr), len(so)
+     if not nR or not nO:
+         raise UserError('no frames decoded from %s' % (A.ref if not nR else A.ours))
+     N = min(nR, nO)
+-    notes = []
++    notes = ['ours runs at %g fps, the reference at %g: reference frame i is compared with our frame %d·i (the frames conform.py --fps %g keeps)' % (round(fo, 3), round(fps, 3), stepO, round(fps, 3))] if stepO > 1 else []
+     if nR != nO:
+         notes.append('lengths differ: the reference has %d frames, ours %d — comparing the first %d (%s)' % (nR, nO, N, media.tc(N, fps)))
+     def at(v, end=False):           # 12.5 (seconds; --to is exclusive) or n375 (a frame, inclusive)
+@@ -313,7 +323,7 @@
+     rows = match_cuts(cuts, sr, so, sdo, a, b, fps)
+     line = summary(rows, R['name'])
+     # 3 · frames for the sheet (every reference shot's middle frame) and the strips (non-exact cuts ± 4)
+-    bounds = [a] + [r['n'] for r in rows] + [b + 1]
++    bounds = sorted(set([a] + [r['n'] for r in rows] + [b + 1]))
+     mids = [(i + 1, (bounds[i] + bounds[i + 1] - 1) // 2, bounds[i]) for i in range(len(bounds) - 1)]
+     strips = [r for r in rows if r['status'] != 'exact']
+     want = set(m for _, m, _ in mids) | set(n for r in strips for n in range(r['n'] - 4, r['n'] + 5) if a <= n <= b)
+@@ -329,7 +339,7 @@
+         P = media.probe(A.verify)
+         if not P['video'] or (P['video']['w'], P['video']['h']) != (Wl + Wr, H):
+             raise UserError('%s is %s, not the %d×%d side-by-side these inputs make — made from other inputs or settings?' % (A.verify, '%d×%d' % (P['video']['w'], P['video']['h']) if P['video'] else 'not a video', Wl + Wr, H))
+-        return 0 if report_verify(*verify(A.verify, A.ref, A.ours, a, b, Wl, Wr, H, band), a) else 1
++        return 0 if report_verify(*verify(A.verify, A.ref, A.ours, a, b, Wl, Wr, H, band, stepO), a) else 1
+     if not A.no_video:
+         who = A.audio or ('ours' if O['audio'] else 'none')
+         src_a = {'ref': R, 'ours': O}.get(who)
+@@ -343,7 +353,7 @@
+         cmd += ['-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv',
+                 '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-color_range', 'tv', '-shortest', '-movflags', '+faststart', sbs]
+         enc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+-        it = zip(media.frames(A.ref, (Wl, H), 'rgb24', a, b, flags='bicubic'), media.frames(A.ours, (Wr, H), 'rgb24', a, b, flags='bicubic'))
++        it = zip(media.frames(A.ref, (Wl, H), 'rgb24', a, b, flags='bicubic'), media.frames(A.ours, (Wr, H), 'rgb24', a, b, flags='bicubic', step=stepO))
+         for k, (fl, fr) in enumerate(it):
+             n = a + k
+             if n in want:
+@@ -359,10 +369,10 @@
+         err = enc.stderr.read().decode('utf-8', 'replace'); enc.wait()
+         if enc.returncode:
+             raise UserError('encoding %s failed:\n%s' % (sbs, err.strip()[-1200:]))
+-        verdict = verify(sbs, A.ref, A.ours, a, b, Wl, Wr, H, band)
++        verdict = verify(sbs, A.ref, A.ours, a, b, Wl, Wr, H, band, stepO)
+     else:
+         for (fl, fr), n in zip(zip(media.frames(A.ref, (480, max(2, int(round(480 * R['video']['h'] / R['video']['w'] / 2)) * 2)), 'rgb24', a, b),
+-                                   media.frames(A.ours, (480, max(2, int(round(480 * O['video']['h'] / O['video']['w'] / 2)) * 2)), 'rgb24', a, b)), range(a, b + 1)):
++                                   media.frames(A.ours, (480, max(2, int(round(480 * O['video']['h'] / O['video']['w'] / 2)) * 2)), 'rgb24', a, b, step=stepO)), range(a, b + 1)):
+             if n in want:
+                 grabR[n], grabO[n] = small(fl, 320), small(fr, 320)
+     # 4 · sheet + strips
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/media.py qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/media.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/media.py	2026-10-22 07:41:08
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/media.py	2026-10-22 09:17:26
+@@ -3,12 +3,14 @@
+ # Pillow importable under `python3 -I` (which hides the user site-packages they live in on this Mac).
+ import os, sys, json, subprocess
+ try:
+-    import numpy as np
+-except ImportError:
+     import site
+-    sys.path.append(site.getusersitepackages())
++    if site.getusersitepackages() not in sys.path:
++        sys.path.append(site.getusersitepackages())
+     import numpy as np
+-from PIL import Image, ImageDraw, ImageFont
++    from PIL import Image, ImageDraw, ImageFont
++except ImportError as e:
++    sys.stderr.write('\n✗ %s is missing for %s — install numpy and Pillow: pip3 install numpy pillow\n' % (e.name or 'a module', sys.executable))
++    sys.exit(2)
+ 
+ VIDEO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))     # …/product-launch-sting/video
+ 
+@@ -69,12 +71,15 @@
+     return P
+ 
+ 
+-def frames(path, size=None, fmt='gray', first=0, last=None, flags='area'):
++def frames(path, size=None, fmt='gray', first=0, last=None, flags='area', step=1):
+     """Decoded frames by INDEX (presentation order, no re-timing: -fps_mode passthrough), first..last inclusive, as
+-    uint8 arrays (h, w) or (h, w, 3). size = (w, h) scales in ffmpeg."""
+-    vf = []
++    uint8 arrays (h, w) or (h, w, 3). size = (w, h) scales in ffmpeg. step = k reads every k-th frame (frame k·i of a
++    60 fps file is frame i of its 30 fps grid); first/last count in those steps."""
++    vf, sel = [], (['not(mod(n\\,%d))' % step] if step > 1 else [])
+     if first > 0 or last is not None:
+-        vf.append("select='%s'" % ('between(n\\,%d\\,%d)' % (first, last) if last is not None else 'gte(n\\,%d)' % first))
++        sel.append('between(n\\,%d\\,%d)' % (first * step, last * step) if last is not None else 'gte(n\\,%d)' % (first * step))
++    if sel:
++        vf.append("select='%s'" % '*'.join(sel))
+     if size:
+         vf.append('scale=%d:%d:flags=%s' % (size[0], size[1], flags))
+     cmd = ['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-map', '0:v:0', '-an', '-sn', '-dn', '-fps_mode', 'passthrough']
+@@ -100,6 +105,15 @@
+         p.stdout.close()
+         p.kill() if p.poll() is None else None
+         p.wait()
++
++
++def count_frames(P):
++    """a video's frame count: the container's, else its packets counted (fast, no decode)"""
++    if P['video'] and P['video']['frames']:
++        return P['video']['frames']
++    out = run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-count_packets', '-show_entries', 'stream=nb_read_packets', '-of', 'csv=p=0', P['path']], 'count the frames of %s' % P['name'], text=True)
++    n = out.strip().split(',')[0]
++    return int(n) if n.isdigit() else 0
+ 
+ 
+ def audio(path, sr=22050, mono=True):
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/music.py qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/music.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/music.py	2026-10-22 08:16:42
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/music.py	2026-10-22 09:20:50
+@@ -168,6 +168,8 @@
+     p1.add_argument('--from', dest='frm', type=float); p1.add_argument('--to', type=float); p1.add_argument('--json')
+     p2 = sub.add_parser('compare'); p2.add_argument('ref'); p2.add_argument('ours'); p2.add_argument('--json')
+     A = ap.parse_args()
++    if A.json:
++        os.makedirs(os.path.dirname(os.path.abspath(A.json)), exist_ok=True)
+     for f in ([A.file] if A.cmd == 'profile' else [A.ref, A.ours]):
+         P = media.probe(f)
+         if not P['audio']:
+@@ -200,13 +202,15 @@
+     print('onset lag: ours %+.0f ms vs the reference (onset cross-correlation peak %.2f)' % (lag, peak))
+     fmt_q = lambda q: ', '.join('%.2f–%.2f s' % (a, b) for a, b in q) or 'none'
+     print('quiet (≥ 0.25 s under −45 dBFS RMS): reference %s · ours %s' % (fmt_q(qr), fmt_q(qo)))
+-    print('biggest hit: reference %.3f s (+%.0f dB) · ours %.3f s (+%.0f dB)' % (hr[0], hr[1], ho[0], ho[1]))
++    jump = lambda d: '> 60 dB, out of silence' if d > 60 else '+%.0f dB' % d
++    print('biggest hit: reference %.3f s (%s) · ours %.3f s (%s)' % (hr[0], jump(hr[1]), ho[0], jump(ho[1])))
+     print('profile on the reference\'s grid (%.1f–%.1f s): groove r %s · band balance Δ %s dB · centroid %.0f vs %.0f Hz · key %s vs %s'
+           % (pr['from'], pr['to'], ' / '.join('%s %.2f' % (k.split(' ')[0], v) for k, v in corr.items()), ' '.join('%s %+.1f' % (k, v) for k, v in dbal.items()),
+              po['centroid_hz'], pr['centroid_hz'], po['key'], pr['key']))
+     why = []
+     if abs(go['bpm'] - gr['bpm']) > .15:
+-        why.append('tempo %.2f vs %.2f BPM' % (go['bpm'], gr['bpm']))
++        octave = any(abs(go['bpm'] / gr['bpm'] - f) < .02 * f for f in (2, .5))
++        why.append('tempo %.2f vs %.2f BPM%s' % (go['bpm'], gr['bpm'], ' — ×%g: the tracker may have locked to half or double time on one of them (listen; lv.mjs --tempo lists the other octave)' % round(go['bpm'] / gr['bpm'], 2) if octave else ''))
+     if phase > .035:
+         why.append('beat phase %.0f ms apart' % (phase * 1000))
+     if abs(lag) > 35:
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/track.py qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/track.py
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/recreate/track.py	2026-10-22 08:16:42
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/recreate/track.py	2026-10-22 09:20:38
+@@ -1,8 +1,9 @@
+ # -*- coding: utf-8 -*-
+ # Measure a shot's camera: similarity + blur registration of every frame against one sharp key frame of the same shot,
+ # frame n ≈ blur(R((x − t)/s)) (scale s about the top-left, shift t, Gaussian blur σx/σy), fitted by Nelder–Mead on NCC.
+-# Frames are read from the video by index. numpy only: ~10–15 s a frame at --half on 1080-wide frames, so run one
+-# process per shot in parallel.
++# Frames are read from the video by index, so frame numbers are that file's: a 60 fps lv.mjs master numbers twice as
++# fast as a 30 fps reference — measure its 30 fps conform (RECREATE.md §5). numpy only: ~2.5–3 s a frame at --half on a
++# 1080×608 reference, ~8 s at full size, so run one process per shot in parallel.
+ #
+ #   python3 track.py <video> --key N --from A --to B [--roi x,y,w,h] [--scale-to WxH] [--half] [--init s,tx,ty] --out track.json
+ #
+@@ -52,6 +53,7 @@
+     ap.add_argument('--to', type=int, required=True); ap.add_argument('--roi'); ap.add_argument('--scale-to'); ap.add_argument('--half', action='store_true')
+     ap.add_argument('--init'); ap.add_argument('--out', required=True)
+     A = ap.parse_args()
++    os.makedirs(os.path.dirname(os.path.abspath(A.out)), exist_ok=True)     # before minutes of fitting, not after
+     P = media.probe(A.video)
+     if not P['video']:
+         raise UserError('%s has no video stream' % P['name'])
+@@ -154,11 +156,12 @@
+                      'blur_per_speed_at_peak': round(blur / pk['speed'], 3) if pk['speed'] else None})
+     out = {'video': os.path.abspath(A.video), 'key': A.key, 'from': A.frm, 'to': A.to, 'measured_size': [Wm, size[1] if size else P['video']['h']],
+            'half': A.half, 'roi': A.roi, 'init': init, 'frames': res, 'summary': summ}
++    out['fps'] = P['video']['fps']
+     json.dump(out, open(A.out, 'w', encoding='utf-8'), indent=0)
+     s = summ
+     if sp:
+-        print('peak %.2f px/f (1080-wide) at n%d · build ×%s/f · decay ×%s/f · blur at the peak %.2f px = %.2f × speed (house rule ≈ 0.2; a cut frame over-reads ~2×)%s'
+-              % (s['peak_speed'], s['peak_frame'], s['build_per_frame'], s['decay_per_frame'], s['blur_at_peak'], s['blur_per_speed_at_peak'] or 0,
++        print('peak %.2f px/f (1080-wide) at n%d of a %g fps video · build ×%s/f · decay ×%s/f · blur at the peak %.2f px = %.2f × speed (house rule ≈ 0.2; a cut frame over-reads ~2×)%s'
++              % (s['peak_speed'], s['peak_frame'], round(P['video']['fps'], 3), s['build_per_frame'], s['decay_per_frame'], s['blur_at_peak'], s['blur_per_speed_at_peak'] or 0,
+                  ' · ncc < 0.9 (model doesn\'t hold): %s' % ', '.join('n%d' % n for n in s['unreliable']) if s['unreliable'] else ''))
+     print('→ %s' % A.out)
+     return 0
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/templates/beats.yaml qa/hf02full-skill-port/stage/product-launch-sting/video/templates/beats.yaml
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/templates/beats.yaml	2026-10-21 02:36:10
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/templates/beats.yaml	2026-10-22 09:07:43
+@@ -21,7 +21,7 @@
+   # cast: [{src: assets/char-a.svg}, {shape: hex, col: "#2FC2A3"}]   # your characters, or the built-in shape cast
+ 
+ music:
+-  style: playful                 # playful (mallets, 120) | keynote (house, 124) | calm (pads, 96) | track | none
++  style: playful                 # playful (mallets, 120) | keynote (house, 124) | calm (pads, 96) | film (groove, 87) | track | none
+   bpm: 120                       # shot lengths in beats follow this grid
+   key: F
+   drop: s2                       # the groove drops in at this shot (default: the 2nd)
+diff -ru --exclude=node_modules qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/templates/footage-prompts.md qa/hf02full-skill-port/stage/product-launch-sting/video/templates/footage-prompts.md
+--- qa/hf02full-skill-port/stage-r0-before-review-fixes/product-launch-sting/video/templates/footage-prompts.md	2026-10-22 07:58:31
++++ qa/hf02full-skill-port/stage/product-launch-sting/video/templates/footage-prompts.md	2026-10-22 09:23:25
+@@ -34,7 +34,7 @@
+    ending on a close-up of her hands typing on the laptop keyboard beside the red mug."
+ 3. **Performance, beat by beat**: "She types quickly, pauses for a beat, presses one key firmly with her right index
+    finger, then reaches for the mug with her left hand and lifts it toward her lips." — 2–4 concrete actions in order;
+-   the clip comes back ~10 % longer than asked at 24 fps (6 s → 6.58 s), so pick where the shot starts with
++   the clip comes back 3–10 % longer than asked at 24 fps (6 s → 6.58 s, 5 s → 5.17 s), so pick where the shot starts with
+    `conform.py --start`.
+ 4. "Real-time, natural, candid motion."
+ 5. "Keep the lighting, colours, depth of field and film grain of the first frame."

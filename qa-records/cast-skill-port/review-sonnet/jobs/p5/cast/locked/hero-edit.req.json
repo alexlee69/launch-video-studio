@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "2560x1440",
+ "quality": "high",
+ "n": 1,
+ "refs": [
+  "light.png"
+ ],
+ "prompt": "This is a character reference sheet in three panels. Make exactly these changes and nothing else. 1) MIDDLE panel (full body, front): erase the face. Leave a soft plain shadow where the face was: no eyes, no nose, no mouth. Keep everything else exactly as it is: the close-up face in the left panel unchanged, the same flat grey, the same clothes, the same poses, the same framing and layout."
+}

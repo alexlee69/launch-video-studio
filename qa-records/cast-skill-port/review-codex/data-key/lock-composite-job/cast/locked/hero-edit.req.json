@@ -1,0 +1,11 @@
+{
+ "endpoint": "edits",
+ "model": "gpt-image-2",
+ "size": "128x128",
+ "quality": "high",
+ "n": 1,
+ "refs": [
+  "cast/candidates/cand-01.png"
+ ],
+ "prompt": "Erase the body face."
+}

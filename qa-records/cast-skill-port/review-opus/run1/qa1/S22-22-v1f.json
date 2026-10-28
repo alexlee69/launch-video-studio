@@ -1,0 +1,14 @@
+{
+ "original": "S22-22-v1.png",
+ "edit": "S22-22-v1-patchfix-edit.png",
+ "feather": 18,
+ "edit_drift_inside": 18.8,
+ "edit_drift_outside_not_used": 4.8,
+ "why": "patch was on her right shoulder; the edit removed it (it also put one on her thigh, which is outside the box and not used)",
+ "box": [
+  360,
+  680,
+  800,
+  1120
+ ]
+}

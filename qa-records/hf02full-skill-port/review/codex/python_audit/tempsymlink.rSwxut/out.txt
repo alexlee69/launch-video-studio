@@ -1,0 +1,6 @@
+PASS  audio     decoded PCM md5 c37f8a23a0c4e08ceb105f93b14f7b1d == the reference's c37f8a23a0c4e08ceb105f93b14f7b1d
+PASS  video     video packets md5 cce1ff925730ba1ebcba333167d519b6 == ours cce1ff925730ba1ebcba333167d519b6
+PASS  priming   first audio packet pts -1024 vs -1024, 48 vs 48 packets, time base 1/48000 vs 1/48000
+PASS  label     title "film - TEMP TRACK (reference audio), private review only"
+PASS → /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/tempsymlink.rSwxut/out-tempmusic-PRIVATE.mp4
+  private review only: the reference's own music — never a deliverable, never posted or sent beyond the user; the shareable master is film.mp4 with our score

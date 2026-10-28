@@ -1,0 +1,14 @@
+{
+ "original": "sheet.png",
+ "edit": "other.png",
+ "box": [
+  0,
+  0,
+  1000,
+  1000
+ ],
+ "feather": 0,
+ "edit_drift_inside": 0.0,
+ "edit_drift_outside_not_used": 0.0,
+ "why": ""
+}

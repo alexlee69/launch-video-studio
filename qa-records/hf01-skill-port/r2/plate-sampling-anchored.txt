@@ -1,0 +1,9 @@
+S02 n348–n363 (r3, master start f696 ≡ 1 mod 5): engine model matches
+    global ceil(2.5m) + clamp (job)    [0, 1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 11, 12]  one plate frame per edit frame
+    shot-anchored start + ceil(2.5e)   [0, 1, 1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 11, 12]  one plate frame per edit frame
+S03 n364–n381 (r4, master start f728 ≡ 3 mod 5): engine model matches
+    global ceil(2.5m) + clamp (job)    [0, 0, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 10, 10, 12, 12, 12, 14]  13 irregular steps (n366,367,368,369,371,372,373,375,376,377,378,379,381)
+    shot-anchored start + ceil(2.5e)   [0, 0, 1, 2, 3, 4, 4, 5, 6, 7, 7, 8, 9, 10, 11, 12, 12, 13]  one plate frame per edit frame
+S15 n1234–n1256 (r4, master start f2468 ≡ 3 mod 5): engine model DIFFERS
+    global ceil(2.5m) + clamp (job)    [0, 0, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 10, 10, 12, 12, 12, 14, 14, 16, 16, 16, 18]  17 irregular steps (n1236,1237,1238,1239,1241,1242,1243,1245,1246,1247,1248,1249,1251,1252,1253,1254,1256)
+    shot-anchored start + ceil(2.5e)   [0, 0, 0, 2, 3, 4, 4, 5, 6, 7, 7, 8, 9, 10, 11, 12, 12, 13, 14, 15, 16, 16, 17]  2 irregular steps (n1236,1237)

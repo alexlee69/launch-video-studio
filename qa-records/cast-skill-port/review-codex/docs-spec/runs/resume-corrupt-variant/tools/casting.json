@@ -1,0 +1,9 @@
+{
+ "cap": 50,
+ "locations": {
+  "place": {
+   "prompt": "An empty room. {PLATE_TAIL}",
+   "n": 2
+  }
+ }
+}

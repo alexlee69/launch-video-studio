@@ -1,0 +1,20 @@
+{
+ "job": "old-hf02-skill",
+ "style": "keynote",
+ "bpm": 120,
+ "dur": 8.983333333333333,
+ "md5": {
+  "music.wav": "bab479e56cfb098783a2844408428833",
+  "points.wav": "7a470bbf35f897c9cbd7f3cf8155c2f4",
+  "qa-lane-0.wav": "82dde3f6f57e3dac8864cb0ad3c9221a",
+  "qa-lane-1.wav": "3d055fb0f20a42fb126540fea1114f71",
+  "qa-lane-2.wav": "29854ab15516932a65655ac4fe21e1b9",
+  "qa-lane-3.wav": "9fc0d1130caca0d6c769a4315ab26ce7",
+  "qa-lanes.json": "4b7f116491b3d2475a7440db61a5247e",
+  "raw.wav": "9d00c54139e534856b84d7f6c0ca1913",
+  "whoosh.wav": "71929c4748219a37c525708b45603cf4"
+ },
+ "timeline_sha1": "87fe01c46e3faf8ca9ac7b4921e515aa8759b92b",
+ "deterministic": true,
+ "built_with": "/Users/bytedance/.claude/skills/product-launch-sting"
+}

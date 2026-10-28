@@ -1,0 +1,319 @@
+{
+ "group": "reel",
+ "findings": [
+  {
+   "id": "REEL-2",
+   "opus": {
+    "id": "REEL-2",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "split `mode: wipe` fails the --layers stack check unless the shot happens to have a caption; the divider wrapper fades and moves by transform",
+    "file": "video/engine/blocks/split.js",
+    "line": 143,
+    "root_cause": "split.js:95 creates the divider wrapper with opacity:0, and :143-144 fade it while moving it with translateX. Its children's box-shadows hang outside it. That is the GUIDE's own 'moves by transform and fades' trap, so Chrome composites the divider in f0–f5, and the other layers then rasterise differently from the flattened clip.",
+    "evidence": "I re-ran it on a copy of Sonnet's p8 (snapshot copy): `lv.mjs --job p8 --layers wa --aspect 9x16` gives FAIL stack 8/71 (f0 2969 px, f2 8470, f4 8692; composited in ref-alpha, ref-opaque and divider), rc=1. The numbers are identical to Sonnet's run, so this is deterministic. With the patched split.js (wrapper unfaded, both children faded, positioned by `left`), the same command gives PASS stack and stack+bg, worst f52 0 px > 16, max diff 4, rc=0. GUIDE.md:537-538 claims every built-in block avoids these triggers except panel glass.",
+    "fix": "split.js: create the divider without opacity, set opacity on its two child divs in render, and position it with `divider.style.left = divider._.x0 + px` instead of a transform. Correct GUIDE.md:537 and add a bare wipe and a text+wipe to the layers regression set. Re-verify 16:9 and 1:1, and the reel-sample s6 layers. Film pixels around the divider change only at antialiasing level (a new block, so no old jobs).",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-2",
+    "severity": "MEDIUM",
+    "category": "layers / compositing trap",
+    "file": "video/engine/blocks/split.js",
+    "line": 143,
+    "title": "split mode: wipe fails the --layers stack check in almost every configuration; only the shipped sample's exact config passes, with a thin margin",
+    "failure_scenario": "`--layers` on a wipe shot gives `FAIL stack` (\"Chrome composited part of the frame on its own\") unless the shot has a caption and nothing else (the reel-sample s6 shape). Bare wipe, wipe + `text` headline, wipe + `bg`, wipe with footage fields, and the full-featured wipe all FAIL, in early frames f0–f6 with up to 26k px off (max diff 131). GUIDE.md:537-538 claims the built-in blocks avoid every listed compositing trigger except panel glass; REPORTS.md says the sample's layers pass (margin 36/64).",
+    "evidence": "9:16, `node work/REEL/s/video/lv.mjs --job work/REEL/p8 --layers <id>`: wa (bare wipe) FAIL 8/71 frames (f0 2969 px, f2 8470 px); wb (+text) FAIL 17/70; wc (+bg) FAIL 8/71; wd (caption only) PASS worst f17 36 px (max diff 83); stress job t4 (text+caption+bg+labels) FAIL 21/85; p6 v4 (video before/after) FAIL 8/85; reel-sample s6 copy (work/REEL/rs) PASS at 36 px. Logs: work/REEL/p8/layers_w{a,b,c,d}.log, rs/layers_s6.log, p6/layers916.log. Root cause found with a CDP LayerTree probe (work/REEL/lt3.mjs): the `divider` wrapper (92x1061) and its handle (165x165) are composited by Chrome in f0–f4.5 (opacity 0) and again from f8.5 on, also in the sample. split.js:95 creates the wrapper with `opacity:0` and 143-144 fades the wrapper while moving it with `transform: translateX` — exactly the GUIDE trap \"moves by transform and fades\" plus box-shadow children hanging outside a fading box. Probe: moving by `left` alone still composites while opacity<1; `left` + fading the two children (wrapper stays opacity 1) leaves zero composited layers in 9:16, 16:9 and 1:1. Same side mode (kit s3 1x1, p6 v2), float, sticker, cta, media layers all PASS, so this is specific to the wipe divider.",
+    "reproduced": true,
+    "suggested_fix": "In split.js: create the divider wrapper without opacity, set `opacity` on its two child divs in render, and position it with `style.left = divider._.x0 + px` instead of transform. Verified in a patched copy (work/REEL/s2): `--layers wa,wb` PASS worst 0 px > 16 (was FAIL), and the reel-sample wipe improves from 36 px to 0 px. Cost: film pixels around the divider change at antialiasing level (it stops being a separately rasterised layer; max diff 138 on its thin edges, ~66 over the frame at f4), so this is a visual-noise change, not a look change. Also correct GUIDE.md:537 and add a wipe-without-caption case to the layers regression set."
+   }
+  },
+  {
+   "id": "REEL-3",
+   "opus": {
+    "id": "REEL-3",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "`captionAt` is unvalidated: \"1.5s\"/\"abc\" → NaN hero frame and a raw TypeError after --grid passed; a value past the shot silently drops the caption",
+    "file": "video/engine/blocks/_reel.js",
+    "line": 194,
+    "root_cause": "reelCapPlan (_reel.js:194) uses Number(s.captionAt ?? 4), so seconds strings become NaN. NaN flows to hero() (Math.max(30, NaN) = NaN), then to timeline heroF (timeline.mjs:89), then to render(NaN), where reelShaker reads J[NaN][0]. spec.mjs never checks captionAt, while every other time field accepts '1.5s' through K.frameAt.",
+    "evidence": "work/opus-enginereel/cap1 (sticker, `caption: Pick a style now, captionAt: 1.5s`). --grid prints a normal table with no warning. compile() gives `heroF NaN`. `--storyboard --aspect 9x16` gives `✗ page.evaluate: TypeError: Cannot read properties of undefined (reading '0')`, which names neither the shot nor the field.",
+    "fix": "_reel.js: import frameAt from ../kit.js (it is isomorphic) and use `start = frameAt(s.captionAt) ?? 4`. spec.mjs: for any shot with `caption`, validate captionAt with isAt and warn when it is ≥ Db. timeline.mjs:89: if hero() is not finite, throw a UserError naming the block and shot. Numeric captionAt renders exactly as now.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-3",
+    "severity": "MEDIUM",
+    "category": "spec validation hole",
+    "file": "video/engine/blocks/_reel.js",
+    "line": 194,
+    "title": "`captionAt` is never validated: \"1.5s\"/\"abc\" give a NaN hero frame and a raw stack-trace crash after --grid passed; a value past the shot end silently drops the caption",
+    "failure_scenario": "Every other time-like field (pan.at, overlays at/until, roster first, sidebar at) accepts a frame number or \"1.5s\" and is checked at --grid, but `captionAt: 1.5s` or `captionAt: abc` is read as Number(...) = NaN (_reel.js:194). --grid prints a normal table, then --storyboard/--film die with `TypeError: Cannot read properties of undefined (reading '0')` at _reel.js:167 (sticker/cta, via the NaN-keyed shaker) or `page errors while loading the stage: <feGaussianBlur> attribute stdDeviation: Expected number, \"NaN NaN\"` (float/split/media) — neither names the shot or the field. `captionAt: 400` on a 2.8 s shot passes silently: words never pop, the only warning is a nonsense \"pops 12.0 words/s\".",
+    "evidence": "work/REEL/p3, p2: sticker `caption: Hello world today`, `captionAt: 1.5s` and `abc` -> `lv.mjs --grid` rc=0 no warnings; `--storyboard --aspect 9x16` -> \"✗ page.evaluate: TypeError: Cannot read properties of undefined (reading '0') at _reel.js:168:19\". Same value on float/split/media -> the feGaussianBlur NaN page error. `captionAt: 400` -> storyboard renders with no caption and only \"pops 12.0 words/s\". Contrast: `cardFrom: abc` IS rejected at --grid (\"cardFrom must be seconds ≥ 0\"). spec.mjs has no captionAt check (grep). Cause chain: NaN start -> reelCapPlan.end NaN -> hero() NaN -> sh.heroF NaN (timeline.mjs:89) -> render(NaN).",
+    "reproduced": true,
+    "suggested_fix": "In spec.mjs, for any shot with `caption`, validate `captionAt` with the same isAt/K.frameAt path as pan.at (frames or \"1.5s\", finite, ≥ 0) and warn/error when it is ≥ the shot length; have reelCapPlan use K.frameAt. Also guard reelShaker (k NaN) and timeline heroF with Number.isFinite so a bad value can never become a stack trace."
+   }
+  },
+  {
+   "id": "REEL-4",
+   "opus": {
+    "id": "REEL-4",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "sticker `tilt` is unvalidated: `tilt: -5deg` silently renders a ~56 % size, untilted sticker",
+    "file": "video/engine/blocks/sticker.js",
+    "line": 44,
+    "root_cause": "Number('-5deg') is NaN. reelEnvelope(…, NaN) gives NaN bounds, so `env.w <= A.w` is never true and the fit loop runs to it=7 (k = .92^7 ≈ .56). The nudge `nx || ny` is NaN and falsy, so nothing moves, and reelXf's `g.rot || 0` turns the rotation into 0.",
+    "evidence": "Code path read end to end: sticker.js:44, :69-79, :81-82; _reel.js:157. Sonnet's DOM measure (p20): one line at ≈103 px font with 0° rotation, against two lines at ≈184 px and −4.5°. No warning at --grid.",
+    "fix": "spec.mjs: `tilt` must be a finite number in −45…45 (built-in sticker), error otherwise. sticker.js: Number.isFinite guard falling back to −5. Numeric tilts render unchanged.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-4",
+    "severity": "MEDIUM",
+    "category": "spec validation hole",
+    "file": "video/engine/blocks/sticker.js",
+    "line": 44,
+    "title": "sticker `tilt` is unvalidated: `tilt: -5deg` silently renders a ~56 % size, untilted sticker",
+    "failure_scenario": "`tilt` is documented as \"degrees (default −5)\". A user who writes `tilt: -5deg` (or any non-number) gets Number(...) = NaN: the fit loop's envelope test is NaN so it never passes and shrinks the lockup 8 times (×0.92 each), and reelXf's `g.rot || 0` turns the NaN rotation into 0. Output: a flat sticker at about half size, no warning at --grid, no error at render.",
+    "evidence": "work/REEL/p20 (same text, tilt -5deg vs -5), DOM at f30: title line height 110 px, one line (font ≈103 px) for `-5deg` vs two 197 px lines (font ≈184 px) for `-5`; computed rotation 0deg vs -4.5deg. `--grid` on p5 prints no warning for tilt -5deg; storyboard (work/REEL/p5/reel-storyboard-9x16.png) shows k1 visibly smaller and flat next to k2/k3. Code: sticker.js:44 Number(s.tilt ?? -5), :76-77 envelope loop, _reel.js:157 (g.rot || 0).",
+    "reproduced": true,
+    "suggested_fix": "Validate `tilt` in spec.mjs (finite number, e.g. −45…45; optionally strip a trailing `deg`) and add a Number.isFinite guard in sticker.js so a bad value falls back to the default with a --grid error instead of a silent shrink."
+   }
+  },
+  {
+   "id": "REEL-5",
+   "opus": {
+    "id": "REEL-5",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "A caption with a standalone `*` passes --grid and aborts the render ('report this caption')",
+    "file": "video/engine/blocks/_reel.js",
+    "line": 8,
+    "root_cause": "reelWords replaces every * and | with a space before counting. ctx.text tokenises through K.parseCopy, which keeps an unpaired `*` (or `**`) as a word span, so the timing count and the on-screen count disagree.",
+    "evidence": "work/opus-enginereel/cap2: `caption: \"Terms * apply now\"`. --grid is clean; `--storyboard --aspect 9x16` gives `✗ stage failed to build: … sticker a1: caption has 4 words on screen but 3 in its timing — report this caption`.",
+    "fix": "Make reelWords use the same tokenizer as ctx.text: `parseCopy(c).flatMap(p => p.br ? [] : p.text.split(/\\s+/)).filter(Boolean)`. Counts are unchanged for every caption without a lone or double star, so there is no pixel change.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-5",
+    "severity": "LOW",
+    "category": "crash on plausible input",
+    "file": "video/engine/blocks/_reel.js",
+    "line": 220,
+    "title": "A caption containing a standalone `*` passes --grid and then aborts the render with \"report this caption\"",
+    "failure_scenario": "reelWords() (line 8) turns every `*` into a space, but ctx.text renders a lone `*` token as a word. For `caption: Terms * apply now` the timing counts 3 words and the page has 4, so build throws \"sticker a1: caption has 4 words on screen but 3 in its timing — report this caption\" at --storyboard/--film. --grid is clean. Same for any reel block and media with a caption.",
+    "evidence": "work/REEL/p1 (sticker a1). `lv.mjs --grid` rc=0; `--storyboard --aspect 9x16` -> \"✗ stage failed to build: page.evaluate: Error: sticker a1: caption has 4 words on screen but 3 in its timing — report this caption\". Footnote-style `Free*` (star attached to a word) is fine; only a space-separated `*` token mismatches.",
+    "reproduced": true,
+    "suggested_fix": "Make reelWords count exactly what ctx.text renders: tokenise with K.parseCopy(...) and split on whitespace (one shared tokenizer for Node and browser), instead of regex-replacing `*|`."
+   }
+  },
+  {
+   "id": "REEL-6",
+   "opus": {
+    "id": "REEL-6",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Docs: 'leave bg off → transparent overlays' gives a fully opaque cta clip (its glow backdrop is block content); QA correctly passes it",
+    "file": "video/GUIDE.md",
+    "line": 320,
+    "root_cause": "cta.js:37-44 draws a dark glow backdrop as content when the shot has no bg. GUIDE.md:320 and reel.yaml:5 tell the user to keep shots bg-less for overlays, without the cta exception (`bg: none`).",
+    "evidence": "cta.js:37 checks `!ctx.hasBg && String(s.bg ?? '') !== 'none'`. qa.mjs:239-241 deliberately accepts fully opaque alpha clips (full-bleed media are saved as RGB), so QA is not wrong. The only defect is the guidance. Sonnet: kit s7 clip is 100 % opaque, while with `bg: none` it is 4.1 % opaque.",
+    "fix": "GUIDE.md:320 and reel.yaml:5: add '(cta: `bg: none`)'. Optionally have qaClip print INFO when an --alpha clip is opaque in every frame. No render change.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-6",
+    "severity": "LOW",
+    "category": "docs vs behaviour / QA blind spot",
+    "file": "video/engine/blocks/cta.js",
+    "line": 37,
+    "title": "A bg-less cta exports as a fully opaque clip under `--clips --alpha`; QA passes it and GUIDE.md:320 / the reel starter header say to leave bg off for overlays",
+    "failure_scenario": "GUIDE.md:320 (\"leave bg off … export the graphics as transparent overlays\") and templates/reel.yaml:5 (\"keep the shots bg-less and export them as overlays\") lead a user to `--clips all --alpha`; the starter's s7 cta has no bg, so its clip is a solid dark frame with drifting glows (the glow backdrop is block content, cta.js:37-44). Only the cta table row, the block doc and an s7 comment say `bg: none` is the overlay form. qaClip's alpha check (qa.mjs:241) only requires some alpha ≥ 40, so an all-opaque 'transparent' clip is PASS.",
+    "evidence": "work/REEL/kit: `lv.mjs --job kit --clips s7 --alpha --aspect 9x16` -> PASS clip/content/freeze; alpha plane at frame 40 is 100 % opaque (PIL: opaque share 1.0). Control, stress job: cta with `bg: none` -> 4.1 % opaque (transparent as documented); sticker over `bg:` footage -> 1.9 % opaque (footage left out). Layers for the no-bg cta (backdrop layer) PASS in 9:16 and 16:9.",
+    "reproduced": true,
+    "suggested_fix": "Say \"(cta: bg: none)\" in GUIDE.md:320 and the reel.yaml header, and have qaClip print an INFO/WARN when an --alpha clip has no transparent pixel in any frame (with a cta hint)."
+   }
+  },
+  {
+   "id": "REEL-7",
+   "opus": {
+    "id": "REEL-7",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Reel boolean fields accept anything: `sparks: no`, `gloss: off`, `shake: \"false\"` leave the effect on; typos are silently ignored",
+    "file": "video/engine/blocks/sticker.js",
+    "line": 44,
+    "root_cause": "sticker.js:44/46/103, cta logo, split arrow and float streak test only `=== false`. The yaml 1.2 parser reads no/off as strings. spec.mjs type-checks agent's `dolly` (:220) but none of the reel booleans. Unknown-key warnings are a gap for every block, including PRE, so that part is not a regression.",
+    "evidence": "Code read: sticker.js:44 `shake = s.shake !== false`, :46 `s.sparks === false`, :103 `s.gloss === false`; spec.mjs ENUMS (:33-40) has no boolean entries; spec.mjs:220 has the dolly check for comparison. Sonnet's p5/p19 storyboards show the effects still on.",
+    "fix": "spec.mjs: for built-in sticker/cta/split/float, `shake/sparks/gloss/logo/arrow/streak` must be true or false, with an error like `(got \"no\")`. An unknown-key warning with did-you-mean is optional.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-7",
+    "severity": "LOW",
+    "category": "spec validation hole",
+    "file": "video/lib/spec.mjs",
+    "line": 33,
+    "title": "Reel boolean fields and misspelled fields are silently ignored",
+    "failure_scenario": "Only a literal YAML `false` switches shake/sparks/gloss/arrow/streak/logo off (sticker.js:44/46/103, split arrow, float streak, cta logo): with the yaml 1.2 parser `sparks: no`, `gloss: off`, `shake: \"false\"` are strings, so the effect stays ON. Typos such as `ribon:`, `capton:`, `captionat:` are also accepted with no warning, so the element just never appears. ENUMS (spec.mjs:33: style/pos/mode/device/from) are the only checked reel params.",
+    "evidence": "work/REEL/p5 shot k3 (`shake: \"false\"`, `sparks: \"no\"`, `gloss: off`) -> storyboard still shows the sparkles; work/REEL/p19 (`ribon`, `captionat`, `capton`, `titl` next to valid `caption`/`kicker`) -> `--grid` rc=0, no warning, the ribbon and the second caption are simply absent from the \"on screen\" column.",
+    "reproduced": true,
+    "suggested_fix": "Type-check booleans for the reel blocks (error \"must be true or false (got \\\"no\\\")\"), and warn on unknown shot keys using block.params plus the common-field list from --blocks, with a did-you-mean."
+   }
+  },
+  {
+   "id": "REEL-8",
+   "opus": {
+    "id": "REEL-8",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "Word-pop captions split only on spaces: a CJK caption is one 'word' (appears at once, plate over the whole line), and nothing warns",
+    "file": "video/engine/blocks/_reel.js",
+    "line": 229,
+    "root_cause": "reelWords and ctx.text both split on \\s, so a CJK sentence is a single inline-block .lv-w span. The reading-time check also counts it as one word.",
+    "evidence": "Code: _reel.js:8 and runtime.js:246 both split on whitespace. Sonnet's p11 storyboard shows a 31-character caption at once with the plate behind the whole first line.",
+    "fix": "Document the limit and warn at --grid when a caption has more than ~12 characters with no spaces. An Intl.Segmenter tokenizer in both places is a feature, and would change only CJK captions.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-8",
+    "severity": "LOW",
+    "category": "limitation not documented",
+    "file": "video/engine/blocks/_reel.js",
+    "line": 229,
+    "title": "Word-pop captions only split on spaces, so CJK captions do not pop word by word and the accent plate spans a whole line",
+    "failure_scenario": "A Chinese caption has no spaces, so reelWords() counts 1 word: the whole sentence appears at once and the highlight plate covers the first full line. Nothing in GUIDE says captions need space-separated text, and the reading-time check also counts it as 1 word.",
+    "evidence": "work/REEL/p11 (a 31-character Chinese `caption:`): the storyboard shows both lines at once with the purple plate behind the whole first line; --grid raises no warning. Space-separated CJK sticker text and cta words render fine.",
+    "reproduced": true,
+    "suggested_fix": "Tokenise with Intl.Segmenter (word granularity) in the shared tokenizer, or document the limit and warn at --grid when a caption is longer than ~12 characters with no spaces."
+   }
+  },
+  {
+   "id": "REEL-9",
+   "opus": {
+    "id": "REEL-9",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "cta emits the pre/post pop SFX even when `pre`/`post` are empty",
+    "file": "video/engine/blocks/cta.js",
+    "line": 31,
+    "root_cause": "cues() always pushes pops at CT.pre+1 and CT.post+1, but build skips empty lines (mkLine returns null for '').",
+    "evidence": "cta.js:31 is unconditional; cta.js:46 and :52 skip empty copy; the logo pop is conditional on `logo !== false` but pre/post are not. Sonnet's p17 compile shows the pops at 0.23 s and 0.33 s with nothing on screen.",
+    "fix": "Build the cue list from `pre = s.pre ?? 'Comment'` and `post = s.post ?? 'to get the link'` and skip a pop whose text is empty. Same in sheet.mjs:89.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-9",
+    "severity": "LOW",
+    "category": "cues / copy",
+    "file": "video/engine/blocks/cta.js",
+    "line": 31,
+    "title": "cta still emits the pre/post pop SFX when `pre`/`post` are empty",
+    "failure_scenario": "`pre: \"\"` / `post: \"\"` correctly draw no line (build and copy() both skip them), but cues() always emits pops at frames 7 and 10, so two clicks play with nothing appearing; the review sheet line (lib/sheet.mjs:89) prints `\"\" / \"\" slide in`. The logo pop is conditioned on `logo !== false`; pre/post are not.",
+    "evidence": "work/REEL/p17: shot with `pre: \"\"`, `post: \"\"`, `logo: false` -> compile() copy [\"GO\"], cues hit@0.03s pop@0.23s pop@0.33s pop@0.60s; default cta -> hit + 4 pops.",
+    "reproduced": true,
+    "suggested_fix": "Build the cue list from the same `pre ?? 'Comment'` / `post ?? 'to get the link'` values and skip the pop when the text is empty; same in sheet.mjs."
+   }
+  },
+  {
+   "id": "REEL-10",
+   "opus": {
+    "id": "REEL-10",
+    "verdict": "CONFIRMED",
+    "severity": "LOW",
+    "title": "float `text` param doc says 'beside the card on landscape'; the code puts it beside only for a tall card (ar < 1.6) or a phone",
+    "file": "video/engine/blocks/float.js",
+    "line": 26,
+    "root_cause": "Doc string out of step with float.js:54 `side = text && !portrait && (phone || (!square && ar < 1.6))`.",
+    "evidence": "float.js:26 against float.js:49-54. The code comment at :49 states the real rule.",
+    "fix": "Reword the param: 'beside a tall card or a phone on landscape (a phone on square); above a wide card and on portrait'.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "REEL-10",
+    "severity": "LOW",
+    "category": "docs",
+    "file": "video/engine/blocks/float.js",
+    "line": 26,
+    "title": "float `text` param doc says the headline sits beside the card on landscape; code only does that for a tall card or a phone",
+    "failure_scenario": "`text: optional sticker headline (beside the card on landscape, above it otherwise)` shows in `--blocks`; float.js:54 puts it beside only when `!portrait && (phone || (!square && ar < 1.6))`, so a normal wide screenshot on 16:9 stacks the headline above the card (the code comment at line 49 and the reel-sample note say so). A user composing for 16:9 from the param text expects a side-by-side layout.",
+    "evidence": "work/REEL/s1 t3 (phone, beside) vs work/REEL/p4 f1 / p10 l3 (wide card in 16:9 -> headline above), storyboards in those folders.",
+    "reproduced": true,
+    "suggested_fix": "Reword to \"beside the card for a tall card or a phone on landscape (a phone on square); above it for a wide card and on portrait\"."
+   }
+  },
+  {
+   "id": "LIB-6",
+   "opus": {
+    "id": "LIB-6",
+    "verdict": "CONFIRMED",
+    "severity": "MEDIUM",
+    "title": "New params aren't validated. `captionAt: 0.5s` crashes the stage; boolean options set to no/off/0 silently stay on; `through: yes` silently does nothing; `push` is unbounded; a list in a single-path footage field fails only at stage build",
+    "file": "video/lib/spec.mjs",
+    "line": 208,
+    "root_cause": "spec.mjs has no captionAt check. _reel.js:194 does Number(s.captionAt ?? 4), so 0.5s becomes NaN. Blocks test `=== false`, and YAML 1.2 parses no/off as strings and 0 as a number. type.js:9 `thr` maps any non-true value through Number(), so 'yes' becomes 0. push only gets num(). mediaFields() can't tell list fields from single-path fields.",
+    "evidence": "work/opus-libtoolsdocs/cap (sticker caption, `captionAt: 0.5s`): grid rc 0, then storyboard fails with 'page errors … <feGaussianBlur> attribute stdDeviation: Expected number, \"NaN NaN\"'. Every other timing field in the skill accepts seconds. work/opus-libtoolsdocs/bool (`shake: no, sparks: off, gloss: 0`, `through: yes`, `push: 99`): grid rc 0, and loadSpec keeps ['no','off',0], 'yes' and 99. The code tests are sticker.js:21/44/46/103/114, float.js:44, split.js:38/74, cta.js:32/62, lockup.js:25, type.js:9/52. Only agent.dolly is type-checked (spec.mjs:220).",
+    "fix": "In spec.mjs, for built-in blocks: (a) check captionAt with isAt and convert seconds via K.frameAt in _reel.reelCapPlan; (b) accept only true/false for the documented on/off options (shake, sparks, gloss, streak, arrow, logo, overLogo, backdrop) and for `through` (true/false or a frame count > 0 and < D), naming the field; (c) bound push, e.g. −0.5…0.5; (d) give mediaFields a `list` flag so a list in card/before/after, or a non-string list item, is a --grid error. No pixel change for valid jobs.",
+    "breaks_old_jobs": false,
+    "needs_alex": false
+   },
+   "sonnet": {
+    "id": "LIB-6",
+    "severity": "MEDIUM",
+    "file": "video/lib/spec.mjs",
+    "line": 208,
+    "title": "Several new params are not validated: `captionAt` (crashes the page), boolean options that silently stay ON for no/off/0, unbounded `push`, a list in a single-path footage field",
+    "failure_scenario": "`captionAt: 0.5s` (every other timing field in the skill accepts seconds) passes --grid and then crashes the stage with a TypeError; `captionAt: soon` gives NaN SVG errors. `shake: no`, `sparks: off`, `gloss: 0` parse as the strings 'no'/'off' or 0 (YAML 1.2), are not `=== false`, and the effect silently stays on. `push: 99` is accepted (100x zoom). `float card: [a.png, b.png]` or a dangling `- ` in `stack cards` passes --grid and fails only when the stage builds.",
+    "evidence": "work/LIB/fz/capAt_secs (sticker caption + `captionAt: 0.5s`): `--grid` rc 0; `--storyboard` rc 1 `page.evaluate: TypeError: Cannot read properties of undefined (reading '0') at _reel.js:168:19`. work/LIB/fz/sticker_caption_at (`captionAt: soon`): `Error: <feGaussianBlur> attribute stdDeviation: Expected number, \"NaN NaN\"`. _reel.js:194 `Number(s.captionAt ?? 4)`; no captionAt check anywhere in spec.mjs although media, sticker, split, float and cta all take it. Booleans: `yaml.parse('shake: no\\nsparks: off\\ngloss: 0')` -> {shake:'no', sparks:'off', gloss:0}; grid accepts (fz/bool_off rc 0); code tests `=== false`: sticker.js:21,44,46,103,114; float.js:44; split.js:38,74; cta.js:32,62; lockup.js:25; type.js:52. Only agent.dolly got a boolean check (spec.mjs:220). `push` check is `num()` only (spec.mjs:184; fz/push_99 rc 0). Lists: fz/float_card_list -> `stage failed to build: shot a: assets/a.png,assets/b.png could not be decoded as an image` + HTTP 404; fz/split_before_null_in_list -> `shot a: null could not be decoded as an image`; mediaFields() (spec.mjs:19) cannot tell list fields from single-path fields so spec.mjs:283-288 accepts both shapes for any field.",
+    "reproduced": true,
+    "suggested_fix": "Validate captionAt with the same isAt()/frameAt rule (and convert seconds) for blocks that list a caption param; reject non-boolean values for the known on/off options (allow true/false only, name the field); bound push (e.g. -0.5..0.5); let mediaFields() carry `list: true|false` so a list in a scalar field (or a non-string item) is a clear --grid error."
+   }
+  }
+ ],
+ "reviewer_notes": {
+  "engine+reel": [
+   "Codex returned nothing (usage limit), so every verdict above is Sonnet plus Opus only.",
+   "ENG-4, ENG-5, ENG-6, REEL-4, REEL-7 and REEL-9 are confirmed from an unambiguous code path plus Sonnet's own reproductions; I did not re-run them. I re-ran ENG-1, ENG-2, ENG-3, REEL-2 (and its fix), REEL-3 and REEL-5.",
+   "Not tested individually, same mechanism as OP-1: animated APNG named .png, animated WebP, an AVIF `avis` sequence, and an animated GIF in float `card` or split before/after (<img> rather than SVG <image>).",
+   "Not tested: a truncated image in block image fields (float card, split before/after, lockup partner logo). Same root cause as ENG-2.",
+   "Custom-block param names that collide with the new engine-owned shot fields: zoom/focus/offset/pan/move (silently double-applied), bg/bgDim/bgMove/bgFrom/letterbox (now drawn or rejected by the engine) and copy/copyRead (now reserved). None of the jobs in ~/Downloads/launch-videos use them (grepped); jobs elsewhere were not checked.",
+   "REEL-2's fix was verified in 9:16 only (wa, PASS with 0 px). The wipe in 16:9 and 1:1, the reel-sample s6 restack, and the film-pixel delta around the divider still need checking.",
+   "ENG-3's fix (outer tiles +1 px, centre tile drawn last) was not re-verified by me; it needs t_seam plus a --layers footage restack.",
+   "ENG-7's proposed QA rule (incoming-side neighbours for a cut after a block-driven exit) is not implemented; it needs qa-probe/qa-probe2 still failing as labelled, and a planted mis-timed cut after a type-through still failing.",
+   "Outside this group, flagged only: hf02-skill/beats.yaml shot d copy ('Build me a hit app. No half measures', 'Pulling every breakout app launch…') should be checked against the reference film's lines for the originality contract.",
+   "Long sticker `kicker` (nowrap, no maxW): the fit loop shrinks the title for all 8 iterations without ever shrinking the kicker. Text QA probably catches a frame-clipped kicker; not reproduced."
+  ],
+  "film": [
+   "HOUSEKEEPING, please act: while making a runnable copy I accidentally created the symlink /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules -> /Users/bytedance/.claude/skills/product-launch-sting/node_modules (a stray `ln -s` through snap's node_modules symlink, 00:46). My removal (`rm` on that symlink only) was denied by the auto-mode classifier. Node module resolution is unaffected, but `diff -r` and `rsync` over the live skill now see a directory loop. Please remove that one symlink: `rm /Users/bytedance/.claude/skills/product-launch-sting/node_modules/node_modules`.",
+   "Fixes were verified only in work/opus-film/skill_fix and skill_qa: 16x9 and 9x16 storyboards, a roster `--layers` stack check in 9x16, freeze probes and `--qa` re-runs. Not re-run: film-sample and hf02-skill with the fixes, 1x1 for roster and wall, `--layers` for the wall and for the lockup/agent fixes, and the qa-probe/qa-probe2 cut probes after the qa.mjs change (they don't use `type`, so they should be unaffected).",
+   "Not tested: agent `scroll: always` combined with a title/steps (the `early` filter counts the title and steps as already there, so `total` spans the whole column), and the dark composer's pre-wrap bar growing downward past the area with long prompts (QA text only sees the hero frame).",
+   "stack: a card leaving the front wraps to q + n at full opacity when n ≤ 9, which can pop in at the back. I looked at frames 560–562 of the starter; inconclusive, and it is cosmetic.",
+   "wall: `!chipSlots.includes(sl) && r() < .16` short-circuits the rng, so changing the chip list or a chip label re-deals every card's shape and tilt. That surprises review-sheet edits, but it is not a contract break.",
+   "Block validate() output only becomes --grid warnings (timeline.mjs:87); spec.mjs carries the real errors. Any new film-block check must go into spec.mjs to give rc 2.",
+   "Originality: grep found no reference-film copy in the snapshot blocks or templates. hf02-skill proof copy ('Your crew', 'View all 15 agents') comes from hf02-recreate, which MOTION-SPEC.md:4 documents as our own copy. I did not compare against the Higgsfield source frames, and no ref/ frames appeared in any output I rendered.",
+   "Sonnet's scratch probes (scratchpad/review/FILM/*) were wiped. Every number above was re-measured with my own tools in work/opus-film/tools (chips.mjs, shots.mjs, probe.mjs, srcs.mjs, audit.mjs, val.sh)."
+  ],
+  "lib+tools+docs": [
+   "Codex produced no verdicts (usage limit), so every Sonnet finding above was judged by this pass alone, with no second opinion.",
+   "Engine-group items I saw but did not verify: the drift entrance in runtime.js:43 is still .07 W / .08 H with ×0.7 decay, while ANSWERS-measurements recommends ≈.10 W / .085 H with ×0.65 (REPORTS calls it 'answered'). type.js:41 builds 0×0 wrapper divs (`width:0;height:0`), a listed compositing trap.",
+   "There is no validation that a shot is long enough for the cross-cut windows it takes part in. In a shot shorter than the incoming post plus outgoing pre (tunnel 10+7, smear/flash 11), xfxAt switches to the exit overlay early and the incoming overlay jumps; not reproduced.",
+   "The whoosh QA search window [t−0.25 s, t+0.1 s] can pick up a neighbouring whoosh when cuts are under ~0.3 s apart (a whip next to a louder tunnel); not reproduced.",
+   "Footage with an alpha channel (ProRes 4444 / VP9-alpha .mov/.webm) used as a float/stack card is extracted to JPEG and loses its transparency (black card background); not tested.",
+   "There is no per-aspect `bg`: a 16:9 AI clip in a 9:16 cut is cover-cropped to the middle ~32 % of its width, although the starters say 'each aspect is re-laid out, not cropped'. That holds for overlays only; whether to add per-aspect bg is a product call for Alex.",
+   "--tempo folding (>180 or <60 BPM) keeps the phase of the unfolded grid, so the folded start can land on an off-beat; not reproduced.",
+   "No sample job in ~/Downloads/launch-videos runs full film QA across glitch/smear/tunnel/flash. My own work/opus-libtoolsdocs/xc film (all four plus a dark tunnel and a drift) passed QA, but these cuts have no standing regression job, and REPORTS' 'pixel-identical' set doesn't cover them.",
+   "CapCut alpha import, After Effects live text and the layers footage pass were out of scope for this group and not re-tested."
+  ]
+ }
+}

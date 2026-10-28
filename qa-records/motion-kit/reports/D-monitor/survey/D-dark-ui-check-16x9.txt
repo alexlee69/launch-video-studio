@@ -1,0 +1,2 @@
+mon-D-old-dark-ui-check 16x9: 630 frames in 12.6 s (camera() evaluate avg 1.61 ms)
+INFO 2 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json

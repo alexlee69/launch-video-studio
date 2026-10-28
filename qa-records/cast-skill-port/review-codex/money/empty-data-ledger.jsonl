@@ -1,0 +1,2 @@
+{"t": "2026-10-23T20:55:48-07:00", "call": "c2463f3902b4", "label": "empty response", "size": "2560x1440", "status": "sent", "usd": 0.2212, "usd_from": "estimate: no answer yet", "est": 0.2212}
+{"t": "2026-10-23T20:55:48-07:00", "call": "c2463f3902b4", "label": "empty response", "size": "2560x1440", "status": 200, "n": 1, "refs": [], "usage": {"input_tokens": 10, "output_tokens": 7370, "input_tokens_details": {"text_tokens": 10, "image_tokens": 0}}, "usd": 0.2212, "usd_from": "usage", "est": 0.2212, "s": 0}

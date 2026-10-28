@@ -1,0 +1,35 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/oneframe.8gDvUF/v.mp4",
+  "frames": 1,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/oneframe.8gDvUF/v.mp4",
+  "frames": 1,
+  "size": [
+   64,
+   64
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  0
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: none in the reference over this range",
+ "cuts": [],
+ "verify": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/oneframe.8gDvUF/proof/sbs.mp4",
+  "decoded": 1,
+  "expected": 1,
+  "exact": 1,
+  "mismatches": []
+ }
+}

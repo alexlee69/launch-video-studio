@@ -1,0 +1,10 @@
+title: Off-grid break motif probe
+brand: {name: Probe}
+aspects: [16x9]
+music: {style: film, bpm: 60, downbeat: 0, drop: drop, breaks: [dip]}
+shots:
+  - {id: intro, block: headline, sec: 4, text: Intro}
+  - {id: drop, block: headline, sec: 1.4, text: Drop}
+  - {id: dip, block: headline, sec: 1.2, text: Dip}
+  - {id: body, block: headline, sec: 9.4, text: Body}
+  - {id: card, block: endcard, sec: 2, tagline: Done}

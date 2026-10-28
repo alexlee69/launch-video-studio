@@ -1,0 +1,6 @@
+title: tiny2
+brand: {name: X}
+music: {style: film, downbeat: 0.5}
+shots:
+  - {id: a, block: headline, sec: 0.2, text: One}
+  - {id: card, block: endcard, sec: 0.2, tagline: Bye}

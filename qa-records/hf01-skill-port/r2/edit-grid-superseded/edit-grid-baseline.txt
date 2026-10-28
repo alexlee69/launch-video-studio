@@ -1,0 +1,30 @@
+edit grid 15:5,10,14: a 24 fps edit in 30 fps, the master at 60 fps — each shot's first master frame f, inside the window that cuts on the reference's frame
+  shot  ref     edit    master f (window)        start s     sec        
+     1  n0     m0     f0      (0…0)           0.000000  sec: 11.6000  
+     2  n348   m279   f696    (696…698)      11.600000  sec: 0.5500   phone-closeup > backpack-drop cut
+     3  n364   m292   f729    (729…730)      12.150000  sec: 0.5833   backpack-drop > zipper-closeup cut  ← n/30 s (f728) cuts on n363
+     4  n382   m306   f764    (764…765)      12.733333  sec: 9.3000   zipper-closeup > sitting-wide cut
+     5  n661   m529   f1322   (1321…1323)    22.033333  sec: 1.2333   sitting-prompt > card-brief-received card-in
+     6  n698   m559   f1396   (1396…1398)    23.266667  sec: 2.6000   card-brief-received > ae-preview-badge card-out-up
+     7  n776   m621   f1552   (1551…1553)    25.866667  sec: 1.0333   ae-preview-badge > ae-timeline whip-left
+     8  n807   m646   f1614   (1614…1615)    26.900000  sec: 1.3333   ae-timeline > ae-comp-ara zoom-in
+     9  n847   m678   f1694   (1694…1695)    28.233333  sec: 2.7000   ae-comp-ara > running-laptop cut
+    10  n928   m743   f1856   (1856…1858)    30.933333  sec: 1.5000   running-laptop > card-creating-photos card-in
+    11  n973   m779   f1946   (1946…1948)    32.433333  sec: 0.7167   card-creating-photos > ae-project-panel card-out-up
+    12  n994   m796   f1989   (1989…1990)    33.150000  sec: 1.3500   ae-project-panel > ae-comp-board zoom-out  ← n/30 s (f1988) cuts on n993
+    13  n1035  m828   f2070   (2069…2070)    34.500000  sec: 2.2667   ae-comp-board > ae-timeline-mascot zoom-in-diag
+    14  n1103  m883   f2206   (2206…2208)    36.766667  sec: 4.3833   ae-timeline-mascot > bridge-wide cut
+    15  n1234  m988   f2469   (2469…2470)    41.150000  sec: 0.7500   bridge-face-closeup > bridge-feet cut  ← n/30 s (f2468) cuts on n1233
+    16  n1257  m1006  f2514   (2514…2515)    41.900000  sec: 1.2500   bridge-feet > card-mapped card-in
+    17  n1294  m1036  f2589   (2589…2590)    43.150000  sec: 2.2500   card-mapped > ae-island-map card-out-up  ← n/30 s (f2588) cuts on n1293
+    18  n1362  m1090  f2724   (2724…2725)    45.400000  sec: 1.2500   ae-island-map > card-generating-photos card-in
+    19  n1399  m1120  f2799   (2799…2800)    46.650000  sec: 2.9167   card-generating-photos > ae-trail-map card-out-up  ← n/30 s (f2798) cuts on n1398
+    20  n1487  m1190  f2974   (2974…2975)    49.566667  sec: 1.2000   ae-trail-map > wall-collapse cut
+    21  n1523  m1219  f3046   (3046…3048)    50.766667  sec: 0.3000   wall-collapse > arrow-flight cut
+    22  n1532  m1226  f3064   (3064…3065)    51.066667  sec: 3.9667   arrow-flight > arrow-in-wall whip
+    23  n1651  m1321  f3302   (3301…3303)    55.033333  sec: 4.9667   arrow-in-wall-prompt > ae-sungate-poster cut
+    24  n1800  m1440  f3600   (3599…3600)    60.000000  sec: 3.5000   ae-sungate-poster > cave-sphere cut
+    25  n1905  m1524  f3810   (3809…3810)    63.500000  sec: 0.9333   cave-sphere-prompt > card-download card-in
+    26  n1933  m1547  f3866   (3866…3868)    64.433333  sec: 8.0667   card-download > walk-out card-out
+    27  n2175  m1740  f4350   (4349…4350)    72.500000  sec: 4.0333   walk-out > endcard endcard-dim
+5 of 26 cuts move off n/30 s (each by a master frame; the finished file cuts exactly on all). Give every shot its sec: in order: each is whole 60ths, so lv.mjs's boundaries (each snapped from the one before) land on f exactly; a beats: shot ends on the music grid instead — check its boundary falls inside its window.

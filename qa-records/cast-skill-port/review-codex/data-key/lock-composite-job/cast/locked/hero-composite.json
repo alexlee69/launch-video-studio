@@ -1,0 +1,15 @@
+{
+ "base": "cast/locked/hero-edit.png",
+ "restored_from": "cast/candidates/cand-01.png",
+ "mask": "ellipse",
+ "center": [
+  32,
+  32
+ ],
+ "radii": [
+  16,
+  16
+ ],
+ "feather_blur": 2,
+ "why": "GPT Image edits soften skin: the untouched close-up face is masked back onto the edit"
+}

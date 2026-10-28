@@ -1,0 +1,454 @@
+{
+ "v": 1,
+ "title": "Orbit 2 — launch film",
+ "brand": "Orbit",
+ "slug": "orbit-film",
+ "cut": "main",
+ "aspect": "16x9",
+ "dur": 37.75,
+ "bpm": 124,
+ "film": {
+  "src": "film.mp4",
+  "sha": "079b984",
+  "rendered": "2026-10-22T03:37:52.158Z",
+  "proxyBytes": 1779988
+ },
+ "stills": false,
+ "built": "2026-10-22T04:05:00.432Z",
+ "accent": "#5747F2",
+ "accentDark": "#A39AF8",
+ "blocks": [
+  {
+   "id": "title",
+   "doc": "Opener lockup \"<pre> [logo] <name>\": the words slide in, the logo springs, an optional badge bubble pops, a sub line fades in"
+  },
+  {
+   "id": "headline",
+   "doc": "A big statement: 1–3 lines with an *accent* phrase, optional kicker label above and sub line below; words rise in one by one"
+  },
+  {
+   "id": "cast",
+   "doc": "Headline over a row of characters that spring up one after another and keep hopping (two rows on portrait)"
+  },
+  {
+   "id": "orbit",
+   "doc": "A hero (character or logo) with 2–5 satellites (icon + label) flying out to it, joined by moving dotted lines; headline above"
+  },
+  {
+   "id": "field",
+   "doc": "Headline beside a hero surrounded by orbiting app tiles in three rings; the tiles fling outward on a zoom-out exit"
+  },
+  {
+   "id": "stat",
+   "doc": "A big number that counts up (with ticks) and lands with a pop, a label under it and an optional sub line"
+  },
+  {
+   "id": "media",
+   "doc": "Your own image or footage (live action, screen recording) full-bleed or in a phone/browser frame, with a slow Ken Burns move and an optional headline over a soft scrim"
+  },
+  {
+   "id": "endcard",
+   "doc": "Closing lockup: logo + name, a tagline, CTA buttons, an optional URL and an optional row of characters hopping in"
+  },
+  {
+   "id": "phone",
+   "doc": "A phone running a UI flow (chat, cards, taps, toasts, agent steps, screenshots) beside a headline (above it on portrait)"
+  },
+  {
+   "id": "browser",
+   "doc": "A desktop browser / app window running a UI flow (with a mouse cursor for taps), headline above it"
+  },
+  {
+   "id": "panel",
+   "doc": "A floating UI panel (no device) running UI items"
+  },
+  {
+   "id": "prompt",
+   "doc": "A big prompt box: placeholder → the task is typed with key ticks → send → optional agent steps tick off below"
+  },
+  {
+   "id": "sticker",
+   "doc": "Reel title card: 1–4 heavy italic words slam in as a sticker (outline / plate / pill) with an impact shake, an optional kicker pill above and a ribbon tag below, over the shot's footage (bg) or over nothing (an overlay)"
+  },
+  {
+   "id": "split",
+   "doc": "Before / after: two panels that pop in with label chips and an arrow (side), or one frame where a divider sweeps across to reveal the after image (wipe); optional sticker headline and caption"
+  },
+  {
+   "id": "float",
+   "doc": "A floating card (an image, or a phone showing it) over the shot's dimmed footage (bg) or over nothing: flies in with a perspective swing and a speed streak, focus brackets snap around it with a label tag, then it bobs; optional sticker headline and caption"
+  },
+  {
+   "id": "cta",
+   "doc": "Comment-keyword end card (\"Comment WORD to get the link\"): the keyword slams in as an accent sticker, pre/post lines slide in, the logo pops on top, a chat bubble bounces; over the shot's footage (bg), a dark backdrop with drifting glows (no bg), or nothing (bg: none)"
+  },
+  {
+   "id": "scene",
+   "doc": "UI composited into footage: timed overlays pinned to the frame over the shot's bg (footage or an image, with optional cinema bars)"
+  },
+  {
+   "id": "agent",
+   "doc": "A light agent-at-work UI: optional user message, agent rows (avatar sliding in, name, shimmering status → ✓, a reply streamed like an LLM; the chat scrolls with a momentum move), then an optional bold streamed title with steps ticking off"
+  },
+  {
+   "id": "roster",
+   "doc": "\"Your agents\": a list of agents (mascot, name, sub) scrolling behind a fixed highlight slot"
+  },
+  {
+   "id": "type",
+   "doc": "Kinetic lockup type: a big 1–2 line name settles (tracking, scale, blur, a glint) with an optional co-brand line above and an accent pill under; optional footage behind; through: true zooms it through the camera with heavy blur at the end"
+  },
+  {
+   "id": "lockup",
+   "doc": "Co-brand card: [logo] Name × [partner logo] Partner with a pill under it and 4–6 blob mascots popping in and bouncing around it, on a light gradient; names type in letter by letter, the × pops"
+  },
+  {
+   "id": "stack",
+   "doc": "A deep 3D card stack: cards recede in perspective, cycle to the front one by one (fast, then slower), the last one turns to face the camera and settles; an optional status pill with a mascot lands over it"
+  },
+  {
+   "id": "wall",
+   "doc": "A floating video wall: tilted phone-ratio cards at three depths drifting with parallax under a slow camera dolly, colourful label chips on some cards, an optional centre headline on a soft glow"
+  }
+ ],
+ "transitions": [
+  "cut",
+  "whip-left",
+  "whip-right",
+  "whip-up",
+  "whip-down",
+  "zoom-in",
+  "zoom-out",
+  "blur",
+  "glitch",
+  "smear-left",
+  "smear-right",
+  "tunnel",
+  "flash",
+  "drift-left",
+  "drift-right",
+  "drift-up",
+  "drift-down"
+ ],
+ "shots": [
+  {
+   "id": "open",
+   "n": 1,
+   "start": 0,
+   "end": 2.4167,
+   "tcIn": "00:00:00",
+   "tcOut": "00:02:13",
+   "beats": 5,
+   "sec": 2.42,
+   "block": "lockup",
+   "out": "zoom-in",
+   "last": false,
+   "theme": null,
+   "headline": "Orbit × Acme",
+   "screen": [
+    "Orbit × Acme types in",
+    "pill “Your launch crew”",
+    "6 mascots bounce in"
+   ],
+   "sound": [
+    "9 pops",
+    "whoosh into the next shot"
+   ],
+   "note": null,
+   "thumb": "thumbs/open.jpg"
+  },
+  {
+   "id": "name",
+   "n": 2,
+   "start": 2.4167,
+   "end": 4.8333,
+   "tcIn": "00:02:13",
+   "tcOut": "00:04:25",
+   "beats": 5,
+   "sec": 2.42,
+   "block": "type",
+   "out": "cut",
+   "last": false,
+   "theme": null,
+   "headline": "Orbit 2",
+   "screen": [
+    "over image assets/sky.jpg",
+    "co-brand line “Orbit × Acme”",
+    "“Orbit 2” settles (serif)",
+    "accent pill “agents that ship”",
+    "zooms through the camera"
+   ],
+   "sound": [
+    "1 hit",
+    "1 pop"
+   ],
+   "note": null,
+   "thumb": "thumbs/name.jpg"
+  },
+  {
+   "id": "hook",
+   "n": 3,
+   "start": 4.8333,
+   "end": 7.75,
+   "tcIn": "00:04:25",
+   "tcOut": "00:07:23",
+   "beats": 6,
+   "sec": 2.92,
+   "block": "scene",
+   "out": "cut",
+   "last": false,
+   "theme": null,
+   "headline": "Launch is Friday. Help?",
+   "screen": [
+    "over image assets/dusk.jpg, letterboxed",
+    "message bubble “Launch is Friday. Help?” from Maya · Acme",
+    "status pill “Opening the brief…”"
+   ],
+   "sound": [
+    "2 pops"
+   ],
+   "note": null,
+   "thumb": "thumbs/hook.jpg"
+  },
+  {
+   "id": "ask",
+   "n": 4,
+   "start": 7.75,
+   "end": 12.1,
+   "tcIn": "00:07:23",
+   "tcOut": "00:12:03",
+   "beats": 9,
+   "sec": 4.35,
+   "block": "scene",
+   "out": "cut",
+   "last": false,
+   "theme": null,
+   "headline": "Who? Which cut? By *when?* Seriously?",
+   "screen": [
+    "over image assets/forest.jpg",
+    "words pop: Who? · Which cut? · By when? · Seriously?",
+    "dark composer types “Cut our launch film by Friday.” and sends"
+   ],
+   "sound": [
+    "4 pops",
+    "30 ticks",
+    "1 click"
+   ],
+   "note": null,
+   "thumb": "thumbs/ask.jpg"
+  },
+  {
+   "id": "brief",
+   "n": 5,
+   "start": 12.1,
+   "end": 16.45,
+   "tcIn": "00:12:03",
+   "tcOut": "00:16:14",
+   "beats": 9,
+   "sec": 4.35,
+   "block": "agent",
+   "out": "zoom-out",
+   "last": false,
+   "theme": null,
+   "headline": "Cut our launch film by Friday.",
+   "screen": [
+    "your message “Cut our launch film by Friday.”",
+    "Orbit Planning → ✓, streams “Briefing the crew: research, script, motion.”",
+    "Scout Scouting → ✓, streams “Combing through 120 films like yours to see what made them land.”",
+    "message bar “Message Orbit…”"
+   ],
+   "sound": [
+    "5 pops",
+    "whoosh into the next shot",
+    "music drops in"
+   ],
+   "note": null,
+   "thumb": "thumbs/brief.jpg"
+  },
+  {
+   "id": "team",
+   "n": 6,
+   "start": 16.45,
+   "end": 19.8333,
+   "tcIn": "00:16:14",
+   "tcOut": "00:19:25",
+   "beats": 7,
+   "sec": 3.38,
+   "block": "roster",
+   "out": "whip-up",
+   "last": false,
+   "theme": null,
+   "headline": "Your agents",
+   "screen": [
+    "agents Scout, Writer, Storyboard, Motion, Sound step through the highlight → “Meet all 12 agents”"
+   ],
+   "sound": [
+    "10 pops",
+    "6 ticks",
+    "whoosh into the next shot"
+   ],
+   "note": null,
+   "thumb": "thumbs/team.jpg"
+  },
+  {
+   "id": "scan",
+   "n": 7,
+   "start": 19.8333,
+   "end": 23.2333,
+   "tcIn": "00:19:25",
+   "tcOut": "00:23:07",
+   "beats": 7,
+   "sec": 3.4,
+   "block": "stack",
+   "out": "blur",
+   "last": false,
+   "theme": null,
+   "headline": "Studying 120 launch films",
+   "screen": [
+    "10 cards cycle, the front one settles",
+    "status pill “Studying 120 launch films”"
+   ],
+   "sound": [
+    "9 ticks",
+    "2 pops",
+    "whoosh into the next shot"
+   ],
+   "note": null,
+   "thumb": "thumbs/scan.jpg"
+  },
+  {
+   "id": "edge",
+   "n": 8,
+   "start": 23.2333,
+   "end": 26.6167,
+   "tcIn": "00:23:07",
+   "tcOut": "00:26:19",
+   "beats": 7,
+   "sec": 3.38,
+   "block": "agent",
+   "out": "cut",
+   "last": false,
+   "theme": null,
+   "headline": "Best window: *Thursday, 6 pm.*",
+   "screen": [
+    "Scout Comparing → ✓",
+    "title “Best window: Thursday, 6 pm.” streams",
+    "steps Compared 120 launch films ✓ · Checked when your audience is online ✓ · Drafted three teaser cuts ✓"
+   ],
+   "sound": [
+    "2 pops",
+    "3 ticks"
+   ],
+   "note": null,
+   "thumb": "thumbs/edge.jpg"
+  },
+  {
+   "id": "command",
+   "n": 9,
+   "start": 26.6167,
+   "end": 29.0333,
+   "tcIn": "00:26:19",
+   "tcOut": "00:29:01",
+   "beats": 5,
+   "sec": 2.42,
+   "block": "scene",
+   "out": "zoom-out",
+   "last": false,
+   "theme": null,
+   "headline": "/teasers Cut three for Friday",
+   "screen": [
+    "macro prompt bar types “/teasers Cut three for Friday” and sends",
+    "status pill “Cutting 3 teasers”"
+   ],
+   "sound": [
+    "29 ticks",
+    "1 pop",
+    "1 click",
+    "whoosh into the next shot"
+   ],
+   "note": null,
+   "thumb": "thumbs/command.jpg"
+  },
+  {
+   "id": "wall",
+   "n": 10,
+   "start": 29.0333,
+   "end": 32.4167,
+   "tcIn": "00:29:01",
+   "tcOut": "00:32:12",
+   "beats": 7,
+   "sec": 3.38,
+   "block": "wall",
+   "out": "blur",
+   "last": false,
+   "theme": null,
+   "headline": "Every cut, *on brand.*",
+   "screen": [
+    "video wall of 12 cards drifting",
+    "headline “Every cut, on brand.”",
+    "chips Hook in 1s · Product close-up · UGC reaction · Sound on · Captions"
+   ],
+   "sound": [
+    "1 hit",
+    "5 pops",
+    "whoosh into the next shot"
+   ],
+   "note": null,
+   "thumb": "thumbs/wall.jpg"
+  },
+  {
+   "id": "voice",
+   "n": 11,
+   "start": 32.4167,
+   "end": 35.3167,
+   "tcIn": "00:32:12",
+   "tcOut": "00:35:10",
+   "beats": 6,
+   "sec": 2.9,
+   "block": "scene",
+   "out": "cut",
+   "last": false,
+   "theme": null,
+   "headline": "Done.",
+   "screen": [
+    "over image assets/studio.jpg, letterboxed",
+    "voice orb: “Done.” → “Three teasers, ready Friday.”"
+   ],
+   "sound": [
+    "1 chime",
+    "drums drop out"
+   ],
+   "note": null,
+   "thumb": "thumbs/voice.jpg"
+  },
+  {
+   "id": "end",
+   "n": 12,
+   "start": 35.3167,
+   "end": 37.75,
+   "tcIn": "00:35:10",
+   "tcOut": "00:37:23",
+   "beats": 5,
+   "sec": 2.43,
+   "block": "type",
+   "out": "cut",
+   "last": true,
+   "theme": null,
+   "headline": "Your launch team. *On call.*",
+   "screen": [
+    "co-brand line “Orbit 2”",
+    "“Your launch team. On call.” settles"
+   ],
+   "sound": [
+    "1 hit"
+   ],
+   "note": null,
+   "thumb": "thumbs/end.jpg"
+  }
+ ],
+ "notes": {
+  "collection": "notes",
+  "doc": "main~<shot id>",
+  "film": "main~_film"
+ }
+}

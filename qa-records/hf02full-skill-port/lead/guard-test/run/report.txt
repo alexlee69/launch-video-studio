@@ -1,0 +1,4 @@
+FAIL  gen.download.exit5                 no result from the slow sub-run (exit 2): see gen-slow.out
+FAIL  gen.download.verify                no result from the slow sub-run (exit 2): see gen-slow.out
+
+0 PASS, 2 FAIL, 0 SKIP

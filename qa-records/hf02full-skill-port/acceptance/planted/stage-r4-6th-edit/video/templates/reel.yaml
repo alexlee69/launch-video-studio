@@ -1,0 +1,103 @@
+# beats.yaml — a reel starter (lv.mjs --init --kit reel): an Instagram / TikTok-style reel of AI footage + motion design.
+# Every reel block once: sticker (title card) · float (a UI card flying over footage) · split (before / after, side by
+# side or a wipe) · cta (the comment-keyword end card), plus a word-pop `caption:` (any reel block, and `media`).
+# It runs as is: no footage needed yet. Then, per shot, drop your AI clips into assets/ (generated in Higgsfield, Veo,
+# Kling …) and un-comment the `bg:` lines — or keep the shots bg-less and export them as overlays to lay over your
+# footage in CapCut (`--clips s1,s4 --alpha`). Reel pacing: 4–6 beats a shot, a moving exit on most cuts.
+title: Your reel
+slug: reel
+aspects: [9x16, 16x9, 1x1]       # 9:16 first: Reels / TikTok / Shorts; each aspect is re-laid out, not cropped
+thumbnail: s1
+
+brand:
+  name: Product
+  mono: P
+  # logo: assets/logo.svg        # your mark (SVG/PNG); shows in the sticker kicker (logo: true) and on the CTA
+  colors:
+    accent: "#7C5CFF"            # offset shadows, plates, the caption's current word
+    accent2: "#C6FF3D"           # accent words, ribbons, the "after" / INPUT chips
+    accent3: "#FF4FD8"           # the float's speed-streak core
+    dark: "#0B0B10"              # ink: strokes, pills, dark backdrops
+    bg: "#0B0B10"
+    accentOnDark: "#7C5CFF"
+  bg: plain                      # stickers want a clean backdrop
+
+music: {style: playful, bpm: 128}   # or your track: {style: track, file: assets/song.mp3, start: 0}  (lv.mjs --tempo assets/song.mp3)
+
+shots:
+  # 1 · the hook: a heavy italic sticker slams in with an impact shake, a kicker pill above, a ribbon below
+  - id: s1
+    block: sticker               # every block and its fields: GUIDE.md → "Blocks" (or lv.mjs --blocks)
+    beats: 6
+    theme: dark
+    style: outline               # outline | plate | pill
+    text: Your *hook* here       # 1–4 words; *accent* words take accent2
+    kicker: Product × Studio
+    ribbon: Free to start
+    # bg: assets/your-ai-footage.mp4     # the clip behind it (bgFrom: seconds into it; bgDim: .25 by default here)
+    out: whip-left
+
+  # 2 · a UI card flies in over the footage, focus brackets snap round it with a tag
+  - id: s2
+    block: float
+    beats: 5
+    theme: dark
+    card: assets/placeholder-card.svg     # your screenshot / screen recording (a wide card stacks under the headline)
+    label: Input
+    text: Just *type it*
+    # bg: assets/your-ai-footage.mp4
+    out: whip-left
+
+  # 3 · before / after, side by side (stacked on 9:16), with a word-pop caption
+  - id: s3
+    block: split
+    beats: 6
+    theme: dark
+    before: assets/placeholder-before.svg   # images or clips (beforeFrom / afterFrom: seconds into them)
+    after: assets/placeholder-after.svg
+    labels: [Before, After]
+    text: Same *photo*
+    caption: Pick a style, hit *generate*
+    out: cut
+
+  # 4 · a plate sticker low in the frame
+  - id: s4
+    block: sticker
+    beats: 4
+    theme: dark
+    style: plate
+    text: Restyle | *anything*   # | forces a line break
+    ribbon: with Product
+    pos: bottom
+    # bg: assets/your-ai-footage.mp4
+    out: zoom-in
+
+  # 5 · the wipe: a divider sweeps across and settles in the middle
+  - id: s5
+    block: split
+    beats: 5
+    theme: dark
+    mode: wipe
+    before: assets/placeholder-before.svg
+    after: assets/placeholder-after.svg
+    caption: Drag to compare
+    out: cut
+
+  # 6 · a pill sticker with a caption (no bg: an overlay for your own footage)
+  - id: s6
+    block: sticker
+    beats: 4
+    theme: dark
+    style: pill
+    text: Post *tonight*
+    pos: top
+    caption: Zero editing skills
+    out: whip-right
+
+  # 7 · the comment-keyword CTA (no bg: dark with drifting glows; bg: none = nothing behind it, for an overlay)
+  - id: s7
+    block: cta
+    beats: 6
+    theme: dark
+    word: Product
+    # bg: assets/your-ai-footage.mp4

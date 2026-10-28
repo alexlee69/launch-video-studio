@@ -1,0 +1,6 @@
+title: x2
+brand: {name: X}
+music: {style: film}
+shots:
+  - {id: a, block: headline, beats: 2, text: One}
+  - {id: b, block: headline, beats: 3, text: Two}

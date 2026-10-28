@@ -1,0 +1,159 @@
+{
+ "_note": "casting.json starter (CASTING.md). Fill every <placeholder> (a --go refuses any left), run `casting.py plan`, quote it to the user. Prompts describe what things ARE; never name what must not appear (that pulls the model toward it): such words go in \"ban\", a build check. Paths are relative to this file; {NAME} expands a snippet from \"text\" or the built-ins (SHEET, LOCK, KEEP, STATE, FACELESS, GREY, TAIL, PROP_TAIL, PLATE_TAIL, PRE_FACE, PRE_LOC). Entries whose id starts with \"_\" are templates casting.py skips: rename one (drop the \"_\") to use it (CASTING.md rules 13-17: a pose sheet, a product sheet per colourway, a vehicle with its rider, an extra, an animal).",
+ "root": "..",
+ "grey": "#8a8a8a",
+ "cap": 10,
+ "ledger": "../cast/ledger.jsonl",
+ "ban": [],
+ "text": {
+  "WHO": "an East Asian woman of about 35 with short black hair and dark brown eyes",
+  "WARDROBE": "a navy work jacket over a grey T-shirt, dark jeans and white trainers",
+  "POSE": "<the pose the shots need, e.g. low in an aero tuck on the bike, forearms on the bars>"
+ },
+ "candidates": {
+  "look-1": {
+   "n": 2,
+   "prompt": "{SHEET} The person is {WHO}, wearing {WARDROBE}. {TAIL}"
+  }
+ },
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP}",
+   "restore": {
+    "ellipse": [
+     480,
+     545,
+     235,
+     290
+    ],
+    "feather": 28
+   },
+   "pin": {}
+  }
+ },
+ "states": {
+  "state-2": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} as in the brief. LEFT panel: a front-facing close-up of the head and shoulders, eyes to camera. MIDDLE panel: the full body from the front, the face area left as a soft plain shadow with no features. RIGHT panel: the full body from behind. {TAIL}",
+   "pin": {}
+  },
+  "costume": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "Image 1 is the locked character sheet. A faceless costume detail sheet: {FACELESS} as in the brief. {PROP_TAIL}",
+   "pin": {}
+  },
+  "props": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "Image 1 shows the world these props belong to. A faceless props sheet: {FACELESS} as in the brief. {PROP_TAIL}",
+   "pin": {}
+  },
+  "_pose": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} The same wardrobe and face, with the MIDDLE panel in the pose the shots need: {POSE}. LEFT panel: a front-facing close-up of the head and shoulders, eyes to camera. MIDDLE panel: the full body in that pose, the face area left as a soft plain shadow with no features. RIGHT panel: the full body from behind. {PROPORTIONS} {TAIL}",
+   "pin": {}
+  },
+  "_product-gold": {
+   "refs": [
+    "<path to the product photo, e.g. ../assets/product/glasses.png>"
+   ],
+   "prompt": "Image 1 {REF_PRODUCT}. A faceless product sheet: {FACELESS} as in the brief, in this colourway: as in the brief. {PROP_TAIL}",
+   "pin": {}
+  },
+  "_rider": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} The same person with as in the brief in all three panels. LEFT panel: a close-up of the head and shoulders, the vehicle behind, eyes to camera. MIDDLE panel: the full side view riding it, the face area a soft plain shadow. RIGHT panel: the full body standing beside it, from behind. {PROPORTIONS} {TAIL}",
+   "pin": {}
+  },
+  "_extra-1": {
+   "refs": [],
+   "prompt": "{SHEET} The person is as in the brief. {PROPORTIONS} {READS}as in the brief. {TAIL}",
+   "pin": {}
+  },
+  "_animal": {
+   "refs": [],
+   "prompt": "A reference sheet for an animal in a film: ONE image with three side-by-side panels of equal width separated by thin gutters, {GREY}. LEFT panel: a close-up of the head. MIDDLE panel: the whole animal from the side. RIGHT panel: the whole animal from the front. The animal is as in the brief. Photographic, natural fur and texture, realistic, not a render, no text, no labels, no watermark.",
+   "pin": {}
+  },
+  "cofounder": {
+   "refs": [],
+   "pin": {},
+   "prompt": "{SHEET} The person is a man of about 40 with a short grey beard, in a white shirt and grey trousers. {PROPORTIONS} {READS}her co-founder. {TAIL}"
+  }
+ },
+ "locations": {
+  "place-1": {
+   "refs": [],
+   "prompt": "An empty location plate, three-quarter view, no people: as in the brief. as in the brief. LENS GATE: as in the brief; {FOV:35}; ready for a performer to be placed. {PLATE_TAIL}"
+  },
+  "office": {
+   "refs": [],
+   "prompt": "An empty open-plan office at dawn, three-quarter view, no people: concrete floor, long desks, tall windows. Low warm sun from the right. LENS GATE: the camera at eye height, five metres back from the windows; {FOV:35}; ready for a performer to be placed. {PLATE_TAIL}"
+  }
+ },
+ "stills": {
+  "S01": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:hero",
+    "loc:office",
+    "../assets/plates/S01-sketch.png"
+   ],
+   "prompt": "Image 1 is the founder's locked character sheet: the face in its LEFT close-up is the only face to use, and its other panels show the wardrobe. Image 2 is the location: keep its architecture, materials, weather and light. Image 3 is the position reference only: it gives the pose and the composition, nothing else. In it, the RED marks are the people: where each one stands and how big they are; the YELLOW marks are each head and each product or prop; the red cross on a head shows which way the face looks; the GREEN marks are the ground line their feet stand on; the GREY marks are the place: its horizon, its big shapes and where the light comes from. None of its lines, colours or paper appear in the frame. Do not copy any reference's grey background or sheet layout: make one single cinematic film frame, 16:9. Close on the founder's face, eyes on the windows; the empty office behind her. Low warm dawn sun from the right, cool shadows. 35 mm lens, deep focus from the subject to the horizon. Natural skin texture, visible film grain, slightly soft focus, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+   "meta": {
+    "from": "shots",
+    "sha": "42019646d4a3"
+   },
+   "face": "hero"
+  },
+  "S02": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:hero",
+    "sheet:cofounder",
+    "loc:office",
+    "../assets/plates/S02-sketch.png"
+   ],
+   "prompt": "Image 1 is the founder's locked character sheet: the face in its LEFT close-up is the only face to use, and its other panels show the wardrobe. Image 2 is her co-founder's locked character sheet: the face in its LEFT close-up is the only face to use, and its other panels show the wardrobe. Image 3 is the location: keep its architecture, materials, weather and light. Image 4 is the position reference only: it gives the pose and the composition, nothing else. In it, the RED marks are the people: where each one stands and how big they are; the YELLOW marks are each head; the red cross on a head shows which way the face looks; the GREEN marks are the ground line their feet stand on; the GREY marks are the place: its horizon, its big shapes and where the light comes from. None of its lines, colours or paper appear in the frame. Do not copy any reference's grey background or sheet layout: make one single cinematic film frame, 16:9. Medium-wide: the two founders at the window, the city behind them. 50 mm lens, from about three metres. Natural skin texture, visible film grain, slightly soft focus, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+   "meta": {
+    "from": "shots",
+    "sha": "795326750995"
+   },
+   "face": "hero"
+  },
+  "S03": {
+   "batch": "identity",
+   "dir": "keys",
+   "refs": [
+    "sheet:hero",
+    "loc:office"
+   ],
+   "prompt": "Image 1 is the founder's locked character sheet: the face in its LEFT close-up is the only face to use, and its other panels show the wardrobe. Image 2 is the location: keep its architecture, materials, weather and light. Do not copy any reference's grey background or sheet layout: make one single cinematic film frame, 16:9. Straight down on the desk: her hands on the laptop keyboard, a coffee cup beside it. 35 mm lens, about 1 m above the surface, deep focus across the whole surface. Natural skin texture, visible film grain, slightly soft focus, unretouched, realistic, not a stock photo, no text, no logos, no watermark.",
+   "meta": {
+    "from": "shots",
+    "sha": "1c5e56bec137"
+   },
+   "face": "hero"
+  }
+ },
+ "fixes": {},
+ "faces": {
+  "hero": [
+   120,
+   150,
+   820,
+   850
+  ]
+ }
+}

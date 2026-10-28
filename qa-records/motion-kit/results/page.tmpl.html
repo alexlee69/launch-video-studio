@@ -1,0 +1,242 @@
+<title>Motion Kit Results</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a review sheet. A reading column for words, wide bands for films and frame strips. */
+:root {
+  --paper: #f1f2f4; --card: #ffffff; --ink: #16181d; --muted: #5a606c; --rule: #d8dbe1;
+  --accent: #c8432c; --accent-soft: #fbe6e1;
+  --pass: #1d7348; --pass-soft: #e1f2e8; --fail: #b3261e; --fail-soft: #fbe3e1; --warn: #85570a; --warn-soft: #f8ecd6;
+  --frame-bg: #0f1116;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Public Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --wide: 1180px; --read: 44rem;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111318; --card: #191c22; --ink: #e8eaee; --muted: #9aa1ad; --rule: #2a2e36;
+  --accent: #ff7a5e; --accent-soft: #3a211c;
+  --pass: #52c58d; --pass-soft: #16301f; --fail: #ff7066; --fail-soft: #3a1b19; --warn: #e5b44a; --warn-soft: #33270f;
+  --frame-bg: #06070a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #111318; --card: #191c22; --ink: #e8eaee; --muted: #9aa1ad; --rule: #2a2e36;
+  --accent: #ff7a5e; --accent-soft: #3a211c;
+  --pass: #52c58d; --pass-soft: #16301f; --fail: #ff7066; --fail-soft: #3a1b19; --warn: #e5b44a; --warn-soft: #33270f;
+  --frame-bg: #06070a; color-scheme: dark }
+
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { max-width: var(--wide); margin: 0 auto; padding-block: 2.5rem 4rem; display: grid; gap: 3.5rem; }
+section { display: grid; gap: 1.25rem; min-width: 0; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.12; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.02em; max-width: 18ch; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; max-width: var(--read); }
+.lede { font-size: 1.125rem; color: var(--ink); }
+.note { color: var(--muted); font-size: .92rem; }
+.eyebrow { font: 500 .78rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+code { font: 500 .86em var(--f-mono); }
+.head { display: grid; gap: 1rem; }
+.state { display: flex; flex-wrap: wrap; gap: .5rem; }
+.state span { font: 600 .82rem/1 var(--f-body); padding: .45rem .7rem; border-radius: 999px; border: 1px solid var(--rule); background: var(--card); }
+.state .live { border-color: var(--pass); color: var(--pass); }
+.state .wait { border-color: var(--accent); color: var(--accent); }
+
+/* films: 9:16 and 1:1 share one height */
+.films { display: grid; gap: 1rem; }
+.films .pair { display: grid; grid-template-columns: minmax(0, .5625fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.film { margin: 0; display: grid; gap: .45rem; min-width: 0; }
+.film video { width: 100%; max-width: 100%; display: block; background: var(--frame-bg); border-radius: 6px; }
+.film figcaption, .tile figcaption, .shot figcaption { font-size: .85rem; color: var(--muted); }
+.film figcaption b { color: var(--ink); font-weight: 600; }
+
+/* scoreboard */
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: .93rem; }
+th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child th, tr:last-child td { border-bottom: 0; }
+thead th { font: 500 .74rem/1.2 var(--f-mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+tbody th { font-weight: 600; white-space: nowrap; }
+.chip { display: inline-block; font: 600 .76rem/1 var(--f-body); padding: .32rem .55rem; border-radius: 4px; white-space: nowrap; }
+.chip.pass { color: var(--pass); background: var(--pass-soft); }
+.chip.fail { color: var(--fail); background: var(--fail-soft); }
+.chip.mixed { color: var(--warn); background: var(--warn-soft); }
+
+/* frame strips */
+.tr { display: grid; gap: .7rem; padding-block: 1.25rem; border-top: 1px solid var(--rule); min-width: 0; }
+.tr header { display: grid; gap: .35rem; }
+.shots { font: 500 .8rem var(--f-mono); color: var(--muted); margin-left: .35rem; white-space: nowrap; }
+.cause { font-size: .92rem; }
+.cause span { font: 600 .72rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent);
+  background: var(--accent-soft); padding: .25rem .4rem; border-radius: 3px; margin-right: .35rem; }
+.what { color: var(--muted); font-size: .95rem; }
+.strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.strip figure { margin: 0; display: grid; gap: .3rem; min-width: 0; }
+.strip img { width: 100%; height: auto; display: block; border-radius: 3px; outline: 1px solid var(--rule); background: var(--frame-bg); }
+.strip figcaption { font: 500 .74rem/1 var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.strip .cut img { outline: 2px solid var(--accent); outline-offset: 1px; }
+.strip .cut figcaption { color: var(--accent); }
+
+/* before / after */
+.ba { display: grid; gap: 1rem; padding-block: 1.25rem; border-top: 1px solid var(--rule); }
+.ba .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.shot { margin: 0; display: grid; gap: .45rem; min-width: 0; }
+.shot img { width: 100%; height: auto; display: block; border-radius: 4px; background: var(--frame-bg); }
+.shot .tag { font: 600 .74rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .06em; }
+.shot.before .tag { color: var(--fail); } .shot.after .tag { color: var(--pass); }
+
+/* pieces */
+.tiles { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiles.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tile { margin: 0; display: grid; gap: .45rem; align-content: start; min-width: 0; }
+.tile img { width: 100%; height: auto; display: block; border-radius: 4px; outline: 1px solid var(--rule); }
+.tile figcaption { display: grid; gap: .15rem; }
+.tile code { color: var(--ink); font-size: .85rem; }
+.sub { font: 600 .82rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-top: .5rem; }
+.boards { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+
+/* open items + approval */
+ul.open { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; max-width: var(--read); }
+ul.open li { display: grid; grid-template-columns: 4.6rem 1fr; gap: .75rem; align-items: baseline; }
+.sev { font: 600 .72rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .05em; padding: .3rem .4rem; border-radius: 3px; text-align: center; }
+.sev.medium { color: var(--warn); background: var(--warn-soft); }
+.sev.low { color: var(--muted); background: var(--rule); }
+.approve { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 1.5rem; display: grid; gap: .9rem; }
+.approve ul { margin: 0; padding-left: 1.2rem; display: grid; gap: .4rem; max-width: var(--read); }
+.approve b { font-weight: 600; }
+
+@media (max-width: 760px) {
+  main { padding-block: 1.5rem 3rem; gap: 2.75rem; }
+  .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ba .pair, .tiles, .tiles.three, .boards { grid-template-columns: minmax(0, 1fr); }
+  /* the scoreboard becomes one block per test, result first */
+  table { min-width: 0; }
+  thead { display: none; }
+  table, tbody, tr, th, td { display: block; }
+  tr { display: grid; grid-template-columns: 1fr auto; gap: .2rem .75rem; padding: .8rem .9rem; border-bottom: 1px solid var(--rule); }
+  tr:last-child { border-bottom: 0; }
+  th, td { padding: 0; border: 0; }
+  tbody th { grid-column: 1; grid-row: 1; white-space: normal; }
+  td:nth-of-type(2) { grid-column: 2; grid-row: 1; }
+  td:nth-of-type(1) { grid-column: 1 / -1; color: var(--muted); font-size: .85rem; }
+  td:nth-of-type(3) { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<main>
+  <header class="head">
+    <p class="eyebrow">product-launch-sting · video · 27 Oct 2026</p>
+    <h1>The motion kit is live. Here’s what it makes.</h1>
+    <p class="lede">Rounds 1 and 2 of the plan and the small items are merged into the live skill. Every QA pass ends green.
+      Nothing is committed or pushed: approving means one commit and push of the backup.</p>
+    <div class="state"><span class="live">Live in the skill</span><span class="wait">Not committed</span><span>Rollback script ready</span></div>
+  </header>
+
+  <section aria-labelledby="films">
+    <h2 id="films">The sample film: Wayfinch</h2>
+    <p>A made-up AI trip planner, 28 s, 11 shots at 120 BPM. It uses all seven new pieces and all five new moves.
+      Re-rendered tonight on the final code.</p>
+    <div class="films">
+      <figure class="film"><video controls playsinline preload="metadata" poster="assets/poster-16x9.jpg" src="films/wayfinch-16x9.mp4"></video>
+        <figcaption><b>16:9</b> · 1920 × 1080, 60 fps · QA PASSED (16 checks)</figcaption></figure>
+      <div class="pair">
+        <figure class="film"><video controls playsinline preload="metadata" poster="assets/poster-9x16.jpg" src="films/wayfinch-9x16.mp4"></video>
+          <figcaption><b>9:16</b> · QA PASSED (16)</figcaption></figure>
+        <figure class="film"><video controls playsinline preload="metadata" poster="assets/poster-1x1.jpg" src="films/wayfinch-1x1.mp4"></video>
+          <figcaption><b>1:1</b> · QA PASSED (16)</figcaption></figure>
+      </div>
+    </div>
+    <p class="note">The only warnings left in these films are the 35 px labels and the 31 px end-card address (size and contrast), both on the deferred list.</p>
+  </section>
+
+  <section aria-labelledby="score">
+    <h2 id="score">Every test, in order</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th scope="col">Pass</th><th scope="col">What it tested</th><th scope="col">Result</th><th scope="col">Detail</th></tr></thead>
+      <tbody>
+{{SCORES}}
+      </tbody></table></div>
+  </section>
+
+  <section aria-labelledby="cuts">
+    <h2 id="cuts">Across the cut</h2>
+    <p>The new moves, frame by frame from the 16:9 film above. Frames are counted at 60 fps; <code>cut</code> is the first
+      frame of the next shot. Each moving cut names its cause in the job file, and the storyboard prints it.</p>
+{{TRANSITIONS}}
+  </section>
+
+  <section aria-labelledby="missed">
+    <h2 id="missed">What QA missed, and the fix</h2>
+    <p>QA1 round 1 found these by reading frames. Every automatic check and <code>--grid</code> passed them. One fix round cleared them;
+      the third was the first glitch again in another test film.</p>
+    <div class="ba">
+      <h3>A card grown from the send button popped in at full size after the flood</h3>
+      <div class="pair">
+        <figure class="shot before"><span class="tag">Before · round 1</span><img src="assets/glitch1-before.jpg" alt="Before: at the cut the card appears at full size" loading="lazy" width="1600" height="960">
+          <figcaption>Frame 180, the cut: the card is already full size.</figcaption></figure>
+        <figure class="shot after"><span class="tag">After · round 2</span><img src="assets/glitch1-after.jpg" alt="After: the card starts as a speck at the send spot and grows" loading="lazy" width="1920" height="1164">
+          <figcaption>It is born as a speck where the send button was and grows over about 6 frames.</figcaption></figure>
+      </div>
+    </div>
+    <div class="ba">
+      <h3>In the 30 s starter, a carried card jumped from landscape to a tilted square in one frame</h3>
+      <div class="pair">
+        <figure class="shot before"><span class="tag">Before · round 1</span><img src="assets/glitch2-before.jpg" alt="Before: the card changes shape at the cut" loading="lazy" width="1600" height="960">
+          <figcaption>Frames 659 → 660: a different shape across one frame.</figcaption></figure>
+        <figure class="shot after"><span class="tag">After · round 2</span><img src="assets/glitch2-after.jpg" alt="After: the card changes shape gradually under the blur" loading="lazy" width="1600" height="1273">
+          <figcaption>The shape now changes across the blur. Still there: a 2-frame double image of the label (628–629), logged as low.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="pieces">
+    <h2 id="pieces">The new pieces</h2>
+    <p>As the storyboard draws them, from the Wayfinch job.</p>
+    <p class="sub">New blocks</p>
+    <div class="tiles">
+{{BLOCKS}}
+    </div>
+    <p class="sub">New modes on old blocks</p>
+    <div class="tiles three">
+{{MODES}}
+    </div>
+  </section>
+
+  <section aria-labelledby="aspects">
+    <h2 id="aspects">The other aspects</h2>
+    <div class="boards">
+      <figure class="shot"><img src="assets/board-9x16.jpg" alt="Wayfinch storyboard, 9:16" loading="lazy" width="1400" height="2174"><figcaption>9:16 storyboard</figcaption></figure>
+      <figure class="shot"><img src="assets/board-1x1.jpg" alt="Wayfinch storyboard, 1:1" loading="lazy" width="1400" height="1696"><figcaption>1:1 storyboard</figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="starters">
+    <h2 id="starters">Starters</h2>
+    <p><code>lv.mjs --job DIR --init --kit launch15</code> or <code>launch30</code> writes a launch film on the kit, with stand-in cards to swap for your footage and screens.</p>
+    <div class="boards">
+      <figure class="shot"><img src="assets/starter-l15.jpg" alt="15 s starter storyboard" loading="lazy" width="1400" height="1310"><figcaption>15 s starter, made tonight on the live skill. Its film passed QA (17 checks).</figcaption></figure>
+      <figure class="shot"><img src="assets/starter-l30.jpg" alt="30 s starter storyboard frames" loading="lazy" width="1600" height="980"><figcaption>30 s starter, from QA1 round 2.</figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="open">
+    <h2 id="open">Not right yet</h2>
+    <ul class="open">
+{{OPEN}}
+    </ul>
+  </section>
+
+  <section class="approve" aria-labelledby="ok">
+    <h2 id="ok">What approving does</h2>
+    <ul>
+      <li><b>One commit and push</b> of <code>~/Downloads/launch-video-studio</code> to alexlee69/launch-video-studio: 37 changes (the skill’s 35 files, the Wayfinch job, the memory note).</li>
+      <li><b>Nothing else changes.</b> The live skill already has the kit.</li>
+      <li><b>To undo the merge:</b> <code>bash qa/motion-kit/merge/rollback.sh --go</code>, proven on a copy of the live skill.</li>
+    </ul>
+    <p class="note">Full report: <code>qa/motion-kit/MORNING.md</code>. Every agent report: <code>qa/motion-kit/reports/</code>.</p>
+  </section>
+</main>

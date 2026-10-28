@@ -1,0 +1,14 @@
+{
+ "original": "props.png",
+ "edit": "props-props-tile-edit.png",
+ "feather": 0,
+ "edit_drift_inside": 6.0,
+ "edit_drift_outside_not_used": 6.0,
+ "why": "",
+ "box": [
+  1280,
+  0,
+  2560,
+  1440
+ ]
+}

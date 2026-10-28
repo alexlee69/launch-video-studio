@@ -1,0 +1,47 @@
+{
+  "endpoint": "fal-ai/custom",
+  "kind": "raw",
+  "input": {
+    "prompt": "test"
+  },
+  "estimate": "unknown — check fal.ai/models/fal-ai/custom",
+  "prices": "fal prices checked 2026-10-22: fal-ai/flux-pro/v1.1-ultra $0.06 per image · minimax/h3-max/* $0.16 per second at 1080P · anything else: check fal.ai/models",
+  "auth": "Key ****",
+  "submitted": "2026-10-22T17:11:56.769Z",
+  "status": [
+    {
+      "t": 0,
+      "status": "COMPLETED"
+    }
+  ],
+  "request_id": "raw-paid-A",
+  "status_url": "http://127.0.0.1:19733/status/raw-paid-A",
+  "response_url": "http://127.0.0.1:19733/result/raw-paid-A",
+  "result": {
+    "images": [
+      {
+        "url": "http://127.0.0.1:19733/file-0.jpg",
+        "content_type": "image/jpeg",
+        "file_size": 1432931
+      },
+      {
+        "url": "http://127.0.0.1:19733/file-1.jpg",
+        "content_type": "image/jpeg",
+        "file_size": 1432931
+      }
+    ]
+  },
+  "finished": "2026-10-22T17:11:56.806Z",
+  "outputs": [
+    {
+      "url": "http://127.0.0.1:19733/file-0.jpg",
+      "file": "result_0.jpg",
+      "bytes": 1432931
+    },
+    {
+      "url": "http://127.0.0.1:19733/file-1.jpg",
+      "file": "result_1.jpg",
+      "bytes": 1432931
+    }
+  ]
+}

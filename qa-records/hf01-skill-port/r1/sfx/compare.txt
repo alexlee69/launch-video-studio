@@ -1,0 +1,5 @@
+format ours 48000 Hz 2 ch 24-bit 3673584 samples | job 48000 Hz 2 ch 24-bit 3673584 samples
+bytes identical: True
+max |Δ| 0 LSB (24-bit), samples differing 0
+event table: 44 vs 44 rows, identical (frame, sound, dB, mode): True
+PASS

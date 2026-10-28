@@ -1,0 +1,2 @@
+mon-D-old-r2-dev 16x9: 1277 frames in 3.4 s (camera() evaluate avg 0.73 ms)
+INFO 9 cuts, 3 with camera motion + 3 carried objects checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.0–2.1× (over 2×: go→end 2.07×) — numbers per cut in qa.json

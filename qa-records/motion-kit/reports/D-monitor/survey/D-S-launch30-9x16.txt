@@ -1,0 +1,2 @@
+mon-D-old-S-launch30 9x16: 1800 frames in 12.1 s (camera() evaluate avg 3.05 ms)
+INFO 13 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: action→result 2.07×) — numbers per cut in qa.json

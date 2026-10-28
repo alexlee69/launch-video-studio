@@ -1,0 +1,14 @@
+{
+ "original": "hero-before-hero-fix.png",
+ "edit": "hero-hero-fix-edit.png",
+ "box": [
+  1000,
+  300,
+  1400,
+  700
+ ],
+ "feather": 18,
+ "edit_drift_inside": 6.0,
+ "edit_drift_outside_not_used": 6.0,
+ "why": ""
+}

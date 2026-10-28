@@ -1,0 +1,2 @@
+D-old-cue 16x9: 1800 cams, 1800 frames
+INFO 8 cuts, 7 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.8–2.6× (over 2×: s1→s2 2.08×, s2→s3 2.24×, s3→s4 2.24×, s4→s5 2.24×, s5→s6 2.02×, s6→s7 2.62×) — numbers per cut in qa.json

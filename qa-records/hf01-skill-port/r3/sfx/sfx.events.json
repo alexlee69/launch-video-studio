@@ -1,0 +1,442 @@
+[
+ {
+  "frame": 6.7,
+  "t": 0.223,
+  "sound": "title burst 1 + thump",
+  "level_db": -9,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "U1 n6.7: title lockup lands",
+  "end_frame": null
+ },
+ {
+  "frame": 13.2,
+  "t": 0.44,
+  "sound": "title burst 2",
+  "level_db": -10,
+  "mode": "peak",
+  "pan": 0.1,
+  "slot": "U2 n13.2: \"2.0\" flashes in",
+  "end_frame": null
+ },
+ {
+  "frame": 30.1,
+  "t": 1.003,
+  "sound": "card swish + sub",
+  "level_db": -12,
+  "mode": "peak",
+  "pan": -0.1,
+  "slot": "U3 n30.1: the icon card wipes",
+  "end_frame": null
+ },
+ {
+  "frame": 52.2,
+  "t": 1.74,
+  "sound": "zoom-through air",
+  "level_db": -16,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "U4 n52.2 (soft): the title zooms through",
+  "end_frame": null
+ },
+ {
+  "frame": 69,
+  "t": 2.3,
+  "sound": "suit air + breath n69-348",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 348
+ },
+ {
+  "frame": 348,
+  "t": 11.6,
+  "sound": "suit air + breath n348-382",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 382
+ },
+ {
+  "frame": 382,
+  "t": 12.733,
+  "sound": "suit air + breath n382-661",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 661
+ },
+ {
+  "frame": 847,
+  "t": 28.233,
+  "sound": "suit air + breath n847-928",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 928
+ },
+ {
+  "frame": 1103,
+  "t": 36.767,
+  "sound": "suit air + breath n1103-1234",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 1234
+ },
+ {
+  "frame": 1234,
+  "t": 41.133,
+  "sound": "suit air + breath n1234-1257",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 1257
+ },
+ {
+  "frame": 1487,
+  "t": 49.567,
+  "sound": "suit air + breath n1487-1523",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 1523
+ },
+ {
+  "frame": 1531,
+  "t": 51.033,
+  "sound": "suit air + breath n1531-1651",
+  "level_db": -34,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A1 bed slot (the reference's ambience): live-action shots only, cut with the cuts",
+  "end_frame": 1651
+ },
+ {
+  "frame": 249.0,
+  "t": 8.3,
+  "sound": "comms tick + beep",
+  "level_db": -12,
+  "mode": "peak",
+  "pan": 0.15,
+  "slot": "F1 n249: 3 f before the bubble",
+  "end_frame": null
+ },
+ {
+  "frame": 344.7,
+  "t": 11.49,
+  "sound": "glove lets go (fabric swish; no thud)",
+  "level_db": -18,
+  "mode": "peak",
+  "pan": 0.2,
+  "slot": "F2 n344.7: pre-lap",
+  "end_frame": null
+ },
+ {
+  "frame": 500.5,
+  "t": 16.683,
+  "sound": "sunrise whoomp",
+  "level_db": -9,
+  "mode": "peak",
+  "pan": -0.15,
+  "slot": "F3 n511.8: on our bloom (n502)",
+  "end_frame": null
+ },
+ {
+  "frame": 644.6,
+  "t": 21.487,
+  "sound": "P1 send crackle",
+  "level_db": -13,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "U5 n644.6: into the card cut n661",
+  "end_frame": null
+ },
+ {
+  "frame": 912.0,
+  "t": 30.4,
+  "sound": "tether snaps taut",
+  "level_db": -8,
+  "mode": "peak",
+  "pan": 0.3,
+  "slot": "ours: the jolt n914",
+  "end_frame": null
+ },
+ {
+  "frame": 913.0,
+  "t": 30.433,
+  "sound": "P2 send crackle",
+  "level_db": -15,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "send slot",
+  "end_frame": null
+ },
+ {
+  "frame": 1103,
+  "t": 36.767,
+  "sound": "comms static (night side)",
+  "level_db": -38,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "A3 n1103: on the cut",
+  "end_frame": 1234
+ },
+ {
+  "frame": 1181.0,
+  "t": 39.367,
+  "sound": "P3 send",
+  "level_db": -15,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "send slot",
+  "end_frame": null
+ },
+ {
+  "frame": 1185.3,
+  "t": 39.51,
+  "sound": "P3 crackle on the crash-zoom",
+  "level_db": -14,
+  "mode": "peak",
+  "pan": 0.1,
+  "slot": "U6 n1185.3",
+  "end_frame": null
+ },
+ {
+  "frame": 1236,
+  "t": 41.2,
+  "sound": "glove grabs rail",
+  "level_db": -16,
+  "mode": "peak",
+  "pan": -0.2,
+  "slot": "F4 n1234-1256",
+  "end_frame": null
+ },
+ {
+  "frame": 1243,
+  "t": 41.433,
+  "sound": "glove grabs rail",
+  "level_db": -16,
+  "mode": "peak",
+  "pan": -0.2,
+  "slot": "F4 n1234-1256",
+  "end_frame": null
+ },
+ {
+  "frame": 1250,
+  "t": 41.667,
+  "sound": "glove grabs rail",
+  "level_db": -16,
+  "mode": "peak",
+  "pan": -0.2,
+  "slot": "F4 n1234-1256",
+  "end_frame": null
+ },
+ {
+  "frame": 1480.5,
+  "t": 49.35,
+  "sound": "tumble into the airlock",
+  "level_db": -9,
+  "mode": "peak",
+  "pan": -0.2,
+  "slot": "F5 n1480.5: pre-lap, 6.5 f before the cut",
+  "end_frame": null
+ },
+ {
+  "frame": 1508,
+  "t": 50.267,
+  "sound": "alarm beep (pulse n1511)",
+  "level_db": -17,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "ours: the red pulse peaks",
+  "end_frame": null
+ },
+ {
+  "frame": 1537,
+  "t": 51.233,
+  "sound": "alarm beep (pulse n1540)",
+  "level_db": -17,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "ours: the red pulse peaks",
+  "end_frame": null
+ },
+ {
+  "frame": 1566,
+  "t": 52.2,
+  "sound": "alarm beep (pulse n1569)",
+  "level_db": -17,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "ours: the red pulse peaks",
+  "end_frame": null
+ },
+ {
+  "frame": 1595,
+  "t": 53.167,
+  "sound": "alarm beep (pulse n1598)",
+  "level_db": -17,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "ours: the red pulse peaks",
+  "end_frame": null
+ },
+ {
+  "frame": 1624,
+  "t": 54.133,
+  "sound": "alarm beep (pulse n1627)",
+  "level_db": -17,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "ours: the red pulse peaks",
+  "end_frame": null
+ },
+ {
+  "frame": 1511.1,
+  "t": 50.37,
+  "sound": "wrench flight whoosh",
+  "level_db": -11,
+  "mode": "peak",
+  "pan": 0.4,
+  "slot": "F6 n1511.1, peak n1527.7",
+  "end_frame": null
+ },
+ {
+  "frame": 1548.0,
+  "t": 51.6,
+  "sound": "wrench clangs off the rim + twang + sub",
+  "level_db": -6,
+  "mode": "peak",
+  "pan": 0.35,
+  "slot": "F7+F8 n1530/1531.8: on our strike n1548",
+  "end_frame": null
+ },
+ {
+  "frame": 1602.8,
+  "t": 53.427,
+  "sound": "P4 bar enters (swell + blip)",
+  "level_db": -17,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "U8 n1602.8",
+  "end_frame": null
+ },
+ {
+  "frame": 1640.3,
+  "t": 54.677,
+  "sound": "P4 send crackle → cut",
+  "level_db": -13,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "U7 n1640.3: into the poster cut n1651",
+  "end_frame": null
+ },
+ {
+  "frame": 1800,
+  "t": 60.0,
+  "sound": "re-entry roar (the vacuum rule ends)",
+  "level_db": -20,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "ours: S24",
+  "end_frame": 1905
+ },
+ {
+  "frame": 1895.0,
+  "t": 63.167,
+  "sound": "P5 send",
+  "level_db": -16,
+  "mode": "peak",
+  "pan": 0,
+  "slot": "send slot",
+  "end_frame": null
+ },
+ {
+  "frame": 1933,
+  "t": 64.433,
+  "sound": "sea wash",
+  "level_db": -33,
+  "mode": "rms",
+  "pan": 0.0,
+  "slot": "ours: S26 (ends before the 0.5 s of silence ahead of the sting)",
+  "end_frame": 2168
+ },
+ {
+  "frame": 2001,
+  "t": 66.7,
+  "sound": "reply tick",
+  "level_db": -15,
+  "mode": "peak",
+  "pan": 0.15,
+  "slot": "F1-style tick, 3 f before each bubble",
+  "end_frame": null
+ },
+ {
+  "frame": 2013,
+  "t": 67.1,
+  "sound": "reply tick",
+  "level_db": -15,
+  "mode": "peak",
+  "pan": 0.15,
+  "slot": "F1-style tick, 3 f before each bubble",
+  "end_frame": null
+ },
+ {
+  "frame": 2060,
+  "t": 68.667,
+  "sound": "gull wings (lands n2072)",
+  "level_db": -20,
+  "mode": "peak",
+  "pan": 0.25,
+  "slot": "ours: the gull lands on the groove stop",
+  "end_frame": null
+ },
+ {
+  "frame": 2118.4,
+  "t": 70.613,
+  "sound": "gull call",
+  "level_db": -19,
+  "mode": "peak",
+  "pan": 0.3,
+  "slot": "V1 n2118-2153: the reference's chirps slot",
+  "end_frame": null
+ },
+ {
+  "frame": 2124.0,
+  "t": 70.8,
+  "sound": "gull call",
+  "level_db": -19,
+  "mode": "peak",
+  "pan": 0.3,
+  "slot": "V1 n2118-2153: the reference's chirps slot",
+  "end_frame": null
+ },
+ {
+  "frame": 2141.0,
+  "t": 71.367,
+  "sound": "gull call",
+  "level_db": -19,
+  "mode": "peak",
+  "pan": 0.3,
+  "slot": "V1 n2118-2153: the reference's chirps slot",
+  "end_frame": null
+ },
+ {
+  "frame": 2148.0,
+  "t": 71.6,
+  "sound": "gull call",
+  "level_db": -19,
+  "mode": "peak",
+  "pan": 0.3,
+  "slot": "V1 n2118-2153: the reference's chirps slot",
+  "end_frame": null
+ }
+]

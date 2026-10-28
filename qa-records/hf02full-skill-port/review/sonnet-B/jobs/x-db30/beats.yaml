@@ -1,0 +1,7 @@
+title: xdb30
+brand: {name: X}
+music: {style: film, downbeat: 30}
+shots:
+  - {id: a, block: headline, beats: 4, text: One}
+  - {id: b, block: headline, beats: 16, text: Two}
+  - {id: card, block: endcard, beats: 4, tagline: Bye}

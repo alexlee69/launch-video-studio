@@ -1,0 +1,183 @@
+--- a/video/engine/runtime.js
++++ b/video/engine/runtime.js
+@@ -678,15 +678,23 @@
+   return roots;
+ }
+ // what the roots draw on screen now (stage px): the union of every painting element under them (a full-width flex row
+-// of buttons measures as its buttons), skipping hidden and fully transparent parts
++// of buttons measures as its buttons), skipping hidden and fully transparent parts. An <svg> viewport or <g> with shapes
++// in it measures as its shapes (a full-frame overlay svg — the wall grid's lit stroke, the particles' orbits, the map's
++// route — would otherwise measure as the whole frame); defs, masks, clips, filters and gradients draw nothing themselves.
++// A soft glow a block marks data-lv-soft (its box fades to nothing well inside its edges: press's halo, the particles'
++// core glow) doesn't count either — measured, it put a flood's spot and a from: card off the pressed control
++const SVG_NODRAW = /^(defs|mask|clippath|filter|lineargradient|radialgradient|pattern|symbol|marker|style|title|desc|metadata|script)$/;
+ function visualRect(roots) {
+   const sr = stageXY(); let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+   const cut = (r, c) => ({ left: Math.max(r.left, c.left), top: Math.max(r.top, c.top), right: Math.min(r.right, c.right), bottom: Math.min(r.bottom, c.bottom) });
+   const add = r => { if (r.right - r.left < .5 || r.bottom - r.top < .5) return; x0 = Math.min(x0, r.left); y0 = Math.min(y0, r.top); x1 = Math.max(x1, r.right); y1 = Math.max(y1, r.bottom); };
+   const walk = (el, clip) => {           // clip: what overflow: hidden / clip ancestors (inside the roots) let show
++    const svgTag = el instanceof SVGElement ? el.localName.toLowerCase() : null;
++    if (svgTag && SVG_NODRAW.test(svgTag)) return;
+     const cs = getComputedStyle(el), r = el.getBoundingClientRect();
+     if (cs.display === 'none' || Number(cs.opacity) === 0) return;
+-    if (cs.visibility !== 'hidden' && (el.classList.contains('lv-txt') || paints(el))) add(cut(r, clip));
++    const group = (svgTag === 'svg' || svgTag === 'g') && el.children.length > 0;
++    if (!group && !el.hasAttribute('data-lv-soft') && cs.visibility !== 'hidden' && (el.classList.contains('lv-txt') || paints(el))) add(cut(r, clip));
+     const inner = cs.overflowX !== 'visible' || cs.overflowY !== 'visible' ? cut(r, clip) : clip;
+     for (const ch of el.children) walk(ch, inner);
+   };
+@@ -710,6 +718,18 @@
+     oc.forEach((c, j) => { try { cc[j].getContext('2d').drawImage(c, 0, 0); } catch { /* a tainted or empty canvas stays blank */ } });
+     return rc;
+   });
++  // an element laid out in flow (a flex lockup's logo or name: title, endcard) keeps its place in the copy: its in-flow
++  // siblings come along, invisible — a shallow copy of the row with the element alone re-centred it there, so the copy
++  // drew off its rectangle (title → endcard logo: ~225 px, then a jump on landing). Absolutely placed elements (most
++  // blocks' carried layers) have no in-flow siblings to keep: their copies are unchanged.
++  const cloneOf = new Map([...map, ...roots.map((r, k) => [r, clones[k]])]);
++  const flowing = e => { const cs = getComputedStyle(e); return cs.display !== 'none' && cs.position !== 'absolute' && cs.position !== 'fixed'; };
++  const rows = new Set([...cloneOf.keys()].filter(e => e !== sh.el && e.parentElement && cloneOf.has(e.parentElement) && flowing(e)).map(e => e.parentElement));
++  for (const P of rows) cloneOf.get(P).replaceChildren(...[...P.children].flatMap(c => {
++    if (cloneOf.has(c)) return [cloneOf.get(c)];
++    if (!flowing(c)) return [];
++    const h = c.cloneNode(true); h.style.visibility = 'hidden'; h.style.opacity = '0'; return [h];
++  }));
+   if (map.get(sh.cam)) map.get(sh.cam).style.filter = 'none';
+   const dwc = map.get(sh.cam.parentElement); if (dwc && dwc !== top) { dwc.style.filter = 'none'; dwc.style.overflow = 'visible'; }
+   const cont = map.get(sh.ctx.root);
+--- a/video/engine/blocks/press.js
++++ b/video/engine/blocks/press.js
+@@ -148,6 +148,7 @@
+     const lx = (bw - fw) / 2, ly = (bh - fh) / 2;          // face box inside the wrappers
+     const glow = document.createElement('div');
+     glow.style.cssText = `position:absolute;left:${lx - fh * .9}px;top:${ly - fh * .9}px;width:${fw + fh * 1.8}px;height:${fh * 2.8}px;border-radius:${fh * 1.4}px;background:radial-gradient(closest-side,${M.rgba(acc, .55)},${M.rgba(acc, .18)} 55%,${M.rgba(acc, 0)});opacity:0`;
++    glow.dataset.lvSoft = '';          // (a soft halo: carry / dive / flood / from: measure the control by its face, not this)
+     ctl.appendChild(glow);
+     const face = document.createElement('div');
+     let target = face, tgt = { x: cx, y: cy, w: fw, h: fh, r: fh / 2 };        // what is pressed (scales to .94), its box in stage px
+--- a/video/engine/blocks/particles.js
++++ b/video/engine/blocks/particles.js
+@@ -58,11 +58,12 @@
+     const R0 = Math.min(W, H) * (portrait ? .4 : .38);
+     // a soft core glow behind the sphere (dark themes)
+     const glow = (mode === 'sphere' || mode === 'burst') && dark ? layer.appendChild(Object.assign(document.createElement('div'), { style: `position:absolute;left:${cx - R0 * 1.6}px;top:${cy - R0 * 1.6}px;width:${R0 * 3.2}px;height:${R0 * 3.2}px;border-radius:50%;background:radial-gradient(closest-side,${M.rgba(col, .2)},${M.rgba(col, .06)} 60%,${M.rgba(col, 0)});opacity:0` })) : null;
++    if (glow) glow.dataset.lvSoft = '';      // (a soft core glow: carry / dive / flood / from: measure the field by its dots)
+     // the painter: dots and streaks go into buckets by colour and opacity step; each bucket is one <path>
+     const ns = 'http://www.w3.org/2000/svg', LV = 20, svg = document.createElementNS(ns, 'svg');
+     svg.setAttribute('width', W); svg.setAttribute('height', H); svg.style.cssText = 'position:absolute;left:0;top:0;overflow:visible;display:block';
+     layer.appendChild(svg);
+-    const paths = [col, hot].map(c => Array.from({ length: LV }, (_, k) => { const el = document.createElementNS(ns, 'path'); el.setAttribute('fill', c); el.setAttribute('fill-opacity', ((k + 1) / LV).toFixed(3)); svg.appendChild(el); return { el, d: '' }; }));
++    const paths = [col, hot].map(c => Array.from({ length: LV }, (_, k) => { const el = document.createElementNS(ns, 'path'); el.setAttribute('fill', c); el.setAttribute('fill-opacity', ((k + 1) / LV).toFixed(3)); el.setAttribute('d', ''); svg.appendChild(el); return { el, d: '' }; }));   // (d="" from the start: an emptied bucket and a never-used one are the same DOM, whatever order frames are drawn in)
+     const buf = paths.map(row => row.map(() => []));
+     const slot = (a, ci) => { const k = Math.round(a * LV) - 1; return k < 0 ? null : buf[ci][Math.min(LV - 1, k)]; };
+     const f1 = v => v.toFixed(1), f2 = v => v.toFixed(2);
+@@ -116,13 +117,16 @@
+       }
+     }
+     const tIn = textAt(s, ctx.D);
++    // a dive flies this shot in (ctx.entered): the field arrives assembled and the dive's ×0.3 → 1 is its entrance (the
++    // pre-rolled assembly under the dive's ×0.3 read as a near-empty frame after the cut); 0 otherwise, so t + PRE is t
++    const PRE = ctx.entered === 'dive' ? 24 : 0;
+ 
+     // sphere / burst: position of dot p at time t (unit-sphere coords → world px, before projection)
+     const rot = (x, y, z, a, b) => { const ca = Math.cos(a), sa = Math.sin(a), x1 = x * ca + z * sa, z1 = -x * sa + z * ca, cb = Math.cos(b), sb = Math.sin(b); return [x1, y * cb - z1 * sb, y * sb + z1 * cb]; };
+     const sphereAt = (p, t, D) => {
+       const R = R0 * (1 + .025 * Math.sin(t * .09));
+       // pre-rolled ~3 frames: the cut lands mid-assembly (most dots in, the shell still swirling inwards)
+-      const a = mode === 'burst' ? M.outExpo(M.u01(t, p.d * .3 - 5, p.d * .3 + 5)) : M.outExpo(M.u01(t, p.d - 11, p.d + 13));
++      const a = mode === 'burst' ? M.outExpo(M.u01(t + PRE, p.d * .3 - 5, p.d * .3 + 5)) : M.outExpo(M.u01(t + PRE, p.d - 11, p.d + 13));
+       // assembly: from a wider swirling shell (sphere) or from the centre outwards (burst)
+       let k = mode === 'burst' ? .05 + .95 * a : 1 + (p.far * .9) * (1 - a);
+       const sw = (1 - a) * p.sw * 2.2;
+@@ -139,12 +143,12 @@
+       render(t, D) {
+         if (mode === 'sphere' || mode === 'burst') {
+           const bk = burst != null ? M.u01(t, burst, burst + 20) : 0;
+-          if (glow) glow.style.opacity = ((.35 + .65 * M.u01(t, 0, 22)) * (1 - .7 * bk)).toFixed(3);
++          if (glow) glow.style.opacity = ((.35 + .65 * M.u01(t + PRE, 0, 22)) * (1 - .7 * bk)).toFixed(3);
+           const bursting = burst != null && t > burst && t < burst + 30;
+           for (const p of pts) {
+             const w0 = sphereAt(p, t, D), [X, Y, f] = project(w0);
+             const depth = M.clamp((w0[2] / R0 + 1) / 2);
+-            const show = mode === 'burst' ? M.u01(t, p.d * .3 - 6, p.d * .3 - 3) : M.u01(t, p.d - 11, p.d - 5);
++            const show = mode === 'burst' ? M.u01(t + PRE, p.d * .3 - 6, p.d * .3 - 3) : M.u01(t + PRE, p.d - 11, p.d - 5);
+             const fade = burst != null ? 1 - .4 * M.u01(t, burst + 20, D) * (p.fly > 2 ? 1 : .4) : 1;
+             const a = (.36 + .64 * depth) * show * fade * (.78 + .22 * Math.sin(t * .2 + p.ph));
+             if (a <= .02 || X < -40 || X > W + 40 || Y < -40 || Y > H + 40) continue;
+@@ -161,7 +165,7 @@
+           const cols = Math.ceil(W / sp) + 1, rows = Math.ceil(H / sp) + 1, ox = (W - (cols - 1) * sp) / 2, oy = (H - (rows - 1) * sp) / 2, maxD = Math.hypot(W, H) / 2;
+           for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+             const x = ox + i * sp, y = oy + j * sp, rr = Math.hypot(x - cx, y - cy) / maxD;
+-            const inn = M.outExpo(M.u01(t, rr * 16 - 14, rr * 16 - 2));          // pre-rolled: ~70 % of the field in on the cut
++            const inn = M.outExpo(M.u01(t + PRE, rr * 16 - 14, rr * 16 - 2));          // pre-rolled: ~70 % of the field in on the cut
+             if (inn <= 0) continue;
+             const wave = .5 + .5 * Math.sin((x * .9 + y * .55) / (sp * 5.5) - t * .11);
+             const ring = Math.exp(-Math.pow((rr - ((t / 48) % 1.25)) / .07, 2));
+@@ -181,7 +185,7 @@
+               const hgt = .3 * Math.sin(xw * 1.7 + zr * 1.15) * .6 + .3 * Math.sin(xw * .6 - zr * .7 + 1.3) * .4 + .08 * Math.sin(zr * 2.4 + xw * 3.1);
+               const X = cx + (xw / z) * f, Y = hy + ((camH - hgt) / z) * f;
+               if (X < -10 || X > W + 10 || Y > H + 10 || Y < -10) continue;
+-              const crest = M.clamp((hgt + .3) / .6), inn = M.outExpo(M.u01(t, (z - near) * 2 - 14, (z - near) * 2));     // pre-rolled
++              const crest = M.clamp((hgt + .3) / .6), inn = M.outExpo(M.u01(t + PRE, (z - near) * 2 - 14, (z - near) * 2));     // pre-rolled
+               const a = fog * inn * (.55 + .45 * crest);
+               if (a <= .02) continue;
+               dot(X, Y, Math.max(1, (portrait ? 8 : 6.5) * u * (.5 + .6 * crest) / Math.pow(z, .9)), a, crest > .85 ? 1 : 0);
+--- a/video/lib/timeline.mjs
++++ b/video/lib/timeline.mjs
+@@ -161,9 +161,14 @@
+ // ── round 2: cross-cut continuity (carry · morph · dive · flood · from:) and the transition lint ──
+ // the layer names a block's `layers:` doc lists (prompt: headline · prompt-box · …; "row-1 … row-N" → row-<n>); null =
+ // the block doesn't say (custom blocks), so nothing can be checked before the stage builds
+-function layerNames(block) {
++function layerNames(block, shot) {
+   if (!block || typeof block.layers !== 'string') return null;
+-  const words = block.layers.replace(/\([^)]*\)/g, ' ').match(/<type>-<n>|[a-z][a-z0-9-]*/g) || [];
++  // a mode's own list, "(layout: grid → tiles · lit · band · headline)", replaces the default list in that mode (wall
++  // grid, stack exploded); without a shot to look at, both lists count
++  const modes = [...block.layers.matchAll(/\(\s*([a-z][a-zA-Z]*)\s*:\s*([a-z0-9-]+)\s*→\s*([^)]*)\)/g)];
++  const on = modes.find(m => shot && String(shot[m[1]] ?? '') === m[2]);
++  const src = on ? on[3] : [block.layers.replace(/\([^)]*\)/g, ' '), ...(shot ? [] : modes.map(m => m[3]))].join(' · ');
++  const words = src.match(/<type>-<n>|[a-z][a-z0-9-]*/g) || [];
+   const names = new Set(), pats = [];
+   for (const w of words) {
+     if (w === '<type>-<n>') pats.push(/^[a-z]+-\d+$/);
+@@ -174,7 +179,7 @@
+ }
+ function crossCutChecks(sh, i, src, spec, warns) {
+   const s = src[i], next = src[i + 1], prev = src[i - 1], blk = spec.blocks[s.block], last = i === src.length - 1;
+-  const noLayer = (shot, name, what) => { const L = layerNames(spec.blocks[shot.block]); if (L && !L.has(name)) warns.push(`${s.id}: ${what} "${name}" — ${shot.id}'s ${shot.block} block has no such layer (its layers: ${L.list}); the stage build will fail if it doesn't tag one`); };
++  const noLayer = (shot, name, what) => { const L = layerNames(spec.blocks[shot.block], shot); if (L && !L.has(name)) warns.push(`${s.id}: ${what} "${name}" — ${shot.id}'s ${shot.block} block has no such layer (its layers: ${L.list}); the stage build will fail if it doesn't tag one`); };
+   if (s.carry != null) {
+     const c = s.carry, P = carryPlan(c);
+     if (last) throw new Error(`${s.id}: carry on the last shot — there is no next shot to hand "${c.el}" to (move it to the shot before a cut)`);
+@@ -197,7 +202,7 @@
+   const o = originOf(s, blk);
+   if (o != null) {
+     // float's from: is also its fly-in side (left | right): a name that is no layer of the previous shot is a typo
+-    const side = s.block === 'float' && !Array.isArray(o), PL = prev && layerNames(spec.blocks[prev.block]);
++    const side = s.block === 'float' && !Array.isArray(o), PL = prev && layerNames(spec.blocks[prev.block], prev);
+     if (side && (!prev || (PL && !PL.has(String(o))))) throw new Error(`${s.id}: float from "${o}" must be left | right (the side it flies in from), or a layer of the previous shot${prev ? ` (${prev.id}, ${prev.block}: ${PL.list})` : ' — this is the first shot'}`);
+     if (!prev) warns.push(`${s.id}: from: does nothing on the first shot (there is no previous shot to grow out of)`);
+     else if (!Array.isArray(o)) noLayer(prev, String(o), 'from');
+--- a/video/lib/sheet.mjs
++++ b/video/lib/sheet.mjs
+@@ -102,10 +102,16 @@
+       for (const r of [].concat(s.rows || [])) { const x = typeof r === 'string' ? { reply: r } : r || {}; push(`${flat(x.name || 'agent')} ${flat(x.status || 'thinking')} → ✓${x.reply ? `, streams ${q(x.reply)}` : ''}`); }
+       push(s.title && `title ${q(s.title)} streams`); push(Array.isArray(s.steps) && s.steps.length && `steps ${s.steps.map(flat).join(' ✓ · ')} ✓`); push(s.input && `message bar ${q(s.input)}`); break;
+     case 'roster': push(`agents ${[].concat(s.agents || []).map(a => flat(typeof a === 'object' && a ? a.name || '' : a)).join(', ')} step through the highlight${s.more ? ` → ${q(s.more)}` : ''}`); break;
+-    case 'type': push(s.over && `co-brand line ${q(s.over)}`); push(`${q(s.text || '')} settles${s.face === 'serif' ? ' (serif)' : ''}`); push(s.pill && `accent pill ${q(s.pill)}`); push(s.through && 'zooms through the camera'); break;
++    case 'type': push(s.over && `co-brand line ${q(s.over)}`); push(Array.isArray(s.words) && s.text == null ? `word beats ${s.words.map(q).join(' · ')}` : `${q(s.text || '')} settles${s.face === 'serif' ? ' (serif)' : ''}`); push(s.pill && `accent pill ${q(s.pill)}`); push(s.through && 'zooms through the camera'); break;
++    // the motion kit (round 1)
++    case 'press': push(`cursor presses the ${s.control || 'button'}${s.label ? ` ${q(s.label)}` : ''}, rings burst`); push(s.after && `label turns ${q(s.after)}`); break;
++    case 'fan': push(`${s.count || [].concat(s.cards || []).length || 5} cards deal out onto a fan, then a push into the hero`); push(Array.isArray(s.labels) && s.labels.length && `chips ${s.labels.map(flat).join(' · ')}`); break;
++    case 'particles': push(`${s.mode || 'sphere'} of dots${s.orbits ? ' with orbits' : ''}${s.burstAt != null && (s.mode || 'sphere') === 'sphere' ? `, bursts at ${flat(s.burstAt)}` : ''}`); break;
++    case 'map': push(`route draws itself${Array.isArray(s.stops) ? ` through ${s.stops.map(x => flat((x && x.label) || '')).filter(Boolean).join(' → ')}` : ''}, pins drop`); break;
+     case 'lockup': push(`${flat(Array.isArray(s.copy) && s.copy[0] ? s.copy[0] : `${s.name || 'logo + name'} × ${partnerName(s) || ''}`)} types in`); push(s.pill && `pill ${q(s.pill)}`); push(s.cast !== false && s.cast !== 0 && `${s.cast ?? 6} mascots bounce in`); break;
+-    case 'stack': push(`${s.count || Math.max(8, [].concat(s.cards || []).length)} cards cycle, the front one settles`); push(s.pill && `status pill ${q(s.pill)}`); break;
+-    case 'wall': push(`video wall of ${[].concat(s.cards || []).length} cards drifting`); push(s.text && `headline ${q(s.text)}`); push(Array.isArray(s.chips) && s.chips.length && `chips ${s.chips.map(flat).join(' · ')}`); break;
++    case 'stack': if (s.mode === 'exploded') { const L = [].concat(s.labels || []).map(flat); push(`${Math.max(3, Math.min(5, [].concat(s.cards || []).length || L.length || 4))} ${s.cards ? 'planes' : 'UI layers'} separate on a diagonal${s.tilt === 'low' ? ' (low tilt)' : ''}`); push(L.length && `labels ${L.join(' · ')} on leaders`); break; }
++      push(`${s.count || Math.max(8, [].concat(s.cards || []).length)} cards cycle, the front one settles`); push(s.pill && `status pill ${q(s.pill)}`); break;
++    case 'wall': push(s.layout === 'grid' ? `grid of ${[].concat(s.cards || []).length} cards cascades in, one tile lit, the rest dim` : `video wall of ${[].concat(s.cards || []).length} cards drifting`); push(s.text && `headline ${q(s.text)}`); push(Array.isArray(s.chips) && s.chips.length && `chips ${s.chips.map(flat).join(' · ')}`); break;
+   }
+   if (s.caption) push(`caption ${q(s.caption)} pops word by word`);
+   if (Array.isArray(s.items) && ['phone', 'browser', 'panel'].includes(s.block)) {

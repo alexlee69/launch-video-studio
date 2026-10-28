@@ -1,0 +1,2 @@
+mon-D-old-S-launch15 16x9: 900 frames in 2.6 s (camera() evaluate avg 1.13 ms)
+INFO 7 cuts, 3 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: ask→click 2.06×) — numbers per cut in qa.json

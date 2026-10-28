@@ -1,0 +1,17 @@
+{
+  "cap": 10,
+  "lock": {
+    "hero": {"prompt": "{LOCK} {KEEP}"}
+  },
+  "locations": {
+    "place": {"prompt": "An empty room. {PLATE_TAIL}"}
+  },
+  "stills": {
+    "S01": {
+      "batch": "identity",
+      "refs": ["sheet:hero", "loc:place"],
+      "prompt": "{PRE_FACE}{PRE_LOC}A cinematic frame.",
+      "meta": 5
+    }
+  }
+}

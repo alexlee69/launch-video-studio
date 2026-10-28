@@ -1,0 +1,37 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/step.CKhz39/ref30.mp4",
+  "frames": 30,
+  "size": [
+   160,
+   90
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/step.CKhz39/ours60.mp4",
+  "frames": 30,
+  "size": [
+   160,
+   90
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  29
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [
+  "ours runs at 60 fps, the reference at 30: reference frame i is compared with our frame 2·i (the frames conform.py --fps 30 keeps)"
+ ],
+ "summary": "cuts: none in the reference over this range",
+ "cuts": [],
+ "verify": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/codex/python_audit/step.CKhz39/proof/sbs.mp4",
+  "decoded": 30,
+  "expected": 30,
+  "exact": 30,
+  "mismatches": []
+ }
+}

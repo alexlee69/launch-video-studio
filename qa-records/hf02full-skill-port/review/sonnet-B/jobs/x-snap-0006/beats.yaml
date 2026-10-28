@@ -1,0 +1,10 @@
+title: snap
+brand: {name: X}
+music: {style: film, bpm: 87.46, downbeat: 0.3905, drop: b, breaks: [c]}
+shots:
+  - {id: a, block: headline, sec: 3.1406, text: One}
+  - {id: b, block: headline, sec: 5.4882, text: Two}
+  - {id: c, block: headline, sec: 5.4882, text: Three}
+  - {id: d, block: headline, sec: 5.4882, text: Four}
+  - {id: e, block: headline, sec: 5.4882, text: Five}
+  - {id: card, block: endcard, sec: 3.0, tagline: Bye}

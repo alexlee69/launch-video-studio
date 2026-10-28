@@ -1,0 +1,66 @@
+{
+ "ref": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ref720.mp4",
+  "frames": 90,
+  "size": [
+   1280,
+   720
+  ]
+ },
+ "ours": {
+  "file": "/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/hf02full-skill-port/review/sonnet-B/fx/ours-p720.mp4",
+  "frames": 90,
+  "size": [
+   720,
+   1280
+  ]
+ },
+ "fps": 30.0,
+ "range": [
+  0,
+  89
+ ],
+ "cuts_from": null,
+ "source": "detected",
+ "notes": [],
+ "summary": "cuts: 2 in the reference — 2 exact, 0 within 1 f",
+ "cuts": [
+  {
+   "n": 30,
+   "listed": 30,
+   "label": "",
+   "t": 1.0,
+   "ref_strength": 2.55,
+   "ours": 30,
+   "ours_strength": 3.47,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  },
+  {
+   "n": 60,
+   "listed": 60,
+   "label": "",
+   "t": 2.0,
+   "ref_strength": 5.46,
+   "ours": 60,
+   "ours_strength": 4.83,
+   "offset": 0,
+   "curve_offset": 0,
+   "curve_r": 1.0,
+   "status": "exact",
+   "trivial": false,
+   "check": false
+  }
+ ],
+ "verify": {
+  "file": "o-p720/sbs.mp4",
+  "decoded": 90,
+  "expected": 90,
+  "exact": 90,
+  "mismatches": []
+ }
+}

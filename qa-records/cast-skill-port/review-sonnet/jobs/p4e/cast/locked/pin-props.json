@@ -1,0 +1,34 @@
+{
+ "src": "cast/locked/props-gen.png",
+ "grey": "#8a8a8a",
+ "cols": [
+  768,
+  1364
+ ],
+ "rows": [],
+ "panels": [
+  [
+   0,
+   0,
+   763,
+   1152,
+   "surface 143..144 -> #8a8a8a, background 79% of panel"
+  ],
+  [
+   773,
+   0,
+   1359,
+   1152,
+   "surface 143..144 -> #8a8a8a, background 76% of panel"
+  ],
+  [
+   1369,
+   0,
+   2048,
+   1152,
+   "surface 143..144 -> #8a8a8a, background 79% of panel"
+  ]
+ ],
+ "bg_after_mean": 138.0,
+ "bg_after_std": 1.0
+}

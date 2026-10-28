@@ -1,0 +1,2 @@
+{"t": "2026-10-23T20:56:59-07:00", "call": "4beb5372d143", "label": "candidate one", "size": "64x64", "status": "sent", "usd": 0.0206, "usd_from": "estimate: no answer yet", "est": 0.0206}
+{"t": "2026-10-23T20:56:59-07:00", "call": "4beb5372d143", "label": "candidate one", "size": "64x64", "status": 401, "error": "{\"error\": {\"message\": \"you sent Bearer FAKE\\\"KEY-DO-NOT-LEAK\"}}", "usd": 0, "s": 0}

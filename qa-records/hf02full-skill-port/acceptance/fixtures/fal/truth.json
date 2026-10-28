@@ -1,0 +1,35 @@
+{
+ "sizes": {
+  "clip.mp4": 81695,
+  "clip2.mp4": 77717,
+  "guide_16.mp4": 62468,
+  "guide_3.mp4": 13547,
+  "guide_5p4.mp4": 22469,
+  "key.jpg": 48517,
+  "still2_0.jpg": 23162,
+  "still2_1.jpg": 24223,
+  "still_0.jpg": 22756,
+  "still_1.jpg": 23551,
+  "thumb.png": 183
+ },
+ "md5": {
+  "clip.mp4": "708419d0dbad3e20b1ca8b15376f8b1b",
+  "clip2.mp4": "f4dde3f3d6a9b483e71acb86ffc6588d",
+  "guide_16.mp4": "1368ccdb1d8334c6501f811ddebe31f7",
+  "guide_3.mp4": "698f5d4a8f386817d3a899966438a199",
+  "guide_5p4.mp4": "7bdcc6195af764c48f7d0d5541270cb9",
+  "key.jpg": "56f91c3787e619d73821d071578505e0",
+  "still2_0.jpg": "238d6a746e475af3192f8c7c228a9cad",
+  "still2_1.jpg": "2ca83e1777ffabb8d090606a6727ca1d",
+  "still_0.jpg": "a5f7597f6b0347fed9906079c8162a7e",
+  "still_1.jpg": "50bbe8868faf8d0ec6590ac9dfb7a6f7",
+  "thumb.png": "d898072db0dbcb1ed304b41e1caec40e"
+ },
+ "durations": {
+  "clip.mp4": 2.0,
+  "clip2.mp4": 2.0,
+  "guide_16.mp4": 16.0,
+  "guide_3.mp4": 3.0,
+  "guide_5p4.mp4": 5.4
+ }
+}

@@ -1,0 +1,20 @@
+edit grid 15:5,10,14: a 24 fps edit in 30 fps, the master at 60 fps — each shot's first master frame f, inside the window that cuts on the reference's frame
+  shot  ref     edit    master f (window)        start s     sec        
+     1  n0     m0     f0      (0…0)           0.000000  sec: 1.0000   
+     2  n30    m24    f60     (59…60)         1.000000  sec: 1.1500   cut 1 (r0)
+     3  n64    m52    f129    (129…130)       2.150000  sec: 0.9167   cut 2 (r4)  ← n/30 s (f128) cuts on n63
+     4  n92    m74    f184    (184…185)       3.066667  sec: 1.0333   cut 3 (r2)
+     5  n123   m99    f246    (246…248)       4.100000  sec: 1.0500   cut 4 (r3)
+     6  n154   m124   f309    (309…310)       5.150000  sec: 1.0500   cut 5 (r4)  ← n/30 s (f308) cuts on n153
+     7  n186   m149   f372    (371…373)       6.200000  sec: 1.0333   cut 6 (r6)
+     8  n217   m174   f434    (434…435)       7.233333  sec: 1.0333   cut 7 (r7)
+     9  n248   m199   f496    (496…498)       8.266667  sec: 1.0500   cut 8 (r8)
+    10  n279   m224   f559    (559…560)       9.316667  sec: 1.0500   cut 9 (r9)  ← n/30 s (f558) cuts on n278
+    11  n311   m249   f622    (621…623)      10.366667  sec: 1.0333   cut 10 (r11)
+    12  n342   m274   f684    (684…685)      11.400000  sec: 1.0333   cut 11 (r12)
+    13  n373   m299   f746    (746…748)      12.433333  sec: 0.6000   cut 12 (r13)
+    14  n391   m313   f782    (781…783)      13.033333  sec: 0.4667   cut 13 (r1)
+    15  n405   m324   f810    (809…810)      13.500000  sec: 1.3167   cut 14 (r0)
+    16  n444   m356   f889    (889…890)      14.816667  sec: 0.8667   cut 15 (r9)  ← n/30 s (f888) cuts on n443
+    17  n470   m377   f941    (941…943)      15.683333  sec: 1.3167   cut 16 (r5)  ← n/30 s (f940) cuts on n469  ! n470 is a repeat slot (it repeats n469): taken as n471 — check its strip
+5 of 16 cuts move off n/30 s (each by a master frame; the finished file cuts exactly on all). Give every shot its sec: in order: each is whole 60ths, so lv.mjs's boundaries (each snapped from the one before) land on f exactly; a beats: shot ends on the music grid instead — check its boundary falls inside its window.

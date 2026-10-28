@@ -1,0 +1,2 @@
+D-old-S-launch30 16x9: 1800 cams, 1800 frames
+INFO 13 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: action→result 2.07×) — numbers per cut in qa.json

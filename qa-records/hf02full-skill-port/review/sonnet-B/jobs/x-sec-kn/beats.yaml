@@ -1,0 +1,10 @@
+title: xsec
+brand: {name: X}
+music: {style: keynote, bpm: 87.46, downbeat: 0.3905, drop: b, breaks: [d]}
+shots:
+  - {id: a, block: headline, sec: 2.3333, text: One}
+  - {id: b, block: headline, sec: 4.4667, text: Two}
+  - {id: c, block: headline, sec: 3.0333, text: Three}
+  - {id: d, block: headline, sec: 2.2, text: Four}
+  - {id: e, block: headline, sec: 5.9667, text: Five}
+  - {id: card, block: endcard, sec: 3.7, tagline: Bye}

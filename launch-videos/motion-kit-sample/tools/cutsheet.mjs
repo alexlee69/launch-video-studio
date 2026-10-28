@@ -3,7 +3,9 @@
 // node tools/cutsheet.mjs <frames dir> <out dir> <label> <cut,cut,...> [offsets e.g. -8,-6,-4,-2,-1,0,1,2,4,6,8,12] [thumb width]
 import { createRequire } from 'module';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
-const require = createRequire('/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/package.json');
+import { homedir } from 'os';
+import { join } from 'path';
+const require = createRequire(join(process.env.SKILL || join(homedir(), '.claude/skills/product-launch-sting'), 'package.json'));
 const { chromium } = require('playwright-core');
 const [,, dir, out, label, cutsArg, offArg, twArg] = process.argv;
 const cuts = cutsArg.split(',').map(Number), offs = (offArg || '-8,-6,-4,-2,-1,0,1,2,4,6,8,12').split(',').map(Number), tw = Number(twArg || 300);

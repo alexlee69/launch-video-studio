@@ -1,0 +1,36 @@
+{
+  "root": "..",
+  "dirs": {
+    "locked": "../cast/locked"
+  },
+  "lock": {
+    "hero": {
+      "prompt": "Lock.",
+      "pick": "unused"
+    }
+  },
+  "fixes": {
+    "f1": {
+      "sheet": "hero",
+      "prompt": "First fix.",
+      "box": [
+        0,
+        0,
+        64,
+        128
+      ],
+      "feather": 0
+    },
+    "f2": {
+      "sheet": "hero",
+      "prompt": "Second fix.",
+      "box": [
+        64,
+        0,
+        128,
+        128
+      ],
+      "feather": 0
+    }
+  }
+}

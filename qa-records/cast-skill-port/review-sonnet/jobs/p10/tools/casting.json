@@ -1,0 +1,62 @@
+{
+ "cap": 50,
+ "grey": "#8a8a8a",
+ "ban": [
+  "jungle"
+ ],
+ "text": {
+  "WHO": "a white woman of about 40"
+ },
+ "candidates": {
+  "look-1": {
+   "n": 1,
+   "prompt": "{SHEET} The person is {WHO}. {TAIL}"
+  }
+ },
+ "lock": {
+  "hero": {
+   "prompt": "{LOCK} {KEEP} Put her in a <where: fill me> JUNGLE.",
+   "restore": {
+    "ellipse": [
+     480,
+     545,
+     235,
+     290
+    ],
+    "feather": 28
+   },
+   "pin": {}
+  }
+ },
+ "states": {
+  "props": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} props. {TAIL}",
+   "pin": {}
+  },
+  "state-2": {
+   "refs": [
+    "sheet:hero"
+   ],
+   "prompt": "{STATE} wet. {TAIL}",
+   "pin": {}
+  }
+ },
+ "locations": {
+  "place-1": {
+   "prompt": "An empty office plate. {PLATE_TAIL}"
+  }
+ },
+ "stills": {
+  "S01": {
+   "batch": "identity",
+   "refs": [
+    "sheet:hero",
+    "loc:place-1"
+   ],
+   "prompt": "{PRE_FACE}{PRE_LOC}A frame."
+  }
+ }
+}

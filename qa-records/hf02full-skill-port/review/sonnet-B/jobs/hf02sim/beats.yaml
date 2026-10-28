@@ -1,0 +1,28 @@
+title: hf02 sim
+brand: {name: Sim}
+aspects: [16x9]
+music: {style: film, bpm: 87.46, downbeat: 0.3905, drop: r03}
+shots:
+  - {id: r01, block: headline, sec: 2.5000, text: Shot}
+  - {id: r02, block: headline, sec: 0.7333, text: Shot}
+  - {id: r03, block: headline, sec: 4.4667, text: Shot}
+  - {id: r04, block: headline, sec: 1.1000, text: Shot}
+  - {id: r05, block: headline, sec: 1.6000, text: Shot}
+  - {id: r06, block: headline, sec: 1.5000, text: Shot}
+  - {id: r07, block: headline, sec: 3.6000, text: Shot}
+  - {id: r08, block: headline, sec: 1.5000, text: Shot}
+  - {id: r09, block: headline, sec: 4.3667, text: Shot}
+  - {id: r10, block: headline, sec: 1.0000, text: Shot}
+  - {id: r11, block: headline, sec: 1.6000, text: Shot}
+  - {id: r12, block: headline, sec: 0.8000, text: Shot}
+  - {id: r13, block: headline, sec: 3.3333, text: Shot}
+  - {id: r14, block: headline, sec: 2.6333, text: Shot}
+  - {id: r15, block: headline, sec: 1.6667, text: Shot}
+  - {id: r16, block: headline, sec: 0.9333, text: Shot}
+  - {id: r17, block: headline, sec: 8.6667, text: Shot}
+  - {id: r18, block: headline, sec: 0.7000, text: Shot}
+  - {id: r19, block: headline, sec: 8.3000, text: Shot}
+  - {id: r20, block: headline, sec: 3.3000, text: Shot}
+  - {id: r21, block: headline, sec: 2.3000, text: Shot}
+  - {id: r22, block: headline, sec: 2.9667, text: Shot}
+  - {id: r23, block: endcard, sec: 4.0667, tagline: Bye}

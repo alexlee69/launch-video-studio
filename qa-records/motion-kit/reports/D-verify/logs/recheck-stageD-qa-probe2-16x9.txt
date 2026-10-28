@@ -1,0 +1,2 @@
+D-old-qa-probe2 16x9: 600 cams, 600 frames
+INFO 3 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.1–2.2× (over 2×: p2→p3 2.23×, p3→p4 2.07×) — numbers per cut in qa.json
