@@ -1,0 +1,558 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Edit-bay notes: a sticky monitor (film + shot strip) beside the shot log; on phones the monitor pins above the log. */
+:root {
+  --paper: #F3F4F7; --sheet: #FFFFFF; --ink: #16181D; --muted: #5D6371; --line: #DADDE4; --well: #ECEEF2;
+  --accent: __ACCENT__; --mark: #B93D0C; --mark-bg: #FFF0E6; --ok: #146C35; --ok-bg: #E8F6EE; --ask: #8A5A00; --ask-bg: #FFF5D6;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #101217; --sheet: #181B22; --ink: #ECEEF3; --muted: #9BA2AF; --line: #2B303A; --well: #20242C;
+    --accent: __ACCENT_DARK__; --mark: #FF9A62; --mark-bg: #2E1B10; --ok: #63D894; --ok-bg: #11271A; --ask: #F2C14E; --ask-bg: #2A2310;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #101217; --sheet: #181B22; --ink: #ECEEF3; --muted: #9BA2AF; --line: #2B303A; --well: #20242C;
+  --accent: __ACCENT_DARK__; --mark: #FF9A62; --mark-bg: #2E1B10; --ok: #63D894; --ok-bg: #11271A; --ask: #F2C14E; --ask-bg: #2A2310;
+  color-scheme: dark;
+}
+body { background: var(--paper); color: var(--ink); font: 15px/1.5 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+* { box-sizing: border-box; }
+.wrap { max-width: 1440px; margin: 0 auto; padding-block: 28px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.label { font: 500 11px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+em.acc { font-style: normal; color: var(--accent); }
+
+/* header */
+.top { display: grid; gap: 10px; margin-bottom: 26px; max-width: 76ch; }
+h1 { margin: 0; font: 760 clamp(28px, 4.4vw, 46px)/1.04 var(--display); font-stretch: 82%; letter-spacing: -.01em; text-wrap: balance; }
+.meta { margin: 0; color: var(--muted); font-size: 13px; }
+.how { margin: 4px 0 0; color: var(--ink); max-width: 64ch; }
+.tally { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font: 500 12px/1.4 var(--mono); border: 1px solid var(--line); color: var(--muted); background: var(--sheet); white-space: nowrap; }
+.pill.open { color: var(--mark); background: var(--mark-bg); border-color: transparent; }
+.pill.keep { color: var(--ink); }
+.pill.done { color: var(--ok); background: var(--ok-bg); border-color: transparent; }
+.pill.question { color: var(--ask); background: var(--ask-bg); border-color: transparent; }
+.pill[hidden] { display: none; }
+button { font: inherit; color: inherit; }
+.btn { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 8px; padding: 6px 12px; font: 500 13px/1.3 var(--body); cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn:hover { filter: brightness(1.12); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.copied { color: var(--ok); font: 500 12px var(--mono); }
+.fallback { width: 100%; min-height: 160px; margin-top: 8px; }
+.localbar { display: grid; gap: 8px; padding: 12px 14px; border-radius: 10px; background: var(--ask-bg); border: 1px solid var(--ask); }
+.localbar p { margin: 0; }
+
+/* bay */
+.bay { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.monitor { display: grid; gap: 8px; min-width: 0; }
+.screen { display: grid; place-items: center; }
+.screen video { display: block; width: 100%; max-width: 100%; height: auto; background: #000; border-radius: 10px; }
+.strip { display: flex; gap: 2px; height: 30px; }
+.seg { flex: 1 1 0; min-width: 0; border: 0; border-radius: 4px; background: var(--well); color: var(--muted); font: 500 11px/30px var(--mono); padding: 0; cursor: pointer; position: relative; overflow: hidden; text-overflow: clip; white-space: nowrap; }
+.seg.on { background: var(--accent); color: #fff; }
+.seg.open::after, .seg.question::after { content: ""; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--mark); }
+.seg.question::after { background: var(--ask); }
+.seg.done::after { content: ""; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); }
+.now { color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; gap: 8px; }
+.stillnote { margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--well); color: var(--muted); font-size: 13px; }
+@media (min-width: 980px) {
+  .bay { grid-template-columns: minmax(340px, 42%) minmax(0, 1fr); }
+  .bay.tall { grid-template-columns: minmax(250px, 28%) minmax(0, 1fr); }
+  .monitor { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+}
+@media (max-width: 979px) {
+  .monitor { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); padding-block: 8px; }
+  .screen video { width: auto; max-height: 30svh; }
+}
+
+/* shot log */
+.log { display: grid; gap: 14px; min-width: 0; }
+.shot { background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 14px 18px; grid-template-columns: minmax(0, 1fr); min-width: 0; scroll-margin-top: 40svh; }
+.shot.playing { border-color: var(--accent); }
+@media (min-width: 640px) {
+  .shot { grid-template-columns: 184px minmax(0, 1fr); }
+  .bay.tall .shot { grid-template-columns: 128px minmax(0, 1fr); }
+  .shot .dir, .shot.film-wide > * { grid-column: 1 / -1; }
+}
+.side { display: grid; gap: 6px; align-content: start; }
+@media (max-width: 639px) {
+  .side { grid-template-columns: 136px minmax(0, 1fr); gap: 4px 12px; align-items: start; }
+  .bay.tall .side { grid-template-columns: 84px minmax(0, 1fr); }
+  .side .thumb { grid-column: 1; grid-row: 1 / span 2; }
+  .side .tc, .side .len { grid-column: 2; }
+}
+.tc { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.tc .in { font: 500 15px var(--mono); color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.tc .out, .len { font: 400 12px var(--mono); color: var(--muted); }
+.thumb { display: block; padding: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--well); cursor: pointer; position: relative; width: 100%; max-width: 100%; }
+.thumb img { display: block; width: 100%; height: auto; }
+.thumb .play { position: absolute; left: 8px; bottom: 8px; font: 500 11px/1 var(--mono); color: #fff; background: rgba(0, 0, 0, .62); padding: 5px 7px; border-radius: 5px; }
+.main { display: grid; gap: 8px; min-width: 0; align-content: start; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.sid { font: 600 12px/1 var(--mono); padding: 4px 6px; border-radius: 5px; border: 1px solid var(--ink); }
+.tag { font: 400 12px/1 var(--mono); padding: 4px 7px; border-radius: 5px; background: var(--well); color: var(--muted); }
+h3 { margin: 0; font: 700 21px/1.18 var(--display); font-stretch: 88%; text-wrap: balance; overflow-wrap: anywhere; }
+.facts { display: grid; gap: 6px; margin: 0; }
+.facts div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; }
+.facts dt { padding-top: 2px; }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+.facts .note dd { color: var(--ask); }
+.dir { display: grid; gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; min-width: 0; }
+.film-wide .dir { border-top: 0; padding-top: 0; }
+.dirhead { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+textarea { width: 100%; min-height: 64px; resize: vertical; font: 15px/1.45 var(--body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; field-sizing: content; }
+textarea::placeholder { color: var(--muted); }
+textarea[readonly] { background: var(--well); }
+.pickers { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.pickers label { display: inline-flex; align-items: center; gap: 6px; }
+select { font: 13px var(--mono); color: var(--ink); background: var(--sheet); border: 1px solid var(--line); border-radius: 7px; padding: 5px 8px; max-width: 100%; }
+select.changed { border-color: var(--mark); color: var(--mark); }
+.status { margin-left: auto; font: 400 12px var(--mono); color: var(--muted); }
+.status.err { color: var(--mark); }
+.reply { padding: 10px 12px; border-radius: 8px; background: var(--ok-bg); display: grid; gap: 2px; }
+.reply.question { background: var(--ask-bg); }
+.reply p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.reply.old { opacity: .72; }
+.film-wide h3 { font-size: 18px; }
+/* the cut out of a shot: the frames either side of it (cut−1 · cut · cut+1, from the film) */
+.cutrow { display: grid; gap: 6px; min-width: 0; }
+@media (min-width: 640px) { .shot .cutrow { grid-column: 1 / -1; } }
+.cutstills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.bay.tall .cutstills { max-width: 480px; }
+.cutstills button { display: grid; gap: 3px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; min-width: 0; }
+.cutstills img { display: block; width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--line); background: var(--well); }
+.cutstills .on img { border-color: var(--accent); }
+.cutstills span { font: 400 11px/1.3 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.cutnote, .cutcont { margin: 0; font: 400 12px/1.4 var(--mono); color: var(--muted); }
+.cutcont.warn { color: var(--mark); }
+@media (prefers-reduced-motion: no-preference) { .seg, .shot { transition: background-color .15s, border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="label" id="eyebrow"></p>
+    <h1 id="title"></h1>
+    <p class="meta mono" id="meta"></p>
+    <p class="how" id="how">Watch the film, then type what you want changed under any shot. Notes save as you type.</p>
+    <div class="tally" id="tally">
+      <span class="pill open" id="n-open"></span>
+      <span class="pill question" id="n-question"></span>
+      <span class="pill keep" id="n-keep"></span>
+      <span class="pill done" id="n-done"></span>
+      <span class="pill" id="n-none"></span>
+      <button class="btn ghost" id="copy" type="button">Copy notes</button>
+      <span class="copied" id="copied" hidden>Copied</span>
+    </div>
+    <textarea class="fallback" id="fallback" readonly hidden aria-label="Notes to copy"></textarea>
+    <div class="localbar" id="localbar" role="status" hidden>
+      <p id="localmsg"></p>
+      <div class="tally"><button class="btn" id="allow" type="button" hidden>Turn on saving</button></div>
+    </div>
+  </header>
+
+  <div class="bay" id="bay">
+    <aside class="monitor" id="monitor" aria-label="Film">
+      <div class="screen" id="screen"><video id="film" controls playsinline preload="metadata"></video></div>
+      <p class="stillnote" id="stillnote" hidden>Storyboard stills. The film isn't rendered yet, so each row shows the shot's key frame (and no frames either side of its cut).</p>
+      <div class="strip" id="strip" role="group" aria-label="Shots"></div>
+      <div class="now mono" id="now"><span id="now-shot"></span><span id="now-tc"></span></div>
+    </aside>
+    <main class="log" id="log"></main>
+  </div>
+</div>
+
+<script type="application/json" id="sheet-data">__DATA__</script>
+<script>
+(() => {
+  const D = JSON.parse(document.getElementById('sheet-data').textContent);
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const FILM = '_film', KEY = id => `${D.cut}~${id}`, LS = `sheet:${D.slug}:${D.cut}:${D.aspect}`;
+  const shots = new Map(D.shots.map(s => [s.id, s]));
+  const ids = [FILM, ...D.shots.map(s => s.id)];
+  const ui = new Map();                 // id -> {row, ta, block, out, pill, status, reply}
+  const remote = new Map();             // id -> last stored body
+  const timers = new Map(), busy = new Set(), again = new Set();
+  let mode = 'pending', db = null, user = null, myId = null, readOnly = false;
+
+  const accent = (node, text) => {      // *accent* markup -> <em class="acc">
+    String(text).split('*').forEach((part, i) => { if (part) node.append(i % 2 ? el('em', 'acc', part) : document.createTextNode(part)); });
+    return node;
+  };
+  const plain = t => String(t).replace(/\*/g, '');
+  const pretty = x => String(x).replace(/-/g, ' ');
+  const lead = D.film ? 'Watch the film, then type what you want changed under any shot.' : 'Look through the stills, then type what you want changed under any shot.';
+
+  // ── header ────────────────────────────────────────────────────────────────────────────────────────────
+  const aspectLabel = D.aspect.replace('x', ':');
+  $('eyebrow').textContent = `Review notes · ${D.cut === 'main' ? 'main' : D.cut} cut · ${aspectLabel}`;
+  accent($('title'), D.title);
+  const when = D.film ? new Date(D.film.rendered) : null;
+  $('meta').textContent = [`${D.dur.toFixed(1)} s`, `${D.bpm} bpm`, `${D.shots.length} shots`,
+    D.film ? `film ${D.film.sha}, rendered ${when.toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}` : 'storyboard stills'].join(' · ');
+  if (D.aspect === '9x16') $('bay').classList.add('tall');
+
+  // ── monitor ───────────────────────────────────────────────────────────────────────────────────────────
+  const video = $('film');
+  if (D.film) video.src = D.film.src; else { $('screen').hidden = true; $('stillnote').hidden = false; }
+  const segs = new Map();
+  for (const s of D.shots) {
+    const b = el('button', 'seg', s.id); b.type = 'button'; b.style.flexGrow = String(s.sec);
+    b.title = `${s.id} · ${s.tcIn} · ${plain(s.headline)}`; b.setAttribute('aria-label', `Go to ${s.id}, ${s.tcIn}`);
+    b.addEventListener('click', () => seek(s.id, false));
+    $('strip').append(b); segs.set(s.id, b);
+  }
+  const tcOf = t => { const f = Math.round(t * 30); return `${String(Math.floor(f / 1800)).padStart(2, '0')}:${String(Math.floor(f / 30) % 60).padStart(2, '0')}:${String(f % 30).padStart(2, '0')}`; };
+  let current = null;
+  const at = t => D.shots.find(s => t >= s.start && t < s.end) || D.shots[D.shots.length - 1];
+  function mark(id) {
+    if (id === current) return;
+    if (current) { segs.get(current)?.classList.remove('on'); ui.get(current)?.row.classList.remove('playing'); }
+    current = id; segs.get(id)?.classList.add('on'); ui.get(id)?.row.classList.add('playing');
+    $('now-shot').textContent = `${id} · ${plain(shots.get(id).headline)}`.slice(0, 64);
+  }
+  // a host that can't serve byte ranges leaves the film unseekable: load the (small) review proxy whole instead
+  let whole = null;
+  const ensureSeekable = () => whole ||= (async () => {
+    if (!D.film) return;
+    if (video.readyState < 1) await new Promise(r => { video.addEventListener('loadedmetadata', r, { once: true }); video.addEventListener('error', r, { once: true }); });
+    if (video.seekable.length && video.seekable.end(0) >= D.dur - 0.5) return;
+    try {
+      const res = await fetch(D.film.src); if (!res.ok) return;
+      video.src = URL.createObjectURL(await res.blob());
+      await new Promise(r => video.addEventListener('loadedmetadata', r, { once: true }));
+    } catch {}
+  })();
+  if (D.film) video.addEventListener('loadedmetadata', () => ensureSeekable(), { once: true });
+  async function seek(id, play) {
+    const s = shots.get(id);
+    if (D.film) { await ensureSeekable(); video.currentTime = s.start + 0.02; if (play) video.play().catch(() => {}); }
+    else ui.get(id).row.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    mark(id); $('now-tc').textContent = s.tcIn;
+  }
+  video.addEventListener('timeupdate', () => { mark(at(video.currentTime).id); $('now-tc').textContent = tcOf(video.currentTime); });
+  mark(D.shots[0].id); $('now-tc').textContent = D.shots[0].tcIn;
+
+  // ── rows ──────────────────────────────────────────────────────────────────────────────────────────────
+  function directionBox(id, s) {
+    const box = el('div', 'dir');
+    const head = el('div', 'dirhead');
+    const lab = el('label', 'label', s ? 'Your direction' : 'Notes for the whole film'); lab.htmlFor = `d-${id}`;
+    const pill = el('span', 'pill'); pill.hidden = true;
+    head.append(lab, pill);
+    const ta = el('textarea'); ta.id = `d-${id}`; ta.rows = 2;
+    ta.placeholder = s ? 'Keep as is, or say exactly what to change in this shot…' : 'Music, pacing, colour, anything not tied to one shot…';
+    box.append(head, ta);
+    const pick = el('div', 'pickers');
+    let block = null, out = null;
+    if (s) {
+      block = el('select'); block.id = `b-${id}`; block.setAttribute('aria-label', `Shot type for ${id}`);
+      for (const b of D.blocks) { const o = el('option', null, b.id === s.block ? `${b.id} (now)` : b.id); o.value = b.id; o.title = b.doc; block.append(o); }
+      if (!D.blocks.some(b => b.id === s.block)) { const o = el('option', null, `${s.block} (now)`); o.value = s.block; block.prepend(o); }
+      block.value = s.block;
+      out = el('select'); out.id = `o-${id}`; out.setAttribute('aria-label', `Exit transition for ${id}`);
+      if (s.last) { const o = el('option', null, 'end of film'); o.value = s.out; out.append(o); out.disabled = true; }
+      else for (const t of D.transitions) { const o = el('option', null, t === s.out ? `${pretty(t)} (now)` : pretty(t)); o.value = t; out.append(o); }
+      out.value = s.out;
+      const l1 = el('label', 'label', 'Shot'); l1.append(block);
+      const l2 = el('label', 'label', 'Exit'); l2.append(out);
+      const keep = el('button', 'btn ghost', 'Keep as is'); keep.type = 'button'; keep.dataset.keep = '1';
+      keep.addEventListener('click', () => { ta.value = 'Keep as is'; block.value = s.block; out.value = s.out; edited(id); });
+      pick.append(l1, l2, keep);
+    }
+    const status = el('span', 'status'); pick.append(status);
+    box.append(pick);
+    const reply = el('div', 'reply'); reply.hidden = true;
+    box.append(reply);
+    ta.addEventListener('input', () => edited(id));
+    ta.addEventListener('blur', () => flushNow(id));
+    block?.addEventListener('change', () => edited(id));
+    out?.addEventListener('change', () => edited(id));
+    return { box, ta, block, out, pill, status, reply };
+  }
+
+  {
+    const row = el('article', 'shot film-wide'); row.id = 'film-wide';
+    const d = directionBox(FILM, null);
+    row.append(d.box); $('log').append(row);
+    ui.set(FILM, { row, ...d });
+  }
+  for (const s of D.shots) {
+    const row = el('article', 'shot'); row.id = s.id;
+    const side = el('div', 'side');
+    const tc = el('div', 'tc');
+    const tin = el('button', 'in', s.tcIn); tin.type = 'button'; tin.setAttribute('aria-label', `Play ${s.id} from ${s.tcIn}`);
+    tin.addEventListener('click', () => seek(s.id, true));
+    tc.append(tin, el('span', 'out', `→ ${s.tcOut}`));
+    const th = el('button', 'thumb'); th.type = 'button'; th.setAttribute('aria-label', `Play ${s.id} from ${s.tcIn}`);
+    const img = el('img'); img.src = s.thumb; img.alt = `${s.id}: ${plain(s.headline) || s.block}`; img.loading = 'lazy';
+    th.append(img); if (D.film) th.append(el('span', 'play', '▶ play'));
+    th.addEventListener('click', () => seek(s.id, true));
+    side.append(tc, th, el('span', 'len', `${s.sec.toFixed(1)} s${s.beats ? ` · ${s.beats} beats` : ''}`));
+    const main = el('div', 'main');
+    const tags = el('div', 'tags');
+    tags.append(el('span', 'sid', s.id), el('span', 'tag', s.block), el('span', 'tag', s.last ? 'ends the film' : `exit: ${pretty(s.out)}`));
+    if (s.theme === 'dark') tags.append(el('span', 'tag', 'dark'));
+    main.append(tags);
+    if (s.headline) main.append(accent(el('h3'), s.headline));
+    const facts = el('dl', 'facts');
+    const fact = (k, v, cls) => { if (!v) return; const d = el('div', cls); const dt = el('dt', 'label', k); const dd = el('dd', null, v); d.append(dt, dd); facts.append(d); };
+    fact('On screen', s.screen.join(' → '));
+    fact('Sound', s.sound.join(' · ') || 'music only');
+    fact('Note', s.note, 'note');
+    fact('Cause', s.cause);
+    main.append(facts);
+    const d = directionBox(s.id, s);
+    row.append(side, main);
+    if (s.cut) {                         // the cut into the next shot: frames cut−1 · cut · cut+1 (60 fps), each tagged with its shot
+      const c = s.cut, box = el('div', 'cutrow');
+      box.append(el('p', 'label', `Cut into ${c.into} · ${pretty(c.out)} · frame ${c.at} (60 fps)`));
+      if (c.stills) {
+        const strip = el('div', 'cutstills');
+        for (const x of c.stills) {
+          const b = el('button', x.which === 'cut' ? 'on' : null); b.type = 'button'; b.setAttribute('aria-label', `Show frame ${x.f} (${x.shot})`);
+          const img = el('img'); img.src = x.src; img.alt = `${x.which}: frame ${x.f} of ${x.shot}`; img.loading = 'lazy';
+          b.append(img, el('span', null, `${x.which} · ${x.f} · ${x.shot}`));
+          b.addEventListener('click', async () => { if (!D.film) return; await ensureSeekable(); video.pause(); video.currentTime = (x.f + .5) / 60; });
+          strip.append(b);
+        }
+        box.append(strip);
+      } else box.append(el('p', 'cutnote', 'Cut stills (the frames either side of this cut) come with the film: run --film, then --sheet.'));
+      if (c.cont) box.append(el('p', `cutcont${c.cont.warn ? ' warn' : ''}`, c.cont.text));
+      row.append(box);
+    }
+    row.append(d.box);
+    $('log').append(row);
+    ui.set(s.id, { row, ...d });
+  }
+
+  // ── state ─────────────────────────────────────────────────────────────────────────────────────────────
+  const KEEP = /^\s*(keep|keep (it|this)|keep (it )?as is|as is|looks good|good|ok|okay|approved?|no changes?)[.!\s]*$/i;
+  function read(id) {
+    const u = ui.get(id), s = shots.get(id);
+    return { text: u.ta.value, block: u.block ? u.block.value : null, out: u.out ? u.out.value : null };
+  }
+  function derive(id, v) {
+    const s = shots.get(id), moved = !!s && (v.block !== s.block || v.out !== s.out);
+    if (!v.text.trim() && !moved) return 'none';
+    if (!moved && KEEP.test(v.text)) return 'keep';
+    return 'open';
+  }
+  function statusOf(id) {               // what the row shows: local edits win until they are saved
+    const r = remote.get(id);
+    if (timers.has(id) || busy.has(id) || !r) return derive(id, read(id));
+    return Object.hasOwn(PILL, r.status) ? r.status : derive(id, read(id));
+  }
+  const PILL = { open: 'To change', keep: 'Keep', done: 'Done', question: 'Claude asks', none: '' };
+  function paintRow(id) {
+    const u = ui.get(id), s = shots.get(id), st = statusOf(id);
+    u.pill.className = `pill ${st}`; u.pill.textContent = PILL[st] || ''; u.pill.hidden = st === 'none';
+    segs.get(id)?.classList.remove('open', 'done', 'question', 'keep'); if (st !== 'none') segs.get(id)?.classList.add(st);
+    if (s) {
+      u.block.classList.toggle('changed', u.block.value !== s.block); u.out.classList.toggle('changed', u.out.value !== s.out);
+      const keep = u.row.querySelector('[data-keep]'); if (keep) keep.hidden = st !== 'none';   // never overwrites a note
+    }
+    const r = remote.get(id);
+    u.reply.replaceChildren(); u.reply.hidden = true;
+    if (r && r.reply) {
+      const fresh = r.status === 'done' || r.status === 'question';
+      u.reply.className = `reply${r.status === 'question' ? ' question' : ''}${fresh ? '' : ' old'}`;
+      const who = r.status === 'question' ? 'Claude asks' : fresh ? `Claude · done${r.doneIn ? ` in film ${r.doneIn}` : ''}` : 'Claude · earlier change';
+      u.reply.append(el('span', 'label', who), el('p', null, r.reply));
+      u.reply.hidden = false;
+    }
+  }
+  function tally() {
+    const n = { open: 0, keep: 0, done: 0, question: 0, none: 0 };
+    for (const s of D.shots) n[statusOf(s.id)]++;
+    const set = (k, txt) => { $(`n-${k}`).textContent = txt; $(`n-${k}`).hidden = !n[k]; };
+    set('open', `${n.open} to change`); set('question', `${n.question} with a question`); set('keep', `${n.keep} keep`);
+    set('done', `${n.done} done`); set('none', `${n.none} no note yet`);
+  }
+  const paintAll = () => { for (const id of ids) paintRow(id); tally(); };
+  function setStatus(id, text, err) { const s = ui.get(id).status; s.textContent = text; s.classList.toggle('err', !!err); }
+
+  function edited(id) {
+    if (readOnly) return;
+    clearTimeout(timers.get(id));
+    setStatus(id, mode === 'local' ? '' : 'Saving…');
+    timers.set(id, setTimeout(() => { timers.delete(id); flush(id); }, 700));
+    paintRow(id); tally();
+  }
+  function flushNow(id) {               // leaving a box (or the page) saves at once instead of after the pause
+    if (!timers.has(id)) return;
+    clearTimeout(timers.get(id)); timers.delete(id); flush(id);
+  }
+  const flushAll = () => { for (const id of [...timers.keys()]) flushNow(id); };
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushAll(); });
+  addEventListener('pagehide', flushAll);
+  function body(id) {
+    const v = read(id), prev = remote.get(id) || {};
+    const b = { cut: D.cut, shot: id, text: v.text, block: v.block, out: v.out, status: derive(id, v), by: myId, at: new Date().toISOString() };
+    for (const k of ['reply', 'replyAt', 'doneIn']) if (prev[k] != null) b[k] = prev[k];
+    return b;
+  }
+  const same = (a, b) => !!a && a.text === b.text && a.block === b.block && a.out === b.out;
+  async function flush(id) {
+    if (mode === 'pending') { again.add(id); return; }
+    if (mode === 'local') { saveLocal(); setStatus(id, 'Saved in this browser'); paintRow(id); tally(); return; }
+    if (busy.has(id)) { again.add(id); return; }
+    const b = body(id), prev = remote.get(id);
+    if (same(prev, b) && (prev.status === b.status || prev.status === 'done' || prev.status === 'question')) { setStatus(id, 'Saved'); paintRow(id); tally(); return; }
+    busy.add(id);
+    try {
+      await write(id, b);
+      remote.set(id, b); setStatus(id, 'Saved');
+    } catch (e) {
+      const code = e && e.code;
+      if (code === 'invalid_argument') { lockReadOnly('Your access is view-only, so notes can’t be saved here. Ask the owner for edit access.'); }
+      else setStatus(id, `Not saved (${code || 'error'}). Your text is still here; type again to retry.`, true);
+    } finally {
+      busy.delete(id);
+      paintRow(id); tally();
+      if (again.delete(id)) flush(id);
+    }
+  }
+  async function write(id, b) {
+    const ref = db.collection('notes').doc(KEY(id));
+    try { await ref.set(b); }
+    catch (e) { if (e && e.code === 'unavailable') { await new Promise(r => setTimeout(r, 400 + Math.random() * 800)); await ref.set(b); } else throw e; }
+  }
+  function apply(id, r) {                // a stored note arrives: fill the inputs unless the viewer is mid-edit there
+    const u = ui.get(id); if (!u) return;
+    remote.set(id, r);
+    const editing = timers.has(id) || busy.has(id) || document.activeElement === u.ta;
+    if (!editing) {
+      u.ta.value = r.text || '';
+      if (u.block && r.block) u.block.value = r.block;
+      if (u.out && r.out && !u.out.disabled) u.out.value = r.out;
+    }
+    paintRow(id);
+  }
+  function lockReadOnly(msg) {
+    readOnly = true;
+    for (const id of ids) { const u = ui.get(id); u.ta.readOnly = true; if (u.block) u.block.disabled = true; if (u.out) u.out.disabled = true; u.row.querySelector('[data-keep]')?.remove(); setStatus(id, ''); }
+    $('how').textContent = msg;
+  }
+
+  // local mode: no shared store here (a saved copy of the page, or a viewer without access)
+  function saveLocal() {
+    const all = {}; for (const id of ids) { const v = read(id); all[id] = { ...v, status: derive(id, v) }; }
+    try { localStorage.setItem(LS, JSON.stringify(all)); } catch {}
+  }
+  const readLocal = () => { try { return JSON.parse(localStorage.getItem(LS) || 'null'); } catch { return null; } };
+  // why: "prompt" | "denied" | "unavailable" — the permissions answer for db in this view (null = a saved copy of the page)
+  function startLocal(why, perms) {
+    mode = 'local';
+    $('how').textContent = `${lead} Notes save as you type.`;
+    $('localmsg').textContent = why === 'prompt' || why === 'denied'
+      ? 'Notes are only saved in this browser right now, so Claude can’t see them. Turn on saving to send them to the sheet, or press Copy notes and paste them into your chat with Claude.'
+      : why === 'unavailable'
+        ? 'Claude can’t see notes from this view: they’re only saved in this browser. Open the sheet from claude.ai (signed in) to save them for Claude, or press Copy notes and paste them into your chat with Claude.'
+        : 'This copy of the sheet saves notes in this browser only. When you’re done, press Copy notes and paste them into your chat with Claude.';
+    $('localbar').hidden = false; $('copy').classList.remove('ghost');
+    if (perms && (why === 'prompt' || why === 'denied')) {
+      const allow = $('allow'); allow.hidden = false;
+      allow.addEventListener('click', async () => {
+        flushAll();
+        let st = why;
+        try {
+          if (st === 'prompt') st = (await perms.request(['db'])).db;
+          else { await perms.manage(); st = await perms.state('db'); }
+        } catch { $('localmsg').textContent = 'Couldn’t open the permissions panel. Use the artifact’s Permissions menu to allow saving, then reload the page.'; return; }
+        if (st === 'granted') location.reload();          // notes are in this browser; the reload moves them to the sheet
+        else $('localmsg').textContent = 'Saving is still off. Your notes stay in this browser; Copy notes still works.';
+      });
+    }
+    const all = readLocal();
+    if (all) for (const id of ids) if (all[id]) { const u = ui.get(id); if (u.ta.value) continue; u.ta.value = all[id].text || ''; if (u.block && all[id].block) u.block.value = all[id].block; if (u.out && all[id].out && !u.out.disabled) u.out.value = all[id].out; }
+    for (const id of again) flush(id); again.clear();
+    paintAll();
+  }
+  // notes typed while this browser couldn't reach the sheet: send each one the sheet doesn't hold yet, then forget it
+  let moved = false;
+  async function moveLocal() {
+    if (moved || readOnly) return; moved = true;
+    const all = readLocal(); if (!all) return;
+    let n = 0;
+    for (const id of ids) {
+      const v = all[id]; if (!v || v.status === 'none' || remote.has(id) || timers.has(id) || busy.has(id)) continue;
+      const u = ui.get(id); u.ta.value = v.text || ''; if (u.block && v.block) u.block.value = v.block; if (u.out && v.out && !u.out.disabled) u.out.value = v.out;
+      await flush(id); if (remote.has(id)) n++;
+    }
+    if (n === Object.values(all).filter(v => v && v.status !== 'none').length) { try { localStorage.removeItem(LS); } catch {} }
+    if (n) $('how').textContent = `${lead} Notes save as you type. Moved ${n} note${n > 1 ? 's' : ''} from this browser to the sheet.`;
+  }
+
+  async function startDb() {
+    $('how').textContent = `${lead} Notes save as you type. When you’re done, tell Claude “apply my review notes”.`;
+    try { user = await window.claude.use('user'); } catch { user = null; }
+    try { myId = user ? await user.id() : null; } catch { myId = null; }
+    let can = null; try { can = user ? await user.can('data.write') : null; } catch {}
+    mode = 'db';
+    if (can === false) lockReadOnly('You can read these notes. Ask the owner for edit access to add your own.');
+    db.collection('notes').where('cut', '==', D.cut).onSnapshot(snap => {
+      const seen = new Set();
+      for (const d of snap.docs) { const r = d.data(); if (r && ids.includes(r.shot)) { seen.add(r.shot); apply(r.shot, r); } }
+      for (const id of [...remote.keys()]) if (!seen.has(id) && !timers.has(id) && !busy.has(id)) { remote.delete(id); paintRow(id); }
+      tally(); whoEdited(); moveLocal();
+    }, e => { for (const id of ids) setStatus(id, e && e.code === 'revoked' ? '' : 'Live updates stopped; reload to see others’ notes.', e && e.code !== 'revoked'); });
+    for (const id of again) flush(id); again.clear();
+  }
+  async function whoEdited() {
+    if (!user) return;
+    const by = [...new Set([...remote.values()].map(r => r.by).filter(Boolean))];
+    let ps = {}; try { ps = by.length ? await user.profiles(by) : {}; } catch {}
+    for (const [id, r] of remote) {
+      if (timers.has(id) || busy.has(id) || ui.get(id).status.classList.contains('err')) continue;
+      const p = r.by && ps[r.by], name = p ? (p.isMe ? 'you' : p.name || 'someone') : '';
+      const t = r.at ? new Date(r.at).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
+      setStatus(id, r.text || r.status !== 'none' ? `Saved${name ? ` by ${name}` : ''}${t ? `, ${t}` : ''}` : '');
+    }
+  }
+
+  // ── copy notes (works everywhere; the fallback box covers views that refuse the clipboard) ────────────
+  function notesText() {
+    const lines = [`Review notes: ${plain(D.title)} (${D.cut} cut, ${aspectLabel}${D.film ? `, film ${D.film.sha}` : ', storyboard stills'})`];
+    const f = read(FILM).text.trim(); if (f) lines.push('', `Whole film: ${f}`);
+    for (const s of D.shots) {
+      const v = read(s.id), st = statusOf(s.id); if (st === 'none') continue;
+      lines.push('', `${s.id} · ${s.tcIn}–${s.tcOut} · ${s.block} · ${plain(s.headline) || '(no copy)'}`);
+      if (v.text.trim()) lines.push(`  ${st === 'keep' ? 'Keep' : 'Change'}: ${v.text.trim()}`);
+      if (v.block !== s.block) lines.push(`  Shot type: ${s.block} → ${v.block}`);
+      if (v.out !== s.out) lines.push(`  Exit: ${s.out} → ${v.out}`);
+    }
+    if (lines.length === 1) lines.push('', 'No notes yet.');
+    return lines.join('\n');
+  }
+  $('copy').addEventListener('click', () => {
+    const txt = notesText(), fb = $('fallback');
+    const shown = () => { $('copied').hidden = false; setTimeout(() => { $('copied').hidden = true; }, 1800); };
+    const manual = () => { fb.value = txt; fb.hidden = false; fb.focus(); fb.select(); };
+    try { navigator.clipboard.writeText(txt).then(() => { fb.hidden = true; shown(); }, manual); } catch { manual(); }
+  });
+
+  paintAll();
+  const c = window.claude;
+  const why = async () => {
+    let perms = null; try { perms = await c.use('permissions'); } catch {}
+    let st = 'unavailable'; try { if (perms) st = await perms.state('db'); } catch {}
+    startLocal(st, perms);
+  };
+  if (!c || typeof c.use !== 'function') startLocal(null, null);
+  else c.use('db').then(x => { db = x; if (db) startDb(); else why(); }, () => why());
+})();
+</script>

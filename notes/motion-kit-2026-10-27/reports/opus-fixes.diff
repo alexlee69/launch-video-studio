@@ -1,0 +1,1046 @@
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/GUIDE.md stage/product-launch-sting/video/GUIDE.md
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/GUIDE.md	2026-10-27 06:01:55
++++ stage/product-launch-sting/video/GUIDE.md	2026-10-27 10:35:52
+@@ -279,17 +279,24 @@
+   on the rings — put it on a beat. Give the shot ≥ 1.5 s (2–2.5 s reads best): the cursor needs 0.5–0.9 s to arrive. A
+   long label widens the control (up to 80 % of the frame), then shrinks, then wraps to two lines, and only then is cut
+   short with "…"; `--grid` says which happened. `icon` takes a built-in icon name. With `bg:` footage the control floats
+-  over it.
++  over it. With `control: send` the prompt types itself in (with a caret and soft key ticks) while the cursor is still
++  away, done before it sets off; `typed: false` shows it whole from the first frame. A carry or morph of `control`
++  takes its label along (the morph's box is the button's face, not its glow).
+ - **fan.** `count` is odd, 3–9 (default: the number of cards when that is odd, else 5); `pick` is the hero's index in
+   `cards` (default the middle). A chip whose card bleeds off the frame is dropped (1:1 with 5 or more cards; `--grid`
+-  notes it); on 9:16 the hero's chip rides inside its foot. `--grid` gives the shortest shot that deals your count.
++  notes it); on 9:16 the hero's chip rides inside its foot. `--grid` gives the shortest shot that deals your count, and
++  warns when there are fewer different cards than cards on the arc (the pictures repeat). A light sweeps once across the
++  hero in the middle of the hold. With a 9:16 aspect in the film, only the hero and the first tier get a landing pop (the
++  aspects share one soundtrack and 9:16 shows three cards).
+ - **particles.** `mode: sphere` (default) · `burst` · `grid` · `terrain`. `count` sets the dots for sphere and burst
+   (100–4000, default 900; 900–2000 reads best, `--grid` warns above 2000); `spacing` (px at 1080) sets grid and terrain
+   density (24–40 reads as a field; under 20 warns: slow). `burstAt` (a frame or `"2.4s"`) bursts the sphere; burst mode
+   bursts early by itself. `color` defaults to the accent on dark, ink on light; `theme: dark` reads best. ≥ 1.5 s.
+ - **map.** `stops` positions are fractions of the frame, the same in every aspect (default: a three-stop route). The
+-  headline sits top left: keep stops out of that corner (`--grid` warns). Chips pick their side and keep clear of the
+-  line. ≥ 2 s (3–4 s reads best); a leg too short to follow warns.
++  headline sits top left: keep stops out of that corner (`--grid` warns). Keep every stop inside x .12–.88, y .16–.78:
++  further out its pin is cut off or sits under a platform's buttons (`--grid` warns per aspect). Chips pick their side
++  and keep clear of the line, the pins and the headline; a chip that could only sit on the headline is left out. ≥ 2 s
++  (3–4 s reads best); a leg too short to follow warns.
+ - **wall `layout: grid`.** `cols` × `rows` default to 6 × 4 on 16:9, 3 × 5 on 9:16, 4 × 4 on 1:1; `pick` is the lit tile
+   as `[col, row]` from 0 or an index row by row (default: nearest the centre). The lit tile always shows the **first**
+   card, so list the winner first. Give ≥ 5 different cards so no clip sits next to itself (a file listed twice counts
+@@ -301,7 +308,10 @@
+   (`Extra|ordinary.`). `over` and `through` work as with `text`; `face` and `pill` don't.
+ - **stack `mode: exploded`.** 3–5 planes: `count`, else the number of `cards` (3–5), else 4 drawn UI planes (no cards
+   needed). `tilt: iso` (default, an isometric ~30° view) · `low` (≤ 12°). `labels`: one per plane, top plane first, at
+-  most 4 shown. `text` sits left on 16:9 and on top on 9:16 / 1:1. The cycle mode's `pill` isn't shown.
++  most 4 shown; labels past the plane count aren't shown (`--grid` warns). `text` sits left on 16:9 and on top on 9:16 /
++  1:1. The stack and its label column are fitted inside the safe area, clear of the headline (on 9:16 iso the planes
++  also spread to fill the room under the headline). A light sweeps once across the top plane after the labels land. The
++  cycle mode's `pill` isn't shown.
+ 
+ **Footage fields** of these blocks (split `before`/`after`, float `card`, stack/wall/fan `cards`, and the universal `bg`)
+ take an image or a clip; `<field>From` = seconds into the clip (a list for `cards`). Clips are cut to 60-fps frames for
+@@ -368,11 +378,15 @@
+ degrees, opacity × `op`; `k ≥ 1` means landed (use the rest pose). `w`, `h` are the element's own size (born out of a big
+ element it starts at that size, out of a point as a speck); `lead: true` on the first element out takes the source's size
+ whole, as if the source splits into the cards; `ctx.K.growAt(i, n)` gives element i of n its `t0` (3 frames apart, the
+-whole spread at most 18). `ctx.entered === 'dive'` means a dive flies this shot in: skip your own entrance. `ctx.carried`
+-is the layer a carry lands on in this shot (hidden until it lands): skip that element's entrance. Those two are null in
+-clean `--clips` / `--layers` exports (`ctx.origin` isn't: a clean clip still grows from the point). A carry takes the tagged
++whole spread at most 18). `ctx.entered === 'dive'` means a dive flies this shot in: skip your own entrance (or run it on
++`ctx.K.diveTime(t)`, which starts it 14 frames in and catches up by frame 36). `ctx.carried` is the layer a carry lands
++on in this shot (hidden until it lands): skip that element's entrance. All three are null in clean `--clips` /
++`--layers` exports (no carry, dive, flood or `from:` there: the block makes its own entrance). A carry takes the tagged
+ element with its untagged children, so put a card's text inside the card: text on a layer of its own stays behind, under
+-the carried copy, until the landing.
++the carried copy, until the landing — or tag the element's root `data-lv-with="<layer>"` and a carry or morph of it takes
++that layer along (press's `control` takes its `label`). Mark a soft glow (a halo whose box fades out well inside its
++edges) `data-lv-soft`: carries, dives, floods and `from:` then measure the element by its face, and a morph's box is
++never the glow.
+ **The Chrome transform rule** (purity and layers): never let an animated element's transform settle on `scale(1)` or a
+ bare `translate(…)` (`translate3d(0,0,0)` and an identity `scale(1.0000)` included). Chrome reuses what it drew for a
+ pure-translation frame in later frames, so the picture starts to depend on which frames were drawn before (QA's purity
+@@ -562,7 +576,7 @@
+     block: float
+     beats: 4
+     theme: dark                                # the colour the flood pours: this shot's background
+-    from: control                              # the card is born where the bar was, at its size
++    from: cursor                               # the card grows out of the pressed point (the bar is under the flood)
+     card: assets/result.png
+     label: Output
+ ```
+@@ -571,7 +585,9 @@
+   prompt's Send button: `[0.93, 0.76]`). An iridescent fringe rides the front; dark text the front passes over is masked
+   by the front itself, and the last uncovered corner leaves on the cut. When the next shot isn't that same flat colour
+   (footage, another background), the colour fades over ~6 frames after the cut.
+-- **From.** Works on float, stack and wall in their default layouts, and on fan. Cards born out of a big element start at
++- **From.** Works on float, stack and wall in their default layouts, and on fan. After a flood, grow out of `cursor` (the
++  pressed point): the flood covers the bar from 14 frames before the cut, so a card born at the bar's size and place
++  pops in on the cut. Cards born out of a big element start at
+   its size (the first card takes it whole, as if the element splits into the cards); out of a point they start as
+   specks. On float, `from:` is also the fly-in side (`left` | `right`), so a name that is no layer of the previous shot is
+   an error (probably a typo). `--grid` warns when `from:` does nothing: on the first shot, with `wall layout: grid` or
+@@ -614,12 +630,18 @@
+   carry needs something to change under it: on a hard cut between two shots on the same plain background nobody sees
+   the cut (`--grid` warns: change the theme or footage, or give the shot a moving `out`). The build stops when a name
+   isn't a layer of its shot, when the carry is on the last shot, or when the `to` element is under 90 % visible where it
+-  lands ("land later with post: N or carry another element").
++  lands ("land later with post: N or carry another element"). In a cutdown a carry only plays when its next shot is the
++  same as in the main film (on a cutdown's last shot it is dropped silently, like `out:`; elsewhere `--grid` notes it),
++  and `from:` only when its previous shot is. Keep one device per cut: a carry on a shot that leaves on `dive` or `flood`
++  warns (the carried copy hides the dive; the flood hides the source before it leaves).
+ - **Dive.** Into an element (`el`), the camera stops at 1.3× the zoom where that element covers the frame (`zoom` is the
+   most it goes); into a point (`at`) it goes to `zoom`. The next shot starts at ×`from` and grows on a curve matched to
+   the dive's speed; a shallow dive starts it nearer ×1, so it never starts faster than the dive ended. Footage in that
+-  shot keeps pushing forward (×1 → ×1.15) while its UI flies in, and a float there doesn't fly in sideways. Dive into a
+-  shot that is already full on its first frame: a block that builds up from empty arrives on nothing.
++  shot keeps pushing forward (×1 → ×1.15) while its UI flies in, and a float there doesn't fly in sideways. Text that
++  rises in word by word (headline, stat, prompt, panel …) and `type`'s name arrive with the dive, already built
++  (`K.diveTime`); particles arrive whole. Other blocks that build up from empty arrive small, so dive into a shot that is
++  full on its first frame or give it a `bg:`, and keep `from` at .2 or more (`--grid` warns under it: a speck on an
++  empty frame). A dive or flood needs a shot of ≥ 16 frames (it takes the last 14; `--grid` stops on a shorter one).
+ 
+ **Needle** (the same card on both sides; the footage hard-cuts under it):
+ 
+@@ -635,7 +657,7 @@
+     block: float
+     beats: 4
+     bg: assets/clip-2.mp4
+-    zoom: 1.15                                 # the landing card ~1.1× bigger: the pulse
++    zoom: {16x9: 1.15, 1x1: 1.1}               # the landing card a little bigger: the pulse (9:16: the card already fills the width)
+     card: assets/result.png
+     label: POSTED
+ ```
+@@ -668,7 +690,9 @@
+ - **Morph.** The box carries both elements' own shadows and lands exactly on the next box. `to: frame` takes the next
+   colour while still small and fills the frame on the cut; give that shot a moving `out` (`zoom-in` reads best) and a
+   `cause:` — on a hard cut the cut hides under the colour (`--grid` warns). `color:` overrides the fill; `ease` does
+-  nothing on a morph.
++  nothing on a morph. A morph needs a box on both sides (a card, pill, button, panel, prompt box, or `to: frame`): from
++  or to a text layer the build stops ("a morph needs a box on both sides") — use a carry there. A gradient box morphs in
++  its mean colour; a block's soft glow (`data-lv-soft`) fades out as the morph starts.
+ 
+ **The transition lint** (`--grid` warnings, never errors):
+ - **More than two transition types in a film** warns with the list. Cuts and `drift-*` don't count; each family counts
+@@ -692,7 +716,7 @@
+ 
+ Both run with no assets (placeholder stills in `assets/`) and are built on the motion kit and the cross-cut transitions:
+ a `press` on the send button whose click floods into the result's dark world (`out: flood` with its `cause:`), the
+-result card born out of the pressed bar (`from: control`), the result splitting into a `fan`. launch30 adds a `carry` of
++result card grown out of the pressed point (`from: cursor`), the result splitting into a `fan`. launch30 adds a `carry` of
+ the result card into the Output half of the comparison and a `wall layout: grid` with the claim on its band. The one
+ signature move is the name zooming through the camera (`type` `through: true`). `--title` sets the brand, the name cards
+ and the address (`acme-notes.app`); without it they read "Product". Every line to replace is commented (`# your …`), and
+@@ -782,7 +806,8 @@
+ ```
+ 
+ One row per shot: timecode in → out (MM:SS:FF at 30 fps), a thumbnail at the shot's key frame, the headline copy, what
+-happens on screen in order, its sounds (cues, whoosh, music drop/break, VO), the beats.yaml `note:`, then **Your
++happens on screen in order (starting with how it arrives across the cut: carried in, grown out of the shot before, a
++dive or a flood), its sounds (cues, whoosh, music drop/break, VO), the beats.yaml `note:`, then **Your
+ direction** (free text), a **Shot** picker (block) and an **Exit** picker (`out:`), plus "Keep as is". A sticky player
+ with a shot strip sits beside the log; clicking a row's timecode or thumbnail plays from that shot. Output in
+ `DIR/review/<slug>[-<cut>]-<aspect>/`: `index.html` (artifact body), `preview.html` (open locally), `film.mp4` (a 30 fps
+@@ -978,7 +1003,7 @@
+ 
+ | Check | Warns when | Fix it by |
+ |---|---|---|
+-| deadair | nothing on screen moves (the busiest of 12 × 12 thumbnail blocks changes by < 8 of 255 over 1/30 s) for more than 0.5 s longer than the shot's copy needs to be read (the reading-time need below; at least 0.6 s; the film's closing end card or lockup may hold 2 s). Up to 0.5 s over is INFO ("near dead air"). A slow camera push alone counts as still; frames inside a declared `hold:` don't count | something new on screen (a drift, a cursor, a second beat, the next word), a shorter shot, or — when the stillness is the point — a declared `hold:` |
++| deadair | nothing on screen moves (the busiest of 12 × 12 thumbnail blocks changes by < 8 of 255 over 1/30 s) for more than 0.5 s longer than the shot's copy needs to be read (the reading-time need below; at least 0.6 s; the film's closing end card or lockup may hold 2 s). Up to 0.5 s over is INFO ("near dead air"). A second INFO line lists the shots with a near-still stretch over 0.6 s — the launch reels we measured hold none past ~0.57 s — as a pointer to the slowest holds. A slow camera push alone counts as still; frames inside a declared `hold:` don't count | something new on screen (a drift, a cursor, a second beat, the next word), a shorter shot, or — when the stillness is the point — a declared `hold:` |
+ | text (floors) | must-read text (anything not inside an element of class `lv-ui`, which marks UI-mock texture), at its size on screen after the camera's scale, is under the floor for `delivery:`, mixed case / capitals: `web` 47 / 35 px on 16:9, `feed` 64 / 48, `tv` 27 / 21; 40 / 36 on 9:16 and 1:1 in every delivery. The storyboard notes it too | bigger type or fewer words; `delivery:` set to where the film really plays |
+ | contrast | at each shot's hero frame, a must-read line's worst glyph pixels (2nd percentile), measured against the same frame with every glyph hidden, are under WCAG 4.5:1 or APCA Lc 60 (3:1 / Lc 45 at ≥ 48 px). Must-read text that isn't painted at its hero frame (covered, masked) is a WARN of its own; outlined text, and text that only reads against its own shadow, are INFO ("check by eye") | another text colour, a plate or scrim behind the line, more `bgDim` over footage; a hero frame where the line shows |
+ | flash | more than 3 flashes in any second (WCAG 2.3.1). A flash is two opposing ≥ 0.1 luminance changes (darker state < 0.8) made by a net 25 % of a third-of-the-frame window: the pixels changing one way minus those changing the other, so a moving edge cancels out | a slower strobe (≤ 3 a second), a smaller flashing area, or no full-frame dark / white alternation |
+@@ -986,7 +1011,9 @@
+ | continuity | at a cut where something moves (≥ 400 px/s within 0.1 s of it): the zoom or pan flips direction (a push-in into a shot that starts zoomed in and pulls back), the speed changes more than 3× from the last frame-step before the cut to the first after (2× after `out: dive` and for a carried object), or the fastest step isn't on the cut. Each WARN names both shots and a likely cause; the INFO line lists the cuts over 2×. A speed change set by a hand-tuned `drift: {in, out}` is named, not warned | no `hold:` from frame 0 and no camera move that starts late ("stands still on its first frames"); no `pan:` against the exit ("flips direction"); a `pan` whose `at:` is on the cut, not after it ("fastest step N frames after the cut"). Moves inside a block (`type` `through`, a custom block's own zoom) aren't in the camera log: judge them on the cut stills |
+ | reading time (`--grid`, before any render) | a shot is shorter than its read copy needs: 0.4 s to build + max(1 s, (0.35 s a word + 0.5 s) × 1.3 over moving footage dimmed under .25), so at least 1.4 s. Chinese and Japanese count 6.75 characters a second, Korean 9 | fewer words or a longer shot; a custom block lists what must be read in `read(shot)` (UI text an agent streams doesn't count) |
+ 
+-The purity check adds about 20 s to 2.5 min per aspect to `--film` (most of it redrawing shots that differ).
++The purity check adds about 20 s to 2.5 min per aspect to `--film` (~30 % of a film; most of it redrawing shots that
++differ). `--film --no-purity` skips it on iteration renders (QA then says "not measured"); run the final film without it.
++Its `purity/` folder keeps only the frames that differ.
+ 
+ Clips get their own QA: frame count and format (alpha plane present), content (alpha coverage for transparent clips, the
+ per-frame background-only render otherwise, footage counting as content as in the film; measured inside the picture when the shot has letterbox bars, which are
+@@ -1027,13 +1054,13 @@
+ - **Kit chips on 16:9**: the fan's chips, the map's labels and the exploded stack's labels are ~35 px on 16:9 — above the
+   30 px label floor but under the 47 px `web` floor, so the storyboard notes them and film QA WARNs (40–42 px on 9:16 /
+   1:1). Which floor chips answer to is still open; on a landscape film, keep words the viewer must read out of chips.
+-- **9:16 exploded stack**: on 9:16 the label chips can sit on their own anchors, the leader lines running back under
+-  them, and the planes leave the lower third empty (open defect; QA doesn't see it). Read the 9:16 storyboard before
+-  shipping one.
+-- **Cross-cut weak spots (open)**: a dive into a point can arrive on a nearly empty panel (dive into a shot already full
+-  on its first frame); a wall's `from:` lead card can be another picture and shape than the source; the prompt's caret
+-  stays sharp for 2–3 frames inside a flood's front; a morph between two boxes of the same colour fades its fill in.
+-  Check those cuts on the cut stills.
++- **Exploded stack layout**: the stack is fitted to the safe area per aspect (9:16 iso included), but the fit is
++  measured on the planes, not on the chips' final column; with long labels on 9:16 the planes get small. Read the 9:16
++  storyboard before shipping one.
++- **Cross-cut weak spots (open)**: a dive into a block that builds up from empty other than text (a title's spring, an
++  end card) still arrives small; a wall's `from:` lead card can be another picture and shape than the source; the
++  prompt's caret stays sharp for 2–3 frames inside a flood's front; a morph between two boxes of the same colour fades
++  its fill in. `from:` does nothing on `wall layout: grid` and `stack mode: exploded`. Check those cuts on the cut stills.
+ - **QA lessons from the launch starters**: a `type` `through: true` zoom-through cut into a shot on the same background
+   fails the cut check — change the register across that cut, or use a moving exit. A shot whose only content pops in on
+   its first frame fails the content check — keep something on screen from the first frame. The floating `wall` builds
+@@ -1054,8 +1081,8 @@
+   small footage fields can declare `scale`. Letterbox bars belong to their shot: they snap on and off at a cut into or
+   out of a shot without them.
+ - Disk: layer exports keep ~150 MB of PNGs per 4 s shot in `DIR/out/<cut>/<aspect>/layers/` (delete after hand-off).
+-  Frames stay in `DIR/out/` (~300 MB per 20 s per aspect, plus small `bgref/` thumbnails and the contrast check's
+-  `textless/` hero frames). Delete
++  Frames stay in `DIR/out/` (~300 MB per 20 s per aspect, plus small `bgref/` thumbnails, the contrast check's
++  `textless/` hero frames and `purity/`'s differing frames). Delete
+   `DIR/out/*/*/frames` once the user signs off (QA needs them, so re-run `--film` before re-checking).
+ - Tested on macOS (Chrome, ffmpeg 8). Windows paths are untested. A job folder path can't contain `%` (ffmpeg reads it as
+   a frame-number pattern); the CLI refuses such a folder up front.
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/fan.js stage/product-launch-sting/video/engine/blocks/fan.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/fan.js	2026-10-27 02:45:26
++++ stage/product-launch-sting/video/engine/blocks/fan.js	2026-10-27 10:37:49
+@@ -18,6 +18,7 @@
+ // round 2 `from:` (grow from a point): the cards are born at that element of the previous shot and grow out to their
+ // places (K.grow), the hero first, leaving half a frame before the cut (the deal starts 4.5 frames later than its pre-roll)
+ const born = s => s.i > 0 && originOf(s, { origin: true }) != null;
++const heroOf = (s, D) => { const P = plan(s, D); return Math.max(8, Math.min(D - 12, Math.max(P.land(P.half) + 8, Math.round(D * .5)))); };
+ // deal schedule: the hero first, each tier 3 frames later; the push takes the last 10 frames
+ function plan(s, D, half = (countOf(s) - 1) / 2) {
+   // pre-rolled: the cut lands mid-deal (the hero ~90 % grown, the first tier half-way, the rest still to come)
+@@ -59,6 +60,9 @@
+     if (D < P.land(P.half) + 22) w.push(`fan ${s.id}: ${D} frames is tight to deal ${countOf(s)} cards, hold and push in; give it ≥ ${((P.land(P.half) + 22) / 30).toFixed(1)} s`);
+     if (s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) % 2)) w.push(`fan ${s.id}: count ${s.count} is not odd — using ${countOf(s)}`);
+     if (labelsOf(s).length > cardsOf(s).length) w.push(`fan ${s.id}: ${labelsOf(s).length} labels for ${cardsOf(s).length} cards — the extra labels are not shown`);
++    // fewer different pictures than cards on the arc: they repeat (review fix #18; wall layout: grid warns the same way)
++    const nd = new Set(cardsOf(s)).size, cnt = countOf(s);
++    if (nd && nd < cnt) w.push(`fan ${s.id}: ${nd} different card${nd === 1 ? '' : 's'} for ${cnt} on the arc — ${nd === 1 ? 'every card shows the same picture' : `pictures repeat round the arc${nd < 3 ? ' (on 9:16 too)' : ' on 16:9 and 1:1'}`}; give it ${cnt} different cards or a lower count`);
+     // outer tiers bleed off the frame by design: their chips are not shown (the build drops a chip that would leave the
+     // title-safe box; 9:16 shows 3 cards). Estimated per aspect from the arc's layout
+     if (labelsOf(s).some(x => x.trim())) {
+@@ -67,13 +71,16 @@
+     }
+     return w;
+   },
+-  cues(s, D) {
++  cues(s, D, o = {}) {
+     const P = plan(s, D), out = [{ t: 0, kind: 'hit', note: 84, gain: .55 }];
++    // the aspects share one soundtrack and 9:16 shows only tiers 0–1: with a 9:16 aspect the outer tiers land without a
++    // pop (it would sound over nothing there — review fix #17)
++    const top = (o.aspects || []).includes('9x16') ? Math.min(1, P.half) : P.half;
+     // pre-rolled: a card landing in the opening hit's tail (the first 6 frames) gets no pop of its own — the hit carries it
+-    for (let a = 0; a <= P.half; a++) if (P.land(a) - 7 >= 6) out.push({ t: P.land(a) - 7, kind: 'pop', note: [79, 83, 86, 89, 91][a] || 91, gain: .6 + .05 * a });
++    for (let a = 0; a <= top; a++) if (P.land(a) - 7 >= 6) out.push({ t: P.land(a) - 7, kind: 'pop', note: [79, 83, 86, 89, 91][a] || 91, gain: .6 + .05 * a });
+     return out;
+   },
+-  hero: (s, D) => { const P = plan(s, D); return Math.max(8, Math.min(D - 12, Math.max(P.land(P.half) + 8, Math.round(D * .5)))); },
++  hero: (s, D) => heroOf(s, D),
+   async build(ctx, s) {
+     const { W, H, u, safe, portrait, square } = ctx, C = ctx.C, dark = ctx.dark;
+     const srcs = cardsOf(s), labels = labelsOf(s), n = srcs.length, pick = pickOf(s);
+@@ -117,8 +124,11 @@
+       d.appendChild(m.img);
+       // a soft top sheen (glass) so stills read as cards
+       d.insertAdjacentHTML('beforeend', `<div style="position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0) 32%,rgba(0,0,0,0) 70%,rgba(0,0,0,.18))"></div>`);
++      // the hold's second beat (review fix #11: the landed fan barely moved for ~2 s): a light sweeps once across the hero
++      let glint = null;
++      if (!sl.a) { glint = document.createElement('div'); glint.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;background:linear-gradient(110deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.42) 50%,rgba(255,255,255,0) 62%) 0 0/300% 100% no-repeat'; d.appendChild(glint); }
+       wrap.appendChild(d);
+-      return { sl, d, m, ci };
++      return { sl, d, m, ci, glint };
+     });
+     await Promise.all(cards.map(c => c.m.ready()));
+     // chips (flat, readable) ride under their cards: positioned each frame from the card's projected bottom edge
+@@ -167,6 +177,14 @@
+           c.d.style.filter = F.filt(F.blur((og && !sl.a ? 0 : 8 * u * (1 - e)) + 6 * u * pz * (sl.a ? 1 : 0)));
+           c.css = `translate3d(${(gx - sl.x).toFixed(2)}px,${(gy - sl.y).toFixed(2)}px,${z.toFixed(2)}px) rotateY(${ry.toFixed(3)}deg) rotateZ(${(rz + gr).toFixed(3)}deg) scale(${gs.toFixed(5)})`;
+           c.d.style.transform = c.css;
++        }
++        // the glint: 22 frames across the hero in the hold, after the storyboard's hero frame and before the push, when
++        // the hold has room
++        const g0 = Math.max(heroOf(s, D) + 2, (P.land(half) + P.push) / 2 - 11), gk = M.u01(t, g0, g0 + 22);
++        for (const c of cards) if (c.glint) {
++          const on = g0 + 22 <= P.push - 2 && gk > 0 && gk < 1;
++          c.glint.style.opacity = on ? Math.sin(Math.PI * gk).toFixed(3) : '0';
++          c.glint.style.backgroundPosition = `${(100 - 100 * gk).toFixed(2)}% 0`;
+         }
+         for (const ch of chips) {
+           if (!ch) continue;
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/map.js stage/product-launch-sting/video/engine/blocks/map.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/map.js	2026-10-26 13:31:00
++++ stage/product-launch-sting/video/engine/blocks/map.js	2026-10-27 10:16:49
+@@ -48,6 +48,15 @@
+       }).map(([a]) => a);
+       if (under.length) w.push(`map ${s.id}: stop ${j + 1}${st.label ? ` (${st.label})` : ''} sits under the headline on ${under.join(', ')} — move it lower or right, or drop the text`);
+     }
++    // a stop whose pin (≈ 70 px tall above its tip, 50 px wide) leaves the safe box is cut off or runs under the platform's
++    // UI (review fix #6): safe = 7–93 % × 9–91 % on 16:9 / 1:1, 12–88 % × 12–78 % on 9:16
++    for (const [j, st] of P.st.entries()) {
++      const off = Object.entries({ '16x9': [1920, 1080, .07, .09, .93, .91], '9x16': [1080, 1920, .12, .12, .88, .78], '1x1': [1080, 1080, .07, .09, .93, .91] }).filter(([, [W, H, x0, y0, x1, y1]]) => {
++        const u = Math.min(W, H) / 1080, px = st.pos[0] * W, py = st.pos[1] * H;
++        return px - 26 * u < x0 * W || px + 26 * u > x1 * W || py - 70 * u < y0 * H || py > y1 * H;
++      }).map(([a]) => a);
++      if (off.length) w.push(`map ${s.id}: stop ${j + 1}${st.label ? ` (${st.label})` : ''} at [${st.pos.join(', ')}] is outside the safe area on ${off.join(', ')} — its pin is cut off or under the platform's buttons; keep stops within x .12–.88, y .16–.78 (all aspects)`);
++    }
+     return w;
+   },
+   cues(s, D) {
+@@ -182,7 +191,15 @@
+         const r = { x0: x, y0: y, x1: x + w, y1: y + h }, out = x < safe.x0 || y < safe.y0 || x + w > safe.x1 || y + h > safe.y1;
+         return { x, y, o, r, score: Math.min(clear(r), 60 * u) - (out ? 1e4 : 0) - (hits(r) ? 1e3 : 0) + (side === 'right' ? 4 * u : 0) };
+       }).sort((a, b) => b.score - a.score);
+-      const c = cand[0], x = Math.max(safe.x0, Math.min(safe.x1 - w, c.x)), y = Math.max(safe.y0, Math.min(safe.y1 - h, c.y));
++      // clamped into the safe box, a side can land on the headline or a pin: take the best side that stays clear once
++      // clamped (review fix #6: a corner stop's chip landed on the headline's first word)
++      const at = cd => { const x = Math.max(safe.x0, Math.min(safe.x1 - w, cd.x)), y = Math.max(safe.y0, Math.min(safe.y1 - h, cd.y)); return { x, y, r: { x0: x, y0: y, x1: x + w, y1: y + h } }; };
++      // none clear: one that at least keeps off the headline; a chip that can only sit on the headline is left out
++      // (validate warns about the stop)
++      const onHead = r => hb && r.x0 < hb.x1 + 14 * u && r.x1 > hb.x0 - 14 * u && r.y0 < hb.y1 + 22 * u && r.y1 > hb.y0 - 14 * u;
++      const c = cand.find(cd => !hits(at(cd).r)) || cand.find(cd => !onHead(at(cd).r));
++      if (!c) { el.remove(); return null; }
++      const { x, y } = at(c);
+       taken.push({ x0: x, y0: y, x1: x + w, y1: y + h });
+       el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.transformOrigin = c.o;
+       return { el, j, sp: el.firstElementChild, w, h, o: c.o.split(' ').map(v => parseFloat(v) / 100) };
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/press.js stage/product-launch-sting/video/engine/blocks/press.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/press.js	2026-10-27 06:00:05
++++ stage/product-launch-sting/video/engine/blocks/press.js	2026-10-27 10:31:48
+@@ -15,6 +15,14 @@
+   const travel = Math.max(10, Math.min(24, hover - 14)), start = hover - travel;
+   return { at, hover, travel, start, rings: [0, 1, 2, 3].map(j => at + 1 + j * 2.5), state: at + 2 };
+ }
++// send: the prompt types itself in while the cursor is still away (review fix #11: the bar sat unchanged for ~1.6 s
++// before the cursor came) — ~23 characters a second from frame 4, done 2 frames before the cursor sets off; null when
++// that leaves under 8 frames (the prompt is then on screen from the first frame, as before) or typed: false
++const typeWin = (s, D, n) => {
++  if (s.control !== 'send' || s.typed === false || n < 2) return null;
++  const p = plan(s, D), t0 = 4, t1 = Math.min(p.start - 2, t0 + n * 1.3);
++  return t1 - t0 >= 8 ? { t0, t1 } : null;
++};
+ const labelOf = s => s.label != null && String(s.label).trim() !== '' ? String(s.label) : s.control === 'send' ? 'Make a launch teaser' : s.control === 'key' ? 'Enter' : s.control === 'toggle' ? 'Auto-publish' : 'Generate';
+ // the face (width as a share of W, height as a share of that width) per control and aspect; the label's size as a share
+ // of the face height; the label's room inside a face fw × fh, and the face width a label of width w needs
+@@ -56,6 +64,7 @@
+     text: 'optional 1–3 word line above the control (must-read, *accent* ok)',
+     after: 'optional working state the label switches to on the press, e.g. "Generating…" (with a spark spinner)',
+     at: 'local frame (or seconds, "1.6s") of the press — default 10 frames before the shot ends, so the cut lands on the rings',
++    typed: 'send: the prompt types itself in before the cursor arrives (default); false = on screen from the first frame',
+     theme: '(any shot) light (default) or dark; with bg: footage the control floats over it',
+   },
+   required: [],
+@@ -64,7 +73,10 @@
+     if (D < 45) w.push(`press ${s.id}: ${D} frames is tight for entrance + cursor travel + dwell + press; give it ≥ 1.5 s (2–2.5 s reads best)`);
+     else if (p.travel < 15) w.push(`press ${s.id}: the cursor has only ${p.travel} frames to travel (0.5–0.9 s reads as a hand) — move \`at\` later or lengthen the shot`);
+     if (s.text != null && words(s.text) > 3) w.push(`press ${s.id}: text is ${words(s.text)} words — the press beat holds 1–3 (put the rest in the next shot)`);
+-    if (s.at != null && p.at > D - 6) w.push(`press ${s.id}: the press at ${p.at} leaves no frames for the rings before the cut`);
++    const at0 = s.at != null && s.at !== '' ? F.at(s.at, 0, 'press at') : null;
++    if (at0 != null && at0 > D - 4) w.push(`press ${s.id}: press at ${s.at} is past the shot (${D} frames) — pressing at ${p.at}, which leaves no frames for the rings before the cut; set at ≤ ${D - 8}`);
++    else if (at0 != null && at0 < 12) w.push(`press ${s.id}: press at ${s.at} is before the control has landed — pressing at ${p.at}`);
++    else if (s.at != null && p.at > D - 6) w.push(`press ${s.id}: the press at ${p.at} leaves no frames for the rings before the cut`);
+     // a long label: estimated per aspect (the build widens the face, shrinks, wraps, and only then cuts it with "…")
+     const fits = Object.keys(ASPECT_WH).map(a => [a, labelFit(s, a)]), cut = fits.filter(([, f]) => f === 'cut').map(([a]) => a), wrap = fits.filter(([, f]) => f === 'wrap').map(([a]) => a);
+     const which = s.after && labelOf(s).length < String(s.after).length ? `after "${s.after}"` : `label "${labelOf(s)}"`;
+@@ -72,7 +84,11 @@
+     else if (wrap.length) w.push(`press ${s.id}: ${which} wraps to two lines on ${wrap.join(', ')} — a press reads best with 1–3 words`);
+     return w;
+   },
+-  cues: (s, D) => { const p = plan(s, D); return [{ t: p.hover, kind: 'tick', gain: .8 }, { t: p.at, kind: 'click', gain: 1 }, { t: p.at + 2, kind: 'pop', note: 86, gain: .75 }]; },
++  cues: (s, D) => {
++    const p = plan(s, D), tw = typeWin(s, D, labelOf(s).length), keys = [];
++    if (tw) for (let t = tw.t0 + 1; t < tw.t1; t += 4) keys.push({ t, kind: 'tick', gain: .28 });    // soft key ticks while it types
++    return [...keys, { t: p.hover, kind: 'tick', gain: .8 }, { t: p.at, kind: 'click', gain: 1 }, { t: p.at + 2, kind: 'pop', note: 86, gain: .75 }];
++  },
+   hero: (s, D) => { const p = plan(s, D); return Math.max(0, Math.min(p.at + 3, D - 8)); },
+   async build(ctx, s) {
+     const { W, H, u, K, A, safe, portrait, square } = ctx, C = ctx.C, dark = ctx.dark;
+@@ -145,6 +161,7 @@
+     const bw = Math.max(fw * 1.7, fw + fh * 3), bh = fh * 3.4, bx = cx - bw / 2, by = cy - bh / 2;
+     const wrapCss = `left:${bx}px;top:${by}px;width:${bw}px;height:${bh}px;transform-origin:50% 50%`;
+     const ctl = ctx.el('', wrapCss, 'control'), lab = ctx.el('', wrapCss, 'label');
++    ctl.dataset.lvWith = 'label';      // a carry or morph of the control takes its label along (review fix #2)
+     const lx = (bw - fw) / 2, ly = (bh - fh) / 2;          // face box inside the wrappers
+     const glow = document.createElement('div');
+     glow.style.cssText = `position:absolute;left:${lx - fh * .9}px;top:${ly - fh * .9}px;width:${fw + fh * 1.8}px;height:${fh * 2.8}px;border-radius:${fh * 1.4}px;background:radial-gradient(closest-side,${M.rgba(acc, .55)},${M.rgba(acc, .18)} 55%,${M.rgba(acc, 0)});opacity:0`;
+@@ -274,6 +291,20 @@
+     await document.fonts.ready;
+     await Promise.all([...ctl.querySelectorAll('img'), ...lab.querySelectorAll('img')].map(i => i.decode().catch(() => null)));
+     const shadow0 = control === 'key' ? (dark ? '#0A0A0D' : '#C9CCD6') : null;
++    // send: the typing reveal — the label's character boundaries (its own px), a caret riding the edge, blinking once typed
++    let typing = null;
++    {
++      const tn = L0.tx, txt = tn.textContent, tw = typeWin(s, ctx.D, txt.length);
++      if (tw) {
++        const tb = tn.getBoundingClientRect(), k = tb.width ? tn.offsetWidth / tb.width : 1, xs = [0];
++        const nodes = []; for (const w = document.createTreeWalker(tn, NodeFilter.SHOW_TEXT); w.nextNode();) nodes.push(w.currentNode);
++        for (const nd of nodes) for (let j = 0; j < nd.length; j++) { const rg = document.createRange(); rg.setStart(nd, j); rg.setEnd(nd, j + 1); const r = rg.getBoundingClientRect(); xs.push(Math.max(xs[xs.length - 1], r.width ? (r.right - tb.left) * k : xs[xs.length - 1])); }
++        const fsz = parseFloat(tn.style.fontSize) || lfs, caret = document.createElement('div');
++        caret.style.cssText = `position:absolute;left:0;top:${(tn.offsetTop + (tn.offsetHeight - fsz * 1.1) / 2).toFixed(1)}px;width:${(3.5 * u).toFixed(2)}px;height:${(fsz * 1.1).toFixed(1)}px;border-radius:${(2 * u).toFixed(1)}px;background:${acc}`;
++        L0.row.appendChild(caret);
++        typing = { tn, xs, n: xs.length - 1, caret, ...tw };
++      }
++    }
+ 
+     return {
+       render(t, D) {
+@@ -319,6 +350,12 @@
+           L0.row.style.visibility = xo >= 1 ? 'hidden' : '';
+           L1.row.style.visibility = t > P.state + 1 ? '' : 'hidden';        // xi > 0: the row has started into the face
+           F.sparkAt(L1.row, t);
++        }
++        if (typing) {          // pure in t: the characters typed so far (whole characters), the caret at their edge
++          const { tn, xs, n, caret, t0, t1 } = typing, ci = Math.max(0, Math.min(n, Math.floor(n * M.u01(t, t0, t1) + 1e-6)));
++          tn.style.clipPath = ci >= n ? 'none' : `inset(-30% ${(tn.offsetWidth - xs[ci] + .5).toFixed(2)}px -30% -30%)`;
++          caret.style.left = (tn.offsetLeft + xs[ci] + 3 * u).toFixed(2) + 'px';
++          caret.style.opacity = t >= P.at ? '0' : t <= t1 + 4 ? '1' : Math.floor((t - t1 - 4) / 9) % 2 ? '0' : '1';
+         }
+         // rings: four outlines of the pressed shape grow from it (to ~1.9 × the face width; flatter vertically, so they
+         // stay off the line above) and fade, 2.5 frames apart. Every attribute is set on every frame (pure in t)
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/stack.js stage/product-launch-sting/video/engine/blocks/stack.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/stack.js	2026-10-27 02:18:53
++++ stage/product-launch-sting/video/engine/blocks/stack.js	2026-10-27 10:37:49
+@@ -15,15 +15,18 @@
+ const isExploded = s => s.mode === 'exploded';
+ const labelsOf = s => [].concat(s.labels || []).filter(x => x != null && String(x).trim() !== '').map(String).slice(0, 4);
+ const planesOf = s => { const c = Number(s.count); return Number.isInteger(c) && c >= 3 && c <= 5 ? c : cardsOf(s).length ? Math.max(3, Math.min(5, cardsOf(s).length)) : 4; };
++// one label per plane: labels past the plane count are not shown (and not listed as on-screen copy) — a chip built for
++// them sat unplaced at the frame's top-left corner for the whole shot (review fix #1)
++const shownLabels = s => labelsOf(s).slice(0, planesOf(s));
+ function xplan(s, D) {
+   // pre-rolled: on the cut the top plane is already lifting off (the first separation started 1.5 frames before it)
+   const n = planesOf(s), sep = -5, step = 3.5, sepEnd = sep + step * (n - 1) + 16, lab = k => sepEnd - 4 + 4 * k;
+-  return { n, sep, step, sepEnd, lab, labEnd: lab(Math.max(0, labelsOf(s).length - 1)) + 12 };
++  return { n, sep, step, sepEnd, lab, labEnd: lab(Math.max(0, shownLabels(s).length - 1)) + 12 };
+ }
+ const DEPTH_OP = [1, .83, .6, .45, .3];
+ async function buildExploded(ctx, s) {
+   const { W, H, u, safe, portrait, square } = ctx, C = ctx.C, dark = ctx.dark;
+-  const P = xplan(s, ctx.D), n = P.n, srcs = cardsOf(s), labels = labelsOf(s), low = s.tilt === 'low';
++  const P = xplan(s, ctx.D), n = P.n, srcs = cardsOf(s), labels = shownLabels(s), low = s.tilt === 'low';
+   // layout: 16:9 = headline left, stack right of centre; 9:16 / 1:1 = headline on top, stack under it
+   let head = null;
+   if (s.text) {
+@@ -31,8 +34,9 @@
+     if (portrait || square) { head.style.width = safe.w * .94 + 'px'; head.style.left = (W / 2 - safe.w * .47) + 'px'; head.style.top = safe.y0 + 'px'; }
+     else { head.style.left = safe.x0 + 'px'; head.style.top = (H / 2 - head.offsetHeight / 2) + 'px'; }
+   }
+-  const pw = portrait ? W * (low ? .6 : head ? .62 : .7) : square ? W * (head ? .48 : .54) : W * (s.text ? .38 : .42), ph = pw * (srcs.length ? .62 : .66);
+-  const gap = (low ? 92 : 96) * u, spread = (n - 1) * gap;
++  let pw = portrait ? W * (low ? .6 : head ? .62 : .7) : square ? W * (head ? .48 : .54) : W * (s.text ? .38 : .42), ph = pw * (srcs.length ? .62 : .66);
++  let gap = (low ? 92 : 96) * u;
++  const spread = (n - 1) * gap;
+   // centre the exploded stack: iso planes step down the frame, low-tilt planes up and to the right
+   let sx = (portrait ? W * (low ? .46 : .42) : square ? W * .42 : (s.text ? W * .6 : W * .45)) - (low ? spread * .39 : spread * .16);
+   let sy = (portrait ? (head ? Math.max(H * .52, safe.y0 + head.offsetHeight + H * .2) : H * .5) : square ? (head ? H * .58 : H * .5) : H * .52) + (low ? spread * .31 : -spread * .4);
+@@ -59,6 +63,44 @@
+     const top = head ? safe.y0 + head.offsetHeight + 70 * u : safe.y0, bot = safe.y1 + .03 * H;
+     sy += (top + bot) / 2 - (y0 + y1) / 2;
+   }
++  // fit (review fixes #9, #21): the stack — its landed pose through the shot's slow orbit — and the label column right of
++  // it stay inside the safe box and clear of the headline, measured on the projected planes. 9:16's iso default ran off
++  // the left edge with its chips over the planes and the lower ~40 % empty; on 16:9 a one-line headline ran under the top
++  // plane. A stack that already fits stays exactly where it was; 9:16 iso always fits: the frame's width (planes + label
++  // column) sets the scale, and the planes spread further apart (up to ×3.6 the gap) to fill the tall room under the
++  // headline rather than leave its lower part empty
++  const lfs = (portrait || square ? 40 : 34) * u, chipHtml = text => `<span class="lv-txt" style="position:relative;display:inline-block;white-space:nowrap;padding:${lfs * .3}px ${lfs * .62}px ${lfs * .34}px;border-radius:${lfs * .5}px;font:600 ${lfs}px ${ctx.font};letter-spacing:-.01em;color:${dark ? '#FFFFFF' : C.ink};background:${dark ? 'rgba(36,37,45,.92)' : 'rgba(255,255,255,.94)'};box-shadow:0 ${6 * u}px ${18 * u}px rgba(10,12,30,${dark ? .45 : .12}),0 0 0 ${1.2 * u}px ${dark ? 'rgba(255,255,255,.1)' : 'rgba(17,17,20,.06)'}">${ctx.A.esc(text)}</span>`;
++  {
++    const chipW = labels.length ? Math.max(...labels.map(text => { const m = ctx.el(chipHtml(text), 'left:0;top:0;visibility:hidden'), w = m.offsetWidth; m.remove(); return w; })) : 0;
++    const labCol = labels.length ? chipW + 96 * u * .7 + 24 * u : 0;
++    let hb = null;
++    if (head) { const rg = document.createRange(); rg.selectNodeContents(head); const r = rg.getBoundingClientRect(), z = ctx.el('', `left:0;top:0;width:${W}px;height:1px`), sb = z.getBoundingClientRect(), k = sb.width ? W / sb.width : 1; z.remove(); hb = { x1: (r.right - sb.left) * k, y1: (r.bottom - sb.top) * k }; }
++    const room = { x0: hb && !(portrait || square) ? Math.max(safe.x0, hb.x1 + 56 * u) : safe.x0, x1: safe.x1 - labCol,
++      y0: hb && (portrait || square) ? hb.y1 + 64 * u : safe.y0, y1: portrait ? safe.y1 + .03 * H : safe.y1 };
++    const TS = Array.from({ length: 7 }, (_, j) => tRef + (ctx.D - tRef) * j / 6);
++    const extent = () => {
++      const e = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
++      for (const t of TS) for (let k = 0; k < n; k++) {
++        const lt = 1 + .02 * M.u01(t, P.sepEnd, ctx.D), css = tf(k, 1, t) + (lt !== 1 ? ` scale(${lt.toFixed(5)})` : '');
++        for (const q of [[0, 0], [pw, 0], [pw, ph], [0, ph]]) { const [x, y] = proj(css, q); e.x0 = Math.min(e.x0, x); e.y0 = Math.min(e.y0, y); e.x1 = Math.max(e.x1, x); e.y1 = Math.max(e.y1, y); }
++      }
++      return e;
++    };
++    const e0 = extent(), tall = portrait && !low;
++    if (tall || e0.x0 < room.x0 - 1 || e0.x1 > room.x1 + 1 || e0.y0 < room.y0 - 1 || e0.y1 > room.y1 + 1) {
++      const fitOf = e => Math.min(tall ? 1.3 : 1, (room.x1 - room.x0) / (e.x1 - e.x0), (room.y1 - room.y0) / (e.y1 - e.y0));
++      if (tall) {       // the widest spread whose height still fits at the scale the width allows
++        const g0 = gap; let best = 1;
++        for (let j = 1; j <= 26; j++) { gap = g0 * (1 + j * .1); const e = extent(); if ((room.y1 - room.y0) / (e.y1 - e.y0) < Math.min(1.3, (room.x1 - room.x0) / (e.x1 - e.x0))) break; best = 1 + j * .1; }
++        gap = g0 * best;
++      }
++      const e1 = extent(), f = fitOf(e1);
++      // the projected planes scale with pw, ph and gap about their centre (sx, sy) — all but a 3-px bob
++      const cx = sx + ((e1.x0 + e1.x1) / 2 - sx) * f, cy = sy + ((e1.y0 + e1.y1) / 2 - sy) * f;
++      pw *= f; ph *= f; gap *= f;
++      sx += (room.x0 + room.x1) / 2 - cx; sy += (room.y0 + room.y1) / 2 - cy;
++    }
++  }
+   // the planes are flat 2D projections (orthographic: an isometric view needs no perspective) — 3D-composited planes made
+   // the leaders and chips over them composite by overlap, which a --layers pass can't reproduce exactly
+   const wrap = ctx.el('', `left:0;top:0;width:${W}px;height:${H}px;isolation:isolate`, 'planes');
+@@ -81,15 +123,18 @@
+     let m = null;
+     if (srcs.length) { m = F.media(ctx, s, `cards.${k % srcs.length}`, srcs[k % srcs.length]); d.appendChild(m.img); }
+     else d.innerHTML = skins[Math.min(k, skins.length - 1)]();
++    // the hold's second beat (review fix #11): a light sweeps once across the top plane after the labels land
++    let glint = null;
++    // (on a drawn light UI plane a white light is invisible: there it is the accent's tint)
++    if (!k) { const gc = srcs.length || dark ? [255, 255, 255, .5] : [...M.rgbOf(C.accent), .34], g = a => `rgba(${gc.slice(0, 3).join(',')},${a})`; glint = document.createElement('div'); glint.style.cssText = `position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;background:linear-gradient(110deg,${g(0)} 38%,${g(gc[3])} 50%,${g(0)} 62%) 0 0/300% 100% no-repeat`; d.appendChild(glint); }
+     wrap.appendChild(d);
+-    return { d, m, k };
++    return { d, m, k, glint };
+   });
+   await Promise.all(planes.filter(p => p.m).map(p => p.m.ready()));
+   // leaders (one SVG) and label chips, laid out per frame from the planes' projected right edges
+   const leaders = labels.length ? ctx.el(`<svg width="${W}" height="${H}" style="position:absolute;left:0;top:0;overflow:visible">${labels.map(() => `<g><path fill="none" stroke="${dark ? 'rgba(255,255,255,.7)' : M.rgba(C.ink, .55)}" stroke-width="${(2 * u).toFixed(2)}" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1"/><circle r="${(6 * u).toFixed(2)}" fill="${C.accent}" stroke="${dark ? '#0E0E12' : '#FFFFFF'}" stroke-width="${(3 * u).toFixed(2)}" opacity="0"/></g>`).join('')}</svg>`, `left:0;top:0;width:${W}px;height:${H}px`, 'leaders') : null;
+-  const lfs = (portrait || square ? 40 : 34) * u;
+   const chips = labels.map(text => {
+-    const el = ctx.el(`<span class="lv-txt" style="position:relative;display:inline-block;white-space:nowrap;padding:${lfs * .3}px ${lfs * .62}px ${lfs * .34}px;border-radius:${lfs * .5}px;font:600 ${lfs}px ${ctx.font};letter-spacing:-.01em;color:${dark ? '#FFFFFF' : C.ink};background:${dark ? 'rgba(36,37,45,.92)' : 'rgba(255,255,255,.94)'};box-shadow:0 ${6 * u}px ${18 * u}px rgba(10,12,30,${dark ? .45 : .12}),0 0 0 ${1.2 * u}px ${dark ? 'rgba(255,255,255,.1)' : 'rgba(17,17,20,.06)'}">${ctx.A.esc(text)}</span>`, 'left:0;top:0', 'labels');
++    const el = ctx.el(chipHtml(text), 'left:0;top:0', 'labels');
+     return { el, w: el.offsetWidth, h: el.offsetHeight };
+   });
+   const lines = leaders ? [...leaders.querySelectorAll('path')] : [], dots = leaders ? [...leaders.querySelectorAll('circle')] : [];
+@@ -125,6 +170,11 @@
+         p.d.style.transform = c;
+         p.d.style.opacity = (en.o * M.lerp(1, DEPTH_OP[Math.min(4, p.k)], e)).toFixed(3);
+         p.d.style.filter = F.filt(F.blur(en.blur));
++        if (p.glint) {         // 22 frames in the hold after the labels, after the storyboard's hero frame (labEnd + 6)
++          const g0 = P.labEnd + Math.max(8, (D - P.labEnd - 22) / 2), gk = M.u01(t, g0, g0 + 22), on = g0 + 22 <= D - 2 && gk > 0 && gk < 1;
++          p.glint.style.opacity = on ? Math.sin(Math.PI * gk).toFixed(3) : '0';
++          p.glint.style.backgroundPosition = `${(100 - 100 * gk).toFixed(2)}% 0`;
++        }
+       }
+       // anchors: each label's point on its own plane (chosen once, clear of the planes in front), projected; the chips
+       // are spread so they never overlap (at least their height + 10 px apart), then line up in one column right of
+@@ -173,7 +223,7 @@
+   origin: true,             // from: <layer of the previous shot> | [x, y] — the cards grow out of that point (default cycle mode)
+   // card footage is extracted at a reduced size (the plate's longer side = .75 × the frame's): the front card is ≤ 78 % of H
+   media: [{ field: 'cards', fit: 'contain', scale: .75 }],
+-  copy: s => (isExploded(s) ? [s.text, ...labelsOf(s)] : [s.pill]).filter(x => x != null && String(x).trim() !== '').map(String),
++  copy: s => (isExploded(s) ? [s.text, ...shownLabels(s)] : [s.pill]).filter(x => x != null && String(x).trim() !== '').map(String),
+   // exploded: the headline is read; the plane labels are glanced (the default cycle mode keeps reading its copy)
+   read: s => isExploded(s) ? [s.text].filter(x => x != null && String(x).trim() !== '').map(String) : null,
+   params: { cards: 'list of images or footage (cardsFrom: seconds into each), repeated to fill the stack', count: 'cards in the stack (default 8, max 14)', pill: 'status text over the settled front card (optional)', mascot: 'pill avatar: cast index | logo | spark (default 0)', chrome: 'post (default: a dark social-post frame around each image) | none', pillAt: 'local frame for the pill (default: just after the front card settles)',
+@@ -186,12 +236,14 @@
+     if (!isExploded(s)) return D < 70 ? [`stack ${s.id}: ${D} frames is tight for a card cycle + settle; give it ≥ 2.5 s`] : [];
+     const w = [], P = xplan(s, D);
+     if (D < P.labEnd + 12) w.push(`stack ${s.id}: ${D} frames is tight to separate ${P.n} planes and draw their labels; give it ≥ ${((P.labEnd + 12) / 30).toFixed(1)} s`);
++    const nl = [].concat(s.labels || []).filter(x => x != null && String(x).trim() !== '').length;
++    if (Math.min(nl, 4) > P.n) w.push(`stack ${s.id}: ${Math.min(nl, 4)} labels for ${P.n} planes — the extra label${Math.min(nl, 4) - P.n > 1 ? 's are' : ' is'} not shown (one label per plane: raise count, or drop ${Math.min(nl, 4) - P.n > 1 ? 'them' : 'it'})`);
+     if ([].concat(s.labels || []).length > 4) w.push(`stack ${s.id}: ${[].concat(s.labels).length} labels — exploded shows at most 4 (a frame holds 3–4 callouts)`);
+     if (s.pill != null) w.push(`stack ${s.id}: pill is not shown in mode: exploded`);
+     return w;
+   },
+   cues: (s, D) => {
+-    if (isExploded(s)) { const P = xplan(s, D); return [{ t: 0, kind: 'hit', note: 82, gain: .5 }, ...Array.from({ length: P.n - 1 }, (_, k) => ({ t: P.sep + P.step * (k + 1) + 3, kind: 'pop', note: [79, 83, 86, 88][k], gain: .55 })).filter(c => c.t >= 6), ...labelsOf(s).slice(0, P.n).map((_, k) => ({ t: P.lab(k) + 6, kind: 'tick', gain: .5 }))]; }
++    if (isExploded(s)) { const P = xplan(s, D); return [{ t: 0, kind: 'hit', note: 82, gain: .5 }, ...Array.from({ length: P.n - 1 }, (_, k) => ({ t: P.sep + P.step * (k + 1) + 3, kind: 'pop', note: [79, 83, 86, 88][k], gain: .55 })).filter(c => c.t >= 6), ...shownLabels(s).map((_, k) => ({ t: P.lab(k) + 6, kind: 'tick', gain: .5 }))]; }
+     const p = plan(s, D); return [...p.T.map((t, k) => ({ t: t - 2, kind: 'tick', gain: .55 + .04 * k })), { t: p.settle, kind: 'pop', note: 79 }, ...(s.pill ? [{ t: p.pillAt + 1, kind: 'pop', note: 86, gain: .8 }] : [])];
+   },
+   hero: (s, D) => { if (isExploded(s)) { const P = xplan(s, D); return Math.max(8, Math.min(D - 8, Math.round(P.labEnd + 6))); } const p = plan(s, D); return Math.min(D - 8, Math.round((s.pill ? p.pillAt + 16 : p.settle + 14))); },
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/type.js stage/product-launch-sting/video/engine/blocks/type.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/blocks/type.js	2026-10-27 03:34:39
++++ stage/product-launch-sting/video/engine/blocks/type.js	2026-10-27 10:20:15
+@@ -153,13 +153,15 @@
+       async render(t, D) {
+         const TH = thr(s), z = TH ? K.u01(t, D - TH, D) : 0, zz = z * z;
+         const zoom = Math.pow(9, zz), push = 1 + .035 * K.u01(t, 14, D - TH), dy = 2 * u * Math.sin(t * .06);
+-        const k = K.outExpo(K.u01(t, -2, 17));
++        // te: the entrance's clock — after a dive the name arrives with it, already tracked in (K.diveTime; review fix #8)
++        const te = ctx.entered === 'dive' ? K.diveTime(t) : t;
++        const k = K.outExpo(K.u01(te, -2, 17));
+         const ls = K.lerp(ls1, parseFloat(ls0), k);
+         head.style.letterSpacing = ls.toFixed(4) + 'em';
+-        const g = Math.sin(Math.PI * K.u01(t, 7, 28));
++        const g = Math.sin(Math.PI * K.u01(te, 7, 28));
+         head.style.textShadow = g > .01 ? `0 0 ${(46 * u * g).toFixed(1)}px ${light ? A.hexA(B.accent, .35 * g) : `rgba(255,255,255,${(.6 * g).toFixed(3)})`}` : (light ? 'none' : '0 2px 24px rgba(0,0,0,.25)');
+         const hs = K.lerp(1.16, 1, k) * push * zoom;
+-        head.style.opacity = (K.clamp(K.u01(t, -2, 5)) * (1 - .55 * K.u01(z, .55, 1))).toFixed(3);
++        head.style.opacity = (K.clamp(K.u01(te, -2, 5)) * (1 - .55 * K.u01(z, .55, 1))).toFixed(3);
+         // CSS blur runs in the element's own (pre-scale) space: divide by the scale so the zoom blur stays ~26 px on screen
+         // (unscaled it would grow ×9 with the zoom — 230 px blurs on a 9× raster, slow enough to time out a render)
+         head.style.filter = F.filt(F.blur(((1 - k) * 14 * u + 26 * u * zz) / hs));
+@@ -172,15 +174,15 @@
+           gh.style.transform = z > 0 ? `translateY(${dy.toFixed(2)}px) scale(${gs.toFixed(5)})` : 'none';
+         });
+         if (over) {
+-          const k2 = K.outExpo(K.u01(t, 3, 19));
+-          over.style.opacity = (K.clamp(K.u01(t, 3, 9)) * (1 - K.u01(z, .2, .7))).toFixed(3);
++          const k2 = K.outExpo(K.u01(te, 3, 19));
++          over.style.opacity = (K.clamp(K.u01(te, 3, 9)) * (1 - K.u01(z, .2, .7))).toFixed(3);
+           over.style.filter = F.filt(F.blur(((1 - k2) * 8 * u + 20 * u * zz) / (push * zoom)));
+           over.style.transform = `translateY(${((1 - k2) * -26 * u + dy).toFixed(2)}px) scale(${(push * zoom).toFixed(5)})`;
+         }
+         if (pill) {
+-          const c = K.outExpo(K.u01(t, 10, 23));
++          const c = K.outExpo(K.u01(te, 10, 23));
+           pill.style.clipPath = c < .999 ? `inset(0 ${((1 - c) * 100).toFixed(2)}% 0 0 round ${pill.offsetHeight / 2}px)` : 'none';
+-          pill.style.opacity = (K.clamp(K.u01(t, 10, 13)) * (1 - K.u01(z, .2, .75))).toFixed(3);
++          pill.style.opacity = (K.clamp(K.u01(te, 10, 13)) * (1 - K.u01(z, .2, .75))).toFixed(3);
+           pill.style.filter = F.filt(pblur((1 - c) * 18 * u, 0), F.blur(20 * u * zz / (push * zoom)));
+           pill.style.transform = `translateX(${((1 - c) * -40 * u).toFixed(2)}px) translateY(${dy.toFixed(2)}px) scale(${(push * zoom).toFixed(5)})`;
+         }
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/kit.js stage/product-launch-sting/video/engine/kit.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/kit.js	2026-10-27 02:23:16
++++ stage/product-launch-sting/video/engine/kit.js	2026-10-27 10:20:14
+@@ -94,6 +94,12 @@
+ // ── round 2: cross-cut continuity (carry · morph · dive · from: · flood). Timing in 30-fps frames. ──
+ // dive (and flood) exits take a shot's last DIVE_LEN frames: a log-space zoom about the target, expo-in
+ export const DIVE_LEN = 14;
++// a shot entered by a dive starts at ×from (.3): text that builds up from nothing under it (a word-by-word rise, a name
++// tracking in) landed the dive on a near-empty frame (review fix #8). diveTime(t) is the entrance's own clock there:
++// DIVE_PRE frames ahead on the cut, caught up by DIVE_CATCH (t + PRE·(1 − t/CATCH), monotonic), so the text arrives
++// with the dive and keeps settling; later beats keep their frames. ctx.reveal and type's name use it (ctx.entered)
++export const DIVE_PRE = 14, DIVE_CATCH = 36;
++export const diveTime = t => t >= DIVE_CATCH ? t : t + DIVE_PRE * (1 - Math.max(0, t) / DIVE_CATCH);
+ // CSS-style cubic bezier (x1, y1, x2, y2) → an easing t → y (Newton on x, bisection fallback); pure
+ export function bezier(x1, y1, x2, y2) {
+   const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/engine/runtime.js stage/product-launch-sting/video/engine/runtime.js
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/engine/runtime.js	2026-10-27 06:09:56
++++ stage/product-launch-sting/video/engine/runtime.js	2026-10-27 10:33:44
+@@ -268,8 +268,9 @@
+       return fs;
+     },
+     // staggered word rise: call each frame; start/per in local frames
+-    reveal(d, t, start = 0, per = 2.2, rise = 34) {
++    reveal(d, t0, start = 0, per = 2.2, rise = 34) {
+       const ws = d.querySelectorAll('.lv-w'), plan = K.revealPlan(ws.length, shot.Db ?? shot.D, start, per);   // compresses in short shots
++      const t = ctx.entered === 'dive' ? K.diveTime(t0) : t0;      // after a dive the words arrive with it (K.diveTime)
+       ws.forEach((w, i) => {
+         const k = K.outExpo(K.u01(t, start + i * plan.per, start + i * plan.per + 14));
+         w.style.opacity = K.clamp(k * 1.4); w.style.transform = `translateY(${((1 - k) * rise * u).toFixed(2)}px)`;
+@@ -753,20 +754,43 @@
+ // what an element shows (its pictures and text): two carried things with the same key look the same
+ const lookKey = roots => JSON.stringify(roots.map(r => [r.textContent.replace(/\s+/g, ' ').trim(), [...r.querySelectorAll('img, image')].map(e => e.getAttribute('src') || e.getAttribute('href') || '')]));
+ // a morph's box: the element itself or its first painting descendant — rectangle (stage px), radius, colour, and its whole
+-// box-shadow (every layer, lengths × its on-screen scale) — 'none' when it has none
++// box-shadow (every layer, lengths × its on-screen scale) — 'none' when it has none. A soft glow (data-lv-soft: press's
++// halo) and SVG defs / masks / gradients are never the box (the same test visualRect uses): press's halo, 1.8 × the
++// button, became a translucent slab over it on the morph's first frame (review fix #2). paint: false = nothing under the
++// roots draws a box (a text layer) — carryPrep refuses such a morph
+ function boxOf(roots) {
+-  const clear = c => rgbaOf(c)[3] < .01;
++  const clear = c => rgbaOf(c)[3] < .01, skip = e => e.closest('[data-lv-soft]') || (e instanceof SVGElement && SVG_NODRAW.test(e.localName.toLowerCase()));
+   let el = null;
+-  for (const r of roots) { for (const e of [r, ...r.querySelectorAll('*')]) { const cs = getComputedStyle(e); if (cs.display !== 'none' && (!clear(cs.backgroundColor) || cs.backgroundImage !== 'none')) { el = e; break; } } if (el) break; }
++  for (const r of roots) { for (const e of [r, ...r.querySelectorAll('*')]) { if (skip(e)) continue; const cs = getComputedStyle(e); if (cs.display !== 'none' && (!clear(cs.backgroundColor) || cs.backgroundImage !== 'none')) { el = e; break; } } if (el) break; }
++  const paint = !!el;
+   el ||= roots[0];
+   const cs = getComputedStyle(el), sr = stageXY(), r = el.getBoundingClientRect(), k = el.offsetWidth ? r.width / el.offsetWidth : 1;
+   const rad = (v, size) => /%$/.test(v) ? parseFloat(v) / 100 * size : parseFloat(v) || 0;
+   const radius = Math.min(rad(cs.borderTopLeftRadius, el.offsetWidth) * k, r.width / 2, r.height / 2);
+   let color = rgbaOf(cs.backgroundColor);
+-  if (color[3] < .01 && cs.backgroundImage !== 'none') color = rgbaOf((cs.backgroundImage.match(/rgba?\([^)]*\)/) || ['rgba(255,255,255,1)'])[0]);
++  // a gradient box: the mean of its stops (its first stop alone — a button's light top edge — made the morph's box pale)
++  if (color[3] < .01 && cs.backgroundImage !== 'none') { const st = (cs.backgroundImage.match(/rgba?\([^)]*\)/g) || ['rgba(255,255,255,1)']).map(rgbaOf); color = [0, 1, 2, 3].map(j => st.reduce((a, c) => a + c[j], 0) / st.length); }
+   const shadow = cs.boxShadow === 'none' ? 'none' : cs.boxShadow.replace(/(-?\d*\.?\d+)px/g, (_, v) => `${(v * k).toFixed(2)}px`);
+-  return { el, rect: { x: g2(r.left - sr.left), y: g2(r.top - sr.top), w: g2(r.width), h: g2(r.height) }, radius, color, shadow };
++  return { el, paint, rect: { x: g2(r.left - sr.left), y: g2(r.top - sr.top), w: g2(r.width), h: g2(r.height) }, radius, color, shadow };
+ }
++// a carried layer's companions: a block can tag a layer root data-lv-with="label" when that layer only reads with another
++// (press: the control's face and its label are two layers with one box) — a carry or morph of it takes both along, so the
++// label never stays behind (review fix #2)
++const withRoots = (sh, roots) => [...roots, ...roots.flatMap(r => String(r.dataset.lvWith || '').split(/\s+/).filter(Boolean)).flatMap(n => {
++  const all = [...sh.ctx.root.querySelectorAll(`[data-lv-layer="${CSS.escape(n)}"]`)];
++  return all.filter(e => !roots.includes(e) && !all.some(o => o !== e && o.contains(e)));
++})];
++// a morph's content copies show the element's content, not its soft glow (the box is the morph's own); the glow gets a
++// copy of its own (everything else hidden), drawn under the box and faded out as the morph starts — removed in one
++// frame, press's halo popped off the button the moment the morph took over
++const hideSoft = g => { for (const e of g.node.querySelectorAll('[data-lv-soft]')) e.style.display = 'none'; };
++function softGhost(sh, roots, tag) {
++  if (!roots.some(r => r.matches('[data-lv-soft]') || r.querySelector('[data-lv-soft]'))) return null;
++  const g = ghostOf(sh, roots, tag);
++  for (const e of [g.node, ...g.node.querySelectorAll('*')]) e.style.visibility = 'hidden';
++  for (const e of g.node.querySelectorAll('[data-lv-soft], [data-lv-soft] *')) e.style.visibility = 'visible';
++  return g;
++}
+ // a morph's content copies leave the box itself to the morph (no second background, shadow or border inside it)
+ function stripBox(g, roots, el) { const t = twin(g, roots, el); if (t) Object.assign(t.style, { background: 'none', boxShadow: 'none', borderColor: 'transparent', backdropFilter: 'none', webkitBackdropFilter: 'none' }); }
+ // the next shot's element measured where the carry lands, with that shot's camera then; the outgoing one where it leaves
+@@ -781,17 +805,20 @@
+     const A = shots[k], B = shots[k + 1], P = K.carryPlan(s.carry), cut = s.f1, n = CARRIES.length;
+     const c = { k, A, B, P, n, cut, a0: cut - P.pre - .5, fc: cut - .25, fL: cut + P.post };
+     c.ease = peakOn(P.needle ? K.needle : K.smooth, (c.fc - c.a0) / (c.fL - c.a0));   // its fastest frame on the cut, whatever pre / post
+-    c.rootsA = rootsOf(A, P.el, `carry from ${A.s.id}: el`);
+-    c.rootsB = P.frame ? [] : rootsOf(B, P.to, `carry ${A.s.id} → ${B.s.id}: to`);
++    c.rootsA = withRoots(A, rootsOf(A, P.el, `carry from ${A.s.id}: el`));
++    c.rootsB = P.frame ? [] : withRoots(B, rootsOf(B, P.to, `carry ${A.s.id} → ${B.s.id}: to`));
+     await seek(c.a0); c.R0 = visualRect(c.rootsA);
+-    if (P.morph) { c.boxA = boxOf(c.rootsA); c.gA = ghostOf(A, c.rootsA, `${n}a`); stripBox(c.gA, c.rootsA, c.boxA.el); }
++    // a morph needs a box on both sides: from a text layer the box is transparent, so the morph drew a grey slab that then
++    // faded out by opacity (review fix #5)
++    const noBox = (sh, name) => new Error(`carry ${A.s.id} → ${B.s.id}: a morph needs a box on both sides — "${name}" in ${sh.s.id} (${sh.s.block}) draws none (text only); use mode: carry, or morph ${sh === A ? 'from' : 'to:'} a card, pill, button, panel or prompt-box${sh === A ? '' : ' (or to: frame)'}`);
++    if (P.morph) { c.boxA = boxOf(c.rootsA); if (!c.boxA.paint) throw noBox(A, P.el); c.gA = ghostOf(A, c.rootsA, `${n}a`); stripBox(c.gA, c.rootsA, c.boxA.el); hideSoft(c.gA); c.gAs = softGhost(A, c.rootsA, `${n}s`); }
+     await seek(cut - .5); c.Rlast = visualRect(c.rootsA); c.keyA = lookKey(c.rootsA);
+     if (!P.morph) c.gZ = ghostOf(A, c.rootsA, `${n}z`);
+     if (!P.frame) {
+       await seek(c.fL); c.R1 = visualRect(c.rootsB);
+       const op = Math.min(...c.rootsB.map(effOpacity));
+       if (op < .9) throw new Error(`carry ${A.s.id} → ${B.s.id}: "${P.to}" is only ${Math.round(op * 100)} % visible where the carry lands (${P.post} frames into ${B.s.id}) — land later with post: N or carry another element`);
+-      if (P.morph) { c.boxB = boxOf(c.rootsB); c.gB = ghostOf(B, c.rootsB, `${n}b`); stripBox(c.gB, c.rootsB, c.boxB.el); }
++      if (P.morph) { c.boxB = boxOf(c.rootsB); if (!c.boxB.paint) throw noBox(B, P.to); c.gB = ghostOf(B, c.rootsB, `${n}b`); stripBox(c.gB, c.rootsB, c.boxB.el); hideSoft(c.gB); }
+       else c.gL = ghostOf(B, c.rootsB, `${n}L`);     // B's element as it looks where it lands: the copy after the cut
+       c.keyB = lookKey(c.rootsB);
+     } else {
+@@ -805,7 +832,7 @@
+     c.same = c.keyA === c.keyB;
+     CARRIES.push(c);
+   }
+-  await Promise.all(CARRIES.flatMap(c => [c.gA, c.gB, c.gZ, c.gL].filter(Boolean)).flatMap(g => [...g.node.querySelectorAll('img')].map(im => im.decode().catch(() => null))));
++  await Promise.all(CARRIES.flatMap(c => [c.gA, c.gAs, c.gB, c.gZ, c.gL].filter(Boolean)).flatMap(g => [...g.node.querySelectorAll('img')].map(im => im.decode().catch(() => null))));
+   CARRY_ON = true;
+ }
+ // a carry's path at progress e: the centre on a gentle arc (bowing up), width and height each log-interpolated (A's box
+@@ -893,6 +920,11 @@
+       d.appendChild(p.w);
+     };
+     content(c.gA, A0.rect, P.frame ? 1 - K.smoothstep(.02, .28, lam) : 1 - K.smoothstep(.3, .6, lam));
++    const so = c.gAs ? 1 - K.smoothstep(0, .3, lam) : 0;
++    if (so > .002) {         // A's soft glow, unclipped under the box, riding with A's content and fading out
++      const S = A0.rect, kf = Math.min(rect.w / S.w, rect.h / S.h), p = placed(c.gAs, S, { x: rect.x + rect.w / 2 - S.w * kf / 2, y: rect.y + rect.h / 2 - S.h * kf / 2, w: S.w * kf, h: S.h * kf });
++      p.w.style.opacity = so.toFixed(3); out.insertBefore(p.w, out.firstChild);
++    }
+     if (!P.frame) content(c.gB, B1.rect, K.smoothstep(.4, .7, lam));
+   }
+   if (inA) for (const e of c.rootsA) e.dataset.lvCarried = '';
+@@ -935,7 +967,7 @@
+     const d = a.dive || {}, s0u = K.clamp(Number(d.from ?? .3), .1, .9);
+     let P, Z = K.clamp(Number(d.zoom ?? 8), 1.5, 16), fill = null;
+     if (d.el != null) {
+-      await seek(a.f1 - K.DIVE_LEN); const R = visualRect(rootsOf(A, String(d.el), `dive from ${a.id}: el`)); P = { x: R.x + R.w / 2, y: R.y + R.h / 2 };
++      await seek(Math.max(a.f0, a.f1 - K.DIVE_LEN)); const R = visualRect(rootsOf(A, String(d.el), `dive from ${a.id}: el`)); P = { x: R.x + R.w / 2, y: R.y + R.h / 2 };
+       // into an element the camera stops at 1.3 × the zoom where it covers the frame (about its centre, which stays put):
+       // deeper only flies through a featureless blur of its middle
+       fill = Math.max(2 * Math.max(P.x, W - P.x) / Math.max(1, R.w), 2 * Math.max(P.y, H - P.y) / Math.max(1, R.h));
+@@ -953,7 +985,7 @@
+     const d = a.flood || {};
+     let O;
+     // from a layer: its centre, or `spot` = a point inside it (fractions of its box, e.g. the Send button at [0.93, 0.78])
+-    if (d.from != null && !Array.isArray(d.from)) { await seek(a.f1 - K.XFX.flood.pre); const R = visualRect(rootsOf(A, String(d.from), `flood from ${a.id}: from`)), sp = d.spot || [.5, .5]; O = { x: R.x + R.w * Number(sp[0]), y: R.y + R.h * Number(sp[1]) }; }
++    if (d.from != null && !Array.isArray(d.from)) { await seek(Math.max(a.f0, a.f1 - K.XFX.flood.pre)); const R = visualRect(rootsOf(A, String(d.from), `flood from ${a.id}: from`)), sp = d.spot || [.5, .5]; O = { x: R.x + R.w * Number(sp[0]), y: R.y + R.h * Number(sp[1]) }; }
+     else { const at = d.from || [.5, .5]; O = { x: Number(at[0]) * W, y: Number(at[1]) * H }; }
+     const Bdark = bgOf(B) ? B.theme !== 'light' : B.theme === 'dark', Bc = Bdark ? TL.brand.colors.dark : TL.brand.colors.bg, color = String(d.color || Bc);
+     FLOODS[i - 1] = { O: { x: g2(O.x), y: g2(O.y) }, color, rgb: rgbaOf(color), flat: !bgOf(B) && color.toLowerCase() === Bc.toLowerCase() };
+@@ -963,7 +995,10 @@
+ // coordinates at its first frame (the entering camera undone: entrance move, camera fields, a dive's ×0.3)
+ async function originFor(i, s, block, enter) {
+   const o = K.originOf(s, block);
+-  if (o == null || !i) return null;              // (the first shot has nothing to grow out of: --grid warns)
++  // (the first shot has nothing to grow out of: --grid warns). Clean --clips / --layers exports draw no cross-cut device
++  // (no carry, dive or flood), so no from: either — the element it grew out of isn't in the clip; the block makes its own
++  // entrance there (docs pass Ask 2, decided in the review fixes)
++  if (o == null || !i || CLEAN) return null;
+   let P;
+   if (Array.isArray(o)) P = { x: Number(o[0]) * W, y: Number(o[1]) * H };
+   else { const A = shots[i - 1]; await seek(A.s.f1 - .5); const R = visualRect(rootsOf(A, String(o), `${s.id} from:`)); P = { x: R.x + R.w / 2, y: R.y + R.h / 2, w: R.w, h: R.h }; }
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/lib/qa.mjs stage/product-launch-sting/video/lib/qa.mjs
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/lib/qa.mjs	2026-10-27 04:48:25
++++ stage/product-launch-sting/video/lib/qa.mjs	2026-10-27 10:25:05
+@@ -330,7 +330,7 @@
+ // allowance is a near miss (INFO: a stock block's 3 s hold with only the camera's slow push lands there — the push
+ // scores 6–7, under the threshold), more is dead air (WARN). Frames inside a declared hold don't count (the hold is
+ // meant to be still); runs are split at cuts and at holds.
+-export const DEADAIR_ACT = 8, DEADAIR_MIN = .6, DEADAIR_GRACE = .5, DEADAIR_LOCKUP = 2;
++export const DEADAIR_ACT = 8, DEADAIR_MIN = .6, DEADAIR_GRACE = .5, DEADAIR_LOCKUP = 2, DEADAIR_PACE = .6;
+ export function activity(T) {
+   const { w, h, n, buf } = T, px = w * h, act = new Float32Array(n).fill(Infinity);
+   const gx = Array.from({ length: 13 }, (_, j) => Math.round(j * w / 12)), gy = Array.from({ length: 13 }, (_, j) => Math.round(j * h / 12));
+@@ -633,6 +633,16 @@
+       if (t.kind === 'replay') { const x = frames.find(y => y.i === t.i); x.history = d.error ? null : d.pass || !!(a && !a.error && a.pass); if (a && !a.error && a.pass) x.oneOff = true; replay.push({ i: t.i, shot: x.shot, ...via, ...d }); }
+       else seams.push({ i: t.i, shot: shotAt(t.i), ...via, ...d });
+     }
++    // keep only the PNGs that differ (to look at); the matching ones are deleted once purity.json holds their numbers —
++    // a film's purity/ folder otherwise kept 24–120 full frames plus replays (review fix #10)
++    const drop = f => rmSync(f, { force: true });
++    for (const x of frames) if (x.pass) drop(join(pdir, `${pad(x.i)}.png`));
++    for (const g of G) for (const t of g.list) {
++      const d = D1.get(`${t.kind}:${t.i}`), a = again.get(`${t.kind}:${t.i}`);
++      if (d && d.pass) drop(shot(g, t.i));
++      if (a && a.pass) drop(shot2(g, t.i));
++    }
++    for (const d of [adir, rdir, pdir]) { try { if (!readdirSync(d).length) rmSync(d, { recursive: true, force: true }); } catch { /* not there */ } }
+     return save({ order, frames, replay, seams });
+   } catch (e) {
+     const why = String(e.message || e).replace(/\s*\n\s*/g, ' ').replace(/\S*\//g, '').slice(0, 200);
+@@ -640,6 +650,12 @@
+     return save({ error: why });
+   }
+ }
++// --film --no-purity: the check is skipped for this render (iteration renders on a hot laptop: purity re-draws 24–120
++// frames on a fresh page, +~30 % on a film); QA reports it as not measured
++export function puritySkip({ tl, aspect, dir, prints, range = null }) {
++  rmSync(join(dir, 'purity'), { recursive: true, force: true });
++  writeFileSync(join(dir, 'purity.json'), JSON.stringify({ aspect, cut: tl.id, prints, range, skipped: true }, null, 1));
++}
+ // shot id → letterbox bar px, for the shots that have bars
+ export const barsOf = (tl, W, H) => Object.fromEntries(tl.shots.map(s => [s.id, letterboxBar(s.letterbox, W, H)]).filter(([, b]) => b));
+ 
+@@ -731,6 +747,10 @@
+     if (DA.dead.length) note('deadair', true, `nothing on screen moves for more than ${DA.grace} s longer than its copy needs to be read: ${DA.dead.slice(0, 6).map(fmtRun).join('; ')}${more(DA.dead)} — keep something moving (a drift, a cursor, a second beat) or shorten the shot`, DA);
+     if (DA.near.length) note('deadair', false, `near dead air (up to ${DA.grace} s longer than its copy needs; a slow camera push alone scores as still): ${DA.near.slice(0, 6).map(fmtRun).join('; ')}${more(DA.near)}`, DA.dead.length ? null : DA);
+     if (!DA.dead.length && !DA.near.length) { const longest = [...DA.longest].sort((a, b) => b.still / b.allow - a.still / a.allow)[0]; note('deadair', false, `no still stretch longer than its copy needs (closest: ${longest.shot} still for ${longest.still.toFixed(2)} s of ${longest.allow.toFixed(2)} s)`, DA); }
++    // against the pace of the launch reels we measured (no whole-frame still past ~0.57 s), not only the reading allowance
++    // (review fix #11) — INFO: a slow push alone counts as still here, so this is a pointer to the slowest holds, not a fault
++    const slow = DA.longest.filter(x => x.still > DEADAIR_PACE && x.why !== 'end lockup').sort((a, b) => b.still - a.still);     // (the closing lockup may hold)
++    if (slow.length) note('deadair', false, `${slow.length} shot${slow.length === 1 ? '' : 's'} hold${slow.length === 1 ? 's' : ''} a near-still stretch over ${DEADAIR_PACE} s (the launch reels we measured hold none past ~0.57 s): ${slow.slice(0, 8).map(x => `${x.shot} ${x.still.toFixed(2)} s`).join(', ')}${slow.length > 8 ? ' …' : ''} — a second beat in the hold (a glint, a chip pulse, a cursor) keeps the pace`);
+   });
+   guard('flash', () => {
+     const FL = flashCheck({ T: TH });
+@@ -740,6 +760,7 @@
+   guard('purity', () => {
+     const pj = J(join(dir, 'purity.json'));
+     if (!pj) { note('purity', false, existsSync(join(dir, 'purity.json')) ? 'not measured (purity.json is unreadable — re-run --film)' : 'not measured (purity.json is written by --film)'); return; }
++    if (pj.skipped) { note('purity', false, 'not measured (--film --no-purity) — run the final --film without --no-purity'); return; }
+     if (!rj || JSON.stringify(pj.prints) !== JSON.stringify(rj.prints)) { note('purity', false, 'purity.json is from an earlier render — not measured for these frames (re-run --film)'); return; }
+     const fr = x => `frame ${x.i} (${x.shot}) max Δ ${x.max}, ${x.over} px`, list = a => `${a.slice(0, 6).map(fr).join('; ')}${a.length > 6 ? ` … (${a.length})` : ''}`;
+     const shotsOf = a => [...new Set(a.map(x => x.shot))].join(', ');
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/lib/sheet.mjs stage/product-launch-sting/video/lib/sheet.mjs
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/lib/sheet.mjs	2026-10-27 06:37:07
++++ stage/product-launch-sting/video/lib/sheet.mjs	2026-10-27 10:33:37
+@@ -10,7 +10,7 @@
+ import { join } from 'node:path';
+ import { VIDEO, ASPECTS, FPS, ff, UserError } from './common.mjs';
+ import { TRANSITIONS } from './spec.mjs';
+-import { plainCopy } from '../engine/kit.js';
++import { plainCopy, carryPlan } from '../engine/kit.js';
+ import { shotPrints, staleShots, fileSha } from './fingerprint.mjs';
+ import { renderHeroes } from './render.mjs';
+ 
+@@ -66,9 +66,27 @@
+ 
+ // what happens on screen, in order, as short fragments
+ const hasBg = s => s.bg != null && s.bg !== false && String(s.bg).trim() !== '' && String(s.bg).toLowerCase() !== 'none';
+-function onScreen(s) {
+-  const out = [], push = x => { if (x) out.push(x); };
++// how the shot arrives across the cut (round 2; review fix #20): a carry or morph from the shot before, a dive, a flood,
++// or cards grown out of the shot before (from:)
++const fromLayer = s => ['float', 'stack', 'wall', 'fan'].includes(s.block) && typeof s.from === 'string' && !(s.block === 'float' && ['left', 'right'].includes(s.from))
++  && !(s.block === 'wall' && s.layout != null && s.layout !== 'float') && !(s.block === 'stack' && s.mode != null && s.mode !== 'cycle');
++function arrival(s, prev) {
++  if (!prev) return { text: null };
++  if (prev.carry != null) {
++    const P = carryPlan(prev.carry);
++    if (P.frame) return { text: `opens on ${prev.id}'s ${P.el} grown to fill the frame` };
++    return { text: `${P.el} ${P.morph ? 'morphs' : 'is carried'} in from ${prev.id}${P.to !== P.el ? `, landing as the ${P.to}` : ''}`, onto: P.to };
++  }
++  if (fromLayer(s)) return { text: `grows out of ${prev.id}'s ${s.from}`, grown: true };
++  if (Array.isArray(s.from) && ['float', 'stack', 'wall', 'fan'].includes(s.block)) return { text: 'grows out of a point', grown: true };
++  if (prev.out === 'dive') return { text: `the camera dives in from ${prev.id}`, dive: true };
++  if (prev.out === 'flood') return { text: `${prev.id}'s colour floods in` };
++  return { text: null };
++}
++function onScreen(s, prev = null) {
++  const out = [], push = x => { if (x) out.push(x); }, arr = arrival(s, prev);
+   if (hasBg(s)) push(`over ${/\.(mp4|mov|m4v|webm|mkv)$/i.test(String(s.bg)) ? 'footage' : 'image'} ${flat(s.bg)}${s.letterbox ? ', letterboxed' : ''}`);
++  push(arr.text);
+   switch (s.block) {
+     case 'title': push(`logo lockup${s.badge ? `, ${q(s.badge)} bubble` : ''}`); push(s.sub && `sub line ${q(s.sub)}`); break;
+     case 'headline': push(s.kicker && `kicker ${q(s.kicker)}`); push('words rise in'); push(s.sub && `sub ${q(s.sub)}`); break;
+@@ -86,7 +104,7 @@
+       push(s.mode === 'wipe' ? `divider sweeps across ${flat(s.before || '')} to reveal ${flat(s.after || '')}` : `${flat(s.before || '')} and ${flat(s.after || '')} pop in side by side${s.arrow === false ? '' : ' with an arrow'}`);
+       push(labels.length && `labels ${labels.join(' / ')}`); break;
+     }
+-    case 'float': push(s.text && `sticker headline ${q(s.text)}`); push(`${s.device === 'phone' ? 'phone' : 'card'} showing ${flat(s.card || '')} flies in from the ${s.from || 'left'}${s.streak === false ? '' : ' with a speed streak'}`); push(s.label && `focus brackets + tag ${q(s.label)}`); break;
++    case 'float': push(s.text && `sticker headline ${q(s.text)}`); push(`${s.device === 'phone' ? 'phone' : 'card'} showing ${flat(s.card || '')}${arr.onto === 'card' || arr.grown || arr.dive ? '' : ` flies in from the ${['left', 'right'].includes(s.from) ? s.from : 'left'}${s.streak === false ? '' : ' with a speed streak'}`}`); push(s.label && `focus brackets + tag ${q(s.label)}`); break;
+     case 'cta': push(`keyword ${q(s.word || '')} slams in`); push(`${q(s.pre ?? 'Comment')} / ${q(s.post ?? 'to get the link')} slide in`); push(s.logo !== false && 'logo pops'); push('chat bubble bounces'); break;
+     // launch films
+     case 'scene': for (const o of [].concat(s.overlays || [])) {
+@@ -104,7 +122,7 @@
+     case 'roster': push(`agents ${[].concat(s.agents || []).map(a => flat(typeof a === 'object' && a ? a.name || '' : a)).join(', ')} step through the highlight${s.more ? ` → ${q(s.more)}` : ''}`); break;
+     case 'type': push(s.over && `co-brand line ${q(s.over)}`); push(Array.isArray(s.words) && s.text == null ? `word beats ${s.words.map(q).join(' · ')}` : `${q(s.text || '')} settles${s.face === 'serif' ? ' (serif)' : ''}`); push(s.pill && `accent pill ${q(s.pill)}`); push(s.through && 'zooms through the camera'); break;
+     // the motion kit (round 1)
+-    case 'press': push(`cursor presses the ${s.control || 'button'}${s.label ? ` ${q(s.label)}` : ''}, rings burst`); push(s.after && `label turns ${q(s.after)}`); break;
++    case 'press': push(s.control === 'send' && s.typed !== false ? `prompt ${q(s.label || 'Make a launch teaser')} types in, the cursor presses send, rings burst` : `cursor presses the ${s.control || 'button'}${s.label ? ` ${q(s.label)}` : ''}, rings burst`); push(s.after && `label turns ${q(s.after)}`); break;
+     case 'fan': push(`${s.count || [].concat(s.cards || []).length || 5} cards deal out onto a fan, then a push into the hero`); push(Array.isArray(s.labels) && s.labels.length && `chips ${s.labels.map(flat).join(' · ')}`); break;
+     case 'particles': push(`${s.mode || 'sphere'} of dots${s.orbits ? ' with orbits' : ''}${s.burstAt != null && (s.mode || 'sphere') === 'sphere' ? `, bursts at ${flat(s.burstAt)}` : ''}`); break;
+     case 'map': push(`route draws itself${Array.isArray(s.stops) ? ` through ${s.stops.map(x => flat((x && x.label) || '')).filter(Boolean).join(' → ')}` : ''}, pins drop`); break;
+@@ -227,7 +245,7 @@
+     shots: tl.shots.map((s, k) => ({
+       id: s.id, n: k + 1, start: +s.start.toFixed(4), end: +s.end.toFixed(4), tcIn: tc(s.start), tcOut: tc(s.end),
+       beats: s.beats ?? null, sec: +(s.end - s.start).toFixed(2), block: s.block, out: s.out, last: k === tl.shots.length - 1,
+-      theme: s.theme || null, headline: headline(s), screen: onScreen(s), sound: sounds(tl, s), note: s.note ? flat(s.note) : null,
++      theme: s.theme || null, headline: headline(s), screen: onScreen(s, tl.shots[k - 1] || null), sound: sounds(tl, s), note: s.note ? flat(s.note) : null,
+       thumb: `thumbs/${s.id}.jpg`,
+       cause: s.cause ? flat(s.cause) : null,
+       cut: k < tl.shots.length - 1 ? (cuts ? cuts[s.id] : { at: tl.cuts[k], into: tl.shots[k + 1].id, out: s.out, stills: null, cont: null }) : null,
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/lib/timeline.mjs stage/product-launch-sting/video/lib/timeline.mjs
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/lib/timeline.mjs	2026-10-27 05:40:43
++++ stage/product-launch-sting/video/lib/timeline.mjs	2026-10-27 10:32:18
+@@ -1,7 +1,7 @@
+ // Compile a spec (or one of its cutdowns) into a timeline: shot frame ranges on the beat grid, cut indices at 60 fps,
+ // and every SFX cue (block cues + a whoosh on each moving transition). Everything downstream reads timeline.json.
+ import { FPS, RENDER_FPS, fmtT } from './common.mjs';
+-import { wordCount, plainCopy, exitLen, isDrift, XFX, carryPlan, originOf } from '../engine/kit.js';
++import { wordCount, plainCopy, exitLen, isDrift, XFX, carryPlan, originOf, DIVE_LEN } from '../engine/kit.js';
+ import { mediaFields, TRANSITION_FAMILY } from './spec.mjs';
+ 
+ const isVideo = p => typeof p === 'string' && /\.(mp4|mov|m4v|webm|mkv)$/i.test(p);
+@@ -56,8 +56,25 @@
+ export function compile(spec, cut = 'main') {
+   const beat = 60 / spec.music.bpm;
+   const ids = cut === 'main' ? spec.shots.map(s => s.id) : [].concat(spec.cutdowns[cut]).map(String);
+-  const src = ids.map(id => spec.shots.find(s => s.id === id));
++  const src0 = ids.map(id => spec.shots.find(s => s.id === id));
+   const warns = cut === 'main' ? [...(spec.warns || [])] : [];      // beats.yaml-level warnings (loadSpec), once
++  // a cutdown re-orders shots: a carry hands its element to the main film's next shot and from: grows out of the main
++  // film's previous one. Where the cutdown's neighbour is another shot, the device is dropped with a note; on the
++  // cutdown's last shot a carry is dropped silently, like its out: (review fix #3: one carry on a cutdown's last shot
++  // stopped the whole job, the main film included)
++  const src = cut === 'main' ? src0 : src0.map((s, i) => {
++    const m = spec.shots.indexOf(s), x = { ...s }, nxt = src0[i + 1], prv = src0[i - 1];
++    if (x.carry != null && nxt !== spec.shots[m + 1]) {
++      if (nxt) warns.push(`cutdown ${cut}: ${s.id}'s carry is dropped — it hands "${x.carry.el}" to ${spec.shots[m + 1] ? spec.shots[m + 1].id : 'the next shot'} in the main film, but ${nxt.id} follows it here (it leaves on its own out: alone)`);
++      delete x.carry;
++    }
++    const o = originOf(s, spec.blocks[s.block]);
++    if (o != null && !Array.isArray(o) && prv !== spec.shots[m - 1]) {
++      if (prv) warns.push(`cutdown ${cut}: ${s.id}'s from: "${o}" is dropped — it grows out of ${spec.shots[m - 1] ? spec.shots[m - 1].id : 'the shot before'} in the main film, but ${prv.id} comes before it here (its cards enter the block's own way)`);
++      delete x.from;
++    }
++    return x;
++  });
+   // boundaries in seconds; beats count from the downbeat (a track can have its first downbeat after 0)
+   // a beats: shot ends on the music grid (downbeat + k·beat), counted from the first grid line at or after its start —
+   // so cuts stay on the beat even after a sec: shot or a track whose first downbeat isn't at 0
+@@ -105,8 +122,11 @@
+     for (const w of block.validate ? block.validate(sh, Db) : []) warns.push(w);
+     // storyboard / text-audit / thumbnail frame — never inside a moving exit, where the camera is already blurring away
+     sh.heroF = Math.max(0, Math.min(sh.out === 'cut' ? D - 1 : D - exitLen(sh.out) - 1, Math.round(toShot(block.hero ? block.hero(sh, Db) : Db * .7))));
+-    crossCutChecks(sh, i, src, spec, warns);       // round 2: carry / dive / flood / from: (may move heroF before a carry)
+-    const raw = block.cues ? block.cues(sh, Db) : [];
++    const w0 = warns.length;
++    try { crossCutChecks(sh, i, src, spec, warns, cut); }       // round 2: carry / dive / flood / from: (may move heroF before a carry)
++    catch (e) { if (cut !== 'main') e.message = `in cutdown ${cut}: ${e.message}`; throw e; }
++    if (cut !== 'main') for (let j = w0; j < warns.length; j++) warns[j] = `in cutdown ${cut}: ${warns[j]}`;
++    const raw = block.cues ? block.cues(sh, Db, { aspects: spec.aspects || [] }) : [];     // (the film's aspects share one soundtrack)
+     if (!Array.isArray(raw)) throw new Error(`${s.id}: block "${s.block}" cues() must return a list of {t, kind}`);
+     sh.cues = raw.filter(c => c && c.t >= 0 && c.t < Db).map(c => ({ ...c, t: +((f0 + toShot(c.t)) / FPS).toFixed(5), shot: s.id }));
+     for (const c of sh.cues) if (!CUE_KINDS.includes(c.kind)) throw new Error(`${s.id}: block "${s.block}" emits cue kind "${c.kind}" — use one of ${CUE_KINDS.join(', ')}`);
+@@ -177,7 +197,7 @@
+   }
+   return { has: n => names.has(n) || pats.some(p => p.test(n)), list: block.layers };
+ }
+-function crossCutChecks(sh, i, src, spec, warns) {
++function crossCutChecks(sh, i, src, spec, warns, cut = 'main') {
+   const s = src[i], next = src[i + 1], prev = src[i - 1], blk = spec.blocks[s.block], last = i === src.length - 1;
+   const noLayer = (shot, name, what) => { const L = layerNames(spec.blocks[shot.block], shot); if (L && !L.has(name)) warns.push(`${s.id}: ${what} "${name}" — ${shot.id}'s ${shot.block} block has no such layer (its layers: ${L.list}); the stage build will fail if it doesn't tag one`); };
+   if (s.carry != null) {
+@@ -188,6 +208,10 @@
+     if (!P.frame && sh.out === 'cut' && flat(s) && flat(s) === flat(next)) warns.push(`${s.id}: carry on a hard cut between two shots on the same ${flat(s)} background — nothing changes under the carried element, so viewers barely see the cut (QA reports it as a soft cut by design, INFO); for a cut that reads, change the background (theme, bg footage) or give ${s.id} a moving out`);
+     if (P.frame && sh.out === 'cut') warns.push(`${s.id}: carry fills the frame on a hard cut — the cut is hidden under the colour (QA reports it as a soft cut by design, INFO); for a cut that reads, give ${s.id} a moving out (zoom-in reads best) with a cause:`);
+     if (!P.frame) noLayer(next, String(c.to ?? c.el), 'carry.to');
++    // a carry and a dive / flood on one cut fight (review fix #12): the carried copy is drawn in screen space above the
++    // dive's zoom (the dive is hidden under it), and a flood covers the source from 14 frames before the cut (the carried
++    // box then appears from nothing on the cut)
++    if (!last && (sh.out === 'dive' || sh.out === 'flood')) warns.push(`${s.id}: carry with out: ${sh.out} on the same cut — ${sh.out === 'dive' ? 'the carried element is drawn over the dive, so the dive barely shows' : 'the flood covers the carried element before it leaves, so the carry seems to start from nothing on the cut'}; keep one device per cut (carry with a cut or drift, or the ${sh.out} alone)`);
+     if (P.pre + 1 > sh.D - 2) throw new Error(`${s.id}: carry.pre ${P.pre} needs more of the shot's ${sh.D} frames — lower pre or lengthen the shot`);
+     // the element is hidden from the carry's first frame on: the storyboard / text-audit frame comes before it
+     sh.heroF = Math.max(0, Math.min(sh.heroF, Math.floor(sh.D - P.pre - 1.5)));
+@@ -197,8 +221,13 @@
+     if (P.post + out > sh.D - 1) throw new Error(`${s.id}: the carry from ${prev.id} lands ${P.post} frames in${out ? `, then its own carry leaves ${out} frames before its end` : ''} but the shot has ${sh.D} — lower carry.post on ${prev.id}${out ? ' or this carry\'s pre' : ''}, or lengthen ${s.id}`);
+   }
+   if (s.out === 'dive' && !last && s.dive && s.dive.el != null) noLayer(s, String(s.dive.el), 'dive.el');
++  // a dive brings the next shot in at ×from: under ×.2 it opens as a speck on an empty frame (review fix #8)
++  if (s.out === 'dive' && !last && s.dive && s.dive.from != null && Number(s.dive.from) < .2) warns.push(`${s.id}: dive.from ${s.dive.from} — ${next.id} starts at ${Math.round(Math.max(.1, Number(s.dive.from)) * 100)} % of its size, a speck on a near-empty frame for its first frames; .3 (the default) lands on a readable frame`);
+   if (s.out === 'flood' && !last && s.flood && s.flood.from != null && !Array.isArray(s.flood.from)) noLayer(s, String(s.flood.from), 'flood.from');
+-  if ((s.out === 'dive' || s.out === 'flood') && last) warns.push(`${s.id}: out: ${s.out} does nothing on the last shot`);
++  if ((s.out === 'dive' || s.out === 'flood') && last && cut === 'main') warns.push(`${s.id}: out: ${s.out} does nothing on the last shot`);
++  // a dive or flood takes the shot's last DIVE_LEN frames, measured from their first one (review fix #4: a shorter shot
++  // measured the shot before it, or crashed the stage build on the first shot)
++  if ((s.out === 'dive' || s.out === 'flood') && !last && sh.D < DIVE_LEN + 2) throw new Error(`${s.id}: out: ${s.out} needs ≥ ${DIVE_LEN + 2} frames (the ${s.out} takes the shot's last ${DIVE_LEN}) — ${s.id} has ${sh.D}; lengthen it or use another out:`);
+   const o = originOf(s, blk);
+   if (o != null) {
+     // float's from: is also its fly-in side (left | right): a name that is no layer of the previous shot is a typo
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/lv.mjs stage/product-launch-sting/video/lv.mjs
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/lv.mjs	2026-10-27 02:23:52
++++ stage/product-launch-sting/video/lv.mjs	2026-10-27 10:31:37
+@@ -5,13 +5,17 @@
+ //   node lv.mjs --job DIR --init [--title "Name"] [--kit reel|film|launch15|launch30]
+ //                                                                 starter brief.md + beats.yaml + assets/ (never overwrites);
+ //                                                                 --kit reel / film: a reel (stickers, AI footage) or a launch
+-//                                                                 film (UI over AI footage) starter that runs with no assets
++//                                                                 film (UI over AI footage) starter that runs with no assets;
++//                                                                 launch15 / launch30: a 15 s / 30 s launch on the motion kit
++//                                                                 (press, fan, flood, carry …), no assets needed
+ //   node lv.mjs --job DIR --grid [--cut NAME]                     compile beats.yaml → beat grid table + warnings
+ //   node lv.mjs --job DIR --storyboard [--aspect 16x9|all] [--cut NAME]
+ //                                                                 one real still per shot → <slug>-storyboard-<aspect>.png/.pdf
+ //   node lv.mjs --job DIR --animatic [--aspect 16x9] [--cut NAME] 30 fps half-size preview with sound → <slug>-animatic-<aspect>.mp4
+-//   node lv.mjs --job DIR --film [--aspect A|all] [--cut NAME|all] [--workers 4] [--range a,b]
++//   node lv.mjs --job DIR --film [--aspect A|all] [--cut NAME|all] [--workers 4] [--range a,b] [--no-purity]
+ //                                                                 60 fps frames → audio → master → mux → QA → <slug>-<aspect>.mp4
++//                                                                 (--no-purity: skip the purity re-draws, ~30 % of a film's
++//                                                                 time, on iteration renders; the final render keeps them)
+ //   node lv.mjs --job DIR --audio [--cut NAME]                    redo audio → master → mux → QA on frames already rendered
+ //   node lv.mjs --job DIR --qa [--aspect A] [--cut NAME]          re-run QA
+ //   node lv.mjs --job DIR --clips [s2,s4|all] [--alpha] [--webm] [--fps 30] [--aspect 16x9] [--with-transitions]
+@@ -39,7 +43,7 @@
+ import { renderFrames, renderHeroes, launch, extractPlates, openStage, closeStage } from './lib/render.mjs';
+ import { buildAudio, audioIssues } from './lib/audio.mjs';
+ import { master, mux, encodeAlpha, encodeAlphaAsync, previewOver, sfxClip } from './lib/deliver.mjs';
+-import { qaFilm, qaClip, textIssues, barsOf, floorNote, purityFrames, purityRun } from './lib/qa.mjs';
++import { qaFilm, qaClip, textIssues, barsOf, floorNote, purityFrames, purityRun, puritySkip } from './lib/qa.mjs';
+ import { letterboxBar } from './engine/kit.js';
+ import { hasBg } from './lib/timeline.mjs';
+ import { qaLayers, liveText, writeJsx, stackPreview, layerSheet, BLUR_MIN } from './lib/layers.mjs';
+@@ -228,8 +232,11 @@
+           // purity: seeded frames (every shot's first / last / inside / held frames) drawn again in shuffled order on one
+           // fresh page must match the film's; the ones that don't, and every worker seam, drawn again after the film's own
+           // preceding frames → purity.json for QA (never stops the render: a failure is recorded as "not measured")
+-          step(`purity ${cut} ${aspect}: ${purityFrames(tl, rangeAB).length} frames again, shuffled, one fresh page`);
+-          await purityRun({ job, tl, aspect, dir: p.dir, prints, range: rangeAB, film: res, idx, render: renderFrames, workers });
++          if (arg(argv, '--no-purity', false)) { step(`purity ${cut} ${aspect}: skipped (--no-purity)`); puritySkip({ tl, aspect, dir: p.dir, prints, range: rangeAB }); }
++          else {
++            step(`purity ${cut} ${aspect}: ${purityFrames(tl, rangeAB).length} frames again, shuffled, one fresh page`);
++            await purityRun({ job, tl, aspect, dir: p.dir, prints, range: rangeAB, film: res, idx, render: renderFrames, workers });
++          }
+         }
+         const pngs = existsSync(p.fdir) ? readdirSync(p.fdir).filter(f => f.endsWith('.png')).length : 0;
+         const again = `--film${cut === 'main' ? '' : ` --cut ${cut}`} --aspect ${aspect}`;
+@@ -487,7 +494,8 @@
+     if (!existsSync(dst)) { copyFileSync(join(VIDEO, 'templates', 'placeholders', `${p}.svg`), dst); console.log(`wrote ${dst}`); }
+   }
+   console.log(`assets go in ${join(job, 'assets')} (logo.svg, fonts, screenshots, footage, music)`);
+-  if (kit) console.log(`next: lv.mjs --job ${job} --grid, then --storyboard; drop your AI clips into assets/ and un-comment the bg: lines (GUIDE.md → "Reels and launch films")`);
++  if (kit && /^launch/.test(kit)) console.log(`next: lv.mjs --job ${job} --grid, then --storyboard; swap the placeholder cards in assets/ for your clips or screens, or put footage behind any shot with bg: (GUIDE.md → "Launch starters")`);
++  else if (kit) console.log(`next: lv.mjs --job ${job} --grid, then --storyboard; drop your AI clips into assets/ and un-comment the bg: lines (GUIDE.md → "Reels and launch films")`);
+ }
+ 
+ main().catch(e => die(e instanceof UserError ? e.message : (e.stack || String(e))));
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/templates/launch15.yaml stage/product-launch-sting/video/templates/launch15.yaml
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/templates/launch15.yaml	2026-10-27 02:45:26
++++ stage/product-launch-sting/video/templates/launch15.yaml	2026-10-27 10:33:52
+@@ -58,13 +58,14 @@
+     flood: {from: control, spot: [0.9, 0.5]}   # a point inside the bar, as fractions of its box: the send button
+     cause: the cursor presses send
+ 
+-  # 0:06–0:08 · the result (4 beats): on the drop it grows out of where the prompt bar was (from: control), lands within
++  # 0:06–0:08 · the result (4 beats): on the drop it grows out of the pressed point (from: cursor), lands within
+   # 0.5 s and holds for 1.5 s; a hard cut leaves it
+   - id: result
+     block: float
+     beats: 4
+     theme: dark                  # the colour the flood pours (the next shot's background)
+-    from: control                # born at the pressed bar (a layer of the previous shot), its size and place
++    from: cursor                 # born at the cursor's tip, the pressed point (a layer of the previous shot): the bar
++                                 # itself is under the flood by then, so a card born at its size and place popped in
+     card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
+     label: Output
+     out: cut
+diff -ru -x node_modules jobs/fx-tools/orig-stage/product-launch-sting/video/templates/launch30.yaml stage/product-launch-sting/video/templates/launch30.yaml
+--- jobs/fx-tools/orig-stage/product-launch-sting/video/templates/launch30.yaml	2026-10-27 02:45:26
++++ stage/product-launch-sting/video/templates/launch30.yaml	2026-10-27 10:33:52
+@@ -67,13 +67,14 @@
+     flood: {from: control, spot: [0.9, 0.5]}   # a point inside the bar, as fractions of its box: the send button
+     cause: the cursor presses send
+ 
+-  # 0:08.5–0:11 · the result (5 beats): it grows out of where the prompt bar was (from: control) and holds, then the
++  # 0:08.5–0:11 · the result (5 beats): it grows out of the pressed point (from: cursor) and holds, then the
+   # card is carried on into the output half of the next shot while the rest drifts left (carry: — fastest on the cut)
+   - id: result
+     block: float
+     beats: 5
+     theme: dark                  # the colour the flood pours (the next shot's background)
+-    from: control                # born at the pressed bar (a layer of the previous shot), its size and place
++    from: cursor                 # born at the cursor's tip, the pressed point (a layer of the previous shot): the bar
++                                 # itself is under the flood by then, so a card born at its size and place popped in
+     card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
+     label: Output
+     carry: {el: card, to: after}

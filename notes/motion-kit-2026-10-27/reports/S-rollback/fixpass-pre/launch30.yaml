@@ -1,0 +1,140 @@
+# beats.yaml — a 30 s launch starter (lv.mjs --init --kit launch30): the full arc at 120 BPM (one beat = 0.5 s, 60
+# beats). The brief's pacing targets are built in: a surprise by 2 s, the product by 3 s, the brand by 5 s, one idea
+# per 2–4 s, something new about every 0.5 s.
+#   hook → title → feature → action → result → inputs → output → before → after → punctuation → one → many → proof →
+#   summary → the title again → the call to action on the end card.
+# 14 shots of 1–4 s (paired beats share a shot: inputs → output, before → after). 31 words a viewer must read (keep it
+# to 31 or fewer: each word costs about 0.35 s of screen time). Transitions: hard cuts and drifts, one punch-in on the
+# send, and one signature (the title zooming through the camera); it opens and closes on the same title.
+# It runs as is: no footage needed yet. Drop your clips into assets/ and swap the placeholder cards for them, or put
+# footage behind any shot with `bg:` (GUIDE.md → "Reels and launch films"). A "round 1:" note names the motion-kit
+# block that fits that moment better, once your copy of the skill has it (lv.mjs --blocks lists what it has).
+title: Your 30 s launch
+slug: launch-30
+aspects: [16x9, 9x16, 1x1]       # each is re-laid out, not cropped
+thumbnail: result
+
+brand:
+  name: Product
+  mono: P
+  # logo: assets/logo.svg        # your mark (SVG/PNG): the end card
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+
+music: {style: keynote, bpm: 120, breaks: [punct]}   # the groove drops on the title; it dips for the punctuation beat
+
+shots:
+  # 0:00–0:01.5 · the hook (3 beats): no words, the most arresting picture you have, already moving
+  - id: hook
+    block: media                 # round 1: block: particles (mode: burst), a seeded dot field bursting
+    beats: 3
+    src: assets/placeholder-clip-2.svg   # your strongest AI clip (.mp4/.mov, from: seconds into it) or a still
+    out: cut
+
+  # 0:01.5–0:03.5 · the title (4 beats) settles, then zooms through the camera: the film's one signature move
+  - id: title
+    block: type
+    beats: 4
+    theme: dark                  # a dark title card: the cut out of the zoom-through must read as a cut (QA checks it)
+    text: Product                # your product's name (set it here: --title sets only the brand)
+    face: serif
+    through: true
+    out: cut
+
+  # 0:03.5–0:06.5 · the feature (6 beats): what it does, in one line
+  - id: feature
+    block: headline
+    beats: 6
+    text: Launch films, *cut for you.*
+    out: drift-up
+
+  # 0:06.5–0:09 · the action (5 beats): the prompt typed in a macro bar and sent; the camera punches in on the send
+  - id: action
+    block: scene                 # round 1: follow it with a block: press shot for the click itself
+    beats: 5
+    # bg: assets/your-ai-footage.mp4      # e.g. hands on a laptop at night
+    overlays:
+      - {at: 0, pos: center, bar: Cut our Friday teaser, framing: macro, theme: light}
+    out: zoom-in                 # a hard cut here wouldn't read: both sides are mostly background (QA checks it)
+
+  # 0:09–0:11 · the result (4 beats): it flies in within 0.5 s and stays readable for 1.5 s
+  - id: result
+    block: float
+    beats: 4
+    card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
+    label: Output
+    out: drift-left
+
+  # 0:11–0:13 · inputs → output (4 beats): what went in, what came out, side by side
+  - id: inout
+    block: split
+    beats: 4
+    before: assets/placeholder-card.svg
+    after: assets/placeholder-clip-3.svg
+    labels: [Input, Output]
+    out: drift-left
+
+  # 0:13–0:15 · before → after (4 beats): a divider wipes the old version away
+  - id: change
+    block: split
+    beats: 4
+    mode: wipe
+    before: assets/placeholder-before.svg
+    after: assets/placeholder-after.svg
+    out: cut
+
+  # 0:15–0:16.5 · punctuation (3 beats): one word, the music dips under it
+  - id: punct
+    block: type
+    beats: 3
+    text: "*Done.*"
+    out: cut
+
+  # 0:16.5–0:19 · one (5 beats): the cards cycle one by one and the last one settles
+  - id: one
+    block: stack                 # round 1: block: fan (one → many: the cards deal out from the hero card)
+    beats: 5
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+    count: 8
+    pill: 120 films studied
+    out: drift-up
+
+  # 0:19–0:20 · many (2 beats): the whole wall of them
+  - id: many
+    block: wall                  # round 1: block: wall with layout: grid (one tile lit)
+    beats: 2
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+    out: drift-up
+
+  # 0:20–0:22 · proof (4 beats): one number, said big
+  - id: proof
+    block: stat
+    beats: 4
+    value: 10
+    suffix: "×"
+    label: faster
+    out: cut
+
+  # 0:22–0:24.5 · the summary (5 beats): the whole film in four words
+  - id: summary
+    block: headline
+    beats: 5
+    text: Brief it. *Ship it.*
+    out: cut
+
+  # 0:24.5–0:26 · the title again (3 beats): the bookend
+  - id: again
+    block: type
+    beats: 3
+    theme: dark                  # the same dark title card as at the open
+    text: Product                # your product's name (set it here: --title sets only the brand)
+    face: serif
+    out: cut
+
+  # 0:26–0:30 · the call to action on the end card (8 beats): it settles in about 1 s and holds for the last 3
+  - id: end
+    block: endcard
+    beats: 8
+    tagline: Try it *free.*
+    url: product.app
+    cast: 0

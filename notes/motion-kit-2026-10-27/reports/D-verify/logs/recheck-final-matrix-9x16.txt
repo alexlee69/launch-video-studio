@@ -1,0 +1,2 @@
+mon-D-matrix 9x16: 1080 cams, 1080 frames
+INFO 17 cuts, 14 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: t01→t02 2.21×, t02→t03 2.21×, t05→t06 2.07×, t06→t07 2.56×, t09→t10 2.21×, t10→t11 2.21×) — numbers per cut in qa.json

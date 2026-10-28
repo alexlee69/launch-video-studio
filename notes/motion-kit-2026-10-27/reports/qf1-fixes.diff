@@ -1,0 +1,619 @@
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/GUIDE.md /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/GUIDE.md
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/GUIDE.md	2026-10-27 10:35:52
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/GUIDE.md	2026-10-27 16:42:30
+@@ -309,9 +309,9 @@
+ - **stack `mode: exploded`.** 3–5 planes: `count`, else the number of `cards` (3–5), else 4 drawn UI planes (no cards
+   needed). `tilt: iso` (default, an isometric ~30° view) · `low` (≤ 12°). `labels`: one per plane, top plane first, at
+   most 4 shown; labels past the plane count aren't shown (`--grid` warns). `text` sits left on 16:9 and on top on 9:16 /
+-  1:1. The stack and its label column are fitted inside the safe area, clear of the headline (on 9:16 iso the planes
+-  also spread to fill the room under the headline). A light sweeps once across the top plane after the labels land. The
+-  cycle mode's `pill` isn't shown.
++  1:1. The stack and its label column are fitted inside the safe area, clear of the headline (on 9:16 the planes also
++  spread to fill the room under the headline — a low stack steps up more steeply there and keeps its planes overlapping).
++  A light sweeps once across the top plane after the labels land. The cycle mode's `pill` isn't shown.
+ 
+ **Footage fields** of these blocks (split `before`/`after`, float `card`, stack/wall/fan `cards`, and the universal `bg`)
+ take an image or a clip; `<field>From` = seconds into the clip (a list for `cards`). Clips are cut to 60-fps frames for
+@@ -378,9 +378,14 @@
+ degrees, opacity × `op`; `k ≥ 1` means landed (use the rest pose). `w`, `h` are the element's own size (born out of a big
+ element it starts at that size, out of a point as a speck); `lead: true` on the first element out takes the source's size
+ whole, as if the source splits into the cards; `ctx.K.growAt(i, n)` gives element i of n its `t0` (3 frames apart, the
+-whole spread at most 18). `ctx.entered === 'dive'` means a dive flies this shot in: skip your own entrance (or run it on
+-`ctx.K.diveTime(t)`, which starts it 14 frames in and catches up by frame 36). `ctx.carried` is the layer a carry lands
+-on in this shot (hidden until it lands): skip that element's entrance. All three are null in clean `--clips` /
++whole spread at most 18); `ctx.K.reshape(ctx.origin, w, h, t, {t0, len, lead})` gives that lead element's layout box
++while it changes from the source's shape into its own (a fan hero born out of a landscape card). `ctx.entered ===
++'dive'` means a dive flies this shot in: skip your own entrance (or run it on `ctx.K.diveTime(t)`, which starts it 14
++frames in and catches up by frame 36); `'frame'` means the previous shot's morph `to: frame` filled the frame with this
++shot's colour. The shot's own `s.entered === 'dive'` (set by the timeline, so it holds in clean exports and for `cues`
++too) is for timing a block shifts as a whole — panel starts its UI 14 frames early. A block may export `diveFrom: .5`:
++the scale a dive brings it in at when `dive.from` isn't set. `ctx.carried` is the layer a carry lands
++on in this shot (hidden until it lands): skip that element's entrance. `ctx.origin`, `ctx.entered` and `ctx.carried` are null in clean `--clips` /
+ `--layers` exports (no carry, dive, flood or `from:` there: the block makes its own entrance). A carry takes the tagged
+ element with its untagged children, so put a card's text inside the card: text on a layer of its own stays behind, under
+ the carried copy, until the landing — or tag the element's root `data-lv-with="<layer>"` and a carry or morph of it takes
+@@ -550,8 +555,8 @@
+ | `carry: {el, to}` (outgoing) | the element `el` lifts off, travels on a gentle arc with its fastest frame on the cut, and lands on the next shot's element `to` (default: the same name) | `ease: smooth`, `pre` 8, `post` 14, `lift` 1.08, `arc` .1 |
+ | `carry: {el, ease: needle}` | the element holds its place and pulses on the cut while the backgrounds hard-cut under it | `pre` 6, `post` 6, no lift |
+ | `carry: {el, to, mode: morph}` | the box becomes the next box: size (not scale), corners, colour and every shadow layer; the two contents pass through a soft blur | `pre` 11, `post` 11 |
+-| `carry: {el, to: frame, mode: morph}` | the box grows to fill the whole frame exactly on the cut, in the next shot's background colour (or `color:`): the call to action fills the frame into the end card | `pre` 14, `post` 3 |
+-| `out: dive` + `dive: {el}` or `{at: [x, y]}` (outgoing) | the camera flies into the element or point over the shot's last 14 frames; the next shot arrives already flying forward | `zoom` 8 (1.5–16), `from` .3 (the next shot's first scale, .1–.9) |
++| `carry: {el, to: frame, mode: morph}` | the box grows to fill the whole frame exactly on the cut, in the next shot's background colour (or `color:`): the call to action fills the frame into the end card, whose lockup and lines rise out of the colour | `pre` 14, `post` 3 |
++| `out: dive` + `dive: {el}` or `{at: [x, y]}` (outgoing) | the camera flies into the element or point over the shot's last 14 frames; the next shot arrives already flying forward | `zoom` 8 (1.5–16), `from` .3 (the next shot's first scale, .1–.9; .55 into particles, .5 into a panel) |
+ | `from: <layer>` or `[x, y]` (incoming) | float, stack, wall and fan cards are born at that element of the previous shot (or that point of the frame) and fly to their places, the first card first | — |
+ | `out: flood` + `flood: {from, spot, color}` (outgoing) | the next shot's background pours out of what was pressed: soft, wobbling circles grow from it over the last 14 frames and cover the frame on the cut | `color`: the next shot's background |
+ | `cause: "…"` (outgoing) | what on screen makes the transition happen; printed on the storyboard and the review sheet, never a pixel | — |
+@@ -585,10 +590,11 @@
+   prompt's Send button: `[0.93, 0.76]`). An iridescent fringe rides the front; dark text the front passes over is masked
+   by the front itself, and the last uncovered corner leaves on the cut. When the next shot isn't that same flat colour
+   (footage, another background), the colour fades over ~6 frames after the cut.
+-- **From.** Works on float, stack and wall in their default layouts, and on fan. After a flood, grow out of `cursor` (the
+-  pressed point): the flood covers the bar from 14 frames before the cut, so a card born at the bar's size and place
+-  pops in on the cut. Cards born out of a big element start at
+-  its size (the first card takes it whole, as if the element splits into the cards); out of a point they start as
++- **From.** Works on float, stack and wall in their default layouts, and on fan. After a flood the layer is under the
++  colour by the cut, so whatever layer `from:` names, the cards are born at a point: the flood's origin, where the colour
++  poured from (`from: cursor` reads the same). Cards born out of a big element start at
++  its size (the first card takes it whole, as if the element splits into the cards; a fan's hero born out of a card of
++  another shape starts in that card's shape and crop and reshapes into its own over 9 frames); out of a point they start as
+   specks. On float, `from:` is also the fly-in side (`left` | `right`), so a name that is no layer of the previous shot is
+   an error (probably a typo). `--grid` warns when `from:` does nothing: on the first shot, with `wall layout: grid` or
+   `stack mode: exploded`, on a block that doesn't grow, or on a shot a dive flies in.
+@@ -625,8 +631,9 @@
+ the one it repeats at the top level, e.g. `signature: dive`.
+ 
+ - **Carry.** After the cut you see the next shot's element as it looks where it lands, so the landing is exact. Two
+-  different things (a prompt box → a panel) become one box that changes shape from the first to the second, their looks
+-  blending through a blur on the cut; for two boxes that should trade colour and corners, `mode: morph` reads better. A
++  different things (a prompt box → a panel), or the same picture in a box of another shape (a landscape card → a square
++  one), become one box that changes shape from the first to the second, their looks blending through a blur on the cut;
++  for two boxes that should trade colour and corners, `mode: morph` reads better. A
+   carry needs something to change under it: on a hard cut between two shots on the same plain background nobody sees
+   the cut (`--grid` warns: change the theme or footage, or give the shot a moving `out`). The build stops when a name
+   isn't a layer of its shot, when the carry is on the last shot, or when the `to` element is under 90 % visible where it
+@@ -639,7 +646,9 @@
+   the dive's speed; a shallow dive starts it nearer ×1, so it never starts faster than the dive ended. Footage in that
+   shot keeps pushing forward (×1 → ×1.15) while its UI flies in, and a float there doesn't fly in sideways. Text that
+   rises in word by word (headline, stat, prompt, panel …) and `type`'s name arrive with the dive, already built
+-  (`K.diveTime`); particles arrive whole. Other blocks that build up from empty arrive small, so dive into a shot that is
++  (`K.diveTime`); a panel arrives with its UI items already in (they start 14 frames early, their sounds with them);
++  particles arrive whole. A dive brings particles in at ×.55 and a panel at ×.5 unless `from:` says otherwise (thin dots
++  or a small card at ×.3 read as a dim speck on an empty frame). Other blocks that build up from empty arrive small, so dive into a shot that is
+   full on its first frame or give it a `bg:`, and keep `from` at .2 or more (`--grid` warns under it: a speck on an
+   empty frame). A dive or flood needs a shot of ≥ 16 frames (it takes the last 14; `--grid` stops on a shorter one).
+ 
+@@ -724,8 +733,10 @@
+ Measured on the starters: launch15 has 12 words to read and launch30 31 (the cap); both compile with no warnings and
+ say QA PASSED in all three aspects. Each film keeps two WARN lines (text floor, contrast), both from block styling: the end
+ card's address (31 px, APCA Lc 51–64) and the orange Output / Input / Before / After tags (black on orange, 7.5:1 but
+-APCA Lc 54; 31–36 px capitals). A two-word `--title` makes launch30's 3-beat title repeat warn on reading time (it
+-needs 1.6 s).
++APCA Lc 54; 31–36 px capitals). launch30's title repeat has 4 beats, so a two-word `--title` reads in time (it needs
++1.6 s). Their own placeholder stills keep their words where any frame shows them: `placeholder-screen.svg` in its
++middle third (it reads as a landscape result card, a 9:16 fan hero and a grid tile alike), and
++`placeholder-wipe-before.svg` / `-wipe-after.svg` beside the wipe's divider, each on its own side.
+ 
+ The brief (`templates/brief.md`) has three parts written for these films. Fill them before the first frame:
+ - **Pacing targets** (§1): a surprise by 2 s, the product by 3 s, the brand by 5 s, one idea per 2–4 s, something new on
+@@ -1055,12 +1066,14 @@
+   30 px label floor but under the 47 px `web` floor, so the storyboard notes them and film QA WARNs (40–42 px on 9:16 /
+   1:1). Which floor chips answer to is still open; on a landscape film, keep words the viewer must read out of chips.
+ - **Exploded stack layout**: the stack is fitted to the safe area per aspect (9:16 iso included), but the fit is
+-  measured on the planes, not on the chips' final column; with long labels on 9:16 the planes get small. Read the 9:16
+-  storyboard before shipping one.
++  measured on the planes, not on the chips' final column; with long labels on 9:16 the planes get small. On 9:16 the
++  frame's width (planes + label column) still sets the scale: a stack fills about a third of the frame's height, and the
++  lower third under it stays empty. Read the 9:16 storyboard before shipping one.
+ - **Cross-cut weak spots (open)**: a dive into a block that builds up from empty other than text (a title's spring, an
+   end card) still arrives small; a wall's `from:` lead card can be another picture and shape than the source; the
+   prompt's caret stays sharp for 2–3 frames inside a flood's front; a morph between two boxes of the same colour fades
+-  its fill in. `from:` does nothing on `wall layout: grid` and `stack mode: exploded`. Check those cuts on the cut stills.
++  its fill in. A carry between two different looks (or one picture in two frame shapes) shows both for about one frame
++  under the blur on the cut, and the box keeps the source's shape for part of its landing. `from:` does nothing on `wall layout: grid` and `stack mode: exploded`. Check those cuts on the cut stills.
+ - **QA lessons from the launch starters**: a `type` `through: true` zoom-through cut into a shot on the same background
+   fails the cut check — change the register across that cut, or use a moving exit. A shot whose only content pops in on
+   its first frame fails the content check — keep something on screen from the first frame. The floating `wall` builds
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/endcard.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/endcard.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/endcard.js	2026-10-21 02:16:56
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/endcard.js	2026-10-27 17:27:48
+@@ -35,12 +35,18 @@
+     const chars = Array.from({ length: n }, (_, i) => ctx.el(A.budEl(ctx.cast(i), cs, i % 2 ? 'smile' : 'open'), `left:${W / 2 - n * cs * 1.22 / 2 + i * cs * 1.22 + cs * .11}px;top:${castY}px;width:${cs}px;height:${cs}px`, `character-${i + 1}`));
+     return {
+       render(t) {
+-        const l = K.outExpo(K.u01(t, -4, 16));
+-        lock.style.opacity = l.toFixed(3); lock.style.transform = `scale(${(k * K.lerp(.88, 1, l)).toFixed(4)})`;
++        // out of a morph to: frame (ctx.entered 'frame') the lockup rises out of the colour on its own clock from the cut,
++        // and its lines rise too: there the pre-rolled lockup was ~75 % in on the first frame and faded in by opacity alone
++        // as the colour lifted (qa1 L2); every other entrance is unchanged
++        // (pre-rolled 2 frames: half in on the cut frame, so the shot's first frame is never the bare background — QA content)
++        const rise = ctx.entered === 'frame', l = K.outExpo(rise ? K.u01(t, -2, 18) : K.u01(t, -4, 16));
++        const ry = (k0, k1, d) => rise && K.u01(t, k0, k1) < 1 ? `translateY(${((1 - K.outExpo(K.u01(t, k0, k1))) * d * u).toFixed(2)}px) ` : '';   // (landed: the old transform exactly)
++        lock.style.opacity = l.toFixed(3); lock.style.transform = `${ry(-2, 18, 64)}scale(${(k * K.lerp(.88, 1, l)).toFixed(4)})`;
++        if (rise) for (const [e, k0, k1] of [[tag, 8, 22], [cta, 14, 28], [url, 18, 32]]) if (e) e.style.transform = ry(k0, k1, 36).trim() || 'none';
+         // the wobble starts once the lockup has faded and scaled in (t ≥ 16), and the logo has no transform at all
+         // before that: a transformed, shadowed logo inside the fading, scaling lockup makes Chrome composite the lockup
+         // on its own (rasterised at a lagging scale), so the frame would no longer match its layers (--layers QA)
+-        const wob = K.u01(t, 16, 28);
++        const wob = rise ? K.u01(t, 18, 30) : K.u01(t, 16, 28);      // (after a rise: once the lockup has landed)
+         mk.style.transform = wob > 0 ? `rotate(${(4 * Math.sin(t * .14) * wob).toFixed(2)}deg)` : 'none';
+         if (tag) { tag.style.opacity = K.outExpo(K.u01(t, 8, 22)).toFixed(3); }
+         if (cta) cta.style.opacity = K.outExpo(K.u01(t, 14, 28)).toFixed(3);
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/fan.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/fan.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/fan.js	2026-10-27 10:37:49
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/fan.js	2026-10-27 16:06:15
+@@ -172,6 +172,10 @@
+           const sc = M.lerp(.06, 1, e) * pull * Z, z = sl.z * e, ry = sl.ry * e + sway * (sl.a ? 1 : .5), rz = sl.rz * e;
+           // from: born at ctx.origin, grown to the dealt pose on K.grow's arc in the deal's own window (the hero takes the source's size)
+           const g = og && ctx.K.grow(og, { x: W / 2 + (sl.x - W / 2) * pull * Z * (sl.a ? spread : 1), y: cy + (sl.y - cy) * pull * Z + 4 * u * Math.sin(t * .06 + sl.k) }, t, { t0: P.deal(sl.k), len: 16, bank: sl.a ? (sl.k < 0 ? 5 : -6) : 0, w: sl.w, h: sl.h, lead: !sl.a }), [gx, gy, gs, go, gr] = g && g.k < 1 ? [g.x, g.y, g.s * pull * Z, g.op, g.rot] : [fx, fy, sc, o, 0];
++          // (born whole out of a box of another shape — a landscape result card — the hero starts in that box's shape and
++          // crop and reshapes into its own over 9 frames, before its chip comes: qa1 M1)
++          const rb = og && !sl.a ? ctx.K.reshape(og, sl.w, sl.h, t, { t0: P.deal(sl.k), len: 9, lead: true }) : null;
++          if (rb) Object.assign(c.d.style, { left: `${sl.x - rb.w / 2}px`, top: `${sl.y - rb.h / 2}px`, width: `${rb.w}px`, height: `${rb.h}px` });
+           c.d.style.opacity = go.toFixed(3);
+           // (grown from a layer, the hero IS that element going on: it keeps its focus and stays level; the others deal in blurred)
+           c.d.style.filter = F.filt(F.blur((og && !sl.a ? 0 : 8 * u * (1 - e)) + 6 * u * pz * (sl.a ? 1 : 0)));
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/panel.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/panel.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/panel.js	2026-10-21 03:10:26
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/panel.js	2026-10-27 16:26:28
+@@ -4,13 +4,18 @@
+ 
+ // No device frame: a floating card (or none) holding UI items. With --alpha this is the overlay workhorse:
+ // a chat panel, an approval card, a notification stack or agent steps over your own footage.
++// A panel the camera dives into (timeline: s.entered = 'dive') arrives built: the box landed and the UI DIVE_PRE frames
++// ahead (it starts at frame −4, not 10), so the dive doesn't land on an empty white pill (qa1 M4). The timeline decides
++// it, so the sounds, a clean --clips export and the film all keep one schedule
++const uiStart = s => s.entered === 'dive' ? 10 - K.DIVE_PRE : 10;
+ export default {
+   name: 'panel',
+   doc: 'A floating UI panel (no device) running UI items — chat, approval card, notification stack, agent steps; the best block for transparent overlays.',
+   layers: 'headline · panel (none with style: bare) · one per UI item (<type>-<n>) · cursor (with a tap)',   // --layers export, back to front
+   params: { text: 'headline (optional; beside the panel on landscape)', items: 'UI items', style: 'card (default, white rounded panel) | glass (frosted; can\'t be split exactly by --layers) | bare (items only, no panel)', width: 'panel width in px at 1080 (default 640)', side: 'left | right — headline side when there is one; without text the panel is centred' },
+-  validate: (s, D) => { const k = overBudget(s.items, D, 10); return k ? [`panel ${s.id}: the UI items need ~${Math.round(k * 100)}% of the shot; they will be sped up — lengthen the shot or trim items`] : []; },
+-  cues: (s, D) => uiCues(s.items, D, 10),
++  diveFrom: .5,             // a dive brings the panel in at ×.5 unless dive.from says otherwise (at ×.3 a speck, qa1 M4)
++  validate: (s, D) => { const k = overBudget(s.items, D, uiStart(s)); return k ? [`panel ${s.id}: the UI items need ~${Math.round(k * 100)}% of the shot; they will be sped up — lengthen the shot or trim items`] : []; },
++  cues: (s, D) => uiCues(s.items, D, uiStart(s)),
+   hero: (s, D) => Math.round(D * .86),
+   async build(ctx, s) {
+     const { W, H, u, C, safe } = ctx;
+@@ -31,15 +36,15 @@
+     panel.classList.add('lv-ui');
+     if (style !== 'bare') ctx.layer(panel, 'panel');   // bare: no panel of its own, just its items
+     const fs = Math.max(20 * u, pw * .042);
+-    const ui = mountUI(ctx, panel, s.items, { width: pw, fontSize: fs, pad: style === 'bare' ? 0 : fs * 1.1, top: style === 'bare' ? 0 : fs * 1.1, start: 10, cursor: true, glass: style !== 'card', bottom: fs });
++    const ui = mountUI(ctx, panel, s.items, { width: pw, fontSize: fs, pad: style === 'bare' ? 0 : fs * 1.1, top: style === 'bare' ? 0 : fs * 1.1, start: uiStart(s), cursor: true, glass: style !== 'card', bottom: fs });
+     // the panel hugs its items (centred) when they fit; a longer flow keeps the full height and scrolls
+     await Promise.all([...panel.querySelectorAll('img')].map(i => i.decode().catch(() => null)));
+     const need = Math.ceil(ui.flow.offsetTop + ui.flow.offsetHeight + (style === 'bare' ? 0 : fs * 1.1));
+     if (need < ph) { panel.style.height = need + 'px'; panel.style.top = (cy - need / 2) + 'px'; }
+     return {
+       render(t) {
+-        const p = K.outBack(K.u01(t, -4, 14));
+-        panel.style.opacity = K.clamp(K.u01(t, -4, 2) * 1.5).toFixed(3);
++        const tb = t + (s.entered === 'dive' ? K.DIVE_PRE : 0), p = K.outBack(K.u01(tb, -4, 14));      // (dived into: landed)
++        panel.style.opacity = K.clamp(K.u01(tb, -4, 2) * 1.5).toFixed(3);
+         panel.style.transform = `translateY(${((1 - p) * 60 * u + 5 * u * Math.sin(t * .1)).toFixed(2)}px) scale(${K.lerp(.94, 1, K.clamp(p, 0, 1.05)).toFixed(4)})`;
+         if (head) { ctx.reveal(head, t, -2, 2); head.style.transform = `translateY(${drift(t, 6, u)}px)`; }
+         ui.render(t);
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/particles.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/particles.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/particles.js	2026-10-27 06:00:14
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/particles.js	2026-10-27 16:25:53
+@@ -20,6 +20,9 @@
+   doc: 'A seeded dot field: a rotating, breathing sphere that assembles and can burst into streaks (burstAt), a burst into a drifting star field, a halftone grid with travelling waves, or a dot terrain flowing towards the camera; optional orbits and a headline over a soft vignette.',
+   layers: 'particles · orbits · text',
+   media: [],
++  // a dive into the field starts it at ×.55 unless dive.from says otherwise: thin dots at the default ×.3 under the dive's
++  // blur landed as a dim blob on a near-black frame (qa1 M4; the runtime's cutPrep reads it)
++  diveFrom: .55,
+   copy: s => [s.text].filter(x => x != null && String(x).trim() !== '').map(String),
+   read: s => [s.text].filter(x => x != null && String(x).trim() !== '').map(String),
+   params: {
+@@ -88,6 +91,11 @@
+       }
+     }
+     const sp = Math.max(14, Number(s.spacing) || (mode === 'terrain' ? 30 : 34)) * u;
++    // the fields (grid / terrain) reach past the frame by as far as the camera carries them in or out (qa1 L1: a whip into
++    // the terrain slid the field's hard left edge across the frame): the entrance offset or zoom-out, a whip / smear exit
++    const XW = { 'whip-left': .5, 'whip-right': .5, 'smear-left': .5, 'smear-right': .5 }, YH = { 'whip-up': .45, 'whip-down': .45 };
++    const en = ctx.enter || {}, zo = (en.s || 0) < 0 ? -en.s / (2 * (1 + en.s)) : 0;
++    const mx = Math.max(Math.abs(en.dx || 0), (XW[s.out] || 0) * W) + zo * W, my = Math.max(Math.abs(en.dy || 0), (YH[s.out] || 0) * H) + zo * H;
+     const blur = F.dirBlur(`mk-pt-${s.id}`);
+     // orbits (sphere / burst): thin ellipses with a satellite each, painted in one SVG (attributes, never transforms)
+     let orb = null;
+@@ -117,6 +125,16 @@
+       }
+     }
+     const tIn = textAt(s, ctx.D);
++    // grid mode: the halftone thins out round the headline — an elliptical clearing (the vignette's size), dots shrinking
++    // to nothing in its inner half — so the line reads on the plain background: over the dots the vignette alone left it at
++    // 2.8–3.3:1 (qa1 M6). 1 everywhere in the other modes and without a headline
++    let hb = null;
++    if (head && mode === 'grid') {          // the line's glyphs (the text box is wider than its words)
++      const rg = document.createRange(); rg.selectNodeContents(head);
++      const gr = rg.getBoundingClientRect(), hr = head.getBoundingClientRect(), gk = hr.width ? head.offsetWidth / hr.width : 1;
++      hb = { x: W / 2, y: parseFloat(head.style.top) + head.offsetHeight / 2, rx: gr.width * gk * .5 + 70 * u, ry: gr.height * gk * .5 + 60 * u };
++    }
++    const hole = (x, y) => { if (!hb) return 1; const q = M.clamp((Math.hypot((x - hb.x) / hb.rx, (y - hb.y) / hb.ry) - .75) / .6); return q * q * (3 - 2 * q); };
+     // a dive flies this shot in (ctx.entered): the field arrives assembled and the dive's ×0.3 → 1 is its entrance (the
+     // pre-rolled assembly under the dive's ×0.3 read as a near-empty frame after the cut); 0 otherwise, so t + PRE is t
+     const PRE = ctx.entered === 'dive' ? 24 : 0;
+@@ -143,6 +161,9 @@
+       render(t, D) {
+         if (mode === 'sphere' || mode === 'burst') {
+           const bk = burst != null ? M.u01(t, burst, burst + 20) : 0;
++          // (dived in: the dots start ×2.2 and settle to their size over 14 frames — under the dive's blur thin dots
++          // averaged away to a dim haze; bigger ones keep the sphere a bright mass until the blur clears, qa1 M4)
++          const DK = ctx.entered === 'dive' ? 1 + 1.2 * Math.pow(1 - M.u01(t, 0, 14), 2) : 1;
+           if (glow) glow.style.opacity = ((.35 + .65 * M.u01(t + PRE, 0, 22)) * (1 - .7 * bk)).toFixed(3);
+           const bursting = burst != null && t > burst && t < burst + 30;
+           for (const p of pts) {
+@@ -152,7 +173,7 @@
+             const fade = burst != null ? 1 - .4 * M.u01(t, burst + 20, D) * (p.fly > 2 ? 1 : .4) : 1;
+             const a = (.36 + .64 * depth) * show * fade * (.78 + .22 * Math.sin(t * .2 + p.ph));
+             if (a <= .02 || X < -40 || X > W + 40 || Y < -40 || Y > H + 40) continue;
+-            const r = Math.max(.8, (dark ? 2.6 : 2.8) * u * p.sz * Math.pow(f, 1.6)), ci = p.hot ? 1 : 0;
++            const r = Math.max(.8, (dark ? 2.6 : 2.8) * u * p.sz * Math.pow(f, 1.6)) * DK, ci = p.hot ? 1 : 0;
+             if (bursting) {               // streaks: a tapered line along the velocity
+               const [X0, Y0] = project(sphereAt(p, t - 1.4, D));
+               if (Math.hypot(X - X0, Y - Y0) > r * 1.5) { streak(X0, Y0, X, Y, r * 1.5, a, ci); continue; }
+@@ -162,10 +183,13 @@
+           }
+         } else if (mode === 'grid') {
+           // halftone grid: a diagonal travelling wave × a ring that pulses out from the centre every 1.6 s
+-          const cols = Math.ceil(W / sp) + 1, rows = Math.ceil(H / sp) + 1, ox = (W - (cols - 1) * sp) / 2, oy = (H - (rows - 1) * sp) / 2, maxD = Math.hypot(W, H) / 2;
++          // (overscan: whole extra columns / rows each side, so the dots in the frame keep their places; the ones past it
++          // come in with the frame's edge)
++          const c0 = Math.ceil(W / sp) + 1, r0 = Math.ceil(H / sp) + 1, ex = Math.ceil(mx / sp), ey = Math.ceil(my / sp);
++          const cols = c0 + 2 * ex, rows = r0 + 2 * ey, ox = (W - (c0 - 1) * sp) / 2 - ex * sp, oy = (H - (r0 - 1) * sp) / 2 - ey * sp, maxD = Math.hypot(W, H) / 2;
+           for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+             const x = ox + i * sp, y = oy + j * sp, rr = Math.hypot(x - cx, y - cy) / maxD;
+-            const inn = M.outExpo(M.u01(t + PRE, rr * 16 - 14, rr * 16 - 2));          // pre-rolled: ~70 % of the field in on the cut
++            const inn = M.outExpo(M.u01(t + PRE, Math.min(rr, 1) * 16 - 14, Math.min(rr, 1) * 16 - 2)) * hole(x, y);          // pre-rolled: ~70 % of the field in on the cut
+             if (inn <= 0) continue;
+             const wave = .5 + .5 * Math.sin((x * .9 + y * .55) / (sp * 5.5) - t * .11);
+             const ring = Math.exp(-Math.pow((rr - ((t / 48) % 1.25)) / .07, 2));
+@@ -184,7 +208,7 @@
+               const xw = (i / (nx - 1) - .5) * span * (1 + z * .5);
+               const hgt = .3 * Math.sin(xw * 1.7 + zr * 1.15) * .6 + .3 * Math.sin(xw * .6 - zr * .7 + 1.3) * .4 + .08 * Math.sin(zr * 2.4 + xw * 3.1);
+               const X = cx + (xw / z) * f, Y = hy + ((camH - hgt) / z) * f;
+-              if (X < -10 || X > W + 10 || Y > H + 10 || Y < -10) continue;
++              if (X < -10 - mx || X > W + 10 + mx || Y > H + 10 + my || Y < -10 - my) continue;
+               const crest = M.clamp((hgt + .3) / .6), inn = M.outExpo(M.u01(t + PRE, (z - near) * 2 - 14, (z - near) * 2));     // pre-rolled
+               const a = fog * inn * (.55 + .45 * crest);
+               if (a <= .02) continue;
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/stack.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/stack.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/blocks/stack.js	2026-10-27 10:37:49
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/blocks/stack.js	2026-10-27 16:37:09
+@@ -46,7 +46,9 @@
+     const bob = 3 * u * Math.sin(t * .06 + k * 1.3), sc = Math.pow(.95, k * e);
+     if (low) {
+       const ry = rad(-12 + 2.5 * Math.sin(t * .025)), rx = rad(6 + 1.2 * Math.sin(t * .021 + 1));
+-      return `translate(${(k * gap * .78 * e).toFixed(2)}px,${(-k * gap * .62 * e + bob).toFixed(2)}px) matrix(${f5(Math.cos(ry))},0,${f5(Math.sin(rx) * Math.sin(ry))},${f5(Math.cos(rx))},0,0) scale(${sc.toFixed(5)})`;
++      // (9:16: the planes step up more steeply — a tall stack the width can scale up, not a small diagonal one in the
++      // middle of an empty frame, qa1 M3)
++      return `translate(${(k * gap * (portrait ? .42 : .78) * e).toFixed(2)}px,${(-k * gap * (portrait ? .95 : .62) * e + bob).toFixed(2)}px) matrix(${f5(Math.cos(ry))},0,${f5(Math.sin(rx) * Math.sin(ry))},${f5(Math.cos(rx))},0,0) scale(${sc.toFixed(5)})`;
+     }
+     const rz = rad(-38 + 3 * Math.sin(t * .02)), rx = rad(54 + 1.5 * Math.sin(t * .023 + .7));
+     // translateZ(-k·gap) before the tilt lands k·gap·sin(rx) lower on screen
+@@ -67,7 +69,7 @@
+   // it stay inside the safe box and clear of the headline, measured on the projected planes. 9:16's iso default ran off
+   // the left edge with its chips over the planes and the lower ~40 % empty; on 16:9 a one-line headline ran under the top
+   // plane. A stack that already fits stays exactly where it was; 9:16 iso always fits: the frame's width (planes + label
+-  // column) sets the scale, and the planes spread further apart (up to ×3.6 the gap) to fill the tall room under the
++  // column) sets the scale, and the planes spread further apart (up to ×4.6 the gap; low tilt too) to fill the tall room under the
+   // headline rather than leave its lower part empty
+   const lfs = (portrait || square ? 40 : 34) * u, chipHtml = text => `<span class="lv-txt" style="position:relative;display:inline-block;white-space:nowrap;padding:${lfs * .3}px ${lfs * .62}px ${lfs * .34}px;border-radius:${lfs * .5}px;font:600 ${lfs}px ${ctx.font};letter-spacing:-.01em;color:${dark ? '#FFFFFF' : C.ink};background:${dark ? 'rgba(36,37,45,.92)' : 'rgba(255,255,255,.94)'};box-shadow:0 ${6 * u}px ${18 * u}px rgba(10,12,30,${dark ? .45 : .12}),0 0 0 ${1.2 * u}px ${dark ? 'rgba(255,255,255,.1)' : 'rgba(17,17,20,.06)'}">${ctx.A.esc(text)}</span>`;
+   {
+@@ -86,12 +88,14 @@
+       }
+       return e;
+     };
+-    const e0 = extent(), tall = portrait && !low;
++    const e0 = extent(), tall = portrait;            // (low tilt too: it filled ~20 % of a 9:16 frame's height, qa1 M3)
+     if (tall || e0.x0 < room.x0 - 1 || e0.x1 > room.x1 + 1 || e0.y0 < room.y0 - 1 || e0.y1 > room.y1 + 1) {
+       const fitOf = e => Math.min(tall ? 1.3 : 1, (room.x1 - room.x0) / (e.x1 - e.x0), (room.y1 - room.y0) / (e.y1 - e.y0));
+       if (tall) {       // the widest spread whose height still fits at the scale the width allows
+         const g0 = gap; let best = 1;
+-        for (let j = 1; j <= 26; j++) { gap = g0 * (1 + j * .1); const e = extent(); if ((room.y1 - room.y0) / (e.y1 - e.y0) < Math.min(1.3, (room.x1 - room.x0) / (e.x1 - e.x0))) break; best = 1 + j * .1; }
++        // (a low stack keeps its planes overlapping — each steps up at most .55 of a plane's height — or it reads as a
++        // staircase of separate cards, not one thing in layers)
++        for (let j = 1; j <= 36; j++) { gap = g0 * (1 + j * .1); if (low && gap * .95 > .55 * ph) break; const e = extent(); if ((room.y1 - room.y0) / (e.y1 - e.y0) < Math.min(1.3, (room.x1 - room.x0) / (e.x1 - e.x0))) break; best = 1 + j * .1; }
+         gap = g0 * best;
+       }
+       const e1 = extent(), f = fitOf(e1);
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/kit.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/kit.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/kit.js	2026-10-27 10:20:14
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/kit.js	2026-10-27 16:24:03
+@@ -131,6 +131,22 @@
+   const b = arc * L * 4 * e * (1 - e);
+   return { x: o.x + dx * e + nx * b, y: o.y + dy * e + ny * b, s: lerp(s0, 1, soft(q)), rot: bank * (1 - e), op: t < t0 ? 0 : whole ? 1 : clamp((t - t0 + 1) / 2.5), k };
+ }
++// the layout box of grow's lead element born whole out of a box of another shape (qa1 M1: launch15's landscape result
++// card → the fan's portrait hero jumped shape and crop on the cut): it starts with the source's aspect at its own area —
++// × grow's s0 that is the source's box exactly, and a cover-cropped picture shows the source's crop — then eases to its
++// own w × h on out(3) over len frames (the picture re-crops as the box changes shape; soft's first step was a third of the
++// way on the cut frame, out(3)'s is a sixth). Returns {w, h} (exactly w, h once
++// done), or null when grow doesn't take the source whole or the shapes are within 5 %. Draw the element centred on its
++// place with that width and height (layout, not scale), the grow's transform unchanged
++export function reshape(o, w, h, t, { t0 = 0, len = 9, lead = false } = {}) {
++  if (!lead || !o || !o.w || !o.h || !w || !h || clamp(Math.sqrt((o.w * o.h) / (w * h)), .06, 3) <= .3) return null;
++  const a0 = Math.log((o.w / o.h) / (w / h));
++  if (Math.abs(a0) < Math.log(1.05)) return null;
++  const q = clamp((t - t0) / len);
++  if (q >= 1) return { w, h };
++  const a = Math.exp(a0 * (1 - outCubic(q)));        // the box's aspect over the element's own
++  return { w: w * Math.sqrt(a), h: h / Math.sqrt(a) };
++}
+ // a stagger for grow: element i of n leaves `step` frames after the previous one, the whole spread capped at `span`
+ export const growAt = (i, n, step = 3, span = 18) => n > 1 ? Math.min(step * i, span * i / (n - 1)) : 0;
+ // a carry's window in 30-fps frames around the cut: the element leaves at cut − pre − ½ and lands at cut + post (Node's
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/runtime.js /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/runtime.js
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/engine/runtime.js	2026-10-27 10:33:44
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/engine/runtime.js	2026-10-27 16:37:55
+@@ -452,6 +452,8 @@
+     // round 2: the layer a carry from the previous shot lands on (hidden until it lands) — a block may skip its own entrance
+     ctx.carried = !CLEAN && i && TL.shots[i - 1].carry != null && !K.carryPlan(TL.shots[i - 1].carry).frame ? K.carryPlan(TL.shots[i - 1].carry).to : null;
+     ctx.entered = !CLEAN && i && prevOut === 'dive' ? 'dive' : null;   // round 2: the dive flies this shot in (a block may skip its own entrance)
++    // ('frame': the previous shot's morph to: frame filled the frame with this shot's colour — the end card rises out of it)
++    if (!CLEAN && i && !ctx.entered && TL.shots[i - 1].carry != null && K.carryPlan(TL.shots[i - 1].carry).frame) ctx.entered = 'frame';
+     el.style.display = 'block';
+     const inst = await block.build(ctx, s);
+     // every image the block placed must decode (a broken file would otherwise render as Chrome's broken-image icon)
+@@ -826,10 +828,13 @@
+       c.boxB = { rect: c.R1, radius: 0, color: rgbaOf(s.carry.color || (B.dark ? TL.brand.colors.dark : TL.brand.colors.bg)), shadow: 'none' };
+     }
+     // a carry: A's element until the cut, then B's as it looks where it lands — so the landing is exact and the real
+-    // element simply takes over (no crossfade, no double). The same thing on both sides (same pictures and text) switches
+-    // on the cut frame; two different things blend through a blur peak on the cut while the path's box goes from A's
+-    // shape to B's. A morph lands on B's box exactly too.
+-    c.same = c.keyA === c.keyB;
++    // element simply takes over (no crossfade, no double). The same thing on both sides (same pictures and text, in a box
++    // of the same shape) switches on the cut frame; two different things blend through a blur peak on the cut while the
++    // path's box goes from A's shape to B's. The same picture in a box of another shape is another look (qa1 H2: launch30's
++    // landscape result card → the split's square, tilted after card switched shape and crop in one frame): it blends too.
++    // A morph lands on B's box exactly too.
++    const aspect = R => Math.log(Math.max(1e-6, R.w) / Math.max(1e-6, R.h));
++    c.same = c.keyA === c.keyB && Math.abs(aspect(c.Rlast) - aspect(c.R1)) < Math.log(1.1);
+     CARRIES.push(c);
+   }
+   await Promise.all(CARRIES.flatMap(c => [c.gA, c.gAs, c.gB, c.gZ, c.gL].filter(Boolean)).flatMap(g => [...g.node.querySelectorAll('img')].map(im => im.decode().catch(() => null))));
+@@ -880,7 +885,9 @@
+     // thing (uniform scale, same area) switches on the cut; two different things are each stretched onto the box (one
+     // outline whose shape goes from A's to B's — no double edges) and blend through a blur peak on the cut
+     rect = carryRect(c, c.ease(K.clamp((f - c.a0) / (c.fL - c.a0))), f);
+-    const wA = c.same ? (inA ? 1 : 0) : 1 - K.smoothstep(c.cut - 1, c.cut + 1.5, f), wB = c.same ? (inA ? 0 : 1) : K.smoothstep(c.cut - 2, c.cut, f);
++    // (the blend sits on the blur peak, B whole under A from half a frame before the cut and A gone half a frame after
++    // it: a 3.5-frame blend left A's text ghosting over B's picture for two frames after the cut — qa1 M8)
++    const wA = c.same ? (inA ? 1 : 0) : 1 - K.smoothstep(c.cut - 1.5, c.cut + .5, f), wB = c.same ? (inA ? 0 : 1) : K.smoothstep(c.cut - 2, c.cut - .5, f);
+     const lk = K.clamp((rect.lift - 1) / Math.max(1e-6, P.lift - 1)), sig = c.same ? 0 : 6 * u * Math.exp(-Math.pow((f - c.fc) / 1.6, 2));
+     const fl = [sig > .05 ? `blur(${sig.toFixed(3)}px)` : '', lk > .001 ? `drop-shadow(0 ${(18 * u * lk).toFixed(2)}px ${(30 * u * lk).toFixed(2)}px rgba(10,12,24,${(.3 * lk).toFixed(3)}))` : ''].filter(Boolean).join(' ');
+     out = document.createElement('div');
+@@ -964,7 +971,9 @@
+   if (CLEAN) return;
+   const A = shots[i - 1], a = A.s, B = TL.shots[i];
+   if (a.out === 'dive') {
+-    const d = a.dive || {}, s0u = K.clamp(Number(d.from ?? .3), .1, .9);
++    // (a block may ask for a bigger first scale when from: isn't set — particles: thin dots at ×.3 under the dive's blur
++    // landed as a dim blob on a near-black frame, qa1 M4)
++    const d = a.dive || {}, s0u = K.clamp(Number(d.from ?? (BLOCKS[B.block] || {}).diveFrom ?? .3), .1, .9);
+     let P, Z = K.clamp(Number(d.zoom ?? 8), 1.5, 16), fill = null;
+     if (d.el != null) {
+       await seek(Math.max(a.f0, a.f1 - K.DIVE_LEN)); const R = visualRect(rootsOf(A, String(d.el), `dive from ${a.id}: el`)); P = { x: R.x + R.w / 2, y: R.y + R.h / 2 };
+@@ -1001,7 +1010,13 @@
+   if (o == null || !i || CLEAN) return null;
+   let P;
+   if (Array.isArray(o)) P = { x: Number(o[0]) * W, y: Number(o[1]) * H };
+-  else { const A = shots[i - 1]; await seek(A.s.f1 - .5); const R = visualRect(rootsOf(A, String(o), `${s.id} from:`)); P = { x: R.x + R.w / 2, y: R.y + R.h / 2, w: R.w, h: R.h }; }
++  else {
++    const A = shots[i - 1]; await seek(A.s.f1 - .5); const R = visualRect(rootsOf(A, String(o), `${s.id} from:`)), F = FLOODS[i - 1];
++    // after a flood the layer is under the colour by the cut (the last frames before it are solid): a card born at its
++    // size and place popped in whole out of a flat frame (qa1 H1: from: control / prompt-box). There the cards are born
++    // at a point — the flood's origin, where the colour poured from and the eye still is — and grow as from [x, y]
++    P = F ? { x: F.O.x, y: F.O.y } : { x: R.x + R.w / 2, y: R.y + R.h / 2, w: R.w, h: R.h };
++  }
+   const view = viewFor(s, W, H), dv = !CLEAN && i && TL.shots[i - 1].out === 'dive' && DIVES[i - 1] ? { in: DIVES[i - 1] } : null;
+   const c = cameraAt({ enter, exit: {}, exitLen: 0, push: 0, ...(view ? { view } : {}), ...(dv ? { dive: dv } : {}) }, 0, s.D);
+   // (w, h: the element's size there, in block px — K.grow starts cards born out of a big element big)
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lib/sheet.html /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lib/sheet.html
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lib/sheet.html	2026-10-26 12:08:56
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lib/sheet.html	2026-10-27 16:18:27
+@@ -61,7 +61,8 @@
+ .screen { display: grid; place-items: center; }
+ .screen video { display: block; width: 100%; max-width: 100%; height: auto; background: #000; border-radius: 10px; }
+ .strip { display: flex; gap: 2px; height: 30px; }
+-.seg { flex: 1 1 0; min-width: 0; border: 0; border-radius: 4px; background: var(--well); color: var(--muted); font: 500 11px/30px var(--mono); padding: 0; cursor: pointer; position: relative; overflow: hidden; text-overflow: clip; white-space: nowrap; }
++/* a short shot's label ends in an ellipsis inside its own segment (clipped flush, "globe" read on into "name") */
++.seg { flex: 1 1 0; min-width: 0; border: 0; border-radius: 4px; background: var(--well); color: var(--muted); font: 500 11px/30px var(--mono); padding: 0 4px; cursor: pointer; position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ .seg.on { background: var(--accent); color: #fff; }
+ .seg.open::after, .seg.question::after { content: ""; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--mark); }
+ .seg.question::after { background: var(--ask); }
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lib/sheet.mjs /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lib/sheet.mjs
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lib/sheet.mjs	2026-10-27 10:33:37
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lib/sheet.mjs	2026-10-27 16:05:25
+@@ -77,7 +77,8 @@
+     if (P.frame) return { text: `opens on ${prev.id}'s ${P.el} grown to fill the frame` };
+     return { text: `${P.el} ${P.morph ? 'morphs' : 'is carried'} in from ${prev.id}${P.to !== P.el ? `, landing as the ${P.to}` : ''}`, onto: P.to };
+   }
+-  if (fromLayer(s)) return { text: `grows out of ${prev.id}'s ${s.from}`, grown: true };
++  // (after a flood the layer is under the colour: the stage grows the cards out of the flood's origin, a point)
++  if (fromLayer(s)) return { text: prev.out === 'flood' ? `grows out of the point ${prev.id}'s colour floods from` : `grows out of ${prev.id}'s ${s.from}`, grown: true };
+   if (Array.isArray(s.from) && ['float', 'stack', 'wall', 'fan'].includes(s.block)) return { text: 'grows out of a point', grown: true };
+   if (prev.out === 'dive') return { text: `the camera dives in from ${prev.id}`, dive: true };
+   if (prev.out === 'flood') return { text: `${prev.id}'s colour floods in` };
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lib/timeline.mjs /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lib/timeline.mjs
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lib/timeline.mjs	2026-10-27 10:32:18
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lib/timeline.mjs	2026-10-27 16:16:03
+@@ -119,6 +119,10 @@
+       const read = block.read ? block.read(sh, { brand: spec.brand }) : null;
+       if (Array.isArray(read)) sh.copyRead = read.filter(x => x != null && String(x).trim() !== '').map(String);
+     }
++    // round 2: the camera dives this shot in (the previous shot in this cut leaves on a dive) — a block may build itself
++    // ahead (panel); set before validate / hero / cues, so the sounds follow (qa1 M4). Only on dived shots: old timelines
++    // are unchanged
++    if (i && sh0(i - 1).out === 'dive') sh.entered = 'dive';
+     for (const w of block.validate ? block.validate(sh, Db) : []) warns.push(w);
+     // storyboard / text-audit / thumbnail frame — never inside a moving exit, where the camera is already blurring away
+     sh.heroF = Math.max(0, Math.min(sh.out === 'cut' ? D - 1 : D - exitLen(sh.out) - 1, Math.round(toShot(block.hero ? block.hero(sh, Db) : Db * .7))));
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lv.mjs /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lv.mjs
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/lv.mjs	2026-10-27 10:31:37
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/lv.mjs	2026-10-27 16:42:21
+@@ -293,7 +293,10 @@
+         const rendered = await renderFrames({ job, tl, aspect, frames, alpha, clean, workers: 4, browser });
+         const base = join(cdir, `${spec.slug}-${id}-${aspect}`);
+         for (const ext of ['.mp4', '-alpha.mov', '-alpha.webm', '-preview.mp4', '-sfx.wav']) rmSync(base + ext, { force: true });   // no stale leftovers from an earlier export
+-        if (alpha) { encodeAlpha({ framesDir: fdir, fps, out: base + '-alpha.mov', webm }); previewOver({ mov: base + '-alpha.mov', bg: tl.brand.colors.bg, out: base + '-preview.mp4', W, H, fps }); }
++        // (the preview sits on the shot's own background colour: a theme: dark shot's white headline was invisible on the
++        // light brand bg — qa1 L4; dark = theme dark, or footage behind it unless theme: light, as the stage decides)
++        const dk = hasBg(s) ? s.theme !== 'light' : s.theme === 'dark';
++        if (alpha) { encodeAlpha({ framesDir: fdir, fps, out: base + '-alpha.mov', webm }); previewOver({ mov: base + '-alpha.mov', bg: dk ? (tl.brand.colors.dark || '#0E0E12') : tl.brand.colors.bg, out: base + '-preview.mp4', W, H, fps }); }
+         else mux({ framesDir: fdir, fps, audio: null, out: base + '.mp4', crf: 16 });
+         const hasSfx = tl.cues.some(c => c.shot === id);           // a shot without UI cues gets no SFX file (loudnorm can't level silence)
+         if (hasSfx) sfxClip({ stem: join(adir, 'points.wav'), start: s.start, dur: n / fps, out: base + '-sfx.wav' });
+@@ -456,7 +459,9 @@
+ }
+ 
+ // starter kits: --init --kit reel|film writes that commented starter (templates/<kit>.yaml) and its placeholder stills
+-const KITS = { reel: ['card', 'before', 'after'], film: ['clip-1', 'clip-2', 'clip-3', 'clip-4'], launch15: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'card'], launch30: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'card', 'before', 'after'] };
++// (the launch starters' own stills keep their words where every card shape and the wipe's halves show them — the reel's
++// card / before / after are the live reel starter's and stay as they are; qa1 M2)
++const KITS = { reel: ['card', 'before', 'after'], film: ['clip-1', 'clip-2', 'clip-3', 'clip-4'], launch15: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'screen'], launch30: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'screen', 'wipe-before', 'wipe-after'] };
+ const KIT_NAME = { reel: 'reel', film: 'launch film', launch15: '15 s launch', launch30: '30 s launch' };
+ function init() {
+   const kit = arg(argv, '--kit', null);
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/templates/launch15.yaml /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/launch15.yaml
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/templates/launch15.yaml	2026-10-27 10:33:52
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/launch15.yaml	2026-10-27 16:42:21
+@@ -66,7 +66,7 @@
+     theme: dark                  # the colour the flood pours (the next shot's background)
+     from: cursor                 # born at the cursor's tip, the pressed point (a layer of the previous shot): the bar
+                                  # itself is under the flood by then, so a card born at its size and place popped in
+-    card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
++    card: assets/placeholder-screen.svg    # your result: a screenshot, a screen recording, a generated clip
+     label: Output
+     out: cut
+ 
+@@ -76,7 +76,7 @@
+     block: fan
+     beats: 3
+     from: card
+-    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-card.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
++    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-screen.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+     pick: 2                      # the hero: the same picture as the result card
+     out: cut
+ 
+diff -ru -x node_modules /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/templates/launch30.yaml /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/launch30.yaml
+--- /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/jobs/qf1-tools/orig-stage/video/templates/launch30.yaml	2026-10-27 10:33:52
++++ /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/launch30.yaml	2026-10-27 16:42:21
+@@ -49,7 +49,7 @@
+   - id: feature
+     block: media
+     beats: 6
+-    src: assets/placeholder-card.svg   # a screenshot or screen recording of your product
++    src: assets/placeholder-screen.svg   # a screenshot or screen recording of your product
+     device: browser
+     url: product.app             # your address
+     text: Launch films, *cut for you.*
+@@ -67,65 +67,65 @@
+     flood: {from: control, spot: [0.9, 0.5]}   # a point inside the bar, as fractions of its box: the send button
+     cause: the cursor presses send
+ 
+-  # 0:08.5–0:11 · the result (5 beats): it grows out of the pressed point (from: cursor) and holds, then the
++  # 0:08.5–0:10.5 · the result (4 beats): it grows out of the pressed point (from: cursor) and holds, then the
+   # card is carried on into the output half of the next shot while the rest drifts left (carry: — fastest on the cut)
+   - id: result
+     block: float
+-    beats: 5
++    beats: 4
+     theme: dark                  # the colour the flood pours (the next shot's background)
+     from: cursor                 # born at the cursor's tip, the pressed point (a layer of the previous shot): the bar
+                                  # itself is under the flood by then, so a card born at its size and place popped in
+-    card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
++    card: assets/placeholder-screen.svg    # your result: a screenshot, a screen recording, a generated clip
+     label: Output
+     carry: {el: card, to: after}
+     cause: the output slides into its place beside the input
+     out: drift-left
+ 
+-  # 0:11–0:13 · inputs → output (4 beats): what went in, what came out, side by side (the output: the same picture as
++  # 0:10.5–0:12.5 · inputs → output (4 beats): what went in, what came out, side by side (the output: the same picture as
+   # the result card, which lands on it)
+   - id: inout
+     block: split
+     beats: 4
+     before: assets/placeholder-clip-3.svg
+-    after: assets/placeholder-card.svg
++    after: assets/placeholder-screen.svg
+     labels: [Input, Output]
+     out: drift-left
+ 
+-  # 0:13–0:15 · before → after (4 beats): a divider wipes the old version away
++  # 0:12.5–0:14.5 · before → after (4 beats): a divider wipes the old version away
+   - id: change
+     block: split
+     beats: 4
+     mode: wipe
+-    before: assets/placeholder-before.svg
+-    after: assets/placeholder-after.svg
++    before: assets/placeholder-wipe-before.svg
++    after: assets/placeholder-wipe-after.svg
+     out: cut
+ 
+-  # 0:15–0:16.5 · punctuation (3 beats): one word, the music dips under it
++  # 0:14.5–0:16 · punctuation (3 beats): one word, the music dips under it
+   - id: punct
+     block: type
+     beats: 3
+     text: "*Done.*"
+     out: cut
+ 
+-  # 0:16.5–0:18 · one (3 beats): one → many — the cards deal out of the hero onto a fan, then it pushes into the hero
++  # 0:16–0:17.5 · one (3 beats): one → many — the cards deal out of the hero onto a fan, then it pushes into the hero
+   - id: one
+     block: fan
+     beats: 3
+-    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-card.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
++    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-screen.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+     pick: 2                      # the hero: your result again
+     out: cut
+ 
+-  # 0:18–0:20 · many (4 beats): a grid of them cascades in from the centre, one tile lit (the first card), with the
++  # 0:17.5–0:19.5 · many (4 beats): a grid of them cascades in from the centre, one tile lit (the first card), with the
+   # claim on a band
+   - id: many
+     block: wall
+     layout: grid
+     beats: 4
+-    cards: [assets/placeholder-card.svg, assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
++    cards: [assets/placeholder-screen.svg, assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+     text: 120 films studied.     # your claim, as approved by legal
+     out: drift-up
+ 
+-  # 0:20–0:22 · proof (4 beats): one number, said big
++  # 0:19.5–0:21.5 · proof (4 beats): one number, said big
+   - id: proof
+     block: stat
+     beats: 4
+@@ -134,17 +134,17 @@
+     label: faster
+     out: cut
+ 
+-  # 0:22–0:24.5 · the summary (5 beats): the whole film in four words
++  # 0:21.5–0:24 · the summary (5 beats): the whole film in four words
+   - id: summary
+     block: headline
+     beats: 5
+     text: Brief it. *Ship it.*
+     out: cut
+ 
+-  # 0:24.5–0:26 · the title again (3 beats): the bookend
++  # 0:24–0:26 · the title again (4 beats): the bookend (2 s: a two-word name needs 1.6 s to read)
+   - id: again
+     block: type
+-    beats: 3
++    beats: 4
+     theme: dark                  # the same dark title card as at the open
+     text: Product                # your product's name
+     face: serif
+Only in /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/placeholders: screen.svg
+Only in /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/placeholders: wipe-after.svg
+Only in /Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stage/product-launch-sting/video/templates/placeholders: wipe-before.svg

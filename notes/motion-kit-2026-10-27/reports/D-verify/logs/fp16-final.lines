@@ -1,0 +1,15 @@
+PASS  fresh    the mp4 holds the current frames and master
+PASS  video    180 frames, 1920×1080, 60 fps, h264 yuv420p, bt709 tv
+PASS  shots    shot changes at 60, 76, 100 = timeline cuts
+PASS  cut      p1→p2 at 60: change 196.23, neighbours ≤ 0.62 (317.42×)
+INFO  cut      p2→p3 at 76: change 4.37, neighbours ≤ 1.58 (2.76×) — whip-left, boundary proven by the shot log
+PASS  cut      p3→p4 at 100: change 2.43, neighbours ≤ 1.53 (1.58×)
+INFO  continuity 3 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.5–2.2× (over 2×: p2→p3 2.18×); still settling from its entrance (fastest 5 f before p3→p4), not warned — numbers per cut in qa.json
+PASS  freeze   no frozen runs
+PASS  content  every frame has content beyond its background (min 99 differing thumbnail px)
+PASS  text     4 text boxes across 4 hero frames, none clipped or tiny
+PASS  loudness -14 LUFS, true peak -1.6 dBTP (mp4 audio)
+PASS  duration master 144000/144000 samples, mp4 audio 3.000000 s (want 3.000)
+PASS  audio    the mp4's soundtrack was built from this timeline and audio code
+INFO  sfx      no SFX cues in this timeline
+PASS  whoosh   1.267→1.263

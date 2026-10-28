@@ -1,0 +1,2 @@
+mon-D-old-manus2-film 16x9: 4592 frames in 5.0 s (camera() evaluate avg 0.43 ms)
+INFO 26 cuts, 9 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: S06→S07 2.25×, S07→S08 2.09×, S11→S12 2.65×, S12→S13 2.09×, S21→S22 2.25×) — numbers per cut in qa.json

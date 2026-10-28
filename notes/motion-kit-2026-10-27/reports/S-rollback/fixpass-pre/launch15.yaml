@@ -1,0 +1,95 @@
+# beats.yaml — a 15 s launch starter (lv.mjs --init --kit launch15): the shortest whole story a launch can tell, at
+# 120 BPM (one beat = 0.5 s, 30 beats). The brief's pacing targets are built in: a surprise by 2 s, the product by 3 s,
+# the brand by 5 s, one idea per 2–4 s, something new about every 0.5 s.
+#   0:00 hook (no words) → 0:01 the name → 0:03 the prompt → 0:05.5 the click → 0:06.5 the result, on the drop →
+#   0:08.5 scale → 0:09.5 proof → 0:11 the call to action on the end card, settled by 0:12 and held to 0:15.
+# 8 shots of 1–4 s. 14 words a viewer must read (keep it to 16 or fewer: each word costs about 0.35 s of screen time).
+# It runs as is: no footage needed yet. Drop your clips into assets/ and swap the placeholder cards for them, or put
+# footage behind any shot with `bg:` (GUIDE.md → "Reels and launch films"). A "round 1:" note names the motion-kit
+# block that fits that moment better, once your copy of the skill has it (lv.mjs --blocks lists what it has).
+title: Your 15 s launch
+slug: launch-15
+aspects: [16x9, 9x16, 1x1]       # each is re-laid out, not cropped
+thumbnail: result
+
+brand:
+  name: Product
+  mono: P
+  # logo: assets/logo.svg        # your mark (SVG/PNG): the end card
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+
+music: {style: keynote, bpm: 120, drop: result}   # the intro builds to the click; the groove drops as the result lands
+
+shots:
+  # 0:00–0:01 · the hook (2 beats): no words, the most arresting picture you have, already moving; cut on the motion
+  - id: hook
+    block: media                 # round 1: block: particles (mode: burst), a seeded dot field bursting
+    beats: 2
+    src: assets/placeholder-clip-1.svg   # your strongest AI clip (.mp4/.mov, from: seconds into it) or a still
+    out: cut
+
+  # 0:01–0:03 · the name (4 beats) settles, then zooms through the camera: the film's one signature move
+  - id: name
+    block: type
+    beats: 4
+    theme: dark                  # a dark title card: the cut out of the zoom-through must read as a cut (QA checks it)
+    text: Product                # your product's name (set it here: --title sets only the brand)
+    face: serif                  # sans | serif | brand (brand.font)
+    through: true
+    out: cut
+
+  # 0:03–0:05.5 · the prompt (5 beats): what the viewer would type, 30 characters at most, in a macro bar that sends
+  - id: ask
+    block: scene
+    beats: 5
+    # bg: assets/your-ai-footage.mp4      # e.g. hands on a laptop at night
+    overlays:
+      - {at: 0, pos: center, bar: Make our launch teaser, framing: macro, theme: light}
+    out: zoom-in                 # punches in on the button
+
+  # 0:05.5–0:06.5 · the click (2 beats): the press lands just before the drop, so the cut to the result is the hit
+  - id: click
+    block: panel                 # round 1: block: press (label: Generate, after: "Generating…"), the key click, shot close
+    beats: 2
+    push: 0                      # the panel is there from the first frame; the card pops in on it
+    zoom: {16x9: 2.2, 9x16: 1.4, 1x1: 1.4}   # close on the button, the card still whole in every aspect
+    focus: [0.5, 0.52]
+    items:
+      - card: {title: Teaser, actions: [Generate]}
+        at: 0
+      - tap: Generate
+        at: 9
+    out: cut
+
+  # 0:06.5–0:08.5 · the result (4 beats): it flies in within 0.5 s and stays readable for 1.5 s
+  - id: result
+    block: float
+    beats: 4
+    card: assets/placeholder-card.svg    # your result: a screenshot, a screen recording, a generated clip
+    label: Output
+    out: drift-up
+
+  # 0:08.5–0:09.5 · scale (2 beats): one became many
+  - id: scale
+    block: wall                  # round 1: block: wall with layout: grid (one tile lit), or block: fan (one → many)
+    beats: 2
+    cards: [assets/placeholder-clip-1.svg, assets/placeholder-clip-2.svg, assets/placeholder-clip-3.svg, assets/placeholder-clip-4.svg]
+    out: drift-up
+
+  # 0:09.5–0:11 · proof (3 beats): one number, said big
+  - id: proof
+    block: stat
+    beats: 3
+    value: 10
+    suffix: "×"
+    label: faster
+    out: cut
+
+  # 0:11–0:15 · the call to action on the end card (8 beats): it settles in about 1 s and holds for the last 3
+  - id: end
+    block: endcard
+    beats: 8
+    tagline: Try it *free.*
+    url: product.app             # cta: [Get started] adds a button (two more words to read)
+    cast: 0

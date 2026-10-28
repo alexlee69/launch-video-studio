@@ -1,0 +1,155 @@
+{
+ "cuts": [
+  {
+   "cut": "q1→q2",
+   "at": 60,
+   "out": "cut",
+   "camera": {
+    "before": {
+     "z": 0.001,
+     "vx": 0,
+     "vy": 0,
+     "v": 1
+    },
+    "after": {
+     "z": 0.263,
+     "vx": -398,
+     "vy": 0,
+     "v": 688
+    },
+    "moving": true,
+    "flips": [],
+    "limit": 3,
+    "ratio": null,
+    "peak": {
+     "step": "54→55",
+     "v": 1,
+     "onCut": 688,
+     "off": 0
+    },
+    "speeds": {
+     "54": 1,
+     "55": 1,
+     "56": 1,
+     "57": 1,
+     "58": 1,
+     "59": 1
+    },
+    "warn": [
+     "speed"
+    ]
+   }
+  },
+  {
+   "cut": "q2→q3",
+   "at": 72,
+   "out": "whip-left",
+   "camera": {
+    "before": {
+     "z": 0.084,
+     "vx": -9794,
+     "vy": 0,
+     "v": 9887
+    },
+    "after": {
+     "z": 0.044,
+     "vx": -4408,
+     "vy": 0,
+     "v": 4457
+    },
+    "moving": true,
+    "flips": [],
+    "limit": 3,
+    "ratio": 2.22,
+    "peak": {
+     "step": "70→71",
+     "v": 9887,
+     "onCut": 9887,
+     "off": 0
+    },
+    "speeds": {
+     "66": 3693,
+     "67": 4676,
+     "68": 5789,
+     "69": 7028,
+     "70": 8393,
+     "71": 9887,
+     "73": 4457,
+     "74": 3991,
+     "75": 3575,
+     "76": 3202,
+     "77": 2869,
+     "78": 2572
+    },
+    "warn": []
+   }
+  },
+  {
+   "cut": "q3→q4",
+   "at": 120,
+   "out": "cut",
+   "camera": {
+    "before": {
+     "z": 0.042,
+     "vx": -26,
+     "vy": 0,
+     "v": 73
+    },
+    "after": {
+     "z": 0.263,
+     "vx": -76,
+     "vy": 0,
+     "v": 366
+    },
+    "moving": false
+   }
+  },
+  {
+   "cut": "q4→q5",
+   "at": 138,
+   "out": "drift-left",
+   "camera": {
+    "before": {
+     "z": 0.043,
+     "vx": -653,
+     "vy": 0,
+     "v": 701
+    },
+    "after": {
+     "z": 0.029,
+     "vx": -1321,
+     "vy": 0,
+     "v": 1353
+    },
+    "moving": true,
+    "flips": [],
+    "limit": 3,
+    "ratio": 1.93,
+    "peak": {
+     "step": "138→139",
+     "v": 1353,
+     "onCut": 1353,
+     "off": 0
+    },
+    "speeds": {
+     "132": 416,
+     "133": 456,
+     "134": 503,
+     "135": 559,
+     "136": 623,
+     "137": 701,
+     "139": 1353,
+     "140": 1137,
+     "141": 957,
+     "142": 805,
+     "143": 680,
+     "144": 574
+    },
+    "warn": []
+   }
+  }
+ ],
+ "warns": [
+  "q1→q2 at 60 (cut): speed 1 → 688 px/s across the cut (from rest, limit 3×) — q1 is still and q2 starts moving on the cut (give q1 a move into the cut, or start q2's move after it)"
+ ]
+}

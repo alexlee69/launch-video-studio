@@ -1,0 +1,13 @@
+import { createRequire } from 'node:module';
+const require = createRequire('/Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stageD/product-launch-sting/video/lib/');
+const { chromium } = require('playwright-core');
+const [html, png, w = '1440', full = '1'] = process.argv.slice(2);
+const b = await chromium.launch({ channel: 'chrome', headless: true });
+const p = await (await b.newContext({ viewport: { width: Number(w), height: 1000 }, deviceScaleFactor: 1 })).newPage();
+const errs = []; p.on('pageerror', e => errs.push(String(e))); p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
+await p.goto('file://' + html); await p.waitForTimeout(1500);
+await p.evaluate(() => Promise.all([...document.images].map(i => { i.loading = 'eager'; return i.decode().catch(() => null); })));
+const m = await p.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, h: document.documentElement.scrollHeight }));
+console.log(JSON.stringify(m), errs.length ? 'ERRORS ' + errs.join(' | ') : 'no page errors');
+await p.screenshot({ path: png, fullPage: full === '1' });
+await b.close();

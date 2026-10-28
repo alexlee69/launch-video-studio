@@ -1,0 +1,48 @@
+
+# 1 · dive, B enters 2.5× slower: WARN at the dive limit (2×) — ok
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — 1 WARN; speed ratio 2.5× — numbers per cut in qa.json
+WARN A→B at 60 (dive): speed 3304 → 1322 px/s across the cut (2.5×, limit 2×) — B starts 2.5× slower than A leaves
+
+# 2 · the same speeds after zoom-in: hold (3×) — ok
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratio 2.5× (over 2×: A→B 2.5×) — numbers per cut in qa.json
+
+# 3 · carry: 1020 → 408 px/s around a peak on the cut (2.5×): WARN (carry limit 2×) — ok
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — 1 WARN; speed ratio 2.5× — numbers per cut in qa.json
+WARN A→B at 60 (cut): carried object's speed 1020 → 408 px/s across the cut (2.5×, limit 2×) — the carried object slows 2.5× through the cut
+
+# 4 · carry: 1020 → 720 px/s (1.4×), peak on the cut: hold — ok
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — all hold; speed ratio 1.4× — numbers per cut in qa.json
+
+# 5 · carry ending on the cut, accelerating: hold, named in INFO — ok
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; ends on the cut (the half before it checked): A→B carry — numbers per cut in qa.json
+
+# 6 · carry ending on the cut, peaking 4 frames early: WARN — ok
+INFO 1 cuts, 0 with camera motion + 1 carried object checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; ends on the cut (the half before it checked): A→B carry — numbers per cut in qa.json
+WARN A→B at 60 (zoom-in): the carried object's fastest step is 4 frames early (frames 54→55, 1800 px/s vs 33 px/s on the cut) — a move across a cut peaks on the cut
+
+# 7 · A only slows down from its first frame (entrance settling): no WARN, named in INFO — ok
+INFO 2 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.5–2.2× (over 2×: P→A 2.23×); still settling from its entrance (fastest 5 f before A→B), not warned — numbers per cut in qa.json
+
+# 8 · A also has a pan bump peaking on 59→60, 3 steps before its last: WARN — ok
+INFO 2 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; speed ratios 1.1–2.2× (over 2×: P→A 2.23×) — numbers per cut in qa.json
+WARN A→B at 64 (cut): the fastest step is 3 frames before the cut (frames 59→60, 1982 px/s vs 660 px/s on the cut) — a move across a cut peaks on the cut
+
+# 9 · still → a short insert that whips out: the P→Q cut is quiet — ok
+INFO 2 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratio 1.9× — numbers per cut in qa.json
+
+# 10 · drift cut 14× faster, drift.in set: INFO (tuned), no WARN — ok
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratio 7.0×; set by tuned drift strengths (drift: in/out), not warned: A→B 7× — numbers per cut in qa.json
+
+# 11 · the same cut with default strengths: WARN — ok
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; speed ratio 7.0× — numbers per cut in qa.json
+WARN A→B at 60 (drift-down): speed 762 → 5339 px/s across the cut (7×, limit 3×) — B starts 7× faster than A leaves
+
+# 12 · tuned drift that flips direction: the flip still WARNs — ok
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; speed ratio 7.0×; set by tuned drift strengths (drift: in/out), not warned: A→B 7× — numbers per cut in qa.json
+WARN A→B at 60 (drift-down): the move flips direction on the cut — y +762 px/s → −5339 px/s; keep the sign across the cut
+
+# 13 · still → moving (450 px/s): "from rest", no fake ratio — ok
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN — numbers per cut in qa.json
+WARN A→B at 60 (cut): speed 1 → 450 px/s across the cut (from rest, limit 3×) — A is still and B starts moving on the cut (give A a move into the cut, or start B's move after it)
+
+all cases behave

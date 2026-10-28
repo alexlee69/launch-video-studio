@@ -1,0 +1,36 @@
+--- a/video/lv.mjs	2026-10-26 11:38:10
++++ b/video/lv.mjs	2026-10-26 11:38:10
+@@ -2,7 +2,7 @@
+ // From-scratch launch videos. One job folder = brief.md + beats.yaml + assets/ (+ optional blocks/*.mjs);
+ // generated files go to DIR/out/, deliverables land at the top of DIR (clips in DIR/clips/).
+ //
+-//   node lv.mjs --job DIR --init [--title "Name"] [--kit reel|film]
++//   node lv.mjs --job DIR --init [--title "Name"] [--kit reel|film|launch15|launch30]
+ //                                                                 starter brief.md + beats.yaml + assets/ (never overwrites);
+ //                                                                 --kit reel / film: a reel (stickers, AI footage) or a launch
+ //                                                                 film (UI over AI footage) starter that runs with no assets
+@@ -437,10 +437,11 @@
+ }
+ 
+ // starter kits: --init --kit reel|film writes that commented starter (templates/<kit>.yaml) and its placeholder stills
+-const KITS = { reel: ['card', 'before', 'after'], film: ['clip-1', 'clip-2', 'clip-3', 'clip-4'] };
++const KITS = { reel: ['card', 'before', 'after'], film: ['clip-1', 'clip-2', 'clip-3', 'clip-4'], launch15: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'card'], launch30: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'card', 'before', 'after'] };
++const KIT_NAME = { reel: 'reel', film: 'launch film', launch15: '15 s launch', launch30: '30 s launch' };
+ function init() {
+   const kit = arg(argv, '--kit', null);
+-  if (kit != null && !Object.hasOwn(KITS, String(kit))) die(`--kit must be ${Object.keys(KITS).join(' or ')} (a reel of AI footage + stickers, or a launch film with UI over AI footage)`, 2);
++  if (kit != null && !Object.hasOwn(KITS, String(kit))) die(`--kit must be ${Object.keys(KITS).join(', ')} (a reel of AI footage + stickers, a launch film with UI over AI footage, or a 15 s / 30 s launch starter)`, 2);
+   mkdirSync(join(job, 'assets'), { recursive: true });
+   const title = arg(argv, '--title', null);
+   for (const f of ['brief.md', 'beats.yaml']) {
+@@ -452,8 +453,9 @@
+       if (f === 'brief.md') txt = txt.replaceAll('Steady', T);
+       else if (kit) {                          // a kit starter: set just these lines (keeps its comments and layout)
+         const y = v => /^[A-Za-z][\w .'-]*$/.test(v) ? v : JSON.stringify(v);
+-        txt = txt.replace(/^title: .*$/m, `title: ${y(`${T} ${kit === 'reel' ? 'reel' : 'launch film'}`)}`).replace(/^slug: .*$/m, `slug: ${slug}`)
++        txt = txt.replace(/^title: .*$/m, `title: ${y(`${T} ${KIT_NAME[kit]}`)}`).replace(/^slug: .*$/m, `slug: ${slug}`)
+           .replace(/^(  name: )Product$/m, (_, k) => k + y(T)).replace(/^(  mono: )P$/m, (_, k) => k + (T.match(/[A-Za-z0-9]/) || ['P'])[0].toUpperCase());
++        if (kit.startsWith('launch')) txt = txt.replace(/^(    text: )Product(?=\s|$)/gm, (_, k) => k + y(T)).replace(/^(    url: )product\.app(?=\s|$)/gm, (_, k) => `${k}${slug}.app`);   // their name cards and address
+       } else {                                   // edit the YAML as YAML (keeps comments; quotes "Acme: The Movie" correctly)
+         const doc = YAML.parseDocument(txt);
+         doc.set('title', `${T} launch`); doc.set('slug', slug);

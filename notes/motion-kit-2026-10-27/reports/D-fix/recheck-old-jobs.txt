@@ -1,0 +1,66 @@
+== D-old-S-launch15 16x9: 0 WARN → 0 WARN
+   INFO 7 cuts, 3 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: ask→click 2.06×) — numbers per cut in qa.json
+== D-old-S-launch15 1x1: 0 WARN → 0 WARN
+   INFO 7 cuts, 3 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: ask→click 2.06×) — numbers per cut in qa.json
+== D-old-S-launch15 9x16: 0 WARN → 0 WARN
+   INFO 7 cuts, 3 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.0× (over 2×: ask→click 2.03×) — numbers per cut in qa.json
+== D-old-S-launch30 16x9: 0 WARN → 0 WARN
+   INFO 13 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: action→result 2.07×) — numbers per cut in qa.json
+== D-old-S-launch30 1x1: 0 WARN → 0 WARN
+   INFO 13 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: action→result 2.07×) — numbers per cut in qa.json
+== D-old-S-launch30 9x16: 0 WARN → 0 WARN
+   INFO 13 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.1× (over 2×: action→result 2.07×) — numbers per cut in qa.json
+== D-old-cue 16x9: 0 WARN → 0 WARN
+   INFO 8 cuts, 7 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.8–2.6× (over 2×: s1→s2 2.08×, s2→s3 2.24×, s3→s4 2.24×, s4→s5 2.24×, s5→s6 2.02×, s6→s7 2.62×) — numbers per cut in qa.json
+== D-old-cue 9x16: 0 WARN → 0 WARN
+   INFO 8 cuts, 7 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.8–2.6× (over 2×: s1→s2 2.08×, s2→s3 2.24×, s3→s4 2.24×, s4→s5 2.24×, s5→s6 2.02×, s6→s7 2.62×) — numbers per cut in qa.json
+== D-old-cue-overlays 16x9: 0 WARN → 0 WARN
+   INFO 2 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json
+== D-old-dark-ui-check 16x9: 0 WARN → 0 WARN
+   INFO 2 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json
+== D-old-edge-test 1x1: 0 WARN → 0 WARN
+   INFO 6 cuts, 4 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: b→c 2.24×, c→d 2.01×, e→f 2.08×) — numbers per cut in qa.json
+== D-old-film-sample 16x9: 0 WARN → 0 WARN
+   INFO 11 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.9–2.6× (over 2×: open→name 2.08×, brief→team 2.62×, team→scan 2.02×, command→wall 2.62×) — numbers per cut in qa.json
+== D-old-film-sample 1x1: 0 WARN → 0 WARN
+   INFO 11 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.9–2.6× (over 2×: open→name 2.08×, brief→team 2.62×, team→scan 2.02×, command→wall 2.62×) — numbers per cut in qa.json
+== D-old-film-sample 9x16: 0 WARN → 0 WARN
+   INFO 11 cuts, 6 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.9–2.6× (over 2×: open→name 2.08×, brief→team 2.62×, team→scan 2.02×, command→wall 2.62×) — numbers per cut in qa.json
+== D-old-hf02-skill 16x9: 2 WARN → 0 WARN
+   INFO 4 cuts, 4 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–14.1×; set by tuned drift strengths (drift: in/out), not warned: a→b 3.15×, b→c 14.07× — numbers per cut in qa.json
+== D-old-hf02-skill 1x1: 2 WARN → 0 WARN
+   INFO 4 cuts, 4 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–14.1×; set by tuned drift strengths (drift: in/out), not warned: a→b 3.15×, b→c 14.07× — numbers per cut in qa.json
+== D-old-hf02-skill 9x16: 2 WARN → 0 WARN
+   INFO 4 cuts, 4 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–14.1×; set by tuned drift strengths (drift: in/out), not warned: a→b 3.15×, b→c 14.07× — numbers per cut in qa.json
+== D-old-layers-probe 16x9: 0 WARN → 0 WARN
+   INFO 12 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: p4→p5 2.02×, p5→p6 2.23×) — numbers per cut in qa.json
+== D-old-manus2-film 16x9: 2 WARN → 0 WARN
+   INFO 26 cuts, 9 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: S06→S07 2.25×, S07→S08 2.09×, S11→S12 2.65×, S12→S13 2.09×, S21→S22 2.25×) — numbers per cut in qa.json
+== D-old-manus2-space 16x9: 2 WARN → 0 WARN
+   INFO 26 cuts, 9 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: S06→S07 2.25×, S07→S08 2.09×, S11→S12 2.65×, S12→S13 2.09×, S21→S22 2.25×) — numbers per cut in qa.json
+== mon-D-matrix 16x9: 0 WARN → 0 WARN
+   INFO 17 cuts, 14 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: t01→t02 2.22×, t02→t03 2.22×, t05→t06 2.06×, t06→t07 2.56×, t09→t10 2.22×, t10→t11 2.22×) — numbers per cut in qa.json
+== mon-D-matrix 1x1: 0 WARN → 0 WARN
+   INFO 17 cuts, 14 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: t01→t02 2.21×, t02→t03 2.21×, t05→t06 2.06×, t06→t07 2.56×, t09→t10 2.21×, t10→t11 2.21×) — numbers per cut in qa.json
+== mon-D-matrix 9x16: 0 WARN → 0 WARN
+   INFO 17 cuts, 14 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 1.1–2.6× (over 2×: t01→t02 2.21×, t02→t03 2.21×, t05→t06 2.07×, t06→t07 2.56×, t09→t10 2.21×, t10→t11 2.21×) — numbers per cut in qa.json
+== D-old-qa-probe 16x9: 0 WARN → 0 WARN
+   INFO 3 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold — numbers per cut in qa.json
+== D-old-qa-probe2 16x9: 0 WARN → 0 WARN
+   INFO 3 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.1–2.2× (over 2×: p2→p3 2.23×, p3→p4 2.07×) — numbers per cut in qa.json
+== D-old-reel-dev 16x9: 0 WARN → 0 WARN
+   INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.24×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json
+== D-old-reel-dev 1x1: 0 WARN → 0 WARN
+   INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.23×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json
+== D-old-reel-dev 9x16: 0 WARN → 0 WARN
+   INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.23×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json
+== D-old-reel-sample 16x9: 0 WARN → 0 WARN
+   INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.24×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json
+== D-old-reel-sample 1x1: 0 WARN → 0 WARN
+   INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.23×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json
+== D-old-reel-sample 9x16: 0 WARN → 0 WARN
+   INFO 7 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: s1→s2 2.23×, s2→s3 2.24×, s4→s5 2.08×, s5→s6 2.01×, s7→s8 2.24×) — numbers per cut in qa.json
+== D-old-steady-sample 16x9: 0 WARN → 0 WARN
+   INFO 6 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.6× (over 2×: s1→s2 2.07×, s2→s3 2.24×, s3→s4 2.01×, s5→s6 2.62×, s6→s7 2.63×) — numbers per cut in qa.json
+== D-old-steady-sample 9x16: 0 WARN → 0 WARN
+   INFO 6 cuts, 5 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.6× (over 2×: s1→s2 2.07×, s2→s3 2.24×, s3→s4 2.01×, s5→s6 2.62×, s6→s7 2.63×) — numbers per cut in qa.json

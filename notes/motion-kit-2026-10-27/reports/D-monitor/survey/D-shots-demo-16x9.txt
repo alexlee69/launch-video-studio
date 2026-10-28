@@ -1,0 +1,10 @@
+file:///Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stageD/product-launch-sting/video/lib/spec.mjs:315
+  if (errs.length) throw new Error('beats.yaml has problems:\n  - ' + errs.join('\n  - '));
+                         ^
+
+Error: beats.yaml has problems:
+  - shots: list at least one shot
+    at loadSpec (file:///Users/bytedance/Downloads/Design-AutoPilot-stable/qa/motion-kit/stageD/product-launch-sting/video/lib/spec.mjs:315:26)
+    at async file:///private/tmp/claude-501/-Users-bytedance-Downloads-Design-AutoPilot-stable/fa3ddc2b-1841-41b6-9859-439143f36875/scratchpad/camsurvey.mjs:15:14
+
+Node.js v25.9.0

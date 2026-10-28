@@ -1,0 +1,109 @@
+{
+ "_note": "Shot recipes for shots.py (SHOTS.md → Recipes). A shot's \"recipe\" fills these defaults; anything the shot sets itself wins. Written in our own words from what worked on The Lull, the Cue film and the Higgsfield guides we studied (2026-10-26). camera/realism may use {SNIPPETS} from shots.py's built-ins.",
+ "recipes": {
+  "reveal-pullback": {
+   "note": "Opens a film or a scene: start close on one telling detail (a face, an object, the sky), then pull back to show who and where. The reveal is the hook.",
+   "lens": {"mm": 35, "focus": "deep focus from the subject to the horizon"},
+   "camera": "One slow, even dolly-out straight back from the opening detail, on a real track pushed by a grip: level horizon, constant height, the axis on the subject.",
+   "hold": true,
+   "realism": "{REAL_FILM}"
+  },
+  "chase": {
+   "note": "Speed. The camera flies with the subject. Wide lens = speed: near things streak past while the far background barely moves.",
+   "lens": {"mm": 24, "distance": "3 m behind and 2 m above the subject", "focus": "deep focus"},
+   "camera": "The camera travels with the subject at its exact speed, close behind and slightly above, banking with it half a beat late, with constant fine turbulence in the frame.",
+   "hold": false,
+   "realism": "{REAL_FILM}"
+  },
+  "pov-action-cam": {
+   "note": "What the subject sees, from their own eye line. Sells any product that records or sees (a camera, glasses): it shows what the product captures.",
+   "lens": {"look": "an ultra-wide action-camera lens, about 150 degrees across, with strong barrel distortion bending the edges"},
+   "camera": "A pure first-person view from the subject's eye line, moving with every turn of the head, with constant unstabilised shake.",
+   "hold": false,
+   "realism": "{REAL_ACTION_CAM}"
+  },
+  "pan-reveal-smear": {
+   "note": "A gag shot: hold on something far away, pan to bystanders, then the subject tears past in a few frames as a motion-blur smear with one flash of the brand colour, and its wake hits the bystanders.",
+   "lens": {"mm": 35, "focus": "deep focus"},
+   "camera": "A tripod with a fluid head holds on the distant subject, then makes one smooth pan of about forty degrees to the bystanders, eased by a real operator, and holds.",
+   "hold": true,
+   "realism": "{REAL_FILM}"
+  },
+  "side-track-slowmo": {
+   "note": "Power and grace: a wide side view tracking the subject, centred, in constant slow motion.",
+   "lens": {"mm": 35, "distance": "about 40 m to the side", "focus": "deep focus"},
+   "camera": "The camera tracks alongside at the subject's exact speed, from the side, keeping it in the centre of the frame, steady with a faint live vibration.",
+   "hold": false,
+   "realism": "{REAL_FILM} {SLOWMO_120}",
+   "expect": {"slowmo": true}
+  },
+  "telephoto-face-slowmo": {
+   "note": "Effort and emotion in a face, slowed down: a long lens, razor-thin focus, the background melted into colour.",
+   "lens": {"mm": 100, "distance": "about 4 m", "focus": "razor-thin focus on the near eye or the product, the background a soft wash"},
+   "camera": "The camera tracks level with the face at the subject's speed, holding one tight side close-up for the whole shot.",
+   "hold": false,
+   "realism": "{REAL_FILM} {SLOWMO_120}",
+   "expect": {"slowmo": true}
+  },
+  "aerial-orbit": {
+   "note": "Scale and loneliness: a small figure in a huge place, the world turning behind it.",
+   "lens": {"mm": 24, "distance": "about 30 m up and 40 m out", "focus": "deep focus"},
+   "camera": "One slow, stabilised aerial half orbit of 180 degrees around the subject, always aimed at it, at constant speed, the background sliding in deep parallax.",
+   "hold": false,
+   "realism": "{REAL_FILM}"
+  },
+  "ultrawide-handheld": {
+   "note": "Intimate and immersive: the face huge in the frame while the whole world stays visible around it.",
+   "lens": {"mm": 14, "distance": "about 50 to 60 cm from the face", "focus": "deep focus from the face to the horizon"},
+   "camera": "One long handheld take within arm's length of the subject's face, floating and breathing with a real body, drifting between profile and three-quarter, never cutting away.",
+   "hold": false,
+   "realism": "{REAL_HANDHELD}"
+  },
+  "top-shot": {
+   "note": "Calm and clear: hands at work on a surface (a map, a desk), seen from straight above.",
+   "lens": {"mm": 35, "distance": "about 1 m above the surface", "focus": "deep focus across the whole surface"},
+   "camera": "Perfectly overhead, looking straight down at 90 degrees, the surface square to the frame, locked off and completely still like a photograph.",
+   "hold": false,
+   "realism": "{REAL_FILM}"
+  },
+  "natural-packshot": {
+   "note": "The product shot inside a real moment, never posed: someone takes it off, folds it, picks it up mid-conversation, without looking at it.",
+   "lens": {"mm": 100, "focus": "a macro look, very shallow depth of field, the product razor-sharp and the background soft bokeh"},
+   "camera": "A slightly shaky handheld extreme close-up at about 45 degrees to the product, travelling with it through the gesture and keeping it large and sharp the whole time.",
+   "hold": false,
+   "realism": "{REAL_FILM}",
+   "locks": ["The product's reflections show the surroundings, never a person."],
+   "expect": {"product": true}
+  },
+  "telephoto-shore": {
+   "note": "A long lens from far away compresses the background into a towering wall behind the subject (a wave, a cliff, a crowd).",
+   "lens": {"mm": 300, "distance": "about 150 m away", "focus": "razor-thin focus on the subject"},
+   "camera": "A long-lens pan from a fixed position, following the subject across the frame and keeping it centred, with only a faint long-lens vibration.",
+   "hold": false,
+   "realism": "{REAL_FILM}"
+  },
+  "product-answers": {
+   "note": "A feature shown by talking, not graphics: the subject asks the product out loud and a calm voice answers from it. Lip-sync needs Seedance; on H3 the line becomes a subtitle or a voiceover.",
+   "audio": ["the subject's voice", "a calm, friendly voice answering from the product, close, like a small speaker near the ear"],
+   "expect": {"product": true}
+  },
+  "fpv-hatch": {
+   "note": "Ours, from The Lull (S01): a free-flying camera creeps toward an opening, then bursts through it into the open.",
+   "lens": {"mm": 18, "focus": "deep focus"},
+   "camera": "Free-flying camera, FPV feel.",
+   "hold": false
+  },
+  "kitchen-pushin": {
+   "note": "Ours, from the Cue film (plate 1): a lived-in interior, a documentary operator pushing in toward the hands at work.",
+   "lens": {"mm": 28, "distance": "at seated eye level", "focus": "shallow depth of field"},
+   "camera": "Handheld camera, slightly unsteady and organic, like a documentary operator.",
+   "hold": false
+  },
+  "selfie-card": {
+   "note": "Ours, from the Cue film (the carousel cards): a phone held at arm's length, talking to camera.",
+   "lens": {"look": "a phone front camera at arm's length, slight wide-angle distortion"},
+   "camera": "Natural handheld selfie video.",
+   "hold": false
+  }
+ }
+}

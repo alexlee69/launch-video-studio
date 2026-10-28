@@ -1,0 +1,22 @@
+
+# insert shorter than its drift exit
+INFO 2 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; speed ratio 2.3× (over 2×: Q→S 2.29×) — numbers per cut in qa.json
+WARN P→Q at 60 (cut): speed 0 → 400 px/s across the cut (from rest, limit 3×) — P is still and Q starts moving on the cut (give P a move into the cut, or start Q's move after it)
+
+# last shot incoming, whip
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratio 1.8× — numbers per cut in qa.json
+
+# nulls around the cut
+INFO 1 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; no camera data at A→B (re-run --film) — numbers per cut in qa.json
+
+# carry only after the cut
+INFO 1 cuts, 0 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; a carried object too short to check at A→B — numbers per cut in qa.json
+
+# tuned drift with a late peak
+INFO 1 cuts, 1 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 1 WARN; speed ratio 10.6×; set by tuned drift strengths (drift: in/out), not warned: A→B 10.59× — numbers per cut in qa.json
+WARN A→B at 60 (drift-left): the fastest step is 3 frames after the cut (frames 63→64, 5500 px/s vs 3046 px/s on the cut) — a move across a cut peaks on the cut
+
+# flip into an insert shorter than its exit
+INFO 2 cuts, 2 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — 2 WARN; speed ratios 1.9–5.6× — numbers per cut in qa.json
+WARN P→Q at 60 (whip-left): the move flips direction on the cut — x −7846 px/s → +1400 px/s; keep the sign across the cut
+WARN P→Q at 60 (whip-left): speed 7846 → 1400 px/s across the cut (5.6×, limit 3×) — Q starts 5.6× slower than P leaves

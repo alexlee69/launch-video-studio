@@ -1,0 +1,2 @@
+D-old-edge-test 1x1: 1132 cams, 1132 frames
+INFO 6 cuts, 3 with camera motion checked for direction, speed (≤ 3× across the cut) and the fastest step on the cut — all hold; speed ratios 2.0–2.2× (over 2×: b→c 2.24×, c→d 2.01×, e→f 2.08×) — numbers per cut in qa.json

@@ -1,0 +1,2 @@
+V-D-r2dev 1x1: 1277 cams, 1277 frames
+INFO 9 cuts, 3 with camera motion + 4 carried objects checked for direction, speed (≤ 3× across the cut, ≤ 2× after a dive and for a carry) and the fastest step on the cut — all hold; speed ratios 1.0–2.1× (over 2×: go→end 2.07×); ends on the cut (the half before it checked): go→end carry — numbers per cut in qa.json
