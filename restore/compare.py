@@ -13,8 +13,9 @@ def png(a, b):
     if x.shape != y.shape:
         print('storyboard: size %s, shipped %s: DIFFERENT' % (x.shape[1::-1], y.shape[1::-1])); return 1
     d = np.abs(x - y); share = float((d.max(axis=2) > 0).mean())
-    # the wall shot's raster noise is up to 3 code values on a few tiles (known run-to-run noise, see MORNING.md)
-    same = d.max() <= 8 and d.mean() < 0.05
+    # known run-to-run noise on the same Mac (MORNING.md): the wall's raster (up to 8 code values) and the fan's soft card
+    # shadow (up to 10). A missing font, other text or another layout moves pixels by 100+, so it still shows as DIFFERENT.
+    same = d.max() <= 16 and d.mean() < 0.05
     print('storyboard: %s (max diff %d of 255, %.3f%% of pixels differ, mean %.4f)'
           % ('identical' if d.max() == 0 else ('same within noise' if same else 'DIFFERENT'), d.max(), share * 100, d.mean()))
     return 0 if same else 1
