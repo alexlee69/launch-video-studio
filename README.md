@@ -8,15 +8,15 @@ Higgsfield-recreation jobs.
 - **The 2026-10-21 work:** the reel and film kits, the review sheet (`--sheet`), the hf02 motion upgrade of the film
   blocks, and the `--layers` export speed-up.
   - It was reviewed on 2026-10-22, with 57 confirmed findings, 3 of them high.
-  - Their fix round is staged on the Mac (`Design-AutoPilot-stable/qa/launch-video-skill-review/fix`). It is **not
-    merged** and not in this repo.
+  - Their fix round was staged on the old Mac and is **not merged**. Its worktrees, findings and patches are in
+    `qa-records/launch-video-skill-review/fix/` (code and text only).
 - **The 2026-10-22 port:**
   - photoreal AI footage through my own fal.ai key (`video/FOOTAGE.md`);
   - a reference film recreated frame for frame, with proofs (`video/RECREATE.md`);
   - the `music: film` score style.
 
   It passed five review-and-fix rounds, 3 QA runs and an 87-check acceptance harness. Its record, including
-  `PATCHES.md` for re-applying it, is on the Mac in `Design-AutoPilot-stable/qa/hf02full-skill-port/`, not in this repo.
+  `PATCHES.md` for re-applying it, is in `qa-records/hf02full-skill-port/`.
 
 - **The 2026-10-23 port (from the Manus 2.0 film):** the plate builder (`video/footage/plates.py`), the 24p-in-30p
   finisher with shot-anchored frame picks, the corner bug and the music + SFX mix (`video/recreate/finish.py`), and the
@@ -91,6 +91,9 @@ Higgsfield-recreation jobs.
 | `launch-videos/hf02-skill/` | Proof job for the hf02 motion upgrade of the film blocks: proof films, storyboards, the measured curves and `ANSWERS-measurements.md` |
 | `launch-videos/motion-kit-sample/` | "Wayfinch", the 28 s motion-kit sample (a made-up trip planner): every new block (press, fan, particles, map, wall grid, type words, exploded stack) and every move across the cut (carry, morph, dive, flood, `from:`). Films in 3 aspects, storyboards, drawn art (`tools/make_art.py`) |
 | `notes/motion-kit-2026-10-27/` | How the motion kit was built and tested: `MORNING.md` (the summary, open items, deferred list) and `reports/` (each worker's build, review and verify reports, the Opus review, QA1–3, stills), and `test-films/`: the best test films on the final code, 3 aspects each, with their `beats.yaml` (`kit-dev` every new block, `prv-combo` blocks + moves, `r2-dev` every move across the cut, the 15 s and 30 s starters as they come) |
+| `qa-records/` | The record of each build lane, from the old Mac's `Design-AutoPilot-stable/qa/`: tests (`run_all.sh`, parity, flow, failure and review-fix suites), reviews, QA reports, design notes, `PATCHES.md`, rollback fingerprints, the 10-22 review's unmerged fix round (`launch-video-skill-review/fix/`: the worktrees as they were, and `fix-round-2026-10-22.bundle`, its git history with the `main`, `port` and four `fix/*` branches; `git clone fix-round-2026-10-22.bundle` restores it), and the 10-26 plan (`video-skill-learnings/TAKE-AND-HOW-2026-10-26.md`, `BREAKDOWN-2026-10-26.md`). Text and code only. The scripts hard-code the old Mac's paths |
+| `setup.sh`, `restore/` | Sets up a new Mac and checks that it renders the same (see below). `restore/toolchain.txt` is the tool versions the shipped films were made with |
+| `CLAUDE.md` | The rules and pointers Claude reads when it is opened in this folder |
 | `HANDOVER-hf02-motion.md` | Handover for the hf02 motion work |
 | `launch-stings/design-autopilot-test/` | Mode A test job |
 | `experiments/cue-painted/` | "Saturday", a 34 s hand-painted Cue short on JohnHeibel/ClaudeAnimationBase (MIT, licence kept). Share-size MP4s are in `out/` |
@@ -110,7 +113,10 @@ Higgsfield-recreation jobs.
   - `ref/` frames, sheets and audio;
   - comparison sheets and side-by-sides;
   - the PRIVATE temp-track copies.
-- **Scratch jobs:** `breakdown-qa`, plus `film-kit-dev` and `reel-dev`, which the two sample jobs superseded.
+- **Scratch jobs:** `breakdown-qa`, plus `film-kit-dev` and `reel-dev`, which the two sample jobs superseded, and
+  `manus2-film`, the rejected first take of The Lull (`manus2-space` replaced it).
+- **In `qa-records/`:** the lanes' renders, frames, images, old-skill snapshots and scratch job runs, the third-party
+  Higgsfield `.skill` files and their readers' notes, and the reel frame sheets. Only text and code are kept.
 - **The rest of `hf01-study`:** its `ref/`, frames, sheets, audio and the side-by-sides (`build-compare/`) are reference
   media. Only its text and numbers are here.
 - **manus2-space's heavy regenerables:** `out/` (renders, the PRIVATE temp track), `audio/`, the ungraded plates
@@ -134,60 +140,39 @@ Higgsfield-recreation jobs.
 
 ## Restore on a new Mac
 
-You need:
-- Node ≥ 18;
-- ffmpeg 8 + ffprobe (`brew install ffmpeg`);
-- Google Chrome;
-- the GitHub CLI;
-- for the footage and recreate tools and the hf02 job tools: python3 with numpy and Pillow (`pip3 install numpy pillow`),
-  and curl.
+Install Node 18+, ffmpeg 8 (`brew install ffmpeg`), Google Chrome, the GitHub CLI (`brew install gh`, then `gh auth login`
+as `alexlee69`) and the Xcode command line tools (`xcode-select --install`, for python3 and git). Then:
 
 ```bash
-git clone https://github.com/alexlee69/launch-video-studio.git ~/launch-video-studio
+gh repo clone alexlee69/launch-video-studio ~/launch-video-studio
 ```
 
 ```bash
-mkdir -p ~/.claude/skills && cp -R ~/launch-video-studio/skill/product-launch-sting ~/.claude/skills/
+bash ~/launch-video-studio/setup.sh --film-check
 ```
 
-```bash
-cd ~/.claude/skills/product-launch-sting && npm ci && cd video && npm ci
-```
+`setup.sh` does the rest and never overwrites an existing job file or writes a key:
+- **The skill** goes to `~/.claude/skills/product-launch-sting`, with its node packages (`npm ci` from the lockfiles).
+- **The jobs** go to `~/Downloads/launch-videos` and `~/Downloads/launch-stings`. The two hand-built hf02 jobs get their
+  `node_modules` link, and the experiments get their packages.
+- **numpy and Pillow** are installed for python3 (the versions used here, `restore/toolchain.txt`).
+- **The keys file:** an empty `~/Downloads/launch-videos/.env` (chmod 600). Paste your own keys after `FAL_KEY=`
+  (fal.ai/dashboard/keys) and `OPENAI_API_KEY=` yourself, never into a chat.
+- **Claude's notes:** `memory/` is copied into Claude Code's memory for this folder, and `CLAUDE.md` gives Claude the
+  rules. Open Claude Code in `~/launch-video-studio`.
+- **The check:** it renders the Wayfinch sample's three storyboards and compares them with the shipped ones pixel for
+  pixel. `--film-check` also re-renders its 16:9 film and compares it frame by frame (PSNR) with the shipped
+  `wayfinch-16x9.mp4`, plus the master WAV. It ends with READY or NOT READY. A newer Chrome or ffmpeg than the
+  versions in `restore/toolchain.txt` is noted, as pixels may then differ slightly.
 
-```bash
-mkdir -p ~/Downloads/launch-videos ~/Downloads/launch-stings && cp -R ~/launch-video-studio/launch-videos/* ~/Downloads/launch-videos/ && cp -R ~/launch-video-studio/launch-stings/* ~/Downloads/launch-stings/
-```
+Options: `--check` (change nothing, just check), `--force` (replace an installed skill that differs; the old one is kept
+as a `.bak` folder), `--releases` (also download and unpack the heavy renders from the two GitHub Releases, about 1.15 GB).
 
-```bash
-cd ~/Downloads/launch-videos && gh release download renders-2026-10-20 -R alexlee69/launch-video-studio -p '*.zip' && unzip -o cue-clips-layers.zip && unzip -o cue-overlays-clips-layers.zip
-```
-
-Then, after the step above, unpack the newer s5–s7 layers over the older ones:
-
-```bash
-mkdir -p ~/Downloads/launch-videos/cue/layers && cd ~/Downloads/launch-videos/cue/layers && gh release download layers-2026-10-20 -R alexlee69/launch-video-studio -p '*.zip' && for z in cue-s*-16x9.zip; do unzip -o "$z"; done
-```
-
-To run the experiments, run `npm ci` in `experiments/cue-painted/` (and in `experiments/product-sting/`).
-
-The two hand-built hf02 jobs use the skill's `node_modules` through a link:
-
-```bash
-for j in hf02-full hf02-recreate; do ln -s ~/.claude/skills/product-launch-sting/node_modules ~/Downloads/launch-videos/$j/node_modules; done
-```
-
-To make AI footage with `video/footage/gen.mjs`, put the fal key in `~/Downloads/launch-videos/.env` as one line,
-`FAL_KEY=<key>`, then run `chmod 600` on it. Keys are at fal.ai/dashboard/keys.
-
-**Claude memory:** copy `memory/*.md` into the new project's memory folder (`~/.claude/projects/<project-path>/memory/`) and add the lines from `memory/MEMORY.md` to its index. Alternatively, ask Claude to read `memory/` at the start of a session.
-
-**Check after restoring:**
-1. Run `node ~/.claude/skills/product-launch-sting/video/lv.mjs --job ~/Downloads/launch-videos/steady-sample --storyboard`. It should write the storyboard PNG + PDF in a few seconds.
-2. A full `--film` re-renders frames, because `out/` wasn't saved.
-3. `launch-videos/layers-probe/probe.mjs` imports the skill from the absolute path `/Users/bytedance/.claude/...`. Edit that line if your home folder has a different name.
-4. hf02-full's film build (`render.mjs`, `audio.mjs`) uses relative paths. A few of its measurement tools don't:
-   `tools/cutcheck.py`, `tools/progress_sheet.py`, `tools/fal/look_stats.py` and `tools/hf02_skill_answers.py` hard-code
-   `/Users/bytedance/...`. Some also read `ref/frames`, which isn't saved here.
+**Known limits:**
+- A full `--film` of any other job re-renders its frames, because `out/` isn't saved.
+- A few hf02-full measurement tools (`tools/progress_sheet.py`, `tools/fal/look_stats.py`) read `ref/frames`, which isn't
+  saved here.
+- The scripts in `qa-records/` hard-code the old Mac's paths. They are a record, not tools to run.
 
 ## Still open (from the handover)
 
