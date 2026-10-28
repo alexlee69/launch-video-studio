@@ -1,0 +1,13 @@
+=== test_parity.py
+QA 1 parity: 17/17 PASS
+=== test_flow.py
+QA 2 flow: 48/48 PASS
+=== test_casting_mock.py
+QA 2b casting through the mock: 16/16 PASS
+=== test_failures.py
+QA 3 failures: 57/57 PASS
+=== test_review_fixes.py
+QA 4 review fixes: 90/90 PASS
+=== test_phase2.py
+QA 5 phase 2: 48/48 PASS
+ALL SUITES PASS

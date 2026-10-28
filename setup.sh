@@ -132,4 +132,4 @@ else miss "the quick check needs the skill, its node packages and python3 (run b
 
 echo
 if [ $BAD = 0 ]; then echo "READY: the studio is set up and renders the same as the Mac it was made on. Check files: $T"
-else echo "NOT READY: fix the MISSING lines above, then run bash setup.sh again. Check files: $T"; exit 1; fi
+else echo "NOT READY: see the MISSING or DIFFERENT lines above, then run bash setup.sh again. Check files: $T"; exit 1; fi

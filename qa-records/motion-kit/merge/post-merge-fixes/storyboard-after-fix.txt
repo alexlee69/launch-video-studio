@@ -1,0 +1,14 @@
+  ! fan trips: count 5 — the outer cards bleed off the frame on 1x1; a label whose chip would leave the frame is dropped there (9:16 shows the middle 3)
+  ! 3 transition types in one film (flood: ask; carry: spots; morph: go) — keep it to two plus cuts and the signature dive
+
+── storyboard main 16x9 ────────────────────────────────────────── 0s
+  ! text under the web floor for 16:9 (47 px, 35 px in capitals; delivery: feed raises it): trips "Cliffs" 35px; trips "Old town" 35px; trips "Beach" 35px; trips "Islands" 35px; trips "Nights" 35px; route "Harbour" 35px; route "Market" 35px; route "Cliffs" 35px … (15) (film QA will WARN)
+→ /Users/bytedance/Downloads/launch-videos/motion-kit-sample/wayfinch-storyboard-16x9.png (+ .pdf)
+
+── storyboard main 9x16 ────────────────────────────────────────── 10s
+  ! text under the web floor for 9:16 (40 px, 36 px in capitals): day "Day 4" 35px caps; end "wayfinch.app" 31px (film QA will WARN)
+→ /Users/bytedance/Downloads/launch-videos/motion-kit-sample/wayfinch-storyboard-9x16.png (+ .pdf)
+
+── storyboard main 1x1 ─────────────────────────────────────────── 21s
+  ! text under the web floor for 1:1 (40 px, 36 px in capitals): day "Day 4" 31px caps; end "wayfinch.app" 31px (film QA will WARN)
+→ /Users/bytedance/Downloads/launch-videos/motion-kit-sample/wayfinch-storyboard-1x1.png (+ .pdf)

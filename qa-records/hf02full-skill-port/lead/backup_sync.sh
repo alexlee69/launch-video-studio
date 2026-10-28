@@ -82,7 +82,9 @@ for d in hf02full-skill-port shots-skill-port storyboard-skill-port cast-skill-p
 
 # the unmerged fix round is a git repo with worktrees: keep its history as one bundle next to the copied worktrees
 FB=$B/qa-records/launch-video-skill-review/fix/fix-round-2026-10-22.bundle
-if [ -z "$N" ]; then git -C $QA/launch-video-skill-review/fix/main bundle create $FB --all 2>/dev/null; git bundle verify -q $FB 2>/dev/null && echo "qa-records: fix-round bundle ok"
+heads() { grep " refs/" | LC_ALL=C sort; }   # remake the bundle only when a branch moved (its bytes differ every time)
+if [ -f $FB ] && [ "$(git bundle list-heads $FB 2>/dev/null | heads)" = "$(git -C $QA/launch-video-skill-review/fix/main for-each-ref --format='%(objectname) %(refname)' | heads)" ]; then echo "qa-records: fix-round bundle up to date"
+elif [ -z "$N" ]; then git -C $QA/launch-video-skill-review/fix/main bundle create $FB --all 2>/dev/null; git bundle verify -q $FB 2>/dev/null && echo "qa-records: fix-round bundle ok"
 else echo "qa-records: fix-round bundle would be (re)made"; fi
 
 echo "== handovers"

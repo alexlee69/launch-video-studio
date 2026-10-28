@@ -233,6 +233,7 @@ export async function renderFrames({ job, tl, aspect, frames, alpha = false, cle
     }));
     const fit = await pagesOpen[0].evaluate(() => window.LV.info().fit), layers = await pagesOpen[0].evaluate(() => window.LV.layers());
     if (errors.length) throw new UserError('page errors:\n' + errors.join('\n'));
+    audits.sort((a, b) => a.k - b.k);   // the workers finish in any order: keep the text notes in frame order, run to run
     return { log, pages, audits, fit, layers, probes, composited, cams, sigs, sigs2, anims };
   } finally {
     // close every context this call opened (a shared browser otherwise accumulates them across clips and Chrome stalls)
