@@ -1,0 +1,154 @@
+# kit-dev — the round-1 motion kit's dev job: every new block and mode, 3 aspects, footage cards (stills + real clips).
+# Orbit is FICTIONAL (the film-sample brand). The space clips are our own generated footage, used here only as test cards.
+title: Orbit motion kit
+slug: kit-dev
+aspects: [16x9, 9x16, 1x1]
+thumbnail: fan
+
+brand:
+  name: Orbit
+  logo: assets/orbit-logo.svg
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+
+music: {style: keynote}
+
+shots:
+  # press · button: the generate press, its label switching to a working state; the cut lands on the rings
+  - id: pr-gen
+    block: press
+    sec: 2.3
+    text: One click.
+    after: Generating…
+    out: cut
+
+  # fan · one → many: stills + two real clips dealt onto the arc, chips per card, a push into the hero for the cut
+  - id: fan
+    block: fan
+    sec: 3.6
+    cards: [assets/cards/p-dusk-a.jpg, assets/clips/space-S22.mp4, assets/cards/p-studio-a.jpg, assets/clips/space-S14.mp4, assets/cards/p-forest-a.jpg]
+    labels: [Stills, Clips, Reels, Cuts, Posts]
+    pick: 1
+    text: One prompt. *Every format.*
+    out: cut
+
+  # particles · sphere: assembles, rotates with orbits, bursts at 2.4 s
+  - id: sphere
+    block: particles
+    sec: 3.4
+    theme: dark
+    orbits: true
+    burstAt: 2.4s
+    text: Every idea, *in orbit.*
+    out: zoom-in
+
+  # particles · burst: blows apart early into streaks, then drifts as a star field
+  - id: burst
+    block: particles
+    mode: burst
+    sec: 2.4
+    theme: dark
+    text: Ship it *everywhere.*
+    out: cut
+
+  # particles · grid: a halftone field with a travelling wave and a pulse ring
+  - id: grid
+    block: particles
+    mode: grid
+    sec: 2.4
+    text: Signal, *not noise.*
+    out: whip-left
+
+  # particles · terrain: a dot landscape flowing towards the camera
+  - id: terrain
+    block: particles
+    mode: terrain
+    sec: 2.8
+    theme: dark
+    text: Ride the *wave.*
+    out: cut
+
+  # map · a four-stop route drawing itself, pins + chips, the camera following the head
+  - id: map
+    block: map
+    sec: 4
+    text: Every stop, *on time.*
+    stops:
+      - {pos: [0.18, 0.74], label: Pickup}
+      - {pos: [0.42, 0.52], label: Studio}
+      - {pos: [0.63, 0.66], label: Edit bay}
+      - {pos: [0.82, 0.42], label: Launch}
+    out: drift-up
+
+  # map · dark, the default three-stop route
+  - id: map-dark
+    block: map
+    sec: 3.2
+    theme: dark
+    out: cut
+
+  # wall · layout grid: a mosaic of stills and clips, one tile lit, the rest dimmed, a push into it
+  - id: wall-grid
+    block: wall
+    layout: grid
+    sec: 3.5
+    theme: dark
+    cards: [assets/clips/space-S24.mp4, assets/cards/p-dusk-a.jpg, assets/cards/p-night-a.jpg, assets/clips/space-S22.mp4, assets/cards/p-forest-a.jpg, assets/cards/p-studio-a.jpg, assets/cards/p-sky-a.jpg, assets/clips/space-S14.mp4, assets/cards/p-night-b.jpg, assets/cards/p-dusk-b.jpg, assets/cards/p-forest-b.jpg]
+    text: Pick the *winner.*
+    out: zoom-in
+
+  # type · word beats: one word per beat, bold sans / italic serif alternating
+  - id: words
+    block: type
+    sec: 3.4
+    words: [Generate., chaos., loud., "*Animate.*"]
+    out: cut
+
+  # stack · exploded: drawn UI layers separating on the isometric diagonal, labels on leaders
+  - id: exploded
+    block: stack
+    mode: exploded
+    sec: 3.6
+    labels: [Interface, Media, Layout, Colour]
+    text: Built in *layers.*
+    out: drift-left
+
+  # stack · exploded, tilt low, image planes, dark
+  - id: exploded-low
+    block: stack
+    mode: exploded
+    tilt: low
+    sec: 3.2
+    theme: dark
+    cards: [assets/cards/q-dusk.jpg, assets/cards/q-night.jpg, assets/cards/q-forest.jpg, assets/cards/q-studio.jpg]
+    labels: [Final cut, Grade, Footage, Plate]
+    out: cut
+
+  # press · key, dark
+  - id: pr-key
+    block: press
+    control: key
+    sec: 2.0
+    theme: dark
+    label: Enter
+    text: Hit enter.
+    out: cut
+
+  # press · send, over real footage
+  - id: pr-send
+    block: press
+    control: send
+    sec: 2.4
+    bg: assets/clips/space-S22.mp4
+    bgDim: 0.3
+    label: Cut a teaser for Friday
+    out: cut
+
+  # press · toggle
+  - id: pr-toggle
+    block: press
+    control: toggle
+    sec: 2.2
+    label: Auto-publish
+    text: Set it once.
+    out: cut

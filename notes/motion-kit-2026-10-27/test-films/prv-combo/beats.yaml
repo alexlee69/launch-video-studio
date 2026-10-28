@@ -1,0 +1,125 @@
+# prv-combo — the merged stage's combined job (prove pass, 2026-10-27): every round-1 block joined by the round-2
+# cross-cut devices, 3 aspects, asset-free apart from film-sample's own stand-in plates, cards and logos (no footage).
+# Orbit and Acme are FICTIONAL (the film-sample brand).
+#   ask (press send) →flood→ formats (fan, from: the pressed bar) →cut→ route (map) →drift-left→ layers (stack exploded)
+#   →cut→ brief (prompt) →carry (prompt box → the lit tile)→ grid (wall layout: grid) →dive (into the lit tile)→
+#   orbit (particles sphere, bursting) →dive (into the bursting sphere)→ words (type words) →cut→ meet (title)
+#   →needle carry (the logo)→ end
+title: Orbit motion kit — combined
+slug: prv-combo
+aspects: [16x9, 9x16, 1x1]
+signature: dive
+thumbnail: grid
+
+brand:
+  name: Orbit
+  logo: assets/orbit-logo.svg
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+
+music: {style: keynote, bpm: 120}
+
+shots:
+  # 1 · the ask in a big bar; the cursor presses send on a beat (2.5 s) and the dark of the next shot pours out of it
+  - id: ask
+    block: press
+    control: send
+    beats: 6
+    label: Cut three Friday teasers
+    at: 75
+    out: flood
+    flood: {from: control, spot: [0.9, 0.5]}
+    cause: the cursor presses send
+
+  # 2 · one → many: the fan grows out of the pressed bar (the hero takes its place), deals out, pushes into the hero
+  - id: formats
+    block: fan
+    beats: 6
+    theme: dark
+    from: control
+    cards: [assets/cards/p-dusk-a.jpg, assets/cards/p-night-a.jpg, assets/cards/p-studio-a.jpg, assets/cards/p-forest-a.jpg, assets/cards/p-sky-a.jpg]
+    labels: [Teaser, Reel, Story, Post, Short]
+    pick: 2
+    text: One brief. *Every format.*
+    out: cut
+
+  # 3 · the route to Friday draws itself, pins drop; the page drifts left into the layers
+  - id: route
+    block: map
+    beats: 7
+    text: Every post, *on time.*
+    stops:
+      - {pos: [0.2, 0.72], label: Draft}
+      - {pos: [0.5, 0.5], label: Review}
+      - {pos: [0.8, 0.36], label: Fri 6 pm}
+    out: drift-left
+    cause: the route runs on to the right
+
+  # 4 · what a teaser is made of: drawn UI layers separating on the isometric diagonal, labels on leaders
+  - id: layers
+    block: stack
+    mode: exploded
+    beats: 6
+    labels: [Captions, Grade, Footage, Sound]
+    text: Built in *layers.*
+    out: cut
+
+  # 5 → 6 · the next ask is typed and sent; the prompt box lifts off and lands as the lit tile of the dark grid
+  - id: brief
+    block: prompt
+    beats: 5
+    prompt: Post the best one
+    out: cut
+    carry: {el: prompt-box, to: lit}
+    cause: Send is pressed
+
+  # 6 · the grid of cuts cascades in round the carried tile, the rest dims; the camera dives into the lit tile
+  - id: grid
+    block: wall
+    layout: grid
+    beats: 6
+    theme: dark
+    cards: [assets/cards/p-night-b.jpg, assets/cards/p-dusk-a.jpg, assets/cards/p-forest-a.jpg, assets/cards/p-studio-b.jpg, assets/cards/p-sky-a.jpg, assets/cards/p-dusk-b.jpg, assets/cards/p-night-a.jpg, assets/cards/p-forest-b.jpg]
+    text: Pick the *winner.*
+    out: dive
+    dive: {el: lit, zoom: 8}
+    cause: the lit tile lands
+
+  # 7 · out of the tile into the sphere of ideas (it arrives whole and keeps flying forward); it bursts as the camera
+  #     dives into it
+  - id: orbit
+    block: particles
+    beats: 6
+    theme: dark
+    orbits: true
+    burstAt: 2.5s
+    text: Every idea, *in orbit.*
+    out: dive
+    dive: {at: [0.5, 0.32], zoom: 10}     # into the sphere's dots above the line, as it bursts
+    cause: the sphere bursts open
+
+  # 8 · word beats out of the burst, bold sans / italic serif alternating
+  - id: words
+    block: type
+    beats: 6
+    theme: dark
+    words: [Brief., Cut., "*Ship.*"]
+    out: cut
+
+  # 9 → 10 · needle: the logo holds its place and pulses while the frame hard-cuts from light to the dark end card
+  #     (no `pre:` — the lockup is then laid out like the end card's, so the logo barely moves; with "Meet" in front the
+  #     carried logo crossed the end card's name on its way to its slot)
+  - id: meet
+    block: title
+    beats: 2.5                 # (qa fix M9: 4 beats held the landed lockup still for ~1.65 s — dead air; 3 still held it 1.17 s)
+    out: cut
+    carry: {el: logo, ease: needle}
+    cause: the logo lands
+
+  - id: end
+    block: endcard
+    beats: 4
+    theme: dark
+    tagline: Your launch team. *On call.*
+    url: orbit.app
+    cast: 0

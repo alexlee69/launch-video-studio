@@ -90,7 +90,7 @@ Higgsfield-recreation jobs.
 | `launch-videos/hf01-study/` | The text and numbers from the hf01 study that the Manus 2.0 job reads: the story, shot list and copy (`storyboard-space/final/`), the cut list (`cuts/`), and the sound and overlay measurements. No frames or audio |
 | `launch-videos/hf02-skill/` | Proof job for the hf02 motion upgrade of the film blocks: proof films, storyboards, the measured curves and `ANSWERS-measurements.md` |
 | `launch-videos/motion-kit-sample/` | "Wayfinch", the 28 s motion-kit sample (a made-up trip planner): every new block (press, fan, particles, map, wall grid, type words, exploded stack) and every move across the cut (carry, morph, dive, flood, `from:`). Films in 3 aspects, storyboards, drawn art (`tools/make_art.py`) |
-| `notes/motion-kit-2026-10-27/` | How the motion kit was built and tested: `MORNING.md` (the summary, open items, deferred list) and `reports/` (each worker's build, review and verify reports, the Opus review, QA1–3, stills) |
+| `notes/motion-kit-2026-10-27/` | How the motion kit was built and tested: `MORNING.md` (the summary, open items, deferred list) and `reports/` (each worker's build, review and verify reports, the Opus review, QA1–3, stills), and `test-films/`: the best test films on the final code, 3 aspects each, with their `beats.yaml` (`kit-dev` every new block, `prv-combo` blocks + moves, `r2-dev` every move across the cut, the 15 s and 30 s starters as they come) |
 | `HANDOVER-hf02-motion.md` | Handover for the hf02 motion work |
 | `launch-stings/design-autopilot-test/` | Mode A test job |
 | `experiments/cue-painted/` | "Saturday", a 34 s hand-painted Cue short on JohnHeibel/ClaudeAnimationBase (MIT, licence kept). Share-size MP4s are in `out/` |

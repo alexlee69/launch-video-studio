@@ -1,0 +1,121 @@
+# r2-dev — Worker C's round-2 dev job: every cross-cut device in one ~21 s film, 3 aspects.
+# Orbit is FICTIONAL (the film-sample brand); the stills are film-sample's stand-in plates.
+#   ask →flood→ scan → pick →dive (into a layer)→ teaser →carry (smooth)→ post →carry (needle)→ again → wall
+#   →dive (into a point)→ plan →morph (box → box)→ go →morph (to: frame)→ end
+#   from: on stack (scan ← the prompt box), float (pick ← the stack's pill), wall (wall ← the posted card)
+title: Orbit hand-offs (round 2 dev)
+slug: r2-dev
+aspects: [16x9, 9x16, 1x1]
+signature: dive
+
+brand:
+  name: Orbit
+  logo: assets/orbit-logo.svg
+  colors: {bg: "#F4F4F7", ink: "#111116", muted: "#80808C", accent: "#5747F2", accent2: "#FF7A45", accent3: "#FFB547", line: "#C9CBD6"}
+  bg: plain
+
+music: {style: keynote}
+
+shots:
+  # 1 · the ask is typed and sent; the dark of the next shot pours out of the prompt box
+  - id: ask
+    block: prompt
+    beats: 5
+    text: What *ships?*
+    prompt: Cut three Friday teasers
+    out: flood
+    flood: {from: prompt-box, spot: [0.93, 0.76]}     # the dark pours out of the Send button
+    cause: Send is pressed
+
+  # 2 · the research cards are born where the prompt box was (front card first)
+  - id: scan
+    block: stack
+    beats: 6
+    theme: dark
+    from: prompt-box
+    cards: [assets/cards/q-dusk.jpg, assets/cards/q-night.jpg, assets/cards/q-forest.jpg, assets/cards/q-studio.jpg, assets/cards/q-sky.jpg]
+    count: 8
+    pill: Studying 120 launch films
+    out: cut
+
+  # 3 · the pick grows out of the status pill, over footage; the camera dives into the card (a layer)
+  - id: pick
+    block: float
+    beats: 4
+    bg: assets/forest.jpg
+    card: assets/cards/p-dusk-a.jpg
+    label: TEASER 1
+    from: pill
+    out: dive
+    dive: {el: card, zoom: 10}
+    cause: The teaser card lands
+
+  # 4 → 5 · smooth carry: the teaser card lifts off the night plate and lands in the centre over new footage
+  - id: teaser
+    block: float
+    beats: 4
+    bg: assets/night.jpg
+    card: assets/cards/p-night-a.jpg
+    text: Cut for *Friday*
+    out: cut
+    carry: {el: card}
+
+  - id: post
+    block: float
+    beats: 4
+    bg: assets/footage.mp4
+    card: assets/cards/p-night-a.jpg
+    label: POSTED
+    out: cut
+    carry: {el: card, ease: needle}
+
+  # 6 · needle: the same card stays put and pulses ×1.12 while the footage hard-cuts to a new plate under it
+  #   (zoom 1.15 on this shot: post's own push already grows its card ×1.05 by the cut)
+  - id: again
+    block: float
+    beats: 4
+    bg: assets/sky.jpg
+    zoom: 1.15
+    card: assets/cards/p-night-a.jpg
+    label: POSTED
+    out: cut
+
+  # 7 · the wall of cuts is born from the posted card; the camera dives through the headline (a point)
+  - id: wall
+    block: wall
+    beats: 5
+    from: card
+    cards: [assets/cards/p-dusk-a.jpg, assets/cards/p-night-a.jpg, assets/cards/p-forest-a.jpg, assets/cards/p-studio-a.jpg, assets/cards/p-sky-a.jpg, assets/cards/p-dusk-b.jpg, assets/cards/p-night-b.jpg, assets/cards/p-forest-b.jpg]
+    chips: [Hook in 1s, Captions, Sound on]
+    text: Every cut, *on brand.*
+    out: dive
+    dive: {at: [0.5, 0.5], zoom: 8}
+    cause: The headline lands
+
+  # 8 → 9 · morph: the panel's box becomes the prompt box (size, radius, colour, shadow; contents crossfade) — dark cuts to light under it
+  - id: plan
+    block: panel
+    beats: 4
+    theme: dark
+    items:
+      - card: {title: Ready to post, body: Three teasers at 6 pm Friday, actions: [Schedule]}
+      - tap: Schedule
+    out: cut
+    carry: {el: panel, to: prompt-box, mode: morph}
+
+  # 9 → 10 · morph to: frame: the prompt box fills the frame in the end card's colour exactly on the cut
+  - id: go
+    block: prompt
+    beats: 4
+    prompt: Post all three
+    speed: 1.6
+    out: zoom-in
+    carry: {el: prompt-box, to: frame, mode: morph}
+    cause: Send is pressed
+
+  - id: end
+    block: endcard
+    beats: 4
+    theme: dark
+    tagline: Your launch team. *On call.*
+    cast: 0
