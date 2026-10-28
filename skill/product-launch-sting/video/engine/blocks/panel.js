@@ -4,13 +4,18 @@ import { uiCues, mountUI, overBudget } from '../ui.js';
 
 // No device frame: a floating card (or none) holding UI items. With --alpha this is the overlay workhorse:
 // a chat panel, an approval card, a notification stack or agent steps over your own footage.
+// A panel the camera dives into (timeline: s.entered = 'dive') arrives built: the box landed and the UI DIVE_PRE frames
+// ahead (it starts at frame −4, not 10), so the dive doesn't land on an empty white pill (qa1 M4). The timeline decides
+// it, so the sounds, a clean --clips export and the film all keep one schedule
+const uiStart = s => s.entered === 'dive' ? 10 - K.DIVE_PRE : 10;
 export default {
   name: 'panel',
   doc: 'A floating UI panel (no device) running UI items — chat, approval card, notification stack, agent steps; the best block for transparent overlays.',
   layers: 'headline · panel (none with style: bare) · one per UI item (<type>-<n>) · cursor (with a tap)',   // --layers export, back to front
   params: { text: 'headline (optional; beside the panel on landscape)', items: 'UI items', style: 'card (default, white rounded panel) | glass (frosted; can\'t be split exactly by --layers) | bare (items only, no panel)', width: 'panel width in px at 1080 (default 640)', side: 'left | right — headline side when there is one; without text the panel is centred' },
-  validate: (s, D) => { const k = overBudget(s.items, D, 10); return k ? [`panel ${s.id}: the UI items need ~${Math.round(k * 100)}% of the shot; they will be sped up — lengthen the shot or trim items`] : []; },
-  cues: (s, D) => uiCues(s.items, D, 10),
+  diveFrom: .5,             // a dive brings the panel in at ×.5 unless dive.from says otherwise (at ×.3 a speck, qa1 M4)
+  validate: (s, D) => { const k = overBudget(s.items, D, uiStart(s)); return k ? [`panel ${s.id}: the UI items need ~${Math.round(k * 100)}% of the shot; they will be sped up — lengthen the shot or trim items`] : []; },
+  cues: (s, D) => uiCues(s.items, D, uiStart(s)),
   hero: (s, D) => Math.round(D * .86),
   async build(ctx, s) {
     const { W, H, u, C, safe } = ctx;
@@ -31,15 +36,15 @@ export default {
     panel.classList.add('lv-ui');
     if (style !== 'bare') ctx.layer(panel, 'panel');   // bare: no panel of its own, just its items
     const fs = Math.max(20 * u, pw * .042);
-    const ui = mountUI(ctx, panel, s.items, { width: pw, fontSize: fs, pad: style === 'bare' ? 0 : fs * 1.1, top: style === 'bare' ? 0 : fs * 1.1, start: 10, cursor: true, glass: style !== 'card', bottom: fs });
+    const ui = mountUI(ctx, panel, s.items, { width: pw, fontSize: fs, pad: style === 'bare' ? 0 : fs * 1.1, top: style === 'bare' ? 0 : fs * 1.1, start: uiStart(s), cursor: true, glass: style !== 'card', bottom: fs });
     // the panel hugs its items (centred) when they fit; a longer flow keeps the full height and scrolls
     await Promise.all([...panel.querySelectorAll('img')].map(i => i.decode().catch(() => null)));
     const need = Math.ceil(ui.flow.offsetTop + ui.flow.offsetHeight + (style === 'bare' ? 0 : fs * 1.1));
     if (need < ph) { panel.style.height = need + 'px'; panel.style.top = (cy - need / 2) + 'px'; }
     return {
       render(t) {
-        const p = K.outBack(K.u01(t, -4, 14));
-        panel.style.opacity = K.clamp(K.u01(t, -4, 2) * 1.5).toFixed(3);
+        const tb = t + (s.entered === 'dive' ? K.DIVE_PRE : 0), p = K.outBack(K.u01(tb, -4, 14));      // (dived into: landed)
+        panel.style.opacity = K.clamp(K.u01(tb, -4, 2) * 1.5).toFixed(3);
         panel.style.transform = `translateY(${((1 - p) * 60 * u + 5 * u * Math.sin(t * .1)).toFixed(2)}px) scale(${K.lerp(.94, 1, K.clamp(p, 0, 1.05)).toFixed(4)})`;
         if (head) { ctx.reveal(head, t, -2, 2); head.style.transform = `translateY(${drift(t, 6, u)}px)`; }
         ui.render(t);

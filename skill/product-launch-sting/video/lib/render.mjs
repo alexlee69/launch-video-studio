@@ -2,7 +2,7 @@
 // renderFrames() takes a list of {f, path} and returns the shot that produced each frame (+ optional text audits).
 import { chromium } from 'playwright-core';
 import { mkdirSync, existsSync, readdirSync, readFileSync, writeFileSync, statSync, rmSync, renameSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, basename } from 'node:path';
 import { ASPECTS, ff, sh, UserError } from './common.mjs';
 import { serve } from './server.mjs';
 import { hdrFilter, HDR_TRC } from './hdr.mjs';
@@ -84,14 +84,64 @@ export async function closeStage(st) {
 let RUN = 0;
 // layer: draw only that layer (--layers); probe: after every frame, sample the text layers' words (After Effects live text),
 // the camera's motion blur and how many layers Chrome composited; layerTree: record only that composited count (every
-// --layers pass, for the layer QA's diagnostics); stage: draw on (and leave open) a stage's pages, see openStage
-export async function renderFrames({ job, tl, aspect, frames, alpha = false, clean = false, bgOnly = false, layer = null, probe = false, layerTree = false, dpr = 1, workers = 4, audit = new Set(), browser = null, stage = null, onProgress = null }) {
+// --layers pass, for the layer QA's diagnostics); stage: draw on (and leave open) a stage's pages, see openStage;
+// textless: a folder — once a page has drawn all of its frames, it goes back to each audited frame it drew, shoots it
+// again as drawn (it must match the saved frame), with every glyph hidden (LV.hideText, for the contrast check) and with
+// every glyph solid black / white (-ink0 / -ink1: the glyph coverage) and, when the frame has must-read text with a
+// text-shadow, with the glyphs hidden but their shadows kept (-shadow), then switches back: the film frames are never
+// drawn with the switch on. Same file name as the frame; a re-shot frame that
+// isn't byte-identical to the saved one is kept as <name>-real.png and the contrast check reads it instead.
+// sigs: after each frame, a hash of the page's visible DOM state (the shown shot, the stage overlays, the SVG filters it
+// uses, every canvas' pixels), then every frame of the page is sought again in reverse order and hashed again (sigs2) —
+// a frame whose state differs between the two orders comes from a block with state left by earlier frames (purity
+// check). Only what can show counts: an element at opacity 0 or display: none is skipped with everything inside it, a
+// visibility: hidden one without its own attributes (a hidden cursor that keeps its last position isn't state anyone
+// sees). The engine's filter bank (#lv-fx) grows lazily (a shot's blur filter is created the first time it blurs), so
+// only the filters the frame references count.
+const domSig = () => {
+  const vis = [...document.querySelectorAll('.lv-shot')].find(e => e.style.display !== 'none');
+  const ser = el => {
+    if (!el) return '';
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.opacity === '0') return '<~>';
+    let out = `<${el.tagName}`;
+    if (cs.visibility !== 'hidden') for (const a of el.attributes) out += ` ${a.name}="${a.value}"`;
+    out += '>';
+    for (const n of el.childNodes) out += n.nodeType === 1 ? ser(n) : n.nodeType === 3 ? n.textContent : '';
+    return out + '</>';
+  };
+  const parts = [vis, document.querySelector('.lv-ovl'), document.querySelector('.lv-lbox')].map(ser);
+  const refs = [...new Set(parts.join('').match(/url\(["']?#[^)"']+/g) || [])].map(r => r.replace(/^url\(["']?#/, ''));
+  let s = [...parts, ...refs.map(id => { const e = document.getElementById(id); return e ? e.outerHTML : ''; })].join('\u0001');
+  for (const c of vis ? vis.querySelectorAll('canvas') : []) { try { s += c.toDataURL(); } catch { s += '?'; } }
+  let h = 2166136261; for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+  return `${(h >>> 0).toString(16)}:${s.length}`;
+};
+// anims: after each frame, the CSS transitions / animations / Web Animations still running on the page (null when none)
+// as "property@layer" — they run on the wall clock, not on t, so what a frame shows depends on how long ago the previous
+// one was drawn (rule 2; the engine itself uses none). The DOM signature can't see them: the style attribute is the
+// same, only the painted value lags. An animation on an element of a hidden shot (display: none) paints nothing and
+// isn't listed: a Web Animation (el.animate) keeps "running" there, and would be blamed on every shot of the film
+// (verify pass; read from inline styles only, no layout).
+const animSig = () => {          // (runs in the page: everything it uses is defined inside it)
+  const inHiddenShot = t => { const s = t && t.closest ? t.closest('.lv-shot') : null; return !!s && s.style.display === 'none'; };
+  const a = document.getAnimations().filter(x => (x.playState === 'running' || x.pending) && !inHiddenShot(x.effect && x.effect.target));
+  if (!a.length) return null;
+  const where = t => { for (let n = t; n; n = n.parentElement) if (n.dataset && n.dataset.lvLayer) return n.dataset.lvLayer; return t ? t.tagName.toLowerCase() : '?'; };
+  return [...new Set(a.map(x => `${x.transitionProperty || x.animationName || x.constructor.name}@${where(x.effect && x.effect.target)}`))].sort().join(', ');
+};
+export async function renderFrames({ job, tl, aspect, frames, alpha = false, clean = false, bgOnly = false, layer = null, probe = false, layerTree = false, dpr = 1, workers = 4, audit = new Set(), browser = null, stage = null, onProgress = null, textless = null, sigs: wantSigs = false, anims: wantAnims = false }) {
   const { W, H } = ASPECTS[aspect];
   const plates = extractPlates(job, tl, aspect);
   const server = stage ? (stage.server ||= await serve(job)) : await serve(job);
   const own = !browser, contexts = stage ? stage.contexts : [], run = `${process.pid}.${++RUN}`;
   const errors = stage ? stage.errors : [], log = new Array(frames.length), pages = new Array(frames.length), audits = [], probes = probe ? new Array(frames.length) : null;
+  // LV.camera() per frame drawn ({s, x, y, blur} + any key the engine adds, e.g. carry): --film's cams.json. Only full-picture
+  // passes log it (not the bg-only content references, clean clips or layer passes: one evaluate a frame saved)
+  const cams = !bgOnly && !clean && !layer && !layerTree && !probe ? new Array(frames.length) : null;
   const composited = probe || layerTree ? new Array(frames.length) : null;
+  const sigs = wantSigs ? new Array(frames.length) : null, sigs2 = wantSigs ? new Array(frames.length) : null;
+  const anims = wantAnims ? new Array(frames.length).fill(null) : null;
   errors.length = 0;
   try {
   browser = browser || await launch();
@@ -142,18 +192,48 @@ export async function renderFrames({ job, tl, aspect, frames, alpha = false, cle
       for (let k = w * per; k < Math.min(frames.length, (w + 1) * per); k++) {
         const fr = frames[k];
         log[k] = await page.evaluate(x => window.LV.seek(x), fr.f);
+        if (cams) cams[k] = await page.evaluate(() => window.LV.camera());
         pages[k] = `${run}:${w}`;                       // which Chrome page drew it: QA treats page seams specially
+        // before the screenshot: getAnimations() brings the style up to date, so a transition this seek set off is listed
+        // however short it is (after the screenshot a short one would already be over)
+        if (anims) anims[k] = await page.evaluate(animSig);
         mkdirSync(dirname(fr.path), { recursive: true });
         await page.screenshot({ path: fr.path, omitBackground: alpha, type: 'png' });
         if (audit.has(k)) audits.push({ k, f: fr.f, shot: log[k], boxes: await page.evaluate(() => window.LV.audit()) });
         if (composited) composited[k] = page.lvLayers.filter(l => l.drawsContent && l.width * l.height > 0).length;
         if (probes) probes[k] = { ...(await page.evaluate(() => ({ text: window.LV.textProbe(), cam: window.LV.camera() }))), composited: composited[k] };
+        if (sigs) sigs[k] = await page.evaluate(domSig);
         if (onProgress && ++done % 120 === 0) onProgress(done, frames.length);
+      }
+      if (sigs) for (let k = Math.min(frames.length, (w + 1) * per) - 1; k >= w * per; k--) { await page.evaluate(x => window.LV.seek(x), frames[k].f); sigs2[k] = await page.evaluate(domSig); }
+      // (after every film frame of this page: a failure here can't touch them; it is recorded for the contrast check)
+      if (textless) for (let k = w * per; k < Math.min(frames.length, (w + 1) * per); k++) {
+        if (!audit.has(k)) continue;
+        const fr = frames[k], name = basename(fr.path), a = audits.find(x => x.k === k);
+        try {
+          await page.evaluate(x => window.LV.seek(x), fr.f);
+          const again = await page.screenshot({ omitBackground: alpha, type: 'png' }), same = again.equals(readFileSync(fr.path));
+          mkdirSync(textless, { recursive: true });
+          if (!same) writeFileSync(join(textless, name.replace(/\.png$/, '-real.png')), again);
+          await page.evaluate(() => window.LV.hideText(true));
+          await page.screenshot({ path: join(textless, name), omitBackground: alpha, type: 'png' });
+          // glyph coverage: every glyph solid black, then solid white (their difference = how much of a pixel is glyph)
+          const ink = [0, 1].map(i => name.replace(/\.png$/, `-ink${i}.png`));
+          for (const [i, mode] of [[0, 'black'], [1, 'white']]) { await page.evaluate(x => window.LV.hideText(x), mode); await page.screenshot({ path: join(textless, ink[i]), omitBackground: alpha, type: 'png' }); }
+          // shadowed / haloed must-read text: also the glyphs hidden with their shadows kept (what such a line is read against)
+          const shadow = a && a.boxes.some(b => b.shadowed && !b.ui) ? name.replace(/\.png$/, '-shadow.png') : null;
+          if (shadow) { await page.evaluate(() => window.LV.hideText('shadow')); await page.screenshot({ path: join(textless, shadow), omitBackground: alpha, type: 'png' }); }
+          await page.evaluate(() => window.LV.hideText(false));
+          if (a) Object.assign(a, { frame: name, textless: name, ink, ...(shadow ? { shadow } : {}), ...(same ? {} : { real: name.replace(/\.png$/, '-real.png') }) });
+        } catch (e) {
+          if (a) a.textlessError = String(e.message || e).split('\n')[0].slice(0, 200);
+          await page.evaluate(() => window.LV.hideText(false)).catch(() => null);
+        }
       }
     }));
     const fit = await pagesOpen[0].evaluate(() => window.LV.info().fit), layers = await pagesOpen[0].evaluate(() => window.LV.layers());
     if (errors.length) throw new UserError('page errors:\n' + errors.join('\n'));
-    return { log, pages, audits, fit, layers, probes, composited };
+    return { log, pages, audits, fit, layers, probes, composited, cams, sigs, sigs2, anims };
   } finally {
     // close every context this call opened (a shared browser otherwise accumulates them across clips and Chrome stalls)
     if (!stage) await Promise.allSettled(contexts.map(c => c.close()));

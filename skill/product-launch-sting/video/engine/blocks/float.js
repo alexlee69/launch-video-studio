@@ -2,17 +2,22 @@
 // accent speed streak, settles with a pop, corner focus brackets snap around it with a small label tag (INPUT), then
 // it bobs gently. Optional sticker headline and caption. Over the shot's footage (bg, drawn by the engine) or over nothing.
 import { reelF, reelFonts, reelPal, reelHexA, reelSticker, reelXf, reelImg, reelCapPlan, reelCaption, reelArea, reelNudge, reelChip, reelWarn } from './_reel.js';
+import { originOf } from '../kit.js';
 
 const FT = { fly: -1, land: 12, head: 3, br: 13, tag: 16 };   // the card is on screen from frame 0
 
 // every line a viewer reads, in order (timeline: captions SRT, reading time, storyboard, review sheet)
 const ftCopy = s => [s.text, s.label, s.caption].filter(Boolean).map(String);
+// round 2 `from: <layer of the previous shot> | [x, y]`: the card is born there and grows out (no side fly-in, no streak);
+// the brackets and tag wait for it to land (+GROW frames)
+const GROW = 4, born = s => s.i > 0 && originOf(s, { origin: true }) != null;
 
 export default {
   name: 'float',
   doc: 'A floating card (an image, or a phone showing it) over the shot\'s dimmed footage (bg) or over nothing: flies in with a perspective swing and a speed streak, focus brackets snap around it with a label tag, then it bobs; optional sticker headline and caption.',
   layers: 'streak · headline · card · brackets · label · caption',   // back to front, tree order (the engine adds footage under them with bg:)
   bgDefaults: { bgDim: .45 },   // the footage sits well back behind the card
+  origin: true,                 // takes from: <layer> | [x, y] (grow from a point; from: left | right stays the fly-in side)
   // the card's footage is extracted whole (contain: its shape decides the layout), plate `${id}:card`
   media: [{ field: 'card', fit: 'contain' }],
   required: ['card'],
@@ -22,14 +27,14 @@ export default {
     device: 'card (default: rounded white card) | phone',
     label: 'tag on the focus brackets, e.g. INPUT (no label = no brackets)',
     streak: 'accent speed streak behind the entrance (default true)',
-    from: 'left (default) | right — where the card flies in from',
+    from: 'left (default) | right — where the card flies in from; or a layer of the previous shot / [x, y]: the card grows out of that point',
     text: 'optional sticker headline (beside the card on landscape, above it otherwise)',
     caption: 'word-pop caption (+ captionAt: start frame, default 4)',
   },
   copy: ftCopy,
   validate: (s, D) => reelWarn(s, D),
-  cues: (s, D) => [{ t: FT.fly + .4 * (FT.land - FT.fly), kind: 'pop', note: 74 },   // outBack(1.5) first reaches the rest pose at 40 %
-    ...(s.text ? [{ t: FT.head + 2, kind: 'hit', note: 86, gain: .7 }] : []), ...(s.label ? [{ t: FT.br + 1, kind: 'tick', gain: 1.2 }, { t: FT.tag + 1, kind: 'tick' }] : [])],
+  cues: (s, D) => { const g = born(s) ? GROW : 0; return [{ t: g ? 9 : FT.fly + .4 * (FT.land - FT.fly), kind: 'pop', note: 74 },   // outBack(1.5) first reaches the rest pose at 40 % (grown: ~95 % of the way at 9)
+    ...(s.text ? [{ t: FT.head + 2, kind: 'hit', note: 86, gain: .7 }] : []), ...(s.label ? [{ t: FT.br + g + 1, kind: 'tick', gain: 1.2 }, { t: FT.tag + g + 1, kind: 'tick' }] : [])]; },
   hero: (s, D) => { const c = reelCapPlan(s, D); return Math.min(D - 2, Math.max(28, c ? Math.ceil(c.end) + 2 : 0)); },
   async build(ctx, s) {
     const F = await reelFonts(ctx), P = reelPal(ctx), { W, H, u, portrait, square, K } = ctx, D = ctx.D;
@@ -41,7 +46,10 @@ export default {
     const sEdge = s.from === 'right' ? 'right' : 'left', sDeg = s.from === 'right' ? 270 : 90;   // the bars fade away from the card
     const bars = [[0, 6, 100, 88, P.acc, 0, .16, .34], [0, 22, 100, 56, P.acc, 0, .4, .8], [10, 36, 90, 28, P.acc3 || P.acc, 0, .45, .9],
       [24, 14, 76, 5, P.acc2, 0, .5, .95], [40, 82, 60, 4, '#FFFFFF', 0, .45, .9], [4, 48, 96, 3, '#FFFFFF', 0, .38, .75]];
-    const streak = s.streak === false ? null : ctx.el(bars.map(([x, y, w, h, c, a0, a1, a2]) =>
+    // a carry from the previous shot lands on the card (ctx.carried), or a dive flies the whole shot in (ctx.entered): the
+    // card is already in place — no lateral fly-in, no streak (the motion is the carry's / the dive's)
+    const og = ctx.origin || null, g4 = og ? GROW : 0, landed = ctx.carried === 'card' || ctx.entered === 'dive';
+    const streak = s.streak === false || og || landed ? null : ctx.el(bars.map(([x, y, w, h, c, a0, a1, a2]) =>
       `<div style="position:absolute;${sEdge}:${x}%;top:${y}%;width:${w}%;height:${h}%;border-radius:999px;background:linear-gradient(${sDeg}deg,${reelHexA(c, a0)},${reelHexA(c, a1)} 50%,${reelHexA(c, a2)})"></div>`).join(''),
       'left:0;top:0;width:0;height:10px;opacity:0', 'streak');
     // where things go: headline beside the card on landscape (when there is one), above it otherwise
@@ -101,12 +109,21 @@ export default {
         const ex = (1 - e) * travel, swing = q * dir * 55, roll = q * dir * -10;
         const idle = K.u01(t, FT.land, FT.land + 14), bob = { dx: 0, dy: idle * 9 * u * Math.sin(t * .1 + ph), rot: idle * (.6 * Math.sin(t * .07 + ph) + .2 * Math.sin(t * .19)), s: 1 + idle * .006 * Math.sin(t * .13) };
         const g = { cx, cy, ...bob };
+        // (rot .001: a landed card is never a pure 2-D translation — Chrome keeps what it rasterised for a card drawn as a
+        // pure translation and reuses it in later frames, so frames after it depended on which frames the page drew before)
+        if (landed) { card.style.opacity = '1'; reelXf(card, C0.x, C0.y, cw, ch, g, { rot: .001 }); }
+        else if (og) {        // grown from the origin on a gentle arc (position out(3), scale soft, a slight bank), then the same bob
+          const gr = K.grow(og, { x: cx, y: cy }, t, { t0: -.5, len: 16, bank: -6, w: cw, h: ch, lead: true });
+          card.style.opacity = gr.op.toFixed(3);
+          reelXf(card, C0.x, C0.y, cw, ch, g, gr.k >= 1 ? {} : { dx: gr.x - cx, dy: gr.y - cy, rot: gr.rot, s: gr.s });
+        } else {
         card.style.opacity = K.clamp(kk * 4).toFixed(3);
         // the swing is a 2-D stand-in for perspective (narrowed + sheared like a card turning on its vertical axis): a real
         // perspective()/rotateY() makes Chrome composite the card on its own while it is partly off-frame, and the layer
         // pass then rasterises it differently from the full frame (--layers stack FAIL on the first frames, measured)
         const sc = K.lerp(.72, 1, K.clamp(e, 0, 1.1)), turn = Math.cos(swing * Math.PI / 180);
         reelXf(card, C0.x, C0.y, cw, ch, g, { dx: ex, rot: roll, sx: sc * turn, sy: sc, p: kk < 1 ? `skewY(${reelF(-swing * .28)}deg)` : '' });
+        }
         if (streak) {
           // a smear trailing the card's back edge, as long as the card is fast, gone shortly after it lands
           const v = Math.abs(K.outBack(K.u01(t + .5, FT.fly, FT.land), 1.5) - K.outBack(K.u01(t - .5, FT.fly, FT.land), 1.5)) * Math.abs(travel);
@@ -122,10 +139,10 @@ export default {
           streak.style.opacity = vis ? (K.clamp(K.u01(t, -1, 2)) * (1 - K.u01(t, FT.land, FT.land + 9))).toFixed(3) : '0';
         }
         if (br) {
-          const a = br._, k2 = K.u01(t, FT.br, FT.br + 5);
+          const a = br._, k2 = K.u01(t, FT.br + g4, FT.br + g4 + 5);
           br.style.opacity = K.clamp(k2 * 3).toFixed(3);
           reelXf(br, a.x, a.y, a.w, a.h, g, { s: K.lerp(1.28, 1, K.outBack(k2, 2.2)) });
-          const k3 = K.u01(t, FT.tag, FT.tag + 5);
+          const k3 = K.u01(t, FT.tag + g4, FT.tag + g4 + 5);
           tag.lines.forEach(l => { l.el.style.opacity = K.clamp(k3 * 3).toFixed(3); reelXf(l.el, l.x, l.y, l.w, l.h, g, { s: K.lerp(.4, 1, K.outBack(k3, 2.4)), dy: (1 - K.outCubic(k3)) * 14 * u }); });
         }
         if (head) head.lines.forEach((l, i) => {

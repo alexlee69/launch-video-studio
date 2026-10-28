@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9ECF5"/></linearGradient>
+<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="36"/></filter></defs>
+<rect width="1000" height="600" fill="url(#g)"/><g filter="url(#b)"><circle cx="200" cy="160" r="140" fill="#7C5CFF" opacity="0.25"/><circle cx="820" cy="460" r="180" fill="#C6FF3D" opacity="0.35"/></g>
+<!-- crop-safe: every mark sits in the centre 300 px, so a portrait card (a 9:16 fan hero shows the centre ~340 px) keeps it whole -->
+<rect x="350" y="170" width="300" height="260" rx="22" fill="#FFFFFF" fill-opacity=".35" stroke="#111114" stroke-opacity=".35" stroke-width="3" stroke-dasharray="14 10"/>
+<text x="500" y="262" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="800" font-size="56" fill="#111114">YOUR</text>
+<text x="500" y="320" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="800" font-size="56" fill="#111114">SCREEN</text>
+<text x="500" y="363" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="23" fill="#111114" fill-opacity=".75">a screenshot or</text>
+<text x="500" y="391" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="23" fill="#111114" fill-opacity=".75">screen recording</text></svg>

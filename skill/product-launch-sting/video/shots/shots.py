@@ -92,9 +92,31 @@ TOP = {'_note', 'root', 'casting', 'placeholders', 'model', 'aspect', 'res', 'te
 PERSON = {'_note', 'sheet', 'is'}
 PRODUCT = {'_note', 'ref', 'anatomy', 'colourway', 'is'}
 PLACE = {'_note', 'loc', 'is'}
+# phase 2, 2026-10-26 (SHOTS.md → "One trick, unbreakable rules, failure lines, acting"): the shot's one trick, the
+# rules that can't break, failure lines, what not to take from each reference, a small task, acting, sizes three ways,
+# negatives. All optional: a shot without them compiles exactly as before.
+PHASE2 = ('trick', 'must', 'fail', 'refs', 'task', 'acting', 'sizes', 'negatives')
 SHOT = {'_note', 'brief', 'script', 'proposed', 'confirmed', 'model', 'recipe', 'sec', 'aspect', 'people', 'extras',
         'products', 'place', 'position', 'key', 'motion', 'scene', 'first', 'final', 'lens', 'light', 'palette',
-        'temp', 'count', 'physics', 'realism', 'audio', 'locks', 'links'}
+        'temp', 'count', 'physics', 'realism', 'audio', 'locks', 'links'} | set(PHASE2)
+TRICK = {'_note', 'rule', 'so'}
+ACTING = {'_note', 'who', 'direction', 'motive', 'goal', 'obstacle', 'tactic', 'eyes', 'restrained', 'lens'}
+EYE = {'_note', 't', 'do'}
+SIZE = {'_note', 'frame', 'body', 'hand'}
+REF = {'_note', 'ref', 'dont'}
+FIRST = 'first'               # refs[].ref for the input image Seedance animates (the approved key frame)
+H3_WORDS = 120                # our budget for an H3 motion brief (The Lull's 20 sent prompts: 32–131 words, median ~66)
+VAGUE = re.compile(r'(?<![A-Za-z])(slightly|a little|beautiful|stunning|nice|somewhat|very)(?![A-Za-z])', re.I)
+LEAD_WORD = re.compile(r'(?:The|A|An|Her|His|Their|Its|Any|One|Two|Three|She|He|They|It|There|Someone|Something|Nothing|'
+                       r'No|More|Every|Each|This|That|Our|My|Your)\b')
+# a fail line that is already a whole verdict, kept as written: a condition ending "…, the shot is wrong", or a line
+# opening "the shot is wrong if …". Anything else is a condition and gets the "If …, the shot is wrong." frame, so a
+# line that only names a wrong thing ("she grabs the wrong cup") never reads as an instruction to do it. The frame and
+# the clip count as the verdict's subject only after a comma ("if she stops, the frame is wrong"): "if the light in the
+# frame is wrong" is a condition about something in the frame
+VERDICT = re.compile(r"(?is)^(?:(?:if|when|whenever|once)\b.*(?:\b(?:the|this|that)\s+(?:shot|take)\s+is|,\s*(?:the|this|that)\s+(?:frame|clip)\s+is|"
+                     r"\bit\s+is|\bit['’]s)\s+wrong[.!]?|(?:the|this)\s+(?:shot|take)\s+is\s+wrong\b.*)$")
+COND = re.compile(r'(?i)^(?:if|when|whenever|once)\s+')
 KEY = {'_note', 'id', 'batch', 'dir', 'frame', 'light', 'lens', 'refs', 'face', 'meta', 'prompt', 'tail'}
 MOTION = {'_note', 'camera', 'beats', 'extra', 'hold', 'prompt', 'tail'}
 BEAT = {'_note', 't', 'do', 'say'}
@@ -106,6 +128,7 @@ LINKS = {'_note', 'from', 'via'}
 LEGEND_COLOURS = ('red', 'blue', 'yellow', 'green', 'orange', 'purple', 'white', 'black', 'grey', 'gray')
 # the type each field must have: a wrong one is refused by name (and dropped, so nothing downstream trips on it)
 STR, STRS, OBJ, NUMBER, BOOL, ANY = 'text', 'a list of text', 'an object', 'a number', 'true or false', None
+OBJS, TXTOBJ = 'a list of objects', 'text, or {rule, so}'
 TYPES = {
     'top': {'root': STR, 'casting': STR, 'placeholders': STR, 'model': STR, 'aspect': STR, 'res': STR, 'text': OBJ,
             'ban': STRS, 'people': OBJ, 'products': OBJ, 'places': OBJ, 'shots': OBJ},
@@ -115,7 +138,13 @@ TYPES = {
              'sec': NUMBER, 'aspect': STR, 'people': STRS, 'extras': STR, 'products': STRS, 'place': STR,
              'position': OBJ, 'key': OBJ, 'motion': OBJ, 'scene': STR, 'first': STR, 'final': STR, 'lens': OBJ,
              'light': STR, 'palette': OBJ, 'temp': STR, 'count': NUMBER, 'physics': STRS, 'realism': STR,
-             'audio': STRS, 'locks': STRS, 'links': OBJ},
+             'audio': STRS, 'locks': STRS, 'links': OBJ,
+             'trick': TXTOBJ, 'must': STRS, 'fail': STRS, 'refs': OBJS, 'task': STR, 'acting': OBJ, 'sizes': OBJ,
+             'negatives': STRS},
+    'trick': {'rule': STR, 'so': STRS},
+    'acting': {'who': STR, 'direction': STR, 'motive': STR, 'goal': STR, 'obstacle': STR, 'tactic': STR, 'eyes': OBJS,
+               'restrained': BOOL, 'lens': ANY},
+    'eye': {'do': STR}, 'size': {'frame': STR, 'body': STR, 'hand': STR}, 'ref': {'ref': STR, 'dont': STRS},
     'key': {'id': STR, 'batch': STR, 'dir': STR, 'frame': STR, 'light': STR, 'lens': STR, 'refs': STRS, 'face': STR,
             'meta': OBJ, 'prompt': STR, 'tail': STR},
     'motion': {'camera': STR, 'extra': STR, 'hold': BOOL, 'prompt': STR, 'tail': STR},
@@ -182,7 +211,9 @@ def typed(d, kind, where, errs):
         ok = (want is ANY or (want == STR and isinstance(v, str)) or (want == OBJ and isinstance(v, dict))
               or (want == STRS and isinstance(v, list) and all(isinstance(x, str) for x in v))
               or (want == BOOL and isinstance(v, bool))
-              or (want == NUMBER and isinstance(v, (int, float)) and not isinstance(v, bool)))
+              or (want == NUMBER and isinstance(v, (int, float)) and not isinstance(v, bool))
+              or (want == OBJS and isinstance(v, list) and all(isinstance(x, dict) for x in v))
+              or (want == TXTOBJ and isinstance(v, (str, dict))))
         if ok:
             out[k] = v
         else:
@@ -221,6 +252,36 @@ NUMBERS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
 def listing(xs):
     xs = [str(x) for x in xs]
     return xs[0] if len(xs) == 1 else ', '.join(xs[:-1]) + ' and ' + xs[-1]
+
+
+def listing_or(xs):
+    xs = [str(x).strip() for x in xs]
+    return xs[0] if len(xs) == 1 else ', '.join(xs[:-1]) + ' or ' + xs[-1]
+
+
+def cap(s):
+    s = str(s).strip()
+    return s[:1].upper() + s[1:]
+
+
+def fail_line(x, names=()):
+    """a failure line as the prompt prints it: "the folder grows while she drags it" → "If the folder grows while she
+    drags it, the shot is wrong." A line that is already a whole verdict ("if …, the shot is wrong", "the shot is wrong
+    if …") is kept as written (with its full stop). A leading if / when / whenever / once is dropped, and a capitalised
+    first word is lowercased unless it is one of `names` (the spec's people, products and places, lower case)."""
+    x = str(x).strip()
+    if VERDICT.match(x):
+        return end(cap(x))
+    x = COND.sub('', x).rstrip(' .!?;:,')
+    w = re.match(r"[A-Za-z][\w'’-]*", x)
+    if w and (LEAD_WORD.match(x) or (w.group(0)[1:].islower() and w.group(0).lower() not in names)):
+        x = x[:1].lower() + x[1:]                # "The folder grows" / "Camera shakes" → "If the folder grows" …
+    return 'If %s, the shot is wrong.' % x
+
+
+def span_ok(t, hi):
+    """[start, end] in seconds, end after start, inside 0…hi"""
+    return isinstance(t, list) and len(t) == 2 and all(finite(v) for v in t) and hi >= t[1] > t[0] >= 0
 
 
 def tc(t):
@@ -309,7 +370,7 @@ class Spec:
             raise Refuse('%s: not readable JSON (%s)' % (path, e))
         if not isinstance(d, dict):
             raise Refuse('%s: the spec must be a JSON object' % path)
-        self.d, self.errs, self.warns = d, [], []
+        self.d, self.errs, self.warns, self.infos = d, [], [], []
         self.dir = os.path.dirname(self.path)
         self.root = os.path.realpath(os.path.join(self.dir, str(d.get('root', '..'))))
         try:
@@ -507,6 +568,125 @@ class Shot:
             e.append('%s.aspect: W:H with both above 0, e.g. 16:9 (got %s)' % (where, short(raw['aspect'])))
             self.raw = raw = {k: v for k, v in raw.items() if k != 'aspect'}
         self.beats = self._beats()
+        self._phase2()
+
+    # ---- phase 2: each field parsed and type-checked here (a wrong one is refused in one line and dropped)
+    def _phase2(self):
+        e, where, raw = self.S.errs, self.where, self.raw
+        self.uses2 = any(k in raw for k in PHASE2)
+        t = raw.get('trick')
+        if isinstance(t, str):
+            t = {'rule': t}
+        elif isinstance(t, dict):
+            keys(t, TRICK, where + '.trick', e)
+            bad_rule = 'rule' in t
+            t = typed(t, 'trick', where + '.trick', e)
+            if bad_rule and 'rule' not in t:            # its wrong type is already refused: one line per problem
+                t = None
+        if t is not None and not (t.get('rule') or '').strip():
+            e.append('%s.trick: the one idea the shot is built on, in one sentence ("rule"; its consequences in "so")' % where)
+            t = None
+        if t is not None and any(not x.strip() for x in t.get('so') or []):
+            e.append('%s.trick.so: each consequence in words (an empty one was given)' % where)
+            t = dict(t, so=[x for x in t['so'] if x.strip()])
+        self.trick = t
+        for k, what in (('must', 'a rule'), ('fail', 'a failure line'), ('negatives', 'a negative')):
+            v = list(raw.get(k) or [])
+            if any(not x.strip() for x in v):
+                e.append('%s.%s: each entry is %s in words (an empty one was given)' % (where, k, what))
+                v = [x for x in v if x.strip()]
+            setattr(self, k, v)
+        self.task = raw.get('task')
+        if self.task is not None and not self.task.strip():
+            e.append('%s.task: the small task the person keeps doing all through the shot, in words' % where)
+            self.task = None
+        conf, prop = (raw.get('confirmed') or []), (self.proposed or [])
+        self.neg_ok = bool(self.negatives) and 'negatives' in conf and 'negatives' not in prop      # Alex OK'd them
+        # refs: what not to take from each reference image
+        self.dont, names = {}, self.ref_names()
+        for i, x in enumerate(raw.get('refs') or []):
+            w = '%s.refs[%d]' % (where, i)
+            keys(x, REF, w, e)
+            had, had_ref = 'dont' in x, 'ref' in x
+            x = typed(x, 'ref', w, e)
+            r, dont = x.get('ref'), [d for d in (x.get('dont') or []) if d.strip()]
+            if (had and 'dont' not in x) or (had_ref and 'ref' not in x):
+                pass                                # its wrong type is already refused above
+            elif not r:
+                e.append('%s.ref: which reference (%s)' % (w, ', '.join(names)))
+            elif r not in names:
+                e.append('%s.ref: "%s" is none of this shot\'s references (%s)' % (w, r, ', '.join(names)))
+            elif r in self.dont:
+                e.append('%s.ref: "%s" is listed twice; give each reference one entry' % (w, r))
+            elif not dont:
+                e.append('%s.dont: what NOT to take from %s (its people, light, grade, depth of field, framing, props …)' % (w, r))
+            else:
+                if len(dont) < len(x.get('dont') or []):
+                    e.append('%s.dont: each entry is a thing not to take, in words (an empty one was given)' % w)
+                self.dont[r] = dont
+        # acting: whose, the inner task, eye beats, the register, when the lens may be looked into
+        self.acting, self.actor = None, None
+        a = raw.get('acting')
+        if a is not None:
+            keys(a, ACTING, where + '.acting', e)
+            had_who = 'who' in a
+            a = typed(a, 'acting', where + '.acting', e)
+            who = a.get('who')
+            if who is None and len(self.people) == 1:
+                who = self.people[0]
+            if who is None and had_who and 'who' not in a:
+                pass                                    # its wrong type is already refused
+            elif who is None:
+                e.append('%s.acting: %s' % (where, 'whose acting? Set acting.who to one of this shot\'s people (%s)'
+                                            % ', '.join(self.people) if self.people else 'acting needs a person in the shot (people)'))
+            elif who not in self.people:
+                e.append('%s.acting.who: "%s" is not one of this shot\'s people (%s)' % (where, who, ', '.join(self.people) or 'none'))
+            else:
+                self.actor = who
+            eyes = []
+            for i, x in enumerate(a.get('eyes') or []):
+                w = '%s.acting.eyes[%d]' % (where, i)
+                keys(x, EYE, w, e)
+                had = 'do' in x
+                x = typed(x, 'eye', w, e)
+                if had and 'do' not in x:
+                    continue                            # its wrong type is already refused
+                if not span_ok(x.get('t'), self.M['sec'][1]):
+                    e.append('%s.t: [start, end] in seconds, end after start, at most %d s' % (w, self.M['sec'][1]))
+                elif not (x.get('do') or '').strip():
+                    e.append('%s.do: what the eyes do then' % w)
+                else:
+                    eyes.append(x)
+            lens = a.get('lens')
+            if lens is not None and not (isinstance(lens, list) and all(span_ok(x, self.M['sec'][1]) for x in lens)):
+                e.append('%s.acting.lens: the moments the person may look into the lens, [[start, end], …] in seconds (got %s)'
+                         % (where, short(lens)))
+                lens = None
+            self.acting = dict(a, eyes=eyes, lens=lens or [])
+        # sizes: each key object measured three ways
+        self.sizes = []
+        for thing, v in (raw.get('sizes') or {}).items():
+            w = '%s.sizes.%s' % (where, thing)
+            if not isinstance(v, dict):
+                e.append('%s: {frame, body, hand}: its share of the frame, against the body, against the hand' % w)
+                continue
+            n_err = len(e)
+            keys(v, SIZE, w, e)
+            unknown = len(e) > n_err
+            n0 = len(v)
+            v = typed(v, 'size', w, e)
+            got = {k: v[k].strip() for k in ('frame', 'body', 'hand') if (v.get(k) or '').strip()}
+            if (len(v) < n0 or unknown) and not got:
+                continue                                # its unknown keys or wrong-typed measures are already refused
+            if not str(thing).strip() or not got:
+                e.append('%s: {frame, body, hand}: its share of the frame, against the body, against the hand' % w)
+            else:
+                self.sizes.append((str(thing).strip(), got))
+
+    def ref_names(self):
+        """what refs[].ref may name: this shot's people, its place, its products, its position sketch, and the input image"""
+        return list(self.people) + ([self.place] if self.place else []) + list(self.products) + (
+            ['position'] if self.position else []) + [FIRST]
 
     def g(self, k, d=None):
         """a shot field, else its recipe's default"""
@@ -610,6 +790,95 @@ class Shot:
             parts.append(L['look'])
         return (', '.join(parts) + '.') if parts else ''
 
+    # ---- phase 2 text, our own words (each part is '' when its field isn't given)
+    def person_name(self, pid):
+        return cap((self.S.d.get('people') or {}).get(pid, {}).get('is') or pid)
+
+    def trick_text(self, short=False):
+        """the trick as the ACTION's governing rule; short=True is H3's lead-in, light on its 120-word budget"""
+        t = self.trick
+        if not t:
+            return ''
+        return join(('Rule of the shot: ' if short else 'Rule of the shot, and everything in it follows from this: ') + end(t['rule']),
+                    ('It follows that: ' + ' '.join(end(cap(x)) for x in t['so'])) if t.get('so') else '')
+
+    def must_text(self):
+        if not self.must:
+            return ''
+        return ('%s before everything else in this shot, never traded for anything: ' % (
+            'This rule comes' if len(self.must) == 1 else 'These %s rules come' % (NUMBERS[len(self.must)] if len(self.must) < len(NUMBERS) else len(self.must)))
+            + ' '.join(end(cap(x)) for x in self.must))
+
+    def task_text(self):
+        if not self.task:
+            return ''
+        return join('All through the shot, first frame to last, they keep at one ordinary job: ' + end(self.task.strip()),
+                    'The event does not stop it and the camera does not feature it; whatever the event stirs in them '
+                    'stays smaller than this.')
+
+    def acting_lines(self):
+        a = self.acting
+        if a is None:
+            return []
+        who, out = self.person_name(self.actor) if self.actor else 'The person', []
+        parts = [('direction', 'Direction (what they are after)'), ('motive', 'Motive (why it matters now)'),
+                 ('goal', 'Goal'), ('obstacle', 'Obstacle'), ('tactic', 'Tactic (the visible part: how they get round it)')]
+        inner = ['%s: %s' % (label, end(a[k].strip())) for k, label in parts if (a.get(k) or '').strip()]
+        if inner:
+            mid = ((self.S.d.get('people') or {}).get(self.actor, {}).get('is') or self.actor) if self.actor else 'the person'
+            out.append(join('Acting notes for %s, an inner life that is never shown off to the camera; the thinking '
+                            'shows in the eyes first, and the face catches up.' % mid.strip(), *inner))
+        if a.get('eyes'):
+            out.append('%s\'s eyes, moment by moment: %s.' % (who, '; '.join(
+                '%s-%s %s' % (tc(x['t'][0]), tc(x['t'][1]), x['do'].strip().rstrip('.')) for x in a['eyes'])))
+        if a.get('restrained'):
+            out.append('Keep it understated: the strong moments land in the hands, the breath and the footing, not in '
+                       'the face; no open mouth, no wide grin, no gasp, nothing bigger than someone alone would really do.')
+        out.append('%s never looks into the lens%s. Head and eyes always turn the same way; the blinks keep no rhythm; '
+                   'the eyes keep working and never park on one point.' % (who, (', except at ' + '; '.join(
+                       '%s-%s' % (tc(x[0]), tc(x[1])) for x in a['lens'])) if a.get('lens') else ''))
+        return out
+
+    def size_text(self, still=False):
+        if not self.sizes:
+            return ''
+        how = {3: ', sized three ways that must match:', 2: ', sized two ways that must match:', 1: ':'}
+        s = ['%s%s %s.' % (cap(thing), how[len(v)], '; '.join(
+            '%s %s' % (label, v[k].rstrip('.')) for k, label in (('frame', 'in the frame,'), ('body', 'against the body,'),
+                                                                  ('hand', 'in the hand,')) if k in v))
+            for thing, v in self.sizes]
+        # real size, not size on screen: a person or thing walking up to the lens does grow in the frame
+        return join(*s, '' if still else 'Nothing changes its real size during the shot: only its distance from the lens '
+                                         'makes it look bigger or smaller.')
+
+    def dont_text(self, name, image=None):
+        d = self.dont.get(name)
+        if not d:
+            return ''
+        if name == FIRST:                            # it is already in frame 1: what matters is that it doesn't carry on
+            return 'From it, let none of this carry on into the motion or build up: %s.' % listing_or(d)
+        return 'Take nothing else from %s: not %s.' % ('Image %d' % image if image else 'it', listing_or(d))
+
+    def names(self):
+        """the spec's people, products and places, lower case: a fail line's first word that names one keeps its capital"""
+        d = self.S.d
+        out = set()
+        for k in ('people', 'products', 'places'):
+            for i, v in (d.get(k) or {}).items():
+                out.add(str(i).lower())
+                if isinstance(v, dict):
+                    out.update(w.lower() for w in re.findall(r"\b[A-Z][\w'’-]*", str(v.get('is') or v.get('name') or '')))
+        return out
+
+    def fail_lines(self):
+        names = self.names()
+        return [fail_line(x, names) for x in self.fail]
+
+    def negative_text(self):
+        if not (self.negatives and self.neg_ok):     # Claude's inversions reach a prompt only once Alex OK'd them
+            return ''
+        return 'None of these may happen: %s.' % '; '.join(x.strip().rstrip('.') for x in self.negatives)
+
     # ---- the key frame (a still for casting.py, then image-to-video); casting.py's own snippets stay as written
     def key_prompt(self):
         k, S = self.key or {}, self.S
@@ -636,6 +905,7 @@ class Shot:
                 if lg:
                     lines.append('In it, %s.' % '; '.join(legend_items(lg)))
                 lines.append('None of its lines, colours or paper appear in the frame.')
+            lines.append(self.dont_text('position' if role == 'position' else name, i))     # '' unless refs[] names it
         for pr in self.products:                         # no photo: the product from words alone (the lint warns)
             po = (S.d.get('products') or {}).get(pr) or {}
             if not po.get('ref'):
@@ -645,7 +915,7 @@ class Shot:
             lines.append('Do not copy any reference\'s grey background or sheet layout: make one single cinematic film '
                          'frame, %s.' % (self.raw.get('aspect') or S.d.get('aspect') or '16:9'))
         frame = k.get('frame') or self.raw.get('first') or ''
-        return expand(join(*lines, frame, k.get('light') or self.raw.get('light') or '',
+        return expand(join(*lines, frame, self.size_text(still=True), k.get('light') or self.raw.get('light') or '',
                            k.get('lens') or self.lens_text(), k.get('tail', '{KEY_TAIL}')), S.key_names(), partial=True)
 
     def key_final(self, where='', errs=None):
@@ -660,8 +930,28 @@ class Shot:
             return m['prompt']
         beats = [end(b['do']) for b in self.beats]      # a spoken line stays out: H3 has no lip-sync (the edit adds it)
         slow = self.slow_text()                # slow motion is timing, so the motion model needs it (and no "real-time")
-        return join(m.get('camera', self.recipe.get('camera', '')), *beats, m.get('extra', ''), slow,
-                    m.get('tail', '{H3_TAIL_SLOW}' if slow else '{H3_TAIL}'))
+        tail = m.get('tail', '{H3_TAIL_SLOW}' if slow else '{H3_TAIL}')
+        # phase 2: the short brief gains the trick (first in the action, as its governing rule), then the fail lines
+        # while the whole prompt stays within H3_WORDS
+        head = [m.get('camera', self.recipe.get('camera', '')), self.trick_text(short=True), *beats, m.get('extra', '')]
+        return join(*head, *self.h3_fails()[0], slow, tail)
+
+    def h3_fails(self):
+        """(the fail lines that fit the H3 budget, the ones left out), in the order given"""
+        m = self.motion
+        if not self.fail or m.get('prompt'):
+            return [], list(self.fail_lines())
+        slow = self.slow_text()
+        head = [m.get('camera', self.recipe.get('camera', '')), self.trick_text(short=True), *[end(b['do']) for b in self.beats],
+                m.get('extra', '')]
+        tail = m.get('tail', '{H3_TAIL_SLOW}' if slow else '{H3_TAIL}')
+        kept, left = [], []
+        for f in self.fail_lines():
+            if words(expand(join(*head, *kept, f, slow, tail), self.S.text, partial=True)) <= H3_WORDS:
+                kept.append(f)
+            else:
+                left.append(f)
+        return kept, left
 
     def slow_text(self):
         """the slow-motion sentences of the shot's realism (e.g. {SLOWMO_120})"""
@@ -680,7 +970,7 @@ class Shot:
         if self.products:
             keep.append('the product')
         rl = ['The input image is the first frame of this shot. Keep exactly as they are: %s. Only what the ACTION '
-              'describes changes.' % '; '.join(keep)]
+              'describes changes.' % '; '.join(keep), self.dont_text(FIRST)]
         for pr in self.products:
             po = (S.d.get('products') or {}).get(pr) or {}
             if po.get('anatomy'):
@@ -716,6 +1006,9 @@ class Shot:
                 if b['say'].get('voice'):
                     s = join(s, '(%s)' % b['say']['voice'])
             acts.append(s)
+        # phase 2: the trick governs the action, then the rules that can't break, the task under it all; the acting
+        # after the timed beats
+        acts = [x for x in (self.trick_text(), self.must_text(), self.task_text()) if x] + acts + self.acting_lines()
         if acts:
             blocks.append('ACTION:\n' + '\n'.join(acts))
         body, cnt = [], self.raw.get('count')
@@ -723,7 +1016,7 @@ class Shot:
             word = NUMBERS[cnt] if cnt < len(NUMBERS) else str(cnt)
             body.append('Exactly %s %s visible in this shot.' % (word, 'person is' if cnt == 1 else 'people are'))
         body += [str(x) for x in (g('physics') or [])]
-        blocks.append('BODY AND PHYSICS: ' + join(*body, '{BODY}'))
+        blocks.append('BODY AND PHYSICS: ' + join(*body, self.size_text(), '{BODY}'))
         light = g('light')
         if light:
             blocks.append('LIGHT: ' + light)
@@ -746,6 +1039,7 @@ class Shot:
         if lines:
             said = 'The only spoken words are %s' % ' then '.join('"%s"' % x for x in lines)
             locks.append(said if re.search(r'[.!?]"$', said) else said + '.')
+        locks += self.fail_lines() + [self.negative_text()]       # phase 2: how the shot fails; negatives once OK'd
         blocks.append('LOCKS: ' + join(*locks, '' if aud else '{NO_MUSIC}', '{NO_TEXT}'))     # the score is ours
         return '\n\n'.join(blocks)
 
@@ -947,6 +1241,115 @@ class Shot:
         if exp.get('slowmo') and not re.search(r'\b\d+\s*(?:fps|frames per second)\b', expand(
                 str(self.g('realism') or '') + ' ' + json.dumps(self.motion), S.text, partial=True), re.I):
             w.append('%s: slow motion should give the capture rate (e.g. 120 fps, about quarter speed)' % where)
+        self.lint2()
+
+    def own_text(self):
+        """(where, text) for the shot's own prompt-bound text: no Alex's verbatim words, no ids, paths or spoken lines,
+        nothing from a recipe or a snippet"""
+        out, skip_top = [], VERBATIM | {'people', 'products', 'place', 'recipe', 'model', 'aspect', 'temp', 'sec', 'count',
+                                        'links', 'extras'}
+        skip = {'key': {'id', 'batch', 'dir', 'face', 'meta', 'refs'}, 'position': {'file', 'plate'}}
+
+        def walk(v, path):
+            if isinstance(v, str):
+                out.append((path, v))
+            elif isinstance(v, dict):
+                for k, x in v.items():
+                    if (k in VERBATIM or (path == '' and k in skip_top) or k in skip.get(path, ()) or k in ('ref', 'who', 'line')
+                            or (k == 'say' and isinstance(x, str))):        # a spoken line is the script's words
+                        continue
+                    walk(x, (path + '.' if path else '') + str(k))
+            elif isinstance(v, list):
+                for i, x in enumerate(v):
+                    walk(x, '%s[%d]' % (path, i))
+        walk(self.raw, '')
+        return out
+
+    def lint2(self):
+        """the checks of SHOTS.md → "One trick, unbreakable rules, failure lines, acting". A shot that uses none of
+        those fields gets only info lines (they never change the exit code, so old specs check as before): the Seedance
+        task nudge and the vague words"""
+        S, e, w, where = self.S, self.S.errs, self.S.warns, self.where
+        seed, hand = self.model == 'seedance', bool(self.motion.get('prompt'))
+        if seed and self.people and not self.task and not hand:
+            S.infos.append('%s: people, but no task: a small task they keep doing all through the shot ("task", e.g. she '
+                           'keeps stirring her coffee) makes them feel alive' % where)
+        hits = []
+        for path, txt in self.own_text():
+            for m in VAGUE.finditer(txt):
+                hits.append('"%s" (%s)' % (m.group(1).lower(), path))
+        if hits:
+            (w if self.uses2 else S.infos).append(
+                '%s: vague words a model can\'t measure: %s; give a number or a comparison with the body instead (e.g. '
+                '5 %% of the frame width, as wide as two fingers, knee-high)' % (where, ', '.join(hits[:6])
+                                                                                 + (' and %d more' % (len(hits) - 6) if len(hits) > 6 else '')))
+        if not self.uses2:
+            return
+        t = self.trick
+        if t:
+            n = len([x for x in re.split(r'(?<=[.!?])\s+(?=\S)', t['rule'].strip()) if x])
+            if n > 1:
+                w.append('%s.trick.rule: %d sentences; the trick is one sentence (its consequences go in trick.so)' % (where, n))
+            if t.get('so') and not 3 <= len(t['so']) <= 4:
+                w.append('%s.trick.so: %d consequence%s; derive 3–4 from the rule' % (where, len(t['so']), '' if len(t['so']) == 1 else 's'))
+        if len(self.must) > 2:
+            w.append('%s.must: %d rules; keep the 1–2 that may never break, or none of them is the most important' % (where, len(self.must)))
+        if self.task and not self.people:
+            w.append('%s.task: a task needs a person in the shot (people)' % where)
+        for thing, v in self.sizes:
+            if not self.people and ('body' in v or 'hand' in v):     # nobody in the shot: a body measure invites one in
+                w.append('%s.sizes.%s: no people in this shot, so "%s" may draw a %s into it; measure it against the frame '
+                         'and something in it (e.g. "half the cup\'s width")' % (where, thing, 'body' if 'body' in v else 'hand',
+                                                                             'body' if 'body' in v else 'hand'))
+            elif self.people and len(v) < 3:
+                w.append('%s.sizes.%s: %d of the 3 measures (frame, body, hand); the three cross-check each other' % (where, thing, len(v)))
+        if self.negatives:
+            if not self.trick:
+                w.append('%s.negatives: negatives are the trick turned inside out, and this shot has no trick' % where)
+            if not self.neg_ok and 'negatives' not in (self.proposed or []):
+                w.append('%s.negatives: Claude\'s inversions of the trick: list "negatives" in proposed, so Alex sees them; '
+                         'they stay out of every prompt until `shots.py confirm %s`' % (where, self.id))
+        for r in self.dont:
+            if r in self.products and not ((S.d.get('products') or {}).get(r) or {}).get('ref'):
+                w.append('%s.refs: product %s has no photo (ref), so there is no image to leave things out of' % (where, r))
+        keyrefs = [r for r in self.dont if r != FIRST]
+        if keyrefs and self.key is None:
+            w.append('%s.refs: the don\'t-take lines for %s go into the key frame, and this shot has no key' % (where, ', '.join(keyrefs)))
+        if self.key is not None and self.key.get('prompt') and (keyrefs or self.sizes):
+            what = [x for x in ('the sizes' if self.sizes else '', 'the don\'t-take lines' if keyrefs else '') if x]
+            w.append('%s.key.prompt: written by hand, so %s are not added to it: write them into key.prompt' % (where, ' and '.join(what)))
+        if FIRST in self.dont and not seed:
+            w.append('%s.refs: "first" (the input image) is for a Seedance prompt; this shot is on %s' % (where, self.M['name']))
+        a = self.acting or {}
+        if self.acting is not None and not any((a.get(k) or '').strip() for k in ('direction', 'motive', 'goal', 'obstacle', 'tactic')) \
+                and not a.get('eyes'):
+            w.append('%s.acting: none of direction, motive, goal, obstacle, tactic or eyes, so it adds only the gaze line' % where)
+        for x in a.get('eyes') or []:
+            if self.sec is not None and x['t'][1] > self.sec + 0.05:
+                e.append('%s.acting.eyes: an eye beat ends at %g s, after the shot\'s %g s' % (where, x['t'][1], self.sec))
+        for x in a.get('lens') or []:
+            if self.sec is not None and x[1] > self.sec + 0.05:
+                e.append('%s.acting.lens: a look into the lens ends at %g s, after the shot\'s %g s' % (where, x[1], self.sec))
+        video = [k for k, on in (('trick', self.trick), ('must', self.must), ('fail', self.fail), ('task', self.task),
+                                 ('acting', self.acting is not None), ('negatives', self.neg_ok),
+                                 ('refs first', FIRST in self.dont), ('sizes', seed and self.sizes)) if on]
+        if hand and video:
+            w.append('%s.motion.prompt: written by hand, so %s never reach%s the video prompt: write what matters into it'
+                     % (where, listing(video), 'es' if len(video) == 1 else ''))
+        elif not seed and not hand:
+            lost = [k for k in ('must', 'task', 'acting', 'negatives') if k in video]
+            if lost:
+                w.append('%s: on H3 the short prompt carries only the trick and the fail lines that fit; %s reach%s a '
+                         'Seedance prompt only' % (where, listing(lost), 'es' if len(lost) == 1 else ''))
+            left = self.h3_fails()[1]
+            if left:
+                w.append('%s.fail: %d fail line%s left out of the H3 prompt to keep it within %d words: %s' % (
+                    where, len(left), '' if len(left) == 1 else 's', H3_WORDS, ' / '.join(left)))
+            n = words(expand(self.h3_prompt(), S.text, partial=True))
+            if self.trick and n > H3_WORDS:
+                w.append('%s: the H3 prompt is %d words, over its %d-word budget; shorten the trick or the beats' % (where, n, H3_WORDS))
+            if self.sizes and self.key is None:
+                w.append('%s.sizes: on H3 the sizes go into the key frame, and this shot has no key' % where)
 
 
 # ---------------------------------------------------------------- the whole spec
@@ -1062,6 +1465,8 @@ def report(S, label):
         print('✗ ' + x, file=sys.stderr)
     for x in S.warns:
         print('! ' + x)
+    for x in S.infos:
+        print('i ' + x)
     if S.errs:
         raise Refuse('%s: %d problem%s, nothing written' % (label, len(S.errs), '' if len(S.errs) == 1 else 's'))
 
@@ -1205,6 +1610,8 @@ def cmd_show(a):
     if s.raw.get('script'):
         print('Script (verbatim): %s' % s.raw['script'])
     print('\nProposed by Claude, not yet OK\'d: %s' % (', '.join(s.proposed) if s.proposed else 'nothing'))
+    if s.negatives and not s.neg_ok:             # Claude's inversions of the trick: shown here, in no prompt until confirmed
+        print('Negatives proposed by Claude (in no prompt until `shots.py confirm %s`): %s' % (s.id, '; '.join(s.negatives)))
     f, _, side = s.position_ref()
     if f:
         print('Position reference: %s%s' % (f, ' (plate %s)' % s.position['plate'] if (s.position or {}).get('plate') else ''))
@@ -1222,6 +1629,9 @@ def cmd_show(a):
     for x in S.warns:
         if x in mine:
             print('! ' + x)
+    for x in S.infos:
+        if own.search(x):
+            print('i ' + x)
     rest = [x for x in S.errs if x not in mine]
     if rest:
         print('✗ and %d more problem%s in the spec (`shots.py check` lists them)' % (len(rest), '' if len(rest) == 1 else 's'))

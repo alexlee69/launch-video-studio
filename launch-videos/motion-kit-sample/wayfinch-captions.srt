@@ -1,0 +1,55 @@
+1
+00:00:01,500 --> 00:00:03,000
+Wayfinch
+
+2
+00:00:03,000 --> 00:00:06,000
+Plan 4 days by the sea
+
+3
+00:00:06,000 --> 00:00:09,000
+One ask. Five trips.
+Islands
+Old town
+Cliffs
+Beach
+Nights
+
+4
+00:00:09,000 --> 00:00:12,500
+Four days, mapped.
+Harbour
+Market
+Cliffs
+Cove
+
+5
+00:00:12,500 --> 00:00:15,000
+All booked.
+Stays
+Trains
+Tables
+Tickets
+
+6
+00:00:15,000 --> 00:00:17,500
+Hidden spots, found.
+
+7
+00:00:17,500 --> 00:00:20,000
+Day 4
+
+8
+00:00:20,000 --> 00:00:23,000
+Pick.
+Pack.
+Go.
+
+9
+00:00:23,000 --> 00:00:26,000
+Your turn.
+Plan my trip
+
+10
+00:00:26,000 --> 00:00:28,000
+wayfinch.app

@@ -1,6 +1,6 @@
 ---
 name: product-launch-sting
-description: "Make product launch videos, reels and UI motion clips in code, with automated QA. Mode A: a fixed 12 s square sting from 7 brand inputs. Mode B (video/GUIDE.md): videos designed with the user (brief, script, beat grid, storyboard, 16:9 / 9:16 / 1:1 film, music, voiceover); reels on AI footage (stickers, floating UI cards, splits, captions, comment CTA); Higgsfield-style launch films (UI over footage); AI footage via the user's fal.ai key (FLUX → H3), graded, app screens pinned onto phones; one-face character sheets + key frames (gpt-image-2); a reference film recreated frame for frame with our content, an original on-beat score and proof; overlay clips and per-element layers for CapCut / After Effects; reference breakdowns, a track's BPM, review sheets. Use for a launch sting, video or film, promo, teaser, reel / TikTok / Shorts, AI footage, motion graphics over AI video, recreating a reference video, a storyboard, character sheets, UI or overlay clips, layers, or \"make a launch video/reel for <product>\"."
+description: "Make launch videos, reels and UI motion clips in code, with frame-by-frame QA. Mode A: a fixed 12 s square sting from 7 brand inputs. Mode B (video/GUIDE.md): videos designed with the user (brief, script, beat grid, storyboard, any aspect, music, voiceover); set pieces (key press, fan, particles, map), carries, morphs and dives across cuts, 15 / 30 s starters; reels on AI footage (stickers, UI cards, captions, comment CTA); Higgsfield-style launch films (UI over footage); AI footage via the user's fal.ai key (FLUX → H3), graded, screens put on phones; one-face character sheets + key frames (gpt-image-2); a reference film recreated frame for frame with an original score; overlay clips and layers for CapCut / After Effects; reference breakdowns, BPM, review sheets. Use for a launch sting, video or film, promo, teaser, reel / TikTok / Shorts, motion graphics over AI video, recreating a reference video, a storyboard, character sheets, UI or overlay clips, layers, or \"make a launch video/reel for <product>\"."
 ---
 
 # Product launch videos
@@ -13,7 +13,10 @@ description: "Make product launch videos, reels and UI motion clips in code, wit
   or teaser video (their own story, length, 16:9 / 9:16 / 1:1, cutdowns, footage, voiceover), **or a reel or launch
   film on their AI footage** (GUIDE → "Reels and launch films": the reel blocks sticker / float / split / cta + captions,
   the film blocks lockup / type / scene / agent / roster / stack / wall, momentum `drift-*` cuts and camera fields measured
-  on a Higgsfield film; `--init --kit reel|film` starts one), **or UI
+  on a Higgsfield film; `--init --kit reel|film` starts one), **or a 15 s / 30 s launch** (`--init --kit
+  launch15|launch30`) built on the **motion kit** (GUIDE → Blocks: press / fan / particles / map, `wall layout: grid`,
+  `type words`, `stack mode: exploded`) and **transitions that cross the cut** (GUIDE → Transitions that cross the cut:
+  carry, morph, dive, flood, grow from a point, a `cause:` per moving cut), **or UI
   mockup clips for their own edit** (transparent ProRes 4444 per shot at their edit's frame rate, with matching UI sound
   effects — also the way to lay motion design over AI footage in CapCut), **or a shot split into per-element
   transparent layers** to polish by hand in After Effects or CapCut (`--layers`: one movie per element, an After Effects
@@ -28,17 +31,20 @@ description: "Make product launch videos, reels and UI motion clips in code, wit
   from those sheets on the user's OpenAI key (gpt-image-2), identity shots first, quoted before any spend.
   **Storyboarded before any footage** (`video/STORYBOARD.md`): labelled placeholder plates drawn free for the footage
   shots, and a phone edition of the board for review. **Shot prompts written and checked** (`video/SHOTS.md`): any
-  brief into key-frame and video prompts for H3 or Seedance 2.5 (asked each time), linted before any spend. **A reference
+  brief into key-frame and video prompts for H3 or Seedance 2.5 (asked each time), one trick per shot with the rules
+  that can't break and its failure lines, linted before any spend. **A reference
   film recreated frame for frame**
   (`video/RECREATE.md`): its cuts, camera moves and beat grid with our own story, copy and official brand art, an
   original score in the launch-film style on its grid (`music: film`), and side-by-side proof (`compare.py`).
   Staged with approval gates: brief → script → beat grid → storyboard stills → animatic → film + QA → review sheet
-  (`--sheet`: per-shot notes the user types, you apply) → deliverables.
+  (`--sheet`: per-shot notes the user types, you apply, with the frames either side of every cut) → deliverables. QA
+  also checks every frame (dead air, readable text by `delivery:`, contrast, flashes, purity) and every cut's
+  continuity, as WARN lines (GUIDE → QA).
 
 If it isn't clear which they want, ask one question: "the 12-second template sting, or a video we script and
 storyboard together (a launch film, or a reel on your AI footage) — or UI clips to drop into your own edit?" Reels,
-launch films, AI footage, frame-for-frame recreations, reference breakdowns and tempo checks are all mode B of this
-one skill.
+launch films, 15 s / 30 s launches, AI footage, frame-for-frame recreations, reference breakdowns and tempo checks are
+all mode B of this one skill.
 
 # Mode A — product launch sting
 

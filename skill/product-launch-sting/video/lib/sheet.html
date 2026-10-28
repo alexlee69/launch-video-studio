@@ -61,7 +61,8 @@ button { font: inherit; color: inherit; }
 .screen { display: grid; place-items: center; }
 .screen video { display: block; width: 100%; max-width: 100%; height: auto; background: #000; border-radius: 10px; }
 .strip { display: flex; gap: 2px; height: 30px; }
-.seg { flex: 1 1 0; min-width: 0; border: 0; border-radius: 4px; background: var(--well); color: var(--muted); font: 500 11px/30px var(--mono); padding: 0; cursor: pointer; position: relative; overflow: hidden; text-overflow: clip; white-space: nowrap; }
+/* a short shot's label ends in an ellipsis inside its own segment (clipped flush, "globe" read on into "name") */
+.seg { flex: 1 1 0; min-width: 0; border: 0; border-radius: 4px; background: var(--well); color: var(--muted); font: 500 11px/30px var(--mono); padding: 0 4px; cursor: pointer; position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .seg.on { background: var(--accent); color: #fff; }
 .seg.open::after, .seg.question::after { content: ""; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--mark); }
 .seg.question::after { background: var(--ask); }
@@ -127,6 +128,18 @@ select.changed { border-color: var(--mark); color: var(--mark); }
 .reply p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .reply.old { opacity: .72; }
 .film-wide h3 { font-size: 18px; }
+/* the cut out of a shot: the frames either side of it (cut−1 · cut · cut+1, from the film) */
+.cutrow { display: grid; gap: 6px; min-width: 0; }
+@media (min-width: 640px) { .shot .cutrow { grid-column: 1 / -1; } }
+.cutstills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.bay.tall .cutstills { max-width: 480px; }
+.cutstills button { display: grid; gap: 3px; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; min-width: 0; }
+/* a hairline ring, not a border: the aspect-ratio must hold for the picture itself or the next frame's edge shows */
+.cutstills img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); background: var(--well); }
+.cutstills .on img { box-shadow: 0 0 0 1px var(--accent); }
+.cutstills span { font: 400 11px/1.3 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.cutnote, .cutcont { margin: 0; font: 400 12px/1.4 var(--mono); color: var(--muted); }
+.cutcont.warn { color: var(--mark); }
 @media (prefers-reduced-motion: no-preference) { .seg, .shot { transition: background-color .15s, border-color .15s; } }
 </style>
 
@@ -155,7 +168,7 @@ select.changed { border-color: var(--mark); color: var(--mark); }
   <div class="bay" id="bay">
     <aside class="monitor" id="monitor" aria-label="Film">
       <div class="screen" id="screen"><video id="film" controls playsinline preload="metadata"></video></div>
-      <p class="stillnote" id="stillnote" hidden>Storyboard stills. The film isn't rendered yet, so each row shows the shot's key frame.</p>
+      <p class="stillnote" id="stillnote" hidden>Storyboard stills. The film isn't rendered yet, so each row shows the shot's key frame (and no frames either side of its cut).</p>
       <div class="strip" id="strip" role="group" aria-label="Shots"></div>
       <div class="now mono" id="now"><span id="now-shot"></span><span id="now-tc"></span></div>
     </aside>
@@ -302,9 +315,32 @@ select.changed { border-color: var(--mark); color: var(--mark); }
     fact('On screen', s.screen.join(' → '));
     fact('Sound', s.sound.join(' · ') || 'music only');
     fact('Note', s.note, 'note');
+    fact('Cause', s.cause);
     main.append(facts);
     const d = directionBox(s.id, s);
-    row.append(side, main, d.box);
+    row.append(side, main);
+    if (s.cut) {                         // the cut into the next shot: frames cut−1 · cut · cut+1 (60 fps), each tagged with its shot
+      const c = s.cut, box = el('div', 'cutrow');
+      box.append(el('p', 'label', `Cut into ${c.into} · ${pretty(c.out)} · frame ${c.at} (60 fps)`));
+      if (c.stills) {
+        const strip = el('div', 'cutstills');
+        for (const x of c.stills) {
+          const b = el('button', x.which === 'cut' ? 'on' : null); b.type = 'button'; b.setAttribute('aria-label', `Show frame ${x.f} (${x.shot})`);
+          // one JPEG per cut holds the three frames side by side; each button shows its own third
+          const img = el('img'); img.src = x.src; img.alt = `${x.which}: frame ${x.f} of ${x.shot}`; img.loading = 'lazy';
+          img.style.aspectRatio = `${c.w} / ${c.h}`; img.style.objectPosition = `${(x.part ?? 1) * 50}% 50%`;
+          img.addEventListener('error', () => strip.remove());   // stills not published with the page: drop the strip, keep the verdict
+          b.append(img, el('span', null, `${x.which} · ${x.f} · ${x.shot}`));
+          // the proxy is 30 fps (60-fps frames 0, 2, 4 …): seek to its nearest frame inside the still's own shot
+          b.addEventListener('click', async () => { if (!D.film) return; await ensureSeekable(); video.pause(); video.currentTime = ((x.f < c.at ? Math.floor(x.f / 2) : Math.ceil(x.f / 2)) + .25) / 30; });
+          strip.append(b);
+        }
+        box.append(strip);
+      } else box.append(el('p', 'cutnote', 'Cut stills (the frames either side of this cut) come with the film: run --film, then --sheet.'));
+      if (c.cont) box.append(el('p', `cutcont${c.cont.warn ? ' warn' : ''}`, c.cont.text));
+      row.append(box);
+    }
+    row.append(d.box);
     $('log').append(row);
     ui.set(s.id, { row, ...d });
   }

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9AA0A8"/><stop offset="1" stop-color="#5C6168"/></linearGradient>
+<filter id="b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="43"/></filter></defs>
+<rect width="1280" height="720" fill="url(#g)"/><g filter="url(#b)"><circle cx="300" cy="220" r="180" fill="#C8CCD2" opacity="0.8"/><circle cx="980" cy="520" r="240" fill="#3E4248" opacity="0.7"/></g>
+<!-- a wipe split shows this picture's left half (the divider settles in the middle): the words hug the divider on that side, inside the centre ~580 px a portrait frame keeps -->
+<text x="596" y="336" text-anchor="end" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="800" font-size="50" fill="#FFFFFF">BEFORE</text>
+<text x="596" y="384" text-anchor="end" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="27" fill="#FFFFFF" fill-opacity=".85">your input</text>
+<text x="596" y="417" text-anchor="end" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="27" fill="#FFFFFF" fill-opacity=".85">image or clip</text></svg>

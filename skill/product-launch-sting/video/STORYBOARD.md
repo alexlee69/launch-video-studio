@@ -139,7 +139,7 @@ green ground line. Alex asked for them to look drawn in pencil.
 ## The phone edition (`phone.mjs`)
 
 - **The same board, re-laid.** It reads the board `--storyboard` wrote (`out/<cut>/<aspect>/board/board.html`): the
-  same stills, copy, notes and card warnings, one card column on 1080 × 1920 pages at 1.5× (1620 × 2880 JPEG, quality
+  same stills, copy, notes, `cause:` lines and card warnings (readable-text floors included), one card column on 1080 × 1920 pages at 1.5× (1620 × 2880 JPEG, quality
   80), a cover page first, the board's "Notes before the film" (reading time, shrunk or clipped copy) on the last
   pages, and a PDF that embeds those JPEGs untouched. Pages land in `out/<cut>/<aspect>/board-phone/` with a
   `pages.json` (shots per page, notes, the shots on placeholders, any still shrunk to fit).

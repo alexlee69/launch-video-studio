@@ -24,6 +24,11 @@ import type from './type.js';
 import lockup from './lockup.js';
 import stack from './stack.js';
 import wall from './wall.js';
+// motion kit (round 1): press · fan · particles · map (+ wall layout: grid, type words, stack mode: exploded) — helpers in _motion.js
+import press from './press.js';
+import fan from './fan.js';
+import particles from './particles.js';
+import map from './map.js';
 
 export const BLOCKS = Object.fromEntries([title, headline, cast, orbit, field, stat, media, endcard, phone, browser, panel, prompt,
-  sticker, split, float, cta, scene, agent, roster, type, lockup, stack, wall].map(b => [b.name, b]));
+  sticker, split, float, cta, scene, agent, roster, type, lockup, stack, wall, press, fan, particles, map].map(b => [b.name, b]));

@@ -35,12 +35,18 @@ export default {
     const chars = Array.from({ length: n }, (_, i) => ctx.el(A.budEl(ctx.cast(i), cs, i % 2 ? 'smile' : 'open'), `left:${W / 2 - n * cs * 1.22 / 2 + i * cs * 1.22 + cs * .11}px;top:${castY}px;width:${cs}px;height:${cs}px`, `character-${i + 1}`));
     return {
       render(t) {
-        const l = K.outExpo(K.u01(t, -4, 16));
-        lock.style.opacity = l.toFixed(3); lock.style.transform = `scale(${(k * K.lerp(.88, 1, l)).toFixed(4)})`;
+        // out of a morph to: frame (ctx.entered 'frame') the lockup rises out of the colour on its own clock from the cut,
+        // and its lines rise too: there the pre-rolled lockup was ~75 % in on the first frame and faded in by opacity alone
+        // as the colour lifted (qa1 L2); every other entrance is unchanged
+        // (pre-rolled 2 frames: half in on the cut frame, so the shot's first frame is never the bare background — QA content)
+        const rise = ctx.entered === 'frame', l = K.outExpo(rise ? K.u01(t, -2, 18) : K.u01(t, -4, 16));
+        const ry = (k0, k1, d) => rise && K.u01(t, k0, k1) < 1 ? `translateY(${((1 - K.outExpo(K.u01(t, k0, k1))) * d * u).toFixed(2)}px) ` : '';   // (landed: the old transform exactly)
+        lock.style.opacity = l.toFixed(3); lock.style.transform = `${ry(-2, 18, 64)}scale(${(k * K.lerp(.88, 1, l)).toFixed(4)})`;
+        if (rise) for (const [e, k0, k1] of [[tag, 8, 22], [cta, 14, 28], [url, 18, 32]]) if (e) e.style.transform = ry(k0, k1, 36).trim() || 'none';
         // the wobble starts once the lockup has faded and scaled in (t ≥ 16), and the logo has no transform at all
         // before that: a transformed, shadowed logo inside the fading, scaling lockup makes Chrome composite the lockup
         // on its own (rasterised at a lagging scale), so the frame would no longer match its layers (--layers QA)
-        const wob = K.u01(t, 16, 28);
+        const wob = rise ? K.u01(t, 18, 30) : K.u01(t, 16, 28);      // (after a rise: once the lockup has landed)
         mk.style.transform = wob > 0 ? `rotate(${(4 * Math.sin(t * .14) * wob).toFixed(2)}deg)` : 'none';
         if (tag) { tag.style.opacity = K.outExpo(K.u01(t, 8, 22)).toFixed(3); }
         if (cta) cta.style.opacity = K.outExpo(K.u01(t, 14, 28)).toFixed(3);

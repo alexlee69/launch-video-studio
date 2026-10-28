@@ -2,16 +2,20 @@
 // From-scratch launch videos. One job folder = brief.md + beats.yaml + assets/ (+ optional blocks/*.mjs);
 // generated files go to DIR/out/, deliverables land at the top of DIR (clips in DIR/clips/).
 //
-//   node lv.mjs --job DIR --init [--title "Name"] [--kit reel|film]
+//   node lv.mjs --job DIR --init [--title "Name"] [--kit reel|film|launch15|launch30]
 //                                                                 starter brief.md + beats.yaml + assets/ (never overwrites);
 //                                                                 --kit reel / film: a reel (stickers, AI footage) or a launch
-//                                                                 film (UI over AI footage) starter that runs with no assets
+//                                                                 film (UI over AI footage) starter that runs with no assets;
+//                                                                 launch15 / launch30: a 15 s / 30 s launch on the motion kit
+//                                                                 (press, fan, flood, carry …), no assets needed
 //   node lv.mjs --job DIR --grid [--cut NAME]                     compile beats.yaml → beat grid table + warnings
 //   node lv.mjs --job DIR --storyboard [--aspect 16x9|all] [--cut NAME]
 //                                                                 one real still per shot → <slug>-storyboard-<aspect>.png/.pdf
 //   node lv.mjs --job DIR --animatic [--aspect 16x9] [--cut NAME] 30 fps half-size preview with sound → <slug>-animatic-<aspect>.mp4
-//   node lv.mjs --job DIR --film [--aspect A|all] [--cut NAME|all] [--workers 4] [--range a,b]
+//   node lv.mjs --job DIR --film [--aspect A|all] [--cut NAME|all] [--workers 4] [--range a,b] [--no-purity]
 //                                                                 60 fps frames → audio → master → mux → QA → <slug>-<aspect>.mp4
+//                                                                 (--no-purity: skip the purity re-draws, ~30 % of a film's
+//                                                                 time, on iteration renders; the final render keeps them)
 //   node lv.mjs --job DIR --audio [--cut NAME]                    redo audio → master → mux → QA on frames already rendered
 //   node lv.mjs --job DIR --qa [--aspect A] [--cut NAME]          re-run QA
 //   node lv.mjs --job DIR --clips [s2,s4|all] [--alpha] [--webm] [--fps 30] [--aspect 16x9] [--with-transitions]
@@ -39,7 +43,7 @@ import { compile, gridTable } from './lib/timeline.mjs';
 import { renderFrames, renderHeroes, launch, extractPlates, openStage, closeStage } from './lib/render.mjs';
 import { buildAudio, audioIssues } from './lib/audio.mjs';
 import { master, mux, encodeAlpha, encodeAlphaAsync, previewOver, sfxClip } from './lib/deliver.mjs';
-import { qaFilm, qaClip, textIssues, barsOf } from './lib/qa.mjs';
+import { qaFilm, qaClip, textIssues, barsOf, floorNote, purityFrames, purityRun, puritySkip } from './lib/qa.mjs';
 import { letterboxBar } from './engine/kit.js';
 import { hasBg } from './lib/timeline.mjs';
 import { qaLayers, liveText, writeJsx, stackPreview, layerSheet, BLUR_MIN } from './lib/layers.mjs';
@@ -61,7 +65,7 @@ if (argv.includes('--blocks')) {                 // the live block catalogue (no
     if (mf.length) console.log(`  ${'(footage)'.padEnd(12)} ${mf.join(', ')} ${mf.length > 1 ? 'take' : 'takes'} footage too (.mp4/.mov …; <field>From = seconds into it)`);
     if (b.bgDefaults) console.log(`  ${'(bg)'.padEnd(12)} with bg: defaults ${Object.entries(b.bgDefaults).map(([k, v]) => `${k} ${v}`).join(', ')}`);
   }
-  console.log('\nCommon to every shot: id, block, beats | sec, out, theme (light|dark), hold [from,to], note, push,\n  bg (image/footage behind any block), bgFrom, bgDim, bgMove (in|out|left|right|none), letterbox (true | ratio),\n  camera: zoom, focus [x,y], offset [x,y], pan [{at, by: [x,y], len}], move [x,y] (each may be {16x9: …, 9x16: …}),\n  drift {in, out} (strengths of a drift-left|right|up|down cut)');
+  console.log('\nCommon to every shot: id, block, beats | sec, out, theme (light|dark), hold [from,to], note, push,\n  bg (image/footage behind any block), bgFrom, bgDim, bgMove (in|out|left|right|none), letterbox (true | ratio),\n  camera: zoom, focus [x,y], offset [x,y], pan [{at, by: [x,y], len}], move [x,y] (each may be {16x9: …, 9x16: …}),\n  drift {in, out} (strengths of a drift-left|right|up|down cut),\n  carry {el, to, ease (smooth|needle), pre, post, lift, arc, mode (carry|morph), color} (an element handed across the cut;\n    to: frame with mode: morph fills the frame), dive {el | at [x,y], zoom, from} (with out: dive),\n  flood {from (layer | [x,y]), spot [x,y], color} (with out: flood), from (layer of the previous shot | [x,y]: cards grow\n    out of it on float, stack, wall, fan), cause (what on screen drives the transition; storyboard only)\nTop level: signature (the one transition the film repeats), delivery (web|feed|tv: sets the readable-text floors)');
   console.log('(layers) = what --layers exports for the block, back to front; custom blocks name theirs with ctx.layer(el, name),\n  ctx.el(html, css, name) or ctx.text(copy, {layer: name}); untagged elements fall back to one `content` layer');
   process.exit(0);
 }
@@ -143,13 +147,14 @@ async function main() {
         rmSync(dir, { recursive: true, force: true }); mkdirSync(dir, { recursive: true });
         const { paths, audits, fit } = await renderHeroes({ job, tl, aspect, outDir: dir });
         const shrunk = fit.filter(x => x.size0 && x.size < x.size0 * .85);
-        const T = textIssues(audits, ASPECTS[aspect].W, ASPECTS[aspect].H, barsOf(tl, ASPECTS[aspect].W, ASPECTS[aspect].H));
+        const T = textIssues(audits, ASPECTS[aspect].W, ASPECTS[aspect].H, barsOf(tl, ASPECTS[aspect].W, ASPECTS[aspect].H), tl.delivery);
         const notes = [...tl.warns,
           ...shrunk.map(x => `copy shrunk to fit: "${x.text}" ${x.size0}→${x.size}px — shorten it?`),
           ...T.clipped.map(x => `text clipped by the frame: ${x} (film QA will FAIL)`), ...T.tiny.map(x => `text too small: ${x} (film QA will FAIL)`),
-          ...T.unsafe.map(x => `text outside the ${T.portrait ? 'platform-UI' : 'title'}-safe area: ${x}`), ...T.small.map(x => `small text (< 26 px): ${x}`)];
+          ...T.unsafe.map(x => `text outside the ${T.portrait ? 'platform-UI' : 'title'}-safe area: ${x}`), ...T.small.map(x => `small text (< 26 px): ${x}`),
+          ...(T.floor.length ? [`text ${floorNote(T, aspect)} (film QA will WARN)`] : [])];
         for (const w of notes.slice(tl.warns.length)) console.log('  ! ' + w);
-        const { png, pdf } = await buildBoard({ job, tl, aspect, dir, stills: paths, audits, warns: notes });
+        const { png, pdf } = await buildBoard({ job, tl, aspect, dir, stills: paths, audits, warns: notes, floors: T.floors });
         for (const [src, ext] of [[png, '.png'], [pdf, '.pdf']]) copyFileSync(src, join(job, name(cut, `-storyboard-${aspect}${ext}`)));
         console.log(`→ ${join(job, name(cut, `-storyboard-${aspect}.png`))} (+ .pdf)`);
       }
@@ -194,7 +199,7 @@ async function main() {
           const heroIdx = new Map(tl.shots.map(sh => [Math.round((sh.f0 + sh.heroF) * 2), sh.id]));
           let idx = Array.from({ length: tl.frames }, (_, i) => i);
           if (rangeAB) idx = idx.filter(i => i >= rangeAB[0] && i <= rangeAB[1]);
-          else { rmSync(p.fdir, { recursive: true, force: true }); rmSync(p.refDir, { recursive: true, force: true }); }
+          else for (const d of [p.fdir, p.refDir, join(p.dir, 'textless')]) rmSync(d, { recursive: true, force: true });
           const workers = Number(arg(argv, '--workers', 4));
           // shots this render touches are 'partial' until it finishes, so a crashed or interrupted render leaves them stale
           const span = sh => [Math.round(sh.f0 * 2), Math.round(sh.f1 * 2) - 1];
@@ -205,7 +210,9 @@ async function main() {
           step(`render ${cut} ${aspect}: ${idx.length} frames @60`);
           const frames = idx.map(i => ({ f: i / 2, path: join(p.fdir, `${pad(i)}.png`) }));
           const audit = new Set(idx.map((i, k) => heroIdx.has(i) ? k : -1).filter(k => k >= 0));
-          const res = await renderFrames({ job, tl, aspect, frames, workers, audit, onProgress: (d, n) => console.log(`  ${d}/${n}  ${((Date.now() - t0) / 1000).toFixed(0)}s`) });
+          // textless: each audited (hero) frame again with every glyph hidden, for the contrast check (after the film frames);
+          // anims: the CSS transitions / animations still running after each frame (purity)
+          const res = await renderFrames({ job, tl, aspect, frames, workers, audit, textless: join(p.dir, 'textless'), anims: true, onProgress: (d, n) => console.log(`  ${d}/${n}  ${((Date.now() - t0) / 1000).toFixed(0)}s`) });
           // background-only thumbnails for the same frames (same camera), for the content check
           await renderFrames({ job, tl, aspect, bgOnly: true, dpr: .25, workers, frames: idx.map(i => ({ f: i / 2, path: join(p.refDir, `${pad(i)}.png`) })) });
           const keep = rangeAB ? readJSON(p.log, null) : null, keepPages = rangeAB ? readJSON(p.pages, null) : null;
@@ -213,11 +220,23 @@ async function main() {
           const pagesArr = keepPages && keepPages.length === tl.frames ? keepPages : new Array(tl.frames).fill(null);
           idx.forEach((i, k) => { shotLog[i] = res.log[k]; pagesArr[i] = res.pages[k]; });
           writeFileSync(p.log, JSON.stringify(shotLog)); writeFileSync(p.pages, JSON.stringify(pagesArr));
+          // the camera per frame (LV.camera(): scale, translation, blur, + e.g. a carry's rectangle) for the cut-continuity check
+          const camsPath = join(p.dir, 'cams.json'), keepCams = rangeAB ? readJSON(camsPath, null) : null;
+          const camsArr = keepCams && keepCams.length === tl.frames ? keepCams : new Array(tl.frames).fill(null);
+          idx.forEach((i, k) => { camsArr[i] = res.cams[k]; }); writeFileSync(camsPath, JSON.stringify(camsArr));
           const prev = rangeAB ? readJSON(p.aud, []) : [];
           writeFileSync(p.aud, JSON.stringify([...prev.filter(a => !res.audits.some(b => b.shot === a.shot)), ...res.audits]));
           // fingerprints: a shot is current only if this render covered all of its frames
           for (const sh of tl.shots) { const [a, b] = span(sh); if (!rangeAB || (rangeAB[0] <= a && rangeAB[1] >= b)) prints[sh.id] = cur[sh.id]; }
           writeFileSync(p.render, JSON.stringify({ prints }));
+          // purity: seeded frames (every shot's first / last / inside / held frames) drawn again in shuffled order on one
+          // fresh page must match the film's; the ones that don't, and every worker seam, drawn again after the film's own
+          // preceding frames → purity.json for QA (never stops the render: a failure is recorded as "not measured")
+          if (arg(argv, '--no-purity', false)) { step(`purity ${cut} ${aspect}: skipped (--no-purity)`); puritySkip({ tl, aspect, dir: p.dir, prints, range: rangeAB }); }
+          else {
+            step(`purity ${cut} ${aspect}: ${purityFrames(tl, rangeAB).length} frames again, shuffled, one fresh page`);
+            await purityRun({ job, tl, aspect, dir: p.dir, prints, range: rangeAB, film: res, idx, render: renderFrames, workers });
+          }
         }
         const pngs = existsSync(p.fdir) ? readdirSync(p.fdir).filter(f => f.endsWith('.png')).length : 0;
         const again = `--film${cut === 'main' ? '' : ` --cut ${cut}`} --aspect ${aspect}`;
@@ -274,7 +293,10 @@ async function main() {
         const rendered = await renderFrames({ job, tl, aspect, frames, alpha, clean, workers: 4, browser });
         const base = join(cdir, `${spec.slug}-${id}-${aspect}`);
         for (const ext of ['.mp4', '-alpha.mov', '-alpha.webm', '-preview.mp4', '-sfx.wav']) rmSync(base + ext, { force: true });   // no stale leftovers from an earlier export
-        if (alpha) { encodeAlpha({ framesDir: fdir, fps, out: base + '-alpha.mov', webm }); previewOver({ mov: base + '-alpha.mov', bg: tl.brand.colors.bg, out: base + '-preview.mp4', W, H, fps }); }
+        // (the preview sits on the shot's own background colour: a theme: dark shot's white headline was invisible on the
+        // light brand bg — qa1 L4; dark = theme dark, or footage behind it unless theme: light, as the stage decides)
+        const dk = hasBg(s) ? s.theme !== 'light' : s.theme === 'dark';
+        if (alpha) { encodeAlpha({ framesDir: fdir, fps, out: base + '-alpha.mov', webm }); previewOver({ mov: base + '-alpha.mov', bg: dk ? (tl.brand.colors.dark || '#0E0E12') : tl.brand.colors.bg, out: base + '-preview.mp4', W, H, fps }); }
         else mux({ framesDir: fdir, fps, audio: null, out: base + '.mp4', crf: 16 });
         const hasSfx = tl.cues.some(c => c.shot === id);           // a shot without UI cues gets no SFX file (loudnorm can't level silence)
         if (hasSfx) sfxClip({ stem: join(adir, 'points.wav'), start: s.start, dur: n / fps, out: base + '-sfx.wav' });
@@ -437,10 +459,13 @@ function takeTurns(resources) {
 }
 
 // starter kits: --init --kit reel|film writes that commented starter (templates/<kit>.yaml) and its placeholder stills
-const KITS = { reel: ['card', 'before', 'after'], film: ['clip-1', 'clip-2', 'clip-3', 'clip-4'] };
+// (the launch starters' own stills keep their words where every card shape and the wipe's halves show them — the reel's
+// card / before / after are the live reel starter's and stay as they are; qa1 M2)
+const KITS = { reel: ['card', 'before', 'after'], film: ['clip-1', 'clip-2', 'clip-3', 'clip-4'], launch15: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'screen'], launch30: ['clip-1', 'clip-2', 'clip-3', 'clip-4', 'screen', 'wipe-before', 'wipe-after'] };
+const KIT_NAME = { reel: 'reel', film: 'launch film', launch15: '15 s launch', launch30: '30 s launch' };
 function init() {
   const kit = arg(argv, '--kit', null);
-  if (kit != null && !Object.hasOwn(KITS, String(kit))) die(`--kit must be ${Object.keys(KITS).join(' or ')} (a reel of AI footage + stickers, or a launch film with UI over AI footage)`, 2);
+  if (kit != null && !Object.hasOwn(KITS, String(kit))) die(`--kit must be ${Object.keys(KITS).join(', ')} (a reel of AI footage + stickers, a launch film with UI over AI footage, or a 15 s / 30 s launch starter)`, 2);
   mkdirSync(join(job, 'assets'), { recursive: true });
   const title = arg(argv, '--title', null);
   for (const f of ['brief.md', 'beats.yaml']) {
@@ -452,8 +477,9 @@ function init() {
       if (f === 'brief.md') txt = txt.replaceAll('Steady', T);
       else if (kit) {                          // a kit starter: set just these lines (keeps its comments and layout)
         const y = v => /^[A-Za-z][\w .'-]*$/.test(v) ? v : JSON.stringify(v);
-        txt = txt.replace(/^title: .*$/m, `title: ${y(`${T} ${kit === 'reel' ? 'reel' : 'launch film'}`)}`).replace(/^slug: .*$/m, `slug: ${slug}`)
+        txt = txt.replace(/^title: .*$/m, `title: ${y(`${T} ${KIT_NAME[kit]}`)}`).replace(/^slug: .*$/m, `slug: ${slug}`)
           .replace(/^(  name: )Product$/m, (_, k) => k + y(T)).replace(/^(  mono: )P$/m, (_, k) => k + (T.match(/[A-Za-z0-9]/) || ['P'])[0].toUpperCase());
+        if (kit.startsWith('launch')) txt = txt.replace(/^(    text: )Product(?=\s|$)/gm, (_, k) => k + y(T)).replace(/^(    url: )product\.app(?=\s|$)/gm, (_, k) => `${k}${slug}.app`);   // their name cards and address
       } else {                                   // edit the YAML as YAML (keeps comments; quotes "Acme: The Movie" correctly)
         const doc = YAML.parseDocument(txt);
         doc.set('title', `${T} launch`); doc.set('slug', slug);
@@ -473,7 +499,8 @@ function init() {
     if (!existsSync(dst)) { copyFileSync(join(VIDEO, 'templates', 'placeholders', `${p}.svg`), dst); console.log(`wrote ${dst}`); }
   }
   console.log(`assets go in ${join(job, 'assets')} (logo.svg, fonts, screenshots, footage, music)`);
-  if (kit) console.log(`next: lv.mjs --job ${job} --grid, then --storyboard; drop your AI clips into assets/ and un-comment the bg: lines (GUIDE.md → "Reels and launch films")`);
+  if (kit && /^launch/.test(kit)) console.log(`next: lv.mjs --job ${job} --grid, then --storyboard; swap the placeholder cards in assets/ for your clips or screens, or put footage behind any shot with bg: (GUIDE.md → "Launch starters")`);
+  else if (kit) console.log(`next: lv.mjs --job ${job} --grid, then --storyboard; drop your AI clips into assets/ and un-comment the bg: lines (GUIDE.md → "Reels and launch films")`);
 }
 
 main().catch(e => die(e instanceof UserError ? e.message : (e.stack || String(e))));

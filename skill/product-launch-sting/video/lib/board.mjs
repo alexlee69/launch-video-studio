@@ -9,17 +9,21 @@ import { copyOf } from './timeline.mjs';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-export async function buildBoard({ job, tl, aspect, dir, stills, audits, warns = [] }) {
+// floors: the readable-text floors QA warns at ({delivery, mixed, caps}, qa.mjs floorsFor) — each card notes its must-read
+// text under them
+export async function buildBoard({ job, tl, aspect, dir, stills, audits, warns = [], floors = null }) {
   const { W, H } = ASPECTS[aspect];
   const cols = aspect === '9x16' ? 5 : aspect === '1x1' ? 4 : 3, cw = Math.floor((1800 - 60 - (cols - 1) * 28) / cols), ch = Math.round(cw * H / W);
   const cueSum = s => { const m = {}; for (const c of tl.cues.filter(c => c.shot === s.id)) m[c.kind] = (m[c.kind] || 0) + 1; return Object.entries(m).map(([k, n]) => `${k}×${n}`).join(' '); };
-  const textNote = s => { const a = audits.find(x => x.shot === s.id); if (!a) return ''; const off = a.boxes.filter(b => b.x0 < -1 || b.y0 < -1 || b.x1 > W + 1 || b.y1 > H + 1); return off.length ? `<div class="warn">text clipped: ${esc(off.map(b => b.text).join(' / '))}</div>` : ''; };
+  const textNote = s => { const a = audits.find(x => x.shot === s.id); if (!a) return ''; const off = a.boxes.filter(b => b.x0 < -1 || b.y0 < -1 || b.x1 > W + 1 || b.y1 > H + 1); const low = floors ? a.boxes.filter(b => !b.ui && b.px >= 26 && b.px < (b.caps ? floors.caps : floors.mixed)) : [];
+    return (off.length ? `<div class="warn">text clipped: ${esc(off.map(b => b.text).join(' / '))}</div>` : '')
+      + (low.length ? `<div class="warn">under the ${esc(floors.delivery)} floor (${floors.mixed} px, caps ${floors.caps}): ${esc(low.map(b => `${b.text.slice(0, 28)} ${b.px.toFixed(0)} px`).join(' / '))}</div>` : ''); };
   const cards = tl.shots.map((s, i) => `
     <div class="card"><img src="${basename(stills[i])}" style="width:${cw}px;height:${ch}px">
       <div class="meta"><b>${i + 1} · ${esc(s.id)}</b><span>${esc(s.block)}</span><span>${fmtT(s.start)}–${fmtT(s.end)}</span><span>${((s.end - s.start) / tl.beat).toFixed(1).replace(/\.0$/, '')} beats</span></div>
       <div class="copy">${esc(copyOf(s)) || '<i>no copy</i>'}</div>
       <div class="foot">${i < tl.shots.length - 1 ? `out → <b>${esc(s.out)}</b>` : 'end'}${cueSum(s) ? ` · SFX ${esc(cueSum(s))}` : ''}</div>
-      ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}${textNote(s)}</div>`).join('');
+      ${s.cause ? `<div class="cause"><b>cause</b> ${esc(s.cause)}</div>` : ''}${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}${textNote(s)}</div>`).join('');
   const html = `<!doctype html><html><head><meta charset="utf-8"><style>
     @font-face{font-family:Inter;font-weight:400;src:url(/skill/node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2)}
     @font-face{font-family:Inter;font-weight:600;src:url(/skill/node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2)}
@@ -31,6 +35,7 @@ export async function buildBoard({ job, tl, aspect, dir, stills, audits, warns =
     .card img{display:block;object-fit:cover;background:#ddd}.meta{display:flex;gap:12px;flex-wrap:wrap;padding:14px 16px 4px;font-size:17px;color:#55555E}.meta b{color:#111114}
     .copy{padding:4px 16px 8px;font-size:19px;line-height:1.35;font-weight:600}.foot{padding:0 16px 14px;font-size:15px;color:#6B6B75}
     .note{margin:0 16px 14px;padding:8px 10px;border-radius:8px;background:#F1F5FF;font-size:15px;color:#2B4B8A}
+    .cause{margin:0 16px 14px;padding:8px 10px;border-radius:8px;background:#F4F1FF;font-size:15px;color:#4A3A8A}.cause b{font-weight:600;margin-right:4px}
     .warn{margin:0 16px 14px;padding:8px 10px;border-radius:8px;background:#FFF1F0;font-size:15px;color:#A12A1F}
     .warns{margin:0 30px 30px;padding:14px 18px;border-radius:12px;background:#FFF8E6;color:#7A5300;font-size:16px;line-height:1.5}
   </style></head><body><header><h1>${esc(tl.title)}</h1><span>${aspect.replace('x', ':')} · ${tl.dur.toFixed(1)} s · ${tl.bpm} BPM · ${tl.music.style} · ${tl.shots.length} shots${tl.id !== 'main' ? ` · cutdown "${esc(tl.id)}"` : ''}</span></header>

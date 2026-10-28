@@ -83,6 +83,7 @@ anything, `<beat>` included.
 | `lens` | `{mm, distance, focus, look}`; the angle is computed (2·atan(18/mm)) |
 | `light`, `palette`, `temp` | the light; `{only, accent, notes}`; `warm`, `cold` or `neutral` (for the contrast rule) |
 | `count`, `physics`, `realism`, `audio`, `locks`, `links` | head count (never fewer than the people listed); physical rules; a realism text or preset; the sounds, and nothing else; what must not change; `{from, via}`: the element that crosses from shot `from` into this one (both prompts must name it, or it warns) |
+| `trick`, `must`, `fail`, `refs`, `task`, `acting`, `sizes`, `negatives` | all optional: the shot's one mechanical idea, the 1–2 rules that can't break, how it fails, what not to take from each reference, a small task, acting, sizes three ways, the trick's inversions (below: **One trick, unbreakable rules, failure lines, acting**) |
 
 ## What gets compiled
 
@@ -117,6 +118,10 @@ anything, `<beat>` included.
   9. AUDIO: "exactly these sounds and nothing else: the spoken lines above; … No music", because the score is ours
      (with no `audio` list there is no AUDIO block, it warns, and "No music." goes into LOCKS);
   10. LOCKS: the lines, plus `{NO_TEXT}`.
+
+  The fields of **One trick, unbreakable rules, failure lines, acting** (below) slot into these blocks: the trick, the
+  must rules and the task open the ACTION, the acting follows its beats, sizes go into BODY AND PHYSICS, fail lines and
+  confirmed negatives into LOCKS.
 
   Kaye sent her references straight to Seedance (reference-to-video: `@Image1` … plus a MAP LEGEND for the sketch,
   no key frame). That route waits until fal's reference-to-video fields are confirmed; then the references and the
@@ -170,6 +175,88 @@ anything, `<beat>` included.
 - a sketch drawn before its plate last changed;
 - a position with no legend, or on a shot with no key (the sketch only shapes the key frame).
 
+## One trick, unbreakable rules, failure lines, acting
+
+Ideas taken from a prompt library for AI video that we studied (2026-10-26), written in our own words. A model follows
+a mechanism better than a description: give each shot **one trick** and derive what follows from it, say which rules
+come first, describe how the shot fails, and measure things instead of praising them. Every field is optional and
+type-checked like the rest; a shot without them compiles exactly as before.
+
+| Key | What it is | Where it goes |
+|---|---|---|
+| `trick` | the one mechanical idea the shot is built on, one sentence (`"rule"`), or `{rule, so: [3–4 consequences]}`: "the frame never moves, and the crossing's countdown is the clock she races" | first in the ACTION (H3: right after the camera sentence, as "Rule of the shot: …") |
+| `must` | the 1–2 rules that may never break | the ACTION, after the trick, marked as coming before everything else |
+| `fail` | one line per weak point, as a condition: "the count skips" → "If the count skips, the shot is wrong." A leading if / when / whenever / once is dropped; a line that is already a whole verdict ("if …, the shot is wrong", "the shot is wrong if …") stays as written. A line that only names a wrong thing ("she grabs the wrong cup") still gets the frame, so it never reads as an instruction | LOCKS; H3 takes them while its prompt stays within 120 words, and warns about any it leaves out |
+| `refs` | `[{ref, dont: [...]}]`: per reference image, what NOT to take from it (its people, light, grade, depth of field, framing, props …). `ref` is one of the shot's people, its place, its products, `position` (the sketch), or `first`: the input image Seedance animates. That one is already frame 1, so its list is what must not carry on from it into the motion or build up (a glare that should not spread, a prop that must not multiply) | the key frame, right after that image's line ("Take nothing else from Image 2: not …"); `first` goes in Seedance's REFERENCES, after what to keep ("From it, let none of this carry on into the motion or build up: …") |
+| `task` | the small task the person keeps doing through the whole shot, never dropped at the main event ("she keeps glancing down at the band") | the ACTION, after the must rules |
+| `acting` | `{who, direction, motive, goal, obstacle, tactic, eyes: [{t, do}], restrained, lens: [[start, end]]}`: the inner task (only the tactic shows on screen), eye beats on the timecodes, `restrained: true` (the strong moments land in the hands, breath and footing, not the face), and the moments the person may look into the lens (never, unless listed). `who` may be left out when the shot has one person | the ACTION, after the timed beats; the gaze line is always there once `acting` is given |
+| `sizes` | `{"the band": {frame, body, hand}}`: each key object measured three ways, against the frame, the body and the hand, so the three cross-check each other. On a shot without people, measure it against the frame and something in it only ("a fifth of the frame width, about half the cup's width"): a body or hand measure there invites one into the picture | the key frame, after the first frame; Seedance's BODY AND PHYSICS, with "nothing changes its real size" (only distance changes how big it looks) |
+| `negatives` | the trick turned inside out ("the camera pans or drifts", "the count freezes"). Claude writes them, so they sit in `proposed` | LOCKS ("None of these may happen: …"), and only once `confirmed`: `show` lists them apart until then |
+
+**The short H3 prompt** gains only the trick and the fail lines that fit; `must`, `task`, `acting` and `negatives`
+reach a Seedance prompt only (it warns when an H3 shot has them). The key frame gains `sizes` and the `refs` lines on
+either model. A hand-written `motion.prompt` or `key.prompt` is never changed: it warns that the fields it would have
+carried are left out.
+
+**The checks.** Refused, one line each: a field of the wrong type; a trick without its rule; an empty entry (in `must`,
+`fail`, `negatives`, `trick.so` or a `dont` list); a `refs` entry naming no reference of this shot, named twice, or
+without `dont`; `acting` on a shot with no people, or with several and no `who`; an eye beat or a look into the lens
+outside the shot; a size with none of the three measures.
+
+Warned, on a shot that uses any of these fields:
+- vague words (slightly, a little, beautiful, stunning, nice, somewhat, very) in the shot's own text: give a number or a
+  comparison with the body (the recipe's and the snippets' words aren't counted, nor Alex's brief and script, nor the
+  spoken lines);
+- a trick of more than one sentence, or other than 3–4 consequences; more than 2 must rules;
+- `acting` with none of direction, motive, goal, obstacle, tactic or eyes (it would add only the gaze line);
+- fewer than 3 measures of a size on a shot with people, or a body or hand measure on a shot without;
+- negatives with no trick, or not listed in `proposed`; a task with no person; a `dont` for a product with no photo;
+- an H3 prompt over 120 words.
+
+Info (`i`, never changes the exit code): a Seedance shot with people and no task (H3 can't carry a task, so H3 shots
+don't get it); the same vague words in a shot that uses none of these fields, so old specs check as before.
+
+**Worked example** (`shots/examples/phase2-band-shots.json`, a fictional fitness band; put it beside a casting.json
+with the sheet `runner` and the location `bridge`). K01 on Seedance uses every field: a locked frame where the
+crossing's countdown is the clock she races. Its negatives are still only proposed, so `show K01` lists them apart and
+none reaches the prompt. The spec, cut down (the file has all of it):
+
+```json
+"trick": {"rule": "The frame never moves, and the crossing's countdown in the near corner is the shot's clock: she has to cover the whole bridge before it reaches zero.",
+          "so": ["The count drops by one each second, from 8 to 1, sharp in every frame.", "She grows from a small figure at the far end to the full frame height at the kerb.",
+                 "Everything else stays behind her: the traffic never crosses between her and the camera.", "She reaches the kerb as the count shows 1, not earlier and not later."]},
+"must": ["The camera is locked off: it never pans, tilts, zooms or drifts.", "The count drops by exactly one each second and never skips or repeats."],
+"fail": ["the count skips, repeats or runs backwards", "she reaches the kerb after the count shows 0"],
+"refs": [{"ref": "runner", "dont": ["the grey backdrop", "the flat studio light", "the sheet's layout"]},
+         {"ref": "first", "dont": ["the glare on the countdown box's glass"]}],
+"task": "she keeps glancing down at the band on her wrist between strides",
+"acting": {"direction": "she wants to make the crossing without breaking stride", "obstacle": "a wide puddle lies across her line halfway over",
+           "tactic": "she swings wide round it and lengthens her stride instead of slowing", "restrained": true,
+           "eyes": [{"t": [3, 5], "do": "on the puddle's near edge, judging her line round it"}]},
+"sizes": {"the band": {"frame": "4 % of the frame width once she reaches the kerb", "body": "as wide as two of her fingers", "hand": "it wraps her wrist with a thumb's width to spare"}}
+```
+
+What it compiles to (lines from `show K01` and `show K02`, word for word; `test_phase2.py` checks they still are):
+
+<!-- phase2-example -->
+```text
+Image 1 is the runner's locked character sheet: the face in its LEFT close-up is the only face to use, and its other panels show the wardrobe. Take nothing else from Image 1: not the grey backdrop, the flat studio light or the sheet's layout.
+REFERENCES: The input image is the first frame of this shot. Keep exactly as they are: the people in it (the runner) with their faces, bodies and wardrobe; the place; the light; the product. Only what the ACTION describes changes. From it, let none of this carry on into the motion or build up: the glare on the countdown box's glass. The band is a flat matte strap with a small square face of black glass and one side button. This is real live-action footage, shot in camera on location by a real crew: real people, real places, real weather.
+Rule of the shot, and everything in it follows from this: The frame never moves, and the crossing's countdown in the near corner is the shot's clock: she has to cover the whole bridge before it reaches zero. It follows that: The count drops by one each second, from 8 to 1, sharp in every frame. She grows from a small figure at the far end to the full frame height at the kerb. Everything else stays behind her: the traffic never crosses between her and the camera. She reaches the kerb as the count shows 1, not earlier and not later.
+These two rules come before everything else in this shot, never traded for anything: The camera is locked off: it never pans, tilts, zooms or drifts. The count drops by exactly one each second and never skips or repeats.
+All through the shot, first frame to last, they keep at one ordinary job: she keeps glancing down at the band on her wrist between strides. The event does not stop it and the camera does not feature it; whatever the event stirs in them stays smaller than this.
+The runner's eyes, moment by moment: 0:00-0:03 on the countdown far ahead, then a flick down to the band; 0:03-0:05 on the puddle's near edge, judging her line round it; 0:05-0:08 back on the count, then the band.
+The runner never looks into the lens. Head and eyes always turn the same way; the blinks keep no rhythm; the eyes keep working and never park on one point.
+LOCKS: If the count skips, repeats or runs backwards, the shot is wrong. If she reaches the kerb after the count shows 0, the shot is wrong. No text, captions, subtitles or logos appear anywhere in the frame.
+Straight down, locked off. Rule of the shot: The window frame's shadow is the moving part: its edge sweeps across the still desk and reaches the band at the moment its face lights. The shadow's edge sweeps slowly across the desk toward the band. The band's face lights up once with a soft glow. If the band moves, turns or slides on the desk, the shot is wrong. If the camera moves, the shot is wrong. Real-time, natural, candid motion. Keep the lighting, colours, depth of field and film grain of the first frame. No text, no captions, no logos.
+```
+<!-- /phase2-example -->
+
+After `shots.py confirm K01`, LOCKS gains, before its no-text line: "None of these may happen: the camera pans, tilts,
+zooms or drifts; the count freezes, skips or runs backwards; she reaches the kerb early and waits; a second runner
+appears on the bridge." The last line above is K02's whole H3 prompt: the camera, the trick, the beats, both fail lines
+(they fit), the tail. K02 has no people, so its band is sized against the frame and the cup only.
+
 ## Recipes (`shots/recipes.json`)
 
 | Recipe | For | Defaults |
@@ -201,6 +288,8 @@ anything, `<beat>` included.
   - life moments: scenes where the product answers, then a slow close (a plan, friends, the packshot).
 - **Temperature contrast:** neighbouring shots alternate warm and cold (`temp`); three of one in a row is warned.
 - **Link scenes:** let a shared element cross from one scene into the next (`links`, e.g. the flyer passes the cyclist).
+  Between code-drawn shots the same idea is `carry:` or `from:` in beats.yaml, with the cut's `cause:` from the brief's
+  trigger map (GUIDE → Transitions that cross the cut).
 - **Pace:** about 4 s a shot in a live-action montage; 0.5–1 s a beat in a motion intro.
 - **Dialogue:** subtitles are burned in by the edit, never generated. Seedance keeps the voice; on H3 the line becomes a
   subtitle or a voiceover.
@@ -241,7 +330,8 @@ To use it, put it beside the job's `tools/casting.json` as `tools/shots.json`.
 
 ## Exit codes
 
-`0` done · `1` done with warnings · `2` refused (nothing written) · `5` unexpected · `130` Ctrl-C.
+`0` done · `1` done with warnings · `2` refused (nothing written) · `5` unexpected · `130` Ctrl-C. Info lines (`i`)
+never change the exit code.
 
 ## Traps
 

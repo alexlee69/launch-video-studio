@@ -8,10 +8,12 @@ import { VIDEO, ASPECTS, slugify } from './common.mjs';
 import { BLOCKS } from '../engine/blocks/index.js';
 import { normItems } from '../engine/ui.js';
 import { ICON_NAMES } from '../engine/art.js';
+import { originOf } from '../engine/kit.js';
 
 export const TRANSITIONS = ['cut', 'whip-left', 'whip-right', 'whip-up', 'whip-down', 'zoom-in', 'zoom-out', 'blur', 'glitch', 'smear-left', 'smear-right', 'tunnel', 'flash',
-  'drift-left', 'drift-right', 'drift-up', 'drift-down'];
+  'drift-left', 'drift-right', 'drift-up', 'drift-down', 'dive', 'flood'];
 export const BG_MOVES = ['in', 'out', 'left', 'right', 'none'];
+export const DELIVERY = ['web', 'feed', 'tv'];
 const IMAGE_EXT = /\.(png|jpe?g|webp|gif|avif|svg)$/i, VIDEO_EXT = /\.(mp4|mov|m4v|webm|mkv)$/i;
 // a block's footage-capable fields: `media: ['card', 'cards', {field: 'shot', fit: 'contain'}]` (string fields hold one
 // path, list fields several); fit = cover (default: cover-cropped to the stage) | contain (whole, inside the stage);
@@ -33,10 +35,13 @@ const RESERVED = ['i', 'f0', 'f1', 'D', 'Db', 'start', 'end', 'heroF', 'cues', '
 const ENUMS = {
   sticker: { style: ['outline', 'plate', 'pill'], pos: ['center', 'top', 'bottom'] },
   split: { mode: ['side', 'wipe'] },
-  float: { device: ['card', 'phone'], from: ['left', 'right'] },
-  type: { face: ['sans', 'serif', 'brand'] },
-  stack: { chrome: ['post', 'none'] },
-  wall: { chrome: ['ugc', 'none'], drift: ['up', 'down', 'left', 'right'] },
+  float: { device: ['card', 'phone'] },      // float's from: left | right (its fly-in side) or an origin — checked with the round-2 fields
+  type: { face: ['sans', 'serif', 'brand'], faces: ['alternate', 'sans', 'serif'] },
+  stack: { chrome: ['post', 'none'], mode: ['cycle', 'exploded'], tilt: ['iso', 'low'] },
+  wall: { chrome: ['ugc', 'none'], drift: ['up', 'down', 'left', 'right'], layout: ['float', 'grid'] },
+  // motion kit (round 1)
+  press: { control: ['button', 'key', 'toggle', 'send'] },
+  particles: { mode: ['sphere', 'burst', 'grid', 'terrain'] },
 };
 const OVERLAY_KINDS = ['bar', 'bubble', 'words', 'pill', 'orb'], OVERLAY_POS = ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'];
 // an image file's bytes must be an image Chrome can decode (a failed download saved as .jpg is an HTML page; an iPhone
@@ -121,6 +126,10 @@ export async function loadSpec(job) {
     vo.cutdowns = {};
     for (const [name, v] of Object.entries(isMap(v0) ? mapOr(v0.cutdowns, 'voiceover.cutdowns', '{10s: assets/vo-10s.wav}') : {})) vo.cutdowns[name] = voRead(v, `voiceover.cutdowns.${name}`);
   }
+  // delivery: where the film is watched — sets the readable-text floors QA warns at (web = landscape / full-screen,
+  // feed = a 16:9 film watched small in a phone feed, tv = a big screen)
+  const delivery = raw.delivery == null ? 'web' : String(raw.delivery);
+  if (!DELIVERY.includes(delivery)) errs.push(`delivery must be one of ${DELIVERY.join(', ')} (got ${JSON.stringify(raw.delivery)})`);
   const aspects = [].concat(raw.aspects ?? ['16x9']).map(String);
   if (!aspects.length) errs.push('aspects: list at least one of ' + Object.keys(ASPECTS).join(', '));
   if (new Set(aspects).size !== aspects.length) errs.push('aspects: each aspect only once');
@@ -141,6 +150,8 @@ export async function loadSpec(job) {
     if (!/^[\w-]+$/.test(s.id)) errs.push(`${where}: id must be letters, digits, - or _ (it names files and URLs)`);
     const blk = blocks[s.block];
     for (const k of (blk && (blk.required || REQUIRED[s.block])) || []) if (s[k] == null || s[k] === '' || (Array.isArray(s[k]) && !s[k].length)) errs.push(`${where}: ${s.block} needs \`${k}\``);
+    // stack: cards are required by its default cycle mode (mode: exploded draws its own planes without them)
+    if (s.block === 'stack' && blk === BLOCKS.stack && s.mode !== 'exploded' && (s.cards == null || s.cards === '' || (Array.isArray(s.cards) && !s.cards.length))) errs.push(`${where}: stack needs \`cards\``);
     if (s.block === 'stat') for (const k of ['value', 'from', 'decimals']) if (s[k] != null && !Number.isFinite(Number(s[k]))) errs.push(`${where}: stat ${k} must be a number (got ${s[k]}) — put symbols in prefix/suffix`);
     if (s.block === 'stat' && s.decimals != null && !(Number.isInteger(Number(s.decimals)) && Number(s.decimals) >= 0 && Number(s.decimals) <= 6)) errs.push(`${where}: stat decimals must be a whole number 0–6`);
     if (['phone', 'browser', 'panel'].includes(s.block) && s.items != null && !Array.isArray(s.items)) errs.push(`${where}: items must be a list (one "- item" per line)`);
@@ -165,6 +176,7 @@ export async function loadSpec(job) {
       }
     }
     for (const k of RESERVED) if (k in s) errs.push(`${where}: "${k}" is reserved by the timeline — rename that field`);
+    if (s.block === 'type' && blk === BLOCKS.type && (s.text == null || String(s.text).trim() === '') && !(Array.isArray(s.words) && s.words.length)) errs.push(`${where}: type needs \`text\` (a name) or \`words\` (a list of word beats)`);
     if (!blocks[s.block]) errs.push(`${where}: unknown block "${s.block}" — built-in: ${Object.keys(BLOCKS).join(', ')}${Object.keys(blocks.__custom).length ? `; custom: ${Object.keys(blocks.__custom).join(', ')}` : ''}`);
     if (s.beats == null && s.sec == null) errs.push(`${where}: give a length as beats: N or sec: S`);
     if (s.beats != null && !(Number(s.beats) > 0)) errs.push(`${where}: beats must be > 0`);
@@ -214,7 +226,60 @@ export async function loadSpec(job) {
       if (s.block === 'split') { list('labels', '[Before, After]'); if (Array.isArray(s.labels) && s.labels.length > 2) errs.push(`${where}: split labels takes up to two chip labels (got ${s.labels.length})`); }
       if (s.block === 'stack' || s.block === 'wall') list('cards', '[assets/a.mp4, assets/b.jpg]');
       if (s.block === 'wall') list('chips', '[Hook in 1s, Captions]');
-      if (s.block === 'stack' && s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) >= 2 && Number(s.count) <= 14)) errs.push(`${where}: stack count must be a whole number 2–14 (got ${s.count})`);
+      if (s.block === 'stack' && s.mode !== 'exploded' && s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) >= 2 && Number(s.count) <= 14)) errs.push(`${where}: stack count must be a whole number 2–14 (got ${s.count})`);
+      // ── motion kit (round 1): press · fan · particles · map, wall layout: grid, type words, stack mode: exploded
+      const str = (k, eg) => { if (s[k] != null && (typeof s[k] === 'object')) errs.push(`${where}: ${s.block} ${k} must be text, e.g. ${eg} (got ${JSON.stringify(s[k])})`); };
+      const frac = v => Array.isArray(v) && v.length === 2 && v.every(x => num(x) && Number(x) >= 0 && Number(x) <= 1);
+      if (s.block === 'stack' && s.mode === 'exploded') {
+        list('labels', '[Content, Media, Layout]'); str('text', '"Built in *layers.*"');
+        if (s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) >= 3 && Number(s.count) <= 5)) errs.push(`${where}: stack count must be 3–5 planes in mode: exploded (got ${s.count})`);
+      } else if (s.block === 'stack' && (s.tilt != null || s.labels != null)) warns.push(`${where}: stack ${s.tilt != null ? 'tilt' : 'labels'} only works with mode: exploded`);
+      if (s.block === 'press') {
+        for (const [k, eg] of [['label', 'Generate'], ['text', '"One click."'], ['after', '"Generating…"'], ['icon', 'sparkle']]) str(k, eg);
+        if (s.icon != null && typeof s.icon !== 'object' && !ICON_NAMES.includes(String(s.icon))) errs.push(`${where}: press icon must be a built-in icon: ${ICON_NAMES.join(', ')} (got ${JSON.stringify(s.icon)})`);
+        if (!isAt(s.at)) errs.push(`${where}: press at must be the local frame of the press (52) or seconds like 1.7s (got ${JSON.stringify(s.at)})`);
+      }
+      if (s.block === 'fan') {
+        list('cards', '[assets/a.mp4, assets/b.jpg, assets/c.jpg]'); list('labels', '[Clips, Stills, Captions]'); str('text', '"One prompt. *Every format.*"');
+        if (Array.isArray(s.labels)) s.labels.forEach((x, j) => { if (x != null && typeof x === 'object') errs.push(`${where}: fan labels[${j}] must be text, e.g. Clips (got ${JSON.stringify(x)})`); });
+        if (s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) >= 3 && Number(s.count) <= 9 && Number(s.count) % 2 === 1)) errs.push(`${where}: fan count must be odd: 3, 5, 7 or 9 (got ${JSON.stringify(s.count)})`);
+        const nc = Array.isArray(s.cards) ? s.cards.length : 0;
+        if (s.pick != null && !(Number.isInteger(Number(s.pick)) && Number(s.pick) >= 0 && (!nc || Number(s.pick) < nc))) errs.push(`${where}: fan pick must be a card index 0–${Math.max(0, nc - 1)} (got ${JSON.stringify(s.pick)})`);
+      }
+      if (s.block === 'particles') {
+        str('text', '"Built for *scale.*"');
+        if (s.count != null && !(Number.isInteger(Number(s.count)) && Number(s.count) >= 100 && Number(s.count) <= 4000)) errs.push(`${where}: particles count must be a whole number 100–4000 (got ${JSON.stringify(s.count)})`);
+        if (s.spacing != null && !(num(s.spacing) && Number(s.spacing) >= 14 && Number(s.spacing) <= 200)) errs.push(`${where}: particles spacing must be px 14–200 (got ${JSON.stringify(s.spacing)})`);
+        if (s.color != null && !HEX.test(String(s.color))) errs.push(`${where}: particles color must be a #RRGGBB hex (got ${JSON.stringify(s.color)})`);
+        if (s.orbits != null && typeof s.orbits !== 'boolean') errs.push(`${where}: particles orbits must be true or false (got ${JSON.stringify(s.orbits)})`);
+        if (!isAt(s.burstAt)) errs.push(`${where}: particles burstAt must be a local frame (60) or seconds like 2s (got ${JSON.stringify(s.burstAt)})`);
+        const pm = s.mode || 'sphere';
+        if (s.count != null && (pm === 'grid' || pm === 'terrain')) warns.push(`${where}: particles count does nothing in mode ${pm} — its density comes from spacing`);
+        else if (s.count != null && Number(s.count) > 2000) warns.push(`${where}: particles count ${s.count} — above ~2000 dots the field reads no denser and only paints slower; 900–2000 is the useful range`);
+        if (s.spacing != null && (pm === 'sphere' || pm === 'burst')) warns.push(`${where}: particles spacing does nothing in mode ${pm} — use count`);
+        else if (s.spacing != null && Number(s.spacing) < 20) warns.push(`${where}: particles spacing ${s.spacing} draws ~${Math.round(1920 * 1080 / (Number(s.spacing) ** 2) / 1000)}k dots a frame on 16:9 — slow to render; 24–40 reads as a field`);
+      }
+      if (s.block === 'map') {
+        str('text', '"Every stop, *on time.*"');
+        if (s.stops != null) {
+          if (!Array.isArray(s.stops) || s.stops.length < 2 || s.stops.length > 6) errs.push(`${where}: map stops must be a list of 2–6 stops like [{pos: [0.2, 0.7], label: Pickup}, {pos: [0.8, 0.4], label: Studio}] (got ${Array.isArray(s.stops) ? `${s.stops.length} stops` : JSON.stringify(s.stops)})`);
+          else s.stops.forEach((st, j) => {
+            if (!isMap(st)) errs.push(`${where}: map stops[${j}] must be {pos: [x, y], label: Name} (got ${JSON.stringify(st)})`);
+            else { if (!frac(st.pos)) errs.push(`${where}: map stops[${j}].pos must be [x, y], fractions 0–1 of the frame (got ${JSON.stringify(st.pos)})`); if (st.label != null && typeof st.label === 'object') errs.push(`${where}: map stops[${j}].label must be text (got ${JSON.stringify(st.label)})`); }
+          });
+        }
+      }
+      if (s.block === 'wall') {
+        for (const k of ['cols', 'rows']) if (s[k] != null && !(Number.isInteger(Number(s[k])) && Number(s[k]) >= 1 && Number(s[k]) <= 12)) errs.push(`${where}: wall ${k} must be a whole number 1–12 (got ${JSON.stringify(s[k])})`);
+        if (s.pick != null && !(Array.isArray(s.pick) ? s.pick.length === 2 && s.pick.every(x => Number.isInteger(Number(x)) && Number(x) >= 0) : Number.isInteger(Number(s.pick)) && Number(s.pick) >= 0)) errs.push(`${where}: wall pick must be [col, row] (from 0) or a tile index (got ${JSON.stringify(s.pick)})`);
+        if (s.layout !== 'grid' && ['cols', 'rows', 'pick'].some(k => s[k] != null)) warns.push(`${where}: wall ${['cols', 'rows', 'pick'].filter(k => s[k] != null).join(', ')} only work with layout: grid`);
+      }
+      if (s.block === 'type' && s.words != null) {
+        if (!Array.isArray(s.words) || !s.words.length) errs.push(`${where}: type words must be a list of word beats, e.g. [Generate., chaos., loud., Animate.] (got ${JSON.stringify(s.words)})`);
+        else s.words.forEach((w, j) => { if (w == null || typeof w === 'object' || String(w).trim() === '') errs.push(`${where}: type words[${j}] must be a word (got ${JSON.stringify(w)})`); });
+        if (!(isAt(s.every) && (s.every == null || s.every === '' || Number(String(s.every).replace(/s(ec)?$/, '')) > 0))) errs.push(`${where}: type every must be frames per word (24) or seconds like 0.8s (got ${JSON.stringify(s.every)})`);
+      }
+      if (s.block === 'type' && s.words == null && (s.faces != null || s.every != null)) warns.push(`${where}: type ${s.faces != null ? 'faces' : 'every'} only works with words`);
       const atNeg = v => v == null || v === '' || /^-?\d+(?:\.\d+)?\s*(s|sec)?$/.test(String(v).trim());     // frames, seconds, or negative (already there)
       if (s.block === 'agent') {
         list('rows', '[{avatar: 0, name: Scout, status: Scouting, reply: "…"}]'); list('steps', '[Mapped the market, Drafted the script]');
@@ -291,6 +356,7 @@ export async function loadSpec(job) {
       for (const x of [].concat(fromV ?? [])) if (!(Number.isFinite(Number(x)) && Number(x) >= 0)) errs.push(`${where}: ${field}From must be seconds ≥ 0 (got ${JSON.stringify(fromV)})`);
     }
     for (const ic of s.icons || []) asset(ic, `${where}.icons`);
+    crossCut(s, where, blk, { errs, warns, isMap });
   });
   const cutdowns = mapOr(raw.cutdowns, 'cutdowns', '{10s: [s1, s3, s7]} (a name, then its shots)');
   for (const [name, list] of Object.entries(cutdowns)) {
@@ -304,8 +370,81 @@ export async function loadSpec(job) {
   if (music.drop != null && !ids.has(music.drop)) errs.push(`music.drop: unknown shot id ${music.drop}`);
   for (const id of music.breaks) if (!ids.has(id)) errs.push(`music.breaks: unknown shot id ${id}`);
   { const L = shots[shots.length - 1]; if (music.style === 'film' && music.hit != null && L && L.block !== 'endcard') warns.push(`music.hit does nothing here: the film's last shot (${L.id}) is a ${L.block}, not an endcard — end on an endcard shot`); }   // film hit: the end card must be the last shot
+  // signature: the one transition a film may repeat beyond the lint's two types (round 2; cut, drift-* never count)
+  const signature = raw.signature != null ? String(raw.signature) : null;
+  if (signature != null && (typeof raw.signature !== 'string' || !SIGNATURES.includes(signature))) errs.push(`signature must be one of ${SIGNATURES.join(', ')} (got ${JSON.stringify(raw.signature)}) — the transition the film repeats as its signature`);
   const thumbnail = raw.thumbnail != null ? String(raw.thumbnail) : null;
   if (thumbnail != null && !ids.has(thumbnail)) errs.push(`thumbnail: unknown shot id ${thumbnail}`);
   if (errs.length) throw new Error('beats.yaml has problems:\n  - ' + errs.join('\n  - '));
-  return { title: raw.title || brand.name, slug: slugify(raw.slug || raw.title || brand.name), brand, music, vo, aspects, shots, cutdowns, blocks, warns, thumbnail };
+  return { title: raw.title || brand.name, slug: slugify(raw.slug || raw.title || brand.name), brand, music, vo, aspects, delivery, shots, cutdowns, blocks, warns, thumbnail, ...(signature ? { signature } : {}) };
+}
+
+// ── round 2: cross-cut continuity fields (any shot; all opt-in) ──
+//   carry: {el, to, ease: smooth|needle, pre, post, lift, arc, mode: carry|morph, color}  (on the outgoing shot)
+//   dive: {el | at: [x, y], zoom, from}  (with out: dive) · flood: {from: layer | [x, y], color}  (with out: flood)
+//   from: <layer of the previous shot> | [x, y]  (on the incoming shot, for blocks that grow from a point: origin: true)
+//   cause: "the cursor clicks Generate" (storyboard only) · top-level signature: <transition>
+const LAYER_NAME = /^[a-z0-9][a-z0-9-]{0,39}$/, ENGINE_LAYERS = ['footage', 'transition', 'letterbox', 'carry', 'content'];
+export const TRANSITION_FAMILY = o => /^(whip|smear|drift|zoom)-/.test(String(o)) ? String(o).replace(/-.*$/, '') : String(o);
+export const SIGNATURES = [...new Set(TRANSITIONS.filter(t => t !== 'cut' && !/^drift-/.test(t)).flatMap(t => [t, TRANSITION_FAMILY(t)])), 'carry', 'morph'];
+const CARRY_KEYS = ['el', 'to', 'ease', 'pre', 'post', 'lift', 'arc', 'mode', 'color'];
+function crossCut(s, where, blk, { errs, warns, isMap }) {
+  const num = (v, lo, hi) => v != null && v !== '' && Number.isFinite(Number(v)) && Number(v) >= lo && Number(v) <= hi;
+  const pt = v => Array.isArray(v) && v.length === 2 && v.every(x => num(x, 0, 1));
+  const layer = (v, what) => { if (!(typeof v === 'string' && LAYER_NAME.test(v))) { errs.push(`${where}: ${what} must be a layer name the block tags (lower-case letters, digits, -; the names --blocks lists, e.g. prompt-box) (got ${JSON.stringify(v)})`); return false; } if (ENGINE_LAYERS.includes(v)) { errs.push(`${where}: ${what} "${v}" is the engine's own layer — name one of the block's elements`); return false; } return true; };
+  if (s.carry != null) {
+    const c = s.carry;
+    if (!isMap(c)) errs.push(`${where}: carry must be a map like {el: prompt-box, to: panel} (got ${JSON.stringify(c)})`);
+    else {
+      const bad = Object.keys(c).filter(k => !CARRY_KEYS.includes(k));
+      if (bad.length) errs.push(`${where}: carry takes ${CARRY_KEYS.join(', ')} (unknown: ${bad.join(', ')})`);
+      if (c.el == null) errs.push(`${where}: carry needs el: — the layer name of the element that crosses the cut (e.g. {el: prompt-box})`); else layer(c.el, 'carry.el');
+      if (c.mode != null && !['carry', 'morph'].includes(String(c.mode))) errs.push(`${where}: carry.mode must be carry (default: the element itself travels) or morph (its box becomes the next element's box) (got ${JSON.stringify(c.mode)})`);
+      const morph = String(c.mode) === 'morph';
+      if (c.to != null && !(morph && c.to === 'frame')) layer(c.to, 'carry.to');
+      if (c.to === 'frame' && !morph) errs.push(`${where}: carry.to: frame needs mode: morph (the box fills the frame into the next shot)`);
+      if (c.ease != null && !['smooth', 'needle'].includes(String(c.ease))) errs.push(`${where}: carry.ease must be smooth (default) or needle (got ${JSON.stringify(c.ease)})`);
+      if (c.ease != null && morph) warns.push(`${where}: carry.ease does nothing with mode: morph (a morph always runs on its cusp curve)`);
+      for (const k of ['pre', 'post']) if (c[k] != null && !num(c[k], k === 'post' && c.to === 'frame' ? 0 : 1, 60)) errs.push(`${where}: carry.${k} must be frames ${k === 'post' && c.to === 'frame' ? 0 : 1}–60 (got ${JSON.stringify(c[k])})`);
+      if (c.lift != null && !num(c.lift, 1, 1.5)) errs.push(`${where}: carry.lift must be 1–1.5 (the lift in scale while it travels; 1 = none) (got ${JSON.stringify(c.lift)})`);
+      if (c.arc != null && !num(c.arc, -.5, .5)) errs.push(`${where}: carry.arc must be −0.5…0.5 (the bow of its path as a share of the distance) (got ${JSON.stringify(c.arc)})`);
+      if (c.color != null && !/^#[0-9a-fA-F]{6}$/.test(String(c.color))) errs.push(`${where}: carry.color must be a #RRGGBB hex (got ${JSON.stringify(c.color)})`);
+      if (c.color != null && c.to !== 'frame') warns.push(`${where}: carry.color does nothing unless the morph goes to: frame`);
+    }
+  }
+  if (s.dive != null) {
+    const d = s.dive;
+    if (!isMap(d)) errs.push(`${where}: dive must be a map like {el: card, zoom: 8} or {at: [0.62, 0.4]} (got ${JSON.stringify(d)})`);
+    else {
+      const bad = Object.keys(d).filter(k => !['el', 'at', 'zoom', 'from'].includes(k));
+      if (bad.length) errs.push(`${where}: dive takes el, at, zoom, from (unknown: ${bad.join(', ')})`);
+      if (d.el != null && d.at != null) errs.push(`${where}: dive takes el (a layer to fly into) OR at ([x, y] fractions of the frame), not both`);
+      if (d.el != null) layer(d.el, 'dive.el');
+      if (d.at != null && !pt(d.at)) errs.push(`${where}: dive.at must be [x, y], fractions 0–1 of the frame (got ${JSON.stringify(d.at)})`);
+      if (d.zoom != null && !num(d.zoom, 1.5, 16)) errs.push(`${where}: dive.zoom must be 1.5–16 (how far the camera flies in; default 8) (got ${JSON.stringify(d.zoom)})`);
+      if (d.from != null && !num(d.from, .1, .9)) errs.push(`${where}: dive.from must be 0.1–0.9 (the next shot's starting scale; default 0.3) (got ${JSON.stringify(d.from)})`);
+    }
+    if (s.out !== 'dive') warns.push(`${where}: dive does nothing without out: dive`);
+  }
+  if (s.flood != null) {
+    const d = s.flood;
+    if (!isMap(d)) errs.push(`${where}: flood must be a map like {from: prompt-box, color: "#0E0E12"} (got ${JSON.stringify(d)})`);
+    else {
+      const bad = Object.keys(d).filter(k => !['from', 'spot', 'color'].includes(k));
+      if (bad.length) errs.push(`${where}: flood takes from, spot, color (unknown: ${bad.join(', ')})`);
+      if (d.from != null && !Array.isArray(d.from)) layer(d.from, 'flood.from');
+      else if (d.from != null && !pt(d.from)) errs.push(`${where}: flood.from must be a layer name or [x, y] fractions 0–1 of the frame (got ${JSON.stringify(d.from)})`);
+      if (d.spot != null && !pt(d.spot)) errs.push(`${where}: flood.spot must be [x, y], fractions 0–1 of the from element's box (e.g. [0.93, 0.78] for a Send button at its bottom right) (got ${JSON.stringify(d.spot)})`);
+      if (d.spot != null && (d.from == null || Array.isArray(d.from))) warns.push(`${where}: flood.spot does nothing without a layer in flood.from (it is a point inside that element)`);
+      if (d.color != null && !/^#[0-9a-fA-F]{6}$/.test(String(d.color))) errs.push(`${where}: flood.color must be a #RRGGBB hex (got ${JSON.stringify(d.color)})`);
+    }
+    if (s.out !== 'flood') warns.push(`${where}: flood does nothing without out: flood`);
+  }
+  const o = originOf(s, blk);
+  // float's from: is also its fly-in side: say so in every message (a typo of left / right must not pass as a layer name)
+  if (o != null && s.block === 'float' && !Array.isArray(o) && !(typeof o === 'string' && LAYER_NAME.test(o))) errs.push(`${where}: float from must be left | right (the side it flies in from), a layer of the previous shot, or [x, y] (got ${JSON.stringify(o)})`);
+  else if (o != null) { if (Array.isArray(o)) { if (!pt(o)) errs.push(`${where}: from must be [x, y] fractions 0–1 of the frame, or a layer name of the previous shot (got ${JSON.stringify(o)})`); } else layer(o, 'from'); }
+  else if (s.from != null && blk && blk === BLOCKS[s.block] && !blk.origin && (Array.isArray(s.from) || (typeof s.from === 'string' && LAYER_NAME.test(s.from) && !Number.isFinite(Number(s.from)))) && !['media', 'stat'].includes(s.block))
+    warns.push(`${where}: from: does nothing on ${s.block} — growing from a point works on float, stack, wall and fan`);
+  if (s.cause != null && (typeof s.cause !== 'string' || !s.cause.trim())) errs.push(`${where}: cause must be text — the on-screen reason for the transition, e.g. "the cursor clicks Generate"${typeof s.cause === 'string' ? ' (it is blank)' : ''}`);
 }

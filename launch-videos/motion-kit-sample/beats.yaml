@@ -1,0 +1,165 @@
+# beats.yaml — Wayfinch, the motion-kit sample (2026-10-27). Started from lv.mjs --init --kit launch30, then designed
+# as a 28 s launch at 120 BPM (one beat = 0.5 s, 56 beats, every cut on the grid, the end on a bar line).
+# Wayfinch is FICTIONAL: an AI trip planner (one sentence in → whole trips out). Every picture is drawn by
+# tools/make_art.py (shapes and gradients, no footage, no generated images, no real brand or place).
+#
+# The film, and the device that joins each pair of shots (cause: = what the viewer sees make it happen):
+#   globe (particles) ─dive→ name (type over the night sea, zooms through) ─cut→ ask (press send) ─flood→
+#   trips (fan, from: the cursor that pressed) ─cut→ route (map) ─drift-left→ booked (stack exploded) ─cut→
+#   spots (wall grid) ─carry: the lit tile→ day (float: the postcard against the night) ─dive into the postcard→
+#   words (type words over the cove itself) ─cut→ go (prompt) ─morph to: frame→ end
+#
+# Passport (brief.md §6): a dark world (night, the globe, the results) and a light world (the product's UI and the
+# plan), switching on every press; coral #E8452C = "where you're going" (send, route, pins, the lit tile, the mark);
+# the dive is the signature (into the globe, into the hidden cove's postcard); flood, carry and morph each appear once
+# because this is the kit's showcase — `--grid` says so (3 types besides the signature); a client film keeps two.
+title: Wayfinch — motion kit sample
+slug: wayfinch
+aspects: [16x9, 9x16, 1x1]       # each is re-laid out, not cropped
+thumbnail: trips
+signature: dive                  # the move the film repeats: into the globe, and into the hidden cove
+
+brand:
+  name: Wayfinch
+  mono: W
+  logo: assets/logo.svg          # drawn by tools/make_art.py: a route writing a W, ending on a destination dot
+  colors: {bg: "#F5F2EC", ink: "#15161B", muted: "#5F5B66", accent: "#E8452C", accent2: "#FFC24B", accent3: "#2BB3A8", dark: "#0B1020", line: "#D3CCC0"}
+  bg: plain
+
+music: {style: keynote, bpm: 120, drop: trips, breaks: [words]}   # builds to the press; drops as the trips fan out; dips under the word beats
+
+shots:
+  # 0:00–0:01.5 · the hook (3 beats): no words — a globe of dots assembling and turning in the dark; the camera falls
+  # into it (the signature dive) and the name arrives still flying forward
+  - id: globe
+    block: particles
+    beats: 3
+    theme: dark
+    count: 1400
+    orbits: true
+    out: dive
+    dive: {at: [0.5, 0.5], zoom: 9}
+    cause: the globe turns towards us and the camera falls into it
+
+  # 0:01.5–0:03 · the name (3 beats): the brand by 1.5 s. The dive lands on a night sea whose stars continue the globe's
+  # dots (a bg is full on its first frame — the type block builds up from nothing, so a dive into a bare type card
+  # landed on an empty navy frame); the name settles, then zooms through the camera into the cut
+  - id: name
+    block: type
+    beats: 3
+    theme: dark
+    bg: assets/night-wide.svg
+    text: Wayfinch
+    face: serif
+    through: true
+    out: cut
+
+  # 0:03–0:06 · the ask (6 beats): the product by 3 s — the trip in one sentence in a big bar; the cursor presses send on
+  # the 5.5 s beat and the night of the results pours out of the button (flood) to fill the frame on the 6 s bar line
+  - id: ask
+    block: press
+    control: send
+    beats: 6
+    label: Plan 4 days by the sea
+    at: 75
+    push: .07                    # the camera leans in while the cursor is on its way (the bar alone held 1.5 s)
+    out: flood
+    flood: {from: control, spot: [0.9, 0.5]}
+    cause: the cursor presses send
+
+  # 0:06–0:09 · five trips (6 beats), on the music's drop: the hero trip grows out of the point that was pressed (from:
+  # cursor — the cursor's tip sits on the send button; from: control made the hero pop in full-size at the bar's centre
+  # under the flood), the others deal out of it, then the fan pushes into the hero, the trip we take
+  - id: trips
+    block: fan
+    beats: 6
+    theme: dark
+    from: cursor
+    cards: [assets/islands.svg, assets/oldtown.svg, assets/cliffs.svg, assets/beach.svg, assets/market.svg]
+    pick: 2
+    labels: [Islands, Old town, Cliffs, Beach, Nights]
+    text: One ask. *Five trips.*
+    out: cut
+
+  # 0:09–0:12.5 · the plan (7 beats): the route draws itself through the four days, pins drop on beats; the page keeps
+  # travelling left into what was booked
+  - id: route
+    block: map
+    beats: 7
+    text: Four days, *mapped.*
+    stops:
+      - {pos: [0.18, 0.74], label: Harbour}
+      - {pos: [0.42, 0.56], label: Market}
+      - {pos: [0.64, 0.7], label: Cliffs}
+      - {pos: [0.84, 0.4], label: Cove}
+    out: drift-left
+    cause: the route runs on to the right
+
+  # 0:12.5–0:15 · booked (5 beats): the plan's layers separate on one diagonal — stays, trains, tables, tickets
+  - id: booked
+    block: stack
+    mode: exploded
+    tilt: low                    # the iso view clips the top plane and stacks the chips over the planes on 9:16 (A-verify N1); low reads in all three
+    beats: 5                     # 6 beats left 1.7 s of stillness after the labels landed (near dead air)
+    labels: [Stays, Trains, Tables, Tickets]
+    text: All *booked.*           # short on purpose: on 16:9 a one-line head wider than ~550 px runs under the top plane (engine bug, see the report)
+    out: cut
+
+  # 0:15–0:17.5 · hidden spots (5 beats): a night mosaic of places cascades in, one lit — the cove (the first card);
+  # the lit tile lifts off and is carried into the next shot as the postcard
+  - id: spots
+    block: wall
+    layout: grid
+    beats: 5
+    theme: dark
+    cards: [assets/cove.svg, assets/cliffs.svg, assets/islands.svg, assets/oldtown.svg, assets/market.svg, assets/beach.svg, assets/lake.svg, assets/table.svg]
+    text: Hidden spots, *found.*
+    out: cut
+    carry: {el: lit, to: card}
+    cause: the lit tile lifts off the wall
+
+  # 0:17.5–0:20 · day 4 (5 beats): the carried tile lands as a postcard of the cove, glowing against the night sea;
+  # the camera then dives into the postcard (the signature again)
+  - id: day
+    block: float
+    beats: 5
+    bg: assets/night-wide.svg
+    card: assets/cove.svg
+    label: Day 4
+    out: dive
+    dive: {el: card, zoom: 8}
+    cause: the postcard settles and the camera falls into it
+
+  # 0:20–0:23 · word beats (6 beats, one word per two beats) over the cove itself — we fell into the postcard; bold sans
+  # and italic serif take turns; the music dips. No accent word: coral over the sunset measured 2.3:1 (Lc 32)
+  - id: words
+    block: type
+    beats: 6
+    bg: assets/cove-wide.svg
+    bgDim: .45                   # .55 made the dive land on a visibly darker cove; white words still clear 3:1 here
+    words: [Pick., Pack., Go.]
+    out: cut
+
+  # 0:23–0:26 · the call to action (6 beats): "Your turn." over the composer; "Plan my trip" is typed and sent, and the
+  # box grows into the whole frame (morph to: frame), taking the end card's night colour on the cut. (A press button
+  # can't be the morph's box yet: the morph takes press's soft halo for the button — see the sample report.)
+  - id: go
+    block: prompt
+    beats: 6
+    text: Your turn.
+    prompt: Plan my trip
+    placeholder: Where to?
+    mode: Trips
+    speed: .4                    # typed at ~9 characters a second, sent at 1.7 s: the box isn't still for long before the morph
+    zoom: {16x9: 1.3}            # the composer is a UI-sized box: closer, so the CTA reads (on 9:16 and 1:1 it already fills the safe width)
+    out: drift-up
+    carry: {el: prompt-box, to: frame, mode: morph}
+    cause: Send is pressed
+
+  # 0:26–0:28 · the end card (4 beats), dark like the open: the lockup lands in 0.5 s, the address fades in under it
+  - id: end
+    block: endcard
+    beats: 4
+    theme: dark
+    url: wayfinch.app
+    cast: 0

@@ -4,6 +4,8 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { VIDEO } from './common.mjs';
+import { originOf } from '../engine/kit.js';
+import { BLOCKS } from '../engine/blocks/index.js';
 
 const sha = x => createHash('sha1').update(typeof x === 'string' || Buffer.isBuffer(x) ? x : JSON.stringify(x)).digest('hex').slice(0, 16);
 const files = dir => readdirSync(dir).filter(f => /\.(js|mjs|html)$/.test(f)).sort().map(f => join(dir, f));
@@ -24,14 +26,21 @@ function shotAssets(job, tl, s) {
   if (tl.customBlocks && tl.customBlocks[s.block]) refs.push(tl.customBlocks[s.block].replace(/^\/job\//, ''));
   return [...new Set(refs.filter(r => typeof r === 'string' && r))].map(r => { try { return statSync(join(job, r)).isFile() ? stat(job, r) : null; } catch { return null; } }).filter(Boolean).sort();
 }
-const NOT_PIXELS = ['note'];                     // shot fields that never change a frame (storyboard-only)
+const NOT_PIXELS = ['note', 'cause'];            // shot fields that never change a frame (storyboard-only)
+// round 2: a cross-cut ties two shots' pixels together — a carry / flood draws the next shot's element or colour into
+// this one, and the next shot hides its element, enters on the dive, or grows out of this shot's element (from:)
+const linksNext = s => s.carry != null || s.out === 'dive' || s.out === 'flood';
+const linksPrev = (s, p) => !!p && (linksNext(p) || originOf(s, BLOCKS[s.block]) != null);   // (only blocks that grow from a point read from:)
 
 export function shotPrints(job, tl, aspect) {
   const { warns: _w, cues: _c, whooshes: _wh, music: _m, vo: _v, ...look } = tl;
   const global = sha({ brand: look.brand, aspect, engine: engineHash() });          // a shot's own custom block file is in its assets
   return Object.fromEntries(tl.shots.map((s, i) => {
     const own = Object.fromEntries(Object.entries(s).filter(([k]) => !NOT_PIXELS.includes(k)));
-    return [s.id, sha({ global, s: own, prevOut: i ? tl.shots[i - 1].out : null, last: i === tl.shots.length - 1, assets: shotAssets(job, tl, s) })];
+    const pixels = x => Object.fromEntries(Object.entries(x).filter(([k]) => !NOT_PIXELS.includes(k) && !['i', 'f0', 'f1', 'start', 'end', 'cues', 'heroF'].includes(k)));
+    const prev = tl.shots[i - 1], next = tl.shots[i + 1];
+    const link = { ...(linksPrev(s, prev) ? { prev: [pixels(prev), shotAssets(job, tl, prev)] } : {}), ...(next && linksNext(s) ? { next: [pixels(next), shotAssets(job, tl, next)] } : {}) };
+    return [s.id, sha({ global, s: own, prevOut: i ? tl.shots[i - 1].out : null, last: i === tl.shots.length - 1, assets: shotAssets(job, tl, s), ...(Object.keys(link).length ? { link } : {}) })];
   }));
 }
 
